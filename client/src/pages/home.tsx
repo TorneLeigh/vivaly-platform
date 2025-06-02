@@ -428,36 +428,109 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Care by Location */}
+      {/* Services in Popular Areas */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-warm-gray mb-4">Care in Popular Areas</h2>
+            <h2 className="text-3xl font-bold text-warm-gray mb-4">Services in Popular Areas</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Find trusted caregivers in Sydney's most popular neighborhoods
+              Discover local caregivers offering services and events in your neighborhood
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { area: "Bondi", count: 24, emoji: "🏖️" },
-              { area: "Manly", count: 18, emoji: "🌊" },
-              { area: "Paddington", count: 32, emoji: "🏘️" },
-              { area: "Newtown", count: 28, emoji: "🎨" },
-              { area: "Surry Hills", count: 21, emoji: "☕" },
-              { area: "Double Bay", count: 15, emoji: "🛍️" }
-            ].map((location) => (
-              <div key={location.area} className="bg-white rounded-xl p-6 hover:shadow-lg transition-shadow duration-300 cursor-pointer group">
-                <div className="text-center">
-                  <div className="text-4xl mb-3">{location.emoji}</div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Care in {location.area}</h3>
-                  <p className="text-gray-600 mb-4">{location.count} caregivers available</p>
-                  <button className="text-coral hover:text-pink-600 font-medium group-hover:underline">
-                    Browse caregivers →
-                  </button>
+            {isLoading ? (
+              Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="bg-white rounded-xl p-6 animate-pulse">
+                  <div className="w-full h-32 bg-gray-200 rounded-lg mb-4"></div>
+                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-2/3"></div>
                 </div>
+              ))
+            ) : featuredNannies && featuredNannies.length > 0 ? (
+              [
+                {
+                  area: "Bondi Beach",
+                  emoji: "🏖️",
+                  service: "Beach Playgroup",
+                  description: "Weekly beach activities for toddlers",
+                  time: "Tuesdays 10am",
+                  caregiver: featuredNannies[0]?.user?.firstName || "Sarah",
+                  price: "$35/session"
+                },
+                {
+                  area: "Manly",
+                  emoji: "🌊",
+                  service: "Swimming Lessons",
+                  description: "Learn to swim in safe environment",
+                  time: "Saturdays 9am",
+                  caregiver: featuredNannies[1]?.user?.firstName || "Emma",
+                  price: "$45/lesson"
+                },
+                {
+                  area: "Paddington",
+                  emoji: "🎨",
+                  service: "Art & Craft Group",
+                  description: "Creative sessions for kids 3-8 years",
+                  time: "Thursdays 2pm",
+                  caregiver: featuredNannies[2]?.user?.firstName || "Lucy",
+                  price: "$40/session"
+                },
+                {
+                  area: "Newtown",
+                  emoji: "🎵",
+                  service: "Music Circle",
+                  description: "Interactive music for young children",
+                  time: "Fridays 11am",
+                  caregiver: featuredNannies[3]?.user?.firstName || "Mia",
+                  price: "$30/session"
+                },
+                {
+                  area: "Surry Hills",
+                  emoji: "📚",
+                  service: "Story Time",
+                  description: "Reading sessions and literacy play",
+                  time: "Wednesdays 10:30am",
+                  caregiver: featuredNannies[4]?.user?.firstName || "Zoe",
+                  price: "$25/session"
+                },
+                {
+                  area: "Double Bay",
+                  emoji: "🧘",
+                  service: "Baby Yoga",
+                  description: "Gentle yoga for mums and babies",
+                  time: "Mondays 9:30am",
+                  caregiver: featuredNannies[5]?.user?.firstName || "Anna",
+                  price: "$50/session"
+                }
+              ].map((service, index) => (
+                <div key={service.area} className="bg-white rounded-xl p-6 hover:shadow-lg transition-shadow duration-300 cursor-pointer group">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="text-3xl">{service.emoji}</div>
+                    <span className="text-sm text-green-600 bg-green-50 px-2 py-1 rounded-full">
+                      Available
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-1">{service.service}</h3>
+                  <p className="text-sm text-gray-600 mb-2">{service.area}</p>
+                  <p className="text-sm text-gray-700 mb-3">{service.description}</p>
+                  <div className="flex items-center justify-between text-sm mb-3">
+                    <span className="text-gray-600">{service.time}</span>
+                    <span className="font-semibold text-gray-900">{service.price}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600">with {service.caregiver}</span>
+                    <button className="text-coral hover:text-pink-600 font-medium group-hover:underline text-sm">
+                      Join →
+                    </button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-8">
+                <p className="text-gray-500">No services available at the moment.</p>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </section>
