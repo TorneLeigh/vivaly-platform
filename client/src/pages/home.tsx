@@ -72,13 +72,13 @@ const serviceCategories = [
   {
     title: "Elderly Care",
     description: "Senior assistance",
-    image: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=400&fit=crop&crop=center",
+    image: "https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=400&h=400&fit=crop&crop=center",
     serviceType: "Elderly Care"
   },
   {
     title: "Companionship",
     description: "Social visits",
-    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop&crop=center",
+    image: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=400&h=400&fit=crop&crop=center",
     serviceType: "Elderly Companionship"
   }
 ];
