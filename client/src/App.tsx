@@ -11,6 +11,7 @@ import SearchResults from "@/pages/search-results";
 import BecomeNanny from "@/pages/become-nanny";
 import Messages from "@/pages/messages";
 import Login from "@/pages/login";
+import ProviderVerification from "@/pages/provider-verification";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -25,6 +26,7 @@ function Router() {
           <Route path="/become-nanny" component={BecomeNanny} />
           <Route path="/messages" component={Messages} />
           <Route path="/login" component={Login} />
+          <Route path="/verification" component={ProviderVerification} />
           <Route component={NotFound} />
         </Switch>
       </main>

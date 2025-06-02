@@ -65,6 +65,12 @@ export default function Header() {
               </Button>
             </Link>
 
+            <Link href="/login">
+              <Button className="bg-coral hover:bg-coral/90 text-white">
+                Login
+              </Button>
+            </Link>
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="flex items-center space-x-2">
