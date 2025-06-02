@@ -184,14 +184,14 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="bg-gray-800 relative">
+      <section className="bg-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h1 className="text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+              <h1 className="text-5xl lg:text-6xl font-bold text-black leading-tight mb-6">
                 Find care you can trust
               </h1>
-              <p className="text-xl text-gray-100 mb-8 leading-relaxed">
+              <p className="text-xl text-gray-700 mb-8 leading-relaxed">
                 Book trusted caregivers in your neighborhood. Available for one-time or ongoing care.
               </p>
               
