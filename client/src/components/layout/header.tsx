@@ -53,6 +53,13 @@ export default function Header() {
                 Offer Your Services
               </a>
             </Link>
+            <Link href="/gift-cards">
+              <a className={`text-warm-gray hover:text-coral transition-colors ${
+                location === '/gift-cards' ? 'text-coral' : ''
+              }`}>
+                Gift Cards
+              </a>
+            </Link>
           </nav>
 
           <div className="flex items-center space-x-4">

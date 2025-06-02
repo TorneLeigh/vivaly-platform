@@ -300,24 +300,10 @@ export default function Home() {
                     {/* Illustration Area */}
                     <div className="h-32 relative bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
                       {/* Service specific illustrations - Airbnb style */}
-                      {category.title === "Babysitting" && (
+                      {category.title === "1-on-1 Care" && (
                         <div className="relative">
-                          {/* Baby illustration */}
-                          <div className="w-12 h-12 bg-pink-200 rounded-full relative">
-                            <div className="absolute top-2 left-3 w-2 h-2 bg-pink-600 rounded-full"></div>
-                            <div className="absolute top-2 right-3 w-2 h-2 bg-pink-600 rounded-full"></div>
-                            <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 w-3 h-2 bg-pink-400 rounded-full"></div>
-                          </div>
-                          {/* Toys around */}
-                          <div className="absolute -top-2 -right-2 w-4 h-4 bg-yellow-300 rounded rotate-45"></div>
-                          <div className="absolute -bottom-1 -left-2 w-3 h-3 bg-blue-300 rounded-full"></div>
-                        </div>
-                      )}
-                      
-                      {category.title === "Nanny" && (
-                        <div className="relative">
-                          {/* Nanny with child */}
-                          <div className="flex items-center space-x-2">
+                          {/* Single caregiver with child */}
+                          <div className="flex items-center space-x-1">
                             <div className="w-8 h-8 bg-green-200 rounded-full relative">
                               <div className="absolute top-1 left-2 w-1 h-1 bg-green-700 rounded-full"></div>
                               <div className="absolute top-1 right-2 w-1 h-1 bg-green-700 rounded-full"></div>
@@ -327,65 +313,136 @@ export default function Home() {
                               <div className="absolute top-1 right-1 w-1 h-1 bg-yellow-700 rounded-full"></div>
                             </div>
                           </div>
-                          <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 text-red-400 text-xs">♥</div>
+                          <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 text-green-400 text-xs">●</div>
+                        </div>
+                      )}
+                      
+                      {category.title === "Group Care" && (
+                        <div className="relative">
+                          {/* Multiple children with caregiver */}
+                          <div className="grid grid-cols-2 gap-1">
+                            <div className="w-4 h-4 bg-blue-200 rounded-full relative">
+                              <div className="absolute top-0.5 left-1 w-0.5 h-0.5 bg-blue-700 rounded-full"></div>
+                              <div className="absolute top-0.5 right-1 w-0.5 h-0.5 bg-blue-700 rounded-full"></div>
+                            </div>
+                            <div className="w-4 h-4 bg-pink-200 rounded-full relative">
+                              <div className="absolute top-0.5 left-1 w-0.5 h-0.5 bg-pink-700 rounded-full"></div>
+                              <div className="absolute top-0.5 right-1 w-0.5 h-0.5 bg-pink-700 rounded-full"></div>
+                            </div>
+                            <div className="w-4 h-4 bg-yellow-200 rounded-full relative">
+                              <div className="absolute top-0.5 left-1 w-0.5 h-0.5 bg-yellow-700 rounded-full"></div>
+                              <div className="absolute top-0.5 right-1 w-0.5 h-0.5 bg-yellow-700 rounded-full"></div>
+                            </div>
+                            <div className="w-4 h-4 bg-green-200 rounded-full relative">
+                              <div className="absolute top-0.5 left-1 w-0.5 h-0.5 bg-green-700 rounded-full"></div>
+                              <div className="absolute top-0.5 right-1 w-0.5 h-0.5 bg-green-700 rounded-full"></div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {category.title === "Midwife Services" && (
+                        <div className="relative">
+                          {/* Midwife with stethoscope */}
+                          <div className="w-10 h-10 bg-coral-100 rounded-full relative">
+                            <div className="absolute top-2 left-2 w-1 h-1 bg-coral rounded-full"></div>
+                            <div className="absolute top-2 right-2 w-1 h-1 bg-coral rounded-full"></div>
+                            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-2 h-1 bg-coral rounded-full"></div>
+                            {/* Stethoscope */}
+                            <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-6 h-3 border-2 border-coral rounded-full border-t-0"></div>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {category.title === "Drop & Dash" && (
+                        <div className="relative">
+                          {/* Clock with motion lines */}
+                          <div className="w-10 h-10 bg-yellow-200 rounded-full relative border-2 border-yellow-400">
+                            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-3 bg-yellow-600 rounded-full"></div>
+                            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-1 bg-yellow-600 rounded-full"></div>
+                          </div>
+                          {/* Speed lines */}
+                          <div className="absolute -right-1 top-2 w-3 h-0.5 bg-yellow-400 rounded"></div>
+                          <div className="absolute -right-1 top-4 w-2 h-0.5 bg-yellow-400 rounded"></div>
+                          <div className="absolute -right-1 top-6 w-3 h-0.5 bg-yellow-400 rounded"></div>
+                        </div>
+                      )}
+                      
+                      {category.title === "Postpartum" && (
+                        <div className="relative">
+                          {/* Mother with baby */}
+                          <div className="flex items-center space-x-1">
+                            <div className="w-8 h-8 bg-purple-200 rounded-full relative">
+                              <div className="absolute top-1 left-2 w-1 h-1 bg-purple-700 rounded-full"></div>
+                              <div className="absolute top-1 right-2 w-1 h-1 bg-purple-700 rounded-full"></div>
+                              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-2 h-1 bg-purple-400 rounded-full"></div>
+                            </div>
+                            <div className="w-4 h-4 bg-pink-200 rounded-full relative">
+                              <div className="absolute top-0.5 left-1 w-0.5 h-0.5 bg-pink-700 rounded-full"></div>
+                              <div className="absolute top-0.5 right-1 w-0.5 h-0.5 bg-pink-700 rounded-full"></div>
+                            </div>
+                          </div>
+                          <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 text-purple-400 text-xs">💜</div>
+                        </div>
+                      )}
+                      
+                      {category.title === "Breastfeeding" && (
+                        <div className="relative">
+                          {/* Mother nursing symbol */}
+                          <div className="w-10 h-10 bg-pink-200 rounded-full relative">
+                            <div className="absolute top-2 left-2 w-1 h-1 bg-pink-700 rounded-full"></div>
+                            <div className="absolute top-2 right-2 w-1 h-1 bg-pink-700 rounded-full"></div>
+                            <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 w-4 h-2 bg-pink-300 rounded-full"></div>
+                            {/* Baby */}
+                            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-yellow-200 rounded-full">
+                              <div className="absolute top-1 left-1 w-0.5 h-0.5 bg-yellow-700 rounded-full"></div>
+                              <div className="absolute top-1 right-1 w-0.5 h-0.5 bg-yellow-700 rounded-full"></div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {category.title === "Birth Education" && (
+                        <div className="relative">
+                          {/* Book with graduation cap */}
+                          <div className="w-10 h-8 bg-indigo-200 relative">
+                            <div className="absolute top-0 left-0 w-full h-1 bg-indigo-400 rounded-t"></div>
+                            <div className="absolute top-2 left-2 w-2 h-0.5 bg-indigo-600 rounded"></div>
+                            <div className="absolute top-3 left-2 w-3 h-0.5 bg-indigo-600 rounded"></div>
+                            <div className="absolute top-4 left-2 w-2 h-0.5 bg-indigo-600 rounded"></div>
+                            {/* Graduation cap */}
+                            <div className="absolute -top-2 right-0 w-4 h-1 bg-indigo-600 rounded"></div>
+                            <div className="absolute -top-1 right-1 w-2 h-2 bg-indigo-500 rounded-full"></div>
+                          </div>
                         </div>
                       )}
                       
                       {category.title === "Elderly Care" && (
                         <div className="relative">
                           {/* Elderly person with cane */}
-                          <div className="w-10 h-10 bg-blue-200 rounded-full relative">
-                            <div className="absolute top-2 left-2 w-1 h-1 bg-blue-700 rounded-full"></div>
-                            <div className="absolute top-2 right-2 w-1 h-1 bg-blue-700 rounded-full"></div>
+                          <div className="w-10 h-10 bg-rose-200 rounded-full relative">
+                            <div className="absolute top-2 left-2 w-1 h-1 bg-rose-700 rounded-full"></div>
+                            <div className="absolute top-2 right-2 w-1 h-1 bg-rose-700 rounded-full"></div>
                             <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-4 h-1 bg-gray-300 rounded"></div>
                           </div>
                           <div className="absolute -bottom-2 right-0 w-1 h-8 bg-amber-600 rounded"></div>
                         </div>
                       )}
                       
-                      {category.title === "After School Care" && (
+                      {category.title === "Companionship" && (
                         <div className="relative">
-                          {/* School building */}
-                          <div className="w-12 h-8 bg-red-300 relative">
-                            <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-16 h-4 bg-gray-600 rounded-t-full"></div>
-                            <div className="absolute top-1 left-2 w-2 h-2 bg-yellow-200 rounded"></div>
-                            <div className="absolute top-1 right-2 w-2 h-2 bg-yellow-200 rounded"></div>
-                            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-4 bg-amber-700"></div>
+                          {/* Two people sitting together */}
+                          <div className="flex items-center space-x-1">
+                            <div className="w-6 h-6 bg-teal-200 rounded-full relative">
+                              <div className="absolute top-1 left-1 w-1 h-1 bg-teal-700 rounded-full"></div>
+                              <div className="absolute top-1 right-1 w-1 h-1 bg-teal-700 rounded-full"></div>
+                            </div>
+                            <div className="w-6 h-6 bg-blue-200 rounded-full relative">
+                              <div className="absolute top-1 left-1 w-1 h-1 bg-blue-700 rounded-full"></div>
+                              <div className="absolute top-1 right-1 w-1 h-1 bg-blue-700 rounded-full"></div>
+                            </div>
                           </div>
-                        </div>
-                      )}
-                      
-                      {category.title === "Pet Care" && (
-                        <div className="relative">
-                          {/* Dog illustration */}
-                          <div className="w-10 h-8 bg-amber-200 rounded-full relative">
-                            <div className="absolute -top-1 left-1 w-3 h-3 bg-amber-300 rounded-full"></div>
-                            <div className="absolute -top-1 right-1 w-3 h-3 bg-amber-300 rounded-full"></div>
-                            <div className="absolute top-2 left-3 w-1 h-1 bg-black rounded-full"></div>
-                            <div className="absolute top-2 right-3 w-1 h-1 bg-black rounded-full"></div>
-                            <div className="absolute -right-2 top-1/2 w-4 h-2 bg-amber-200 rounded-full"></div>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {(category.title === "Housekeeping" || category.title === "Companionship") && (
-                        <div className="relative">
-                          {/* House with heart */}
-                          <div className="w-10 h-8 bg-teal-200 relative">
-                            <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-12 h-3 bg-gray-500 rounded-t-full"></div>
-                            <div className="absolute top-1 left-2 w-2 h-2 bg-yellow-200 rounded"></div>
-                            <div className="absolute top-1 right-2 w-2 h-2 bg-yellow-200 rounded"></div>
-                            <div className="absolute -top-3 right-1 text-red-400 text-xs">♥</div>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {/* Default illustration for other services */}
-                      {!["Babysitting", "Nanny", "Elderly Care", "After School Care", "Pet Care", "Housekeeping", "Companionship"].includes(category.title) && (
-                        <div className="relative">
-                          <div className={`w-12 h-12 ${category.bgColor} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                            <IconComponent className={`w-8 h-8 ${category.iconColor}`} />
-                          </div>
+                          <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 text-teal-400 text-xs">♥</div>
                         </div>
                       )}
                     </div>
@@ -582,7 +639,7 @@ export default function Home() {
               </Button>
             </Link>
             <Link href="/become-nanny">
-              <Button variant="outline" className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-coral transition-all">
+              <Button variant="outline" className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-coral transition-all bg-transparent">
                 Become a Caregiver
               </Button>
             </Link>

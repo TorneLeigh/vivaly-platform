@@ -12,6 +12,7 @@ import BecomeNanny from "@/pages/become-nanny";
 import Messages from "@/pages/messages";
 import Login from "@/pages/login";
 import ProviderVerification from "@/pages/provider-verification";
+import GiftCards from "@/pages/gift-cards";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -27,6 +28,7 @@ function Router() {
           <Route path="/messages" component={Messages} />
           <Route path="/login" component={Login} />
           <Route path="/verification" component={ProviderVerification} />
+          <Route path="/gift-cards" component={GiftCards} />
           <Route component={NotFound} />
         </Switch>
       </main>
