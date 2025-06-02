@@ -31,16 +31,16 @@ const serviceCategories = [
     icon: User,
     title: "1-on-1 Care",
     description: "Personal attention",
-    bgColor: "bg-soft-green bg-opacity-10",
-    iconColor: "text-soft-green",
+    bgColor: "bg-coral bg-opacity-10",
+    iconColor: "text-coral",
     serviceType: "1-on-1 Care"
   },
   {
     icon: Users,
     title: "Group Care", 
     description: "Small groups",
-    bgColor: "bg-blue-50",
-    iconColor: "text-blue-400",
+    bgColor: "bg-coral bg-opacity-10",
+    iconColor: "text-coral",
     serviceType: "Group Care"
   },
   {
@@ -55,48 +55,48 @@ const serviceCategories = [
     icon: Clock,
     title: "Drop & Dash",
     description: "Quick care",
-    bgColor: "bg-yellow-500 bg-opacity-10", 
-    iconColor: "text-yellow-600",
+    bgColor: "bg-coral bg-opacity-10", 
+    iconColor: "text-coral",
     serviceType: "Drop & Dash"
   },
   {
     icon: Heart,
     title: "Postpartum",
     description: "New parent support",
-    bgColor: "bg-purple-500 bg-opacity-10",
-    iconColor: "text-purple-500", 
+    bgColor: "bg-coral bg-opacity-10",
+    iconColor: "text-coral", 
     serviceType: "Postpartum Support"
   },
   {
     icon: Heart,
     title: "Breastfeeding",
     description: "Lactation support",
-    bgColor: "bg-pink-500 bg-opacity-10",
-    iconColor: "text-pink-500", 
+    bgColor: "bg-coral bg-opacity-10",
+    iconColor: "text-coral", 
     serviceType: "Breastfeeding Support"
   },
   {
     icon: Shield,
     title: "Birth Education",
     description: "Preparation classes",
-    bgColor: "bg-indigo-500 bg-opacity-10",
-    iconColor: "text-indigo-500", 
+    bgColor: "bg-coral bg-opacity-10",
+    iconColor: "text-coral", 
     serviceType: "Birth Education"
   },
   {
     icon: Heart,
     title: "Elderly Care",
     description: "Senior assistance",
-    bgColor: "bg-rose-500 bg-opacity-10",
-    iconColor: "text-rose-500", 
+    bgColor: "bg-coral bg-opacity-10",
+    iconColor: "text-coral", 
     serviceType: "Elderly Care"
   },
   {
     icon: Users,
     title: "Companionship",
     description: "Social visits",
-    bgColor: "bg-teal-500 bg-opacity-10",
-    iconColor: "text-teal-500", 
+    bgColor: "bg-coral bg-opacity-10",
+    iconColor: "text-coral", 
     serviceType: "Elderly Companionship"
   }
 ];
