@@ -36,12 +36,12 @@ const serviceCategories = [
     serviceType: "Group Care"
   },
   {
-    icon: Puzzle,
-    title: "Group Play",
-    description: "Fun activities", 
+    icon: Heart,
+    title: "Midwife Services",
+    description: "Birth & postnatal support", 
     bgColor: "bg-coral bg-opacity-10",
     iconColor: "text-coral",
-    serviceType: "Group Play"
+    serviceType: "Midwife Services"
   },
   {
     icon: Clock,
