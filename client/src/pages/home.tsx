@@ -185,25 +185,9 @@ export default function Home() {
             {/* Right side - Airbnb-style illustration */}
             <div className="relative">
               <div className="relative w-full h-[500px] bg-gradient-to-br from-pink-50 via-blue-50 to-green-50 rounded-3xl overflow-hidden shadow-2xl">
-                {/* Main house */}
-                <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2">
-                  <div className="relative">
-                    {/* House body */}
-                    <div className="w-32 h-24 bg-coral rounded-t-lg shadow-lg"></div>
-                    {/* Roof */}
-                    <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
-                      <div className="w-40 h-12 bg-gray-600 rounded-t-full shadow-md"></div>
-                    </div>
-                    {/* Door */}
-                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-12 bg-amber-700 rounded-t-md"></div>
-                    {/* Windows */}
-                    <div className="absolute top-3 left-3 w-6 h-6 bg-yellow-200 rounded border-2 border-white"></div>
-                    <div className="absolute top-3 right-3 w-6 h-6 bg-yellow-200 rounded border-2 border-white"></div>
-                  </div>
-                </div>
                 
                 {/* Family figures with animations and connection lines */}
-                <div className="absolute top-1/3 left-1/4 animate-bounce">
+                <div className="absolute top-1/4 left-1/5 animate-bounce">
                   {/* Parent figure */}
                   <div className="relative">
                     <div className="w-8 h-8 bg-pink-300 rounded-full border-2 border-white shadow-sm"></div>
@@ -211,7 +195,7 @@ export default function Home() {
                   </div>
                 </div>
                 
-                <div className="absolute top-1/2 left-1/3 animate-bounce" style={{animationDelay: '0.5s'}}>
+                <div className="absolute top-1/3 left-2/5 animate-bounce" style={{animationDelay: '0.5s'}}>
                   {/* Child figure */}
                   <div className="relative">
                     <div className="w-6 h-6 bg-yellow-300 rounded-full border border-white shadow-sm"></div>
@@ -219,7 +203,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="absolute top-2/3 left-1/2 animate-bounce" style={{animationDelay: '0.3s'}}>
+                <div className="absolute top-1/2 left-1/4 animate-bounce" style={{animationDelay: '0.3s'}}>
                   {/* Baby figure */}
                   <div className="relative">
                     <div className="w-4 h-4 bg-orange-300 rounded-full border border-white shadow-sm"></div>
@@ -227,16 +211,16 @@ export default function Home() {
                   </div>
                 </div>
                 
-                <div className="absolute top-1/3 right-1/4 animate-bounce" style={{animationDelay: '1s'}}>
-                  {/* Caregiver figure */}
+                <div className="absolute top-1/4 right-1/5 animate-bounce" style={{animationDelay: '1s'}}>
+                  {/* Caregiver figure 1 */}
                   <div className="relative">
                     <div className="w-8 h-8 bg-green-300 rounded-full border-2 border-white shadow-sm"></div>
                     <div className="w-6 h-10 bg-green-400 rounded-lg mx-auto mt-1 shadow-sm"></div>
                   </div>
                 </div>
 
-                <div className="absolute top-1/2 right-1/5 animate-bounce" style={{animationDelay: '1.5s'}}>
-                  {/* Additional caregiver */}
+                <div className="absolute top-1/2 right-1/4 animate-bounce" style={{animationDelay: '1.5s'}}>
+                  {/* Caregiver figure 2 */}
                   <div className="relative">
                     <div className="w-7 h-7 bg-purple-300 rounded-full border border-white shadow-sm"></div>
                     <div className="w-5 h-9 bg-purple-400 rounded-lg mx-auto mt-1 shadow-sm"></div>
@@ -245,25 +229,26 @@ export default function Home() {
                 
                 {/* Animated connection lines between all figures */}
                 <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 500">
-                  {/* Parent to child */}
+                  {/* Parent to both caregivers */}
                   <line
-                    x1="100"
-                    y1="130"
-                    x2="130"
-                    y2="200"
-                    stroke="#FF6B6B"
+                    x1="80"
+                    y1="125"
+                    x2="320"
+                    y2="125"
+                    stroke="#4CAF50"
                     strokeWidth="3"
                     strokeDasharray="8,8"
                     opacity="0.8"
                   >
                     <animate attributeName="stroke-dashoffset" values="0;16" dur="1s" repeatCount="indefinite"/>
                   </line>
-                  {/* Child to baby */}
+                  
+                  {/* Child to caregivers */}
                   <line
-                    x1="130"
-                    y1="200"
-                    x2="200"
-                    y2="270"
+                    x1="160"
+                    y1="165"
+                    x2="320"
+                    y2="125"
                     stroke="#FF6B6B"
                     strokeWidth="3"
                     strokeDasharray="8,8"
@@ -271,44 +256,59 @@ export default function Home() {
                   >
                     <animate attributeName="stroke-dashoffset" values="0;16" dur="1.2s" repeatCount="indefinite"/>
                   </line>
-                  {/* Parent to caregiver */}
+                  
                   <line
-                    x1="100"
-                    y1="130"
+                    x1="160"
+                    y1="165"
                     x2="300"
-                    y2="130"
-                    stroke="#4CAF50"
+                    y2="250"
+                    stroke="#FF6B6B"
                     strokeWidth="3"
                     strokeDasharray="8,8"
                     opacity="0.8"
                   >
-                    <animate attributeName="stroke-dashoffset" values="0;16" dur="0.8s" repeatCount="indefinite"/>
+                    <animate attributeName="stroke-dashoffset" values="0;16" dur="1.4s" repeatCount="indefinite"/>
                   </line>
-                  {/* Caregiver to second caregiver */}
-                  <line
-                    x1="300"
-                    y1="130"
-                    x2="320"
-                    y2="200"
-                    stroke="#9C27B0"
-                    strokeWidth="3"
-                    strokeDasharray="8,8"
-                    opacity="0.8"
-                  >
-                    <animate attributeName="stroke-dashoffset" values="0;16" dur="1.5s" repeatCount="indefinite"/>
-                  </line>
+                  
                   {/* Baby to caregivers */}
                   <line
-                    x1="200"
-                    y1="270"
+                    x1="100"
+                    y1="250"
                     x2="320"
-                    y2="200"
+                    y2="125"
+                    stroke="#FF9800"
+                    strokeWidth="3"
+                    strokeDasharray="8,8"
+                    opacity="0.8"
+                  >
+                    <animate attributeName="stroke-dashoffset" values="0;16" dur="1.6s" repeatCount="indefinite"/>
+                  </line>
+                  
+                  <line
+                    x1="100"
+                    y1="250"
+                    x2="300"
+                    y2="250"
                     stroke="#FF9800"
                     strokeWidth="3"
                     strokeDasharray="8,8"
                     opacity="0.8"
                   >
                     <animate attributeName="stroke-dashoffset" values="0;16" dur="1.8s" repeatCount="indefinite"/>
+                  </line>
+                  
+                  {/* Connection between caregivers */}
+                  <line
+                    x1="320"
+                    y1="125"
+                    x2="300"
+                    y2="250"
+                    stroke="#9C27B0"
+                    strokeWidth="3"
+                    strokeDasharray="8,8"
+                    opacity="0.8"
+                  >
+                    <animate attributeName="stroke-dashoffset" values="0;16" dur="2s" repeatCount="indefinite"/>
                   </line>
                 </svg>
                 
