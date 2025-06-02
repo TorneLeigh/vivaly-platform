@@ -54,6 +54,7 @@ import familyImage26 from "@assets/c5e4a7514e214eb119a5a0d459aa6bdf.jpg";
 import familyImage27 from "@assets/0c25205c3003fd2bf70fa884ad5fe1f5.jpg";
 import familyImage28 from "@assets/540c7ede798b410d249591160f8b4b9f.jpg";
 import familyImage29 from "@assets/58268e04ad7e7126279d8950565a0cd6.jpg";
+import companionshipImage from "@assets/7111567ee33e7fbd156e36bd454e1ed4.jpg";
 
 const serviceCategories = [
   {
@@ -107,7 +108,7 @@ const serviceCategories = [
   {
     title: "Companionship",
     description: "Social visits",
-    image: familyImage12, // Caregiver with elderly person
+    image: companionshipImage, // Hands showing care and support
     serviceType: "Elderly Companionship"
   }
 ];
