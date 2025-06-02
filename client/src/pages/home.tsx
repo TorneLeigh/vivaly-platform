@@ -296,9 +296,9 @@ export default function Home() {
                   onClick={() => handleServiceClick(category.serviceType)}
                 >
                   {/* Uniform Card Container */}
-                  <div className="bg-white rounded-2xl overflow-hidden shadow-lg group-hover:shadow-xl transition-shadow duration-300 h-48">
+                  <div className="bg-white rounded-xl overflow-hidden shadow-sm group-hover:shadow-lg transition-shadow duration-300 h-48">
                     {/* Illustration Area */}
-                    <div className="h-32 relative bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+                    <div className="h-32 relative bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center rounded-t-xl">
                       {/* Service specific illustrations - Airbnb style */}
                       {category.title === "1-on-1 Care" && (
                         <div className="flex items-center justify-center">
@@ -399,10 +399,10 @@ export default function Home() {
               featuredNannies.slice(0, 8).map((nanny: Nanny & { user: UserType }) => (
                 <div key={nanny.id} className="bg-white rounded-xl hover:shadow-lg transition-shadow duration-300 cursor-pointer overflow-hidden">
                   <div className="relative">
-                    <div className="w-full h-32 bg-gradient-to-br from-coral to-pink-400 flex items-center justify-center">
+                    <div className="w-full h-32 bg-gradient-to-br from-coral to-pink-400 flex items-center justify-center rounded-t-xl">
                       <span className="text-3xl text-white font-bold">{nanny.user.firstName[0]}</span>
                     </div>
-                    <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+                    <div className="absolute top-3 right-3 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
                       Available
                     </div>
                   </div>
