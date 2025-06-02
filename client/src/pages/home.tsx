@@ -39,8 +39,8 @@ const serviceCategories = [
     icon: Users,
     title: "Group Care", 
     description: "Small groups",
-    bgColor: "bg-trust-blue bg-opacity-10",
-    iconColor: "text-trust-blue",
+    bgColor: "bg-blue-50",
+    iconColor: "text-blue-400",
     serviceType: "Group Care"
   },
   {
@@ -114,8 +114,8 @@ const popularActivities = [
     icon: Sun,
     title: "Beach Days", 
     description: "Family beach outings and activities",
-    bgColor: "bg-trust-blue bg-opacity-10",
-    iconColor: "text-trust-blue",
+    bgColor: "bg-sky-50",
+    iconColor: "text-sky-400",
     serviceType: "Beach Days"
   },
   {
