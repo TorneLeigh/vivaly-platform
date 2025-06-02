@@ -25,60 +25,61 @@ import {
   Baby
 } from "lucide-react";
 import type { Nanny, User as UserType } from "@shared/schema";
+import familyImage from "@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg";
 
 const serviceCategories = [
   {
     title: "1-on-1 Care",
     description: "Personal attention",
-    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: familyImage,
     serviceType: "1-on-1 Care"
   },
   {
     title: "Group Care", 
     description: "Small groups",
-    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: familyImage,
     serviceType: "Group Care"
   },
   {
     title: "Midwife Services",
     description: "Birth & postnatal support", 
-    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: familyImage,
     serviceType: "Midwife Services"
   },
   {
     title: "Drop & Dash",
     description: "Quick care",
-    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: familyImage,
     serviceType: "Drop & Dash"
   },
   {
     title: "Postpartum",
     description: "New parent support",
-    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: familyImage,
     serviceType: "Postpartum Support"
   },
   {
     title: "Breastfeeding",
     description: "Lactation support",
-    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: familyImage,
     serviceType: "Breastfeeding Support"
   },
   {
     title: "Birth Education",
     description: "Preparation classes",
-    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: familyImage,
     serviceType: "Birth Education"
   },
   {
     title: "Elderly Care",
     description: "Senior assistance",
-    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: familyImage,
     serviceType: "Elderly Care"
   },
   {
     title: "Companionship",
     description: "Social visits",
-    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: familyImage,
     serviceType: "Elderly Companionship"
   }
 ];
@@ -87,37 +88,37 @@ const popularActivities = [
   {
     title: "Park Playdates",
     description: "Meet other families at local parks",
-    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: familyImage,
     serviceType: "Park Playdates"
   },
   {
     title: "Beach Days", 
     description: "Family beach outings and activities",
-    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: familyImage,
     serviceType: "Beach Days"
   },
   {
     title: "Coffee Catch-ups",
     description: "Parent meetups at local cafes", 
-    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: familyImage,
     serviceType: "Coffee Catch-ups"
   },
   {
     title: "Nature Walks",
     description: "Explore trails with other families",
-    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: familyImage,
     serviceType: "Nature Walks"
   },
   {
     title: "Art & Craft",
     description: "Creative sessions for kids and parents",
-    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: familyImage,
     serviceType: "Art & Craft"
   },
   {
     title: "Picnic Gatherings",
     description: "Family picnics and shared meals",
-    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: familyImage,
     serviceType: "Picnic Gatherings"
   }
 ];
