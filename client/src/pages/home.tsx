@@ -106,8 +106,8 @@ const popularActivities = [
     icon: Users,
     title: "Park Playdates",
     description: "Meet other families at local parks",
-    bgColor: "bg-soft-green bg-opacity-10",
-    iconColor: "text-soft-green",
+    bgColor: "bg-green-50",
+    iconColor: "text-green-400",
     serviceType: "Park Playdates"
   },
   {
@@ -130,8 +130,8 @@ const popularActivities = [
     icon: TreePine,
     title: "Nature Walks",
     description: "Explore trails with other families",
-    bgColor: "bg-emerald-500 bg-opacity-10", 
-    iconColor: "text-emerald-600",
+    bgColor: "bg-green-100", 
+    iconColor: "text-green-500",
     serviceType: "Nature Walks"
   },
   {
