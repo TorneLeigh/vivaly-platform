@@ -193,7 +193,7 @@ export default function Home() {
                 </div>
                 
                 {/* Family Group - Left Side */}
-                <div className="absolute left-1/4 top-24 transform -translate-x-1/2">
+<div className="absolute left-1/4 top-32 transform -translate-x-1/2">
                   <div className="bg-white rounded-xl p-4 shadow-lg border w-[140px]">
                     <div className="text-center mb-3">
                       <h4 className="text-sm font-semibold text-gray-800">Your Family</h4>
@@ -233,7 +233,7 @@ export default function Home() {
                 </div>
                 
                 {/* Care Team - Right Side */}
-                <div className="absolute right-1/4 top-24 transform translate-x-1/2">
+                <div className="absolute right-1/4 top-32 transform translate-x-1/2">
                   <div className="bg-white rounded-xl p-4 shadow-lg border w-[140px]">
                     <div className="text-center mb-3">
                       <h4 className="text-sm font-semibold text-gray-800">Your Care Team</h4>
