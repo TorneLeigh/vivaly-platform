@@ -188,8 +188,8 @@ export default function Home() {
                 
                 {/* Header */}
                 <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-2">Trusted Care Services</h3>
-                  <p className="text-gray-600">Connecting families across Sydney</p>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-2">Your Family's Care Network</h3>
+                  <p className="text-gray-600">Professional caregivers ready to support your family</p>
                 </div>
                 
                 {/* Family members positioned around the hub */}
