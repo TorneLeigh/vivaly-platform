@@ -25,61 +25,63 @@ import {
   Baby
 } from "lucide-react";
 import type { Nanny, User as UserType } from "@shared/schema";
-import familyImage from "@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg";
+import familyImage1 from "@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg";
+import familyImage2 from "@assets/aba916b517ced96c85496925fb8b71d5.jpg";
+import familyImage3 from "@assets/2df543a46e343b349dce96a9b74e7bf3.jpg";
 
 const serviceCategories = [
   {
     title: "1-on-1 Care",
     description: "Personal attention",
-    image: familyImage,
+    image: familyImage1,
     serviceType: "1-on-1 Care"
   },
   {
     title: "Group Care", 
     description: "Small groups",
-    image: familyImage,
+    image: familyImage2,
     serviceType: "Group Care"
   },
   {
     title: "Midwife Services",
     description: "Birth & postnatal support", 
-    image: familyImage,
+    image: familyImage3,
     serviceType: "Midwife Services"
   },
   {
     title: "Drop & Dash",
     description: "Quick care",
-    image: familyImage,
+    image: familyImage1,
     serviceType: "Drop & Dash"
   },
   {
     title: "Postpartum",
     description: "New parent support",
-    image: familyImage,
+    image: familyImage2,
     serviceType: "Postpartum Support"
   },
   {
     title: "Breastfeeding",
     description: "Lactation support",
-    image: familyImage,
+    image: familyImage3,
     serviceType: "Breastfeeding Support"
   },
   {
     title: "Birth Education",
     description: "Preparation classes",
-    image: familyImage,
+    image: familyImage1,
     serviceType: "Birth Education"
   },
   {
     title: "Elderly Care",
     description: "Senior assistance",
-    image: familyImage,
+    image: familyImage2,
     serviceType: "Elderly Care"
   },
   {
     title: "Companionship",
     description: "Social visits",
-    image: familyImage,
+    image: familyImage3,
     serviceType: "Elderly Companionship"
   }
 ];
@@ -88,37 +90,37 @@ const popularActivities = [
   {
     title: "Park Playdates",
     description: "Meet other families at local parks",
-    image: familyImage,
+    image: familyImage3,
     serviceType: "Park Playdates"
   },
   {
     title: "Beach Days", 
     description: "Family beach outings and activities",
-    image: familyImage,
+    image: familyImage1,
     serviceType: "Beach Days"
   },
   {
     title: "Coffee Catch-ups",
     description: "Parent meetups at local cafes", 
-    image: familyImage,
+    image: familyImage2,
     serviceType: "Coffee Catch-ups"
   },
   {
     title: "Nature Walks",
     description: "Explore trails with other families",
-    image: familyImage,
+    image: familyImage3,
     serviceType: "Nature Walks"
   },
   {
     title: "Art & Craft",
     description: "Creative sessions for kids and parents",
-    image: familyImage,
+    image: familyImage1,
     serviceType: "Art & Craft"
   },
   {
     title: "Picnic Gatherings",
     description: "Family picnics and shared meals",
-    image: familyImage,
+    image: familyImage2,
     serviceType: "Picnic Gatherings"
   }
 ];
