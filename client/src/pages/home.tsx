@@ -292,71 +292,114 @@ export default function Home() {
               return (
                 <div 
                   key={index}
-                  className="text-center group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+                  className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
                   onClick={() => handleServiceClick(category.serviceType)}
                 >
-                  {/* Animated Card Container */}
-                  <div className="bg-white rounded-2xl p-6 shadow-lg group-hover:shadow-xl transition-shadow duration-300">
-                    {/* Animated Icon Container */}
-                    <div className={`relative w-20 h-20 mx-auto mb-4 ${category.bgColor} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                      <IconComponent className={`w-10 h-10 ${category.iconColor} group-hover:animate-bounce`} />
-                      
-                      {/* Floating particles around icon */}
-                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-300 rounded-full animate-pulse opacity-70"></div>
-                      <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-pink-300 rounded-full animate-pulse opacity-60" style={{animationDelay: '0.5s'}}></div>
-                      <div className="absolute top-2 -left-2 w-2 h-2 bg-blue-300 rounded-full animate-pulse opacity-50" style={{animationDelay: '1s'}}></div>
-                      
-                      {/* Ripple effect on hover */}
-                      <div className="absolute inset-0 rounded-xl bg-white opacity-0 group-hover:opacity-20 group-hover:animate-ping"></div>
-                    </div>
-                    
-                    {/* Service specific illustrations */}
-                    <div className="relative mb-4">
+                  {/* Uniform Card Container */}
+                  <div className="bg-white rounded-2xl overflow-hidden shadow-lg group-hover:shadow-xl transition-shadow duration-300 h-48">
+                    {/* Illustration Area */}
+                    <div className="h-32 relative bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+                      {/* Service specific illustrations - Airbnb style */}
                       {category.title === "Babysitting" && (
-                        <div className="flex justify-center space-x-1">
-                          <div className="w-2 h-2 bg-pink-400 rounded-full animate-bounce"></div>
-                          <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                          <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                        <div className="relative">
+                          {/* Baby illustration */}
+                          <div className="w-12 h-12 bg-pink-200 rounded-full relative">
+                            <div className="absolute top-2 left-3 w-2 h-2 bg-pink-600 rounded-full"></div>
+                            <div className="absolute top-2 right-3 w-2 h-2 bg-pink-600 rounded-full"></div>
+                            <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 w-3 h-2 bg-pink-400 rounded-full"></div>
+                          </div>
+                          {/* Toys around */}
+                          <div className="absolute -top-2 -right-2 w-4 h-4 bg-yellow-300 rounded rotate-45"></div>
+                          <div className="absolute -bottom-1 -left-2 w-3 h-3 bg-blue-300 rounded-full"></div>
                         </div>
                       )}
                       
                       {category.title === "Nanny" && (
-                        <div className="flex justify-center">
-                          <div className="relative">
-                            <div className="w-4 h-4 bg-yellow-300 rounded-full"></div>
-                            <div className="absolute -top-1 -right-1 w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                        <div className="relative">
+                          {/* Nanny with child */}
+                          <div className="flex items-center space-x-2">
+                            <div className="w-8 h-8 bg-green-200 rounded-full relative">
+                              <div className="absolute top-1 left-2 w-1 h-1 bg-green-700 rounded-full"></div>
+                              <div className="absolute top-1 right-2 w-1 h-1 bg-green-700 rounded-full"></div>
+                            </div>
+                            <div className="w-6 h-6 bg-yellow-200 rounded-full relative">
+                              <div className="absolute top-1 left-1 w-1 h-1 bg-yellow-700 rounded-full"></div>
+                              <div className="absolute top-1 right-1 w-1 h-1 bg-yellow-700 rounded-full"></div>
+                            </div>
                           </div>
+                          <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 text-red-400 text-xs">♥</div>
                         </div>
                       )}
                       
                       {category.title === "Elderly Care" && (
-                        <div className="flex justify-center">
-                          <div className="w-6 h-1 bg-gradient-to-r from-soft-green to-trust-blue rounded-full animate-pulse"></div>
+                        <div className="relative">
+                          {/* Elderly person with cane */}
+                          <div className="w-10 h-10 bg-blue-200 rounded-full relative">
+                            <div className="absolute top-2 left-2 w-1 h-1 bg-blue-700 rounded-full"></div>
+                            <div className="absolute top-2 right-2 w-1 h-1 bg-blue-700 rounded-full"></div>
+                            <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-4 h-1 bg-gray-300 rounded"></div>
+                          </div>
+                          <div className="absolute -bottom-2 right-0 w-1 h-8 bg-amber-600 rounded"></div>
                         </div>
                       )}
                       
                       {category.title === "After School Care" && (
-                        <div className="flex justify-center space-x-1">
-                          <div className="w-1 h-3 bg-coral rounded animate-float"></div>
-                          <div className="w-1 h-4 bg-coral rounded animate-float" style={{animationDelay: '0.2s'}}></div>
-                          <div className="w-1 h-2 bg-coral rounded animate-float" style={{animationDelay: '0.4s'}}></div>
+                        <div className="relative">
+                          {/* School building */}
+                          <div className="w-12 h-8 bg-red-300 relative">
+                            <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-16 h-4 bg-gray-600 rounded-t-full"></div>
+                            <div className="absolute top-1 left-2 w-2 h-2 bg-yellow-200 rounded"></div>
+                            <div className="absolute top-1 right-2 w-2 h-2 bg-yellow-200 rounded"></div>
+                            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-4 bg-amber-700"></div>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {category.title === "Pet Care" && (
+                        <div className="relative">
+                          {/* Dog illustration */}
+                          <div className="w-10 h-8 bg-amber-200 rounded-full relative">
+                            <div className="absolute -top-1 left-1 w-3 h-3 bg-amber-300 rounded-full"></div>
+                            <div className="absolute -top-1 right-1 w-3 h-3 bg-amber-300 rounded-full"></div>
+                            <div className="absolute top-2 left-3 w-1 h-1 bg-black rounded-full"></div>
+                            <div className="absolute top-2 right-3 w-1 h-1 bg-black rounded-full"></div>
+                            <div className="absolute -right-2 top-1/2 w-4 h-2 bg-amber-200 rounded-full"></div>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {(category.title === "Housekeeping" || category.title === "Companionship") && (
+                        <div className="relative">
+                          {/* House with heart */}
+                          <div className="w-10 h-8 bg-teal-200 relative">
+                            <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-12 h-3 bg-gray-500 rounded-t-full"></div>
+                            <div className="absolute top-1 left-2 w-2 h-2 bg-yellow-200 rounded"></div>
+                            <div className="absolute top-1 right-2 w-2 h-2 bg-yellow-200 rounded"></div>
+                            <div className="absolute -top-3 right-1 text-red-400 text-xs">♥</div>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Default illustration for other services */}
+                      {!["Babysitting", "Nanny", "Elderly Care", "After School Care", "Pet Care", "Housekeeping", "Companionship"].includes(category.title) && (
+                        <div className="relative">
+                          <div className={`w-12 h-12 ${category.bgColor} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                            <IconComponent className={`w-8 h-8 ${category.iconColor}`} />
+                          </div>
                         </div>
                       )}
                     </div>
                     
-                    <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-coral transition-colors">
-                      {category.title}
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      {category.description}
-                    </p>
-                    
-                    {/* Bottom accent line */}
-                    <div className="mt-4 h-1 bg-gradient-to-r from-transparent via-coral to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    {/* Content Area */}
+                    <div className="p-4">
+                      <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-coral transition-colors text-sm">
+                        {category.title}
+                      </h3>
+                      <p className="text-xs text-gray-500 line-clamp-2">
+                        {category.description}
+                      </p>
+                    </div>
                   </div>
-                  
-                  {/* Floating shadow effect */}
-                  <div className="absolute inset-0 bg-coral rounded-2xl opacity-0 group-hover:opacity-5 transform translate-y-1 transition-all duration-300"></div>
                 </div>
               );
             })}
@@ -410,60 +453,6 @@ export default function Home() {
               ))}
             </div>
           )}
-        </div>
-      </section>
-
-      {/* Service Provider Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">For Care Providers</h2>
-            <p className="text-xl text-gray-600">Join our community and connect with families who need your expertise</p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Sign Up */}
-            <div className="bg-white p-8 rounded-2xl shadow-lg text-center hover:shadow-xl transition-shadow">
-              <div className="w-16 h-16 bg-soft-green bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Plus className="h-8 w-8 text-soft-green" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">Sign Up as Provider</h3>
-              <p className="text-gray-600 mb-6">Create your professional profile and get verified to start offering your services</p>
-              <Link href="/become-nanny">
-                <Button className="w-full bg-soft-green hover:bg-soft-green/90 text-white py-3 rounded-lg font-semibold">
-                  Get Started
-                </Button>
-              </Link>
-            </div>
-
-            {/* Offer Services */}
-            <div className="bg-white p-8 rounded-2xl shadow-lg text-center hover:shadow-xl transition-shadow">
-              <div className="w-16 h-16 bg-coral bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Heart className="h-8 w-8 text-coral" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">Offer Your Services</h3>
-              <p className="text-gray-600 mb-6">Set your availability, rates, and service areas to attract the right families</p>
-              <Link href="/become-nanny">
-                <Button className="w-full bg-coral hover:bg-coral/90 text-white py-3 rounded-lg font-semibold">
-                  Start Offering
-                </Button>
-              </Link>
-            </div>
-
-            {/* Find Opportunities */}
-            <div className="bg-white p-8 rounded-2xl shadow-lg text-center hover:shadow-xl transition-shadow">
-              <div className="w-16 h-16 bg-trust-blue bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Search className="h-8 w-8 text-trust-blue" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">Find Opportunities</h3>
-              <p className="text-gray-600 mb-6">Browse families looking for care and apply to positions that match your skills</p>
-              <Link href="/search">
-                <Button className="w-full bg-trust-blue hover:bg-trust-blue/90 text-white py-3 rounded-lg font-semibold">
-                  Browse Jobs
-                </Button>
-              </Link>
-            </div>
-          </div>
         </div>
       </section>
 

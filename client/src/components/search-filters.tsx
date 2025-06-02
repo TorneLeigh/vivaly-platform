@@ -51,14 +51,15 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
   ];
 
   return (
-    <div className={`bg-white rounded-full shadow-xl border ${className}`}>
-      <div className="flex items-center divide-x">
-        {/* Location */}
-        <div className="flex-1 px-6 py-4">
-          <div className="flex flex-col">
-            <label className="text-xs font-semibold text-gray-800 mb-1">Where</label>
+    <div className={`bg-white rounded-2xl shadow-xl border ${className}`}>
+      <div className="p-6 space-y-4">
+        {/* Where and When on first row */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Location */}
+          <div>
+            <label className="text-xs font-semibold text-gray-800 mb-2 block">Where</label>
             <Select value={location} onValueChange={setLocation}>
-              <SelectTrigger className="border-0 p-0 h-auto focus:ring-0 text-sm">
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Search Sydney areas" />
               </SelectTrigger>
               <SelectContent>
@@ -74,21 +75,20 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
               </SelectContent>
             </Select>
           </div>
-        </div>
 
-        {/* Date */}
-        <div className="flex-1 px-6 py-4">
-          <div className="flex flex-col">
-            <label className="text-xs font-semibold text-gray-800 mb-1">When</label>
+          {/* Date */}
+          <div>
+            <label className="text-xs font-semibold text-gray-800 mb-2 block">When</label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   className={cn(
-                    "justify-start text-left font-normal p-0 h-auto text-sm",
+                    "w-full justify-start text-left font-normal",
                     !selectedDate && "text-gray-500"
                   )}
                 >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
                   {selectedDate ? formatDate(selectedDate) : "Add dates"}
                 </Button>
               </PopoverTrigger>
@@ -105,13 +105,14 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
           </div>
         </div>
 
-        {/* Time */}
-        <div className="flex-1 px-6 py-4">
-          <div className="flex flex-col">
-            <label className="text-xs font-semibold text-gray-800 mb-1">Time</label>
-            <div className="flex gap-2">
+        {/* Time and Service on second row */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Time */}
+          <div>
+            <label className="text-xs font-semibold text-gray-800 mb-2 block">Time</label>
+            <div className="grid grid-cols-2 gap-2">
               <Select value={startTime} onValueChange={setStartTime}>
-                <SelectTrigger className="border-0 p-0 h-auto focus:ring-0 text-sm w-16">
+                <SelectTrigger>
                   <SelectValue placeholder="Start" />
                 </SelectTrigger>
                 <SelectContent>
@@ -122,9 +123,8 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
                   ))}
                 </SelectContent>
               </Select>
-              <span className="text-gray-400">-</span>
               <Select value={endTime} onValueChange={setEndTime}>
-                <SelectTrigger className="border-0 p-0 h-auto focus:ring-0 text-sm w-16">
+                <SelectTrigger>
                   <SelectValue placeholder="End" />
                 </SelectTrigger>
                 <SelectContent>
@@ -137,14 +137,12 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
               </Select>
             </div>
           </div>
-        </div>
 
-        {/* Service Type */}
-        <div className="flex-1 px-6 py-4">
-          <div className="flex flex-col">
-            <label className="text-xs font-semibold text-gray-800 mb-1">Service</label>
+          {/* Service Type */}
+          <div>
+            <label className="text-xs font-semibold text-gray-800 mb-2 block">Service</label>
             <Select value={serviceType} onValueChange={setServiceType}>
-              <SelectTrigger className="border-0 p-0 h-auto focus:ring-0 text-sm">
+              <SelectTrigger>
                 <SelectValue placeholder="Any service" />
               </SelectTrigger>
               <SelectContent>
@@ -157,16 +155,17 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
               </SelectContent>
             </Select>
           </div>
-        </div>
-        
-        {/* Search Button */}
-        <div className="px-2 py-4">
-          <Button 
-            onClick={handleSearch}
-            className="bg-coral text-white hover:bg-coral/90 rounded-full w-12 h-12 p-0"
-          >
-            <Search className="w-5 h-5" />
-          </Button>
+          
+          {/* Search Button */}
+          <div className="flex items-end">
+            <Button 
+              onClick={handleSearch}
+              className="bg-coral text-white hover:bg-coral/90 w-full"
+            >
+              <Search className="w-4 h-4 mr-2" />
+              Search
+            </Button>
+          </div>
         </div>
       </div>
     </div>
