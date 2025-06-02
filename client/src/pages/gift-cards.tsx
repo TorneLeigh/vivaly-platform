@@ -94,10 +94,10 @@ export default function GiftCards() {
       <section className="bg-gradient-to-br from-coral to-pink-500 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Gift className="w-16 h-16 text-white mx-auto mb-6" />
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
             Give the Gift of Care
           </h1>
-          <p className="text-xl text-white opacity-90 max-w-2xl mx-auto">
+          <p className="text-xl text-white opacity-90 max-w-2xl mx-auto drop-shadow-md">
             Help families find trusted childcare with CareConnect gift cards. Perfect for baby showers, new parents, or anyone who needs quality care.
           </p>
         </div>
