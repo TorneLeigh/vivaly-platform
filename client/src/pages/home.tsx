@@ -152,19 +152,125 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="bg-white py-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Find care for what matters most
-            </h1>
-            <p className="text-xl text-gray-600">
-              Discover trusted caregivers in Sydney - from childcare to elderly support
-            </p>
+      {/* Hero Section with Airbnb-style Layout */}
+      <section className="relative bg-white py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left side - Content */}
+            <div>
+              <h1 className="text-5xl md:text-6xl font-bold text-gray-900 leading-tight mb-6">
+                Find care for what matters most
+              </h1>
+              <p className="text-xl text-gray-600 mb-8">
+                Discover trusted caregivers in Sydney - from childcare to elderly support
+              </p>
+              
+              <SearchFilters onSearch={handleSearch} />
+              
+              {/* Trust indicators */}
+              <div className="flex items-center mt-8 space-x-6">
+                <div className="flex -space-x-2">
+                  <div className="w-10 h-10 rounded-full bg-pink-300 border-2 border-white"></div>
+                  <div className="w-10 h-10 rounded-full bg-blue-300 border-2 border-white"></div>
+                  <div className="w-10 h-10 rounded-full bg-green-300 border-2 border-white"></div>
+                  <div className="w-10 h-10 rounded-full bg-yellow-300 border-2 border-white"></div>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-900">2,000+ happy families</p>
+                  <p className="text-xs text-gray-500">Verified caregivers</p>
+                </div>
+              </div>
+            </div>
+            
+            {/* Right side - Airbnb-style illustration */}
+            <div className="relative">
+              <div className="relative w-full h-[500px] bg-gradient-to-br from-pink-50 via-blue-50 to-green-50 rounded-3xl overflow-hidden shadow-2xl">
+                {/* Main house */}
+                <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2">
+                  <div className="relative">
+                    {/* House body */}
+                    <div className="w-32 h-24 bg-coral rounded-t-lg shadow-lg"></div>
+                    {/* Roof */}
+                    <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
+                      <div className="w-40 h-12 bg-gray-600 rounded-t-full shadow-md"></div>
+                    </div>
+                    {/* Door */}
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-12 bg-amber-700 rounded-t-md"></div>
+                    {/* Windows */}
+                    <div className="absolute top-3 left-3 w-6 h-6 bg-yellow-200 rounded border-2 border-white"></div>
+                    <div className="absolute top-3 right-3 w-6 h-6 bg-yellow-200 rounded border-2 border-white"></div>
+                  </div>
+                </div>
+                
+                {/* Family figures with animations */}
+                <div className="absolute top-1/3 left-1/4 animate-float">
+                  {/* Parent figure */}
+                  <div className="relative">
+                    <div className="w-8 h-8 bg-pink-300 rounded-full border-2 border-white shadow-sm"></div>
+                    <div className="w-6 h-10 bg-blue-400 rounded-lg mx-auto mt-1 shadow-sm"></div>
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
+                  </div>
+                </div>
+                
+                <div className="absolute top-2/5 left-1/3 animate-bounce" style={{animationDelay: '0.5s'}}>
+                  {/* Child figure */}
+                  <div className="relative">
+                    <div className="w-6 h-6 bg-yellow-300 rounded-full border border-white shadow-sm"></div>
+                    <div className="w-4 h-8 bg-pink-400 rounded-lg mx-auto mt-1 shadow-sm"></div>
+                  </div>
+                </div>
+                
+                <div className="absolute top-1/3 right-1/4 animate-float" style={{animationDelay: '1s'}}>
+                  {/* Caregiver figure */}
+                  <div className="relative">
+                    <div className="w-8 h-8 bg-green-300 rounded-full border-2 border-white shadow-sm"></div>
+                    <div className="w-6 h-10 bg-green-400 rounded-lg mx-auto mt-1 shadow-sm"></div>
+                    {/* Heart connection */}
+                    <div className="absolute -top-2 -left-3 text-red-400 text-lg animate-pulse">♥</div>
+                  </div>
+                </div>
+                
+                {/* Floating elements */}
+                <div className="absolute top-8 right-8 w-12 h-12 bg-yellow-200 rounded-full opacity-60 animate-float"></div>
+                <div className="absolute top-16 left-8 w-8 h-8 bg-green-200 rounded-full opacity-50 animate-float" style={{animationDelay: '1.5s'}}></div>
+                <div className="absolute bottom-32 right-16 w-6 h-6 bg-purple-200 rounded-full opacity-60 animate-float" style={{animationDelay: '2s'}}></div>
+                
+                {/* Trust badges */}
+                <div className="absolute top-6 left-6 bg-white rounded-full px-4 py-2 text-sm font-medium text-gray-700 shadow-md">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    Verified
+                  </div>
+                </div>
+                <div className="absolute top-6 right-6 bg-white rounded-full px-4 py-2 text-sm font-medium text-gray-700 shadow-md">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    Insured
+                  </div>
+                </div>
+                
+                {/* Connection line */}
+                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 400">
+                  <path
+                    d="M 100 120 Q 200 80 300 120"
+                    stroke="#FF6B6B"
+                    strokeWidth="3"
+                    fill="none"
+                    strokeDasharray="6,6"
+                    opacity="0.7"
+                    className="animate-pulse"
+                  />
+                </svg>
+                
+                {/* Bottom stats */}
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center">
+                  <div className="bg-white rounded-full px-6 py-2 shadow-lg">
+                    <p className="text-sm font-semibold text-gray-800">Connecting families with trusted care</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          
-          <SearchFilters onSearch={handleSearch} />
         </div>
       </section>
 

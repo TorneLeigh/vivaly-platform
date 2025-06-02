@@ -43,12 +43,16 @@ export default function Header() {
               <a className={`text-warm-gray hover:text-coral transition-colors ${
                 location === '/become-nanny' ? 'text-coral' : ''
               }`}>
-                Offer Services
+                Sign Up as Caregiver
               </a>
             </Link>
-            <a href="#" className="text-warm-gray hover:text-coral transition-colors">
-              Help
-            </a>
+            <Link href="/verification">
+              <a className={`text-warm-gray hover:text-coral transition-colors ${
+                location === '/verification' ? 'text-coral' : ''
+              }`}>
+                Offer Your Services
+              </a>
+            </Link>
           </nav>
 
           <div className="flex items-center space-x-4">
