@@ -40,48 +40,60 @@ import familyImage12 from "@assets/f10beba35ec5214939f1d06bcfd05903.jpg";
 import familyImage13 from "@assets/f3c4f3cbd16d170cf3b4abab28ecfa25.jpg";
 import familyImage14 from "@assets/51eb7e79d90e3a22f5628012c3866e10.jpg";
 import familyImage15 from "@assets/ffa2aa122968ee48921e5c120e550899.jpg";
+import familyImage16 from "@assets/da9a8502c75f58f7f36a01b9e533d46d.jpg";
+import familyImage17 from "@assets/5c49767488148ac28757a08c6753fd68.jpg";
+import familyImage18 from "@assets/ad23d9f10c69e3bfc73ffe82a1bac618.jpg";
+import familyImage19 from "@assets/de1126eedd477730852d8c5558d5228f.jpg";
+import familyImage20 from "@assets/5204c0c48d0dc2e1af450973bc115d18.jpg";
+import familyImage21 from "@assets/b627296d6422d36b84161b43496d3c54.jpg";
+import familyImage22 from "@assets/793a2a82f337ec12518b35b4b0886681.jpg";
+import familyImage23 from "@assets/62ef39ef76f7405a227796a6b8ad607d.jpg";
+import familyImage24 from "@assets/46c0702d1b48d35f894a0fe16f437b43.jpg";
+import familyImage25 from "@assets/0322f50abf3a7fc6d8def12b41336e6a.jpg";
+import familyImage26 from "@assets/c5e4a7514e214eb119a5a0d459aa6bdf.jpg";
+import familyImage27 from "@assets/0c25205c3003fd2bf70fa884ad5fe1f5.jpg";
 
 const serviceCategories = [
   {
     title: "1-on-1 Care",
     description: "Personal attention",
-    image: familyImage6, // Caregiver with children
+    image: familyImage19, // Mother reading to baby
     serviceType: "1-on-1 Care"
   },
   {
     title: "Group Care", 
     description: "Small groups",
-    image: familyImage4, // Group of children hugging
+    image: familyImage17, // Two children playing with blocks
     serviceType: "Group Care"
   },
   {
     title: "Midwife Services",
     description: "Birth & postnatal support", 
-    image: familyImage7, // Mother with child building toys
+    image: familyImage20, // Mother playing blocks with child
     serviceType: "Midwife Services"
   },
   {
     title: "Drop & Dash",
     description: "Quick care",
-    image: familyImage9, // Mother teaching with blocks
+    image: familyImage22, // Child playing with wooden toys
     serviceType: "Drop & Dash"
   },
   {
     title: "Postpartum",
     description: "New parent support",
-    image: familyImage15, // Teddy bear in crib
+    image: familyImage16, // Girl caring for baby doll
     serviceType: "Postpartum Support"
   },
   {
     title: "Breastfeeding",
     description: "Lactation support",
-    image: familyImage14, // Wooden toys
+    image: familyImage27, // Colorful wooden stacking toy
     serviceType: "Breastfeeding Support"
   },
   {
     title: "Birth Education",
     description: "Preparation classes",
-    image: familyImage8, // Children playing happily
+    image: familyImage26, // Children building blocks together
     serviceType: "Birth Education"
   },
   {
@@ -102,7 +114,7 @@ const popularActivities = [
   {
     title: "Park Playdates",
     description: "Meet other families at local parks",
-    image: familyImage5, // Circle of children holding hands
+    image: familyImage18, // Happy toddler with shape toys
     serviceType: "Park Playdates"
   },
   {
@@ -114,25 +126,25 @@ const popularActivities = [
   {
     title: "Coffee Catch-ups",
     description: "Parent meetups at local cafes", 
-    image: familyImage10, // Family exercise group
+    image: familyImage25, // Two children learning together
     serviceType: "Coffee Catch-ups"
   },
   {
     title: "Nature Walks",
     description: "Explore trails with other families",
-    image: familyImage3, // Child playing with ribbons
+    image: familyImage21, // Mother and child drawing
     serviceType: "Nature Walks"
   },
   {
     title: "Art & Craft",
     description: "Creative sessions for kids and parents",
-    image: familyImage1, // Child with painted hands
+    image: familyImage23, // Child hands playing with letters
     serviceType: "Art & Craft"
   },
   {
     title: "Picnic Gatherings",
     description: "Family picnics and shared meals",
-    image: familyImage2, // Happy children together
+    image: familyImage24, // Two children playing with wooden letters
     serviceType: "Picnic Gatherings"
   }
 ];
