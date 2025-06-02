@@ -28,75 +28,57 @@ import type { Nanny, User as UserType } from "@shared/schema";
 
 const serviceCategories = [
   {
-    icon: User,
     title: "1-on-1 Care",
     description: "Personal attention",
-    bgColor: "bg-coral bg-opacity-10",
-    iconColor: "text-coral",
+    image: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=400&h=400&fit=crop&crop=center",
     serviceType: "1-on-1 Care"
   },
   {
-    icon: Users,
     title: "Group Care", 
     description: "Small groups",
-    bgColor: "bg-coral bg-opacity-10",
-    iconColor: "text-coral",
+    image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=400&h=400&fit=crop&crop=center",
     serviceType: "Group Care"
   },
   {
-    icon: Heart,
     title: "Midwife Services",
     description: "Birth & postnatal support", 
-    bgColor: "bg-coral bg-opacity-10",
-    iconColor: "text-coral",
+    image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=400&fit=crop&crop=center",
     serviceType: "Midwife Services"
   },
   {
-    icon: Clock,
     title: "Drop & Dash",
     description: "Quick care",
-    bgColor: "bg-coral bg-opacity-10", 
-    iconColor: "text-coral",
+    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop&crop=center",
     serviceType: "Drop & Dash"
   },
   {
-    icon: Heart,
     title: "Postpartum",
     description: "New parent support",
-    bgColor: "bg-coral bg-opacity-10",
-    iconColor: "text-coral", 
+    image: "https://images.unsplash.com/photo-1548222606-6c4ac1775e9e?w=400&h=400&fit=crop&crop=center",
     serviceType: "Postpartum Support"
   },
   {
-    icon: Heart,
     title: "Breastfeeding",
     description: "Lactation support",
-    bgColor: "bg-coral bg-opacity-10",
-    iconColor: "text-coral", 
+    image: "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=400&h=400&fit=crop&crop=center",
     serviceType: "Breastfeeding Support"
   },
   {
-    icon: Shield,
     title: "Birth Education",
     description: "Preparation classes",
-    bgColor: "bg-coral bg-opacity-10",
-    iconColor: "text-coral", 
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&h=400&fit=crop&crop=center",
     serviceType: "Birth Education"
   },
   {
-    icon: Heart,
     title: "Elderly Care",
     description: "Senior assistance",
-    bgColor: "bg-coral bg-opacity-10",
-    iconColor: "text-coral", 
+    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop&crop=center",
     serviceType: "Elderly Care"
   },
   {
-    icon: Users,
     title: "Companionship",
     description: "Social visits",
-    bgColor: "bg-coral bg-opacity-10",
-    iconColor: "text-coral", 
+    image: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=400&fit=crop&crop=center",
     serviceType: "Elderly Companionship"
   }
 ];
@@ -247,7 +229,6 @@ export default function Home() {
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {serviceCategories.map((category, index) => {
-              const IconComponent = category.icon;
               return (
                 <div 
                   key={index}
@@ -260,13 +241,17 @@ export default function Home() {
                     window.location.href = `/search?${searchParams.toString()}`;
                   }}
                 >
-                  <div className={`${category.bgColor} rounded-2xl p-6 text-center h-32 flex flex-col justify-center items-center relative overflow-hidden`}>
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
-                    <IconComponent className={`w-8 h-8 ${category.iconColor} mb-2 relative z-10`} />
-                    <h3 className="font-semibold text-gray-900 text-sm relative z-10">{category.title}</h3>
-                  </div>
-                  <div className="mt-3">
-                    <p className="text-xs text-gray-600 text-center">{category.description}</p>
+                  <div className="relative overflow-hidden rounded-2xl aspect-square">
+                    <img 
+                      src={category.image} 
+                      alt={category.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-20 transition-opacity duration-300 group-hover:bg-opacity-10"></div>
+                    <div className="absolute bottom-4 left-4 text-white">
+                      <h3 className="font-semibold text-sm mb-1">{category.title}</h3>
+                      <p className="text-xs opacity-90">{category.description}</p>
+                    </div>
                   </div>
                 </div>
               );
