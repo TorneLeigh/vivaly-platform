@@ -245,7 +245,7 @@ export default function Home() {
                 <div className="absolute top-6 right-6 bg-white rounded-full px-4 py-2 text-sm font-medium text-gray-700 shadow-md">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    Insured
+                    Certified
                   </div>
                 </div>
                 
