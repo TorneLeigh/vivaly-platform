@@ -286,7 +286,7 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {serviceCategories.map((category, index) => {
               const IconComponent = category.icon;
               return (
@@ -370,12 +370,7 @@ export default function Home() {
             })}
           </div>
           
-          {/* Bottom decorative elements */}
-          <div className="flex justify-center mt-16 space-x-4">
-            <div className="w-2 h-2 bg-coral rounded-full animate-ping"></div>
-            <div className="w-2 h-2 bg-soft-green rounded-full animate-ping" style={{animationDelay: '0.5s'}}></div>
-            <div className="w-2 h-2 bg-trust-blue rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
-          </div>
+
         </div>
       </section>
 
@@ -536,34 +531,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How it Works */}
-      <section className="py-16 bg-light-gray">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-warm-gray mb-4">How it works</h2>
-            <p className="text-xl text-gray-600">
-              Book trusted childcare in just a few simple steps
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[
-              { step: 1, title: "Search & Filter", description: "Find caregivers by location, service type, and availability" },
-              { step: 2, title: "Review Profiles", description: "Check certificates, reviews, and experience details" },
-              { step: 3, title: "Message & Book", description: "Connect securely and schedule your childcare" },
-              { step: 4, title: "Relax & Enjoy", description: "Your children are in safe, trusted hands" }
-            ].map((item, index) => (
-              <div key={index} className="text-center">
-                <div className="w-12 h-12 mx-auto mb-6 bg-coral rounded-full flex items-center justify-center text-white font-bold text-lg">
-                  {item.step}
-                </div>
-                <h3 className="text-lg font-semibold text-warm-gray mb-3">{item.title}</h3>
-                <p className="text-gray-600 text-sm">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Service Provider Section */}
       <section className="py-16 bg-gray-50">
