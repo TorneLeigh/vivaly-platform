@@ -30,55 +30,55 @@ const serviceCategories = [
   {
     title: "1-on-1 Care",
     description: "Personal attention",
-    image: "/attached_assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
     serviceType: "1-on-1 Care"
   },
   {
     title: "Group Care", 
     description: "Small groups",
-    image: "/attached_assets/aba916b517ced96c85496925fb8b71d5.jpg",
+    image: "/@assets/aba916b517ced96c85496925fb8b71d5.jpg",
     serviceType: "Group Care"
   },
   {
     title: "Midwife Services",
     description: "Birth & postnatal support", 
-    image: "/attached_assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
     serviceType: "Midwife Services"
   },
   {
     title: "Drop & Dash",
     description: "Quick care",
-    image: "/attached_assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
     serviceType: "Drop & Dash"
   },
   {
     title: "Postpartum",
     description: "New parent support",
-    image: "/attached_assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
     serviceType: "Postpartum Support"
   },
   {
     title: "Breastfeeding",
     description: "Lactation support",
-    image: "/attached_assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
     serviceType: "Breastfeeding Support"
   },
   {
     title: "Birth Education",
     description: "Preparation classes",
-    image: "/attached_assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+    image: "/@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
     serviceType: "Birth Education"
   },
   {
     title: "Elderly Care",
     description: "Senior assistance",
-    image: "/attached_assets/aba916b517ced96c85496925fb8b71d5.jpg",
+    image: "/@assets/aba916b517ced96c85496925fb8b71d5.jpg",
     serviceType: "Elderly Care"
   },
   {
     title: "Companionship",
     description: "Social visits",
-    image: "/attached_assets/aba916b517ced96c85496925fb8b71d5.jpg",
+    image: "/@assets/aba916b517ced96c85496925fb8b71d5.jpg",
     serviceType: "Elderly Companionship"
   }
 ];
@@ -87,37 +87,37 @@ const popularActivities = [
   {
     title: "Park Playdates",
     description: "Meet other families at local parks",
-    image: "/attached_assets/2df543a46e343b349dce96a9b74e7bf3.jpg",
+    image: "/@assets/2df543a46e343b349dce96a9b74e7bf3.jpg",
     serviceType: "Park Playdates"
   },
   {
     title: "Beach Days", 
     description: "Family beach outings and activities",
-    image: "/attached_assets/2df543a46e343b349dce96a9b74e7bf3.jpg",
+    image: "/@assets/2df543a46e343b349dce96a9b74e7bf3.jpg",
     serviceType: "Beach Days"
   },
   {
     title: "Coffee Catch-ups",
     description: "Parent meetups at local cafes", 
-    image: "/attached_assets/aba916b517ced96c85496925fb8b71d5.jpg",
+    image: "/@assets/aba916b517ced96c85496925fb8b71d5.jpg",
     serviceType: "Coffee Catch-ups"
   },
   {
     title: "Nature Walks",
     description: "Explore trails with other families",
-    image: "/attached_assets/2df543a46e343b349dce96a9b74e7bf3.jpg",
+    image: "/@assets/2df543a46e343b349dce96a9b74e7bf3.jpg",
     serviceType: "Nature Walks"
   },
   {
     title: "Art & Craft",
     description: "Creative sessions for kids and parents",
-    image: "/attached_assets/7afa703a4529f33380507613ab2963dd.jpg",
+    image: "/@assets/7afa703a4529f33380507613ab2963dd.jpg",
     serviceType: "Art & Craft"
   },
   {
     title: "Picnic Gatherings",
     description: "Family picnics and shared meals",
-    image: "/attached_assets/aba916b517ced96c85496925fb8b71d5.jpg",
+    image: "/@assets/aba916b517ced96c85496925fb8b71d5.jpg",
     serviceType: "Picnic Gatherings"
   }
 ];
