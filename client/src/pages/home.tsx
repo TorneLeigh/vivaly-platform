@@ -182,9 +182,9 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Right side - Care Connection Visualization */}
+            {/* Right side - Care Services Grid */}
             <div className="relative">
-              <div className="relative w-full h-[500px] bg-gradient-to-br from-blue-50 to-pink-50 rounded-3xl overflow-hidden shadow-2xl">
+              <div className="relative w-full h-[500px] bg-gradient-to-br from-blue-50 to-pink-50 rounded-3xl overflow-hidden shadow-2xl p-8">
                 
                 {/* Central connection hub */}
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
