@@ -192,50 +192,86 @@ export default function Home() {
                   <p className="text-gray-600">Professional caregivers ready to support your family</p>
                 </div>
                 
-                {/* Family members positioned around the hub */}
-                <div className="absolute top-1/4 left-1/4 animate-bounce">
-                  <div className="text-center">
-                    <div className="w-10 h-10 bg-blue-300 rounded-full border-2 border-white shadow-md mb-2 flex items-center justify-center">
-                      <span className="text-lg">👨</span>
+                {/* Family Group - Left Side */}
+                <div className="absolute left-6 top-20">
+                  <div className="bg-white rounded-xl p-4 shadow-lg border max-w-[140px]">
+                    <div className="text-center mb-3">
+                      <h4 className="text-sm font-semibold text-gray-800">Your Family</h4>
                     </div>
-                    <span className="text-xs text-gray-600">Parent</span>
+                    
+                    {/* Family members in a 2x2 grid */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="text-center animate-bounce">
+                        <div className="w-10 h-10 bg-blue-100 rounded-full border-2 border-white shadow-md mb-1 flex items-center justify-center">
+                          <span className="text-lg">👨</span>
+                        </div>
+                        <span className="text-xs text-gray-600">Dad</span>
+                      </div>
+                      
+                      <div className="text-center animate-bounce" style={{animationDelay: '0.2s'}}>
+                        <div className="w-10 h-10 bg-pink-100 rounded-full border-2 border-white shadow-md mb-1 flex items-center justify-center">
+                          <span className="text-lg">👩</span>
+                        </div>
+                        <span className="text-xs text-gray-600">Mum</span>
+                      </div>
+                      
+                      <div className="text-center animate-bounce" style={{animationDelay: '0.4s'}}>
+                        <div className="w-8 h-8 bg-yellow-100 rounded-full border-2 border-white shadow-md mb-1 flex items-center justify-center">
+                          <span className="text-sm">👧</span>
+                        </div>
+                        <span className="text-xs text-gray-600">Child</span>
+                      </div>
+                      
+                      <div className="text-center animate-bounce" style={{animationDelay: '0.6s'}}>
+                        <div className="w-8 h-8 bg-orange-100 rounded-full border-2 border-white shadow-md mb-1 flex items-center justify-center">
+                          <span className="text-sm">👶</span>
+                        </div>
+                        <span className="text-xs text-gray-600">Baby</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 
-                <div className="absolute top-1/5 right-1/4 animate-bounce" style={{animationDelay: '0.3s'}}>
-                  <div className="text-center">
-                    <div className="w-8 h-8 bg-yellow-300 rounded-full border-2 border-white shadow-md mb-2 flex items-center justify-center">
-                      <span className="text-sm">👧</span>
+                {/* Care Team - Right Side */}
+                <div className="absolute right-6 top-20">
+                  <div className="bg-white rounded-xl p-4 shadow-lg border max-w-[140px]">
+                    <div className="text-center mb-3">
+                      <h4 className="text-sm font-semibold text-gray-800">Your Care Team</h4>
                     </div>
-                    <span className="text-xs text-gray-600">Child</span>
+                    
+                    {/* Care providers vertically stacked */}
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-2 animate-bounce" style={{animationDelay: '1s'}}>
+                        <div className="w-8 h-8 bg-green-100 rounded-full border-2 border-white shadow-md flex items-center justify-center">
+                          <span className="text-sm">👩‍⚕️</span>
+                        </div>
+                        <span className="text-xs text-gray-700">Nanny</span>
+                      </div>
+                      
+                      <div className="flex items-center space-x-2 animate-bounce" style={{animationDelay: '1.2s'}}>
+                        <div className="w-8 h-8 bg-purple-100 rounded-full border-2 border-white shadow-md flex items-center justify-center">
+                          <span className="text-sm">🤰</span>
+                        </div>
+                        <span className="text-xs text-gray-700">Midwife</span>
+                      </div>
+                      
+                      <div className="flex items-center space-x-2 animate-bounce" style={{animationDelay: '1.4s'}}>
+                        <div className="w-8 h-8 bg-rose-100 rounded-full border-2 border-white shadow-md flex items-center justify-center">
+                          <span className="text-sm">👩‍🦳</span>
+                        </div>
+                        <span className="text-xs text-gray-700">Elder Care</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 
-                <div className="absolute bottom-1/4 left-1/6 animate-bounce" style={{animationDelay: '0.6s'}}>
-                  <div className="text-center">
-                    <div className="w-8 h-8 bg-orange-300 rounded-full border-2 border-white shadow-md mb-2 flex items-center justify-center">
-                      <span className="text-sm">👶</span>
-                    </div>
-                    <span className="text-xs text-gray-600">Baby</span>
+                {/* Connection Heart in Center */}
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <div className="bg-coral rounded-full w-16 h-16 flex items-center justify-center shadow-lg animate-pulse">
+                    <span className="text-2xl">❤️</span>
                   </div>
-                </div>
-                
-                {/* Caregivers */}
-                <div className="absolute top-1/4 right-1/6 animate-bounce" style={{animationDelay: '1s'}}>
-                  <div className="text-center">
-                    <div className="w-10 h-10 bg-green-300 rounded-full border-2 border-white shadow-md mb-2 flex items-center justify-center">
-                      <span className="text-lg">👩‍⚕️</span>
-                    </div>
-                    <span className="text-xs text-gray-600">Nanny</span>
-                  </div>
-                </div>
-                
-                <div className="absolute bottom-1/4 right-1/4 animate-bounce" style={{animationDelay: '1.3s'}}>
-                  <div className="text-center">
-                    <div className="w-10 h-10 bg-purple-300 rounded-full border-2 border-white shadow-md mb-2 flex items-center justify-center">
-                      <span className="text-lg">👩‍🦳</span>
-                    </div>
-                    <span className="text-xs text-gray-600">Elder Care</span>
+                  <div className="text-center mt-2">
+                    <p className="text-xs font-medium text-gray-700">Connected Care</p>
                   </div>
                 </div>
                 
