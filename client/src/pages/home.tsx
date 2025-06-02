@@ -28,60 +28,72 @@ import type { Nanny, User as UserType } from "@shared/schema";
 import familyImage1 from "@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg";
 import familyImage2 from "@assets/aba916b517ced96c85496925fb8b71d5.jpg";
 import familyImage3 from "@assets/2df543a46e343b349dce96a9b74e7bf3.jpg";
+import familyImage4 from "@assets/20fcca984f823e55d0f52349c0cccfeb.jpg";
+import familyImage5 from "@assets/9c49b20a043b475fc92f416a52da3a32.jpg";
+import familyImage6 from "@assets/988a042ea7f506d78efe22b6305455a5.jpg";
+import familyImage7 from "@assets/d2c9077f10c1c428951da90b33e957a5.jpg";
+import familyImage8 from "@assets/f704b593bd69474039d82dca97cc06fd.jpg";
+import familyImage9 from "@assets/a4f0736b1ec779769d49614140142c82.jpg";
+import familyImage10 from "@assets/f2918dba9993260327d6b33966a5b786.jpg";
+import familyImage11 from "@assets/e84b82177ddf914b2846c3f2490fa10a.jpg";
+import familyImage12 from "@assets/f10beba35ec5214939f1d06bcfd05903.jpg";
+import familyImage13 from "@assets/f3c4f3cbd16d170cf3b4abab28ecfa25.jpg";
+import familyImage14 from "@assets/51eb7e79d90e3a22f5628012c3866e10.jpg";
+import familyImage15 from "@assets/ffa2aa122968ee48921e5c120e550899.jpg";
 
 const serviceCategories = [
   {
     title: "1-on-1 Care",
     description: "Personal attention",
-    image: familyImage1,
+    image: familyImage6, // Caregiver with children
     serviceType: "1-on-1 Care"
   },
   {
     title: "Group Care", 
     description: "Small groups",
-    image: familyImage2,
+    image: familyImage4, // Group of children hugging
     serviceType: "Group Care"
   },
   {
     title: "Midwife Services",
     description: "Birth & postnatal support", 
-    image: familyImage3,
+    image: familyImage7, // Mother with child building toys
     serviceType: "Midwife Services"
   },
   {
     title: "Drop & Dash",
     description: "Quick care",
-    image: familyImage1,
+    image: familyImage9, // Mother teaching with blocks
     serviceType: "Drop & Dash"
   },
   {
     title: "Postpartum",
     description: "New parent support",
-    image: familyImage2,
+    image: familyImage15, // Teddy bear in crib
     serviceType: "Postpartum Support"
   },
   {
     title: "Breastfeeding",
     description: "Lactation support",
-    image: familyImage3,
+    image: familyImage14, // Wooden toys
     serviceType: "Breastfeeding Support"
   },
   {
     title: "Birth Education",
     description: "Preparation classes",
-    image: familyImage1,
+    image: familyImage8, // Children playing happily
     serviceType: "Birth Education"
   },
   {
     title: "Elderly Care",
     description: "Senior assistance",
-    image: familyImage2,
+    image: familyImage11, // Elderly exercise group
     serviceType: "Elderly Care"
   },
   {
     title: "Companionship",
     description: "Social visits",
-    image: familyImage3,
+    image: familyImage12, // Caregiver with elderly person
     serviceType: "Elderly Companionship"
   }
 ];
@@ -90,37 +102,37 @@ const popularActivities = [
   {
     title: "Park Playdates",
     description: "Meet other families at local parks",
-    image: familyImage3,
+    image: familyImage5, // Circle of children holding hands
     serviceType: "Park Playdates"
   },
   {
     title: "Beach Days", 
     description: "Family beach outings and activities",
-    image: familyImage1,
+    image: familyImage13, // Children playing at beach
     serviceType: "Beach Days"
   },
   {
     title: "Coffee Catch-ups",
     description: "Parent meetups at local cafes", 
-    image: familyImage2,
+    image: familyImage10, // Family exercise group
     serviceType: "Coffee Catch-ups"
   },
   {
     title: "Nature Walks",
     description: "Explore trails with other families",
-    image: familyImage3,
+    image: familyImage3, // Child playing with ribbons
     serviceType: "Nature Walks"
   },
   {
     title: "Art & Craft",
     description: "Creative sessions for kids and parents",
-    image: familyImage1,
+    image: familyImage1, // Child with painted hands
     serviceType: "Art & Craft"
   },
   {
     title: "Picnic Gatherings",
     description: "Family picnics and shared meals",
-    image: familyImage2,
+    image: familyImage2, // Happy children together
     serviceType: "Picnic Gatherings"
   }
 ];
