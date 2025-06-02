@@ -12,7 +12,9 @@ import {
   Shield,
   IdCard,
   MessageCircle,
-  ShieldCheck
+  ShieldCheck,
+  Plus,
+  Search
 } from "lucide-react";
 import type { Nanny, User as UserType } from "@shared/schema";
 
@@ -287,6 +289,60 @@ export default function Home() {
                 <p className="text-gray-600 text-sm">{item.description}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Service Provider Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">For Care Providers</h2>
+            <p className="text-xl text-gray-600">Join our community and connect with families who need your expertise</p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {/* Sign Up */}
+            <div className="bg-white p-8 rounded-2xl shadow-lg text-center hover:shadow-xl transition-shadow">
+              <div className="w-16 h-16 bg-soft-green bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Plus className="h-8 w-8 text-soft-green" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-4">Sign Up as Provider</h3>
+              <p className="text-gray-600 mb-6">Create your professional profile and get verified to start offering your services</p>
+              <Link href="/become-nanny">
+                <Button className="w-full bg-soft-green hover:bg-soft-green/90 text-white py-3 rounded-lg font-semibold">
+                  Get Started
+                </Button>
+              </Link>
+            </div>
+
+            {/* Offer Services */}
+            <div className="bg-white p-8 rounded-2xl shadow-lg text-center hover:shadow-xl transition-shadow">
+              <div className="w-16 h-16 bg-coral bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Heart className="h-8 w-8 text-coral" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-4">Offer Your Services</h3>
+              <p className="text-gray-600 mb-6">Set your availability, rates, and service areas to attract the right families</p>
+              <Link href="/become-nanny">
+                <Button className="w-full bg-coral hover:bg-coral/90 text-white py-3 rounded-lg font-semibold">
+                  Start Offering
+                </Button>
+              </Link>
+            </div>
+
+            {/* Find Opportunities */}
+            <div className="bg-white p-8 rounded-2xl shadow-lg text-center hover:shadow-xl transition-shadow">
+              <div className="w-16 h-16 bg-trust-blue bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Search className="h-8 w-8 text-trust-blue" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-4">Find Opportunities</h3>
+              <p className="text-gray-600 mb-6">Browse families looking for care and apply to positions that match your skills</p>
+              <Link href="/search">
+                <Button className="w-full bg-trust-blue hover:bg-trust-blue/90 text-white py-3 rounded-lg font-semibold">
+                  Browse Jobs
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
