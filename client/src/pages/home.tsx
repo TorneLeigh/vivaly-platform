@@ -55,6 +55,22 @@ const serviceCategories = [
     bgColor: "bg-purple-500 bg-opacity-10",
     iconColor: "text-purple-500", 
     serviceType: "Postpartum Support"
+  },
+  {
+    icon: Heart,
+    title: "Breastfeeding",
+    description: "Lactation support",
+    bgColor: "bg-pink-500 bg-opacity-10",
+    iconColor: "text-pink-500", 
+    serviceType: "Breastfeeding Support"
+  },
+  {
+    icon: Shield,
+    title: "Birth Education",
+    description: "Preparation classes",
+    bgColor: "bg-indigo-500 bg-opacity-10",
+    iconColor: "text-indigo-500", 
+    serviceType: "Birth Education"
   }
 ];
 
@@ -89,13 +105,15 @@ export default function Home() {
     queryKey: ["/api/nannies/featured"],
   });
 
-  const handleSearch = (filters: { location: string; serviceType: string; date: string }) => {
+  const handleSearch = (filters: { location: string; serviceType: string; date: string; startTime: string; endTime: string }) => {
     const params = new URLSearchParams();
     if (filters.location) params.set('location', filters.location);
     if (filters.serviceType && filters.serviceType !== 'All Services') {
       params.set('serviceType', filters.serviceType);
     }
     if (filters.date) params.set('date', filters.date);
+    if (filters.startTime) params.set('startTime', filters.startTime);
+    if (filters.endTime) params.set('endTime', filters.endTime);
     
     navigate(`/search?${params.toString()}`);
   };

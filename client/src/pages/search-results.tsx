@@ -26,6 +26,8 @@ export default function SearchResults() {
     location: searchParams.get('location') || '',
     serviceType: searchParams.get('serviceType') || '',
     date: searchParams.get('date') || '',
+    startTime: searchParams.get('startTime') || '',
+    endTime: searchParams.get('endTime') || '',
     minRate: 20,
     maxRate: 50,
   });
@@ -50,7 +52,7 @@ export default function SearchResults() {
     refetch();
   }, [filters, refetch]);
 
-  const handleSearch = (searchFilters: { location: string; serviceType: string; date: string }) => {
+  const handleSearch = (searchFilters: { location: string; serviceType: string; date: string; startTime: string; endTime: string }) => {
     setFilters(prev => ({
       ...prev,
       ...searchFilters,
@@ -173,7 +175,7 @@ export default function SearchResults() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
             {nannies.map((nanny: Nanny & { user: User }) => (
               <NannyCard key={nanny.id} nanny={nanny} />
             ))}

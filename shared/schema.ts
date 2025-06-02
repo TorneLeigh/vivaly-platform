@@ -113,7 +113,10 @@ export const SERVICE_TYPES = [
   "Group Care", 
   "Group Play",
   "Drop & Dash",
-  "Postpartum Support"
+  "Postpartum Support",
+  "Breastfeeding Support",
+  "Birth Education",
+  "Postnatal Care"
 ] as const;
 
 // Certificate types
@@ -123,7 +126,11 @@ export const CERTIFICATE_TYPES = [
   "Cert III Childcare",
   "Early Childhood Education",
   "Montessori",
-  "Working with Children Check"
+  "Working with Children Check",
+  "Midwifery Certification",
+  "Lactation Consultant",
+  "Birth Doula Training",
+  "Postnatal Doula Training"
 ] as const;
 
 // Sydney suburbs
