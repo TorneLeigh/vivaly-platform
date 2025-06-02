@@ -41,7 +41,7 @@ export default function Header() {
               <a className={`text-warm-gray hover:text-coral transition-colors ${
                 location === '/become-nanny' ? 'text-coral' : ''
               }`}>
-                Become a Nanny
+                Offer Services
               </a>
             </Link>
             <a href="#" className="text-warm-gray hover:text-coral transition-colors">
@@ -79,7 +79,7 @@ export default function Header() {
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Plus className="h-4 w-4 mr-2" />
-                  <Link href="/become-nanny">Become a Nanny</Link>
+                  <Link href="/become-nanny">Offer Services</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <MessageCircle className="h-4 w-4 mr-2" />

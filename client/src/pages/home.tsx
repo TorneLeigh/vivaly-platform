@@ -11,7 +11,8 @@ import {
   Heart,
   Shield,
   IdCard,
-  MessageCircle
+  MessageCircle,
+  ShieldCheck
 } from "lucide-react";
 import type { Nanny, User as UserType } from "@shared/schema";
 
@@ -93,24 +94,31 @@ const serviceCategories = [
 const trustFeatures = [
   {
     icon: Shield,
-    title: "Background Verified",
-    description: "All caregivers undergo thorough background checks and reference verification",
+    title: "Comprehensive Insurance Coverage",
+    description: "Public liability insurance up to $20M covering accidents, injuries, and property damage during all bookings",
     bgColor: "bg-soft-green bg-opacity-10",
     iconColor: "text-soft-green"
   },
   {
     icon: IdCard,
-    title: "Certified & Trained", 
-    description: "First aid certified with ongoing training in child development and safety",
+    title: "Professional Indemnity Protection", 
+    description: "Coverage for professional negligence claims and duty of care breaches by certified caregivers",
     bgColor: "bg-trust-blue bg-opacity-10",
     iconColor: "text-trust-blue"
   },
   {
     icon: MessageCircle,
-    title: "Secure Messaging",
-    description: "Built-in messaging protects your privacy and keeps all communication secure",
+    title: "24/7 Emergency Support",
+    description: "Round-the-clock incident reporting hotline and emergency response for all safety concerns",
     bgColor: "bg-coral bg-opacity-10",
     iconColor: "text-coral"
+  },
+  {
+    icon: ShieldCheck,
+    title: "Background Verified",
+    description: "Police checks, Working with Children clearance, and reference verification for every caregiver",
+    bgColor: "bg-amber-500 bg-opacity-10",
+    iconColor: "text-amber-500"
   }
 ];
 
