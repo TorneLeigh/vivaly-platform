@@ -202,8 +202,8 @@ export default function Home() {
                   </div>
                 </div>
                 
-                {/* Family figures with animations */}
-                <div className="absolute top-1/3 left-1/4 animate-float">
+                {/* Family figures with animations and connection lines */}
+                <div className="absolute top-1/4 left-1/4 animate-float">
                   {/* Parent figure */}
                   <div className="relative">
                     <div className="w-8 h-8 bg-pink-300 rounded-full border-2 border-white shadow-sm"></div>
@@ -212,28 +212,97 @@ export default function Home() {
                   </div>
                 </div>
                 
-                <div className="absolute top-2/5 left-1/3 animate-bounce" style={{animationDelay: '0.5s'}}>
+                <div className="absolute top-1/2 left-1/3 animate-bounce" style={{animationDelay: '0.5s'}}>
                   {/* Child figure */}
                   <div className="relative">
                     <div className="w-6 h-6 bg-yellow-300 rounded-full border border-white shadow-sm"></div>
                     <div className="w-4 h-8 bg-pink-400 rounded-lg mx-auto mt-1 shadow-sm"></div>
                   </div>
                 </div>
+
+                <div className="absolute top-3/5 left-1/2 animate-float" style={{animationDelay: '0.3s'}}>
+                  {/* Baby figure */}
+                  <div className="relative">
+                    <div className="w-4 h-4 bg-orange-300 rounded-full border border-white shadow-sm"></div>
+                    <div className="w-3 h-6 bg-orange-200 rounded-lg mx-auto mt-1 shadow-sm"></div>
+                    <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 text-xs">👶</div>
+                  </div>
+                </div>
                 
-                <div className="absolute top-1/3 right-1/4 animate-float" style={{animationDelay: '1s'}}>
+                <div className="absolute top-1/4 right-1/4 animate-float" style={{animationDelay: '1s'}}>
                   {/* Caregiver figure */}
                   <div className="relative">
                     <div className="w-8 h-8 bg-green-300 rounded-full border-2 border-white shadow-sm"></div>
                     <div className="w-6 h-10 bg-green-400 rounded-lg mx-auto mt-1 shadow-sm"></div>
-                    {/* Heart connection */}
                     <div className="absolute -top-2 -left-3 text-red-400 text-lg animate-pulse">♥</div>
                   </div>
                 </div>
+
+                <div className="absolute top-1/2 right-1/5 animate-bounce" style={{animationDelay: '1.5s'}}>
+                  {/* Additional caregiver */}
+                  <div className="relative">
+                    <div className="w-7 h-7 bg-purple-300 rounded-full border border-white shadow-sm"></div>
+                    <div className="w-5 h-9 bg-purple-400 rounded-lg mx-auto mt-1 shadow-sm"></div>
+                  </div>
+                </div>
                 
-                {/* Floating elements */}
-                <div className="absolute top-8 right-8 w-12 h-12 bg-yellow-200 rounded-full opacity-60 animate-float"></div>
-                <div className="absolute top-16 left-8 w-8 h-8 bg-green-200 rounded-full opacity-50 animate-float" style={{animationDelay: '1.5s'}}></div>
-                <div className="absolute bottom-32 right-16 w-6 h-6 bg-purple-200 rounded-full opacity-60 animate-float" style={{animationDelay: '2s'}}></div>
+                {/* Connection lines between all figures */}
+                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 500">
+                  {/* Parent to child */}
+                  <path
+                    d="M 100 100 Q 120 140 130 200"
+                    stroke="#FF6B6B"
+                    strokeWidth="2"
+                    fill="none"
+                    strokeDasharray="4,4"
+                    opacity="0.6"
+                    className="animate-pulse"
+                  />
+                  {/* Child to baby */}
+                  <path
+                    d="M 130 200 Q 160 220 200 240"
+                    stroke="#FF6B6B"
+                    strokeWidth="2"
+                    fill="none"
+                    strokeDasharray="4,4"
+                    opacity="0.6"
+                    className="animate-pulse"
+                    style={{animationDelay: '0.5s'}}
+                  />
+                  {/* Parent to caregiver */}
+                  <path
+                    d="M 100 100 Q 200 60 300 100"
+                    stroke="#4CAF50"
+                    strokeWidth="2"
+                    fill="none"
+                    strokeDasharray="4,4"
+                    opacity="0.6"
+                    className="animate-pulse"
+                    style={{animationDelay: '1s'}}
+                  />
+                  {/* Caregiver to second caregiver */}
+                  <path
+                    d="M 300 100 Q 320 140 320 200"
+                    stroke="#9C27B0"
+                    strokeWidth="2"
+                    fill="none"
+                    strokeDasharray="4,4"
+                    opacity="0.6"
+                    className="animate-pulse"
+                    style={{animationDelay: '1.5s'}}
+                  />
+                  {/* Baby to caregivers */}
+                  <path
+                    d="M 200 240 Q 260 220 300 200"
+                    stroke="#FF9800"
+                    strokeWidth="2"
+                    fill="none"
+                    strokeDasharray="4,4"
+                    opacity="0.6"
+                    className="animate-pulse"
+                    style={{animationDelay: '2s'}}
+                  />
+                </svg>
                 
                 {/* Trust badges */}
                 <div className="absolute top-6 left-6 bg-white rounded-full px-4 py-2 text-sm font-medium text-gray-700 shadow-md">
@@ -248,19 +317,6 @@ export default function Home() {
                     Certified
                   </div>
                 </div>
-                
-                {/* Connection line */}
-                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 400">
-                  <path
-                    d="M 100 120 Q 200 80 300 120"
-                    stroke="#FF6B6B"
-                    strokeWidth="3"
-                    fill="none"
-                    strokeDasharray="6,6"
-                    opacity="0.7"
-                    className="animate-pulse"
-                  />
-                </svg>
                 
                 {/* Bottom stats */}
                 <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center">
