@@ -96,10 +96,7 @@ export default function Header() {
                   <User className="h-4 w-4 mr-2" />
                   Profile
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Plus className="h-4 w-4 mr-2" />
-                  <Link href="/become-nanny">Become a Host</Link>
-                </DropdownMenuItem>
+
                 <DropdownMenuItem>
                   <Search className="h-4 w-4 mr-2" />
                   <Link href="/search">Find Care</Link>
