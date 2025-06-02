@@ -143,14 +143,14 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-light-gray to-white py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="bg-white py-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-warm-gray mb-4">
-              Find trusted childcare in Sydney
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Find care for what matters most
             </h1>
             <p className="text-xl text-gray-600">
-              Connect with verified nannies and caregivers in your area
+              Discover trusted caregivers in Sydney - from childcare to elderly support
             </p>
           </div>
           
@@ -218,7 +218,7 @@ export default function Home() {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
               {featuredNannies.map((nanny: Nanny & { user: UserType }) => (
                 <NannyCard key={nanny.id} nanny={nanny} />
               ))}

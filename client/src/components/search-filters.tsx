@@ -51,123 +51,118 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
   ];
 
   return (
-    <div className={`bg-white rounded-2xl shadow-lg p-6 ${className}`}>
-      <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
-        {/* Date Picker with Calendar Popup */}
-        <div className="md:col-span-1">
-          <Label className="block text-sm font-medium text-warm-gray mb-2">
-            Date
-          </Label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-full justify-start text-left font-normal pl-10",
-                  !selectedDate && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                {selectedDate ? formatDate(selectedDate) : "Select date"}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={selectedDate}
-                onSelect={setSelectedDate}
-                disabled={(date) => date < new Date()}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
+    <div className={`bg-white rounded-full shadow-xl border ${className}`}>
+      <div className="flex items-center divide-x">
+        {/* Location */}
+        <div className="flex-1 px-6 py-4">
+          <div className="flex flex-col">
+            <label className="text-xs font-semibold text-gray-800 mb-1">Where</label>
+            <Select value={location} onValueChange={setLocation}>
+              <SelectTrigger className="border-0 p-0 h-auto focus:ring-0 text-sm">
+                <SelectValue placeholder="Search locations" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All Sydney">All Sydney</SelectItem>
+                {SYDNEY_SUBURBS.map((suburb) => (
+                  <SelectItem key={suburb} value={suburb}>
+                    {suburb}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
-        {/* Time Selection */}
-        <div className="md:col-span-1">
-          <Label htmlFor="start-time" className="block text-sm font-medium text-warm-gray mb-2">
-            Start Time
-          </Label>
-          <Select value={startTime} onValueChange={setStartTime}>
-            <SelectTrigger id="start-time">
-              <SelectValue placeholder="Start" />
-            </SelectTrigger>
-            <SelectContent>
-              {timeSlots.map((time) => (
-                <SelectItem key={time} value={time}>
-                  {time}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        {/* Date */}
+        <div className="flex-1 px-6 py-4">
+          <div className="flex flex-col">
+            <label className="text-xs font-semibold text-gray-800 mb-1">When</label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className={cn(
+                    "justify-start text-left font-normal p-0 h-auto text-sm",
+                    !selectedDate && "text-gray-500"
+                  )}
+                >
+                  {selectedDate ? formatDate(selectedDate) : "Add dates"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={selectedDate}
+                  onSelect={setSelectedDate}
+                  disabled={(date) => date < new Date()}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
         </div>
 
-        <div className="md:col-span-1">
-          <Label htmlFor="end-time" className="block text-sm font-medium text-warm-gray mb-2">
-            End Time
-          </Label>
-          <Select value={endTime} onValueChange={setEndTime}>
-            <SelectTrigger id="end-time">
-              <SelectValue placeholder="End" />
-            </SelectTrigger>
-            <SelectContent>
-              {timeSlots.map((time) => (
-                <SelectItem key={time} value={time}>
-                  {time}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        {/* Time */}
+        <div className="flex-1 px-6 py-4">
+          <div className="flex flex-col">
+            <label className="text-xs font-semibold text-gray-800 mb-1">Time</label>
+            <div className="flex gap-2">
+              <Select value={startTime} onValueChange={setStartTime}>
+                <SelectTrigger className="border-0 p-0 h-auto focus:ring-0 text-sm w-16">
+                  <SelectValue placeholder="Start" />
+                </SelectTrigger>
+                <SelectContent>
+                  {timeSlots.map((time) => (
+                    <SelectItem key={time} value={time}>
+                      {time}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <span className="text-gray-400">-</span>
+              <Select value={endTime} onValueChange={setEndTime}>
+                <SelectTrigger className="border-0 p-0 h-auto focus:ring-0 text-sm w-16">
+                  <SelectValue placeholder="End" />
+                </SelectTrigger>
+                <SelectContent>
+                  {timeSlots.map((time) => (
+                    <SelectItem key={time} value={time}>
+                      {time}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
         </div>
-        
-        {/* Location with Suburb Dropdown */}
-        <div className="md:col-span-1">
-          <Label htmlFor="location" className="block text-sm font-medium text-warm-gray mb-2">
-            Location
-          </Label>
-          <Select value={location} onValueChange={setLocation}>
-            <SelectTrigger id="location">
-              <SelectValue placeholder="Select suburb" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All Sydney">All Sydney</SelectItem>
-              {SYDNEY_SUBURBS.map((suburb) => (
-                <SelectItem key={suburb} value={suburb}>
-                  {suburb}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        
+
         {/* Service Type */}
-        <div className="md:col-span-1">
-          <Label htmlFor="service-type" className="block text-sm font-medium text-warm-gray mb-2">
-            Service Type
-          </Label>
-          <Select value={serviceType} onValueChange={setServiceType}>
-            <SelectTrigger id="service-type">
-              <SelectValue placeholder="All Services" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All Services">All Services</SelectItem>
-              {SERVICE_TYPES.map((type) => (
-                <SelectItem key={type} value={type}>
-                  {type}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        <div className="flex-1 px-6 py-4">
+          <div className="flex flex-col">
+            <label className="text-xs font-semibold text-gray-800 mb-1">Service</label>
+            <Select value={serviceType} onValueChange={setServiceType}>
+              <SelectTrigger className="border-0 p-0 h-auto focus:ring-0 text-sm">
+                <SelectValue placeholder="Any service" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All Services">All Services</SelectItem>
+                {SERVICE_TYPES.map((type) => (
+                  <SelectItem key={type} value={type}>
+                    {type}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
         
         {/* Search Button */}
-        <div className="md:col-span-1 flex items-end">
+        <div className="px-2 py-4">
           <Button 
             onClick={handleSearch}
-            className="w-full bg-coral text-white hover:bg-coral/90 transition-colors font-medium"
+            className="bg-coral text-white hover:bg-coral/90 rounded-full w-12 h-12 p-0"
           >
-            <Search className="w-4 h-4 mr-2" />
-            Search
+            <Search className="w-5 h-5" />
           </Button>
         </div>
       </div>

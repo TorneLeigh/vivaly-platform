@@ -11,58 +11,57 @@ interface NannyCardProps {
 }
 
 export default function NannyCard({ nanny }: NannyCardProps) {
-  const profileImage = nanny.user.profileImage || "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200";
-
   return (
-    <Card className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer group overflow-hidden">
-      <Link href={`/nanny/${nanny.id}`}>
-        <div className="relative">
-          <img 
-            src={profileImage}
-            alt={`${nanny.user.firstName} - Professional Caregiver`}
-            className="w-full h-32 object-cover"
-          />
-          <div className="absolute top-2 right-2 flex items-center bg-white/90 backdrop-blur-sm rounded-full px-2 py-1">
-            <Star className="w-3 h-3 text-yellow-400 fill-current" />
-            <span className="text-xs font-medium ml-1">{nanny.rating}</span>
+    <Link href={`/nanny/${nanny.id}`}>
+      <div className="group cursor-pointer">
+        {/* Profile Image */}
+        <div className="relative mb-3">
+          <div className="aspect-square bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl overflow-hidden">
+            <div className="h-full flex items-center justify-center">
+              <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+                <span className="text-lg font-semibold text-gray-600">
+                  {nanny.user.firstName[0]}{nanny.user.lastName[0]}
+                </span>
+              </div>
+            </div>
           </div>
-        </div>
-      </Link>
-      
-      <CardContent className="p-4">
-        <Link href={`/nanny/${nanny.id}`}>
-          <h3 className="font-semibold text-warm-gray hover:text-coral transition-colors text-sm mb-1">
-            {nanny.user.firstName} {nanny.user.lastName.charAt(0)}.
-          </h3>
-        </Link>
-        
-        <div className="flex items-center text-gray-500 text-xs mb-2">
-          <MapPin className="w-3 h-3 mr-1" />
-          <span>{nanny.suburb}</span>
-        </div>
-        
-        <div className="flex flex-wrap gap-1 mb-3">
           {nanny.isVerified && (
-            <Badge variant="secondary" className="bg-soft-green bg-opacity-10 text-soft-green text-xs px-1.5 py-0.5">
-              Verified
-            </Badge>
+            <div className="absolute top-2 right-2">
+              <div className="bg-white rounded-full p-1 shadow-sm">
+                <Star className="w-4 h-4 text-soft-green fill-current" />
+              </div>
+            </div>
           )}
-          <Badge variant="secondary" className="bg-gray-100 text-gray-600 text-xs px-1.5 py-0.5">
-            {nanny.experience}+ yrs
-          </Badge>
         </div>
-        
-        <div className="flex justify-between items-center">
-          <span className="font-semibold text-warm-gray text-sm">
-            {formatCurrency(nanny.hourlyRate!)}/hr
-          </span>
-          <Link href={`/nanny/${nanny.id}`}>
-            <Button variant="ghost" size="sm" className="text-coral hover:text-coral text-xs px-2 py-1 h-auto">
-              View
-            </Button>
-          </Link>
+
+        {/* Content */}
+        <div className="space-y-1">
+          {/* Location and Rating */}
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-medium text-gray-900 truncate">{nanny.suburb}</p>
+            <div className="flex items-center gap-1">
+              <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+              <span className="text-sm font-medium">{nanny.rating}</span>
+            </div>
+          </div>
+
+          {/* Name */}
+          <p className="text-sm text-gray-600 truncate">
+            {nanny.user.firstName} {nanny.user.lastName}
+          </p>
+
+          {/* Service */}
+          <p className="text-sm text-gray-500 truncate">
+            {nanny.services?.[0] || 'Care provider'}
+          </p>
+
+          {/* Price */}
+          <p className="text-sm">
+            <span className="font-semibold text-gray-900">${nanny.hourlyRate}</span>
+            <span className="text-gray-500"> /hour</span>
+          </p>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </Link>
   );
 }
