@@ -90,6 +90,10 @@ export default function Header() {
                   <Link href="/become-nanny">Become a Nanny</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
+                  <User className="h-4 w-4 mr-2" />
+                  <Link href="/verification">Provider Verification</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
                   <Heart className="h-4 w-4 mr-2" />
                   <Link href="/become-nanny">Offer Child Care</Link>
                 </DropdownMenuItem>
