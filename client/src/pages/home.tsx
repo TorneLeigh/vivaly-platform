@@ -203,7 +203,7 @@ export default function Home() {
                   </div>
                 </div>
                 
-                <div className="absolute top-1/6 right-1/3 animate-bounce" style={{animationDelay: '0.3s'}}>
+                <div className="absolute top-1/6 right-2/5 animate-bounce" style={{animationDelay: '0.3s'}}>
                   <div className="text-center">
                     <div className="w-8 h-8 bg-yellow-300 rounded-full border-2 border-white shadow-md mb-2 flex items-center justify-center">
                       <span className="text-sm">👧</span>
@@ -222,7 +222,7 @@ export default function Home() {
                 </div>
                 
                 {/* Caregivers */}
-                <div className="absolute top-1/3 right-1/6 animate-bounce" style={{animationDelay: '1s'}}>
+                <div className="absolute top-1/3 right-1/4 animate-bounce" style={{animationDelay: '1s'}}>
                   <div className="text-center">
                     <div className="w-10 h-10 bg-green-300 rounded-full border-2 border-white shadow-md mb-2 flex items-center justify-center">
                       <span className="text-lg">👩‍⚕️</span>
@@ -231,10 +231,10 @@ export default function Home() {
                   </div>
                 </div>
                 
-                <div className="absolute bottom-1/3 right-1/4 animate-bounce" style={{animationDelay: '1.3s'}}>
+                <div className="absolute bottom-1/3 right-1/3 animate-bounce" style={{animationDelay: '1.3s'}}>
                   <div className="text-center">
                     <div className="w-10 h-10 bg-purple-300 rounded-full border-2 border-white shadow-md mb-2 flex items-center justify-center">
-                      <span className="text-lg">👵</span>
+                      <span className="text-lg">🤱</span>
                     </div>
                     <span className="text-xs text-gray-600">Elder Care</span>
                   </div>
@@ -246,16 +246,16 @@ export default function Home() {
                   <line x1="200" y1="200" x2="100" y2="100" stroke="#FF6B6B" strokeWidth="2" strokeDasharray="6,6" opacity="0.7">
                     <animate attributeName="stroke-dashoffset" values="0;12" dur="1s" repeatCount="indefinite"/>
                   </line>
-                  <line x1="200" y1="200" x2="280" y2="80" stroke="#FFC107" strokeWidth="2" strokeDasharray="6,6" opacity="0.7">
+                  <line x1="200" y1="200" x2="240" y2="80" stroke="#FFC107" strokeWidth="2" strokeDasharray="6,6" opacity="0.7">
                     <animate attributeName="stroke-dashoffset" values="0;12" dur="1.2s" repeatCount="indefinite"/>
                   </line>
                   <line x1="200" y1="200" x2="130" y2="300" stroke="#FF9800" strokeWidth="2" strokeDasharray="6,6" opacity="0.7">
                     <animate attributeName="stroke-dashoffset" values="0;12" dur="1.4s" repeatCount="indefinite"/>
                   </line>
-                  <line x1="200" y1="200" x2="320" y2="140" stroke="#4CAF50" strokeWidth="2" strokeDasharray="6,6" opacity="0.7">
+                  <line x1="200" y1="200" x2="300" y2="140" stroke="#4CAF50" strokeWidth="2" strokeDasharray="6,6" opacity="0.7">
                     <animate attributeName="stroke-dashoffset" values="0;12" dur="1.6s" repeatCount="indefinite"/>
                   </line>
-                  <line x1="200" y1="200" x2="300" y2="280" stroke="#9C27B0" strokeWidth="2" strokeDasharray="6,6" opacity="0.7">
+                  <line x1="200" y1="200" x2="270" y2="280" stroke="#9C27B0" strokeWidth="2" strokeDasharray="6,6" opacity="0.7">
                     <animate attributeName="stroke-dashoffset" values="0;12" dur="1.8s" repeatCount="indefinite"/>
                   </line>
                 </svg>
@@ -511,9 +511,9 @@ export default function Home() {
                 },
                 {
                   area: "Double Bay",
-                  emoji: "🧘",
-                  service: "Baby Yoga",
-                  description: "Gentle yoga for mums and babies",
+                  emoji: "🤰",
+                  service: "Birth Education",
+                  description: "Prenatal classes for expecting parents",
                   time: "Mondays 9:30am",
                   caregiver: featuredNannies[5]?.user?.firstName || "Anna",
                   price: "$50/session"
