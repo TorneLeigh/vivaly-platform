@@ -85,51 +85,39 @@ const serviceCategories = [
 
 const popularActivities = [
   {
-    icon: Users,
     title: "Park Playdates",
     description: "Meet other families at local parks",
-    bgColor: "bg-green-50",
-    iconColor: "text-green-400",
+    image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=400&fit=crop&crop=center",
     serviceType: "Park Playdates"
   },
   {
-    icon: Sun,
     title: "Beach Days", 
     description: "Family beach outings and activities",
-    bgColor: "bg-sky-50",
-    iconColor: "text-sky-400",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=400&fit=crop&crop=center",
     serviceType: "Beach Days"
   },
   {
-    icon: Coffee,
     title: "Coffee Catch-ups",
     description: "Parent meetups at local cafes", 
-    bgColor: "bg-amber-500 bg-opacity-10",
-    iconColor: "text-amber-600",
+    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop&crop=center",
     serviceType: "Coffee Catch-ups"
   },
   {
-    icon: TreePine,
     title: "Nature Walks",
     description: "Explore trails with other families",
-    bgColor: "bg-green-100", 
-    iconColor: "text-green-500",
+    image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=400&fit=crop&crop=center",
     serviceType: "Nature Walks"
   },
   {
-    icon: Palette,
     title: "Art & Craft",
     description: "Creative sessions for kids and parents",
-    bgColor: "bg-purple-500 bg-opacity-10",
-    iconColor: "text-purple-500", 
+    image: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=400&fit=crop&crop=center",
     serviceType: "Art & Craft"
   },
   {
-    icon: Utensils,
     title: "Picnic Gatherings",
     description: "Family picnics and shared meals",
-    bgColor: "bg-orange-500 bg-opacity-10",
-    iconColor: "text-orange-500", 
+    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop&crop=center",
     serviceType: "Picnic Gatherings"
   }
 ];
@@ -272,7 +260,6 @@ export default function Home() {
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {popularActivities.map((activity, index) => {
-              const IconComponent = activity.icon;
               return (
                 <div 
                   key={index}
@@ -285,13 +272,17 @@ export default function Home() {
                     window.location.href = `/search?${searchParams.toString()}`;
                   }}
                 >
-                  <div className={`${activity.bgColor} rounded-2xl p-4 text-center h-32 flex flex-col justify-center items-center relative overflow-hidden`}>
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
-                    <IconComponent className={`w-8 h-8 ${activity.iconColor} mb-2 relative z-10`} />
-                    <h3 className="font-semibold text-gray-900 text-sm relative z-10">{activity.title}</h3>
-                  </div>
-                  <div className="mt-3">
-                    <p className="text-xs text-gray-600 text-center">{activity.description}</p>
+                  <div className="relative overflow-hidden rounded-2xl aspect-square">
+                    <img 
+                      src={activity.image} 
+                      alt={activity.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-20 transition-opacity duration-300 group-hover:bg-opacity-10"></div>
+                    <div className="absolute bottom-4 left-4 text-white">
+                      <h3 className="font-semibold text-sm mb-1">{activity.title}</h3>
+                      <p className="text-xs opacity-90">{activity.description}</p>
+                    </div>
                   </div>
                 </div>
               );
