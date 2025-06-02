@@ -193,7 +193,7 @@ export default function Home() {
                 </div>
                 
                 {/* Family Group - Left Side */}
-                <div className="absolute left-6 top-20">
+                <div className="absolute left-16 top-20">
                   <div className="bg-white rounded-xl p-4 shadow-lg border max-w-[140px]">
                     <div className="text-center mb-3">
                       <h4 className="text-sm font-semibold text-gray-800">Your Family</h4>
@@ -233,7 +233,7 @@ export default function Home() {
                 </div>
                 
                 {/* Care Team - Right Side */}
-                <div className="absolute right-6 top-20">
+                <div className="absolute right-16 top-20">
                   <div className="bg-white rounded-xl p-4 shadow-lg border max-w-[140px]">
                     <div className="text-center mb-3">
                       <h4 className="text-sm font-semibold text-gray-800">Your Care Team</h4>
@@ -278,24 +278,17 @@ export default function Home() {
 
                 
                 {/* Trust indicators */}
-                <div className="absolute top-4 left-4 bg-white rounded-lg px-3 py-2 shadow-md">
+                <div className="absolute bottom-4 left-16 bg-white rounded-lg px-3 py-2 shadow-md">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                     <span className="text-xs text-gray-600">2000+ Families</span>
                   </div>
                 </div>
                 
-                <div className="absolute top-4 right-4 bg-white rounded-lg px-3 py-2 shadow-md">
+                <div className="absolute bottom-4 right-16 bg-white rounded-lg px-3 py-2 shadow-md">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                     <span className="text-xs text-gray-600">Verified Care</span>
-                  </div>
-                </div>
-                
-                {/* Bottom message */}
-                <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-white rounded-full px-6 py-3 shadow-lg">
-                    <p className="text-sm font-semibold text-gray-800">Connecting families with trusted care</p>
                   </div>
                 </div>
               </div>
