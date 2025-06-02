@@ -229,17 +229,17 @@ export default function Home() {
                     window.location.href = `/search?${searchParams.toString()}`;
                   }}
                 >
-                  <div className="relative overflow-hidden rounded-2xl aspect-square">
+                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                     <img 
                       src={category.image} 
                       alt={category.title}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-black bg-opacity-20 transition-opacity duration-300 group-hover:bg-opacity-10"></div>
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <h3 className="font-semibold text-sm mb-1">{category.title}</h3>
-                      <p className="text-xs opacity-90">{category.description}</p>
-                    </div>
+                    <div className="absolute inset-0 bg-black bg-opacity-10 transition-opacity duration-300 group-hover:bg-opacity-0"></div>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 text-sm mb-1">{category.title}</h3>
+                    <p className="text-xs text-gray-600">{category.description}</p>
                   </div>
                 </div>
               );
@@ -272,17 +272,17 @@ export default function Home() {
                     window.location.href = `/search?${searchParams.toString()}`;
                   }}
                 >
-                  <div className="relative overflow-hidden rounded-2xl aspect-square">
+                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                     <img 
                       src={activity.image} 
                       alt={activity.title}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-black bg-opacity-20 transition-opacity duration-300 group-hover:bg-opacity-10"></div>
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <h3 className="font-semibold text-sm mb-1">{activity.title}</h3>
-                      <p className="text-xs opacity-90">{activity.description}</p>
-                    </div>
+                    <div className="absolute inset-0 bg-black bg-opacity-10 transition-opacity duration-300 group-hover:bg-opacity-0"></div>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 text-sm mb-1">{activity.title}</h3>
+                    <p className="text-xs text-gray-600">{activity.description}</p>
                   </div>
                 </div>
               );
