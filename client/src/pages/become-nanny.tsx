@@ -53,7 +53,7 @@ export default function BecomeNanny() {
       phone: "",
       password: "",
       bio: "",
-      experience: 1,
+      experience: 0,
       hourlyRate: "25",
       location: "Sydney, NSW",
       suburb: "",

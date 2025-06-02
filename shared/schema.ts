@@ -33,7 +33,13 @@ export const nannies = pgTable("nannies", {
   hourlyRate: decimal("hourly_rate", { precision: 10, scale: 2 }),
   location: text("location").notNull(),
   suburb: text("suburb").notNull(),
-  idNumber: text("id_number"), // Government ID for verification
+  // Document verification fields
+  hasPhotoId: boolean("has_photo_id").default(false),
+  hasWwcc: boolean("has_wwcc").default(false),
+  hasPoliceCheck: boolean("has_police_check").default(false),
+  hasFirstAid: boolean("has_first_aid").default(false),
+  hasReferences: boolean("has_references").default(false),
+  verificationStatus: text("verification_status").default("pending"), // pending, in_review, approved, rejected
   services: json("services").$type<string[]>().default([]),
   certificates: json("certificates").$type<string[]>().default([]),
   availability: json("availability").$type<Record<string, boolean>>().default({}),
