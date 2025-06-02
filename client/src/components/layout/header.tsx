@@ -79,6 +79,10 @@ export default function Header() {
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Plus className="h-4 w-4 mr-2" />
+                  <Link href="/become-nanny">Become a Nanny</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Plus className="h-4 w-4 mr-2" />
                   <Link href="/become-nanny">Offer Services</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
