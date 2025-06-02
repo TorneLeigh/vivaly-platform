@@ -203,12 +203,11 @@ export default function Home() {
                 </div>
                 
                 {/* Family figures with animations and connection lines */}
-                <div className="absolute top-1/4 left-1/4 animate-float">
+                <div className="absolute top-1/3 left-1/4 animate-bounce">
                   {/* Parent figure */}
                   <div className="relative">
                     <div className="w-8 h-8 bg-pink-300 rounded-full border-2 border-white shadow-sm"></div>
                     <div className="w-6 h-10 bg-blue-400 rounded-lg mx-auto mt-1 shadow-sm"></div>
-                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
                   </div>
                 </div>
                 
@@ -220,21 +219,19 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="absolute top-3/5 left-1/2 animate-float" style={{animationDelay: '0.3s'}}>
+                <div className="absolute top-2/3 left-1/2 animate-bounce" style={{animationDelay: '0.3s'}}>
                   {/* Baby figure */}
                   <div className="relative">
                     <div className="w-4 h-4 bg-orange-300 rounded-full border border-white shadow-sm"></div>
                     <div className="w-3 h-6 bg-orange-200 rounded-lg mx-auto mt-1 shadow-sm"></div>
-                    <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 text-xs">👶</div>
                   </div>
                 </div>
                 
-                <div className="absolute top-1/4 right-1/4 animate-float" style={{animationDelay: '1s'}}>
+                <div className="absolute top-1/3 right-1/4 animate-bounce" style={{animationDelay: '1s'}}>
                   {/* Caregiver figure */}
                   <div className="relative">
                     <div className="w-8 h-8 bg-green-300 rounded-full border-2 border-white shadow-sm"></div>
                     <div className="w-6 h-10 bg-green-400 rounded-lg mx-auto mt-1 shadow-sm"></div>
-                    <div className="absolute -top-2 -left-3 text-red-400 text-lg animate-pulse">♥</div>
                   </div>
                 </div>
 
@@ -246,62 +243,73 @@ export default function Home() {
                   </div>
                 </div>
                 
-                {/* Connection lines between all figures */}
+                {/* Animated connection lines between all figures */}
                 <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 500">
                   {/* Parent to child */}
-                  <path
-                    d="M 100 100 Q 120 140 130 200"
+                  <line
+                    x1="100"
+                    y1="130"
+                    x2="130"
+                    y2="200"
                     stroke="#FF6B6B"
-                    strokeWidth="2"
-                    fill="none"
-                    strokeDasharray="4,4"
-                    opacity="0.6"
-                    className="animate-pulse"
-                  />
+                    strokeWidth="3"
+                    strokeDasharray="8,8"
+                    opacity="0.8"
+                  >
+                    <animate attributeName="stroke-dashoffset" values="0;16" dur="1s" repeatCount="indefinite"/>
+                  </line>
                   {/* Child to baby */}
-                  <path
-                    d="M 130 200 Q 160 220 200 240"
+                  <line
+                    x1="130"
+                    y1="200"
+                    x2="200"
+                    y2="270"
                     stroke="#FF6B6B"
-                    strokeWidth="2"
-                    fill="none"
-                    strokeDasharray="4,4"
-                    opacity="0.6"
-                    className="animate-pulse"
-                    style={{animationDelay: '0.5s'}}
-                  />
+                    strokeWidth="3"
+                    strokeDasharray="8,8"
+                    opacity="0.8"
+                  >
+                    <animate attributeName="stroke-dashoffset" values="0;16" dur="1.2s" repeatCount="indefinite"/>
+                  </line>
                   {/* Parent to caregiver */}
-                  <path
-                    d="M 100 100 Q 200 60 300 100"
+                  <line
+                    x1="100"
+                    y1="130"
+                    x2="300"
+                    y2="130"
                     stroke="#4CAF50"
-                    strokeWidth="2"
-                    fill="none"
-                    strokeDasharray="4,4"
-                    opacity="0.6"
-                    className="animate-pulse"
-                    style={{animationDelay: '1s'}}
-                  />
+                    strokeWidth="3"
+                    strokeDasharray="8,8"
+                    opacity="0.8"
+                  >
+                    <animate attributeName="stroke-dashoffset" values="0;16" dur="0.8s" repeatCount="indefinite"/>
+                  </line>
                   {/* Caregiver to second caregiver */}
-                  <path
-                    d="M 300 100 Q 320 140 320 200"
+                  <line
+                    x1="300"
+                    y1="130"
+                    x2="320"
+                    y2="200"
                     stroke="#9C27B0"
-                    strokeWidth="2"
-                    fill="none"
-                    strokeDasharray="4,4"
-                    opacity="0.6"
-                    className="animate-pulse"
-                    style={{animationDelay: '1.5s'}}
-                  />
+                    strokeWidth="3"
+                    strokeDasharray="8,8"
+                    opacity="0.8"
+                  >
+                    <animate attributeName="stroke-dashoffset" values="0;16" dur="1.5s" repeatCount="indefinite"/>
+                  </line>
                   {/* Baby to caregivers */}
-                  <path
-                    d="M 200 240 Q 260 220 300 200"
+                  <line
+                    x1="200"
+                    y1="270"
+                    x2="320"
+                    y2="200"
                     stroke="#FF9800"
-                    strokeWidth="2"
-                    fill="none"
-                    strokeDasharray="4,4"
-                    opacity="0.6"
-                    className="animate-pulse"
-                    style={{animationDelay: '2s'}}
-                  />
+                    strokeWidth="3"
+                    strokeDasharray="8,8"
+                    opacity="0.8"
+                  >
+                    <animate attributeName="stroke-dashoffset" values="0;16" dur="1.8s" repeatCount="indefinite"/>
+                  </line>
                 </svg>
                 
                 {/* Trust badges */}
