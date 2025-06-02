@@ -33,6 +33,7 @@ export const nannies = pgTable("nannies", {
   hourlyRate: decimal("hourly_rate", { precision: 10, scale: 2 }),
   location: text("location").notNull(),
   suburb: text("suburb").notNull(),
+  idNumber: text("id_number"), // Government ID for verification
   services: json("services").$type<string[]>().default([]),
   certificates: json("certificates").$type<string[]>().default([]),
   availability: json("availability").$type<Record<string, boolean>>().default({}),

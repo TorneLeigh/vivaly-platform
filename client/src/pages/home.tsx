@@ -14,82 +14,90 @@ import {
   MessageCircle,
   ShieldCheck,
   Plus,
-  Search
+  Search,
+  Sun,
+  Coffee,
+  TreePine,
+  Palette,
+  Music,
+  BookOpen,
+  Utensils,
+  Baby
 } from "lucide-react";
 import type { Nanny, User as UserType } from "@shared/schema";
 
 const serviceCategories = [
   {
-    icon: User,
-    title: "1-on-1 Care",
-    description: "Personal attention",
+    icon: Users,
+    title: "Park Playdates",
+    description: "Meet other families at local parks",
     bgColor: "bg-soft-green bg-opacity-10",
     iconColor: "text-soft-green",
-    serviceType: "1-on-1 Care"
+    serviceType: "Park Playdates"
   },
   {
-    icon: Users,
-    title: "Group Care", 
-    description: "Small groups",
+    icon: Sun,
+    title: "Beach Days", 
+    description: "Family beach outings and activities",
     bgColor: "bg-trust-blue bg-opacity-10",
     iconColor: "text-trust-blue",
-    serviceType: "Group Care"
+    serviceType: "Beach Days"
   },
   {
-    icon: Heart,
-    title: "Midwife Services",
-    description: "Birth & postnatal support", 
-    bgColor: "bg-coral bg-opacity-10",
-    iconColor: "text-coral",
-    serviceType: "Midwife Services"
+    icon: Coffee,
+    title: "Coffee Catch-ups",
+    description: "Parent meetups at local cafes", 
+    bgColor: "bg-amber-500 bg-opacity-10",
+    iconColor: "text-amber-600",
+    serviceType: "Coffee Catch-ups"
   },
   {
-    icon: Clock,
-    title: "Drop & Dash",
-    description: "Quick care",
-    bgColor: "bg-yellow-500 bg-opacity-10", 
-    iconColor: "text-yellow-600",
-    serviceType: "Drop & Dash"
+    icon: TreePine,
+    title: "Nature Walks",
+    description: "Explore trails with other families",
+    bgColor: "bg-emerald-500 bg-opacity-10", 
+    iconColor: "text-emerald-600",
+    serviceType: "Nature Walks"
   },
   {
-    icon: Heart,
-    title: "Postpartum",
-    description: "New parent support",
+    icon: Palette,
+    title: "Art & Craft",
+    description: "Creative sessions for kids and parents",
     bgColor: "bg-purple-500 bg-opacity-10",
     iconColor: "text-purple-500", 
-    serviceType: "Postpartum Support"
+    serviceType: "Art & Craft"
   },
   {
-    icon: Heart,
-    title: "Breastfeeding",
-    description: "Lactation support",
+    icon: Music,
+    title: "Music Groups",
+    description: "Singing and instrument play sessions",
     bgColor: "bg-pink-500 bg-opacity-10",
     iconColor: "text-pink-500", 
-    serviceType: "Breastfeeding Support"
+    serviceType: "Music Groups"
   },
   {
-    icon: Shield,
-    title: "Birth Education",
-    description: "Preparation classes",
+    icon: BookOpen,
+    title: "Story Time",
+    description: "Reading circles and book sharing",
     bgColor: "bg-indigo-500 bg-opacity-10",
     iconColor: "text-indigo-500", 
-    serviceType: "Birth Education"
+    serviceType: "Story Time"
   },
   {
-    icon: Heart,
-    title: "Elderly Care",
-    description: "Senior assistance",
+    icon: Utensils,
+    title: "Picnic Gatherings",
+    description: "Family picnics and shared meals",
+    bgColor: "bg-orange-500 bg-opacity-10",
+    iconColor: "text-orange-500", 
+    serviceType: "Picnic Gatherings"
+  },
+  {
+    icon: Baby,
+    title: "Baby Groups",
+    description: "Meet other new parents",
     bgColor: "bg-rose-500 bg-opacity-10",
     iconColor: "text-rose-500", 
-    serviceType: "Elderly Care"
-  },
-  {
-    icon: Users,
-    title: "Companionship",
-    description: "Social visits",
-    bgColor: "bg-teal-500 bg-opacity-10",
-    iconColor: "text-teal-500", 
-    serviceType: "Elderly Companionship"
+    serviceType: "Baby Groups"
   }
 ];
 

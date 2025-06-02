@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -260,6 +261,23 @@ export default function BecomeNanny() {
                         )}
                       />
                     </div>
+                    
+                    <FormField
+                      control={form.control}
+                      name="idNumber"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Government ID Number</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Driver's License or Passport Number" {...field} />
+                          </FormControl>
+                          <FormDescription>
+                            Required for background verification and safety checks
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </>
                 )}
 
