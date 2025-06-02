@@ -389,35 +389,34 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
             {isLoading ? (
-              Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="bg-white rounded-xl shadow-sm border p-4 animate-pulse">
-                  <div className="w-full h-20 bg-gray-200 rounded-lg mb-4"></div>
-                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+              Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="bg-white rounded-xl animate-pulse overflow-hidden">
+                  <div className="w-full h-32 bg-gray-200"></div>
+                  <div className="p-3">
+                    <div className="h-3 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+                  </div>
                 </div>
               ))
             ) : featuredNannies && featuredNannies.length > 0 ? (
-              featuredNannies.slice(0, 4).map((nanny: Nanny & { user: UserType }) => (
-                <div key={nanny.id} className="bg-white rounded-xl shadow-sm border hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-                  <div className="p-4">
-                    <div className="flex items-center mb-3">
-                      <div className="w-12 h-12 bg-gradient-to-br from-coral to-pink-400 rounded-full flex items-center justify-center text-white font-semibold text-lg">
-                        {nanny.user.firstName[0]}
-                      </div>
-                      <div className="ml-3">
-                        <h3 className="font-semibold text-gray-900">{nanny.user.firstName}</h3>
-                        <div className="flex items-center text-sm text-green-600">
-                          <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                          Available now
-                        </div>
-                      </div>
+              featuredNannies.slice(0, 8).map((nanny: Nanny & { user: UserType }) => (
+                <div key={nanny.id} className="bg-white rounded-xl hover:shadow-lg transition-shadow duration-300 cursor-pointer overflow-hidden">
+                  <div className="relative">
+                    <div className="w-full h-32 bg-gradient-to-br from-coral to-pink-400 flex items-center justify-center">
+                      <span className="text-3xl text-white font-bold">{nanny.user.firstName[0]}</span>
                     </div>
-                    <p className="text-sm text-gray-600 mb-3">{nanny.suburb}</p>
+                    <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+                      Available
+                    </div>
+                  </div>
+                  <div className="p-3">
+                    <h3 className="font-semibold text-gray-900 text-sm mb-1">{nanny.user.firstName}</h3>
+                    <p className="text-xs text-gray-600 mb-2">{nanny.suburb}</p>
                     <div className="flex items-center justify-between">
-                      <span className="text-lg font-semibold text-gray-900">{nanny.hourlyRate}/hr</span>
-                      <div className="flex items-center text-sm text-yellow-600">
+                      <span className="text-sm font-semibold text-gray-900">{nanny.hourlyRate}/hr</span>
+                      <div className="flex items-center text-xs text-yellow-600">
                         <span>⭐</span>
                         <span className="ml-1">{nanny.rating}</span>
                       </div>
