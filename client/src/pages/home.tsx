@@ -211,17 +211,17 @@ export default function Home() {
                   </div>
                 </div>
                 
-                <div className="absolute bottom-1/4 left-1/3 animate-bounce" style={{animationDelay: '0.6s'}}>
+                <div className="absolute bottom-1/4 left-1/6 animate-bounce" style={{animationDelay: '0.6s'}}>
                   <div className="text-center">
-                    <div className="w-6 h-6 bg-orange-300 rounded-full border-2 border-white shadow-md mb-2 flex items-center justify-center">
-                      <span className="text-xs">👶</span>
+                    <div className="w-8 h-8 bg-orange-300 rounded-full border-2 border-white shadow-md mb-2 flex items-center justify-center">
+                      <span className="text-sm">👶</span>
                     </div>
                     <span className="text-xs text-gray-600">Baby</span>
                   </div>
                 </div>
                 
                 {/* Caregivers */}
-                <div className="absolute top-1/3 right-1/4 animate-bounce" style={{animationDelay: '1s'}}>
+                <div className="absolute top-1/4 right-1/6 animate-bounce" style={{animationDelay: '1s'}}>
                   <div className="text-center">
                     <div className="w-10 h-10 bg-green-300 rounded-full border-2 border-white shadow-md mb-2 flex items-center justify-center">
                       <span className="text-lg">👩‍⚕️</span>
@@ -230,10 +230,10 @@ export default function Home() {
                   </div>
                 </div>
                 
-                <div className="absolute bottom-1/3 right-1/5 animate-bounce" style={{animationDelay: '1.3s'}}>
+                <div className="absolute bottom-1/4 right-1/4 animate-bounce" style={{animationDelay: '1.3s'}}>
                   <div className="text-center">
                     <div className="w-10 h-10 bg-purple-300 rounded-full border-2 border-white shadow-md mb-2 flex items-center justify-center">
-                      <span className="text-lg">🤱</span>
+                      <span className="text-lg">👩‍🦳</span>
                     </div>
                     <span className="text-xs text-gray-600">Elder Care</span>
                   </div>
