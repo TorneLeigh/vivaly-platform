@@ -10,6 +10,7 @@ import NannyProfile from "@/pages/nanny-profile";
 import SearchResults from "@/pages/search-results";
 import BecomeNanny from "@/pages/become-nanny";
 import Messages from "@/pages/messages";
+import Login from "@/pages/login";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -23,6 +24,7 @@ function Router() {
           <Route path="/search" component={SearchResults} />
           <Route path="/become-nanny" component={BecomeNanny} />
           <Route path="/messages" component={Messages} />
+          <Route path="/login" component={Login} />
           <Route component={NotFound} />
         </Switch>
       </main>
