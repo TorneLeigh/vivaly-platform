@@ -165,20 +165,29 @@ export default function SearchResults() {
         ) : nannies.length === 0 ? (
           <div className="text-center py-16">
             <div className="max-w-md mx-auto">
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No caregivers found</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No caregivers available</h3>
               <p className="text-gray-500 mb-6">
-                Try adjusting your search criteria or expanding your location range.
+                No caregivers match your search criteria for the selected date and time. Try adjusting your filters or selecting different dates.
               </p>
               <Button onClick={() => window.location.reload()} className="bg-coral hover:bg-coral/90">
-                Reset Filters
+                Reset Search
               </Button>
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
-            {nannies.map((nanny: Nanny & { user: User }) => (
-              <NannyCard key={nanny.id} nanny={nanny} />
-            ))}
+          <div>
+            <div className="mb-6 p-4 bg-soft-green bg-opacity-10 rounded-lg border border-soft-green border-opacity-20">
+              <h3 className="font-semibold text-soft-green mb-2">Available Caregivers Found</h3>
+              <p className="text-gray-700 text-sm">
+                All caregivers shown below are verified, background-checked, and available for your selected time slot. 
+                You can book instantly with any of these approved providers.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+              {nannies.map((nanny: Nanny & { user: User }) => (
+                <NannyCard key={nanny.id} nanny={nanny} />
+              ))}
+            </div>
           </div>
         )}
       </div>

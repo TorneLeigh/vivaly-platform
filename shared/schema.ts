@@ -116,7 +116,9 @@ export const SERVICE_TYPES = [
   "Postpartum Support",
   "Breastfeeding Support",
   "Birth Education",
-  "Postnatal Care"
+  "Postnatal Care",
+  "Elderly Companionship",
+  "Elderly Care"
 ] as const;
 
 // Certificate types
@@ -130,7 +132,10 @@ export const CERTIFICATE_TYPES = [
   "Midwifery Certification",
   "Lactation Consultant",
   "Birth Doula Training",
-  "Postnatal Doula Training"
+  "Postnatal Doula Training",
+  "Aged Care Certificate",
+  "Personal Care Assistant",
+  "Companion Care Training"
 ] as const;
 
 // Sydney suburbs

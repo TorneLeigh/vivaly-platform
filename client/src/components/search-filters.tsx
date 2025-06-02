@@ -2,6 +2,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -9,8 +15,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search, MapPin, Calendar } from "lucide-react";
-import { SERVICE_TYPES } from "@shared/schema";
+import { Search, MapPin, Calendar as CalendarIcon } from "lucide-react";
+import { SERVICE_TYPES, SYDNEY_SUBURBS } from "@shared/schema";
+import { formatDate } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 interface SearchFiltersProps {
   onSearch: (filters: {
@@ -24,14 +32,15 @@ interface SearchFiltersProps {
 }
 
 export default function SearchFilters({ onSearch, className = "" }: SearchFiltersProps) {
-  const [location, setLocation] = useState("Sydney, NSW");
+  const [location, setLocation] = useState("");
   const [serviceType, setServiceType] = useState("All Services");
-  const [date, setDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
 
   const handleSearch = () => {
-    onSearch({ location, serviceType, date, startTime, endTime });
+    const dateString = selectedDate ? selectedDate.toISOString().split('T')[0] : "";
+    onSearch({ location, serviceType, date: dateString, startTime, endTime });
   };
 
   const timeSlots = [
@@ -44,22 +53,37 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
   return (
     <div className={`bg-white rounded-2xl shadow-lg p-6 ${className}`}>
       <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+        {/* Date Picker with Calendar Popup */}
         <div className="md:col-span-1">
-          <Label htmlFor="date" className="block text-sm font-medium text-warm-gray mb-2">
+          <Label className="block text-sm font-medium text-warm-gray mb-2">
             Date
           </Label>
-          <div className="relative">
-            <Input
-              id="date"
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="pl-10"
-            />
-            <Calendar className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-          </div>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn(
+                  "w-full justify-start text-left font-normal pl-10",
+                  !selectedDate && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                {selectedDate ? formatDate(selectedDate) : "Select date"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={selectedDate}
+                onSelect={setSelectedDate}
+                disabled={(date) => date < new Date()}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
         </div>
 
+        {/* Time Selection */}
         <div className="md:col-span-1">
           <Label htmlFor="start-time" className="block text-sm font-medium text-warm-gray mb-2">
             Start Time
@@ -96,23 +120,27 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
           </Select>
         </div>
         
+        {/* Location with Suburb Dropdown */}
         <div className="md:col-span-1">
           <Label htmlFor="location" className="block text-sm font-medium text-warm-gray mb-2">
             Location
           </Label>
-          <div className="relative">
-            <Input
-              id="location"
-              type="text"
-              placeholder="Sydney, NSW"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              className="pl-10"
-            />
-            <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-          </div>
+          <Select value={location} onValueChange={setLocation}>
+            <SelectTrigger id="location">
+              <SelectValue placeholder="Select suburb" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="All Sydney">All Sydney</SelectItem>
+              {SYDNEY_SUBURBS.map((suburb) => (
+                <SelectItem key={suburb} value={suburb}>
+                  {suburb}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         
+        {/* Service Type */}
         <div className="md:col-span-1">
           <Label htmlFor="service-type" className="block text-sm font-medium text-warm-gray mb-2">
             Service Type
@@ -132,6 +160,7 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
           </Select>
         </div>
         
+        {/* Search Button */}
         <div className="md:col-span-1 flex items-end">
           <Button 
             onClick={handleSearch}
