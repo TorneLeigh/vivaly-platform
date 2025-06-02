@@ -262,22 +262,22 @@ export default function BecomeNanny() {
                       />
                     </div>
                     
-                    <FormField
-                      control={form.control}
-                      name="idNumber"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Government ID Number</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Driver's License or Passport Number" {...field} />
-                          </FormControl>
-                          <FormDescription>
-                            Required for background verification and safety checks
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                      <h4 className="font-semibold text-gray-900 mb-3">Required Documents</h4>
+                      <p className="text-sm text-gray-600 mb-3">
+                        You'll need to provide these documents for verification:
+                      </p>
+                      <ul className="text-sm text-gray-700 space-y-1">
+                        <li>• Photo ID (Driver's License or Passport)</li>
+                        <li>• Working with Children Check (WWCC)</li>
+                        <li>• National Police Check (less than 6 months old)</li>
+                        <li>• First Aid & CPR Certificate</li>
+                        <li>• Professional references (2-3 contacts)</li>
+                      </ul>
+                      <p className="text-xs text-gray-500 mt-3">
+                        Document upload will be available after initial application approval
+                      </p>
+                    </div>
                   </>
                 )}
 
