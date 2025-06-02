@@ -281,7 +281,7 @@ export default function Home() {
                 <div className="absolute bottom-4 left-1/4 transform -translate-x-1/2 bg-white rounded-lg px-3 py-2 shadow-md">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-xs text-gray-600">2000+ Families</span>
+                    <span className="text-xs text-gray-600">Certified</span>
                   </div>
                 </div>
                 
