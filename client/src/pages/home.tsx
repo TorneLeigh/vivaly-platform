@@ -52,6 +52,8 @@ import familyImage24 from "@assets/46c0702d1b48d35f894a0fe16f437b43.jpg";
 import familyImage25 from "@assets/0322f50abf3a7fc6d8def12b41336e6a.jpg";
 import familyImage26 from "@assets/c5e4a7514e214eb119a5a0d459aa6bdf.jpg";
 import familyImage27 from "@assets/0c25205c3003fd2bf70fa884ad5fe1f5.jpg";
+import familyImage28 from "@assets/540c7ede798b410d249591160f8b4b9f.jpg";
+import familyImage29 from "@assets/58268e04ad7e7126279d8950565a0cd6.jpg";
 
 const serviceCategories = [
   {
@@ -126,13 +128,13 @@ const popularActivities = [
   {
     title: "Coffee Catch-ups",
     description: "Parent meetups at local cafes", 
-    image: familyImage25, // Two children learning together
+    image: familyImage29, // Three mothers with babies at cafe
     serviceType: "Coffee Catch-ups"
   },
   {
     title: "Nature Walks",
     description: "Explore trails with other families",
-    image: familyImage21, // Mother and child drawing
+    image: familyImage28, // Children exploring nature outdoors
     serviceType: "Nature Walks"
   },
   {
