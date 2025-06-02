@@ -326,41 +326,7 @@ export default function GiftCards() {
         </div>
       </section>
 
-      {/* How it Works */}
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">How Gift Cards Work</h2>
-            <p className="text-lg text-gray-600">Simple steps to give and redeem gift cards</p>
-          </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-coral bg-opacity-10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Gift className="w-8 h-8 text-coral" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">1. Purchase</h3>
-              <p className="text-gray-600">Choose amount, design, and add personal message</p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-trust-blue bg-opacity-10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Heart className="w-8 h-8 text-trust-blue" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">2. Deliver</h3>
-              <p className="text-gray-600">Recipient gets email with gift card and your message</p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-soft-green bg-opacity-10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Users className="w-8 h-8 text-soft-green" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">3. Redeem</h3>
-              <p className="text-gray-600">Use gift card to book trusted childcare services</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Perfect For Section */}
       <section className="py-16 bg-gray-50">
