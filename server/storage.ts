@@ -71,14 +71,49 @@ export class MemStorage implements IStorage {
       { email: "emma.k@email.com", password: "password", firstName: "Emma", lastName: "Kennedy", phone: "0423456789", isNanny: true },
       { email: "lisa.t@email.com", password: "password", firstName: "Lisa", lastName: "Thompson", phone: "0434567890", isNanny: true },
       { email: "rachel.d@email.com", password: "password", firstName: "Rachel", lastName: "Davis", phone: "0445678901", isNanny: true },
+      { email: "maria.c@email.com", password: "password", firstName: "Maria", lastName: "Chen", phone: "0467890123", isNanny: true },
+      { email: "sophie.w@email.com", password: "password", firstName: "Sophie", lastName: "Wilson", phone: "0478901234", isNanny: true },
+      { email: "jessica.l@email.com", password: "password", firstName: "Jessica", lastName: "Lopez", phone: "0489012345", isNanny: true },
+      { email: "amy.r@email.com", password: "password", firstName: "Amy", lastName: "Robinson", phone: "0490123456", isNanny: true },
       { email: "parent@email.com", password: "password", firstName: "Jane", lastName: "Smith", phone: "0456789012", isNanny: false },
     ];
 
-    for (const userData of sampleUsers) {
-      const user: User = { ...userData, id: this.currentUserId++, profileImage: "", createdAt: new Date() };
+    const serviceOptions = [
+      [SERVICE_TYPES[0], SERVICE_TYPES[1]], // Traditional childcare
+      [SERVICE_TYPES[2], SERVICE_TYPES[3]], // Group activities
+      [SERVICE_TYPES[4]], // Postpartum
+      [SERVICE_TYPES[5], SERVICE_TYPES[4]], // Breastfeeding + postpartum
+      [SERVICE_TYPES[6], SERVICE_TYPES[7]], // Birth education + postnatal
+      [SERVICE_TYPES[0], SERVICE_TYPES[2]], // Mix of care types
+      [SERVICE_TYPES[1], SERVICE_TYPES[3]], // Group services
+      [SERVICE_TYPES[5], SERVICE_TYPES[7]], // Midwife services
+    ];
+
+    const certificateOptions = [
+      [CERTIFICATE_TYPES[0], CERTIFICATE_TYPES[1], CERTIFICATE_TYPES[5]], // Basic childcare
+      [CERTIFICATE_TYPES[2], CERTIFICATE_TYPES[3]], // Education focused
+      [CERTIFICATE_TYPES[6], CERTIFICATE_TYPES[7]], // Midwife certs
+      [CERTIFICATE_TYPES[8], CERTIFICATE_TYPES[9]], // Doula training
+      [CERTIFICATE_TYPES[0], CERTIFICATE_TYPES[4]], // Montessori
+      [CERTIFICATE_TYPES[1], CERTIFICATE_TYPES[2]], // CPR + Cert III
+    ];
+
+    for (let i = 0; i < sampleUsers.length; i++) {
+      const userData = sampleUsers[i];
+      const user: User = { 
+        ...userData, 
+        id: this.currentUserId++, 
+        profileImage: "", 
+        createdAt: new Date(),
+        phone: userData.phone || null,
+        isNanny: userData.isNanny || false
+      };
       this.users.set(user.id, user);
 
       if (user.isNanny) {
+        const serviceSet = serviceOptions[i % serviceOptions.length];
+        const certSet = certificateOptions[i % certificateOptions.length];
+        
         const nannyData: Nanny = {
           id: this.currentNannyId++,
           userId: user.id,
@@ -87,8 +122,8 @@ export class MemStorage implements IStorage {
           hourlyRate: (Math.floor(Math.random() * 15) + 20).toString(),
           location: "Sydney, NSW",
           suburb: SYDNEY_SUBURBS[Math.floor(Math.random() * SYDNEY_SUBURBS.length)],
-          services: [SERVICE_TYPES[0], SERVICE_TYPES[1]],
-          certificates: [CERTIFICATE_TYPES[0], CERTIFICATE_TYPES[1]],
+          services: serviceSet,
+          certificates: certSet,
           availability: {},
           isVerified: true,
           rating: (4.5 + Math.random() * 0.5).toFixed(1),

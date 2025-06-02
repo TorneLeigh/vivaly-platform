@@ -148,7 +148,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-warm-gray text-center mb-12">
             Browse by service type
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6">
             {serviceCategories.map((category, index) => {
               const IconComponent = category.icon;
               return (
@@ -182,25 +182,27 @@ export default function Home() {
           </div>
           
           {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[...Array(4)].map((_, index) => (
-                <div key={index} className="bg-white rounded-2xl shadow-sm p-6 animate-pulse">
-                  <div className="w-full h-48 bg-gray-200 rounded-t-2xl mb-4"></div>
-                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                  <div className="h-3 bg-gray-200 rounded mb-3"></div>
-                  <div className="flex gap-2 mb-4">
-                    <div className="h-5 w-16 bg-gray-200 rounded"></div>
-                    <div className="h-5 w-12 bg-gray-200 rounded"></div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="h-5 w-16 bg-gray-200 rounded"></div>
-                    <div className="h-8 w-20 bg-gray-200 rounded"></div>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+              {[...Array(8)].map((_, index) => (
+                <div key={index} className="bg-white rounded-xl shadow-sm animate-pulse overflow-hidden">
+                  <div className="w-full h-32 bg-gray-200"></div>
+                  <div className="p-4">
+                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-3 bg-gray-200 rounded mb-3 w-3/4"></div>
+                    <div className="flex gap-1 mb-3">
+                      <div className="h-5 w-12 bg-gray-200 rounded"></div>
+                      <div className="h-5 w-8 bg-gray-200 rounded"></div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <div className="h-4 w-12 bg-gray-200 rounded"></div>
+                      <div className="h-6 w-12 bg-gray-200 rounded"></div>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
               {featuredNannies.map((nanny: Nanny & { user: UserType }) => (
                 <NannyCard key={nanny.id} nanny={nanny} />
               ))}
