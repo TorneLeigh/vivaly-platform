@@ -71,6 +71,22 @@ const serviceCategories = [
     bgColor: "bg-indigo-500 bg-opacity-10",
     iconColor: "text-indigo-500", 
     serviceType: "Birth Education"
+  },
+  {
+    icon: Heart,
+    title: "Elderly Care",
+    description: "Senior assistance",
+    bgColor: "bg-rose-500 bg-opacity-10",
+    iconColor: "text-rose-500", 
+    serviceType: "Elderly Care"
+  },
+  {
+    icon: Users,
+    title: "Companionship",
+    description: "Social visits",
+    bgColor: "bg-teal-500 bg-opacity-10",
+    iconColor: "text-teal-500", 
+    serviceType: "Elderly Companionship"
   }
 ];
 

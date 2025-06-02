@@ -87,6 +87,8 @@ export class MemStorage implements IStorage {
       [SERVICE_TYPES[0], SERVICE_TYPES[2]], // Mix of care types
       [SERVICE_TYPES[1], SERVICE_TYPES[3]], // Group services
       [SERVICE_TYPES[5], SERVICE_TYPES[7]], // Midwife services
+      [SERVICE_TYPES[8]], // Elderly Companionship
+      [SERVICE_TYPES[9]], // Elderly Care
     ];
 
     const certificateOptions = [
@@ -96,6 +98,8 @@ export class MemStorage implements IStorage {
       [CERTIFICATE_TYPES[8], CERTIFICATE_TYPES[9]], // Doula training
       [CERTIFICATE_TYPES[0], CERTIFICATE_TYPES[4]], // Montessori
       [CERTIFICATE_TYPES[1], CERTIFICATE_TYPES[2]], // CPR + Cert III
+      [CERTIFICATE_TYPES[10], CERTIFICATE_TYPES[11]], // Aged care
+      [CERTIFICATE_TYPES[12], CERTIFICATE_TYPES[0]], // Companion care
     ];
 
     for (let i = 0; i < sampleUsers.length; i++) {
@@ -191,16 +195,22 @@ export class MemStorage implements IStorage {
   }): Promise<(Nanny & { user: User })[]> {
     let results = Array.from(this.nannies.values());
 
-    if (filters.location) {
-      results = results.filter(nanny => 
-        nanny.location.toLowerCase().includes(filters.location!.toLowerCase()) ||
-        nanny.suburb.toLowerCase().includes(filters.location!.toLowerCase())
-      );
+    if (filters.location && filters.location !== "All Sydney" && filters.location.trim() !== "") {
+      const searchLocation = filters.location.toLowerCase().trim();
+      results = results.filter(nanny => {
+        const nannyLocation = nanny.location.toLowerCase();
+        const nannySuburb = nanny.suburb.toLowerCase();
+        
+        // Check if search matches suburb exactly or partially
+        return nannyLocation.includes(searchLocation) ||
+               nannySuburb.includes(searchLocation) ||
+               searchLocation.includes(nannySuburb);
+      });
     }
 
     if (filters.serviceType && filters.serviceType !== "All Services") {
       results = results.filter(nanny => 
-        nanny.services.includes(filters.serviceType!)
+        nanny.services && nanny.services.includes(filters.serviceType!)
       );
     }
 
