@@ -59,15 +59,18 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
             <label className="text-xs font-semibold text-gray-800 mb-1">Where</label>
             <Select value={location} onValueChange={setLocation}>
               <SelectTrigger className="border-0 p-0 h-auto focus:ring-0 text-sm">
-                <SelectValue placeholder="Search locations" />
+                <SelectValue placeholder="Search Sydney areas" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="All Sydney">All Sydney</SelectItem>
-                {SYDNEY_SUBURBS.map((suburb) => (
-                  <SelectItem key={suburb} value={suburb}>
-                    {suburb}
-                  </SelectItem>
-                ))}
+                <SelectItem value="Inner Sydney">Inner Sydney</SelectItem>
+                <SelectItem value="Eastern Suburbs">Eastern Suburbs</SelectItem>
+                <SelectItem value="Northern Beaches">Northern Beaches</SelectItem>
+                <SelectItem value="North Shore">North Shore</SelectItem>
+                <SelectItem value="Western Sydney">Western Sydney</SelectItem>
+                <SelectItem value="Southern Sydney">Southern Sydney</SelectItem>
+                <SelectItem value="Southwest Sydney">Southwest Sydney</SelectItem>
+                <SelectItem value="Northwest Sydney">Northwest Sydney</SelectItem>
               </SelectContent>
             </Select>
           </div>

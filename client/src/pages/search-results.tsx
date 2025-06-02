@@ -183,7 +183,7 @@ export default function SearchResults() {
                 You can book instantly with any of these approved providers.
               </p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+            <div className="grid grid-cols-6 gap-4">
               {nannies.map((nanny: Nanny & { user: User }) => (
                 <NannyCard key={nanny.id} nanny={nanny} />
               ))}

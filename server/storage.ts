@@ -125,7 +125,7 @@ export class MemStorage implements IStorage {
           experience: Math.floor(Math.random() * 8) + 2,
           hourlyRate: (Math.floor(Math.random() * 15) + 20).toString(),
           location: "Sydney, NSW",
-          suburb: SYDNEY_SUBURBS[Math.floor(Math.random() * SYDNEY_SUBURBS.length)],
+          suburb: ["Inner Sydney", "Eastern Suburbs", "Northern Beaches", "North Shore", "Western Sydney", "Southern Sydney", "Southwest Sydney", "Northwest Sydney"][i % 8],
           services: serviceSet,
           certificates: certSet,
           availability: {},

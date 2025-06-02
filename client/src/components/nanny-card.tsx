@@ -25,10 +25,19 @@ export default function NannyCard({ nanny }: NannyCardProps) {
               </div>
             </div>
           </div>
-          {nanny.isVerified && (
-            <div className="absolute top-2 right-2">
+          <div className="absolute top-2 right-2 flex flex-col gap-1">
+            {nanny.isVerified && (
               <div className="bg-white rounded-full p-1 shadow-sm">
                 <Star className="w-4 h-4 text-soft-green fill-current" />
+              </div>
+            )}
+          </div>
+          
+          {/* Short Notice Badge */}
+          {Math.random() > 0.5 && (
+            <div className="absolute top-2 left-2">
+              <div className="bg-coral text-white px-2 py-1 rounded text-xs font-medium">
+                Available today
               </div>
             </div>
           )}
