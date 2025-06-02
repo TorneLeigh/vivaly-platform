@@ -115,13 +115,7 @@ const trustFeatures = [
     bgColor: "bg-coral bg-opacity-10",
     iconColor: "text-coral"
   },
-  {
-    icon: ShieldCheck,
-    title: "Quality Guaranteed",
-    description: "Real reviews from verified families ensure you find the perfect caregiver for your needs",
-    bgColor: "bg-amber-500 bg-opacity-10",
-    iconColor: "text-amber-500"
-  }
+
 ];
 
 export default function Home() {
