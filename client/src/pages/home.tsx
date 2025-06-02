@@ -438,13 +438,15 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {isLoading ? (
               Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="bg-white rounded-xl p-6 animate-pulse">
-                  <div className="w-full h-32 bg-gray-200 rounded-lg mb-4"></div>
-                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+                <div key={i} className="bg-white rounded-xl animate-pulse overflow-hidden">
+                  <div className="w-full h-32 bg-gray-200 rounded-t-xl"></div>
+                  <div className="p-3">
+                    <div className="h-3 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+                  </div>
                 </div>
               ))
             ) : featuredNannies && featuredNannies.length > 0 ? (
@@ -504,25 +506,23 @@ export default function Home() {
                   price: "$50/session"
                 }
               ].map((service, index) => (
-                <div key={service.area} className="bg-white rounded-xl p-6 hover:shadow-lg transition-shadow duration-300 cursor-pointer group">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="text-3xl">{service.emoji}</div>
-                    <span className="text-sm text-green-600 bg-green-50 px-2 py-1 rounded-full">
+                <div key={service.area} className="bg-white rounded-xl hover:shadow-lg transition-shadow duration-300 cursor-pointer group overflow-hidden">
+                  <div className="relative">
+                    <div className="w-full h-32 bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center rounded-t-xl">
+                      <span className="text-4xl">{service.emoji}</span>
+                    </div>
+                    <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
                       Available
-                    </span>
+                    </div>
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">{service.service}</h3>
-                  <p className="text-sm text-gray-600 mb-2">{service.area}</p>
-                  <p className="text-sm text-gray-700 mb-3">{service.description}</p>
-                  <div className="flex items-center justify-between text-sm mb-3">
-                    <span className="text-gray-600">{service.time}</span>
-                    <span className="font-semibold text-gray-900">{service.price}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">with {service.caregiver}</span>
-                    <button className="text-coral hover:text-pink-600 font-medium group-hover:underline text-sm">
-                      Join →
-                    </button>
+                  <div className="p-3">
+                    <h3 className="font-semibold text-gray-900 text-sm mb-1 line-clamp-1">{service.service}</h3>
+                    <p className="text-xs text-gray-600 mb-1">{service.area}</p>
+                    <p className="text-xs text-gray-600 mb-2">{service.time}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold text-gray-900">{service.price}</span>
+                      <span className="text-xs text-gray-600">⭐ 4.9</span>
+                    </div>
                   </div>
                 </div>
               ))
