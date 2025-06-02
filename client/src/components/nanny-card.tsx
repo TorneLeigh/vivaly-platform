@@ -34,7 +34,7 @@ export default function NannyCard({ nanny }: NannyCardProps) {
           </div>
           
           {/* Short Notice Badge */}
-          {Math.random() > 0.5 && (
+          {nanny.id % 3 === 0 && (
             <div className="absolute top-2 left-2">
               <div className="bg-coral text-white px-2 py-1 rounded text-xs font-medium">
                 Available today
