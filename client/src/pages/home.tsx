@@ -239,25 +239,7 @@ export default function Home() {
                   </div>
                 </div>
                 
-                {/* Animated connecting lines radiating from center */}
-                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 400">
-                  {/* Lines from center to each person */}
-                  <line x1="200" y1="200" x2="100" y2="100" stroke="#FF6B6B" strokeWidth="2" strokeDasharray="6,6" opacity="0.7">
-                    <animate attributeName="stroke-dashoffset" values="0;12" dur="1s" repeatCount="indefinite"/>
-                  </line>
-                  <line x1="200" y1="200" x2="300" y2="80" stroke="#FFC107" strokeWidth="2" strokeDasharray="6,6" opacity="0.7">
-                    <animate attributeName="stroke-dashoffset" values="0;12" dur="1.2s" repeatCount="indefinite"/>
-                  </line>
-                  <line x1="200" y1="200" x2="130" y2="300" stroke="#FF9800" strokeWidth="2" strokeDasharray="6,6" opacity="0.7">
-                    <animate attributeName="stroke-dashoffset" values="0;12" dur="1.4s" repeatCount="indefinite"/>
-                  </line>
-                  <line x1="200" y1="200" x2="300" y2="140" stroke="#4CAF50" strokeWidth="2" strokeDasharray="6,6" opacity="0.7">
-                    <animate attributeName="stroke-dashoffset" values="0;12" dur="1.6s" repeatCount="indefinite"/>
-                  </line>
-                  <line x1="200" y1="200" x2="320" y2="270" stroke="#9C27B0" strokeWidth="2" strokeDasharray="6,6" opacity="0.7">
-                    <animate attributeName="stroke-dashoffset" values="0;12" dur="1.8s" repeatCount="indefinite"/>
-                  </line>
-                </svg>
+
                 
                 {/* Trust indicators */}
                 <div className="absolute top-4 left-4 bg-white rounded-lg px-3 py-2 shadow-md">
