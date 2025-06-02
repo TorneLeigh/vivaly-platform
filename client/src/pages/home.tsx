@@ -30,55 +30,55 @@ const serviceCategories = [
   {
     title: "1-on-1 Care",
     description: "Personal attention",
-    image: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=400&h=400&fit=crop&crop=center",
+    image: "/attached_assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
     serviceType: "1-on-1 Care"
   },
   {
     title: "Group Care", 
     description: "Small groups",
-    image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=400&fit=crop&crop=center",
+    image: "/attached_assets/aba916b517ced96c85496925fb8b71d5.jpg",
     serviceType: "Group Care"
   },
   {
     title: "Midwife Services",
     description: "Birth & postnatal support", 
-    image: "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=400&h=400&fit=crop&crop=center",
+    image: "/attached_assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
     serviceType: "Midwife Services"
   },
   {
     title: "Drop & Dash",
     description: "Quick care",
-    image: "https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?w=400&h=400&fit=crop&crop=center",
+    image: "/attached_assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
     serviceType: "Drop & Dash"
   },
   {
     title: "Postpartum",
     description: "New parent support",
-    image: "https://images.unsplash.com/photo-1516627145497-ae4099d4e6ed?w=400&h=400&fit=crop&crop=center",
+    image: "/attached_assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
     serviceType: "Postpartum Support"
   },
   {
     title: "Breastfeeding",
     description: "Lactation support",
-    image: "https://images.unsplash.com/photo-1544552866-d3ed42536cfd?w=400&h=400&fit=crop&crop=center",
+    image: "/attached_assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
     serviceType: "Breastfeeding Support"
   },
   {
     title: "Birth Education",
     description: "Preparation classes",
-    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&crop=center",
+    image: "/attached_assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
     serviceType: "Birth Education"
   },
   {
     title: "Elderly Care",
     description: "Senior assistance",
-    image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=400&h=400&fit=crop&crop=center",
+    image: "/attached_assets/aba916b517ced96c85496925fb8b71d5.jpg",
     serviceType: "Elderly Care"
   },
   {
     title: "Companionship",
     description: "Social visits",
-    image: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=400&h=400&fit=crop&crop=center",
+    image: "/attached_assets/aba916b517ced96c85496925fb8b71d5.jpg",
     serviceType: "Elderly Companionship"
   }
 ];
@@ -87,37 +87,37 @@ const popularActivities = [
   {
     title: "Park Playdates",
     description: "Meet other families at local parks",
-    image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=400&h=400&fit=crop&crop=center",
+    image: "/attached_assets/2df543a46e343b349dce96a9b74e7bf3.jpg",
     serviceType: "Park Playdates"
   },
   {
     title: "Beach Days", 
     description: "Family beach outings and activities",
-    image: "https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=400&fit=crop&crop=center",
+    image: "/attached_assets/2df543a46e343b349dce96a9b74e7bf3.jpg",
     serviceType: "Beach Days"
   },
   {
     title: "Coffee Catch-ups",
     description: "Parent meetups at local cafes", 
-    image: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=400&h=400&fit=crop&crop=center",
+    image: "/attached_assets/aba916b517ced96c85496925fb8b71d5.jpg",
     serviceType: "Coffee Catch-ups"
   },
   {
     title: "Nature Walks",
     description: "Explore trails with other families",
-    image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=400&fit=crop&crop=center",
+    image: "/attached_assets/2df543a46e343b349dce96a9b74e7bf3.jpg",
     serviceType: "Nature Walks"
   },
   {
     title: "Art & Craft",
     description: "Creative sessions for kids and parents",
-    image: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=400&h=400&fit=crop&crop=center",
+    image: "/attached_assets/7afa703a4529f33380507613ab2963dd.jpg",
     serviceType: "Art & Craft"
   },
   {
     title: "Picnic Gatherings",
     description: "Family picnics and shared meals",
-    image: "https://images.unsplash.com/photo-1516627145497-ae4099d4e6ed?w=400&h=400&fit=crop&crop=center",
+    image: "/attached_assets/aba916b517ced96c85496925fb8b71d5.jpg",
     serviceType: "Picnic Gatherings"
   }
 ];
