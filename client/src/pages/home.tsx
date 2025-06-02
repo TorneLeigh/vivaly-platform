@@ -165,7 +165,7 @@ export default function Home() {
                 Find care you can trust
               </h1>
               <p className="text-xl text-gray-700 mb-8 leading-relaxed">
-                Book trusted caregivers in your neighborhood. Available for one-time or ongoing care.
+                Book trusted caregivers in your neighborhood for all your family needs.
               </p>
               
               <div className="space-y-4 mb-8">
@@ -255,9 +255,9 @@ export default function Home() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-warm-gray mb-4">Services in Popular Areas</h2>
+            <h2 className="text-3xl font-bold text-warm-gray mb-4">Events and Social</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Discover local caregivers offering services and events in your neighborhood
+              Connect with other families through organized activities and social gatherings
             </p>
           </div>
           
