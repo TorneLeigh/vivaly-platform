@@ -1,0 +1,97 @@
+import { Link, useLocation } from "wouter";
+import { Button } from "@/components/ui/button";
+import { 
+  MenuIcon, 
+  MessageCircle, 
+  User,
+  Search,
+  Plus
+} from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+export default function Header() {
+  const [location] = useLocation();
+
+  return (
+    <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          <div className="flex items-center">
+            <Link href="/">
+              <h1 className="text-2xl font-bold text-coral cursor-pointer">
+                CareConnect
+              </h1>
+            </Link>
+          </div>
+
+          <nav className="hidden md:flex space-x-8">
+            <Link href="/search">
+              <a className={`text-warm-gray hover:text-coral transition-colors ${
+                location.startsWith('/search') ? 'text-coral' : ''
+              }`}>
+                Find Care
+              </a>
+            </Link>
+            <Link href="/become-nanny">
+              <a className={`text-warm-gray hover:text-coral transition-colors ${
+                location === '/become-nanny' ? 'text-coral' : ''
+              }`}>
+                Become a Nanny
+              </a>
+            </Link>
+            <a href="#" className="text-warm-gray hover:text-coral transition-colors">
+              Help
+            </a>
+          </nav>
+
+          <div className="flex items-center space-x-4">
+            <Link href="/search">
+              <Button variant="ghost" size="sm" className="hidden sm:flex">
+                <Search className="h-4 w-4 mr-2" />
+                Search
+              </Button>
+            </Link>
+            
+            <Link href="/messages">
+              <Button variant="ghost" size="sm">
+                <MessageCircle className="h-4 w-4" />
+              </Button>
+            </Link>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="flex items-center space-x-2">
+                  <MenuIcon className="h-4 w-4" />
+                  <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                    <User className="h-4 w-4" />
+                  </div>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem>
+                  <User className="h-4 w-4 mr-2" />
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Plus className="h-4 w-4 mr-2" />
+                  <Link href="/become-nanny">Become a Nanny</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  <Link href="/messages">Messages</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuItem>Sign out</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}

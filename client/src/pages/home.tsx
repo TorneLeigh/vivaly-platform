@@ -1,0 +1,275 @@
+import { useQuery } from "@tanstack/react-query";
+import { Link, useLocation } from "wouter";
+import { Button } from "@/components/ui/button";
+import NannyCard from "@/components/nanny-card";
+import SearchFilters from "@/components/search-filters";
+import { 
+  User, 
+  Users, 
+  Puzzle, 
+  Clock, 
+  Heart,
+  Shield,
+  IdCard,
+  MessageCircle
+} from "lucide-react";
+import type { Nanny, User as UserType } from "@shared/schema";
+
+const serviceCategories = [
+  {
+    icon: User,
+    title: "1-on-1 Care",
+    description: "Personal attention",
+    bgColor: "bg-soft-green bg-opacity-10",
+    iconColor: "text-soft-green",
+    serviceType: "1-on-1 Care"
+  },
+  {
+    icon: Users,
+    title: "Group Care", 
+    description: "Small groups",
+    bgColor: "bg-trust-blue bg-opacity-10",
+    iconColor: "text-trust-blue",
+    serviceType: "Group Care"
+  },
+  {
+    icon: Puzzle,
+    title: "Group Play",
+    description: "Fun activities", 
+    bgColor: "bg-coral bg-opacity-10",
+    iconColor: "text-coral",
+    serviceType: "Group Play"
+  },
+  {
+    icon: Clock,
+    title: "Drop & Dash",
+    description: "Quick care",
+    bgColor: "bg-yellow-500 bg-opacity-10", 
+    iconColor: "text-yellow-600",
+    serviceType: "Drop & Dash"
+  },
+  {
+    icon: Heart,
+    title: "Postpartum",
+    description: "New parent support",
+    bgColor: "bg-purple-500 bg-opacity-10",
+    iconColor: "text-purple-500", 
+    serviceType: "Postpartum Support"
+  }
+];
+
+const trustFeatures = [
+  {
+    icon: Shield,
+    title: "Background Verified",
+    description: "All caregivers undergo thorough background checks and reference verification",
+    bgColor: "bg-soft-green bg-opacity-10",
+    iconColor: "text-soft-green"
+  },
+  {
+    icon: IdCard,
+    title: "Certified & Trained", 
+    description: "First aid certified with ongoing training in child development and safety",
+    bgColor: "bg-trust-blue bg-opacity-10",
+    iconColor: "text-trust-blue"
+  },
+  {
+    icon: MessageCircle,
+    title: "Secure Messaging",
+    description: "Built-in messaging protects your privacy and keeps all communication secure",
+    bgColor: "bg-coral bg-opacity-10",
+    iconColor: "text-coral"
+  }
+];
+
+export default function Home() {
+  const [, navigate] = useLocation();
+
+  const { data: featuredNannies = [], isLoading } = useQuery({
+    queryKey: ["/api/nannies/featured"],
+  });
+
+  const handleSearch = (filters: { location: string; serviceType: string; date: string }) => {
+    const params = new URLSearchParams();
+    if (filters.location) params.set('location', filters.location);
+    if (filters.serviceType && filters.serviceType !== 'All Services') {
+      params.set('serviceType', filters.serviceType);
+    }
+    if (filters.date) params.set('date', filters.date);
+    
+    navigate(`/search?${params.toString()}`);
+  };
+
+  const handleServiceClick = (serviceType: string) => {
+    const params = new URLSearchParams();
+    params.set('serviceType', serviceType);
+    navigate(`/search?${params.toString()}`);
+  };
+
+  return (
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-b from-light-gray to-white py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold text-warm-gray mb-4">
+              Find trusted childcare in Sydney
+            </h1>
+            <p className="text-xl text-gray-600">
+              Connect with verified nannies and caregivers in your area
+            </p>
+          </div>
+          
+          <SearchFilters onSearch={handleSearch} />
+        </div>
+      </section>
+
+      {/* Service Categories */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-warm-gray text-center mb-12">
+            Browse by service type
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+            {serviceCategories.map((category, index) => {
+              const IconComponent = category.icon;
+              return (
+                <div 
+                  key={index}
+                  className="text-center group cursor-pointer"
+                  onClick={() => handleServiceClick(category.serviceType)}
+                >
+                  <div className={`w-16 h-16 mx-auto mb-4 ${category.bgColor} rounded-2xl flex items-center justify-center group-hover:bg-opacity-20 transition-colors`}>
+                    <IconComponent className={`w-8 h-8 ${category.iconColor}`} />
+                  </div>
+                  <h3 className="font-medium text-warm-gray">{category.title}</h3>
+                  <p className="text-sm text-gray-500 mt-1">{category.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Nannies */}
+      <section className="py-16 bg-light-gray">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center mb-12">
+            <h2 className="text-3xl font-bold text-warm-gray">Featured caregivers</h2>
+            <Link href="/search">
+              <Button variant="ghost" className="text-coral hover:text-coral">
+                View all
+              </Button>
+            </Link>
+          </div>
+          
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[...Array(4)].map((_, index) => (
+                <div key={index} className="bg-white rounded-2xl shadow-sm p-6 animate-pulse">
+                  <div className="w-full h-48 bg-gray-200 rounded-t-2xl mb-4"></div>
+                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                  <div className="h-3 bg-gray-200 rounded mb-3"></div>
+                  <div className="flex gap-2 mb-4">
+                    <div className="h-5 w-16 bg-gray-200 rounded"></div>
+                    <div className="h-5 w-12 bg-gray-200 rounded"></div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div className="h-5 w-16 bg-gray-200 rounded"></div>
+                    <div className="h-8 w-20 bg-gray-200 rounded"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {featuredNannies.map((nanny: Nanny & { user: UserType }) => (
+                <NannyCard key={nanny.id} nanny={nanny} />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Trust Features */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-warm-gray mb-4">Safety and trust first</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Every caregiver on CareConnect goes through our comprehensive verification process
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {trustFeatures.map((feature, index) => {
+              const IconComponent = feature.icon;
+              return (
+                <div key={index} className="text-center">
+                  <div className={`w-16 h-16 mx-auto mb-6 ${feature.bgColor} rounded-2xl flex items-center justify-center`}>
+                    <IconComponent className={`w-8 h-8 ${feature.iconColor}`} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-warm-gray mb-4">{feature.title}</h3>
+                  <p className="text-gray-600">{feature.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* How it Works */}
+      <section className="py-16 bg-light-gray">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-warm-gray mb-4">How it works</h2>
+            <p className="text-xl text-gray-600">
+              Book trusted childcare in just a few simple steps
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {[
+              { step: 1, title: "Search & Filter", description: "Find caregivers by location, service type, and availability" },
+              { step: 2, title: "Review Profiles", description: "Check certificates, reviews, and experience details" },
+              { step: 3, title: "Message & Book", description: "Connect securely and schedule your childcare" },
+              { step: 4, title: "Relax & Enjoy", description: "Your children are in safe, trusted hands" }
+            ].map((item, index) => (
+              <div key={index} className="text-center">
+                <div className="w-12 h-12 mx-auto mb-6 bg-coral rounded-full flex items-center justify-center text-white font-bold text-lg">
+                  {item.step}
+                </div>
+                <h3 className="text-lg font-semibold text-warm-gray mb-3">{item.title}</h3>
+                <p className="text-gray-600 text-sm">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Bottom CTA */}
+      <section className="py-16 bg-coral">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Ready to find your perfect caregiver?
+          </h2>
+          <p className="text-xl text-white opacity-90 mb-8">
+            Join thousands of Sydney families who trust CareConnect
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/search">
+              <Button className="bg-white text-coral px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                Start Searching
+              </Button>
+            </Link>
+            <Link href="/become-nanny">
+              <Button variant="outline" className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-coral transition-colors">
+                Become a Caregiver
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
