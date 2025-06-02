@@ -182,153 +182,102 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Right side - Airbnb-style illustration */}
+            {/* Right side - Care Connection Visualization */}
             <div className="relative">
-              <div className="relative w-full h-[500px] bg-gradient-to-br from-pink-50 via-blue-50 to-green-50 rounded-3xl overflow-hidden shadow-2xl">
+              <div className="relative w-full h-[500px] bg-gradient-to-br from-blue-50 to-pink-50 rounded-3xl overflow-hidden shadow-2xl">
                 
-                {/* Family figures with animations and connection lines */}
-                <div className="absolute top-1/4 left-1/5 animate-bounce">
-                  {/* Parent figure */}
-                  <div className="relative">
-                    <div className="w-8 h-8 bg-pink-300 rounded-full border-2 border-white shadow-sm"></div>
-                    <div className="w-6 h-10 bg-blue-400 rounded-lg mx-auto mt-1 shadow-sm"></div>
+                {/* Central connection hub */}
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <div className="w-16 h-16 bg-coral rounded-full flex items-center justify-center shadow-lg animate-pulse">
+                    <span className="text-2xl text-white">❤️</span>
                   </div>
                 </div>
                 
-                <div className="absolute top-1/3 left-2/5 animate-bounce" style={{animationDelay: '0.5s'}}>
-                  {/* Child figure */}
-                  <div className="relative">
-                    <div className="w-6 h-6 bg-yellow-300 rounded-full border border-white shadow-sm"></div>
-                    <div className="w-4 h-8 bg-pink-400 rounded-lg mx-auto mt-1 shadow-sm"></div>
-                  </div>
-                </div>
-
-                <div className="absolute top-1/2 left-1/4 animate-bounce" style={{animationDelay: '0.3s'}}>
-                  {/* Baby figure */}
-                  <div className="relative">
-                    <div className="w-4 h-4 bg-orange-300 rounded-full border border-white shadow-sm"></div>
-                    <div className="w-3 h-6 bg-orange-200 rounded-lg mx-auto mt-1 shadow-sm"></div>
+                {/* Family members positioned around the hub */}
+                <div className="absolute top-1/4 left-1/4 animate-bounce">
+                  <div className="text-center">
+                    <div className="w-10 h-10 bg-blue-300 rounded-full border-2 border-white shadow-md mb-2 flex items-center justify-center">
+                      <span className="text-lg">👨</span>
+                    </div>
+                    <span className="text-xs text-gray-600">Parent</span>
                   </div>
                 </div>
                 
-                <div className="absolute top-1/4 right-1/5 animate-bounce" style={{animationDelay: '1s'}}>
-                  {/* Caregiver figure 1 */}
-                  <div className="relative">
-                    <div className="w-8 h-8 bg-green-300 rounded-full border-2 border-white shadow-sm"></div>
-                    <div className="w-6 h-10 bg-green-400 rounded-lg mx-auto mt-1 shadow-sm"></div>
-                  </div>
-                </div>
-
-                <div className="absolute top-1/2 right-1/4 animate-bounce" style={{animationDelay: '1.5s'}}>
-                  {/* Caregiver figure 2 */}
-                  <div className="relative">
-                    <div className="w-7 h-7 bg-purple-300 rounded-full border border-white shadow-sm"></div>
-                    <div className="w-5 h-9 bg-purple-400 rounded-lg mx-auto mt-1 shadow-sm"></div>
+                <div className="absolute top-1/6 right-1/3 animate-bounce" style={{animationDelay: '0.3s'}}>
+                  <div className="text-center">
+                    <div className="w-8 h-8 bg-yellow-300 rounded-full border-2 border-white shadow-md mb-2 flex items-center justify-center">
+                      <span className="text-sm">👧</span>
+                    </div>
+                    <span className="text-xs text-gray-600">Child</span>
                   </div>
                 </div>
                 
-                {/* Animated connection lines between all figures */}
-                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 500">
-                  {/* Parent to both caregivers */}
-                  <line
-                    x1="80"
-                    y1="125"
-                    x2="320"
-                    y2="125"
-                    stroke="#4CAF50"
-                    strokeWidth="3"
-                    strokeDasharray="8,8"
-                    opacity="0.8"
-                  >
-                    <animate attributeName="stroke-dashoffset" values="0;16" dur="1s" repeatCount="indefinite"/>
+                <div className="absolute bottom-1/4 left-1/3 animate-bounce" style={{animationDelay: '0.6s'}}>
+                  <div className="text-center">
+                    <div className="w-6 h-6 bg-orange-300 rounded-full border-2 border-white shadow-md mb-2 flex items-center justify-center">
+                      <span className="text-xs">👶</span>
+                    </div>
+                    <span className="text-xs text-gray-600">Baby</span>
+                  </div>
+                </div>
+                
+                {/* Caregivers */}
+                <div className="absolute top-1/3 right-1/6 animate-bounce" style={{animationDelay: '1s'}}>
+                  <div className="text-center">
+                    <div className="w-10 h-10 bg-green-300 rounded-full border-2 border-white shadow-md mb-2 flex items-center justify-center">
+                      <span className="text-lg">👩‍⚕️</span>
+                    </div>
+                    <span className="text-xs text-gray-600">Nanny</span>
+                  </div>
+                </div>
+                
+                <div className="absolute bottom-1/3 right-1/4 animate-bounce" style={{animationDelay: '1.3s'}}>
+                  <div className="text-center">
+                    <div className="w-10 h-10 bg-purple-300 rounded-full border-2 border-white shadow-md mb-2 flex items-center justify-center">
+                      <span className="text-lg">👵</span>
+                    </div>
+                    <span className="text-xs text-gray-600">Elder Care</span>
+                  </div>
+                </div>
+                
+                {/* Animated connecting lines radiating from center */}
+                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 400">
+                  {/* Lines from center to each person */}
+                  <line x1="200" y1="200" x2="100" y2="100" stroke="#FF6B6B" strokeWidth="2" strokeDasharray="6,6" opacity="0.7">
+                    <animate attributeName="stroke-dashoffset" values="0;12" dur="1s" repeatCount="indefinite"/>
                   </line>
-                  
-                  {/* Child to caregivers */}
-                  <line
-                    x1="160"
-                    y1="165"
-                    x2="320"
-                    y2="125"
-                    stroke="#FF6B6B"
-                    strokeWidth="3"
-                    strokeDasharray="8,8"
-                    opacity="0.8"
-                  >
-                    <animate attributeName="stroke-dashoffset" values="0;16" dur="1.2s" repeatCount="indefinite"/>
+                  <line x1="200" y1="200" x2="280" y2="80" stroke="#FFC107" strokeWidth="2" strokeDasharray="6,6" opacity="0.7">
+                    <animate attributeName="stroke-dashoffset" values="0;12" dur="1.2s" repeatCount="indefinite"/>
                   </line>
-                  
-                  <line
-                    x1="160"
-                    y1="165"
-                    x2="300"
-                    y2="250"
-                    stroke="#FF6B6B"
-                    strokeWidth="3"
-                    strokeDasharray="8,8"
-                    opacity="0.8"
-                  >
-                    <animate attributeName="stroke-dashoffset" values="0;16" dur="1.4s" repeatCount="indefinite"/>
+                  <line x1="200" y1="200" x2="130" y2="300" stroke="#FF9800" strokeWidth="2" strokeDasharray="6,6" opacity="0.7">
+                    <animate attributeName="stroke-dashoffset" values="0;12" dur="1.4s" repeatCount="indefinite"/>
                   </line>
-                  
-                  {/* Baby to caregivers */}
-                  <line
-                    x1="100"
-                    y1="250"
-                    x2="320"
-                    y2="125"
-                    stroke="#FF9800"
-                    strokeWidth="3"
-                    strokeDasharray="8,8"
-                    opacity="0.8"
-                  >
-                    <animate attributeName="stroke-dashoffset" values="0;16" dur="1.6s" repeatCount="indefinite"/>
+                  <line x1="200" y1="200" x2="320" y2="140" stroke="#4CAF50" strokeWidth="2" strokeDasharray="6,6" opacity="0.7">
+                    <animate attributeName="stroke-dashoffset" values="0;12" dur="1.6s" repeatCount="indefinite"/>
                   </line>
-                  
-                  <line
-                    x1="100"
-                    y1="250"
-                    x2="300"
-                    y2="250"
-                    stroke="#FF9800"
-                    strokeWidth="3"
-                    strokeDasharray="8,8"
-                    opacity="0.8"
-                  >
-                    <animate attributeName="stroke-dashoffset" values="0;16" dur="1.8s" repeatCount="indefinite"/>
-                  </line>
-                  
-                  {/* Connection between caregivers */}
-                  <line
-                    x1="320"
-                    y1="125"
-                    x2="300"
-                    y2="250"
-                    stroke="#9C27B0"
-                    strokeWidth="3"
-                    strokeDasharray="8,8"
-                    opacity="0.8"
-                  >
-                    <animate attributeName="stroke-dashoffset" values="0;16" dur="2s" repeatCount="indefinite"/>
+                  <line x1="200" y1="200" x2="300" y2="280" stroke="#9C27B0" strokeWidth="2" strokeDasharray="6,6" opacity="0.7">
+                    <animate attributeName="stroke-dashoffset" values="0;12" dur="1.8s" repeatCount="indefinite"/>
                   </line>
                 </svg>
                 
-                {/* Trust badges */}
-                <div className="absolute top-6 left-6 bg-white rounded-full px-4 py-2 text-sm font-medium text-gray-700 shadow-md">
+                {/* Trust indicators */}
+                <div className="absolute top-4 left-4 bg-white rounded-lg px-3 py-2 shadow-md">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    Verified
-                  </div>
-                </div>
-                <div className="absolute top-6 right-6 bg-white rounded-full px-4 py-2 text-sm font-medium text-gray-700 shadow-md">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    Certified
+                    <span className="text-xs text-gray-600">2000+ Families</span>
                   </div>
                 </div>
                 
-                {/* Bottom stats */}
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center">
-                  <div className="bg-white rounded-full px-6 py-2 shadow-lg">
+                <div className="absolute top-4 right-4 bg-white rounded-lg px-3 py-2 shadow-md">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <span className="text-xs text-gray-600">Verified Care</span>
+                  </div>
+                </div>
+                
+                {/* Bottom message */}
+                <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2">
+                  <div className="bg-white rounded-full px-6 py-3 shadow-lg">
                     <p className="text-sm font-semibold text-gray-800">Connecting families with trusted care</p>
                   </div>
                 </div>
