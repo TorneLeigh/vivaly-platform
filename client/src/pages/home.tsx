@@ -274,29 +274,99 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Service Categories */}
-      <section className="py-16 bg-white">
+      {/* Service Categories with Animated Illustrations */}
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-warm-gray text-center mb-12">
-            Browse by service type
-          </h2>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Browse by service type
+            </h2>
+            <p className="text-xl text-gray-600">
+              Whatever you need, we have trusted caregivers ready to help
+            </p>
+          </div>
+          
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6">
             {serviceCategories.map((category, index) => {
               const IconComponent = category.icon;
               return (
                 <div 
                   key={index}
-                  className="text-center group cursor-pointer"
+                  className="text-center group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
                   onClick={() => handleServiceClick(category.serviceType)}
                 >
-                  <div className={`w-16 h-16 mx-auto mb-4 ${category.bgColor} rounded-2xl flex items-center justify-center group-hover:bg-opacity-20 transition-colors`}>
-                    <IconComponent className={`w-8 h-8 ${category.iconColor}`} />
+                  {/* Animated Card Container */}
+                  <div className="bg-white rounded-2xl p-6 shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                    {/* Animated Icon Container */}
+                    <div className={`relative w-20 h-20 mx-auto mb-4 ${category.bgColor} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                      <IconComponent className={`w-10 h-10 ${category.iconColor} group-hover:animate-bounce`} />
+                      
+                      {/* Floating particles around icon */}
+                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-300 rounded-full animate-pulse opacity-70"></div>
+                      <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-pink-300 rounded-full animate-pulse opacity-60" style={{animationDelay: '0.5s'}}></div>
+                      <div className="absolute top-2 -left-2 w-2 h-2 bg-blue-300 rounded-full animate-pulse opacity-50" style={{animationDelay: '1s'}}></div>
+                      
+                      {/* Ripple effect on hover */}
+                      <div className="absolute inset-0 rounded-xl bg-white opacity-0 group-hover:opacity-20 group-hover:animate-ping"></div>
+                    </div>
+                    
+                    {/* Service specific illustrations */}
+                    <div className="relative mb-4">
+                      {category.title === "Babysitting" && (
+                        <div className="flex justify-center space-x-1">
+                          <div className="w-2 h-2 bg-pink-400 rounded-full animate-bounce"></div>
+                          <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                          <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                        </div>
+                      )}
+                      
+                      {category.title === "Nanny" && (
+                        <div className="flex justify-center">
+                          <div className="relative">
+                            <div className="w-4 h-4 bg-yellow-300 rounded-full"></div>
+                            <div className="absolute -top-1 -right-1 w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {category.title === "Elderly Care" && (
+                        <div className="flex justify-center">
+                          <div className="w-6 h-1 bg-gradient-to-r from-soft-green to-trust-blue rounded-full animate-pulse"></div>
+                        </div>
+                      )}
+                      
+                      {category.title === "After School Care" && (
+                        <div className="flex justify-center space-x-1">
+                          <div className="w-1 h-3 bg-coral rounded animate-float"></div>
+                          <div className="w-1 h-4 bg-coral rounded animate-float" style={{animationDelay: '0.2s'}}></div>
+                          <div className="w-1 h-2 bg-coral rounded animate-float" style={{animationDelay: '0.4s'}}></div>
+                        </div>
+                      )}
+                    </div>
+                    
+                    <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-coral transition-colors">
+                      {category.title}
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      {category.description}
+                    </p>
+                    
+                    {/* Bottom accent line */}
+                    <div className="mt-4 h-1 bg-gradient-to-r from-transparent via-coral to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
-                  <h3 className="font-medium text-warm-gray">{category.title}</h3>
-                  <p className="text-sm text-gray-500 mt-1">{category.description}</p>
+                  
+                  {/* Floating shadow effect */}
+                  <div className="absolute inset-0 bg-coral rounded-2xl opacity-0 group-hover:opacity-5 transform translate-y-1 transition-all duration-300"></div>
                 </div>
               );
             })}
+          </div>
+          
+          {/* Bottom decorative elements */}
+          <div className="flex justify-center mt-16 space-x-4">
+            <div className="w-2 h-2 bg-coral rounded-full animate-ping"></div>
+            <div className="w-2 h-2 bg-soft-green rounded-full animate-ping" style={{animationDelay: '0.5s'}}></div>
+            <div className="w-2 h-2 bg-trust-blue rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
           </div>
         </div>
       </section>
