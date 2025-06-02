@@ -379,6 +379,95 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Available Today Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-warm-gray mb-4">Available Today</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Find caregivers ready to help in your area right now
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {isLoading ? (
+              Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="bg-white rounded-xl shadow-sm border p-4 animate-pulse">
+                  <div className="w-full h-20 bg-gray-200 rounded-lg mb-4"></div>
+                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+                </div>
+              ))
+            ) : featuredNannies && featuredNannies.length > 0 ? (
+              featuredNannies.slice(0, 4).map((nanny: Nanny & { user: UserType }) => (
+                <div key={nanny.id} className="bg-white rounded-xl shadow-sm border hover:shadow-lg transition-shadow duration-300 cursor-pointer">
+                  <div className="p-4">
+                    <div className="flex items-center mb-3">
+                      <div className="w-12 h-12 bg-gradient-to-br from-coral to-pink-400 rounded-full flex items-center justify-center text-white font-semibold text-lg">
+                        {nanny.user.firstName[0]}
+                      </div>
+                      <div className="ml-3">
+                        <h3 className="font-semibold text-gray-900">{nanny.user.firstName}</h3>
+                        <div className="flex items-center text-sm text-green-600">
+                          <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                          Available now
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-600 mb-3">{nanny.suburb}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-lg font-semibold text-gray-900">{nanny.hourlyRate}/hr</span>
+                      <div className="flex items-center text-sm text-yellow-600">
+                        <span>⭐</span>
+                        <span className="ml-1">{nanny.rating}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-8">
+                <p className="text-gray-500">No caregivers available today.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Care by Location */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-warm-gray mb-4">Care in Popular Areas</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Find trusted caregivers in Sydney's most popular neighborhoods
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              { area: "Bondi", count: 24, emoji: "🏖️" },
+              { area: "Manly", count: 18, emoji: "🌊" },
+              { area: "Paddington", count: 32, emoji: "🏘️" },
+              { area: "Newtown", count: 28, emoji: "🎨" },
+              { area: "Surry Hills", count: 21, emoji: "☕" },
+              { area: "Double Bay", count: 15, emoji: "🛍️" }
+            ].map((location) => (
+              <div key={location.area} className="bg-white rounded-xl p-6 hover:shadow-lg transition-shadow duration-300 cursor-pointer group">
+                <div className="text-center">
+                  <div className="text-4xl mb-3">{location.emoji}</div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Care in {location.area}</h3>
+                  <p className="text-gray-600 mb-4">{location.count} caregivers available</p>
+                  <button className="text-coral hover:text-pink-600 font-medium group-hover:underline">
+                    Browse caregivers →
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Featured Nannies */}
       <section className="py-16 bg-light-gray">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
