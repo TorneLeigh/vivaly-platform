@@ -94,29 +94,29 @@ const serviceCategories = [
 const trustFeatures = [
   {
     icon: Shield,
-    title: "Comprehensive Insurance Coverage",
-    description: "Public liability insurance up to $20M covering accidents, injuries, and property damage during all bookings",
+    title: "Verified Caregivers",
+    description: "All caregivers undergo thorough background checks and reference verification for your peace of mind",
     bgColor: "bg-soft-green bg-opacity-10",
     iconColor: "text-soft-green"
   },
   {
     icon: IdCard,
-    title: "Professional Indemnity Protection", 
-    description: "Coverage for professional negligence claims and duty of care breaches by certified caregivers",
+    title: "Certified & Trained", 
+    description: "First aid certified with ongoing training in child development and safety practices",
     bgColor: "bg-trust-blue bg-opacity-10",
     iconColor: "text-trust-blue"
   },
   {
     icon: MessageCircle,
-    title: "24/7 Emergency Support",
-    description: "Round-the-clock incident reporting hotline and emergency response for all safety concerns",
+    title: "Secure Communication",
+    description: "Built-in messaging keeps all communication safe and protects your family's privacy",
     bgColor: "bg-coral bg-opacity-10",
     iconColor: "text-coral"
   },
   {
     icon: ShieldCheck,
-    title: "Background Verified",
-    description: "Police checks, Working with Children clearance, and reference verification for every caregiver",
+    title: "Quality Guaranteed",
+    description: "Real reviews from verified families ensure you find the perfect caregiver for your needs",
     bgColor: "bg-amber-500 bg-opacity-10",
     iconColor: "text-amber-500"
   }
