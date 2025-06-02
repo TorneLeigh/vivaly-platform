@@ -184,13 +184,12 @@ export default function Home() {
             
             {/* Right side - Care Services Grid */}
             <div className="relative">
-              <div className="relative w-full h-[500px] bg-gradient-to-br from-blue-50 to-pink-50 rounded-3xl overflow-hidden shadow-2xl p-8">
+              <div className="relative w-full h-[500px] bg-gradient-to-br from-blue-50 to-pink-50 rounded-3xl shadow-2xl p-8">
                 
-                {/* Central connection hub */}
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <div className="w-16 h-16 bg-coral rounded-full flex items-center justify-center shadow-lg animate-pulse">
-                    <span className="text-2xl text-white">❤️</span>
-                  </div>
+                {/* Header */}
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold text-gray-800 mb-2">Trusted Care Services</h3>
+                  <p className="text-gray-600">Connecting families across Sydney</p>
                 </div>
                 
                 {/* Family members positioned around the hub */}
@@ -351,13 +350,13 @@ export default function Home() {
                       
                       {category.title === "Birth Education" && (
                         <div className="flex items-center justify-center">
-                          <div className="text-6xl">📚</div>
+                          <div className="text-6xl">🤰</div>
                         </div>
                       )}
                       
                       {category.title === "Elderly Care" && (
                         <div className="flex items-center justify-center">
-                          <div className="text-6xl">👴</div>
+                          <div className="text-6xl">👩‍🦳</div>
                         </div>
                       )}
                       
