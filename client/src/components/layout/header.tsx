@@ -98,19 +98,11 @@ export default function Header() {
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Plus className="h-4 w-4 mr-2" />
-                  <Link href="/become-nanny">Become a Nanny</Link>
+                  <Link href="/become-nanny">Become a Caregiver</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <User className="h-4 w-4 mr-2" />
-                  <Link href="/verification">Provider Verification</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Heart className="h-4 w-4 mr-2" />
-                  <Link href="/become-nanny">Offer Child Care</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Users className="h-4 w-4 mr-2" />
-                  <Link href="/become-nanny">Offer Elderly Care</Link>
+                  <Search className="h-4 w-4 mr-2" />
+                  <Link href="/search">Find Help</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <MessageCircle className="h-4 w-4 mr-2" />
