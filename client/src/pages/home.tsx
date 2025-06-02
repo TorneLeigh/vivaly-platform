@@ -193,8 +193,8 @@ export default function Home() {
                 </div>
                 
                 {/* Family Group - Left Side */}
-                <div className="absolute left-16 top-20">
-                  <div className="bg-white rounded-xl p-4 shadow-lg border max-w-[140px]">
+                <div className="absolute left-1/4 top-24 transform -translate-x-1/2">
+                  <div className="bg-white rounded-xl p-4 shadow-lg border w-[140px]">
                     <div className="text-center mb-3">
                       <h4 className="text-sm font-semibold text-gray-800">Your Family</h4>
                     </div>
@@ -233,8 +233,8 @@ export default function Home() {
                 </div>
                 
                 {/* Care Team - Right Side */}
-                <div className="absolute right-16 top-20">
-                  <div className="bg-white rounded-xl p-4 shadow-lg border max-w-[140px]">
+                <div className="absolute right-1/4 top-24 transform translate-x-1/2">
+                  <div className="bg-white rounded-xl p-4 shadow-lg border w-[140px]">
                     <div className="text-center mb-3">
                       <h4 className="text-sm font-semibold text-gray-800">Your Care Team</h4>
                     </div>
@@ -266,7 +266,7 @@ export default function Home() {
                 </div>
                 
                 {/* Connection Heart in Center */}
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div className="absolute top-80 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <div className="bg-coral rounded-full w-16 h-16 flex items-center justify-center shadow-lg animate-pulse">
                     <span className="text-2xl">❤️</span>
                   </div>
@@ -278,14 +278,14 @@ export default function Home() {
 
                 
                 {/* Trust indicators */}
-                <div className="absolute bottom-4 left-16 bg-white rounded-lg px-3 py-2 shadow-md">
+                <div className="absolute bottom-4 left-1/4 transform -translate-x-1/2 bg-white rounded-lg px-3 py-2 shadow-md">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                     <span className="text-xs text-gray-600">2000+ Families</span>
                   </div>
                 </div>
                 
-                <div className="absolute bottom-4 right-16 bg-white rounded-lg px-3 py-2 shadow-md">
+                <div className="absolute bottom-4 right-1/4 transform translate-x-1/2 bg-white rounded-lg px-3 py-2 shadow-md">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                     <span className="text-xs text-gray-600">Verified Care</span>
