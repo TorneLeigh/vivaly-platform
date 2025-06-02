@@ -28,6 +28,81 @@ import type { Nanny, User as UserType } from "@shared/schema";
 
 const serviceCategories = [
   {
+    icon: User,
+    title: "1-on-1 Care",
+    description: "Personal attention",
+    bgColor: "bg-soft-green bg-opacity-10",
+    iconColor: "text-soft-green",
+    serviceType: "1-on-1 Care"
+  },
+  {
+    icon: Users,
+    title: "Group Care", 
+    description: "Small groups",
+    bgColor: "bg-trust-blue bg-opacity-10",
+    iconColor: "text-trust-blue",
+    serviceType: "Group Care"
+  },
+  {
+    icon: Heart,
+    title: "Midwife Services",
+    description: "Birth & postnatal support", 
+    bgColor: "bg-coral bg-opacity-10",
+    iconColor: "text-coral",
+    serviceType: "Midwife Services"
+  },
+  {
+    icon: Clock,
+    title: "Drop & Dash",
+    description: "Quick care",
+    bgColor: "bg-yellow-500 bg-opacity-10", 
+    iconColor: "text-yellow-600",
+    serviceType: "Drop & Dash"
+  },
+  {
+    icon: Heart,
+    title: "Postpartum",
+    description: "New parent support",
+    bgColor: "bg-purple-500 bg-opacity-10",
+    iconColor: "text-purple-500", 
+    serviceType: "Postpartum Support"
+  },
+  {
+    icon: Heart,
+    title: "Breastfeeding",
+    description: "Lactation support",
+    bgColor: "bg-pink-500 bg-opacity-10",
+    iconColor: "text-pink-500", 
+    serviceType: "Breastfeeding Support"
+  },
+  {
+    icon: Shield,
+    title: "Birth Education",
+    description: "Preparation classes",
+    bgColor: "bg-indigo-500 bg-opacity-10",
+    iconColor: "text-indigo-500", 
+    serviceType: "Birth Education"
+  },
+  {
+    icon: Heart,
+    title: "Elderly Care",
+    description: "Senior assistance",
+    bgColor: "bg-rose-500 bg-opacity-10",
+    iconColor: "text-rose-500", 
+    serviceType: "Elderly Care"
+  },
+  {
+    icon: Users,
+    title: "Companionship",
+    description: "Social visits",
+    bgColor: "bg-teal-500 bg-opacity-10",
+    iconColor: "text-teal-500", 
+    serviceType: "Elderly Companionship"
+  }
+];
+
+const popularActivities = [
+  {
     icon: Users,
     title: "Park Playdates",
     description: "Meet other families at local parks",
@@ -68,36 +143,12 @@ const serviceCategories = [
     serviceType: "Art & Craft"
   },
   {
-    icon: Music,
-    title: "Music Groups",
-    description: "Singing and instrument play sessions",
-    bgColor: "bg-pink-500 bg-opacity-10",
-    iconColor: "text-pink-500", 
-    serviceType: "Music Groups"
-  },
-  {
-    icon: BookOpen,
-    title: "Story Time",
-    description: "Reading circles and book sharing",
-    bgColor: "bg-indigo-500 bg-opacity-10",
-    iconColor: "text-indigo-500", 
-    serviceType: "Story Time"
-  },
-  {
     icon: Utensils,
     title: "Picnic Gatherings",
     description: "Family picnics and shared meals",
     bgColor: "bg-orange-500 bg-opacity-10",
     iconColor: "text-orange-500", 
     serviceType: "Picnic Gatherings"
-  },
-  {
-    icon: Baby,
-    title: "Baby Groups",
-    description: "Meet other new parents",
-    bgColor: "bg-rose-500 bg-opacity-10",
-    iconColor: "text-rose-500", 
-    serviceType: "Baby Groups"
   }
 ];
 
@@ -464,46 +515,74 @@ export default function Home() {
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {popularActivities.map((activity, index) => {
+              const IconComponent = activity.icon;
+              return (
+                <div 
+                  key={index}
+                  className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+                  onClick={() => {
+                    const searchParams = new URLSearchParams({
+                      serviceType: activity.serviceType,
+                      location: 'Sydney, NSW'
+                    });
+                    window.location.href = `/search?${searchParams.toString()}`;
+                  }}
+                >
+                  <div className={`${activity.bgColor} rounded-2xl p-4 text-center h-32 flex flex-col justify-center items-center relative overflow-hidden`}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
+                    <IconComponent className={`w-8 h-8 ${activity.iconColor} mb-2 relative z-10`} />
+                    <h3 className="font-semibold text-gray-900 text-sm relative z-10">{activity.title}</h3>
+                  </div>
+                  <div className="mt-3">
+                    <p className="text-xs text-gray-600 text-center">{activity.description}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Nannies */}
+      <section className="py-16 bg-light-gray">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center mb-12">
+            <h2 className="text-3xl font-bold text-warm-gray">Featured caregivers</h2>
+            <Link href="/search">
+              <Button variant="ghost" className="text-coral hover:text-coral">
+                View all
+              </Button>
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {isLoading ? (
-              Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="bg-white rounded-xl animate-pulse overflow-hidden">
-                  <div className="w-full h-32 bg-gray-200 rounded-t-xl"></div>
-                  <div className="p-3">
-                    <div className="h-3 bg-gray-200 rounded mb-2"></div>
-                    <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+              Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="bg-white rounded-2xl shadow-sm animate-pulse overflow-hidden">
+                  <div className="w-full h-48 bg-gray-200"></div>
+                  <div className="p-4">
+                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-3 bg-gray-200 rounded w-2/3 mb-2"></div>
+                    <div className="h-3 bg-gray-200 rounded w-1/2"></div>
                   </div>
                 </div>
               ))
-            ) : featuredNannies && featuredNannies.length > 0 ? (
-              [
-                {
-                  area: "Bondi Beach",
-                  emoji: "🏖️",
-                  service: "Beach Playgroup",
-                  description: "Weekly beach activities for toddlers",
-                  time: "Tuesdays 10am",
-                  caregiver: featuredNannies[0]?.user?.firstName || "Sarah",
-                  price: "$35/session"
-                },
-                {
-                  area: "Manly",
-                  emoji: "🌊",
-                  service: "Swimming Lessons",
-                  description: "Learn to swim in safe environment",
-                  time: "Saturdays 9am",
-                  caregiver: featuredNannies[1]?.user?.firstName || "Emma",
-                  price: "$45/lesson"
-                },
-                {
-                  area: "Paddington",
-                  emoji: "🎨",
-                  service: "Art & Craft Group",
-                  description: "Creative sessions for kids 3-8 years",
-                  time: "Thursdays 2pm",
-                  caregiver: featuredNannies[2]?.user?.firstName || "Lucy",
-                  price: "$40/session"
-                },
-                {
+            ) : featuredNannies && Array.isArray(featuredNannies) && featuredNannies.length > 0 ? (
+              featuredNannies.slice(0, 8).map((nanny: Nanny & { user: UserType }) => (
+                <NannyCard key={nanny.id} nanny={nanny} />
+              ))
+            ) : (
+              <div className="col-span-full text-center py-8">
+                <p className="text-gray-500">No caregivers available today.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
                   area: "Newtown",
                   emoji: "🎵",
                   service: "Music Circle",
