@@ -9,7 +9,7 @@ import {
   insertReviewSchema, insertMessageSchema 
 } from "@shared/schema";
 import { sendNannyWelcomeSequence, sendBookingConfirmation, sendNewNannyAlert } from "./email-service";
-import { backgroundCheckService } from "./background-check-service";
+import { wwccVerificationService } from "./wwcc-verification-service";
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
@@ -342,8 +342,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Background Check routes
-  app.post("/api/background-check/initiate", requireAuth, async (req, res) => {
+  // WWCC Verification routes
+  app.post("/api/wwcc/verify", requireAuth, async (req, res) => {
     try {
       const userId = req.session.userId!;
       const nanny = await storage.getNannyByUserId(userId);
@@ -357,62 +357,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "User not found" });
       }
 
-      const { dateOfBirth, address, checkTypes } = req.body;
+      const { wwccNumber, state, expiryDate } = req.body;
       
-      const checkRequest = {
+      const verificationRequest = {
         caregiverId: nanny.id,
+        wwccNumber,
+        state,
         firstName: user.firstName || "",
         lastName: user.lastName || "",
-        dateOfBirth,
-        address,
-        checkTypes: checkTypes || [
-          "national-police-check",
-          "working-with-children", 
-          "identity-verification",
-          "reference-verification"
-        ]
+        expiryDate
       };
 
-      const result = await backgroundCheckService.initiateBackgroundCheck(checkRequest);
+      const result = await wwccVerificationService.verifyWWCC(verificationRequest);
       
-      // Update nanny with background check ID
-      await storage.updateNanny(nanny.id, {
-        backgroundCheckId: result.checkId,
-        backgroundCheckStatus: "pending"
-      });
-
       res.json(result);
     } catch (error: any) {
-      console.error("Background check initiation error:", error);
-      res.status(500).json({ message: error.message || "Failed to initiate background check" });
+      console.error("WWCC verification error:", error);
+      res.status(500).json({ message: error.message || "Failed to verify WWCC" });
     }
   });
 
-  app.get("/api/background-check/status/:checkId", requireAuth, async (req, res) => {
+  app.get("/api/wwcc/status/:caregiverId", requireAuth, async (req, res) => {
     try {
-      const { checkId } = req.params;
-      const status = await backgroundCheckService.getCheckStatus(checkId);
+      const { caregiverId } = req.params;
+      const status = await wwccVerificationService.getWWCCStatus(parseInt(caregiverId));
       
-      if (!status) {
-        return res.status(404).json({ message: "Background check not found" });
-      }
-
       res.json(status);
     } catch (error) {
-      console.error("Background check status error:", error);
-      res.status(500).json({ message: "Failed to fetch background check status" });
+      console.error("WWCC status error:", error);
+      res.status(500).json({ message: "Failed to fetch WWCC status" });
     }
   });
 
-  // Webhook for background check providers
-  app.post("/api/background-check/webhook/:provider", async (req, res) => {
+  app.get("/api/wwcc/verification-link/:state/:wwccNumber", async (req, res) => {
     try {
-      const { provider } = req.params;
-      await backgroundCheckService.handleProviderWebhook(provider, req.body);
-      res.json({ received: true });
+      const { state, wwccNumber } = req.params;
+      const link = wwccVerificationService.getManualVerificationLink(wwccNumber, state);
+      
+      res.json({ verificationLink: link });
     } catch (error) {
-      console.error("Webhook processing error:", error);
-      res.status(500).json({ message: "Webhook processing failed" });
+      console.error("WWCC verification link error:", error);
+      res.status(500).json({ message: "Failed to get verification link" });
     }
   });
 

@@ -34,16 +34,15 @@ export default function TermsOfService() {
           <li>Accounts are non-transferable</li>
         </ul>
 
-        <h3>3.2 Professional Verification System</h3>
+        <h3>3.2 Government Verification Integration</h3>
         <ul>
-          <li><strong>Mandatory Professional Background Checks:</strong> All caregivers must complete third-party professional background screening before platform approval</li>
-          <li><strong>Identity Verification:</strong> Government-issued ID verification through certified providers</li>
-          <li><strong>Criminal History Check:</strong> National police check conducted by accredited screening agencies</li>
-          <li><strong>Working with Children Check:</strong> Required for all childcare providers as per Australian law</li>
-          <li><strong>Reference Verification:</strong> Professional reference checks conducted by our verification partners</li>
-          <li><strong>Ongoing Monitoring:</strong> Periodic re-screening and continuous monitoring for safety compliance</li>
-          <li>Verification badges indicate completion of professional screening process</li>
-          <li>We reserve the right to suspend accounts that fail verification or violate safety standards</li>
+          <li><strong>Working with Children Check (WWCC):</strong> All childcare providers must provide valid WWCC clearance as required by Australian state law</li>
+          <li><strong>Identity Verification:</strong> Government-issued photo ID verification required for all caregivers</li>
+          <li><strong>WWCC Integration:</strong> Platform integrates with government WWCC databases to verify current clearance status</li>
+          <li><strong>Reference Verification:</strong> Caregivers must provide verifiable professional references</li>
+          <li><strong>Ongoing Compliance:</strong> Automatic monitoring of WWCC expiry dates and renewal requirements</li>
+          <li>Verification badges indicate current government clearance status</li>
+          <li>Caregivers without valid WWCC cannot provide childcare services through the platform</li>
         </ul>
 
         <h2>4. Platform Usage</h2>
@@ -79,16 +78,17 @@ export default function TermsOfService() {
           <li>Caregivers receive payments according to our schedule</li>
         </ul>
 
-        <h2>6. Professional Safety and Verification Standards</h2>
-        <p><strong>COMPREHENSIVE SAFETY SYSTEM:</strong></p>
+        <h2>6. Safety and Government Compliance</h2>
+        <p><strong>GOVERNMENT CLEARANCE VERIFICATION:</strong></p>
         <ul>
-          <li><strong>Third-Party Professional Screening:</strong> All caregivers undergo mandatory professional background checks through accredited Australian screening agencies</li>
-          <li><strong>Multi-Point Verification:</strong> Identity, criminal history, reference checks, and Working with Children clearances verified by certified providers</li>
-          <li><strong>Insurance Requirements:</strong> Caregivers must maintain appropriate professional indemnity and public liability insurance</li>
-          <li><strong>Continuous Monitoring:</strong> Ongoing safety monitoring and periodic re-verification of all caregivers</li>
-          <li><strong>Incident Reporting:</strong> Immediate investigation and resolution system for any safety concerns</li>
-          <li><strong>Compliance Standards:</strong> Full compliance with Australian childcare safety regulations and consumer protection laws</li>
-          <li>All caregivers are independent contractors who meet professional safety standards</li>
+          <li><strong>Working with Children Check (WWCC) Compliance:</strong> Platform integrates with government WWCC systems to verify current clearance status for all childcare providers</li>
+          <li><strong>Government Database Integration:</strong> Real-time verification of WWCC validity and expiry dates through official government APIs</li>
+          <li><strong>State Law Compliance:</strong> Full adherence to individual state WWCC requirements across Australia</li>
+          <li><strong>Identity Verification:</strong> Government-issued photo ID verification for all caregivers</li>
+          <li><strong>Reference Requirements:</strong> Professional reference verification from previous employers or clients</li>
+          <li><strong>Automatic Compliance Monitoring:</strong> System alerts for WWCC renewals and expiry notifications</li>
+          <li>Caregivers without valid government clearances cannot access childcare bookings</li>
+          <li>All caregivers are independent contractors subject to government safety regulations</li>
         </ul>
 
         <h2>7. Liability and Disclaimers</h2>

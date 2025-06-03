@@ -1,102 +1,115 @@
 import { storage } from "./storage";
 
-// Australian background check providers
-interface BackgroundCheckProvider {
+// Australian government WWCC verification providers by state
+interface WWCCProvider {
+  state: string;
   name: string;
   apiUrl: string;
-  services: string[];
+  verificationEndpoint: string;
 }
 
-const AUSTRALIAN_PROVIDERS: BackgroundCheckProvider[] = [
+const WWCC_PROVIDERS: WWCCProvider[] = [
   {
-    name: "ACIC (Australian Criminal Intelligence Commission)",
-    apiUrl: "https://api.acic.gov.au/police-check",
-    services: ["national-police-check", "identity-verification"]
+    state: "NSW",
+    name: "NSW Office of the Children's Guardian",
+    apiUrl: "https://api.kidsguardian.nsw.gov.au",
+    verificationEndpoint: "/wwcc/verify"
   },
   {
-    name: "Accurate Background",
-    apiUrl: "https://api.accuratebackground.com.au",
-    services: ["criminal-history", "employment-verification", "reference-checks"]
+    state: "VIC", 
+    name: "Victoria Working with Children Check Unit",
+    apiUrl: "https://api.workingwithchildren.vic.gov.au",
+    verificationEndpoint: "/verify"
   },
   {
-    name: "Safe Hands Screening",
-    apiUrl: "https://api.safehandsscreening.com.au", 
-    services: ["working-with-children", "ndis-screening", "aged-care-clearance"]
+    state: "QLD",
+    name: "Queensland Blue Card Services",
+    apiUrl: "https://api.bluecard.qld.gov.au", 
+    verificationEndpoint: "/verify"
+  },
+  {
+    state: "WA",
+    name: "Western Australia Department of Communities",
+    apiUrl: "https://api.workingwithchildren.wa.gov.au",
+    verificationEndpoint: "/verify"
   }
 ];
 
-interface BackgroundCheckRequest {
+interface WWCCVerificationRequest {
   caregiverId: number;
   firstName: string;
   lastName: string;
   dateOfBirth: string;
+  wwccNumber: string;
+  state: string;
   licenseNumber?: string;
-  address: string;
-  checkTypes: BackgroundCheckType[];
 }
 
-type BackgroundCheckType = 
-  | "national-police-check"
-  | "working-with-children" 
-  | "identity-verification"
-  | "reference-verification"
-  | "employment-history"
-  | "professional-qualifications";
+interface IdentityVerificationRequest {
+  caregiverId: number;
+  documentType: "drivers-license" | "passport" | "medicare-card";
+  documentNumber: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+}
 
-interface BackgroundCheckResult {
+interface VerificationResult {
   checkId: string;
   caregiverId: number;
-  status: "pending" | "approved" | "rejected" | "requires-review";
-  completedChecks: BackgroundCheckType[];
-  flaggedIssues: string[];
+  status: "pending" | "approved" | "rejected" | "expired";
+  wwccStatus: "valid" | "invalid" | "expired" | "pending";
+  identityVerified: boolean;
+  referencesVerified: boolean;
   verificationDate: Date;
-  expiryDate: Date;
-  certificateUrl?: string;
+  expiryDate?: Date;
+  wwccNumber?: string;
+  state?: string;
 }
 
-export class BackgroundCheckService {
-  private apiKeys: { [provider: string]: string } = {
-    acic: process.env.ACIC_API_KEY || "",
-    accurate: process.env.ACCURATE_BACKGROUND_API_KEY || "",
-    safeHands: process.env.SAFE_HANDS_API_KEY || ""
+export class GovernmentVerificationService {
+  private apiKeys: { [state: string]: string } = {
+    NSW: process.env.NSW_WWCC_API_KEY || "",
+    VIC: process.env.VIC_WWCC_API_KEY || "",
+    QLD: process.env.QLD_WWCC_API_KEY || "",
+    WA: process.env.WA_WWCC_API_KEY || ""
   };
 
-  async initiateBackgroundCheck(request: BackgroundCheckRequest): Promise<{ checkId: string; status: string }> {
-    // Validate required information
-    if (!request.firstName || !request.lastName || !request.dateOfBirth) {
-      throw new Error("Missing required personal information for background check");
+  async verifyWWCC(request: WWCCVerificationRequest): Promise<{ checkId: string; status: string }> {
+    // Validate required WWCC information
+    if (!request.firstName || !request.lastName || !request.wwccNumber || !request.state) {
+      throw new Error("Missing required WWCC information for verification");
     }
 
-    // Generate unique check ID
-    const checkId = `BGC_${Date.now()}_${request.caregiverId}`;
+    // Generate unique verification ID
+    const checkId = `WWCC_${Date.now()}_${request.caregiverId}`;
     
     try {
-      // Initiate checks with multiple providers
-      const checkPromises = request.checkTypes.map(checkType => 
-        this.performSpecificCheck(checkId, request, checkType)
-      );
-
-      const results = await Promise.allSettled(checkPromises);
+      // Verify WWCC with state government database
+      const wwccResult = await this.performWWCCVerification(request);
       
-      // Store initial check record
-      await this.storeCheckRecord({
+      // Store verification record
+      await this.storeVerificationRecord({
         checkId,
         caregiverId: request.caregiverId,
-        status: "pending",
-        completedChecks: [],
-        flaggedIssues: [],
+        status: wwccResult.valid ? "approved" : "rejected",
+        wwccStatus: wwccResult.valid ? "valid" : "invalid",
+        identityVerified: false,
+        referencesVerified: false,
         verificationDate: new Date(),
-        expiryDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000) // 1 year validity
+        expiryDate: wwccResult.expiryDate,
+        wwccNumber: request.wwccNumber,
+        state: request.state
       });
 
       return {
         checkId,
-        status: "initiated"
+        status: wwccResult.valid ? "approved" : "rejected"
       };
 
     } catch (error) {
-      console.error("Background check initiation failed:", error);
-      throw new Error("Failed to initiate background checks. Please ensure all required information is provided.");
+      console.error("WWCC verification failed:", error);
+      throw new Error("Failed to verify WWCC. Please ensure the WWCC number and details are correct.");
     }
   }
 
