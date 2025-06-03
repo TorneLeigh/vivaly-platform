@@ -62,55 +62,55 @@ const serviceCategories = [
   {
     title: "1-on-1 Care",
     description: "Personal attention",
-    image: familyImage19, // Mother reading to baby
+    image: "/attached_assets/de1126eedd477730852d8c5558d5228f.jpg", // Mother reading to baby
     serviceType: "1-on-1 Care"
   },
   {
     title: "Group Care", 
     description: "Small groups",
-    image: familyImage17, // Two children playing with blocks
+    image: "/attached_assets/5c49767488148ac28757a08c6753fd68.jpg", // Two children playing with blocks
     serviceType: "Group Care"
   },
   {
     title: "Midwife Services",
     description: "Birth & postnatal support", 
-    image: familyImage20, // Mother playing blocks with child
+    image: "/attached_assets/5204c0c48d0dc2e1af450973bc115d18.jpg", // Mother playing blocks with child
     serviceType: "Midwife Services"
   },
   {
     title: "Drop & Dash",
     description: "Quick care",
-    image: familyImage22, // Child playing with wooden toys
+    image: "/attached_assets/793a2a82f337ec12518b35b4b0886681.jpg", // Child playing with wooden toys
     serviceType: "Drop & Dash"
   },
   {
     title: "Postpartum",
     description: "New parent support",
-    image: familyImage16, // Girl caring for baby doll
+    image: "/attached_assets/da9a8502c75f58f7f36a01b9e533d46d.jpg", // Girl caring for baby doll
     serviceType: "Postpartum Support"
   },
   {
     title: "Breastfeeding",
     description: "Lactation support",
-    image: familyImage27, // Colorful wooden stacking toy
+    image: "/attached_assets/0c25205c3003fd2bf70fa884ad5fe1f5.jpg", // Colorful wooden stacking toy
     serviceType: "Breastfeeding Support"
   },
   {
     title: "Birth Education",
     description: "Preparation classes",
-    image: familyImage26, // Children building blocks together
+    image: "/attached_assets/c5e4a7514e214eb119a5a0d459aa6bdf.jpg", // Children building blocks together
     serviceType: "Birth Education"
   },
   {
     title: "Elderly Care",
     description: "Senior assistance",
-    image: familyImage11, // Elderly exercise group
+    image: "/attached_assets/e84b82177ddf914b2846c3f2490fa10a.jpg", // Elderly exercise group
     serviceType: "Elderly Care"
   },
   {
     title: "Companionship",
     description: "Social visits",
-    image: companionshipImage, // Hands showing care and support
+    image: "/attached_assets/7111567ee33e7fbd156e36bd454e1ed4.jpg", // Hands showing care and support
     serviceType: "Elderly Companionship"
   }
 ];
@@ -119,37 +119,37 @@ const popularActivities = [
   {
     title: "Park Playdates",
     description: "Meet other families at local parks",
-    image: familyImage18, // Happy toddler with shape toys
+    image: "/attached_assets/ad23d9f10c69e3bfc73ffe82a1bac618.jpg", // Happy toddler with shape toys
     serviceType: "Park Playdates"
   },
   {
     title: "Beach Days", 
     description: "Family beach outings and activities",
-    image: familyImage13, // Children playing at beach
+    image: "/attached_assets/f3c4f3cbd16d170cf3b4abab28ecfa25.jpg", // Children playing at beach
     serviceType: "Beach Days"
   },
   {
     title: "Coffee Catch-ups",
     description: "Parent meetups at local cafes", 
-    image: familyImage29, // Three mothers with babies at cafe
+    image: "/attached_assets/58268e04ad7e7126279d8950565a0cd6.jpg", // Three mothers with babies at cafe
     serviceType: "Coffee Catch-ups"
   },
   {
     title: "Nature Walks",
     description: "Explore trails with other families",
-    image: familyImage28, // Children exploring nature outdoors
+    image: "/attached_assets/540c7ede798b410d249591160f8b4b9f.jpg", // Children exploring nature outdoors
     serviceType: "Nature Walks"
   },
   {
     title: "Art & Craft",
     description: "Creative sessions for kids and parents",
-    image: familyImage23, // Child hands playing with letters
+    image: "/attached_assets/62ef39ef76f7405a227796a6b8ad607d.jpg", // Child hands playing with letters
     serviceType: "Art & Craft"
   },
   {
     title: "Picnic Gatherings",
     description: "Family picnics and shared meals",
-    image: familyImage24, // Two children playing with wooden letters
+    image: "/attached_assets/46c0702d1b48d35f894a0fe16f437b43.jpg", // Two children playing with wooden letters
     serviceType: "Picnic Gatherings"
   }
 ];
