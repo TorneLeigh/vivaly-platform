@@ -62,49 +62,49 @@ const serviceCategories = [
   {
     title: "1-on-1 Care",
     description: "Personal attention",
-    image: familyImage25, // Two children playing together
+    image: "/attached_assets/0322f50abf3a7fc6d8def12b41336e6a.jpg",
     serviceType: "1-on-1 Care"
   },
   {
     title: "Group Care", 
     description: "Small groups",
-    image: familyImage5, // Children in circle holding hands
+    image: "/attached_assets/9c49b20a043b475fc92f416a52da3a32.jpg",
     serviceType: "Group Care"
   },
   {
     title: "Midwife Services",
     description: "Birth & postnatal support", 
-    image: familyImage6, // Caregiver with children
+    image: "/attached_assets/988a042ea7f506d78efe22b6305455a5.jpg",
     serviceType: "Midwife Services"
   },
   {
     title: "Drop & Dash",
     description: "Quick care",
-    image: familyImage22, // Child playing with wooden toys
+    image: "/attached_assets/793a2a82f337ec12518b35b4b0886681.jpg",
     serviceType: "Drop & Dash"
   },
   {
     title: "Postpartum",
     description: "New parent support",
-    image: familyImage24, // Children learning with puzzles
+    image: "/attached_assets/46c0702d1b48d35f894a0fe16f437b43.jpg",
     serviceType: "Postpartum Support"
   },
   {
     title: "Breastfeeding",
     description: "Lactation support",
-    image: familyImage18, // Happy children playing with toys
+    image: "/attached_assets/ad23d9f10c69e3bfc73ffe82a1bac618.jpg",
     serviceType: "Breastfeeding Support"
   },
   {
     title: "Birth Education",
     description: "Preparation classes",
-    image: familyImage6, // Caregiver with multiple children
+    image: "/attached_assets/988a042ea7f506d78efe22b6305455a5.jpg",
     serviceType: "Birth Education"
   },
   {
     title: "Elderly Care",
     description: "Senior assistance",
-    image: familyImage11, // Elderly care assistance
+    image: "/attached_assets/e84b82177ddf914b2846c3f2490fa10a.jpg",
     serviceType: "Elderly Care"
   }
 ];
@@ -113,37 +113,37 @@ const popularActivities = [
   {
     title: "Park Playdates",
     description: "Meet other families at local parks",
-    image: familyImage4, // Children hugging in field
+    image: "/attached_assets/20fcca984f823e55d0f52349c0cccfeb.jpg",
     serviceType: "Park Playdates"
   },
   {
     title: "Coffee Catch-ups",
     description: "Parent meetups at local cafes", 
-    image: familyImage3, // Women laughing at cafe
+    image: "/attached_assets/057e7c1da9c30e1c3fac8f35d8a08807.jpg",
     serviceType: "Coffee Catch-ups"
   },
   {
     title: "Art & Craft",
     description: "Creative sessions for kids and parents",
-    image: familyImage23, // Child hands playing with letters
+    image: "/attached_assets/62ef39ef76f7405a227796a6b8ad607d.jpg",
     serviceType: "Art & Craft"
   },
   {
     title: "New Parent Groups",
     description: "Support groups for new mothers",
-    image: familyImage29, // Three mothers with babies
+    image: "/attached_assets/58268e04ad7e7126279d8950565a0cd6.jpg",
     serviceType: "New Parent Groups"
   },
   {
     title: "Nature Exploration",
     description: "Outdoor discovery with children",
-    image: familyImage28, // Children exploring outdoors
+    image: "/attached_assets/540c7ede798b410d249591160f8b4b9f.jpg",
     serviceType: "Nature Exploration"
   },
   {
     title: "Elderly Care Social",
     description: "Companionship and care activities",
-    image: companionshipImage, // Elderly care moment
+    image: "/attached_assets/4cc0a7574cdc29223b8258323d959476.jpg",
     serviceType: "Elderly Care Social"
   }
 ];
