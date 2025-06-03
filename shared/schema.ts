@@ -84,6 +84,29 @@ export const messages = pgTable("messages", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const experiences = pgTable("experiences", {
+  id: serial("id").primaryKey(),
+  caregiverId: integer("caregiver_id").notNull(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  serviceType: text("service_type").notNull(),
+  duration: integer("duration").notNull(), // in minutes
+  price: decimal("price", { precision: 10, scale: 2 }).notNull(),
+  maxChildren: integer("max_children").notNull(),
+  ageRange: text("age_range").notNull(), // e.g., "0-2", "3-5", "6-12"
+  location: text("location").notNull(),
+  photos: text("photos").array(), // Array of photo URLs
+  inclusions: text("inclusions").array(), // What's included
+  requirements: text("requirements").array(), // What families need to bring/know
+  availability: text("availability").array(), // Available days/times
+  instantBook: boolean("instant_book").default(false),
+  isActive: boolean("is_active").default(true),
+  rating: decimal("rating", { precision: 3, scale: 2 }).default("0"),
+  reviewCount: integer("review_count").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
@@ -112,6 +135,14 @@ export const insertMessageSchema = createInsertSchema(messages).omit({
   isBlocked: true,
 });
 
+export const insertExperienceSchema = createInsertSchema(experiences).omit({
+  id: true,
+  rating: true,
+  reviewCount: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -127,6 +158,9 @@ export type InsertReview = z.infer<typeof insertReviewSchema>;
 
 export type Message = typeof messages.$inferSelect;
 export type InsertMessage = z.infer<typeof insertMessageSchema>;
+
+export type Experience = typeof experiences.$inferSelect;
+export type InsertExperience = z.infer<typeof insertExperienceSchema>;
 
 // Service types
 export const SERVICE_TYPES = [

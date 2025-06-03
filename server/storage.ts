@@ -1,10 +1,11 @@
 import { 
-  users, nannies, bookings, reviews, messages,
+  users, nannies, bookings, reviews, messages, experiences,
   type User, type InsertUser,
   type Nanny, type InsertNanny,
   type Booking, type InsertBooking, 
   type Review, type InsertReview,
   type Message, type InsertMessage,
+  type Experience, type InsertExperience,
   SERVICE_TYPES, CERTIFICATE_TYPES, SYDNEY_SUBURBS
 } from "@shared/schema";
 
@@ -27,6 +28,18 @@ export interface IStorage {
     maxRate?: number;
   }): Promise<(Nanny & { user: User })[]>;
   getFeaturedNannies(): Promise<(Nanny & { user: User })[]>;
+
+  // Experiences
+  getExperience(id: number): Promise<Experience | undefined>;
+  createExperience(experience: InsertExperience): Promise<Experience>;
+  getExperiencesByCaregiver(caregiverId: number): Promise<Experience[]>;
+  searchExperiences(filters: {
+    location?: string;
+    serviceType?: string;
+    ageRange?: string;
+    maxPrice?: number;
+  }): Promise<(Experience & { caregiver: User })[]>;
+  getFeaturedExperiences(): Promise<(Experience & { caregiver: User })[]>;
 
   // Bookings
   getBooking(id: number): Promise<Booking | undefined>;

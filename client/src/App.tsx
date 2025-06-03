@@ -26,6 +26,7 @@ import Accessibility from "@/pages/accessibility";
 import QuickStart from "@/pages/quick-start";
 import CaregiverOnboarding from "@/pages/caregiver-onboarding";
 import NannyDashboard from "@/pages/nanny-dashboard";
+import CreateExperience from "@/pages/create-experience";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -39,6 +40,7 @@ function Router() {
           <Route path="/search" component={SearchResults} />
           <Route path="/become-nanny" component={BecomeNanny} />
           <Route path="/nanny-dashboard" component={NannyDashboard} />
+          <Route path="/create-experience" component={CreateExperience} />
           <Route path="/messages" component={Messages} />
           <Route path="/login" component={Login} />
           <Route path="/verification" component={ProviderVerification} />
