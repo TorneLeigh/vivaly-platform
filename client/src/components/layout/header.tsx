@@ -15,9 +15,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Header() {
   const [location] = useLocation();
+  const { isAuthenticated, isLoading } = useAuth();
 
   return (
     <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
@@ -70,17 +72,21 @@ export default function Header() {
               </Button>
             </Link>
             
-            <Link href="/messages">
-              <Button variant="ghost" size="sm">
-                <MessageCircle className="h-4 w-4" />
-              </Button>
-            </Link>
+            {isAuthenticated && (
+              <Link href="/messages">
+                <Button variant="ghost" size="sm">
+                  <MessageCircle className="h-4 w-4" />
+                </Button>
+              </Link>
+            )}
 
-            <Link href="/login">
-              <Button className="bg-coral hover:bg-coral/90 text-white">
-                Login
-              </Button>
-            </Link>
+            {!isAuthenticated && (
+              <Link href="/login">
+                <Button className="bg-coral hover:bg-coral/90 text-white">
+                  Login
+                </Button>
+              </Link>
+            )}
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -92,21 +98,37 @@ export default function Header() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem>
-                  <User className="h-4 w-4 mr-2" />
-                  Profile
-                </DropdownMenuItem>
+                {isAuthenticated && (
+                  <DropdownMenuItem>
+                    <User className="h-4 w-4 mr-2" />
+                    Profile
+                  </DropdownMenuItem>
+                )}
 
                 <DropdownMenuItem>
                   <Search className="h-4 w-4 mr-2" />
                   <Link href="/search">Find Care</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <MessageCircle className="h-4 w-4 mr-2" />
-                  <Link href="/messages">Messages</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuItem>Sign out</DropdownMenuItem>
+                
+                {isAuthenticated && (
+                  <DropdownMenuItem>
+                    <MessageCircle className="h-4 w-4 mr-2" />
+                    <Link href="/messages">Messages</Link>
+                  </DropdownMenuItem>
+                )}
+                
+                {isAuthenticated && (
+                  <>
+                    <DropdownMenuItem>Settings</DropdownMenuItem>
+                    <DropdownMenuItem>Sign out</DropdownMenuItem>
+                  </>
+                )}
+                
+                {!isAuthenticated && (
+                  <DropdownMenuItem>
+                    <Link href="/login">Login</Link>
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

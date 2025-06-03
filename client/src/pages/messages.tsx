@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -7,13 +8,27 @@ import { Badge } from "@/components/ui/badge";
 import MessageThread from "@/components/message-thread";
 import { formatRelativeTime } from "@/lib/utils";
 import { MessageCircle, Users, Inbox } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 import type { Message, User } from "@shared/schema";
 
 export default function Messages() {
-  // Mock current user - in a real app this would come from auth context
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
+  const [, setLocation] = useLocation();
   const currentUserId = 5; // parent user
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      setLocation("/login");
+    }
+  }, [isAuthenticated, authLoading, setLocation]);
+
+  // Don't render if not authenticated
+  if (!isAuthenticated) {
+    return null;
+  }
 
   const { data: conversations = [], isLoading } = useQuery({
     queryKey: ["/api/messages/conversations", currentUserId],
