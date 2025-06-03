@@ -11,6 +11,9 @@ app.use(express.urlencoded({ extended: false }));
 // Serve uploaded assets
 app.use('/attached_assets', express.static('attached_assets'));
 
+// Serve public images
+app.use('/images', express.static('public/images'));
+
 // Session configuration
 app.use(session({
   secret: process.env.SESSION_SECRET || 'dev-secret-change-in-production',
