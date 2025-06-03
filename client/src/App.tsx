@@ -18,6 +18,11 @@ import Checkout from "@/pages/checkout";
 import BookingConfirmation from "@/pages/booking-confirmation";
 import Terms from "@/pages/terms";
 import Privacy from "@/pages/privacy";
+import TermsOfService from "@/pages/terms-of-service";
+import PrivacyPolicy from "@/pages/privacy-policy";
+import RefundPolicy from "@/pages/refund-policy";
+import CookiePolicy from "@/pages/cookie-policy";
+import Accessibility from "@/pages/accessibility";
 import NannyDashboard from "@/pages/nanny-dashboard";
 import NotFound from "@/pages/not-found";
 
@@ -41,6 +46,11 @@ function Router() {
           <Route path="/booking-confirmed" component={BookingConfirmation} />
           <Route path="/terms" component={Terms} />
           <Route path="/privacy" component={Privacy} />
+          <Route path="/terms-of-service" component={TermsOfService} />
+          <Route path="/privacy-policy" component={PrivacyPolicy} />
+          <Route path="/refund-policy" component={RefundPolicy} />
+          <Route path="/cookie-policy" component={CookiePolicy} />
+          <Route path="/accessibility" component={Accessibility} />
           <Route component={NotFound} />
         </Switch>
       </main>
