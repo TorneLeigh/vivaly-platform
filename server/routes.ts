@@ -1,10 +1,16 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import Stripe from "stripe";
 import { storage } from "./storage";
 import { 
   insertUserSchema, insertNannySchema, insertBookingSchema, 
   insertReviewSchema, insertMessageSchema 
 } from "@shared/schema";
+
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
+}
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth routes
@@ -34,6 +40,56 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/auth/logout', (req, res) => {
     res.json({ message: "Logged out successfully" });
+  });
+
+  // Stripe payment routes
+  app.post("/api/create-payment-intent", async (req, res) => {
+    try {
+      const { amount, serviceType, nannyId } = req.body;
+      
+      if (!amount || amount < 0.50) {
+        return res.status(400).json({ message: "Invalid amount" });
+      }
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(amount * 100), // Convert to cents
+        currency: "aud", // Australian dollars for Sydney-based platform
+        metadata: {
+          serviceType: serviceType || "childcare_booking",
+          nannyId: nannyId ? nannyId.toString() : "",
+        },
+      });
+
+      res.json({ clientSecret: paymentIntent.client_secret });
+    } catch (error: any) {
+      console.error("Stripe payment intent error:", error);
+      res.status(500).json({ message: "Error creating payment intent: " + error.message });
+    }
+  });
+
+  app.post("/api/create-gift-card-payment", async (req, res) => {
+    try {
+      const { amount, recipientEmail, message } = req.body;
+      
+      if (!amount || amount < 10) {
+        return res.status(400).json({ message: "Gift card minimum is $10" });
+      }
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(amount * 100), // Convert to cents
+        currency: "aud",
+        metadata: {
+          type: "gift_card",
+          recipientEmail: recipientEmail || "",
+          message: message || "",
+        },
+      });
+
+      res.json({ clientSecret: paymentIntent.client_secret });
+    } catch (error: any) {
+      console.error("Stripe gift card payment error:", error);
+      res.status(500).json({ message: "Error creating gift card payment: " + error.message });
+    }
   });
   
   // Nannies routes

@@ -80,10 +80,16 @@ export default function GiftCards() {
   });
 
   const onSubmit = async (data: GiftCardFormData) => {
-    console.log("Gift card data:", data);
-    // Here you would typically process the gift card purchase
-    // For now, we'll show a success message
-    alert("Gift card purchase successful! The recipient will receive an email.");
+    // Redirect to checkout with gift card data
+    const params = new URLSearchParams({
+      amount: data.amount.toString(),
+      serviceType: 'Gift Card',
+      recipientEmail: data.recipientEmail,
+      message: data.message || '',
+      isGiftCard: 'true'
+    });
+    
+    window.location.href = `/gift-card-checkout?${params.toString()}`;
   };
 
   const selectedDesignData = giftCardDesigns.find(d => d.id === selectedDesign);
