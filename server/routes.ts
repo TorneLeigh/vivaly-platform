@@ -252,11 +252,112 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Dashboard routes for nannies
+  app.get("/api/nannies/profile", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const nanny = await storage.getNannyByUserId(userId);
+      
+      if (!nanny) {
+        return res.status(404).json({ message: "Nanny profile not found" });
+      }
+      
+      res.json(nanny);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch nanny profile" });
+    }
+  });
+
+  app.get("/api/bookings/upcoming", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const nanny = await storage.getNannyByUserId(userId);
+      
+      if (!nanny) {
+        return res.json([]);
+      }
+      
+      const bookings = await storage.getBookingsByNanny(nanny.id);
+      const upcomingBookings = bookings.filter(booking => 
+        new Date(booking.date) >= new Date() && booking.status === 'confirmed'
+      );
+      
+      res.json(upcomingBookings);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch upcoming bookings" });
+    }
+  });
+
+  app.get("/api/nannies/earnings", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const nanny = await storage.getNannyByUserId(userId);
+      
+      if (!nanny) {
+        return res.json({ thisMonth: 0, total: 0 });
+      }
+      
+      const bookings = await storage.getBookingsByNanny(nanny.id);
+      const currentMonth = new Date().getMonth();
+      const currentYear = new Date().getFullYear();
+      
+      const thisMonthEarnings = bookings
+        .filter(booking => {
+          const bookingDate = new Date(booking.date);
+          return bookingDate.getMonth() === currentMonth && 
+                 bookingDate.getFullYear() === currentYear &&
+                 booking.status === 'completed';
+        })
+        .reduce((total, booking) => total + parseFloat(booking.totalAmount || '0'), 0);
+      
+      const totalEarnings = bookings
+        .filter(booking => booking.status === 'completed')
+        .reduce((total, booking) => total + parseFloat(booking.totalAmount || '0'), 0);
+      
+      res.json({ thisMonth: thisMonthEarnings, total: totalEarnings });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch earnings" });
+    }
+  });
+
+  app.patch("/api/nannies/availability", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const { isAvailable } = req.body;
+      const nanny = await storage.getNannyByUserId(userId);
+      
+      if (!nanny) {
+        return res.status(404).json({ message: "Nanny profile not found" });
+      }
+      
+      // Update availability in nanny profile
+      const updatedNanny = await storage.updateNanny(nanny.id, { 
+        availability: { general: isAvailable } 
+      });
+      
+      res.json(updatedNanny);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to update availability" });
+    }
+  });
+
   // Bookings routes
   app.post("/api/bookings", async (req, res) => {
     try {
       const bookingData = insertBookingSchema.parse(req.body);
       const booking = await storage.createBooking(bookingData);
+      
+      // Send booking confirmation emails
+      const nanny = await storage.getNanny(booking.nannyId);
+      const parent = await storage.getUser(booking.parentId);
+      
+      if (nanny && parent) {
+        const nannyUser = await storage.getUser(nanny.userId);
+        if (nannyUser) {
+          await sendBookingConfirmation(nannyUser.email, parent.email, booking);
+        }
+      }
+      
       res.status(201).json(booking);
     } catch (error) {
       res.status(400).json({ message: "Invalid booking data" });

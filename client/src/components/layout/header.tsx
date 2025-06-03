@@ -134,6 +134,10 @@ export default function Header() {
                     <MessageCircle className="h-4 w-4 mr-2" />
                     <Link href="/messages">Messages</Link>
                   </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <User className="h-4 w-4 mr-2" />
+                    <Link href="/nanny-dashboard">Dashboard</Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem>Settings</DropdownMenuItem>
                   <DropdownMenuItem onClick={handleLogout}>
                     Sign out
