@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export default function CookiePolicy() {
   useEffect(() => {
-    document.title = "Cookie Policy | Aircare";
+    document.title = "Cookie Policy | Aircare AU";
   }, []);
 
   return (

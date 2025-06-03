@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export default function RefundPolicy() {
   useEffect(() => {
-    document.title = "Refund Policy | Aircare";
+    document.title = "Refund Policy | Aircare AU";
   }, []);
 
   return (
