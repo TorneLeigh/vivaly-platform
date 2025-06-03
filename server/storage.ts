@@ -110,10 +110,22 @@ export class MemStorage implements IStorage {
 
     for (let i = 0; i < sampleUsers.length; i++) {
       const userData = sampleUsers[i];
+      const profileImages = [
+        "2df543a46e343b349dce96a9b74e7bf3.jpg",
+        "4cc0a7574cdc29223b8258323d959476.jpg", 
+        "540c7ede798b410d249591160f8b4b9f.jpg",
+        "58268e04ad7e7126279d8950565a0cd6.jpg",
+        "7111567ee33e7fbd156e36bd454e1ed4.jpg",
+        "7afa703a4529f33380507613ab2963dd.jpg",
+        "a320779cd5ae5ce8e8ecf846003d8ff9.jpg",
+        "aba916b517ced96c85496925fb8b71d5.jpg",
+        "b311470ecb8ff04ca3b4a03ea5ad8f71.jpg"
+      ];
+      
       const user: User = { 
         ...userData, 
         id: this.currentUserId++, 
-        profileImage: "", 
+        profileImage: profileImages[i % profileImages.length], 
         createdAt: new Date(),
         phone: userData.phone || null,
         isNanny: userData.isNanny || false

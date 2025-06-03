@@ -17,13 +17,21 @@ export default function NannyCard({ nanny }: NannyCardProps) {
         {/* Profile Image */}
         <div className="relative mb-2">
           <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden sm:rounded-xl">
-            <div className="h-full flex items-center justify-center">
-              <div className="w-8 h-8 sm:w-12 sm:h-12 bg-white border border-gray-200 rounded-full flex items-center justify-center">
-                <span className="text-sm sm:text-lg font-semibold text-gray-700">
-                  {nanny.user.firstName[0]}{nanny.user.lastName[0]}
-                </span>
+            {nanny.user.profileImage ? (
+              <img 
+                src={`/attached_assets/${nanny.user.profileImage}`}
+                alt={`${nanny.user.firstName} ${nanny.user.lastName}`}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="h-full flex items-center justify-center">
+                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-white border border-gray-200 rounded-full flex items-center justify-center">
+                  <span className="text-sm sm:text-lg font-semibold text-gray-700">
+                    {nanny.user.firstName[0]}{nanny.user.lastName[0]}
+                  </span>
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <div className="absolute top-1 right-1 flex flex-col gap-1">
             {nanny.isVerified && (

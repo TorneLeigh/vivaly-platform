@@ -8,6 +8,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Serve uploaded assets
+app.use('/attached_assets', express.static('attached_assets'));
+
 // Session configuration
 app.use(session({
   secret: process.env.SESSION_SECRET || 'dev-secret-change-in-production',
