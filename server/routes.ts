@@ -7,6 +7,34 @@ import {
 } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Auth routes
+  app.get('/api/auth/user', (req, res) => {
+    // For now, return null (not authenticated)
+    // This will be replaced with real auth when we implement login
+    res.json(null);
+  });
+
+  app.post('/api/auth/login', (req, res) => {
+    // Mock login - will be replaced with real authentication
+    const { email, password } = req.body;
+    
+    if (email && password) {
+      // Return mock user data
+      res.json({
+        id: 1,
+        email: email,
+        firstName: "Demo",
+        lastName: "User",
+        createdAt: new Date().toISOString()
+      });
+    } else {
+      res.status(400).json({ message: "Email and password required" });
+    }
+  });
+
+  app.post('/api/auth/logout', (req, res) => {
+    res.json({ message: "Logged out successfully" });
+  });
   
   // Nannies routes
   app.get("/api/nannies/featured", async (req, res) => {
