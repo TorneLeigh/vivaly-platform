@@ -54,61 +54,61 @@ const serviceCategories = [
   {
     title: "Newborn Care",
     description: "Specialized care for newborns",
-    image: newbornImage,
+    image: "/images/newborn.jpg",
     serviceType: "Newborn Care"
   },
   {
     title: "Childcare", 
     description: "Daily care for children",
-    image: childcareImage,
+    image: "/images/childcare.jpg",
     serviceType: "Childcare"
   },
   {
     title: "Daycare",
     description: "Group daycare services", 
-    image: daycareImage,
+    image: "/images/daycare.jpg",
     serviceType: "Daycare"
   },
   {
     title: "Nanny Services",
     description: "Professional nanny care",
-    image: nannyImage,
+    image: "/images/nanny.jpg",
     serviceType: "Nanny"
   },
   {
     title: "Au Pair",
     description: "Live-in cultural exchange care",
-    image: auPairImage,
+    image: "/images/aupair.jpg",
     serviceType: "Au Pair"
   },
   {
     title: "Babysitting",
     description: "Occasional childcare",
-    image: babysitterImage,
+    image: "/images/babysitter.jpg",
     serviceType: "Babysitting"
   },
   {
     title: "Midwife Services",
     description: "Pregnancy and birth support",
-    image: midwifeImage,
+    image: "/images/midwife.jpg",
     serviceType: "Midwife Services"
   },
   {
     title: "Elderly Care",
     description: "Senior care services",
-    image: elderlyImage,
+    image: "/images/elderly.jpg",
     serviceType: "Elderly Care"
   },
   {
     title: "Companionship",
     description: "Social companionship care",
-    image: companionshipImage,
+    image: "/images/companionship.jpg",
     serviceType: "Companionship"
   },
   {
     title: "Pet Care",
     description: "Professional pet services",
-    image: petCareImage,
+    image: "/images/petcare.jpg",
     serviceType: "Pet Care"
   }
 ];
@@ -278,20 +278,21 @@ export default function Home() {
                       onError={(e) => {
                         console.error('Failed to load image:', category.image);
                         console.error('Image path attempted:', e.currentTarget.src);
-                        // Fallback to a solid color background if image fails
+                        // Fallback to a light background if image fails
                         e.currentTarget.style.display = 'none';
-                        e.currentTarget.parentElement.style.backgroundColor = '#f3f4f6';
-                        e.currentTarget.parentElement.innerHTML = `
-                          <div class="flex items-center justify-center h-full">
-                            <span class="text-gray-500 text-xs">Image Error</span>
-                          </div>
-                        `;
+                        if (e.currentTarget.parentElement) {
+                          e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
+                          e.currentTarget.parentElement.innerHTML = `
+                            <div class="flex items-center justify-center h-full">
+                              <span class="text-gray-400 text-xs">${category.title}</span>
+                            </div>
+                          `;
+                        }
                       }}
                       onLoad={(e) => {
                         console.log('Successfully loaded image:', category.image);
                       }}
                     />
-                    <div className="absolute inset-0 bg-black bg-opacity-20 transition-opacity duration-300 group-hover:bg-opacity-10"></div>
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 text-sm mb-1">{category.title}</h3>
