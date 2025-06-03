@@ -87,12 +87,22 @@ export const messages = pgTable("messages", {
 export const experiences = pgTable("experiences", {
   id: serial("id").primaryKey(),
   caregiverId: integer("caregiver_id").notNull(),
+  // Personal details
+  firstName: text("first_name").notNull(),
+  lastName: text("last_name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone").notNull(),
+  bio: text("bio").notNull(),
+  // Experience details
   title: text("title").notNull(),
   description: text("description").notNull(),
   serviceType: text("service_type").notNull(),
   duration: integer("duration").notNull(), // in minutes
-  price: decimal("price", { precision: 10, scale: 2 }).notNull(),
-  maxChildren: integer("max_children").notNull(),
+  // Pricing
+  isFree: boolean("is_free").default(false),
+  price: decimal("price", { precision: 10, scale: 2 }),
+  // Participants
+  maxParticipants: integer("max_participants").notNull(),
   ageRange: text("age_range").notNull(), // e.g., "0-2", "3-5", "6-12"
   location: text("location").notNull(),
   photos: text("photos").array(), // Array of photo URLs
