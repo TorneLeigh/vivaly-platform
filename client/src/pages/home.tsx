@@ -280,6 +280,78 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Pet Care Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="flex justify-center items-center gap-3 mb-4">
+              <PawPrint className="h-8 w-8 text-blue-600" />
+              <h2 className="text-4xl font-bold text-gray-900">Pet Care Services</h2>
+              <Dog className="h-8 w-8 text-blue-600" />
+            </div>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Your furry family members deserve the best care too. Find trusted pet sitters, dog walkers, and animal care specialists.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+                 onClick={() => window.location.href = '/search?serviceType=Pet Sitting'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3 bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center">
+                <Dog className="h-12 w-12 text-amber-700" />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Pet Sitting</h3>
+              <p className="text-xs text-gray-600">In-home pet care</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+                 onClick={() => window.location.href = '/search?serviceType=Dog Walking'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3 bg-gradient-to-br from-green-100 to-emerald-200 flex items-center justify-center">
+                <TreePine className="h-12 w-12 text-green-700" />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Dog Walking</h3>
+              <p className="text-xs text-gray-600">Daily exercise</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+                 onClick={() => window.location.href = '/search?serviceType=Pet Boarding'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3 bg-gradient-to-br from-blue-100 to-sky-200 flex items-center justify-center">
+                <Heart className="h-12 w-12 text-blue-700" />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Pet Boarding</h3>
+              <p className="text-xs text-gray-600">Overnight care</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+                 onClick={() => window.location.href = '/search?serviceType=Pet Grooming'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3 bg-gradient-to-br from-purple-100 to-violet-200 flex items-center justify-center">
+                <Palette className="h-12 w-12 text-purple-700" />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Pet Grooming</h3>
+              <p className="text-xs text-gray-600">Professional styling</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+                 onClick={() => window.location.href = '/search?serviceType=Pet Training'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3 bg-gradient-to-br from-red-100 to-pink-200 flex items-center justify-center">
+                <BookOpen className="h-12 w-12 text-red-700" />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Pet Training</h3>
+              <p className="text-xs text-gray-600">Behavioral guidance</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+                 onClick={() => window.location.href = '/search?serviceType=Overnight Pet Care'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3 bg-gradient-to-br from-indigo-100 to-blue-200 flex items-center justify-center">
+                <Sun className="h-12 w-12 text-indigo-700" />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Overnight Care</h3>
+              <p className="text-xs text-gray-600">Extended sitting</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Services in Popular Areas */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
