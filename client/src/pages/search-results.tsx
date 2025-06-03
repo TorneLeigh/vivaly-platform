@@ -90,106 +90,107 @@ export default function SearchResults() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Search Header */}
-      <div className="bg-white border-b">
+    <div className="min-h-screen bg-white">
+      {/* Clean Search Header */}
+      <div className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <SearchFilters onSearch={handleSearch} className="mb-4" />
+          <div className="bg-white rounded-full shadow-lg border border-gray-200 p-2 mb-6">
+            <SearchFilters onSearch={handleSearch} />
+          </div>
           
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-warm-gray">
-              {isLoading ? 'Searching...' : `${nannies.length} caregivers found`}
+            <h1 className="text-2xl font-bold text-gray-900">
+              {isLoading ? 'Searching...' : `${nannies.length} caregivers available`}
             </h1>
             
-            <div className="flex items-center space-x-2">
-              {/* Desktop Filters */}
-              <div className="hidden lg:block">
-                <Card className="w-64">
-                  <CardContent className="p-4">
-                    <div className="flex items-center mb-4">
-                      <SlidersHorizontal className="w-4 h-4 mr-2" />
-                      <span className="font-medium">Filters</span>
-                    </div>
+            {/* Mobile Filters Only */}
+            <div className="lg:hidden">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="sm" className="border-gray-200">
+                    <Filter className="w-4 h-4 mr-2" />
+                    Filters
+                  </Button>
+                </SheetTrigger>
+                <SheetContent>
+                  <SheetHeader>
+                    <SheetTitle>Filter Results</SheetTitle>
+                    <SheetDescription>
+                      Refine your search to find the perfect caregiver
+                    </SheetDescription>
+                  </SheetHeader>
+                  <div className="mt-6">
                     <FilterContent />
-                  </CardContent>
-                </Card>
-              </div>
-              
-              {/* Mobile Filters */}
-              <div className="lg:hidden">
-                <Sheet>
-                  <SheetTrigger asChild>
-                    <Button variant="outline" size="sm">
-                      <Filter className="w-4 h-4 mr-2" />
-                      Filters
-                    </Button>
-                  </SheetTrigger>
-                  <SheetContent>
-                    <SheetHeader>
-                      <SheetTitle>Filter Results</SheetTitle>
-                      <SheetDescription>
-                        Refine your search to find the perfect caregiver
-                      </SheetDescription>
-                    </SheetHeader>
-                    <div className="mt-6">
-                      <FilterContent />
-                    </div>
-                  </SheetContent>
-                </Sheet>
-              </div>
+                  </div>
+                </SheetContent>
+              </Sheet>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Results Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {[...Array(8)].map((_, index) => (
-              <div key={index} className="bg-white rounded-2xl shadow-sm p-6 animate-pulse">
-                <div className="w-full h-48 bg-gray-200 rounded-t-2xl mb-4"></div>
-                <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                <div className="h-3 bg-gray-200 rounded mb-3"></div>
-                <div className="flex gap-2 mb-4">
-                  <div className="h-5 w-16 bg-gray-200 rounded"></div>
-                  <div className="h-5 w-12 bg-gray-200 rounded"></div>
-                </div>
-                <div className="flex justify-between items-center">
-                  <div className="h-5 w-16 bg-gray-200 rounded"></div>
-                  <div className="h-8 w-20 bg-gray-200 rounded"></div>
+      {/* Clean Results Layout */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex gap-8">
+          {/* Desktop Sidebar Filters */}
+          <div className="hidden lg:block w-72 flex-shrink-0">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-24">
+              <div className="flex items-center mb-6">
+                <SlidersHorizontal className="w-5 h-5 mr-3 text-gray-600" />
+                <h3 className="font-semibold text-gray-900">Refine Search</h3>
+              </div>
+              <FilterContent />
+            </div>
+          </div>
+
+          {/* Results Area */}
+          <div className="flex-1 pb-8">
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[...Array(9)].map((_, index) => (
+                  <div key={index} className="bg-white rounded-2xl shadow-sm animate-pulse overflow-hidden">
+                    <div className="w-full h-48 bg-gray-200"></div>
+                    <div className="p-4">
+                      <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                      <div className="h-3 bg-gray-200 rounded w-2/3 mb-2"></div>
+                      <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : nannies.length === 0 ? (
+              <div className="text-center py-20">
+                <div className="max-w-md mx-auto">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">No caregivers found</h3>
+                  <p className="text-gray-600 mb-8">
+                    Try adjusting your search criteria or browse our featured caregivers instead.
+                  </p>
+                  <div className="space-y-3">
+                    <Button 
+                      onClick={() => window.location.reload()} 
+                      className="w-full bg-orange-500 hover:bg-orange-600 text-white"
+                    >
+                      Reset Search
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => window.location.href = '/'}
+                      className="w-full"
+                    >
+                      Browse All Caregivers
+                    </Button>
+                  </div>
                 </div>
               </div>
-            ))}
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {nannies.map((nanny: Nanny & { user: User }) => (
+                  <NannyCard key={nanny.id} nanny={nanny} />
+                ))}
+              </div>
+            )}
           </div>
-        ) : nannies.length === 0 ? (
-          <div className="text-center py-16">
-            <div className="max-w-md mx-auto">
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No caregivers available</h3>
-              <p className="text-gray-500 mb-6">
-                No caregivers match your search criteria for the selected date and time. Try adjusting your filters or selecting different dates.
-              </p>
-              <Button onClick={() => window.location.reload()} className="bg-coral hover:bg-coral/90">
-                Reset Search
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div className="mb-6 p-4 bg-soft-green bg-opacity-10 rounded-lg border border-soft-green border-opacity-20">
-              <h3 className="font-semibold text-soft-green mb-2">Available Caregivers Found</h3>
-              <p className="text-gray-700 text-sm">
-                All caregivers shown below are verified, background-checked, and available for your selected time slot. 
-                You can book instantly with any of these approved providers.
-              </p>
-            </div>
-            <div className="grid grid-cols-6 gap-4">
-              {nannies.map((nanny: Nanny & { user: User }) => (
-                <NannyCard key={nanny.id} nanny={nanny} />
-              ))}
-            </div>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );
