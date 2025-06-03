@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-2xl font-bold text-coral mb-4">Carely</h3>
+            <h3 className="text-2xl font-bold text-coral mb-4">Aircare</h3>
             <p className="text-gray-300 mb-4">
               Connecting families with trusted caregivers across Australia.
             </p>
@@ -52,7 +52,7 @@ export default function Footer() {
         
         <div className="border-t border-gray-600 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="text-gray-400 text-sm">
-            © 2025 Carely Australia. All rights reserved.
+            © 2025 Aircare Australia. All rights reserved.
           </div>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link href="/help" className="text-gray-400 text-sm hover:text-white transition-colors">Help Center</Link>

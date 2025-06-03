@@ -60,7 +60,7 @@ export default function Header() {
           <div className="flex items-center">
             <Link href="/">
               <h1 className="text-2xl font-bold text-coral cursor-pointer">
-                Carely
+                Aircare
               </h1>
             </Link>
           </div>
