@@ -62,19 +62,19 @@ const serviceCategories = [
   {
     title: "1-on-1 Care",
     description: "Personal attention",
-    image: "/attached_assets/de1126eedd477730852d8c5558d5228f.jpg", // Mother reading to baby
+    image: "/attached_assets/0322f50abf3a7fc6d8def12b41336e6a.jpg", // Two children playing together
     serviceType: "1-on-1 Care"
   },
   {
     title: "Group Care", 
     description: "Small groups",
-    image: "/attached_assets/5c49767488148ac28757a08c6753fd68.jpg", // Two children playing with blocks
+    image: "/attached_assets/9c49b20a043b475fc92f416a52da3a32.jpg", // Children in circle holding hands
     serviceType: "Group Care"
   },
   {
     title: "Midwife Services",
     description: "Birth & postnatal support", 
-    image: "/attached_assets/5204c0c48d0dc2e1af450973bc115d18.jpg", // Mother playing blocks with child
+    image: "/attached_assets/988a042ea7f506d78efe22b6305455a5.jpg", // Caregiver with children
     serviceType: "Midwife Services"
   },
   {
@@ -86,25 +86,25 @@ const serviceCategories = [
   {
     title: "Postpartum",
     description: "New parent support",
-    image: "/attached_assets/da9a8502c75f58f7f36a01b9e533d46d.jpg", // Girl caring for baby doll
+    image: "/attached_assets/46c0702d1b48d35f894a0fe16f437b43.jpg", // Children learning with puzzles
     serviceType: "Postpartum Support"
   },
   {
     title: "Breastfeeding",
     description: "Lactation support",
-    image: "/attached_assets/0c25205c3003fd2bf70fa884ad5fe1f5.jpg", // Colorful wooden stacking toy
+    image: "/attached_assets/ad23d9f10c69e3bfc73ffe82a1bac618.jpg", // Happy children playing with toys
     serviceType: "Breastfeeding Support"
   },
   {
     title: "Birth Education",
     description: "Preparation classes",
-    image: "/attached_assets/c5e4a7514e214eb119a5a0d459aa6bdf.jpg", // Children building blocks together
+    image: "/attached_assets/988a042ea7f506d78efe22b6305455a5.jpg", // Caregiver with multiple children
     serviceType: "Birth Education"
   },
   {
     title: "Elderly Care",
     description: "Senior assistance",
-    image: "/attached_assets/e84b82177ddf914b2846c3f2490fa10a.jpg", // Elderly exercise group
+    image: "/attached_assets/e84b82177ddf914b2846c3f2490fa10a.jpg", // Elderly care assistance
     serviceType: "Elderly Care"
   },
   {
@@ -401,7 +401,7 @@ export default function Home() {
       </section>
 
       {/* Featured Nannies */}
-      <section className="py-16 bg-light-gray">
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-12">
             <h2 className="text-3xl font-bold text-warm-gray">Featured caregivers</h2>
