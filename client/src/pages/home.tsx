@@ -557,29 +557,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Bottom CTA */}
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Ready to find your perfect caregiver?
-          </h2>
-          <p className="text-xl text-gray-600 mb-8">
-            Join thousands of Sydney families who trust Aircare
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/search">
-              <Button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 animate-bounce-slow">
-                Start Searching
-              </Button>
-            </Link>
-            <Link href="/caregiver-onboarding">
-              <Button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 animate-bounce-slow">
-                Become a Caregiver
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+
     </div>
   );
 }
