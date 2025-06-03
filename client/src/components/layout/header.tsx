@@ -92,8 +92,8 @@ export default function Header() {
             {/* Mobile Menu */}
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="sm" className="md:hidden">
-                  <MenuIcon className="h-5 w-5" />
+                <Button variant="ghost" size="sm" className="md:hidden p-2">
+                  <MenuIcon className="h-6 w-6 text-gray-700" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-80">
