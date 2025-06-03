@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import Stripe from "stripe";
+import bcrypt from "bcryptjs";
 import { storage } from "./storage";
 import { 
   insertUserSchema, insertNannySchema, insertBookingSchema, 
@@ -44,8 +45,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
-      // In production, verify password hash here
-      // For now, accept any password for demo
+      // Verify password hash
+      const isValidPassword = await bcrypt.compare(password, user.password);
+      if (!isValidPassword) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
       
       // Store user ID in session
       req.session.userId = user.id;
@@ -66,10 +70,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "User already exists" });
       }
 
+      // Hash password for security
+      const hashedPassword = await bcrypt.hash(password, 12);
+      
       // Create new user
       const user = await storage.createUser({
         email,
-        password, // In production, hash password here
+        password: hashedPassword,
         firstName,
         lastName,
       });
