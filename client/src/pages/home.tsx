@@ -190,65 +190,56 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Enhanced Hero Section with Better Visual Hierarchy */}
-      <section className="bg-gradient-to-b from-white to-gray-50 relative min-h-[70vh] flex items-center">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <div className="inline-block bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
-              Australia's most trusted care marketplace
-            </div>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight mb-6">
-              Find the perfect
-              <span className="block text-orange-500">caregiver today</span>
-            </h1>
-            <p className="text-xl sm:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
-              Connect with verified, background-checked caregivers in your area. From babysitting to elderly care, we've got you covered.
-            </p>
-          </div>
+      {/* Hero Section - Airbnb Style */}
+      <section className="bg-white relative min-h-[60vh] flex items-center">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-tight mb-4">
+            Book trusted care in minutes
+          </h1>
+          <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Instant booking • Verified caregivers • Available today
+          </p>
           
-          {/* Enhanced Search Bar with Better Styling */}
-          <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-3 max-w-4xl mx-auto mb-12 hover:shadow-3xl transition-shadow duration-300">
+          {/* Large Search Bar - Airbnb Style */}
+          <div className="bg-white rounded-full shadow-lg border border-gray-200 p-2 max-w-3xl mx-auto mb-8">
             <SearchFilters onSearch={(filters) => {
               const searchParams = new URLSearchParams(filters);
               window.location.href = `/search?${searchParams.toString()}`;
             }} />
           </div>
 
-          {/* Improved Quick Actions with Icons */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
+          {/* Quick Booking Options */}
+          <div className="flex flex-wrap justify-center gap-4 mb-6">
             <Link href="/quick-start?when=tonight">
-              <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
-                <Clock className="w-4 h-4" />
+              <Button className="text-black animate-bounce-slow hover:opacity-90" style={{ backgroundColor: '#FFB366' }}>
                 Book Tonight
               </Button>
             </Link>
             <Link href="/quick-start?when=weekend">
-              <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
-                <Sun className="w-4 h-4" />
+              <Button className="text-black animate-bounce-slow hover:opacity-90" style={{ backgroundColor: '#FFB366' }}>
                 This Weekend
               </Button>
             </Link>
             <Link href="/quick-start?when=next-week">
-              <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
-                <Search className="w-4 h-4" />
+              <Button className="text-black animate-bounce-slow hover:opacity-90" style={{ backgroundColor: '#FFB366' }}>
                 Next Week
               </Button>
             </Link>
           </div>
 
-          {/* Enhanced Stats with Better Design */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto">
-            <div className="text-center bg-white rounded-xl p-6 shadow-lg">
-              <div className="text-3xl font-bold text-orange-500 mb-2">500+</div>
-              <div className="text-gray-600 font-medium">Verified Caregivers</div>
+          {/* Quick Stats */}
+          <div className="flex justify-center items-center space-x-8 text-sm text-gray-600">
+            <div className="text-center">
+              <div className="font-semibold text-gray-900">500+</div>
+              <div>Caregivers</div>
             </div>
-            <div className="text-center bg-white rounded-xl p-6 shadow-lg">
-              <div className="text-3xl font-bold text-orange-500 mb-2">10,000+</div>
-              <div className="text-gray-600 font-medium">Happy Families</div>
+            <div className="text-center">
+              <div className="font-semibold text-gray-900">10,000+</div>
+              <div>Families served</div>
             </div>
-            <div className="text-center bg-white rounded-xl p-6 shadow-lg">
-              <div className="text-3xl font-bold text-orange-500 mb-2">4.9★</div>
-              <div className="text-gray-600 font-medium">Average Rating</div>
+            <div className="text-center">
+              <div className="font-semibold text-gray-900">4.9</div>
+              <div>Average rating</div>
             </div>
           </div>
         </div>
