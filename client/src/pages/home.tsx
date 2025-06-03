@@ -204,22 +204,19 @@ export default function Home() {
           </div>
 
           {/* Quick Booking Options */}
-          <h3 className="text-2xl font-semibold mb-6" style={{ color: '#FFB366' }}>
-            Quick Booking
-          </h3>
           <div className="flex flex-wrap justify-center gap-4 mb-6">
             <Link href="/quick-start?when=tonight">
-              <Button className="bg-coral text-white hover:bg-coral/90 animate-bounce-slow">
+              <Button className="text-black animate-bounce-slow hover:opacity-90" style={{ backgroundColor: '#FFB366' }}>
                 Book Tonight
               </Button>
             </Link>
             <Link href="/quick-start?when=weekend">
-              <Button variant="outline" className="border-coral text-coral hover:bg-coral hover:text-white animate-bounce-slow">
+              <Button className="text-black animate-bounce-slow hover:opacity-90" style={{ backgroundColor: '#FFB366' }}>
                 This Weekend
               </Button>
             </Link>
             <Link href="/quick-start?when=next-week">
-              <Button variant="outline" className="border-coral text-coral hover:bg-coral hover:text-white animate-bounce-slow">
+              <Button className="text-black animate-bounce-slow hover:opacity-90" style={{ backgroundColor: '#FFB366' }}>
                 Next Week
               </Button>
             </Link>
