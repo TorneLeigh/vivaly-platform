@@ -468,6 +468,60 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Services</h3>
+              <ul className="space-y-2">
+                <li><Link href="/search?type=nanny" className="text-gray-300 hover:text-white">Nannies</Link></li>
+                <li><Link href="/search?type=babysitter" className="text-gray-300 hover:text-white">Babysitters</Link></li>
+                <li><Link href="/search?type=elder" className="text-gray-300 hover:text-white">Elder Care</Link></li>
+                <li><Link href="/search?type=pet" className="text-gray-300 hover:text-white">Pet Care</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">For Caregivers</h3>
+              <ul className="space-y-2">
+                <li><Link href="/become-nanny" className="text-gray-300 hover:text-white">Join as Caregiver</Link></li>
+                <li><Link href="/caregiver-resources" className="text-gray-300 hover:text-white">Resources</Link></li>
+                <li><Link href="/safety-center" className="text-gray-300 hover:text-white">Safety Center</Link></li>
+                <li><Link href="/background-checks" className="text-gray-300 hover:text-white">Background Checks</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Support</h3>
+              <ul className="space-y-2">
+                <li><Link href="/help" className="text-gray-300 hover:text-white">Help Center</Link></li>
+                <li><Link href="/contact" className="text-gray-300 hover:text-white">Contact Us</Link></li>
+                <li><Link href="/safety" className="text-gray-300 hover:text-white">Safety Tips</Link></li>
+                <li><Link href="/trust-safety" className="text-gray-300 hover:text-white">Trust & Safety</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Legal</h3>
+              <ul className="space-y-2">
+                <li><Link href="/terms-of-service" className="text-gray-300 hover:text-white">Terms of Service</Link></li>
+                <li><Link href="/privacy-policy" className="text-gray-300 hover:text-white">Privacy Policy</Link></li>
+                <li><Link href="/refund-policy" className="text-gray-300 hover:text-white">Refund Policy</Link></li>
+                <li><Link href="/cookie-policy" className="text-gray-300 hover:text-white">Cookie Policy</Link></li>
+                <li><Link href="/accessibility" className="text-gray-300 hover:text-white">Accessibility</Link></li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-8 pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center">
+            <div className="text-gray-300 text-sm">
+              © 2025 CareConnect Australia. All rights reserved.
+            </div>
+            <div className="flex space-x-6 mt-4 md:mt-0">
+              <span className="text-gray-300 text-sm">📧 hello@careconnect.com.au</span>
+              <span className="text-gray-300 text-sm">📞 1800 CARE HELP</span>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

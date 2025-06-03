@@ -10,7 +10,7 @@ if (process.env.SENDGRID_API_KEY) {
 
 interface EmailParams {
   to: string;
-  from: string;
+  from?: string;
   subject: string;
   text?: string;
   html?: string;
@@ -30,7 +30,7 @@ export async function sendEmail(params: EmailParams): Promise<boolean> {
   try {
     await mailService.send({
       to: params.to,
-      from: params.from,
+      from: params.from || 'noreply@careconnect.com.au',
       subject: params.subject,
       text: params.text,
       html: params.html,
