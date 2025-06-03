@@ -272,36 +272,57 @@ export class MemStorage implements IStorage {
     maxRate?: number;
   }): Promise<(Nanny & { user: User })[]> {
     let results = Array.from(this.nannies.values());
+    console.log(`🔍 Search filters:`, filters);
+    console.log(`📊 Total nannies before filtering:`, results.length);
     
     if (filters.location && filters.location !== "All Sydney" && filters.location.trim() !== "") {
       const searchLocation = filters.location.toLowerCase().trim();
+      const beforeCount = results.length;
       results = results.filter(nanny => {
         const nannyLocation = nanny.location.toLowerCase();
         const nannySuburb = nanny.suburb.toLowerCase();
         
-        // Check if search matches suburb exactly or partially
-        return nannyLocation.includes(searchLocation) ||
-               nannySuburb.includes(searchLocation) ||
-               searchLocation.includes(nannySuburb);
+        // For suburb searches like "Eastern Suburbs", match against the suburb field
+        const matches = nannyLocation.includes(searchLocation) ||
+                       nannySuburb.includes(searchLocation) ||
+                       searchLocation.includes(nannySuburb) ||
+                       nannySuburb === searchLocation;
+        
+        if (!matches) {
+          console.log(`❌ Location filter: Nanny ${nanny.id} location: "${nanny.location}" suburb: "${nanny.suburb}" doesn't match "${filters.location}"`);
+        }
+        return matches;
       });
+      console.log(`📍 After location filter (${filters.location}): ${beforeCount} → ${results.length}`);
     }
 
     if (filters.serviceType && filters.serviceType !== "All Services" && filters.serviceType.trim() !== "") {
       const searchServiceType = filters.serviceType.trim();
+      const beforeCount = results.length;
       results = results.filter(nanny => {
         if (!nanny.services) return false;
-        return nanny.services.includes(searchServiceType);
+        const hasService = nanny.services.includes(searchServiceType);
+        if (!hasService) {
+          console.log(`❌ Service filter: Nanny ${nanny.id} services: [${nanny.services.join(', ')}] doesn't include "${searchServiceType}"`);
+        }
+        return hasService;
       });
+      console.log(`🎯 After service type filter (${filters.serviceType}): ${beforeCount} → ${results.length}`);
     }
 
     if (filters.minRate) {
+      const beforeCount = results.length;
       results = results.filter(nanny => parseFloat(nanny.hourlyRate!) >= filters.minRate!);
+      console.log(`💰 After min rate filter ($${filters.minRate}): ${beforeCount} → ${results.length}`);
     }
 
     if (filters.maxRate) {
+      const beforeCount = results.length;
       results = results.filter(nanny => parseFloat(nanny.hourlyRate!) <= filters.maxRate!);
+      console.log(`💰 After max rate filter ($${filters.maxRate}): ${beforeCount} → ${results.length}`);
     }
 
+    console.log(`✅ Final results:`, results.length);
     return results.map(nanny => ({
       ...nanny,
       user: this.users.get(nanny.userId)!
