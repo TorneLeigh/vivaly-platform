@@ -3,6 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import NannyCard from "@/components/nanny-card";
 import SearchFilters from "@/components/search-filters";
+import FloatingActionButton from "@/components/floating-action-button";
 import { 
   User, 
   Users, 
@@ -189,56 +190,65 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section - Airbnb Style */}
-      <section className="bg-white relative min-h-[60vh] flex items-center">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-tight mb-4">
-            Book trusted care in minutes
-          </h1>
-          <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Instant booking • Verified caregivers • Available today
-          </p>
+      {/* Enhanced Hero Section with Better Visual Hierarchy */}
+      <section className="bg-gradient-to-b from-white to-gray-50 relative min-h-[70vh] flex items-center">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="inline-block bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
+              Australia's most trusted care marketplace
+            </div>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight mb-6">
+              Find the perfect
+              <span className="block text-orange-500">caregiver today</span>
+            </h1>
+            <p className="text-xl sm:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+              Connect with verified, background-checked caregivers in your area. From babysitting to elderly care, we've got you covered.
+            </p>
+          </div>
           
-          {/* Large Search Bar - Airbnb Style */}
-          <div className="bg-white rounded-full shadow-lg border border-gray-200 p-2 max-w-3xl mx-auto mb-8">
+          {/* Enhanced Search Bar with Better Styling */}
+          <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-3 max-w-4xl mx-auto mb-12 hover:shadow-3xl transition-shadow duration-300">
             <SearchFilters onSearch={(filters) => {
               const searchParams = new URLSearchParams(filters);
               window.location.href = `/search?${searchParams.toString()}`;
             }} />
           </div>
 
-          {/* Quick Booking Options */}
-          <div className="flex flex-wrap justify-center gap-4 mb-6">
+          {/* Improved Quick Actions with Icons */}
+          <div className="flex flex-wrap justify-center gap-3 mb-12">
             <Link href="/quick-start?when=tonight">
-              <Button className="text-black animate-bounce-slow hover:opacity-90" style={{ backgroundColor: '#FFB366' }}>
+              <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
+                <Clock className="w-4 h-4" />
                 Book Tonight
               </Button>
             </Link>
             <Link href="/quick-start?when=weekend">
-              <Button className="text-black animate-bounce-slow hover:opacity-90" style={{ backgroundColor: '#FFB366' }}>
+              <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
+                <Sun className="w-4 h-4" />
                 This Weekend
               </Button>
             </Link>
             <Link href="/quick-start?when=next-week">
-              <Button className="text-black animate-bounce-slow hover:opacity-90" style={{ backgroundColor: '#FFB366' }}>
+              <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
+                <Search className="w-4 h-4" />
                 Next Week
               </Button>
             </Link>
           </div>
 
-          {/* Quick Stats */}
-          <div className="flex justify-center items-center space-x-8 text-sm text-gray-600">
-            <div className="text-center">
-              <div className="font-semibold text-gray-900">500+</div>
-              <div>Caregivers</div>
+          {/* Enhanced Stats with Better Design */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto">
+            <div className="text-center bg-white rounded-xl p-6 shadow-lg">
+              <div className="text-3xl font-bold text-orange-500 mb-2">500+</div>
+              <div className="text-gray-600 font-medium">Verified Caregivers</div>
             </div>
-            <div className="text-center">
-              <div className="font-semibold text-gray-900">10,000+</div>
-              <div>Families served</div>
+            <div className="text-center bg-white rounded-xl p-6 shadow-lg">
+              <div className="text-3xl font-bold text-orange-500 mb-2">10,000+</div>
+              <div className="text-gray-600 font-medium">Happy Families</div>
             </div>
-            <div className="text-center">
-              <div className="font-semibold text-gray-900">4.9</div>
-              <div>Average rating</div>
+            <div className="text-center bg-white rounded-xl p-6 shadow-lg">
+              <div className="text-3xl font-bold text-orange-500 mb-2">4.9★</div>
+              <div className="text-gray-600 font-medium">Average Rating</div>
             </div>
           </div>
         </div>
@@ -530,34 +540,63 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trust Features */}
-      <section className="py-16 bg-white">
+      {/* Enhanced Trust Features */}
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-warm-gray mb-4">Safety and trust first</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Every caregiver on CareConnect goes through our comprehensive verification process
+            <div className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
+              Verified & Trusted Platform
+            </div>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">Your family's safety is our priority</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Every caregiver undergoes rigorous background checks, identity verification, and professional certification before joining our platform.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
             {trustFeatures.map((feature, index) => {
               const IconComponent = feature.icon;
               return (
-                <div key={index} className="text-center">
-                  <div className={`w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-6 ${feature.bgColor} rounded-2xl flex items-center justify-center`}>
-                    <IconComponent className={`w-6 h-6 sm:w-8 sm:h-8 ${feature.iconColor}`} />
+                <div key={index} className="group text-center transform transition-all duration-300 hover:-translate-y-2">
+                  <div className="bg-white rounded-2xl p-8 shadow-lg group-hover:shadow-2xl transition-shadow duration-300 border border-gray-100">
+                    <div className="w-20 h-20 mx-auto mb-6 bg-gray-100 rounded-2xl flex items-center justify-center group-hover:bg-orange-50 transition-colors duration-300">
+                      <IconComponent className="w-10 h-10 text-gray-700 group-hover:text-orange-600 transition-colors duration-300" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-orange-600 transition-colors duration-300">{feature.title}</h3>
+                    <p className="text-gray-600 leading-relaxed">{feature.description}</p>
                   </div>
-                  <h3 className="text-lg sm:text-xl font-semibold text-warm-gray mb-2 sm:mb-4">{feature.title}</h3>
-                  <p className="text-sm sm:text-base text-gray-600">{feature.description}</p>
                 </div>
               );
             })}
+          </div>
+
+          {/* Additional Trust Indicators */}
+          <div className="mt-16 text-center">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-orange-600 mb-2">100%</div>
+                <div className="text-sm text-gray-600">Background Checked</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-orange-600 mb-2">24/7</div>
+                <div className="text-sm text-gray-600">Safety Support</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-orange-600 mb-2">$2M</div>
+                <div className="text-sm text-gray-600">Insurance Coverage</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-orange-600 mb-2">4.9★</div>
+                <div className="text-sm text-gray-600">Trust Rating</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
 
+      {/* Floating Action Button */}
+      <FloatingActionButton />
     </div>
   );
 }
