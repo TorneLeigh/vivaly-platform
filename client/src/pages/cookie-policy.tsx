@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export default function CookiePolicy() {
   useEffect(() => {
-    document.title = "Cookie Policy | CareConnect Australia";
+    document.title = "Cookie Policy | Kindly Australia";
   }, []);
 
   return (
