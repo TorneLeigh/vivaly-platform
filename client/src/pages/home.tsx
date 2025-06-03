@@ -163,7 +163,7 @@ const trustFeatures = [
   {
     icon: Shield,
     title: "Background Checks",
-    description: "Every caregiver undergoes thorough background verification",
+    description: "All caregivers complete background verification",
     bgColor: "bg-gray-100",
     iconColor: "text-gray-700"
   },
