@@ -20,7 +20,7 @@ export async function sendEmail(params: EmailParams): Promise<boolean> {
   if (!mailService) {
     console.log('📧 Email would be sent:', {
       to: params.to,
-      from: params.from,
+      from: params.from || 'noreply@aircareau.com',
       subject: params.subject,
       preview: params.text ? params.text.substring(0, 100) + '...' : 'HTML email'
     });
@@ -30,7 +30,7 @@ export async function sendEmail(params: EmailParams): Promise<boolean> {
   try {
     await mailService.send({
       to: params.to,
-      from: params.from || 'noreply@careconnect.com.au',
+      from: params.from || 'noreply@aircareau.com',
       subject: params.subject,
       text: params.text,
       html: params.html,
