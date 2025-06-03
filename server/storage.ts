@@ -142,6 +142,63 @@ export class MemStorage implements IStorage {
         this.nannies.set(nannyData.id, nannyData);
       }
     }
+
+    // Add sample bookings for dashboard testing
+    const sampleBookings = [
+      {
+        nannyId: 1,
+        parentId: 9, // Parent user
+        serviceType: "1-on-1 Care",
+        date: new Date(), // Today
+        startTime: "09:00",
+        endTime: "17:00",
+        status: "confirmed",
+        totalAmount: "240.00",
+        notes: "Please bring snacks for Emma"
+      },
+      {
+        nannyId: 1,
+        parentId: 9,
+        serviceType: "Babysitting",
+        date: new Date(Date.now() + 24 * 60 * 60 * 1000), // Tomorrow
+        startTime: "18:00",
+        endTime: "22:00",
+        status: "confirmed",
+        totalAmount: "120.00",
+        notes: "Date night sitting"
+      },
+      {
+        nannyId: 1,
+        parentId: 9,
+        serviceType: "1-on-1 Care",
+        date: new Date(Date.now() - 24 * 60 * 60 * 1000), // Yesterday
+        startTime: "10:00",
+        endTime: "16:00",
+        status: "completed",
+        totalAmount: "180.00",
+        notes: "Great day at the park"
+      },
+      {
+        nannyId: 1,
+        parentId: 9,
+        serviceType: "Group Care",
+        date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // Last week
+        startTime: "14:00",
+        endTime: "18:00",
+        status: "completed",
+        totalAmount: "160.00",
+        notes: "Craft activities"
+      }
+    ];
+
+    for (const bookingData of sampleBookings) {
+      const booking: Booking = {
+        ...bookingData,
+        id: this.currentBookingId++,
+        createdAt: new Date(),
+      };
+      this.bookings.set(booking.id, booking);
+    }
   }
 
   // Users

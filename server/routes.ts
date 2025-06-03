@@ -477,6 +477,88 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Nanny Dashboard routes
+  app.get("/api/nanny/bookings", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const nanny = await storage.getNannyByUserId(userId);
+      
+      if (!nanny) {
+        return res.status(404).json({ message: "Nanny profile not found" });
+      }
+
+      const bookings = await storage.getBookingsByNanny(nanny.id);
+      
+      // Enrich bookings with parent information
+      const enrichedBookings = await Promise.all(
+        bookings.map(async (booking) => {
+          const parent = await storage.getUser(booking.parentId);
+          return { ...booking, parent };
+        })
+      );
+      
+      res.json(enrichedBookings);
+    } catch (error) {
+      console.error("Nanny bookings error:", error);
+      res.status(500).json({ message: "Failed to fetch bookings" });
+    }
+  });
+
+  app.get("/api/nanny/earnings", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const nanny = await storage.getNannyByUserId(userId);
+      
+      if (!nanny) {
+        return res.status(404).json({ message: "Nanny profile not found" });
+      }
+
+      const bookings = await storage.getBookingsByNanny(nanny.id);
+      const completedBookings = bookings.filter(b => b.status === 'completed');
+      
+      const today = new Date();
+      const startOfWeek = new Date(today.getTime() - (today.getDay() * 24 * 60 * 60 * 1000));
+      
+      // Calculate today's earnings
+      const todayEarnings = completedBookings
+        .filter(b => {
+          const bookingDate = new Date(b.date);
+          return bookingDate.toDateString() === today.toDateString();
+        })
+        .reduce((sum, booking) => sum + parseFloat(booking.totalAmount || '0'), 0);
+
+      // Calculate this week's earnings
+      const weekEarnings = completedBookings
+        .filter(b => {
+          const bookingDate = new Date(b.date);
+          return bookingDate >= startOfWeek;
+        })
+        .reduce((sum, booking) => sum + parseFloat(booking.totalAmount || '0'), 0);
+
+      // Calculate hours this week
+      const hoursWeek = completedBookings
+        .filter(b => {
+          const bookingDate = new Date(b.date);
+          return bookingDate >= startOfWeek;
+        })
+        .reduce((sum, booking) => {
+          const start = new Date(`1970-01-01T${booking.startTime}`);
+          const end = new Date(`1970-01-01T${booking.endTime}`);
+          const hours = (end.getTime() - start.getTime()) / (1000 * 60 * 60);
+          return sum + hours;
+        }, 0);
+      
+      res.json({
+        today: todayEarnings.toFixed(2),
+        week: weekEarnings.toFixed(2),
+        hoursWeek: Math.round(hoursWeek)
+      });
+    } catch (error) {
+      console.error("Nanny earnings error:", error);
+      res.status(500).json({ message: "Failed to fetch earnings" });
+    }
+  });
+
   // Bookings routes
   app.post("/api/bookings", async (req, res) => {
     try {
