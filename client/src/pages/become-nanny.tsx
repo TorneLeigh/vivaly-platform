@@ -271,7 +271,6 @@ export default function BecomeNanny() {
                         <li>• Photo ID (Driver's License or Passport)</li>
                         <li>• Working with Children Check (WWCC)</li>
                         <li>• National Police Check (less than 6 months old)</li>
-                        <li>• First Aid & CPR Certificate</li>
                         <li>• Professional references (2-3 contacts)</li>
                       </ul>
                       <p className="text-xs text-gray-500 mt-3">
