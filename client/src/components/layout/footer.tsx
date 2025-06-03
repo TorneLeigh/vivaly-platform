@@ -55,8 +55,8 @@ export default function Footer() {
             © 2025 CareConnect Australia. All rights reserved.
           </div>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <span className="text-gray-400 text-sm">📧 hello@careconnect.com.au</span>
-            <span className="text-gray-400 text-sm">📞 1800 CARE HELP</span>
+            <Link href="/help" className="text-gray-400 text-sm hover:text-white transition-colors">Help Center</Link>
+            <Link href="/contact" className="text-gray-400 text-sm hover:text-white transition-colors">Contact</Link>
           </div>
         </div>
       </div>

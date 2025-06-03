@@ -15,12 +15,10 @@ export default function CookiePolicy() {
           <strong>Last Updated:</strong> June 3, 2025
         </p>
 
-        <h2>What Are Cookies</h2>
-        <p>
-          Cookies are small text files stored on your device when you visit our website. They help us provide you with a better experience by remembering your preferences and improving our services.
-        </p>
-
         <h2>How We Use Cookies</h2>
+        <p>
+          We use cookies to improve your experience by remembering your preferences and optimizing our services.
+        </p>
         <h3>Essential Cookies</h3>
         <p>These cookies are necessary for our website to function properly:</p>
         <ul>

@@ -189,10 +189,10 @@ export default function Home() {
       <section className="bg-white relative min-h-[60vh] flex items-center">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-tight mb-4">
-            Find your perfect caregiver
+            Book trusted care in minutes
           </h1>
           <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Discover trusted childcare, elderly care, and pet care providers in your area
+            Instant booking • Verified caregivers • Available today
           </p>
           
           {/* Large Search Bar - Airbnb Style */}
@@ -201,6 +201,19 @@ export default function Home() {
               const searchParams = new URLSearchParams(filters);
               window.location.href = `/search?${searchParams.toString()}`;
             }} />
+          </div>
+
+          {/* Quick Booking Options */}
+          <div className="flex flex-wrap justify-center gap-4 mb-6">
+            <Button className="bg-coral text-white hover:bg-coral/90">
+              Book Tonight
+            </Button>
+            <Button variant="outline" className="border-coral text-coral hover:bg-coral hover:text-white">
+              This Weekend
+            </Button>
+            <Button variant="outline" className="border-coral text-coral hover:bg-coral hover:text-white">
+              Next Week
+            </Button>
           </div>
 
           {/* Quick Stats */}
