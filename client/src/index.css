@@ -13,18 +13,18 @@
   --card-foreground: 240 10% 3.9%;
   --border: 20 5.9% 90%;
   --input: 20 5.9% 90%;
-  --primary: 198 93% 60%; /* #0EA5E9 - Sky Blue */
+  --primary: 262 83% 58%; /* #8B5CF6 - Purple */
   --primary-foreground: 0 0% 98%;
-  --secondary: 174 72% 56%; /* #34D399 - Emerald */
+  --secondary: 25 95% 53%; /* #F97316 - Orange */
   --secondary-foreground: 0 0% 98%;
-  --accent: 163 94% 24%; /* #059669 - Deep Teal */
+  --accent: 340 82% 52%; /* #E11D48 - Rose */
   --accent-foreground: 0 0% 98%;
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 60 9.1% 97.8%;
-  --ring: 198 93% 60%; /* #0EA5E9 - Sky Blue */
+  --ring: 262 83% 58%; /* #8B5CF6 - Purple */
   --radius: 0.5rem;
-  --trust-blue: 212 100% 47%; /* #1D4ED8 - Deep Blue */
-  --soft-green: 142 76% 36%; /* #059669 - Forest Green */
+  --trust-blue: 213 94% 68%; /* #60A5FA - Light Blue */
+  --soft-green: 142 71% 45%; /* #10B981 - Emerald */
   --warm-gray: 0 0% 28%; /* #484848 */
   --light-gray: 0 0% 97%; /* #F7F7F7 */
 }
@@ -40,17 +40,17 @@
   --card-foreground: 0 0% 98%;
   --border: 240 3.7% 15.9%;
   --input: 240 3.7% 15.9%;
-  --primary: 354 84% 67%; /* #FF5A5F - Coral */
+  --primary: 262 83% 58%; /* #8B5CF6 - Purple */
   --primary-foreground: 0 0% 98%;
-  --secondary: 240 3.7% 15.9%;
+  --secondary: 25 95% 53%; /* #F97316 - Orange */
   --secondary-foreground: 0 0% 98%;
-  --accent: 240 3.7% 15.9%;
+  --accent: 340 82% 52%; /* #E11D48 - Rose */
   --accent-foreground: 0 0% 98%;
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 354 84% 67%; /* #FF5A5F - Coral */
-  --trust-blue: 186 100% 26%; /* #007A87 */
-  --soft-green: 176 100% 33%; /* #00A699 */
+  --ring: 262 83% 58%; /* #8B5CF6 - Purple */
+  --trust-blue: 213 94% 68%; /* #60A5FA - Light Blue */
+  --soft-green: 142 71% 45%; /* #10B981 - Emerald */
   --warm-gray: 0 0% 90%;
   --light-gray: 240 3.7% 15.9%;
 }
@@ -67,8 +67,16 @@
 }
 
 @layer utilities {
-  .text-coral {
+  .text-purple {
     color: hsl(var(--primary));
+  }
+  
+  .text-orange {
+    color: hsl(var(--secondary));
+  }
+  
+  .text-rose {
+    color: hsl(var(--accent));
   }
   
   .text-trust-blue {
@@ -83,8 +91,16 @@
     color: hsl(var(--warm-gray));
   }
   
-  .bg-coral {
+  .bg-purple {
     background-color: hsl(var(--primary));
+  }
+  
+  .bg-orange {
+    background-color: hsl(var(--secondary));
+  }
+  
+  .bg-rose {
+    background-color: hsl(var(--accent));
   }
   
   .bg-trust-blue {
@@ -99,15 +115,15 @@
     background-color: hsl(var(--light-gray));
   }
   
-  .border-coral {
+  .border-purple {
     border-color: hsl(var(--primary));
   }
   
-  .hover\:bg-coral:hover {
+  .hover\:bg-purple:hover {
     background-color: hsl(var(--primary));
   }
   
-  .hover\:text-coral:hover {
+  .hover\:text-purple:hover {
     color: hsl(var(--primary));
   }
   
