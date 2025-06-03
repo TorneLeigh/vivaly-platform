@@ -163,22 +163,22 @@ const trustFeatures = [
     icon: Shield,
     title: "Background Checks",
     description: "Every caregiver undergoes thorough background verification",
-    bgColor: "bg-green-100",
-    iconColor: "text-green-600"
+    bgColor: "bg-gray-100",
+    iconColor: "text-gray-700"
   },
   {
     icon: ShieldCheck,
     title: "Certified",
     description: "All providers are certified professionals",
-    bgColor: "bg-blue-100",
-    iconColor: "text-blue-600"
+    bgColor: "bg-gray-100",
+    iconColor: "text-gray-700"
   },
   {
     icon: IdCard,
     title: "Identity Verified",
     description: "Profile photos and IDs are verified",
-    bgColor: "bg-orange-100",
-    iconColor: "text-orange-600"
+    bgColor: "bg-gray-100",
+    iconColor: "text-gray-700"
   }
 ];
 
