@@ -22,7 +22,7 @@ export default function TermsOfService() {
 
         <h2>2. Description of Service</h2>
         <p>
-          Aircare Australia is a digital marketplace that connects families with verified caregivers across childcare, eldercare, and pet care services. We facilitate connections but do not directly provide care services.
+          Aircare is a digital marketplace platform that facilitates connections between families seeking care services and independent caregivers. <strong>IMPORTANT: Aircare does not provide care services directly, does not employ caregivers, and acts solely as a technology platform for introductions.</strong> All care services are provided by independent contractors who are solely responsible for their services.
         </p>
 
         <h2>3. User Accounts and Registration</h2>
@@ -34,11 +34,16 @@ export default function TermsOfService() {
           <li>Accounts are non-transferable</li>
         </ul>
 
-        <h3>3.2 Account Verification</h3>
+        <h3>3.2 Professional Verification System</h3>
         <ul>
-          <li>Caregivers must complete identity verification</li>
-          <li>Background checks may be required for certain services</li>
-          <li>We reserve the right to suspend unverified accounts</li>
+          <li><strong>Mandatory Professional Background Checks:</strong> All caregivers must complete third-party professional background screening before platform approval</li>
+          <li><strong>Identity Verification:</strong> Government-issued ID verification through certified providers</li>
+          <li><strong>Criminal History Check:</strong> National police check conducted by accredited screening agencies</li>
+          <li><strong>Working with Children Check:</strong> Required for all childcare providers as per Australian law</li>
+          <li><strong>Reference Verification:</strong> Professional reference checks conducted by our verification partners</li>
+          <li><strong>Ongoing Monitoring:</strong> Periodic re-screening and continuous monitoring for safety compliance</li>
+          <li>Verification badges indicate completion of professional screening process</li>
+          <li>We reserve the right to suspend accounts that fail verification or violate safety standards</li>
         </ul>
 
         <h2>4. Platform Usage</h2>
@@ -74,28 +79,41 @@ export default function TermsOfService() {
           <li>Caregivers receive payments according to our schedule</li>
         </ul>
 
-        <h2>6. Safety and Background Checks</h2>
+        <h2>6. Professional Safety and Verification Standards</h2>
+        <p><strong>COMPREHENSIVE SAFETY SYSTEM:</strong></p>
         <ul>
-          <li>We facilitate background check processes but do not guarantee results</li>
-          <li>Users are responsible for their own safety and due diligence</li>
-          <li>Report any safety concerns immediately through our platform</li>
-          <li>We may remove users who pose safety risks</li>
+          <li><strong>Third-Party Professional Screening:</strong> All caregivers undergo mandatory professional background checks through accredited Australian screening agencies</li>
+          <li><strong>Multi-Point Verification:</strong> Identity, criminal history, reference checks, and Working with Children clearances verified by certified providers</li>
+          <li><strong>Insurance Requirements:</strong> Caregivers must maintain appropriate professional indemnity and public liability insurance</li>
+          <li><strong>Continuous Monitoring:</strong> Ongoing safety monitoring and periodic re-verification of all caregivers</li>
+          <li><strong>Incident Reporting:</strong> Immediate investigation and resolution system for any safety concerns</li>
+          <li><strong>Compliance Standards:</strong> Full compliance with Australian childcare safety regulations and consumer protection laws</li>
+          <li>All caregivers are independent contractors who meet professional safety standards</li>
         </ul>
 
         <h2>7. Liability and Disclaimers</h2>
-        <h3>7.1 Platform Limitations</h3>
+        <h3>7.1 LIMITED LIABILITY</h3>
+        <p><strong>TO THE MAXIMUM EXTENT PERMITTED BY LAW:</strong></p>
         <ul>
-          <li>We facilitate connections but are not liable for care services</li>
-          <li>Services are provided by independent contractors</li>
-          <li>We do not guarantee availability or quality of services</li>
+          <li><strong>Aircare disclaims all liability for any injuries, damages, losses, or claims arising from care services</strong></li>
+          <li>We are not liable for caregiver actions, negligence, theft, abuse, or misconduct</li>
+          <li>Platform provided "AS IS" without warranties of any kind</li>
+          <li>We do not guarantee caregiver qualifications, reliability, or safety</li>
+          <li>Maximum liability limited to platform fees paid in the 12 months prior to any claim</li>
         </ul>
 
-        <h3>7.2 User Responsibility</h3>
+        <h3>7.2 User Assumption of Risk</h3>
         <ul>
-          <li>Users assume responsibility for their interactions</li>
-          <li>Verify caregiver credentials independently</li>
-          <li>Follow appropriate safety protocols</li>
+          <li><strong>Users acknowledge they assume all risks when engaging caregivers</strong></li>
+          <li>Families must independently verify all caregiver credentials, references, and insurance</li>
+          <li>Users waive claims against Aircare for caregiver-related incidents</li>
+          <li>Follow all appropriate safety protocols and local laws</li>
         </ul>
+
+        <h3>7.3 Indemnification</h3>
+        <p>
+          Users agree to indemnify and hold harmless Aircare from any claims, damages, or expenses arising from their use of the platform or engagement with caregivers.
+        </p>
 
         <h2>8. Intellectual Property</h2>
         <ul>
