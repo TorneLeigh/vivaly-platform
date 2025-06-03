@@ -16,10 +16,10 @@ export default function NannyCard({ nanny }: NannyCardProps) {
       <div className="group cursor-pointer">
         {/* Profile Image */}
         <div className="relative mb-2">
-          <div className="aspect-square bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg overflow-hidden sm:rounded-xl">
+          <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden sm:rounded-xl">
             <div className="h-full flex items-center justify-center">
-              <div className="w-8 h-8 sm:w-12 sm:h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                <span className="text-sm sm:text-lg font-semibold text-gray-600">
+              <div className="w-8 h-8 sm:w-12 sm:h-12 bg-white border border-gray-200 rounded-full flex items-center justify-center">
+                <span className="text-sm sm:text-lg font-semibold text-gray-700">
                   {nanny.user.firstName[0]}{nanny.user.lastName[0]}
                 </span>
               </div>
@@ -28,7 +28,7 @@ export default function NannyCard({ nanny }: NannyCardProps) {
           <div className="absolute top-1 right-1 flex flex-col gap-1">
             {nanny.isVerified && (
               <div className="bg-white rounded-full p-0.5 shadow-sm">
-                <Star className="w-3 h-3 sm:w-4 sm:h-4 text-soft-green fill-current" />
+                <Star className="w-3 h-3 sm:w-4 sm:h-4 text-green-600 fill-current" />
               </div>
             )}
           </div>
@@ -36,7 +36,7 @@ export default function NannyCard({ nanny }: NannyCardProps) {
           {/* Short Notice Badge */}
           {nanny.id % 3 === 0 && (
             <div className="absolute top-1 left-1">
-              <div className="bg-coral text-white px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-xs font-medium">
+              <div className="bg-black text-white px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-xs font-medium">
                 Available today
               </div>
             </div>
