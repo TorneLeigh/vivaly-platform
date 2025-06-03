@@ -13,18 +13,18 @@
   --card-foreground: 240 10% 3.9%;
   --border: 20 5.9% 90%;
   --input: 20 5.9% 90%;
-  --primary: 262 83% 58%; /* #8B5CF6 - Purple */
-  --primary-foreground: 0 0% 98%;
-  --secondary: 25 95% 53%; /* #F97316 - Orange */
-  --secondary-foreground: 0 0% 98%;
-  --accent: 340 82% 52%; /* #E11D48 - Rose */
-  --accent-foreground: 0 0% 98%;
+  --primary: 0 0% 9%; /* #171717 - Near Black */
+  --primary-foreground: 0 0% 98%; /* #FAFAFA - Off White */
+  --secondary: 0 0% 96%; /* #F5F5F5 - Light Gray */
+  --secondary-foreground: 0 0% 9%; /* #171717 - Near Black */
+  --accent: 0 0% 15%; /* #262626 - Dark Gray */
+  --accent-foreground: 0 0% 98%; /* #FAFAFA - Off White */
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 60 9.1% 97.8%;
-  --ring: 262 83% 58%; /* #8B5CF6 - Purple */
+  --ring: 0 0% 9%; /* #171717 - Near Black */
   --radius: 0.5rem;
-  --trust-blue: 213 94% 68%; /* #60A5FA - Light Blue */
-  --soft-green: 142 71% 45%; /* #10B981 - Emerald */
+  --trust-blue: 0 0% 20%; /* #333333 - Medium Gray */
+  --soft-green: 0 0% 25%; /* #404040 - Lighter Gray */
   --warm-gray: 0 0% 28%; /* #484848 */
   --light-gray: 0 0% 97%; /* #F7F7F7 */
 }
@@ -40,17 +40,17 @@
   --card-foreground: 0 0% 98%;
   --border: 240 3.7% 15.9%;
   --input: 240 3.7% 15.9%;
-  --primary: 262 83% 58%; /* #8B5CF6 - Purple */
-  --primary-foreground: 0 0% 98%;
-  --secondary: 25 95% 53%; /* #F97316 - Orange */
-  --secondary-foreground: 0 0% 98%;
-  --accent: 340 82% 52%; /* #E11D48 - Rose */
-  --accent-foreground: 0 0% 98%;
+  --primary: 0 0% 98%; /* #FAFAFA - Off White */
+  --primary-foreground: 0 0% 9%; /* #171717 - Near Black */
+  --secondary: 0 0% 15%; /* #262626 - Dark Gray */
+  --secondary-foreground: 0 0% 98%; /* #FAFAFA - Off White */
+  --accent: 0 0% 85%; /* #D9D9D9 - Light Gray */
+  --accent-foreground: 0 0% 9%; /* #171717 - Near Black */
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 262 83% 58%; /* #8B5CF6 - Purple */
-  --trust-blue: 213 94% 68%; /* #60A5FA - Light Blue */
-  --soft-green: 142 71% 45%; /* #10B981 - Emerald */
+  --ring: 0 0% 98%; /* #FAFAFA - Off White */
+  --trust-blue: 0 0% 80%; /* #CCCCCC - Light Gray */
+  --soft-green: 0 0% 75%; /* #BFBFBF - Medium Light Gray */
   --warm-gray: 0 0% 90%;
   --light-gray: 240 3.7% 15.9%;
 }
@@ -67,15 +67,15 @@
 }
 
 @layer utilities {
-  .text-purple {
+  .text-black {
     color: hsl(var(--primary));
   }
   
-  .text-orange {
-    color: hsl(var(--secondary));
+  .text-gray {
+    color: hsl(var(--secondary-foreground));
   }
   
-  .text-rose {
+  .text-light-gray {
     color: hsl(var(--accent));
   }
   
@@ -91,15 +91,15 @@
     color: hsl(var(--warm-gray));
   }
   
-  .bg-purple {
+  .bg-black {
     background-color: hsl(var(--primary));
   }
   
-  .bg-orange {
+  .bg-gray {
     background-color: hsl(var(--secondary));
   }
   
-  .bg-rose {
+  .bg-light-gray {
     background-color: hsl(var(--accent));
   }
   
@@ -111,19 +111,19 @@
     background-color: hsl(var(--soft-green));
   }
   
-  .bg-light-gray {
-    background-color: hsl(var(--light-gray));
+  .bg-white {
+    background-color: hsl(var(--background));
   }
   
-  .border-purple {
+  .border-black {
     border-color: hsl(var(--primary));
   }
   
-  .hover\:bg-purple:hover {
+  .hover\:bg-black:hover {
     background-color: hsl(var(--primary));
   }
   
-  .hover\:text-purple:hover {
+  .hover\:text-black:hover {
     color: hsl(var(--primary));
   }
   
