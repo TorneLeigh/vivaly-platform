@@ -62,33 +62,25 @@ export default function Header() {
           </div>
 
           <nav className="hidden md:flex space-x-8">
-            <Link href="/search">
-              <a className={`text-warm-gray hover:text-coral transition-colors ${
-                location.startsWith('/search') ? 'text-coral' : ''
-              }`}>
-                Find Care
-              </a>
+            <Link href="/search" className={`text-warm-gray hover:text-coral transition-colors ${
+              location.startsWith('/search') ? 'text-coral' : ''
+            }`}>
+              Find Care
             </Link>
-            <Link href="/become-nanny">
-              <a className={`text-warm-gray hover:text-coral transition-colors ${
-                location === '/become-nanny' ? 'text-coral' : ''
-              }`}>
-                Sign Up as Caregiver
-              </a>
+            <Link href="/become-nanny" className={`text-warm-gray hover:text-coral transition-colors ${
+              location === '/become-nanny' ? 'text-coral' : ''
+            }`}>
+              Sign Up as Caregiver
             </Link>
-            <Link href="/verification">
-              <a className={`text-warm-gray hover:text-coral transition-colors ${
-                location === '/verification' ? 'text-coral' : ''
-              }`}>
-                Offer Your Services
-              </a>
+            <Link href="/verification" className={`text-warm-gray hover:text-coral transition-colors ${
+              location === '/verification' ? 'text-coral' : ''
+            }`}>
+              Offer Your Services
             </Link>
-            <Link href="/gift-cards">
-              <a className={`text-warm-gray hover:text-coral transition-colors ${
-                location === '/gift-cards' ? 'text-coral' : ''
-              }`}>
-                Gift Cards
-              </a>
+            <Link href="/gift-cards" className={`text-warm-gray hover:text-coral transition-colors ${
+              location === '/gift-cards' ? 'text-coral' : ''
+            }`}>
+              Gift Cards
             </Link>
           </nav>
 
