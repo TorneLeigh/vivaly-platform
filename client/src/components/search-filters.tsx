@@ -186,7 +186,8 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
           <div className="flex items-end">
             <Button 
               onClick={handleSearch}
-              className="bg-coral text-white hover:bg-coral/90 w-full h-10 font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+              style={{ backgroundColor: '#FF6B35' }}
+              className="text-white hover:opacity-90 w-full h-10 font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
             >
               <Search className="w-4 h-4 mr-2" />
               Search
