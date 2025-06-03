@@ -161,8 +161,7 @@ export default function Privacy() {
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <p className="text-gray-700">
                     <strong>Privacy Officer:</strong> privacy@careconnectau.com<br/>
-                    <strong>Data Protection Queries:</strong> dpo@careconnectau.com<br/>
-                    <strong>Complaints:</strong> Contact the Office of the Australian Information Commissioner (OAIC)
+                    <strong>Data Protection Queries:</strong> dpo@careconnectau.com
                   </p>
                 </div>
               </section>

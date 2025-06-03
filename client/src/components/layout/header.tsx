@@ -154,11 +154,7 @@ export default function Header() {
                   </>
                 )}
                 
-                {!isAuthenticated && (
-                  <DropdownMenuItem>
-                    <Link href="/login">Login</Link>
-                  </DropdownMenuItem>
-                )}
+
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
