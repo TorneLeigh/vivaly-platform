@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export default function PrivacyPolicy() {
   useEffect(() => {
-    document.title = "Privacy Policy | Aircare AU";
+    document.title = "Privacy Policy | Aircare";
   }, []);
 
   return (

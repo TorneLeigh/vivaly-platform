@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export default function TermsOfService() {
   useEffect(() => {
-    document.title = "Terms of Service | Aircare AU";
+    document.title = "Terms of Service | Aircare";
   }, []);
 
   return (

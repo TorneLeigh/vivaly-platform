@@ -52,7 +52,7 @@ export default function Footer() {
         
         <div className="border-t border-gray-600 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="text-gray-400 text-sm">
-            © 2025 Aircare AU. All rights reserved.
+            © 2025 Aircare. All rights reserved.
           </div>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link href="/help" className="text-gray-400 text-sm hover:text-white transition-colors">Help Center</Link>
