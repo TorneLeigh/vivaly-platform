@@ -205,15 +205,21 @@ export default function Home() {
 
           {/* Quick Booking Options */}
           <div className="flex flex-wrap justify-center gap-4 mb-6">
-            <Button className="bg-coral text-white hover:bg-coral/90">
-              Book Tonight
-            </Button>
-            <Button variant="outline" className="border-coral text-coral hover:bg-coral hover:text-white">
-              This Weekend
-            </Button>
-            <Button variant="outline" className="border-coral text-coral hover:bg-coral hover:text-white">
-              Next Week
-            </Button>
+            <Link href="/quick-start?when=tonight">
+              <Button className="bg-coral text-white hover:bg-coral/90">
+                Book Tonight
+              </Button>
+            </Link>
+            <Link href="/quick-start?when=weekend">
+              <Button variant="outline" className="border-coral text-coral hover:bg-coral hover:text-white">
+                This Weekend
+              </Button>
+            </Link>
+            <Link href="/quick-start?when=next-week">
+              <Button variant="outline" className="border-coral text-coral hover:bg-coral hover:text-white">
+                Next Week
+              </Button>
+            </Link>
           </div>
 
           {/* Quick Stats */}
@@ -473,7 +479,7 @@ export default function Home() {
                 Start Searching
               </Button>
             </Link>
-            <Link href="/become-nanny">
+            <Link href="/caregiver-onboarding">
               <Button variant="outline" className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-coral transition-all bg-transparent">
                 Become a Caregiver
               </Button>

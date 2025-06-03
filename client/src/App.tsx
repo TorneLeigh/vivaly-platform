@@ -23,6 +23,8 @@ import PrivacyPolicy from "@/pages/privacy-policy";
 import RefundPolicy from "@/pages/refund-policy";
 import CookiePolicy from "@/pages/cookie-policy";
 import Accessibility from "@/pages/accessibility";
+import QuickStart from "@/pages/quick-start";
+import CaregiverOnboarding from "@/pages/caregiver-onboarding";
 import NannyDashboard from "@/pages/nanny-dashboard";
 import NotFound from "@/pages/not-found";
 
@@ -51,6 +53,8 @@ function Router() {
           <Route path="/refund-policy" component={RefundPolicy} />
           <Route path="/cookie-policy" component={CookiePolicy} />
           <Route path="/accessibility" component={Accessibility} />
+          <Route path="/quick-start" component={QuickStart} />
+          <Route path="/caregiver-onboarding" component={CaregiverOnboarding} />
           <Route component={NotFound} />
         </Switch>
       </main>
