@@ -228,7 +228,7 @@ export default function ProviderVerification() {
 
                     <div className="space-y-4">
                       <h3 className="font-medium">Required Documents</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 gap-4">
                         <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                           <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400" />
                           <p className="text-sm font-medium mb-1">Driver's License or Passport</p>
@@ -240,20 +240,6 @@ export default function ProviderVerification() {
                             onClick={() => handleDocumentUpload('id')}
                           >
                             {uploadedDocs.id ? 'Uploaded ✓' : 'Upload Document'}
-                          </Button>
-                        </div>
-                        
-                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                          <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400" />
-                          <p className="text-sm font-medium mb-1">Medicare Card</p>
-                          <p className="text-xs text-gray-500 mb-3">For identity verification</p>
-                          <Button 
-                            type="button" 
-                            variant="outline" 
-                            size="sm"
-                            onClick={() => handleDocumentUpload('medicare')}
-                          >
-                            {uploadedDocs.medicare ? 'Uploaded ✓' : 'Upload Document'}
                           </Button>
                         </div>
                       </div>
