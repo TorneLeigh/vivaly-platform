@@ -116,44 +116,31 @@ export default function Header() {
               </Link>
             )}
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="flex items-center space-x-2">
-                  <MenuIcon className="h-4 w-4" />
-                  <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                    <User className="h-4 w-4" />
-                  </div>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                {isAuthenticated && (
+            {isAuthenticated && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="flex items-center space-x-2">
+                    <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                      <User className="h-4 w-4" />
+                    </div>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
                   <DropdownMenuItem>
                     <User className="h-4 w-4 mr-2" />
                     Profile
                   </DropdownMenuItem>
-                )}
-
-
-                
-                {isAuthenticated && (
                   <DropdownMenuItem>
                     <MessageCircle className="h-4 w-4 mr-2" />
                     <Link href="/messages">Messages</Link>
                   </DropdownMenuItem>
-                )}
-                
-                {isAuthenticated && (
-                  <>
-                    <DropdownMenuItem>Settings</DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleLogout}>
-                      Sign out
-                    </DropdownMenuItem>
-                  </>
-                )}
-                
-
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  <DropdownMenuItem>Settings</DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleLogout}>
+                    Sign out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
         </div>
       </div>
