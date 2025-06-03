@@ -185,51 +185,37 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="bg-white relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className="text-5xl lg:text-6xl font-bold text-black leading-tight mb-6">
-                Find care you can trust
-              </h1>
-              <p className="text-xl text-gray-700 mb-8 leading-relaxed">
-                Book trusted caregivers in your neighborhood for all your family needs.
-              </p>
-              
-              <div className="space-y-4 mb-8">
-                <SearchFilters onSearch={(filters) => {
-                  const searchParams = new URLSearchParams(filters);
-                  window.location.href = `/search?${searchParams.toString()}`;
-                }} />
-              </div>
-            </div>
+      {/* Hero Section - Airbnb Style */}
+      <section className="bg-white relative min-h-[60vh] flex items-center">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-tight mb-4">
+            Find your perfect caregiver
+          </h1>
+          <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Discover trusted childcare, elderly care, and pet care providers in your area
+          </p>
+          
+          {/* Large Search Bar - Airbnb Style */}
+          <div className="bg-white rounded-full shadow-lg border border-gray-200 p-2 max-w-3xl mx-auto mb-8">
+            <SearchFilters onSearch={(filters) => {
+              const searchParams = new URLSearchParams(filters);
+              window.location.href = `/search?${searchParams.toString()}`;
+            }} />
+          </div>
 
-            <div className="relative">
-              <div className="bg-white rounded-3xl p-8 shadow-2xl">
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 flex flex-col items-center text-center">
-                    <div className="text-4xl mb-3">👩‍⚕️</div>
-                    <h3 className="font-semibold text-gray-900 text-sm mb-1">Professional Care</h3>
-                    <p className="text-xs text-gray-600">Qualified caregivers</p>
-                  </div>
-                  <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-6 flex flex-col items-center text-center">
-                    <div className="text-4xl mb-3">🏠</div>
-                    <h3 className="font-semibold text-gray-900 text-sm mb-1">In Your Home</h3>
-                    <p className="text-xs text-gray-600">Comfort & convenience</p>
-                  </div>
-                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-6 flex flex-col items-center text-center">
-                    <div className="text-4xl mb-3">🛡️</div>
-                    <h3 className="font-semibold text-gray-900 text-sm mb-1">Verified Safe</h3>
-                    <p className="text-xs text-gray-600">Background checked</p>
-                  </div>
-                  <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-6 flex flex-col items-center text-center">
-                    <div className="text-4xl mb-3">⭐</div>
-                    <h3 className="font-semibold text-gray-900 text-sm mb-1">Highly Rated</h3>
-                    <p className="text-xs text-gray-600">Trusted by families</p>
-                  </div>
-                </div>
-              </div>
+          {/* Quick Stats */}
+          <div className="flex justify-center items-center space-x-8 text-sm text-gray-600">
+            <div className="text-center">
+              <div className="font-semibold text-gray-900">500+</div>
+              <div>Caregivers</div>
+            </div>
+            <div className="text-center">
+              <div className="font-semibold text-gray-900">10,000+</div>
+              <div>Families served</div>
+            </div>
+            <div className="text-center">
+              <div className="font-semibold text-gray-900">4.9</div>
+              <div>Average rating</div>
             </div>
           </div>
         </div>
