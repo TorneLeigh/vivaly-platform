@@ -27,84 +27,83 @@ import {
   PawPrint
 } from "lucide-react";
 import type { Nanny, User as UserType } from "@shared/schema";
-import familyImage1 from "@/assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg";
-import familyImage2 from "@/assets/aba916b517ced96c85496925fb8b71d5.jpg";
-import familyImage3 from "@/assets/2df543a46e343b349dce96a9b74e7bf3.jpg";
-import familyImage4 from "@/assets/20fcca984f823e55d0f52349c0cccfeb.jpg";
-import familyImage5 from "@/assets/9c49b20a043b475fc92f416a52da3a32.jpg";
-import familyImage6 from "@/assets/988a042ea7f506d78efe22b6305455a5.jpg";
-import familyImage7 from "@/assets/d2c9077f10c1c428951da90b33e957a5.jpg";
-import familyImage8 from "@/assets/f704b593bd69474039d82dca97cc06fd.jpg";
-import familyImage9 from "@/assets/a4f0736b1ec779769d49614140142c82.jpg";
-import familyImage10 from "@/assets/f2918dba9993260327d6b33966a5b786.jpg";
-import familyImage11 from "@/assets/e84b82177ddf914b2846c3f2490fa10a.jpg";
-import familyImage12 from "@/assets/f10beba35ec5214939f1d06bcfd05903.jpg";
-import familyImage13 from "@/assets/f3c4f3cbd16d170cf3b4abab28ecfa25.jpg";
-import familyImage14 from "@/assets/51eb7e79d90e3a22f5628012c3866e10.jpg";
-import familyImage15 from "@/assets/ffa2aa122968ee48921e5c120e550899.jpg";
-import familyImage16 from "@/assets/da9a8502c75f58f7f36a01b9e533d46d.jpg";
-import familyImage17 from "@/assets/5c49767488148ac28757a08c6753fd68.jpg";
-import familyImage18 from "@/assets/ad23d9f10c69e3bfc73ffe82a1bac618.jpg";
-import familyImage19 from "@/assets/de1126eedd477730852d8c5558d5228f.jpg";
-import familyImage20 from "@/assets/5204c0c48d0dc2e1af450973bc115d18.jpg";
-import familyImage21 from "@/assets/b627296d6422d36b84161b43496d3c54.jpg";
-import familyImage22 from "@/assets/793a2a82f337ec12518b35b4b0886681.jpg";
-import familyImage23 from "@/assets/62ef39ef76f7405a227796a6b8ad607d.jpg";
-import familyImage24 from "@/assets/46c0702d1b48d35f894a0fe16f437b43.jpg";
-import familyImage25 from "@/assets/0322f50abf3a7fc6d8def12b41336e6a.jpg";
-import familyImage26 from "@/assets/c5e4a7514e214eb119a5a0d459aa6bdf.jpg";
-import familyImage27 from "@/assets/0c25205c3003fd2bf70fa884ad5fe1f5.jpg";
-import familyImage28 from "@/assets/540c7ede798b410d249591160f8b4b9f.jpg";
-import familyImage29 from "@/assets/58268e04ad7e7126279d8950565a0cd6.jpg";
-import companionshipImage from "@/assets/7111567ee33e7fbd156e36bd454e1ed4.jpg";
+// Service category colors
+const serviceColors = [
+  "bg-gradient-to-br from-blue-100 to-blue-200",
+  "bg-gradient-to-br from-green-100 to-green-200", 
+  "bg-gradient-to-br from-purple-100 to-purple-200",
+  "bg-gradient-to-br from-orange-100 to-orange-200",
+  "bg-gradient-to-br from-pink-100 to-pink-200",
+  "bg-gradient-to-br from-indigo-100 to-indigo-200",
+  "bg-gradient-to-br from-teal-100 to-teal-200",
+  "bg-gradient-to-br from-red-100 to-red-200"
+];
+
+// Activity colors
+const activityColors = [
+  "bg-gradient-to-br from-emerald-100 to-emerald-200",
+  "bg-gradient-to-br from-cyan-100 to-cyan-200",
+  "bg-gradient-to-br from-yellow-100 to-yellow-200",
+  "bg-gradient-to-br from-rose-100 to-rose-200",
+  "bg-gradient-to-br from-violet-100 to-violet-200",
+  "bg-gradient-to-br from-amber-100 to-amber-200"
+];
 
 const serviceCategories = [
   {
     title: "1-on-1 Care",
     description: "Personal attention",
-    image: familyImage25,
+    icon: User,
+    color: serviceColors[0],
     serviceType: "1-on-1 Care"
   },
   {
     title: "Group Care", 
     description: "Small groups",
-    image: familyImage5,
+    icon: Users,
+    color: serviceColors[1],
     serviceType: "Group Care"
   },
   {
     title: "Midwife Services",
     description: "Birth & postnatal support", 
-    image: familyImage6,
+    icon: Heart,
+    color: serviceColors[2],
     serviceType: "Midwife Services"
   },
   {
     title: "Drop & Dash",
     description: "Quick care",
-    image: familyImage22,
+    icon: Clock,
+    color: serviceColors[3],
     serviceType: "Drop & Dash"
   },
   {
     title: "Postpartum",
     description: "New parent support",
-    image: familyImage24,
+    icon: Baby,
+    color: serviceColors[4],
     serviceType: "Postpartum Support"
   },
   {
     title: "Breastfeeding",
     description: "Lactation support",
-    image: familyImage18,
+    icon: Heart,
+    color: serviceColors[5],
     serviceType: "Breastfeeding Support"
   },
   {
     title: "Birth Education",
     description: "Preparation classes",
-    image: familyImage6,
+    icon: BookOpen,
+    color: serviceColors[6],
     serviceType: "Birth Education"
   },
   {
     title: "Elderly Care",
     description: "Senior assistance",
-    image: familyImage11,
+    icon: Shield,
+    color: serviceColors[7],
     serviceType: "Elderly Care"
   }
 ];
@@ -113,37 +112,43 @@ const popularActivities = [
   {
     title: "Park Playdates",
     description: "Meet other families at local parks",
-    image: familyImage4,
+    icon: TreePine,
+    color: activityColors[0],
     serviceType: "Park Playdates"
   },
   {
     title: "Coffee Catch-ups",
     description: "Parent meetups at local cafes", 
-    image: familyImage3,
+    icon: Coffee,
+    color: activityColors[1],
     serviceType: "Coffee Catch-ups"
   },
   {
     title: "Art & Craft",
     description: "Creative sessions for kids and parents",
-    image: familyImage23,
+    icon: Palette,
+    color: activityColors[2],
     serviceType: "Art & Craft"
   },
   {
     title: "New Parent Groups",
     description: "Support groups for new mothers",
-    image: familyImage29,
+    icon: Users,
+    color: activityColors[3],
     serviceType: "New Parent Groups"
   },
   {
     title: "Nature Exploration",
     description: "Outdoor discovery with children",
-    image: familyImage28,
+    icon: Sun,
+    color: activityColors[4],
     serviceType: "Nature Exploration"
   },
   {
     title: "Elderly Care Social",
     description: "Companionship and care activities",
-    image: companionshipImage,
+    icon: Heart,
+    color: activityColors[5],
     serviceType: "Elderly Care Social"
   }
 ];
@@ -260,21 +265,8 @@ export default function Home() {
                     window.location.href = `/search?${searchParams.toString()}`;
                   }}
                 >
-                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                    <img 
-                      src={category.image} 
-                      alt={category.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      onError={(e) => {
-                        console.error('Failed to load image:', category.image);
-                        e.currentTarget.style.backgroundColor = '#f3f4f6';
-                        e.currentTarget.style.display = 'flex';
-                        e.currentTarget.style.alignItems = 'center';
-                        e.currentTarget.style.justifyContent = 'center';
-                        e.currentTarget.innerHTML = 'Image not found';
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-black bg-opacity-10 transition-opacity duration-300 group-hover:bg-opacity-0"></div>
+                  <div className={`relative overflow-hidden rounded-2xl aspect-square mb-3 ${category.color} flex items-center justify-center transition-transform duration-300 group-hover:scale-105`}>
+                    <category.icon className="h-12 w-12 text-gray-700" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 text-sm mb-1">{category.title}</h3>
@@ -383,21 +375,8 @@ export default function Home() {
                     window.location.href = `/search?${searchParams.toString()}`;
                   }}
                 >
-                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                    <img 
-                      src={activity.image} 
-                      alt={activity.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      onError={(e) => {
-                        console.error('Failed to load activity image:', activity.image);
-                        e.currentTarget.style.backgroundColor = '#f3f4f6';
-                        e.currentTarget.style.display = 'flex';
-                        e.currentTarget.style.alignItems = 'center';
-                        e.currentTarget.style.justifyContent = 'center';
-                        e.currentTarget.innerHTML = 'Image not found';
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-black bg-opacity-10 transition-opacity duration-300 group-hover:bg-opacity-0"></div>
+                  <div className={`relative overflow-hidden rounded-2xl aspect-square mb-3 ${activity.color} flex items-center justify-center transition-transform duration-300 group-hover:scale-105`}>
+                    <activity.icon className="h-12 w-12 text-gray-700" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 text-sm mb-1">{activity.title}</h3>
