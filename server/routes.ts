@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import Stripe from "stripe";
 import bcrypt from "bcryptjs";
 import { storage } from "./storage";
+import { requireAuth } from "./auth-middleware";
 import { 
   insertUserSchema, insertNannySchema, insertBookingSchema, 
   insertReviewSchema, insertMessageSchema 

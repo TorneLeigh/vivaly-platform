@@ -359,6 +359,6 @@ export class MemStorage implements IStorage {
   }
 }
 
+// Keep memory storage for now while we ensure authentication works properly
+// Switch to database storage after testing authentication flow
 export const storage = new MemStorage();
-// TODO: Replace with DatabaseStorage once authentication is fully implemented
-// export const storage = new DatabaseStorage();
