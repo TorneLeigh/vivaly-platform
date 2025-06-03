@@ -27,16 +27,7 @@ import {
   PawPrint
 } from "lucide-react";
 import type { Nanny, User as UserType } from "@shared/schema";
-import newbornImage from "@assets/8a24c5a3f190ad6dab3bdec778071075.jpg";
-import childcareImage from "@assets/774b96f629bd098da386885d9025876d.jpg";
-import daycareImage from "@assets/5c49767488148ac28757a08c6753fd68.jpg";
-import nannyImage from "@assets/5204c0c48d0dc2e1af450973bc115d18.jpg";
-import auPairImage from "@assets/46c0702d1b48d35f894a0fe16f437b43.jpg";
-import babysitterImage from "@assets/0322f50abf3a7fc6d8def12b41336e6a.jpg";
-import midwifeImage from "@assets/c5e4a7514e214eb119a5a0d459aa6bdf.jpg";
-import elderlyImage from "@assets/0c25205c3003fd2bf70fa884ad5fe1f5.jpg";
-import companionshipImage from "@assets/b311470ecb8ff04ca3b4a03ea5ad8f71.jpg";
-import petCareImage from "@assets/7111567ee33e7fbd156e36bd454e1ed4.jpg";
+
 // Service category colors
 const serviceColors = [
   "bg-gradient-to-br from-blue-100 to-blue-200",
@@ -284,6 +275,21 @@ export default function Home() {
                       src={category.image} 
                       alt={category.title}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      onError={(e) => {
+                        console.error('Failed to load image:', category.image);
+                        console.error('Image path attempted:', e.currentTarget.src);
+                        // Fallback to a solid color background if image fails
+                        e.currentTarget.style.display = 'none';
+                        e.currentTarget.parentElement.style.backgroundColor = '#f3f4f6';
+                        e.currentTarget.parentElement.innerHTML = `
+                          <div class="flex items-center justify-center h-full">
+                            <span class="text-gray-500 text-xs">Image Error</span>
+                          </div>
+                        `;
+                      }}
+                      onLoad={(e) => {
+                        console.log('Successfully loaded image:', category.image);
+                      }}
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-20 transition-opacity duration-300 group-hover:bg-opacity-10"></div>
                   </div>
