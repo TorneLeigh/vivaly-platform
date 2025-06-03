@@ -27,6 +27,16 @@ import {
   PawPrint
 } from "lucide-react";
 import type { Nanny, User as UserType } from "@shared/schema";
+import newbornImage from "@assets/8a24c5a3f190ad6dab3bdec778071075.jpg";
+import childcareImage from "@assets/774b96f629bd098da386885d9025876d.jpg";
+import daycareImage from "@assets/5c49767488148ac28757a08c6753fd68.jpg";
+import nannyImage from "@assets/5204c0c48d0dc2e1af450973bc115d18.jpg";
+import auPairImage from "@assets/46c0702d1b48d35f894a0fe16f437b43.jpg";
+import babysitterImage from "@assets/0322f50abf3a7fc6d8def12b41336e6a.jpg";
+import midwifeImage from "@assets/c5e4a7514e214eb119a5a0d459aa6bdf.jpg";
+import elderlyImage from "@assets/0c25205c3003fd2bf70fa884ad5fe1f5.jpg";
+import companionshipImage from "@assets/b311470ecb8ff04ca3b4a03ea5ad8f71.jpg";
+import petCareImage from "@assets/7111567ee33e7fbd156e36bd454e1ed4.jpg";
 // Service category colors
 const serviceColors = [
   "bg-gradient-to-br from-blue-100 to-blue-200",
@@ -51,60 +61,64 @@ const activityColors = [
 
 const serviceCategories = [
   {
-    title: "1-on-1 Care",
-    description: "Personal attention",
-    icon: User,
-    color: serviceColors[0],
-    serviceType: "1-on-1 Care"
+    title: "Newborn Care",
+    description: "Specialized care for newborns",
+    image: newbornImage,
+    serviceType: "Newborn Care"
   },
   {
-    title: "Group Care", 
-    description: "Small groups",
-    icon: Users,
-    color: serviceColors[1],
-    serviceType: "Group Care"
+    title: "Childcare", 
+    description: "Daily care for children",
+    image: childcareImage,
+    serviceType: "Childcare"
+  },
+  {
+    title: "Daycare",
+    description: "Group daycare services", 
+    image: daycareImage,
+    serviceType: "Daycare"
+  },
+  {
+    title: "Nanny Services",
+    description: "Professional nanny care",
+    image: nannyImage,
+    serviceType: "Nanny"
+  },
+  {
+    title: "Au Pair",
+    description: "Live-in cultural exchange care",
+    image: auPairImage,
+    serviceType: "Au Pair"
+  },
+  {
+    title: "Babysitting",
+    description: "Occasional childcare",
+    image: babysitterImage,
+    serviceType: "Babysitting"
   },
   {
     title: "Midwife Services",
-    description: "Birth & postnatal support", 
-    icon: Heart,
-    color: serviceColors[2],
+    description: "Pregnancy and birth support",
+    image: midwifeImage,
     serviceType: "Midwife Services"
   },
   {
-    title: "Drop & Dash",
-    description: "Quick care",
-    icon: Clock,
-    color: serviceColors[3],
-    serviceType: "Drop & Dash"
-  },
-  {
-    title: "Postpartum",
-    description: "New parent support",
-    icon: Baby,
-    color: serviceColors[4],
-    serviceType: "Postpartum Support"
-  },
-  {
-    title: "Breastfeeding",
-    description: "Lactation support",
-    icon: Heart,
-    color: serviceColors[5],
-    serviceType: "Breastfeeding Support"
-  },
-  {
-    title: "Birth Education",
-    description: "Preparation classes",
-    icon: BookOpen,
-    color: serviceColors[6],
-    serviceType: "Birth Education"
-  },
-  {
     title: "Elderly Care",
-    description: "Senior assistance",
-    icon: Shield,
-    color: serviceColors[7],
+    description: "Senior care services",
+    image: elderlyImage,
     serviceType: "Elderly Care"
+  },
+  {
+    title: "Companionship",
+    description: "Social companionship care",
+    image: companionshipImage,
+    serviceType: "Companionship"
+  },
+  {
+    title: "Pet Care",
+    description: "Professional pet services",
+    image: petCareImage,
+    serviceType: "Pet Care"
   }
 ];
 
@@ -265,8 +279,13 @@ export default function Home() {
                     window.location.href = `/search?${searchParams.toString()}`;
                   }}
                 >
-                  <div className={`relative overflow-hidden rounded-2xl aspect-square mb-3 ${category.color} flex items-center justify-center transition-transform duration-300 group-hover:scale-105`}>
-                    <category.icon className="h-12 w-12 text-gray-700" />
+                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                    <img 
+                      src={category.image} 
+                      alt={category.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-20 transition-opacity duration-300 group-hover:bg-opacity-10"></div>
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 text-sm mb-1">{category.title}</h3>
