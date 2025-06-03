@@ -208,6 +208,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Booking routes
+  app.post("/api/bookings", async (req, res) => {
+    try {
+      const bookingData = insertBookingSchema.parse(req.body);
+      const booking = await storage.createBooking(bookingData);
+      res.json(booking);
+    } catch (error) {
+      console.error("Error creating booking:", error);
+      res.status(500).json({ message: "Failed to create booking" });
+    }
+  });
+
+  app.get("/api/bookings/parent/:parentId", async (req, res) => {
+    try {
+      const parentId = parseInt(req.params.parentId);
+      const bookings = await storage.getBookingsByParent(parentId);
+      res.json(bookings);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch parent bookings" });
+    }
+  });
+
+  app.get("/api/bookings/nanny/:nannyId", async (req, res) => {
+    try {
+      const nannyId = parseInt(req.params.nannyId);
+      const bookings = await storage.getBookingsByNanny(nannyId);
+      res.json(bookings);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch caregiver bookings" });
+    }
+  });
+
+  app.patch("/api/bookings/:id/status", async (req, res) => {
+    try {
+      const bookingId = parseInt(req.params.id);
+      const { status } = req.body;
+      
+      if (!["pending", "accepted", "declined", "completed", "cancelled"].includes(status)) {
+        return res.status(400).json({ message: "Invalid status" });
+      }
+
+      const booking = await storage.updateBookingStatus(bookingId, status);
+      if (!booking) {
+        return res.status(404).json({ message: "Booking not found" });
+      }
+
+      res.json(booking);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to update booking status" });
+    }
+  });
+
   app.post("/api/nannies", async (req, res) => {
     try {
       const nannyData = insertNannySchema.parse(req.body);
