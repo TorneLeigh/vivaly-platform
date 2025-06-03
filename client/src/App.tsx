@@ -7,6 +7,7 @@ import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import Home from "@/pages/home";
 import NannyProfile from "@/pages/nanny-profile";
+import CaregiverProfile from "@/pages/caregiver-profile";
 import SearchResults from "@/pages/search-results";
 import BecomeNanny from "@/pages/become-nanny";
 import Messages from "@/pages/messages";
@@ -37,6 +38,7 @@ function Router() {
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/nanny/:id" component={NannyProfile} />
+          <Route path="/caregiver/:id" component={CaregiverProfile} />
           <Route path="/search" component={SearchResults} />
           <Route path="/become-nanny" component={BecomeNanny} />
           <Route path="/nanny-dashboard" component={NannyDashboard} />

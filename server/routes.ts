@@ -191,11 +191,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const user = await storage.getUser(nanny.userId);
-      const reviews = await storage.getReviewsByNanny(id);
       
-      res.json({ ...nanny, user, reviews });
+      res.json({ ...nanny, user });
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch nanny profile" });
+    }
+  });
+
+  app.get("/api/reviews/nanny/:id", async (req, res) => {
+    try {
+      const nannyId = parseInt(req.params.id);
+      const reviews = await storage.getReviewsByNanny(nannyId);
+      res.json(reviews);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch reviews" });
     }
   });
 

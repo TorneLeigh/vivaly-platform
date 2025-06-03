@@ -12,7 +12,7 @@ interface NannyCardProps {
 
 export default function NannyCard({ nanny }: NannyCardProps) {
   return (
-    <Link href={`/nanny/${nanny.id}`}>
+    <Link href={`/caregiver/${nanny.id}`}>
       <div className="group cursor-pointer">
         {/* Profile Image */}
         <div className="relative mb-2">
