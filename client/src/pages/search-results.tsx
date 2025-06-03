@@ -32,6 +32,10 @@ export default function SearchResults() {
     maxRate: 50,
   });
 
+  // Debug the URL parameters
+  console.log('URL Search Params:', Object.fromEntries(searchParams.entries()));
+  console.log('Initial filters state:', filters);
+
   const { data: nannies = [], isLoading, refetch } = useQuery({
     queryKey: ["/api/nannies/search", filters],
     queryFn: async () => {

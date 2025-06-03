@@ -273,9 +273,6 @@ export class MemStorage implements IStorage {
   }): Promise<(Nanny & { user: User })[]> {
     let results = Array.from(this.nannies.values());
     
-    console.log(`🔍 Search filters:`, filters);
-    console.log(`📊 Total nannies before filtering:`, results.length);
-
     if (filters.location && filters.location !== "All Sydney" && filters.location.trim() !== "") {
       const searchLocation = filters.location.toLowerCase().trim();
       results = results.filter(nanny => {
@@ -287,39 +284,28 @@ export class MemStorage implements IStorage {
                nannySuburb.includes(searchLocation) ||
                searchLocation.includes(nannySuburb);
       });
-      console.log(`📍 After location filter (${filters.location}):`, results.length);
     }
 
     if (filters.serviceType && filters.serviceType !== "All Services" && filters.serviceType.trim() !== "") {
       const searchServiceType = filters.serviceType.trim();
       results = results.filter(nanny => {
         if (!nanny.services) return false;
-        const hasService = nanny.services.includes(searchServiceType);
-        if (!hasService) {
-          console.log(`❌ Nanny ${nanny.id} services:`, nanny.services, `looking for: "${searchServiceType}"`);
-        }
-        return hasService;
+        return nanny.services.includes(searchServiceType);
       });
-      console.log(`🎯 After service type filter (${filters.serviceType}):`, results.length);
     }
 
     if (filters.minRate) {
       results = results.filter(nanny => parseFloat(nanny.hourlyRate!) >= filters.minRate!);
-      console.log(`💰 After min rate filter ($${filters.minRate}):`, results.length);
     }
 
     if (filters.maxRate) {
       results = results.filter(nanny => parseFloat(nanny.hourlyRate!) <= filters.maxRate!);
-      console.log(`💰 After max rate filter ($${filters.maxRate}):`, results.length);
     }
 
-    const finalResults = results.map(nanny => ({
+    return results.map(nanny => ({
       ...nanny,
       user: this.users.get(nanny.userId)!
     }));
-
-    console.log(`✅ Final results:`, finalResults.length);
-    return finalResults;
   }
 
   async getFeaturedNannies(): Promise<(Nanny & { user: User })[]> {

@@ -79,29 +79,55 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
           {/* Date */}
           <div>
             <label className="text-xs font-semibold text-gray-800 mb-2 block">When</label>
-            <Popover>
-              <PopoverTrigger asChild>
+            <div className="space-y-2">
+              <div className="flex gap-2">
                 <Button
+                  type="button"
                   variant="outline"
-                  className={cn(
-                    "w-full justify-start text-left font-normal",
-                    !selectedDate && "text-gray-500"
-                  )}
+                  size="sm"
+                  onClick={() => setSelectedDate(new Date())}
+                  className="flex-1 text-xs"
                 >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {selectedDate ? formatDate(selectedDate) : "Add dates"}
+                  Today
                 </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={selectedDate}
-                  onSelect={setSelectedDate}
-                  disabled={(date) => date < new Date()}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const tomorrow = new Date();
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+                    setSelectedDate(tomorrow);
+                  }}
+                  className="flex-1 text-xs"
+                >
+                  Tomorrow
+                </Button>
+              </div>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !selectedDate && "text-gray-500"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {selectedDate ? formatDate(selectedDate) : "Choose date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={setSelectedDate}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
         </div>
 
@@ -160,7 +186,7 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
           <div className="flex items-end">
             <Button 
               onClick={handleSearch}
-              className="bg-coral text-white hover:bg-coral/90 w-full"
+              className="bg-coral text-white hover:bg-coral/90 w-full h-10 font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
             >
               <Search className="w-4 h-4 mr-2" />
               Search
