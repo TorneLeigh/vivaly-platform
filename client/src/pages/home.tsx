@@ -322,8 +322,12 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
                  onClick={() => window.location.href = '/search?serviceType=Pet Sitting'}>
-              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3 bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center">
-                <Dog className="h-12 w-12 text-amber-700" />
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src="/images/pet1.jpg" 
+                  alt="Pet Sitting"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
               </div>
               <h3 className="font-semibold text-gray-900 text-sm mb-1">Pet Sitting</h3>
               <p className="text-xs text-gray-600">In-home pet care</p>
@@ -331,8 +335,12 @@ export default function Home() {
             
             <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
                  onClick={() => window.location.href = '/search?serviceType=Dog Walking'}>
-              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3 bg-gradient-to-br from-green-100 to-emerald-200 flex items-center justify-center">
-                <TreePine className="h-12 w-12 text-green-700" />
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src="/images/pet2.jpg" 
+                  alt="Dog Walking"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
               </div>
               <h3 className="font-semibold text-gray-900 text-sm mb-1">Dog Walking</h3>
               <p className="text-xs text-gray-600">Daily exercise</p>
@@ -340,8 +348,12 @@ export default function Home() {
             
             <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
                  onClick={() => window.location.href = '/search?serviceType=Pet Boarding'}>
-              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3 bg-gradient-to-br from-blue-100 to-sky-200 flex items-center justify-center">
-                <Heart className="h-12 w-12 text-blue-700" />
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src="/images/pet3.jpg" 
+                  alt="Pet Boarding"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
               </div>
               <h3 className="font-semibold text-gray-900 text-sm mb-1">Pet Boarding</h3>
               <p className="text-xs text-gray-600">Overnight care</p>
@@ -349,8 +361,12 @@ export default function Home() {
             
             <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
                  onClick={() => window.location.href = '/search?serviceType=Pet Grooming'}>
-              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3 bg-gradient-to-br from-purple-100 to-violet-200 flex items-center justify-center">
-                <Palette className="h-12 w-12 text-purple-700" />
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src="/images/pet4.jpg" 
+                  alt="Pet Grooming"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
               </div>
               <h3 className="font-semibold text-gray-900 text-sm mb-1">Pet Grooming</h3>
               <p className="text-xs text-gray-600">Professional styling</p>
@@ -358,8 +374,12 @@ export default function Home() {
             
             <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
                  onClick={() => window.location.href = '/search?serviceType=Pet Training'}>
-              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3 bg-gradient-to-br from-red-100 to-pink-200 flex items-center justify-center">
-                <BookOpen className="h-12 w-12 text-red-700" />
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src="/images/pet5.jpg" 
+                  alt="Pet Training"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
               </div>
               <h3 className="font-semibold text-gray-900 text-sm mb-1">Pet Training</h3>
               <p className="text-xs text-gray-600">Behavioral guidance</p>
@@ -367,8 +387,12 @@ export default function Home() {
             
             <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
                  onClick={() => window.location.href = '/search?serviceType=Overnight Pet Care'}>
-              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3 bg-gradient-to-br from-indigo-100 to-blue-200 flex items-center justify-center">
-                <Sun className="h-12 w-12 text-indigo-700" />
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src="/images/pet6.jpg" 
+                  alt="Overnight Care"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
               </div>
               <h3 className="font-semibold text-gray-900 text-sm mb-1">Overnight Care</h3>
               <p className="text-xs text-gray-600">Extended sitting</p>
