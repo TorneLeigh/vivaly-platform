@@ -471,7 +471,7 @@ export default function Home() {
             Ready to find your perfect caregiver?
           </h2>
           <p className="text-xl text-white opacity-90 mb-8">
-            Join thousands of Sydney families who trust Kindly
+            Join thousands of Sydney families who trust Carely
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/search">

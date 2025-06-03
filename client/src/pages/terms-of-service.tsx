@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export default function TermsOfService() {
   useEffect(() => {
-    document.title = "Terms of Service | Kindly Australia";
+    document.title = "Terms of Service | Carely Australia";
   }, []);
 
   return (
@@ -17,12 +17,12 @@ export default function TermsOfService() {
 
         <h2>1. Acceptance of Terms</h2>
         <p>
-          By accessing and using Kindly Australia ("we," "our," or "the Platform"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our platform.
+          By accessing and using Carely Australia ("we," "our," or "the Platform"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our platform.
         </p>
 
         <h2>2. Description of Service</h2>
         <p>
-          Kindly Australia is a digital marketplace that connects families with verified caregivers across childcare, eldercare, and pet care services. We facilitate connections but do not directly provide care services.
+          Carely Australia is a digital marketplace that connects families with verified caregivers across childcare, eldercare, and pet care services. We facilitate connections but do not directly provide care services.
         </p>
 
         <h2>3. User Accounts and Registration</h2>
