@@ -119,26 +119,14 @@ const popularActivities = [
   {
     title: "Park Playdates",
     description: "Meet other families at local parks",
-    image: "/attached_assets/ad23d9f10c69e3bfc73ffe82a1bac618.jpg", // Happy toddler with shape toys
+    image: "/attached_assets/20fcca984f823e55d0f52349c0cccfeb.jpg", // Children hugging in field
     serviceType: "Park Playdates"
-  },
-  {
-    title: "Beach Days", 
-    description: "Family beach outings and activities",
-    image: "/attached_assets/f3c4f3cbd16d170cf3b4abab28ecfa25.jpg", // Children playing at beach
-    serviceType: "Beach Days"
   },
   {
     title: "Coffee Catch-ups",
     description: "Parent meetups at local cafes", 
-    image: "/attached_assets/58268e04ad7e7126279d8950565a0cd6.jpg", // Three mothers with babies at cafe
+    image: "/attached_assets/057e7c1da9c30e1c3fac8f35d8a08807.jpg", // Women laughing at cafe
     serviceType: "Coffee Catch-ups"
-  },
-  {
-    title: "Nature Walks",
-    description: "Explore trails with other families",
-    image: "/attached_assets/540c7ede798b410d249591160f8b4b9f.jpg", // Children exploring nature outdoors
-    serviceType: "Nature Walks"
   },
   {
     title: "Art & Craft",
@@ -147,10 +135,22 @@ const popularActivities = [
     serviceType: "Art & Craft"
   },
   {
-    title: "Picnic Gatherings",
-    description: "Family picnics and shared meals",
-    image: "/attached_assets/46c0702d1b48d35f894a0fe16f437b43.jpg", // Two children playing with wooden letters
-    serviceType: "Picnic Gatherings"
+    title: "New Parent Groups",
+    description: "Support groups for new mothers",
+    image: "/attached_assets/58268e04ad7e7126279d8950565a0cd6.jpg", // Three mothers with babies
+    serviceType: "New Parent Groups"
+  },
+  {
+    title: "Nature Exploration",
+    description: "Outdoor discovery with children",
+    image: "/attached_assets/540c7ede798b410d249591160f8b4b9f.jpg", // Children exploring outdoors
+    serviceType: "Nature Exploration"
+  },
+  {
+    title: "Elderly Care Social",
+    description: "Companionship and care activities",
+    image: "/attached_assets/4cc0a7574cdc29223b8258323d959476.jpg", // Elderly care moment
+    serviceType: "Elderly Care Social"
   }
 ];
 
