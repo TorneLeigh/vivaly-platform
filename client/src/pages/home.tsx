@@ -412,29 +412,83 @@ export default function Home() {
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {popularActivities.map((activity, index) => {
-              return (
-                <div 
-                  key={index}
-                  className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
-                  onClick={() => {
-                    const searchParams = new URLSearchParams({
-                      serviceType: activity.serviceType,
-                      location: 'Sydney, NSW'
-                    });
-                    window.location.href = `/search?${searchParams.toString()}`;
-                  }}
-                >
-                  <div className={`relative overflow-hidden rounded-2xl aspect-square mb-3 ${activity.color} flex items-center justify-center transition-transform duration-300 group-hover:scale-105`}>
-                    <activity.icon className="h-12 w-12 text-gray-700" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 text-sm mb-1">{activity.title}</h3>
-                    <p className="text-xs text-gray-600">{activity.description}</p>
-                  </div>
-                </div>
-              );
-            })}
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+                 onClick={() => window.location.href = '/search?serviceType=Park Playdates&location=Sydney, NSW'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src="/images/social1.jpg" 
+                  alt="Park Playdates"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Park Playdates</h3>
+              <p className="text-xs text-gray-600">Meet other families at local parks</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+                 onClick={() => window.location.href = '/search?serviceType=Coffee Catch-ups&location=Sydney, NSW'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src="/images/social2.jpg" 
+                  alt="Coffee Catch-ups"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Coffee Catch-ups</h3>
+              <p className="text-xs text-gray-600">Parent meetups at local cafes</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+                 onClick={() => window.location.href = '/search?serviceType=Art & Craft&location=Sydney, NSW'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src="/images/social3.jpg" 
+                  alt="Art & Craft"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Art & Craft</h3>
+              <p className="text-xs text-gray-600">Creative sessions for kids and parents</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+                 onClick={() => window.location.href = '/search?serviceType=New Parent Groups&location=Sydney, NSW'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src="/images/social4.jpg" 
+                  alt="New Parent Groups"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">New Parent Groups</h3>
+              <p className="text-xs text-gray-600">Support groups for new mothers</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+                 onClick={() => window.location.href = '/search?serviceType=Nature Exploration&location=Sydney, NSW'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src="/images/social5.jpg" 
+                  alt="Nature Exploration"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Nature Exploration</h3>
+              <p className="text-xs text-gray-600">Outdoor discovery with children</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+                 onClick={() => window.location.href = '/search?serviceType=Elderly Care Social&location=Sydney, NSW'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src="/images/social6.jpg" 
+                  alt="Elderly Care Social"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Elderly Care Social</h3>
+              <p className="text-xs text-gray-600">Companionship and care activities</p>
+            </div>
           </div>
         </div>
       </section>
