@@ -535,9 +535,6 @@ export default function Home() {
       <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
-              Verified & Trusted Platform
-            </div>
             <h2 className="text-3xl font-bold text-warm-gray mb-4">Safety and trust first</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Every caregiver on CareConnect goes through our comprehensive verification process
@@ -561,27 +558,7 @@ export default function Home() {
             })}
           </div>
 
-          {/* Additional Trust Indicators */}
-          <div className="mt-16 text-center">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-orange-600 mb-2">100%</div>
-                <div className="text-sm text-gray-600">Background Checked</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-orange-600 mb-2">24/7</div>
-                <div className="text-sm text-gray-600">Safety Support</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-orange-600 mb-2">$2M</div>
-                <div className="text-sm text-gray-600">Insurance Coverage</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-orange-600 mb-2">4.9★</div>
-                <div className="text-sm text-gray-600">Trust Rating</div>
-              </div>
-            </div>
-          </div>
+
         </div>
       </section>
 
