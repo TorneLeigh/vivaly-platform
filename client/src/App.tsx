@@ -18,6 +18,7 @@ import Checkout from "@/pages/checkout";
 import BookingConfirmation from "@/pages/booking-confirmation";
 import Terms from "@/pages/terms";
 import Privacy from "@/pages/privacy";
+import NannyDashboard from "@/pages/nanny-dashboard";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -30,6 +31,7 @@ function Router() {
           <Route path="/nanny/:id" component={NannyProfile} />
           <Route path="/search" component={SearchResults} />
           <Route path="/become-nanny" component={BecomeNanny} />
+          <Route path="/nanny-dashboard" component={NannyDashboard} />
           <Route path="/messages" component={Messages} />
           <Route path="/login" component={Login} />
           <Route path="/verification" component={ProviderVerification} />

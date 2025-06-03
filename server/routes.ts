@@ -8,6 +8,7 @@ import {
   insertUserSchema, insertNannySchema, insertBookingSchema, 
   insertReviewSchema, insertMessageSchema 
 } from "@shared/schema";
+import { sendNannyWelcomeSequence, sendBookingConfirmation, sendNewNannyAlert } from "./email-service";
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
@@ -200,6 +201,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const nannyData = insertNannySchema.parse(req.body);
       const nanny = await storage.createNanny(nannyData);
+      
+      // Get user details for email
+      const user = await storage.getUser(nannyData.userId);
+      if (user) {
+        // Send welcome email sequence
+        await sendNannyWelcomeSequence(user.email, user.firstName);
+        
+        // Send admin alert
+        await sendNewNannyAlert({
+          id: nanny.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          location: nanny.location,
+          experience: nanny.experience,
+          hourlyRate: nanny.hourlyRate
+        });
+      }
+      
       res.status(201).json(nanny);
     } catch (error) {
       res.status(400).json({ message: "Invalid nanny data" });
