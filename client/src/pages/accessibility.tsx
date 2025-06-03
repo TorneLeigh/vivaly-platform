@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export default function Accessibility() {
   useEffect(() => {
-    document.title = "Accessibility Statement | Kindly Australia";
+    document.title = "Accessibility Statement | Aircare Australia";
   }, []);
 
   return (
