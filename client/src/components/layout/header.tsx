@@ -133,10 +133,7 @@ export default function Header() {
                   </DropdownMenuItem>
                 )}
 
-                <DropdownMenuItem>
-                  <Search className="h-4 w-4 mr-2" />
-                  <Link href="/search">Find Care</Link>
-                </DropdownMenuItem>
+
                 
                 {isAuthenticated && (
                   <DropdownMenuItem>
