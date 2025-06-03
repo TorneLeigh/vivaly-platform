@@ -460,6 +460,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/vouchers/eligibility", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const nanny = await storage.getNannyByUserId(userId);
+      
+      if (!nanny) {
+        return res.status(404).json({ message: "Caregiver profile not found" });
+      }
+
+      const eligibility = await voucherService.getEligibilityStatus(nanny.id);
+      res.json(eligibility);
+    } catch (error) {
+      console.error("Voucher eligibility error:", error);
+      res.status(500).json({ message: "Failed to check voucher eligibility" });
+    }
+  });
+
   // Bookings routes
   app.post("/api/bookings", async (req, res) => {
     try {

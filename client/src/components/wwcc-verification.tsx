@@ -194,10 +194,10 @@ export default function WWCCVerification({
               <span className="text-sm font-medium text-green-800">💰 Certification Refund Available</span>
             </div>
             <p className="text-xs text-green-700 mb-2">
-              Get 30% of your WWCC certification fee refunded (up to $35) when you complete verification!
+              Get 30% of your WWCC certification fee refunded (up to $35) after completing 2+ successful bookings on Aircare!
             </p>
             <div className="text-xs text-green-600">
-              After verification, submit your WWCC receipt in the Voucher Claims section to receive your refund.
+              Complete your WWCC verification first, then after 2 completed bookings you can submit your receipt for a refund.
             </div>
           </div>
 

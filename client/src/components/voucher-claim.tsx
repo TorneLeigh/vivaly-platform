@@ -34,6 +34,10 @@ export default function VoucherClaim({ caregiverId }: VoucherClaimProps) {
     queryKey: ["/api/vouchers/my-claims"],
   });
 
+  const { data: eligibility } = useQuery({
+    queryKey: ["/api/vouchers/eligibility"],
+  });
+
   const submitClaimMutation = useMutation({
     mutationFn: async (data: typeof formData) => {
       // In production, upload receipt image to cloud storage first
@@ -158,12 +162,46 @@ export default function VoucherClaim({ caregiverId }: VoucherClaimProps) {
 
   return (
     <div className="space-y-6">
+      {/* Eligibility Status */}
+      {eligibility && !eligibility.isEligible && (
+        <Card className="border-yellow-200 bg-yellow-50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-yellow-800">
+              <Clock className="h-5 w-5" />
+              Complete More Bookings to Unlock Refunds
+            </CardTitle>
+            <CardDescription className="text-yellow-700">
+              You need to complete {eligibility.remainingBookings} more booking{eligibility.remainingBookings > 1 ? 's' : ''} to become eligible for certification refunds.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-4">
+              <div className="text-sm text-yellow-800">
+                Progress: <strong>{eligibility.completedBookings} of {eligibility.requiredBookings} bookings completed</strong>
+              </div>
+              <div className="flex-1 bg-yellow-200 rounded-full h-2">
+                <div 
+                  className="bg-yellow-600 h-2 rounded-full transition-all"
+                  style={{ width: `${(eligibility.completedBookings / eligibility.requiredBookings) * 100}%` }}
+                ></div>
+              </div>
+            </div>
+            <p className="text-xs text-yellow-700 mt-3">
+              This requirement ensures caregivers are actively using the platform and providing quality service before receiving rebates.
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Eligible Vouchers Info */}
-      <Card>
+      <Card className={!eligibility?.isEligible ? "opacity-60" : ""}>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <DollarSign className="h-5 w-5 text-green-600" />
             Certification Refund Program
+            {eligibility?.isEligible && (
+              <Badge className="bg-green-100 text-green-800 border-green-200">Eligible</Badge>
+            )}
           </CardTitle>
           <CardDescription>
             Get reimbursed for professional certification costs. Submit your receipt to claim your refund.
@@ -185,11 +223,14 @@ export default function VoucherClaim({ caregiverId }: VoucherClaimProps) {
       </Card>
 
       {/* Claim Form */}
-      <Card>
+      <Card className={!eligibility?.isEligible ? "opacity-60" : ""}>
         <CardHeader>
           <CardTitle>Submit Refund Claim</CardTitle>
           <CardDescription>
-            Upload your certification receipt to claim your refund.
+            {eligibility?.isEligible 
+              ? "Upload your certification receipt to claim your refund."
+              : `Complete ${eligibility?.remainingBookings || 2} more bookings to unlock certification refunds.`
+            }
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -305,9 +346,14 @@ export default function VoucherClaim({ caregiverId }: VoucherClaimProps) {
             <Button 
               type="submit" 
               className="w-full" 
-              disabled={submitClaimMutation.isPending}
+              disabled={submitClaimMutation.isPending || !eligibility?.isEligible}
             >
-              {submitClaimMutation.isPending ? "Submitting Claim..." : "Submit Refund Claim"}
+              {submitClaimMutation.isPending 
+                ? "Submitting Claim..." 
+                : !eligibility?.isEligible 
+                  ? `Complete ${eligibility?.remainingBookings || 2} More Bookings First`
+                  : "Submit Refund Claim"
+              }
             </Button>
           </form>
         </CardContent>

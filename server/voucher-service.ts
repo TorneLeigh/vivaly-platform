@@ -41,6 +41,14 @@ export class VoucherService {
   async submitVoucherClaim(request: VoucherRequest): Promise<Voucher> {
     const voucherId = `VCH_${Date.now()}_${request.caregiverId}`;
     
+    // Check platform usage eligibility - must have completed multiple bookings
+    const completedBookings = await this.getCompletedBookingsCount(request.caregiverId);
+    const minimumBookings = 2; // Require at least 2 completed bookings
+    
+    if (completedBookings < minimumBookings) {
+      throw new Error(`You must complete at least ${minimumBookings} bookings on Aircare before claiming certification refunds. Current completed bookings: ${completedBookings}`);
+    }
+
     // Calculate refund amount
     const refundPercentage = this.VOUCHER_RATES[request.voucherType] || 0;
     const maxRefund = this.MAX_REFUND_AMOUNTS[request.voucherType] || 0;
@@ -130,6 +138,30 @@ export class VoucherService {
       totalRefunded: 0,
       pendingClaims: 0,
       averageRefund: 0
+    };
+  }
+
+  private async getCompletedBookingsCount(caregiverId: number): Promise<number> {
+    // Get count of completed bookings for this caregiver
+    const bookings = await storage.getBookingsByNanny(caregiverId);
+    return bookings.filter(booking => booking.status === 'completed').length;
+  }
+
+  async getEligibilityStatus(caregiverId: number): Promise<{
+    isEligible: boolean;
+    completedBookings: number;
+    requiredBookings: number;
+    remainingBookings: number;
+  }> {
+    const completedBookings = await this.getCompletedBookingsCount(caregiverId);
+    const requiredBookings = 2;
+    const isEligible = completedBookings >= requiredBookings;
+    
+    return {
+      isEligible,
+      completedBookings,
+      requiredBookings,
+      remainingBookings: Math.max(0, requiredBookings - completedBookings)
     };
   }
 
