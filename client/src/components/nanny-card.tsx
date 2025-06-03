@@ -15,28 +15,28 @@ export default function NannyCard({ nanny }: NannyCardProps) {
     <Link href={`/nanny/${nanny.id}`}>
       <div className="group cursor-pointer">
         {/* Profile Image */}
-        <div className="relative mb-3">
-          <div className="aspect-square bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl overflow-hidden">
+        <div className="relative mb-2">
+          <div className="aspect-square bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg overflow-hidden sm:rounded-xl">
             <div className="h-full flex items-center justify-center">
-              <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                <span className="text-lg font-semibold text-gray-600">
+              <div className="w-8 h-8 sm:w-12 sm:h-12 bg-gray-200 rounded-full flex items-center justify-center">
+                <span className="text-sm sm:text-lg font-semibold text-gray-600">
                   {nanny.user.firstName[0]}{nanny.user.lastName[0]}
                 </span>
               </div>
             </div>
           </div>
-          <div className="absolute top-2 right-2 flex flex-col gap-1">
+          <div className="absolute top-1 right-1 flex flex-col gap-1">
             {nanny.isVerified && (
-              <div className="bg-white rounded-full p-1 shadow-sm">
-                <Star className="w-4 h-4 text-soft-green fill-current" />
+              <div className="bg-white rounded-full p-0.5 shadow-sm">
+                <Star className="w-3 h-3 sm:w-4 sm:h-4 text-soft-green fill-current" />
               </div>
             )}
           </div>
           
           {/* Short Notice Badge */}
           {nanny.id % 3 === 0 && (
-            <div className="absolute top-2 left-2">
-              <div className="bg-coral text-white px-2 py-1 rounded text-xs font-medium">
+            <div className="absolute top-1 left-1">
+              <div className="bg-coral text-white px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-xs font-medium">
                 Available today
               </div>
             </div>
@@ -44,28 +44,28 @@ export default function NannyCard({ nanny }: NannyCardProps) {
         </div>
 
         {/* Content */}
-        <div className="space-y-1">
+        <div className="space-y-0.5 sm:space-y-1">
           {/* Location and Rating */}
           <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-gray-900 truncate">{nanny.suburb}</p>
-            <div className="flex items-center gap-1">
+            <p className="text-xs sm:text-sm font-medium text-gray-900 truncate">{nanny.suburb}</p>
+            <div className="flex items-center gap-0.5">
               <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-              <span className="text-sm font-medium">{nanny.rating}</span>
+              <span className="text-xs sm:text-sm font-medium">{nanny.rating}</span>
             </div>
           </div>
 
           {/* Name */}
-          <p className="text-sm text-gray-600 truncate">
+          <p className="text-xs sm:text-sm text-gray-600 truncate">
             {nanny.user.firstName} {nanny.user.lastName}
           </p>
 
           {/* Service */}
-          <p className="text-sm text-gray-500 truncate">
+          <p className="text-xs sm:text-sm text-gray-500 truncate">
             {nanny.services?.[0] || 'Care provider'}
           </p>
 
           {/* Price */}
-          <p className="text-sm">
+          <p className="text-xs sm:text-sm">
             <span className="font-semibold text-gray-900">${nanny.hourlyRate}</span>
             <span className="text-gray-500"> /hour</span>
           </p>
