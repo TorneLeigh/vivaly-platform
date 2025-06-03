@@ -9,6 +9,7 @@ import {
   insertReviewSchema, insertMessageSchema 
 } from "@shared/schema";
 import { sendNannyWelcomeSequence, sendBookingConfirmation, sendNewNannyAlert } from "./email-service";
+import { backgroundCheckService } from "./background-check-service";
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
@@ -338,6 +339,80 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(updatedNanny);
     } catch (error) {
       res.status(500).json({ message: "Failed to update availability" });
+    }
+  });
+
+  // Background Check routes
+  app.post("/api/background-check/initiate", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const nanny = await storage.getNannyByUserId(userId);
+      
+      if (!nanny) {
+        return res.status(404).json({ message: "Caregiver profile not found" });
+      }
+
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const { dateOfBirth, address, checkTypes } = req.body;
+      
+      const checkRequest = {
+        caregiverId: nanny.id,
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        dateOfBirth,
+        address,
+        checkTypes: checkTypes || [
+          "national-police-check",
+          "working-with-children", 
+          "identity-verification",
+          "reference-verification"
+        ]
+      };
+
+      const result = await backgroundCheckService.initiateBackgroundCheck(checkRequest);
+      
+      // Update nanny with background check ID
+      await storage.updateNanny(nanny.id, {
+        backgroundCheckId: result.checkId,
+        backgroundCheckStatus: "pending"
+      });
+
+      res.json(result);
+    } catch (error: any) {
+      console.error("Background check initiation error:", error);
+      res.status(500).json({ message: error.message || "Failed to initiate background check" });
+    }
+  });
+
+  app.get("/api/background-check/status/:checkId", requireAuth, async (req, res) => {
+    try {
+      const { checkId } = req.params;
+      const status = await backgroundCheckService.getCheckStatus(checkId);
+      
+      if (!status) {
+        return res.status(404).json({ message: "Background check not found" });
+      }
+
+      res.json(status);
+    } catch (error) {
+      console.error("Background check status error:", error);
+      res.status(500).json({ message: "Failed to fetch background check status" });
+    }
+  });
+
+  // Webhook for background check providers
+  app.post("/api/background-check/webhook/:provider", async (req, res) => {
+    try {
+      const { provider } = req.params;
+      await backgroundCheckService.handleProviderWebhook(provider, req.body);
+      res.json({ received: true });
+    } catch (error) {
+      console.error("Webhook processing error:", error);
+      res.status(500).json({ message: "Webhook processing failed" });
     }
   });
 

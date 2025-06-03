@@ -40,6 +40,9 @@ export const nannies = pgTable("nannies", {
   hasFirstAid: boolean("has_first_aid").default(false),
   hasReferences: boolean("has_references").default(false),
   verificationStatus: text("verification_status").default("pending"), // pending, in_review, approved, rejected
+  verificationDate: timestamp("verification_date"),
+  backgroundCheckId: text("background_check_id"),
+  backgroundCheckStatus: text("background_check_status").default("pending"),
   services: json("services").$type<string[]>().default([]),
   certificates: json("certificates").$type<string[]>().default([]),
   availability: json("availability").$type<Record<string, boolean>>().default({}),
