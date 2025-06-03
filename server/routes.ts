@@ -6,7 +6,7 @@ import { storage } from "./storage";
 import { requireAuth } from "./auth-middleware";
 import { 
   insertUserSchema, insertNannySchema, insertBookingSchema, 
-  insertReviewSchema, insertMessageSchema 
+  insertReviewSchema, insertMessageSchema, insertExperienceSchema 
 } from "@shared/schema";
 import { sendNannyWelcomeSequence, sendBookingConfirmation, sendNewNannyAlert } from "./email-service";
 import { wwccVerificationService } from "./wwcc-verification-service";
@@ -668,6 +668,73 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(conversations);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch conversations" });
+    }
+  });
+
+  // Experience routes
+  app.post("/api/experiences", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const experienceData = insertExperienceSchema.parse({
+        ...req.body,
+        caregiverId: userId
+      });
+      const experience = await storage.createExperience(experienceData);
+      res.status(201).json(experience);
+    } catch (error) {
+      console.error("Create experience error:", error);
+      res.status(400).json({ message: "Invalid experience data" });
+    }
+  });
+
+  app.get("/api/experiences", async (req, res) => {
+    try {
+      const { location, serviceType, ageRange, maxPrice } = req.query;
+      const filters = {
+        location: location as string,
+        serviceType: serviceType as string,
+        ageRange: ageRange as string,
+        maxPrice: maxPrice ? Number(maxPrice) : undefined
+      };
+      const experiences = await storage.searchExperiences(filters);
+      res.json(experiences);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch experiences" });
+    }
+  });
+
+  app.get("/api/experiences/featured", async (req, res) => {
+    try {
+      const experiences = await storage.getFeaturedExperiences();
+      res.json(experiences);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch featured experiences" });
+    }
+  });
+
+  app.get("/api/experiences/my", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const experiences = await storage.getExperiencesByCaregiver(userId);
+      res.json(experiences);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch your experiences" });
+    }
+  });
+
+  app.get("/api/experiences/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const experience = await storage.getExperience(id);
+      
+      if (!experience) {
+        return res.status(404).json({ message: "Experience not found" });
+      }
+      
+      const caregiver = await storage.getUser(experience.caregiverId);
+      res.json({ ...experience, caregiver });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch experience" });
     }
   });
 

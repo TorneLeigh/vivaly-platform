@@ -63,12 +63,14 @@ export interface IStorage {
 export class MemStorage implements IStorage {
   private users: Map<number, User> = new Map();
   private nannies: Map<number, Nanny> = new Map();
+  private experiences: Map<number, Experience> = new Map();
   private bookings: Map<number, Booking> = new Map();
   private reviews: Map<number, Review> = new Map();
   private messages: Map<number, Message> = new Map();
   
   private currentUserId = 1;
   private currentNannyId = 1;
+  private currentExperienceId = 1;
   private currentBookingId = 1;
   private currentReviewId = 1;
   private currentMessageId = 1;
@@ -432,6 +434,78 @@ export class MemStorage implements IStorage {
     }
 
     return Array.from(conversations.values());
+  }
+
+  // Experience methods
+  async getExperience(id: number): Promise<Experience | undefined> {
+    return this.experiences.get(id);
+  }
+
+  async createExperience(experienceData: InsertExperience): Promise<Experience> {
+    const experience: Experience = {
+      id: this.currentExperienceId++,
+      caregiverId: experienceData.caregiverId,
+      title: experienceData.title,
+      description: experienceData.description,
+      serviceType: experienceData.serviceType,
+      duration: experienceData.duration,
+      price: experienceData.price,
+      maxChildren: experienceData.maxChildren,
+      ageRange: experienceData.ageRange,
+      location: experienceData.location,
+      photos: experienceData.photos || [],
+      inclusions: experienceData.inclusions || [],
+      requirements: experienceData.requirements || [],
+      availability: experienceData.availability || [],
+      instantBook: experienceData.instantBook || false,
+      isActive: experienceData.isActive ?? true,
+      rating: "0",
+      reviewCount: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    
+    this.experiences.set(experience.id, experience);
+    return experience;
+  }
+
+  async getExperiencesByCaregiver(caregiverId: number): Promise<Experience[]> {
+    return Array.from(this.experiences.values())
+      .filter(experience => experience.caregiverId === caregiverId)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }
+
+  async searchExperiences(filters: {
+    location?: string;
+    serviceType?: string;
+    ageRange?: string;
+    maxPrice?: number;
+  }): Promise<(Experience & { caregiver: User })[]> {
+    const experiences = Array.from(this.experiences.values()).filter(experience => {
+      if (!experience.isActive) return false;
+      if (filters.location && !experience.location.toLowerCase().includes(filters.location.toLowerCase())) return false;
+      if (filters.serviceType && experience.serviceType !== filters.serviceType) return false;
+      if (filters.ageRange && experience.ageRange !== filters.ageRange) return false;
+      if (filters.maxPrice && Number(experience.price) > filters.maxPrice) return false;
+      return true;
+    });
+
+    return experiences.map(experience => {
+      const caregiver = this.users.get(experience.caregiverId)!;
+      return { ...experience, caregiver };
+    }).sort((a, b) => Number(b.rating) - Number(a.rating));
+  }
+
+  async getFeaturedExperiences(): Promise<(Experience & { caregiver: User })[]> {
+    const featuredExperiences = Array.from(this.experiences.values())
+      .filter(experience => experience.isActive)
+      .sort((a, b) => Number(b.rating) - Number(a.rating))
+      .slice(0, 6);
+
+    return featuredExperiences.map(experience => {
+      const caregiver = this.users.get(experience.caregiverId)!;
+      return { ...experience, caregiver };
+    });
   }
 }
 
