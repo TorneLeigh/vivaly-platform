@@ -13,6 +13,8 @@ import Messages from "@/pages/messages";
 import Login from "@/pages/login";
 import ProviderVerification from "@/pages/provider-verification";
 import GiftCards from "@/pages/gift-cards";
+import GiftCardCheckout from "@/pages/gift-card-checkout";
+import Checkout from "@/pages/checkout";
 import BookingConfirmation from "@/pages/booking-confirmation";
 import Terms from "@/pages/terms";
 import Privacy from "@/pages/privacy";
@@ -32,6 +34,8 @@ function Router() {
           <Route path="/login" component={Login} />
           <Route path="/verification" component={ProviderVerification} />
           <Route path="/gift-cards" component={GiftCards} />
+          <Route path="/gift-card-checkout" component={GiftCardCheckout} />
+          <Route path="/checkout" component={Checkout} />
           <Route path="/booking-confirmed" component={BookingConfirmation} />
           <Route path="/terms" component={Terms} />
           <Route path="/privacy" component={Privacy} />
