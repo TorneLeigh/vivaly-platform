@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -74,16 +74,14 @@ export default function Login() {
 
   const signupMutation = useMutation({
     mutationFn: async (data: SignupFormData) => {
-      return await apiRequest("/api/auth/signup", {
-        method: "POST",
-        body: JSON.stringify(data),
-      });
+      return await apiRequest("POST", "/api/auth/register", data);
     },
     onSuccess: () => {
       toast({
         title: "Account created!",
         description: "Welcome to CareConnect. You can now book care services.",
       });
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       navigate("/");
     },
     onError: (error: Error) => {

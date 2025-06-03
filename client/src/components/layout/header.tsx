@@ -16,10 +16,38 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/useAuth";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Header() {
   const [location] = useLocation();
   const { isAuthenticated, isLoading } = useAuth();
+  const { toast } = useToast();
+
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      return await apiRequest("POST", "/api/auth/logout", {});
+    },
+    onSuccess: () => {
+      toast({
+        title: "Logged out",
+        description: "You have been logged out successfully.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Logout failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleLogout = () => {
+    logoutMutation.mutate();
+  };
 
   return (
     <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
@@ -120,7 +148,9 @@ export default function Header() {
                 {isAuthenticated && (
                   <>
                     <DropdownMenuItem>Settings</DropdownMenuItem>
-                    <DropdownMenuItem>Sign out</DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleLogout}>
+                      Sign out
+                    </DropdownMenuItem>
                   </>
                 )}
                 
