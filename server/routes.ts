@@ -14,32 +14,82 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth routes
-  app.get('/api/auth/user', (req, res) => {
-    // For now, return null (not authenticated)
-    // This will be replaced with real auth when we implement login
-    res.json(null);
+  app.get('/api/auth/user', async (req, res) => {
+    // Check session for authenticated user
+    const userId = req.session?.userId;
+    if (userId) {
+      try {
+        const user = await storage.getUser(userId);
+        res.json(user);
+      } catch (error) {
+        res.status(500).json({ message: "Error fetching user" });
+      }
+    } else {
+      res.json(null);
+    }
   });
 
-  app.post('/api/auth/login', (req, res) => {
-    // Mock login - will be replaced with real authentication
+  app.post('/api/auth/login', async (req, res) => {
     const { email, password } = req.body;
     
-    if (email && password) {
-      // Return mock user data
-      res.json({
-        id: 1,
-        email: email,
-        firstName: "Demo",
-        lastName: "User",
-        createdAt: new Date().toISOString()
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password required" });
+    }
+
+    try {
+      // Find user by email
+      const user = await storage.getUserByEmail(email);
+      
+      if (!user) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+
+      // In production, verify password hash here
+      // For now, accept any password for demo
+      
+      // Store user ID in session
+      req.session.userId = user.id;
+      
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ message: "Login error" });
+    }
+  });
+
+  app.post('/api/auth/register', async (req, res) => {
+    const { email, password, firstName, lastName } = req.body;
+    
+    try {
+      // Check if user already exists
+      const existingUser = await storage.getUserByEmail(email);
+      if (existingUser) {
+        return res.status(400).json({ message: "User already exists" });
+      }
+
+      // Create new user
+      const user = await storage.createUser({
+        email,
+        password, // In production, hash password here
+        firstName,
+        lastName,
       });
-    } else {
-      res.status(400).json({ message: "Email and password required" });
+
+      // Store user ID in session
+      req.session.userId = user.id;
+      
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ message: "Registration error" });
     }
   });
 
   app.post('/api/auth/logout', (req, res) => {
-    res.json({ message: "Logged out successfully" });
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(500).json({ message: "Logout error" });
+      }
+      res.json({ message: "Logged out successfully" });
+    });
   });
 
   // Stripe payment routes
