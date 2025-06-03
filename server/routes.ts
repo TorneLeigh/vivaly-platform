@@ -10,6 +10,7 @@ import {
 } from "@shared/schema";
 import { sendNannyWelcomeSequence, sendBookingConfirmation, sendNewNannyAlert } from "./email-service";
 import { wwccVerificationService } from "./wwcc-verification-service";
+import { voucherService } from "./voucher-service";
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
@@ -398,6 +399,64 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("WWCC verification link error:", error);
       res.status(500).json({ message: "Failed to get verification link" });
+    }
+  });
+
+  // Voucher routes
+  app.post("/api/vouchers/claim", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const nanny = await storage.getNannyByUserId(userId);
+      
+      if (!nanny) {
+        return res.status(404).json({ message: "Caregiver profile not found" });
+      }
+
+      const { voucherType, receiptAmount, receiptImageUrl, certificationDate, expiryDate, state } = req.body;
+      
+      const voucherRequest = {
+        caregiverId: nanny.id,
+        voucherType,
+        receiptAmount: parseFloat(receiptAmount),
+        receiptImageUrl,
+        certificationDate,
+        expiryDate,
+        state
+      };
+
+      const voucher = await voucherService.submitVoucherClaim(voucherRequest);
+      
+      res.json(voucher);
+    } catch (error: any) {
+      console.error("Voucher claim error:", error);
+      res.status(500).json({ message: error.message || "Failed to submit voucher claim" });
+    }
+  });
+
+  app.get("/api/vouchers/eligible", async (req, res) => {
+    try {
+      const eligibleVouchers = voucherService.getEligibleVouchers();
+      res.json(eligibleVouchers);
+    } catch (error) {
+      console.error("Eligible vouchers error:", error);
+      res.status(500).json({ message: "Failed to get eligible vouchers" });
+    }
+  });
+
+  app.get("/api/vouchers/my-claims", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const nanny = await storage.getNannyByUserId(userId);
+      
+      if (!nanny) {
+        return res.status(404).json({ message: "Caregiver profile not found" });
+      }
+
+      const vouchers = await voucherService.getVouchersByCaregiver(nanny.id);
+      res.json(vouchers);
+    } catch (error) {
+      console.error("My voucher claims error:", error);
+      res.status(500).json({ message: "Failed to get voucher claims" });
     }
   });
 

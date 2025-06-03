@@ -188,6 +188,19 @@ export default function WWCCVerification({
             </div>
           )}
 
+          <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span className="text-sm font-medium text-green-800">💰 Certification Refund Available</span>
+            </div>
+            <p className="text-xs text-green-700 mb-2">
+              Get 30% of your WWCC certification fee refunded (up to $35) when you complete verification!
+            </p>
+            <div className="text-xs text-green-600">
+              After verification, submit your WWCC receipt in the Voucher Claims section to receive your refund.
+            </div>
+          </div>
+
           <Button 
             type="submit" 
             className="w-full" 
