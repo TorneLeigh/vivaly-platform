@@ -22,7 +22,9 @@ import {
   Music,
   BookOpen,
   Utensils,
-  Baby
+  Baby,
+  Dog,
+  PawPrint
 } from "lucide-react";
 import type { Nanny, User as UserType } from "@shared/schema";
 import familyImage1 from "@assets/a320779cd5ae5ce8e8ecf846003d8ff9.jpg";

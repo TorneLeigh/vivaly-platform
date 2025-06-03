@@ -137,7 +137,13 @@ export const SERVICE_TYPES = [
   "Birth Education",
   "Postnatal Care",
   "Elderly Companionship",
-  "Elderly Care"
+  "Elderly Care",
+  "Pet Sitting",
+  "Dog Walking",
+  "Pet Boarding",
+  "Pet Grooming",
+  "Pet Training",
+  "Overnight Pet Care"
 ] as const;
 
 // Certificate types
@@ -148,6 +154,11 @@ export const CERTIFICATE_TYPES = [
   "Early Childhood Education",
   "Montessori",
   "Working with Children Check",
+  "Animal Care Certificate",
+  "Pet First Aid",
+  "Dog Training Certification",
+  "Veterinary Assistant",
+  "Animal Behavior Certificate",
   "Midwifery Certification",
   "Lactation Consultant",
   "Birth Doula Training",
