@@ -538,9 +538,9 @@ export default function Home() {
             <div className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
               Verified & Trusted Platform
             </div>
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Your family's safety is our priority</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Every caregiver undergoes rigorous background checks, identity verification, and professional certification before joining our platform.
+            <h2 className="text-3xl font-bold text-warm-gray mb-4">Safety and trust first</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Every caregiver on CareConnect goes through our comprehensive verification process
             </p>
           </div>
 
