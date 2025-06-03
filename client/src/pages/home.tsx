@@ -271,6 +271,14 @@ export default function Home() {
                       src={category.image} 
                       alt={category.title}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      onError={(e) => {
+                        console.error('Failed to load image:', category.image);
+                        e.currentTarget.style.backgroundColor = '#f3f4f6';
+                        e.currentTarget.style.display = 'flex';
+                        e.currentTarget.style.alignItems = 'center';
+                        e.currentTarget.style.justifyContent = 'center';
+                        e.currentTarget.innerHTML = 'Image not found';
+                      }}
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-10 transition-opacity duration-300 group-hover:bg-opacity-0"></div>
                   </div>
@@ -386,6 +394,14 @@ export default function Home() {
                       src={activity.image} 
                       alt={activity.title}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      onError={(e) => {
+                        console.error('Failed to load activity image:', activity.image);
+                        e.currentTarget.style.backgroundColor = '#f3f4f6';
+                        e.currentTarget.style.display = 'flex';
+                        e.currentTarget.style.alignItems = 'center';
+                        e.currentTarget.style.justifyContent = 'center';
+                        e.currentTarget.innerHTML = 'Image not found';
+                      }}
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-10 transition-opacity duration-300 group-hover:bg-opacity-0"></div>
                   </div>
