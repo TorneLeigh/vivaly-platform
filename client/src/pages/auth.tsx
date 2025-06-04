@@ -71,7 +71,7 @@ export default function Auth() {
     mutationFn: async (data: LoginForm) => {
       return apiRequest("POST", "/api/auth/login", data);
     },
-    onSuccess: (response) => {
+    onSuccess: (response: any) => {
       const { user, token } = response;
       localStorage.setItem("authToken", token);
       queryClient.setQueryData(["/api/auth/user"], user);
@@ -94,18 +94,18 @@ export default function Auth() {
     mutationFn: async (data: SignupForm) => {
       return apiRequest("POST", "/api/auth/signup", data);
     },
-    onSuccess: (response) => {
+    onSuccess: (response: any, variables) => {
       const { user, token } = response;
       localStorage.setItem("authToken", token);
       queryClient.setQueryData(["/api/auth/user"], user);
       toast({
         title: "Account Created!",
-        description: data.isCaregiver 
+        description: variables.isCaregiver 
           ? "Welcome to Carely! Complete your caregiver profile to start accepting bookings."
           : "Welcome to Carely! You can now start booking caregivers.",
       });
       
-      if (data.isCaregiver) {
+      if (variables.isCaregiver) {
         window.location.href = "/caregiver-onboarding";
       } else {
         window.location.href = "/";

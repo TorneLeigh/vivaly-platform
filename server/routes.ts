@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import Stripe from "stripe";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { storage } from "./storage";
 import { requireAuth } from "./auth-middleware";
 import { 
@@ -34,14 +35,74 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/auth/login', async (req, res) => {
-    const { email, password } = req.body;
-    
-    if (!email || !password) {
-      return res.status(400).json({ message: "Email and password required" });
+  // JWT Authentication system
+  const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+
+  const generateToken = (userId: number) => {
+    return jwt.sign({ userId }, JWT_SECRET, { expiresIn: "7d" });
+  };
+
+  const authenticateToken = (req: any, res: any, next: any) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+      return res.sendStatus(401);
     }
 
+    jwt.verify(token, JWT_SECRET, (err: any, user: any) => {
+      if (err) return res.sendStatus(403);
+      req.user = user;
+      next();
+    });
+  };
+
+  // Enhanced authentication routes
+  app.post("/api/auth/signup", async (req, res) => {
     try {
+      const userData = insertUserSchema.parse(req.body);
+      
+      // Check if user already exists
+      const existingUser = await storage.getUserByEmail(userData.email);
+      if (existingUser) {
+        return res.status(400).json({ message: "User already exists" });
+      }
+
+      // Hash password
+      const hashedPassword = await bcrypt.hash(userData.password, 10);
+      
+      // Create user
+      const user = await storage.createUser({
+        email: userData.email,
+        password: hashedPassword,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        phone: userData.phone || null,
+        profileImage: null,
+        isNanny: userData.isCaregiver || false,
+      });
+
+      // Generate token
+      const token = generateToken(user.id);
+
+      // Remove password from response
+      const { password, ...userWithoutPassword } = user;
+
+      res.json({ user: userWithoutPassword, token });
+    } catch (error) {
+      console.error("Signup error:", error);
+      res.status(500).json({ message: "Failed to create account" });
+    }
+  });
+
+  app.post('/api/auth/login', async (req, res) => {
+    try {
+      const { email, password } = req.body;
+    
+      if (!email || !password) {
+        return res.status(400).json({ message: "Email and password required" });
+      }
+
       // Find user by email
       const user = await storage.getUserByEmail(email);
       
@@ -54,12 +115,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!isValidPassword) {
         return res.status(401).json({ message: "Invalid credentials" });
       }
+
+      // Generate JWT token
+      const token = generateToken(user.id);
       
-      // Store user ID in session
+      // Store user ID in session for backward compatibility
       req.session.userId = user.id;
       
-      res.json(user);
+      // Remove password from response
+      const { password: _, ...userWithoutPassword } = user;
+      
+      res.json({ user: userWithoutPassword, token });
     } catch (error) {
+      console.error("Login error:", error);
       res.status(500).json({ message: "Login error" });
     }
   });
