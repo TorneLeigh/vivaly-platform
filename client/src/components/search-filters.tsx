@@ -182,16 +182,15 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
             </Select>
           </div>
           
-          {/* Search Button */}
+          {/* Search Icon */}
           <div className="flex items-end">
-            <Button 
+            <button 
               onClick={handleSearch}
+              className="w-full h-10 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
               style={{ backgroundColor: '#FF6B35' }}
-              className="text-white hover:opacity-90 w-full h-10 font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
             >
-              <Search className="w-4 h-4 mr-2" />
-              Search
-            </Button>
+              <Search className="w-5 h-5" />
+            </button>
           </div>
         </div>
       </div>

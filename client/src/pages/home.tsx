@@ -210,9 +210,9 @@ export default function Home() {
 
           {/* Quick Booking Options */}
           <div className="flex flex-wrap justify-center gap-4 mb-6">
-            <Link href="/quick-start?when=tonight">
+            <Link href="/quick-start?when=today">
               <Button className="text-black animate-bounce-slow hover:opacity-90" style={{ backgroundColor: '#FFB366' }}>
-                Book Tonight
+                Book Today
               </Button>
             </Link>
             <Link href="/quick-start?when=weekend">
