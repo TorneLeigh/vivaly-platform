@@ -85,8 +85,8 @@ export default function Header() {
                     }`}>
                       Day Care
                     </Link>
-                    <Link href="/find-care?category=services" className={`text-warm-gray hover:text-coral transition-colors ${
-                      location.includes('/find-care') && location.includes('services') ? 'text-coral' : ''
+                    <Link href="/services" className={`text-warm-gray hover:text-coral transition-colors ${
+                      location === '/services' ? 'text-coral' : ''
                     }`}>
                       Services
                     </Link>
@@ -195,11 +195,8 @@ export default function Header() {
                     <Link href="/find-care" className="flex items-center text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
                       Day Care
                     </Link>
-                    <Link href="/find-care?category=services" className="flex items-center text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
+                    <Link href="/services" className="flex items-center text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
                       Services
-                    </Link>
-                    <Link href="/search" className="flex items-center text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
-                      Search Caregivers
                     </Link>
                   </div>
 
