@@ -66,11 +66,6 @@ export default function Header() {
           </div>
 
           <nav className="hidden md:flex space-x-8">
-            <Link href="/search" className={`text-warm-gray hover:text-coral transition-colors ${
-              location.startsWith('/search') ? 'text-coral' : ''
-            }`}>
-              Find Care
-            </Link>
             <Link href="/become-nanny" className={`text-warm-gray hover:text-coral transition-colors ${
               location === '/become-nanny' ? 'text-coral' : ''
             }`}>
@@ -80,11 +75,6 @@ export default function Header() {
               location === '/provider-selection' ? 'text-coral' : ''
             }`}>
               Offer Your Services
-            </Link>
-            <Link href="/gift-cards" className={`text-warm-gray hover:text-coral transition-colors ${
-              location === '/gift-cards' ? 'text-coral' : ''
-            }`}>
-              Gift Cards
             </Link>
           </nav>
 
@@ -101,9 +91,6 @@ export default function Header() {
                   <SheetTitle>Menu</SheetTitle>
                 </SheetHeader>
                 <div className="flex flex-col space-y-4 mt-6">
-                  <Link href="/search" className="text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
-                    Find Care
-                  </Link>
                   <Link href="/become-nanny" className="text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
                     Sign Up as Caregiver
                   </Link>

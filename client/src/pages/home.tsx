@@ -224,7 +224,7 @@ export default function Home() {
           <div className="bg-white rounded-full shadow-lg border border-gray-200 p-2 max-w-3xl mx-auto mb-8">
             <SearchFilters onSearch={(filters) => {
               const searchParams = new URLSearchParams(filters);
-              window.location.href = `/search?${searchParams.toString()}`;
+              window.location.href = `/find-care?${searchParams.toString()}`;
             }} />
           </div>
 
