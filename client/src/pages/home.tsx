@@ -344,7 +344,7 @@ export default function Home() {
                  onClick={() => window.location.href = '/search?serviceType=Pet Sitting'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
-                  src="/images/pet1.jpg" 
+                  src={petSittingImage} 
                   alt="Pet Sitting"
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
