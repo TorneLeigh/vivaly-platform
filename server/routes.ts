@@ -874,6 +874,177 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Message routes for secure communication between parents and caregivers
+  app.post("/api/messages", authenticateToken, async (req: any, res) => {
+    try {
+      const messageData = insertMessageSchema.parse({
+        ...req.body,
+        senderId: req.user.userId,
+      });
+      const message = await storage.createMessage(messageData);
+      res.json(message);
+    } catch (error) {
+      console.error("Error creating message:", error);
+      res.status(500).json({ message: "Failed to send message" });
+    }
+  });
+
+  app.get("/api/messages/:userId", authenticateToken, async (req: any, res) => {
+    try {
+      const otherUserId = parseInt(req.params.userId);
+      const messages = await storage.getMessagesBetweenUsers(req.user.userId, otherUserId);
+      res.json(messages);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch messages" });
+    }
+  });
+
+  app.get("/api/conversations", authenticateToken, async (req: any, res) => {
+    try {
+      const conversations = await storage.getConversations(req.user.userId);
+      res.json(conversations);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch conversations" });
+    }
+  });
+
+  // Review system routes for post-booking feedback
+  app.post("/api/reviews", authenticateToken, async (req: any, res) => {
+    try {
+      const reviewData = insertReviewSchema.parse({
+        ...req.body,
+        reviewerId: req.user.userId,
+      });
+      const review = await storage.createReview(reviewData);
+      res.json(review);
+    } catch (error) {
+      console.error("Error creating review:", error);
+      res.status(500).json({ message: "Failed to create review" });
+    }
+  });
+
+  app.get("/api/reviews/my-reviews", authenticateToken, async (req: any, res) => {
+    try {
+      const reviews = await storage.getReviewsByUser ? await storage.getReviewsByUser(req.user.userId) : [];
+      res.json(reviews);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch reviews" });
+    }
+  });
+
+  app.get("/api/bookings/completed", authenticateToken, async (req: any, res) => {
+    try {
+      const bookings = await storage.getBookingsByParent(req.user.userId);
+      const completedBookings = bookings.filter(booking => booking.status === 'completed');
+      res.json(completedBookings);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch completed bookings" });
+    }
+  });
+
+  // Advanced search with comprehensive filtering
+  app.get("/api/nannies/advanced-search", async (req, res) => {
+    try {
+      const filters = {
+        location: req.query.location as string,
+        serviceType: req.query.serviceType as string,
+        minRate: req.query.minRate ? parseInt(req.query.minRate as string) : undefined,
+        maxRate: req.query.maxRate ? parseInt(req.query.maxRate as string) : undefined,
+      };
+      
+      const nannies = await storage.searchNannies(filters);
+      res.json(nannies);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to search caregivers" });
+    }
+  });
+
+  // Enhanced payment processing with Stripe
+  app.post("/api/create-payment-intent", authenticateToken, async (req: any, res) => {
+    try {
+      const { amount, bookingId, description } = req.body;
+      const user = await storage.getUser(req.user.userId);
+      
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(amount * 100), // Convert to cents
+        currency: "aud",
+        description: description || `Booking payment for booking #${bookingId}`,
+        metadata: {
+          bookingId: bookingId.toString(),
+          userId: user.id.toString(),
+        },
+      });
+
+      res.json({ 
+        clientSecret: paymentIntent.client_secret,
+        paymentIntentId: paymentIntent.id 
+      });
+    } catch (error: any) {
+      console.error("Payment intent error:", error);
+      res.status(500).json({ message: "Error creating payment intent: " + error.message });
+    }
+  });
+
+  app.post("/api/confirm-payment", authenticateToken, async (req: any, res) => {
+    try {
+      const { paymentIntentId, bookingId } = req.body;
+      
+      // Verify payment was successful
+      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+      
+      if (paymentIntent.status === 'succeeded') {
+        // Update booking status to confirmed
+        await storage.updateBookingStatus(bookingId, 'confirmed');
+        
+        res.json({ success: true, message: "Payment confirmed and booking updated" });
+      } else {
+        res.status(400).json({ message: "Payment not successful" });
+      }
+    } catch (error: any) {
+      console.error("Payment confirmation error:", error);
+      res.status(500).json({ message: "Error confirming payment" });
+    }
+  });
+
+  // Caregiver registration route
+  app.post("/api/caregivers/register", authenticateToken, async (req: any, res) => {
+    try {
+      const registrationData = req.body;
+      
+      // Create caregiver profile
+      const nannyData = insertNannySchema.parse({
+        userId: req.user.userId,
+        bio: registrationData.bio,
+        experience: registrationData.experience,
+        hourlyRate: registrationData.hourlyRate.toString(),
+        location: `${registrationData.suburb}, ${registrationData.state}`,
+        suburb: registrationData.suburb,
+        services: registrationData.services,
+        hasWwcc: registrationData.hasWWCC,
+        hasFirstAid: registrationData.hasFirstAid,
+        hasPoliceCheck: registrationData.hasPoliceCheck,
+        isVerified: false, // Pending verification
+      });
+      
+      const nanny = await storage.createNanny(nannyData);
+      
+      // Send welcome email
+      const user = await storage.getUser(req.user.userId);
+      if (user) {
+        await sendNannyWelcomeSequence(user.email, user.firstName);
+      }
+      
+      res.json({ success: true, caregiverId: nanny.id });
+    } catch (error) {
+      console.error("Caregiver registration error:", error);
+      res.status(500).json({ message: "Failed to register caregiver" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
