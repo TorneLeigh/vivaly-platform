@@ -510,37 +510,45 @@ export default function Home() {
       </section>
 
       {/* Featured Nannies */}
-      <section className="py-16 bg-white">
+      <section className="py-8 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Available for 1-1 care</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Services available in Bondi</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Trusted caregivers ready to provide personalized one-on-one care for your family
             </p>
           </div>
           
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 sm:gap-4 md:gap-6">
-            {isLoading ? (
-              Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="bg-white rounded-2xl shadow-sm animate-pulse overflow-hidden">
-                  <div className="w-full h-48 bg-gray-200"></div>
-                  <div className="p-4">
-                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                    <div className="h-3 bg-gray-200 rounded w-2/3 mb-2"></div>
-                    <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+          <ServiceCarousel>
+            {(() => {
+              if (isLoading) {
+                return Array.from({ length: 8 }).map((_, i) => (
+                  <div key={i} className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48">
+                    <div className="bg-white rounded-2xl shadow-sm animate-pulse overflow-hidden">
+                      <div className="w-full h-48 bg-gray-200"></div>
+                      <div className="p-4">
+                        <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                        <div className="h-3 bg-gray-200 rounded w-2/3 mb-2"></div>
+                        <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))
-            ) : featuredNannies && Array.isArray(featuredNannies) && featuredNannies.length > 0 ? (
-              featuredNannies.slice(0, 8).map((nanny: Nanny & { user: UserType }) => (
-                <NannyCard key={nanny.id} nanny={nanny} />
-              ))
-            ) : (
-              <div className="col-span-full text-center py-8">
-                <p className="text-gray-500">No caregivers available today.</p>
-              </div>
-            )}
-          </div>
+                ));
+              } else if (featuredNannies && Array.isArray(featuredNannies) && featuredNannies.length > 0) {
+                return featuredNannies.slice(0, 8).map((nanny: Nanny & { user: UserType }) => (
+                  <div key={nanny.id} className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48">
+                    <NannyCard nanny={nanny} />
+                  </div>
+                ));
+              } else {
+                return [
+                  <div key="no-data" className="text-center py-8 w-full">
+                    <p className="text-gray-500">No caregivers available today.</p>
+                  </div>
+                ];
+              }
+            })()}
+          </ServiceCarousel>
         </div>
       </section>
 
