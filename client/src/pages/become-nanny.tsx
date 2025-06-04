@@ -24,11 +24,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { insertNannySchema, SERVICE_TYPES, CERTIFICATE_TYPES, SYDNEY_SUBURBS } from "@shared/schema";
 import { z } from "zod";
-import { Heart, Shield, Award, DollarSign, MapPin, FileText } from "lucide-react";
+import { Heart, Shield, Award, DollarSign, MapPin, FileText, ChevronDown, Clock, HelpCircle, Users } from "lucide-react";
 
 const nannyFormSchema = insertNannySchema.extend({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
@@ -42,6 +47,9 @@ type NannyFormData = z.infer<typeof nannyFormSchema>;
 
 export default function BecomeNanny() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [showFAQ, setShowFAQ] = useState(false);
+  const [showFees, setShowFees] = useState(false);
+  const [showPolicies, setShowPolicies] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<NannyFormData>({
