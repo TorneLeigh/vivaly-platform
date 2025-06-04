@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -33,6 +34,7 @@ interface SearchFiltersProps {
 }
 
 export default function SearchFilters({ onSearch, className = "" }: SearchFiltersProps) {
+  const [, setNavigationLocation] = useLocation();
   const [location, setLocation] = useState("");
   const [serviceType, setServiceType] = useState("All Services");
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
@@ -42,6 +44,20 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
 
   const handleSearch = () => {
     const dateString = selectedDate ? selectedDate.toISOString().split('T')[0] : "";
+    const searchParams = new URLSearchParams();
+    
+    if (location) searchParams.set("location", location);
+    if (serviceType && serviceType !== "All Services") searchParams.set("serviceType", serviceType);
+    if (dateString) searchParams.set("date", dateString);
+    if (startTime) searchParams.set("startTime", startTime);
+    if (endTime) searchParams.set("endTime", endTime);
+    if (numberOfPeople) searchParams.set("numberOfPeople", numberOfPeople);
+    
+    // Navigate to search results page with parameters
+    const searchUrl = `/search${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
+    setNavigationLocation(searchUrl);
+    
+    // Also call the onSearch callback for compatibility
     onSearch({ location, serviceType, date: dateString, startTime, endTime, numberOfPeople });
   };
 
