@@ -211,7 +211,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section - Airbnb Style */}
-      <section className="bg-white relative min-h-[60vh] flex items-center">
+      <section className="bg-white relative min-h-[60vh] flex items-center pt-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-tight mb-4">
             Book trusted care in minutes
