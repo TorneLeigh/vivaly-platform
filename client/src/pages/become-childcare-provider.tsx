@@ -46,9 +46,13 @@ const childcareProviderSchema = z.object({
   dailyRate: z.number().min(50, "Minimum daily rate is $50"),
   weeklyRate: z.number().min(200, "Minimum weekly rate is $200"),
   
-  // Qualifications
+  // Qualifications & Australian Requirements
   qualifications: z.array(z.string()).min(1, "Please select at least one qualification"),
   experience: z.number().min(0, "Experience cannot be negative"),
+  childProtectionTraining: z.boolean().refine(val => val === true, "Child Protection Training is mandatory"),
+  anaphylaxisTraining: z.boolean().refine(val => val === true, "Anaphylaxis Management Training is required"),
+  asthmaManagement: z.boolean().refine(val => val === true, "Asthma Emergency Management Training is required"),
+  emergencyEvacuation: z.boolean().refine(val => val === true, "Emergency Evacuation Training is required"),
   
   // Legal Requirements & Verification
   wwccNumber: z.string().min(8, "Please enter your WWCC number"),
@@ -130,6 +134,10 @@ export default function BecomeChildcareProvider() {
       backgroundCheckConsent: false,
       platformTermsAgreement: false,
       dataProtectionConsent: false,
+      childProtectionTraining: false,
+      anaphylaxisTraining: false,
+      asthmaManagement: false,
+      emergencyEvacuation: false,
     },
   });
 
@@ -182,11 +190,15 @@ export default function BecomeChildcareProvider() {
           <CardContent className="text-blue-700">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div>
-                <h4 className="font-semibold mb-2">Legal Requirements:</h4>
+                <h4 className="font-semibold mb-2">Legal Requirements (Australian):</h4>
                 <ul className="list-disc list-inside space-y-1">
                   <li>Valid Working with Children Check</li>
-                  <li>First Aid & CPR Certification</li>
-                  <li>Public Liability Insurance</li>
+                  <li>First Aid & CPR Certification (HLTAID012)</li>
+                  <li>Child Protection Training (mandatory)</li>
+                  <li>Anaphylaxis Management Training</li>
+                  <li>Asthma Emergency Management</li>
+                  <li>Emergency Evacuation Training</li>
+                  <li>Public Liability Insurance ($20M+)</li>
                   <li>Childcare-specific Insurance</li>
                 </ul>
               </div>
@@ -593,6 +605,81 @@ export default function BecomeChildcareProvider() {
                       </FormItem>
                     )}
                   />
+                  
+                  {/* Australian Mandatory Training Requirements */}
+                  <div className="border-t pt-4 mt-4">
+                    <h4 className="font-semibold mb-3 text-gray-800">Mandatory Australian Training Requirements:</h4>
+                    <div className="space-y-3">
+                      <FormField
+                        control={form.control}
+                        name="childProtectionTraining"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel>I have completed Child Protection Training (mandatory in Australia)</FormLabel>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="anaphylaxisTraining"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel>I have Anaphylaxis Management Training (ASCIA certified)</FormLabel>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="asthmaManagement"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel>I have Asthma Emergency Management Training</FormLabel>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="emergencyEvacuation"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel>I have Emergency Evacuation & Risk Management Training</FormLabel>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
