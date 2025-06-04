@@ -133,7 +133,12 @@ export default function CaregiverProfile() {
                 <Heart className="w-4 h-4 mr-2" />
                 Save
               </Button>
-              <Button size="lg" style={{ backgroundColor: '#FF6B35' }} className="text-white">
+              <Button 
+                size="lg" 
+                style={{ backgroundColor: '#FF6B35' }} 
+                className="text-white"
+                onClick={() => window.location.href = `/booking/${caregiver.id}`}
+              >
                 Book Now
               </Button>
             </div>

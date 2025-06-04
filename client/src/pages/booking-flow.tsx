@@ -186,7 +186,7 @@ export default function BookingFlow() {
                     <SelectValue placeholder="Select service type" />
                   </SelectTrigger>
                   <SelectContent>
-                    {caregiver.services.map((service) => (
+                    {(caregiver.services || []).map((service) => (
                       <SelectItem key={service} value={service}>{service}</SelectItem>
                     ))}
                   </SelectContent>

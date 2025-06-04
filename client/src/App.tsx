@@ -8,10 +8,12 @@ import Footer from "@/components/layout/footer";
 import Home from "@/pages/home";
 import NannyProfile from "@/pages/nanny-profile";
 import CaregiverProfile from "@/pages/caregiver-profile";
+import BookingFlow from "@/pages/booking-flow";
 import SearchResults from "@/pages/search-results";
 import BecomeNanny from "@/pages/become-nanny";
 import Messages from "@/pages/messages";
 import Login from "@/pages/login";
+import Auth from "@/pages/auth";
 import ProviderVerification from "@/pages/provider-verification";
 import GiftCards from "@/pages/gift-cards";
 import GiftCardCheckout from "@/pages/gift-card-checkout";
@@ -39,12 +41,14 @@ function Router() {
           <Route path="/" component={Home} />
           <Route path="/nanny/:id" component={NannyProfile} />
           <Route path="/caregiver/:id" component={CaregiverProfile} />
+          <Route path="/booking/:id" component={BookingFlow} />
           <Route path="/search" component={SearchResults} />
           <Route path="/become-nanny" component={BecomeNanny} />
           <Route path="/nanny-dashboard" component={NannyDashboard} />
           <Route path="/create-experience" component={CreateExperience} />
           <Route path="/messages" component={Messages} />
           <Route path="/login" component={Login} />
+          <Route path="/auth" component={Auth} />
           <Route path="/verification" component={ProviderVerification} />
           <Route path="/gift-cards" component={GiftCards} />
           <Route path="/gift-card-checkout" component={GiftCardCheckout} />
