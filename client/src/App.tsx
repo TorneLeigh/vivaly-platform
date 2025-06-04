@@ -37,6 +37,7 @@ import FindCare from "@/pages/find-care";
 import ChildcareEnroll from "@/pages/childcare-enroll";
 import ProviderDashboard from "@/pages/provider-dashboard";
 import ChildcareDashboard from "@/pages/childcare-dashboard";
+import Services from "@/pages/services";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -75,6 +76,7 @@ function Router() {
           <Route path="/caregiver/:id" component={CaregiverProfile} />
           <Route path="/booking/:id" component={BookingFlow} />
           <Route path="/search" component={SearchResults} />
+          <Route path="/services" component={Services} />
           <Route path="/become-nanny" component={BecomeNanny} />
           <Route path="/provider-selection" component={ProviderSelection} />
           <Route path="/become-childcare-provider" component={BecomeChildcareProvider} />
