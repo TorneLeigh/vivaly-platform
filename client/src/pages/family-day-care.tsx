@@ -21,9 +21,9 @@ export default function FamilyDayCarePage() {
   });
 
   const { data: providers, isLoading } = useQuery({
-    queryKey: ["/api/family-day-care/providers", filters],
+    queryKey: ["/api/childcare/providers", filters],
     queryFn: () => 
-      fetch(`/api/family-day-care/providers?${new URLSearchParams(filters)}`).then(res => res.json())
+      fetch(`/api/childcare/providers?${new URLSearchParams(filters)}`).then(res => res.json())
   });
 
   if (isLoading) {
@@ -205,7 +205,7 @@ export default function FamilyDayCarePage() {
                       View Profile
                     </Button>
                   </Link>
-                  <Link href={`/family-day-care/enroll/${provider.id}`}>
+                  <Link href={`/childcare/enroll/${provider.id}`}>
                     <Button 
                       className="w-full bg-green-600 hover:bg-green-700"
                       disabled={provider.availableSpaces === 0}
