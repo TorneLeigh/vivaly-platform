@@ -226,7 +226,7 @@ export type InsertFamilyDayCareEnrollment = z.infer<typeof insertFamilyDayCareEn
 export const SERVICE_TYPES = [
   "1-on-1 care",
   "Group care",
-  "Group play",
+  "Family Day Care",
   "Drop and dash",
   "Midwife services",
   "Breastfeeding support",

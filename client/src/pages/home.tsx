@@ -62,7 +62,7 @@ const serviceCategories = [
   },
   {
     title: "Group care",
-    description: "Group daycare services", 
+    description: "1-2 hour group care sessions", 
     image: "/images/daycare.jpg",
     serviceType: "Group care"
   },
@@ -71,12 +71,6 @@ const serviceCategories = [
     description: "Licensed home-based care (max 7 children)",
     image: "/images/daycare.jpg",
     serviceType: "Family Day Care"
-  },
-  {
-    title: "Group play",
-    description: "Interactive group activities",
-    image: "/images/groupplay.jpg",
-    serviceType: "Group play"
   },
   {
     title: "Drop and dash",
