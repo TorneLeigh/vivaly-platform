@@ -178,23 +178,19 @@ export type InsertExperience = z.infer<typeof insertExperienceSchema>;
 
 // Service types
 export const SERVICE_TYPES = [
-  "1-on-1 Care",
-  "Group Care", 
-  "Group Play",
-  "Drop & Dash",
-  "Midwife Services",
-  "Postpartum Support",
-  "Breastfeeding Support",
-  "Birth Education",
-  "Postnatal Care",
-  "Elderly Companionship",
-  "Elderly Care",
-  "Pet Sitting",
-  "Dog Walking",
-  "Pet Boarding",
-  "Pet Grooming",
-  "Pet Training",
-  "Overnight Pet Care"
+  "1-on-1 care",
+  "Group care",
+  "Group play",
+  "Drop and dash",
+  "Midwife services",
+  "Breastfeeding support",
+  "Birth education",
+  "Newborn support",
+  "Pregnancy assistance",
+  "Postnatal care",
+  "Pet sitting",
+  "Elderly care",
+  "Elderly companionship"
 ] as const;
 
 // Certificate types

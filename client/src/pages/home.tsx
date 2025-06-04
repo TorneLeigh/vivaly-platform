@@ -53,58 +53,82 @@ const activityColors = [
 
 const serviceCategories = [
   {
-    title: "Newborn Care",
-    description: "Specialized care for newborns",
-    image: "/images/newborn.jpg",
-    serviceType: "Newborn Care"
-  },
-  {
     title: "1-on-1 care", 
     description: "Personalized one-on-one care",
     image: "/images/childcare.jpg",
-    serviceType: "1-on-1 Care"
+    serviceType: "1-on-1 care"
   },
   {
-    title: "Group day care",
+    title: "Group care",
     description: "Group daycare services", 
     image: "/images/daycare.jpg",
-    serviceType: "Group Care"
+    serviceType: "Group care"
   },
   {
-    title: "Nanny Services",
-    description: "Professional nanny care",
-    image: "/images/nanny.jpg",
-    serviceType: "Nanny"
+    title: "Group play",
+    description: "Interactive group activities",
+    image: "/images/groupplay.jpg",
+    serviceType: "Group play"
   },
   {
-    title: "Drop & Dash",
+    title: "Drop and dash",
     description: "Quick drop-off childcare",
     image: "/images/babysitter.jpg",
-    serviceType: "Drop & Dash"
+    serviceType: "Drop and dash"
   },
   {
-    title: "Midwife Services",
-    description: "Pregnancy and birth support",
+    title: "Midwife services",
+    description: "Professional midwife care",
     image: "/images/midwife.jpg",
-    serviceType: "Midwife Services"
+    serviceType: "Midwife services"
   },
   {
-    title: "Elderly Care",
+    title: "Breastfeeding support",
+    description: "Expert breastfeeding guidance",
+    image: "/images/breastfeeding.jpg",
+    serviceType: "Breastfeeding support"
+  },
+  {
+    title: "Birth education",
+    description: "Childbirth preparation classes",
+    image: "/images/birthed.jpg",
+    serviceType: "Birth education"
+  },
+  {
+    title: "Newborn support",
+    description: "Specialized newborn care",
+    image: "/images/newborn.jpg",
+    serviceType: "Newborn support"
+  },
+  {
+    title: "Pregnancy assistance",
+    description: "Support during pregnancy",
+    image: "/images/pregnancy.jpg",
+    serviceType: "Pregnancy assistance"
+  },
+  {
+    title: "Postnatal care",
+    description: "Care after childbirth",
+    image: "/images/postnatal.jpg",
+    serviceType: "Postnatal care"
+  },
+  {
+    title: "Pet sitting",
+    description: "Professional pet care",
+    image: "/images/petcare.jpg",
+    serviceType: "Pet sitting"
+  },
+  {
+    title: "Elderly care",
     description: "Senior care services",
     image: "/images/elderly.jpg",
-    serviceType: "Elderly Care"
+    serviceType: "Elderly care"
   },
   {
-    title: "Companionship",
-    description: "Social companionship care",
+    title: "Elderly companionship",
+    description: "Social companionship for seniors",
     image: "/images/companionship.jpg",
-    serviceType: "Companionship"
-  },
-  {
-    title: "Pet Care",
-    description: "Professional pet services",
-    image: "/images/petcare.jpg",
-    serviceType: "Pet Care"
+    serviceType: "Elderly companionship"
   }
 ];
 
