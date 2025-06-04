@@ -329,11 +329,7 @@ export default function Home() {
       <section className="py-6 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="flex justify-center items-center gap-3 mb-4">
-              <PawPrint className="h-8 w-8 text-blue-600" />
-              <h2 className="text-5xl font-bold text-gray-900">Pet Care Services</h2>
-              <Dog className="h-8 w-8 text-blue-600" />
-            </div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Pet Care Services</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Your furry family members deserve the best care too. Find trusted pet sitters, dog walkers, and animal care specialists.
             </p>
@@ -516,13 +512,11 @@ export default function Home() {
       {/* Featured Nannies */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-12">
-            <h2 className="text-3xl font-bold text-warm-gray">Available for 1-1 care</h2>
-            <Link href="/search">
-              <Button variant="ghost" className="text-coral hover:text-coral">
-                View all
-              </Button>
-            </Link>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Available for 1-1 care</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Trusted caregivers ready to provide personalized one-on-one care for your family
+            </p>
           </div>
           
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 sm:gap-4 md:gap-6">
