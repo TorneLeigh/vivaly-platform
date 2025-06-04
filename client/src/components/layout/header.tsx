@@ -92,7 +92,10 @@ export default function Header() {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setViewMode('provider')}
+                onClick={() => {
+                  setViewMode('provider');
+                  window.location.href = '/provider-dashboard';
+                }}
                 className={`rounded-md px-2 md:px-3 py-1 text-xs md:text-sm transition-all ${
                   viewMode === 'provider' 
                     ? 'bg-black text-white shadow-sm' 
