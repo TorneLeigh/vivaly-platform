@@ -1011,6 +1011,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // User statistics for admin dashboard
+  app.get("/api/admin/users/stats", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const user = await storage.getUser(userId);
+      
+      if (!user || user.email !== 'admin@vivaly.com.au') {
+        return res.status(403).json({ message: "Access denied" });
+      }
+      
+      // Get all users and count by type
+      const allUsers = await storage.getAllUsers();
+      const caregivers = allUsers.filter(u => u.role === 'caregiver').length;
+      const parents = allUsers.filter(u => u.role === 'parent').length;
+      
+      res.json({
+        totalUsers: allUsers.length,
+        caregivers,
+        parents
+      });
+    } catch (error) {
+      console.error("User stats error:", error);
+      res.status(500).json({ message: "Failed to fetch user statistics" });
+    }
+  });
+
+  // Booking statistics
+  app.get("/api/admin/bookings/stats", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const user = await storage.getUser(userId);
+      
+      if (!user || user.email !== 'admin@vivaly.com.au') {
+        return res.status(403).json({ message: "Access denied" });
+      }
+      
+      res.json({
+        totalBookings: 0,
+        confirmedBookings: 0,
+        pendingBookings: 0
+      });
+    } catch (error) {
+      console.error("Booking stats error:", error);
+      res.status(500).json({ message: "Failed to fetch booking statistics" });
+    }
+  });
+
   // Message routes for secure communication between parents and caregivers
   app.post("/api/messages", authenticateToken, async (req: any, res) => {
     try {
