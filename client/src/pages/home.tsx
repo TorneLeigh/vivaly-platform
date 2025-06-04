@@ -67,6 +67,12 @@ const serviceCategories = [
     serviceType: "Group care"
   },
   {
+    title: "Family Day Care",
+    description: "Licensed home-based care (max 7 children)",
+    image: "/images/daycare.jpg",
+    serviceType: "Family Day Care"
+  },
+  {
     title: "Group play",
     description: "Interactive group activities",
     image: "/images/groupplay.jpg",

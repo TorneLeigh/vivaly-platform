@@ -48,6 +48,17 @@ export const nannies = pgTable("nannies", {
   availability: json("availability").$type<Record<string, boolean>>().default({}),
   isVerified: boolean("is_verified").default(false),
   rating: decimal("rating", { precision: 3, scale: 2 }).default("0"),
+  // Family Day Care specific fields
+  isFamilyDayCare: boolean("is_family_day_care").default(false),
+  maxCapacity: integer("max_capacity").default(7),
+  currentEnrollment: integer("current_enrollment").default(0),
+  maxBabies: integer("max_babies").default(4),
+  currentBabies: integer("current_babies").default(0),
+  hasEducatorCertificate: boolean("has_educator_certificate").default(false),
+  hasInsurance: boolean("has_insurance").default(false),
+  hasSafetyAssessment: boolean("has_safety_assessment").default(false),
+  weeklyRate: decimal("weekly_rate", { precision: 10, scale: 2 }),
+  monthlyRate: decimal("monthly_rate", { precision: 10, scale: 2 }),
   reviewCount: integer("review_count").default(0),
 });
 
@@ -62,6 +73,33 @@ export const bookings = pgTable("bookings", {
   totalAmount: decimal("total_amount", { precision: 10, scale: 2 }),
   status: text("status").default("pending"), // pending, confirmed, completed, cancelled
   notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+  // Family Day Care specific fields
+  bookingType: text("booking_type").default("hourly"), // hourly, weekly, monthly
+  startDate: timestamp("start_date"),
+  endDate: timestamp("end_date"),
+  childAge: text("child_age"), // baby (0-2), preschool (3-5), school-age (6+)
+  isRecurring: boolean("is_recurring").default(false),
+});
+
+// Family Day Care enrollments for ongoing weekly/monthly arrangements
+export const familyDayCareEnrollments = pgTable("family_day_care_enrollments", {
+  id: serial("id").primaryKey(),
+  providerId: integer("provider_id").notNull(), // references nannies.id
+  parentId: integer("parent_id").notNull(), // references users.id
+  childName: text("child_name").notNull(),
+  childAge: text("child_age").notNull(), // baby (0-2), preschool (3-5), school-age (6+)
+  startDate: timestamp("start_date").notNull(),
+  endDate: timestamp("end_date"),
+  enrollmentType: text("enrollment_type").notNull(), // weekly, monthly
+  weeklyRate: decimal("weekly_rate", { precision: 10, scale: 2 }),
+  monthlyRate: decimal("monthly_rate", { precision: 10, scale: 2 }),
+  daysPerWeek: json("days_per_week").$type<string[]>().default([]), // ["monday", "tuesday", etc.]
+  startTime: text("start_time").notNull(),
+  endTime: text("end_time").notNull(),
+  status: text("status").default("pending"), // pending, active, completed, cancelled
+  specialRequirements: text("special_requirements"),
+  emergencyContact: json("emergency_contact").$type<{name: string, phone: string, relationship: string}>(),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -157,6 +195,11 @@ export const insertExperienceSchema = createInsertSchema(experiences).omit({
   updatedAt: true,
 });
 
+export const insertFamilyDayCareEnrollmentSchema = createInsertSchema(familyDayCareEnrollments).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -175,6 +218,9 @@ export type InsertMessage = z.infer<typeof insertMessageSchema>;
 
 export type Experience = typeof experiences.$inferSelect;
 export type InsertExperience = z.infer<typeof insertExperienceSchema>;
+
+export type FamilyDayCareEnrollment = typeof familyDayCareEnrollments.$inferSelect;
+export type InsertFamilyDayCareEnrollment = z.infer<typeof insertFamilyDayCareEnrollmentSchema>;
 
 // Service types
 export const SERVICE_TYPES = [
