@@ -205,8 +205,7 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
           <div className="flex items-end">
             <button 
               onClick={handleSearch}
-              className="w-10 h-10 bg-orange-500 hover:bg-orange-600 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
-              style={{ backgroundColor: '#FF6B35' }}
+              className="w-10 h-10 bg-black hover:bg-gray-800 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
             >
               <Search className="w-5 h-5" />
             </button>
