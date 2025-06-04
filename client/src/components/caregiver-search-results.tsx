@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -19,9 +20,10 @@ import {
   Heart,
   MessageCircle,
   ChevronRight,
-  X
+  X,
+  Lock
 } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 
 interface SearchFilters {
   location: string;
@@ -46,6 +48,8 @@ export default function CaregiverSearchResults({ searchFilters, onFiltersChange 
   const [availableToday, setAvailableToday] = useState(false);
   const [selectedCaregiver, setSelectedCaregiver] = useState<any>(null);
   const [showMobileBooking, setShowMobileBooking] = useState(false);
+  const { isAuthenticated } = useAuth();
+  const [, setLocation] = useLocation();
 
   const { data: searchResults = [], isLoading } = useQuery({
     queryKey: ["/api/nannies/search", searchFilters, sortBy, priceRange, experienceFilter, verifiedOnly, availableToday],
@@ -53,8 +57,20 @@ export default function CaregiverSearchResults({ searchFilters, onFiltersChange 
   });
 
   const handleBookNow = (caregiver: any) => {
+    if (!isAuthenticated) {
+      setLocation('/login?redirect=' + encodeURIComponent(window.location.pathname + window.location.search));
+      return;
+    }
     setSelectedCaregiver(caregiver);
     setShowMobileBooking(true);
+  };
+
+  const handleMessage = (caregiver: any) => {
+    if (!isAuthenticated) {
+      setLocation('/login?redirect=' + encodeURIComponent(window.location.pathname + window.location.search));
+      return;
+    }
+    setLocation(`/messages?user=${caregiver.userId}`);
   };
 
   const filteredResults = (searchResults as any[]).filter((caregiver: any) => {
@@ -301,8 +317,17 @@ export default function CaregiverSearchResults({ searchFilters, onFiltersChange 
                       className="flex-1 bg-coral hover:bg-coral/90"
                       onClick={() => handleBookNow(caregiver)}
                     >
-                      <Calendar className="w-4 h-4 mr-2" />
-                      Book Now
+                      {!isAuthenticated ? (
+                        <>
+                          <Lock className="w-4 h-4 mr-2" />
+                          Sign In to Book
+                        </>
+                      ) : (
+                        <>
+                          <Calendar className="w-4 h-4 mr-2" />
+                          Book Now
+                        </>
+                      )}
                     </Button>
                   </div>
                 </div>

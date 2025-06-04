@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, Users, Clock, DollarSign, Star, MessageSquare, CalendarDays, List } from "lucide-react";
+import { Calendar, Users, Clock, DollarSign, Star, MessageSquare, CalendarDays, List, Lock } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
 interface ProviderStats {
@@ -17,10 +18,49 @@ interface ProviderStats {
 }
 
 export default function ProviderDashboard() {
-  const { user } = useAuth();
+  const { user, isAuthenticated, isLoading } = useAuth();
+  const [, setLocation] = useLocation();
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      setLocation('/login?redirect=' + encodeURIComponent('/provider-dashboard'));
+    }
+  }, [isAuthenticated, isLoading, setLocation]);
+
+  // Show loading while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin w-8 h-8 border-4 border-coral border-t-transparent rounded-full" />
+      </div>
+    );
+  }
+
+  // Show login prompt if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="max-w-md mx-auto text-center p-6">
+          <Lock className="w-16 h-16 text-coral mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Caregiver Access Required</h1>
+          <p className="text-gray-600 mb-6">
+            Please sign in to access your caregiver dashboard and manage your services.
+          </p>
+          <Button 
+            className="w-full bg-coral hover:bg-coral/90"
+            onClick={() => setLocation('/login?redirect=' + encodeURIComponent('/provider-dashboard'))}
+          >
+            Sign In to Continue
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   const [activeTab, setActiveTab] = useState("today");
 
-  const { data: stats, isLoading } = useQuery({
+  const { data: stats, isLoading: statsLoading } = useQuery({
     queryKey: ["/api/provider/stats", user?.id],
     enabled: !!user?.id,
   });

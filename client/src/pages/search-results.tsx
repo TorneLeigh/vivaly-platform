@@ -10,39 +10,11 @@ export default function SearchResults() {
   const [location, setLocation] = useLocation();
   const { isAuthenticated, isLoading } = useAuth();
 
-  // Redirect to login if not authenticated
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      setLocation('/login?redirect=' + encodeURIComponent(window.location.pathname + window.location.search));
-    }
-  }, [isAuthenticated, isLoading, setLocation]);
-
   // Show loading while checking authentication
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="animate-spin w-8 h-8 border-4 border-coral border-t-transparent rounded-full" />
-      </div>
-    );
-  }
-
-  // Show login prompt if not authenticated
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="max-w-md mx-auto text-center p-6">
-          <Lock className="w-16 h-16 text-coral mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Sign In Required</h1>
-          <p className="text-gray-600 mb-6">
-            Please sign in to search for caregivers and book services on VIVALY.
-          </p>
-          <Button 
-            className="w-full bg-coral hover:bg-coral/90"
-            onClick={() => setLocation('/login?redirect=' + encodeURIComponent(window.location.pathname + window.location.search))}
-          >
-            Sign In to Continue
-          </Button>
-        </div>
       </div>
     );
   }
