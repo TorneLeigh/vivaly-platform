@@ -42,60 +42,120 @@ interface Experience {
   lastName: string;
 }
 
-const serviceCategories = [
+const birthEducationClasses = [
   {
-    title: "Midwife services",
-    description: "Professional midwife care",
-    image: "/images/midwife.jpg",
-    serviceType: "Midwife services"
-  },
-  {
-    title: "Breastfeeding support",
-    description: "Expert breastfeeding guidance",
-    image: "/images/breastfeeding.jpg",
-    serviceType: "Breastfeeding support"
-  },
-  {
-    title: "Birth education",
-    description: "Childbirth preparation classes",
-    image: "/images/birthed.jpg",
+    title: "Hypnobirthing Classes",
+    description: "Relaxation techniques for natural birth",
+    image: "/images/hypnobirthing.jpg",
     serviceType: "Birth education"
   },
   {
-    title: "Newborn support",
-    description: "Specialized newborn care",
-    image: "/images/newborn.jpg",
-    serviceType: "Newborn support"
+    title: "Prenatal Yoga",
+    description: "Gentle yoga for expecting mothers",
+    image: "/images/prenatal-yoga.jpg",
+    serviceType: "Birth education"
   },
   {
-    title: "Pregnancy assistance",
-    description: "Support during pregnancy",
-    image: "/images/pregnancy.jpg",
-    serviceType: "Pregnancy assistance"
+    title: "Lamaze Method",
+    description: "Traditional breathing and relaxation",
+    image: "/images/lamaze.jpg",
+    serviceType: "Birth education"
   },
   {
-    title: "Postnatal care",
-    description: "Care after childbirth",
+    title: "Bradley Method",
+    description: "Natural childbirth preparation",
+    image: "/images/bradley.jpg",
+    serviceType: "Birth education"
+  },
+  {
+    title: "Water Birth Classes",
+    description: "Preparation for water delivery",
+    image: "/images/waterbirth.jpg",
+    serviceType: "Birth education"
+  },
+  {
+    title: "Newborn Care Classes",
+    description: "Essential baby care skills",
+    image: "/images/newborn-care.jpg",
+    serviceType: "Birth education"
+  }
+];
+
+const midwifeServices = [
+  {
+    title: "Prenatal Care",
+    description: "Comprehensive pregnancy monitoring",
+    image: "/images/prenatal.jpg",
+    serviceType: "Midwife services"
+  },
+  {
+    title: "Birth Support",
+    description: "Professional delivery assistance",
+    image: "/images/birth-support.jpg",
+    serviceType: "Midwife services"
+  },
+  {
+    title: "Postnatal Care",
+    description: "Recovery and newborn support",
     image: "/images/postnatal.jpg",
-    serviceType: "Postnatal care"
+    serviceType: "Midwife services"
   },
   {
-    title: "Pet sitting",
-    description: "Professional pet care",
+    title: "Breastfeeding Support",
+    description: "Expert lactation consultation",
+    image: "/images/breastfeeding.jpg",
+    serviceType: "Midwife services"
+  },
+  {
+    title: "Home Birth Services",
+    description: "Safe home delivery options",
+    image: "/images/homebirth.jpg",
+    serviceType: "Midwife services"
+  },
+  {
+    title: "Birth Planning",
+    description: "Personalized birth plan creation",
+    image: "/images/birthplan.jpg",
+    serviceType: "Midwife services"
+  }
+];
+
+const petSittingServices = [
+  {
+    title: "Dog Walking",
+    description: "Daily exercise and companionship",
     image: petSittingServiceImage,
     serviceType: "Pet sitting"
   },
   {
-    title: "Elderly care",
-    description: "Senior care services",
-    image: "/images/elderly.jpg",
-    serviceType: "Elderly care"
+    title: "Pet Boarding",
+    description: "Overnight care in your home",
+    image: "/images/pet-boarding.jpg",
+    serviceType: "Pet sitting"
   },
   {
-    title: "Elderly companionship",
-    description: "Social companionship for seniors",
-    image: "/images/companionship.jpg",
-    serviceType: "Elderly companionship"
+    title: "Cat Sitting",
+    description: "Specialized feline care",
+    image: "/images/cat-sitting.jpg",
+    serviceType: "Pet sitting"
+  },
+  {
+    title: "Pet Grooming",
+    description: "Professional grooming services",
+    image: "/images/pet-grooming.jpg",
+    serviceType: "Pet sitting"
+  },
+  {
+    title: "Vet Visits",
+    description: "Transportation to appointments",
+    image: "/images/vet-visits.jpg",
+    serviceType: "Pet sitting"
+  },
+  {
+    title: "Pet Training",
+    description: "Basic obedience and behavior",
+    image: "/images/pet-training.jpg",
+    serviceType: "Pet sitting"
   }
 ];
 
@@ -211,26 +271,26 @@ export default function Services() {
         </div>
       </section>
 
-      {/* Service Categories */}
+      {/* Birth Education Classes */}
       <section className="py-8 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Professional Services
+              Birth Education Classes
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Specialized care services by qualified professionals
+              Comprehensive childbirth preparation and education programs
             </p>
           </div>
           
           <ServiceCarousel>
-            {serviceCategories.map((category, index) => (
+            {birthEducationClasses.map((classType, index) => (
               <div 
                 key={index}
                 className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
                 onClick={() => {
                   const searchParams = new URLSearchParams({
-                    serviceType: category.serviceType,
+                    serviceType: classType.serviceType,
                     location: 'Sydney, NSW'
                   });
                   window.location.href = `/search?${searchParams.toString()}`;
@@ -238,8 +298,8 @@ export default function Services() {
               >
                 <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                   <img 
-                    src={category.image} 
-                    alt={category.title}
+                    src={classType.image} 
+                    alt={classType.title}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
@@ -247,7 +307,7 @@ export default function Services() {
                         e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
                         e.currentTarget.parentElement.innerHTML = `
                           <div class="flex items-center justify-center h-full">
-                            <span class="text-gray-400 text-xs">${category.title}</span>
+                            <span class="text-gray-400 text-xs">${classType.title}</span>
                           </div>
                         `;
                       }
@@ -255,8 +315,114 @@ export default function Services() {
                   />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 text-sm mb-1">{category.title}</h3>
-                  <p className="text-xs text-gray-600">{category.description}</p>
+                  <h3 className="font-semibold text-gray-900 text-sm mb-1">{classType.title}</h3>
+                  <p className="text-xs text-gray-600">{classType.description}</p>
+                </div>
+              </div>
+            ))}
+          </ServiceCarousel>
+        </div>
+      </section>
+
+      {/* Midwife Services */}
+      <section className="py-8 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Midwife Services
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Professional midwifery care from prenatal to postnatal support
+            </p>
+          </div>
+          
+          <ServiceCarousel>
+            {midwifeServices.map((service, index) => (
+              <div 
+                key={index}
+                className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                onClick={() => {
+                  const searchParams = new URLSearchParams({
+                    serviceType: service.serviceType,
+                    location: 'Sydney, NSW'
+                  });
+                  window.location.href = `/search?${searchParams.toString()}`;
+                }}
+              >
+                <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                  <img 
+                    src={service.image} 
+                    alt={service.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                      if (e.currentTarget.parentElement) {
+                        e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
+                        e.currentTarget.parentElement.innerHTML = `
+                          <div class="flex items-center justify-center h-full">
+                            <span class="text-gray-400 text-xs">${service.title}</span>
+                          </div>
+                        `;
+                      }
+                    }}
+                  />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 text-sm mb-1">{service.title}</h3>
+                  <p className="text-xs text-gray-600">{service.description}</p>
+                </div>
+              </div>
+            ))}
+          </ServiceCarousel>
+        </div>
+      </section>
+
+      {/* Pet Sitting Services */}
+      <section className="py-8 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Pet Sitting Services
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Professional pet care services for your beloved companions
+            </p>
+          </div>
+          
+          <ServiceCarousel>
+            {petSittingServices.map((service, index) => (
+              <div 
+                key={index}
+                className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                onClick={() => {
+                  const searchParams = new URLSearchParams({
+                    serviceType: service.serviceType,
+                    location: 'Sydney, NSW'
+                  });
+                  window.location.href = `/search?${searchParams.toString()}`;
+                }}
+              >
+                <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                  <img 
+                    src={service.image} 
+                    alt={service.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                      if (e.currentTarget.parentElement) {
+                        e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
+                        e.currentTarget.parentElement.innerHTML = `
+                          <div class="flex items-center justify-center h-full">
+                            <span class="text-gray-400 text-xs">${service.title}</span>
+                          </div>
+                        `;
+                      }
+                    }}
+                  />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 text-sm mb-1">{service.title}</h3>
+                  <p className="text-xs text-gray-600">{service.description}</p>
                 </div>
               </div>
             ))}
@@ -419,29 +585,7 @@ export default function Services() {
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="py-16 bg-blue-600">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Ready to find the perfect care service?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Browse our verified caregivers and specialized services to find exactly what your family needs
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/search">
-              <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
-                Browse All Services
-              </button>
-            </Link>
-            <Link href="/become-nanny">
-              <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
-                Become a Provider
-              </button>
-            </Link>
-          </div>
-        </div>
-      </section>
+
     </div>
   );
 }
