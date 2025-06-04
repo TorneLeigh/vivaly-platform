@@ -135,6 +135,82 @@ export default function BecomeNanny() {
     { number: 4, title: "Rates & Location", icon: MapPin },
   ];
 
+  // Provider type selection component
+  const ProviderTypeSelection = () => (
+    <div className="max-w-2xl mx-auto">
+      <Card className="p-8">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl mb-4">What type of care do you provide?</CardTitle>
+          <p className="text-gray-600">
+            Choose the option that best describes your childcare services
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <button
+              onClick={() => {
+                setProviderType("service");
+                setCurrentStep(1);
+              }}
+              className={`p-6 rounded-lg border-2 transition-all ${
+                providerType === "service" 
+                  ? "border-blue-500 bg-blue-50" 
+                  : "border-gray-200 hover:border-gray-300"
+              }`}
+            >
+              <div className="text-center">
+                <Heart className="w-12 h-12 mx-auto mb-4 text-blue-600" />
+                <h3 className="text-lg font-semibold mb-2">Individual Services</h3>
+                <p className="text-sm text-gray-600">
+                  Offer specific services like babysitting, nannying, tutoring, or specialized care
+                </p>
+                <div className="mt-4 text-xs text-gray-500">
+                  Examples: Babysitting, 1-on-1 care, Pet sitting, Elderly care
+                </div>
+              </div>
+            </button>
+
+            <button
+              onClick={() => {
+                setProviderType("childcare");
+                setCurrentStep(1);
+              }}
+              className={`p-6 rounded-lg border-2 transition-all ${
+                providerType === "childcare" 
+                  ? "border-green-500 bg-green-50" 
+                  : "border-gray-200 hover:border-gray-300"
+              }`}
+            >
+              <div className="text-center">
+                <Shield className="w-12 h-12 mx-auto mb-4 text-green-600" />
+                <h3 className="text-lg font-semibold mb-2">Childcare Center</h3>
+                <p className="text-sm text-gray-600">
+                  Run a licensed home-based childcare for multiple children
+                </p>
+                <div className="mt-4 text-xs text-gray-500">
+                  Examples: Family Day Care, Home-based childcare (max 7 children)
+                </div>
+              </div>
+            </button>
+          </div>
+
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mt-6">
+            <div className="flex items-start gap-3">
+              <Shield className="w-5 h-5 text-yellow-600 mt-0.5" />
+              <div className="text-sm text-yellow-800">
+                <p className="font-medium mb-1">Different requirements apply:</p>
+                <ul className="list-disc list-inside space-y-1 text-xs">
+                  <li><strong>Individual Services:</strong> Basic verification, insurance optional</li>
+                  <li><strong>Childcare Center:</strong> Educator certificate, insurance, safety assessment required</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -147,41 +223,48 @@ export default function BecomeNanny() {
           </p>
         </div>
 
-        {/* Progress Steps */}
-        <div className="flex justify-center mb-12">
-          <div className="flex items-center space-x-4">
-            {steps.map((step, index) => {
-              const IconComponent = step.icon;
-              const isActive = step.number === currentStep;
-              const isCompleted = step.number < currentStep;
-              
-              return (
-                <div key={step.number} className="flex items-center">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                    isActive ? 'bg-coral text-white' : 
-                    isCompleted ? 'bg-soft-green text-white' : 'bg-gray-200 text-gray-600'
-                  }`}>
-                    <IconComponent className="w-5 h-5" />
-                  </div>
-                  <span className={`ml-2 text-sm font-medium ${
-                    isActive ? 'text-coral' : isCompleted ? 'text-soft-green' : 'text-gray-600'
-                  }`}>
-                    {step.title}
-                  </span>
-                  {index < steps.length - 1 && (
-                    <div className={`w-8 h-px mx-4 ${
-                      isCompleted ? 'bg-soft-green' : 'bg-gray-200'
-                    }`} />
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        {/* Show provider type selection first */}
+        {currentStep === 0 && <ProviderTypeSelection />}
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <Card className="mb-8">
+        {/* Progress Steps - only show when past provider type selection */}
+        {currentStep > 0 && (
+          <div className="flex justify-center mb-12">
+            <div className="flex items-center space-x-4">
+              {steps.map((step, index) => {
+                const IconComponent = step.icon;
+                const isActive = step.number === currentStep;
+                const isCompleted = step.number < currentStep;
+                
+                return (
+                  <div key={step.number} className="flex items-center">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                      isActive ? 'bg-coral text-white' : 
+                      isCompleted ? 'bg-soft-green text-white' : 'bg-gray-200 text-gray-600'
+                    }`}>
+                      <IconComponent className="w-5 h-5" />
+                    </div>
+                    <span className={`ml-2 text-sm font-medium ${
+                      isActive ? 'text-coral' : isCompleted ? 'text-soft-green' : 'text-gray-600'
+                    }`}>
+                      {step.title}
+                    </span>
+                    {index < steps.length - 1 && (
+                      <div className={`w-8 h-px mx-4 ${
+                        isCompleted ? 'bg-soft-green' : 'bg-gray-200'
+                      }`} />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Only show form when past provider type selection */}
+        {currentStep > 0 && (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <Card className="mb-8">
               <CardHeader>
                 <CardTitle>Step {currentStep}: {steps[currentStep - 1].title}</CardTitle>
               </CardHeader>
@@ -498,8 +581,9 @@ export default function BecomeNanny() {
                 </Button>
               )}
             </div>
-          </form>
-        </Form>
+            </form>
+          </Form>
+        )}
       </div>
     </div>
   );
