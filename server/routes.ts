@@ -276,11 +276,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Booking routes
-  app.post("/api/bookings", async (req, res) => {
+  // Enhanced booking routes with authentication
+  app.post("/api/bookings", authenticateToken, async (req: any, res) => {
     try {
-      const bookingData = insertBookingSchema.parse(req.body);
+      const bookingData = insertBookingSchema.parse({
+        ...req.body,
+        parentId: req.user.userId, // Set from authenticated user
+      });
       const booking = await storage.createBooking(bookingData);
+      
+      // Send confirmation emails
+      // await sendBookingConfirmation(booking);
+      
       res.json(booking);
     } catch (error) {
       console.error("Error creating booking:", error);

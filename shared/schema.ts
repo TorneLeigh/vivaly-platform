@@ -121,6 +121,10 @@ export const experiences = pgTable("experiences", {
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
   createdAt: true,
+}).extend({
+  isCaregiver: z.boolean().optional(),
+  agreeToTerms: z.boolean().optional(),
+  confirmPassword: z.string().optional(),
 });
 
 export const insertNannySchema = createInsertSchema(nannies).omit({
