@@ -66,7 +66,7 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link href="/">
-              <h1 className="text-2xl font-black cursor-pointer" style={{ color: '#FF6B35' }}>
+              <h1 className="text-2xl font-black cursor-pointer text-black">
                 VIVALY
               </h1>
             </Link>
