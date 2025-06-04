@@ -190,25 +190,47 @@ export default function Header() {
                   <SheetTitle>Menu</SheetTitle>
                 </SheetHeader>
                 <div className="flex flex-col space-y-4 mt-6">
+                  {/* Navigation Links - Always visible */}
+                  <div className="space-y-3">
+                    <Link href="/find-care" className="flex items-center text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
+                      Day Care
+                    </Link>
+                    <Link href="/find-care?category=services" className="flex items-center text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
+                      Services
+                    </Link>
+                    <Link href="/search" className="flex items-center text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
+                      Search Caregivers
+                    </Link>
+                  </div>
+
                   {!isAuthenticated ? (
                     // Show auth buttons when not logged in
                     <>
-                      <Button 
-                        variant="outline" 
-                        onClick={() => { window.location.href = '/login'; setMobileMenuOpen(false); }}
-                        className="w-full"
-                      >
-                        Sign In
-                      </Button>
-                      <Button 
-                        className="w-full bg-coral hover:bg-coral/90"
-                        onClick={() => { window.location.href = '/auth'; setMobileMenuOpen(false); }}
-                      >
-                        Join VIVALY
-                      </Button>
+                      <div className="border-t pt-4 space-y-3">
+                        <Button 
+                          variant="outline" 
+                          onClick={() => { window.location.href = '/login'; setMobileMenuOpen(false); }}
+                          className="w-full"
+                        >
+                          Sign In
+                        </Button>
+                        <Button 
+                          className="w-full bg-coral hover:bg-coral/90"
+                          onClick={() => { window.location.href = '/auth'; setMobileMenuOpen(false); }}
+                        >
+                          Join VIVALY
+                        </Button>
+                        <Button 
+                          variant="ghost"
+                          onClick={() => { window.location.href = '/become-nanny'; setMobileMenuOpen(false); }}
+                          className="w-full text-gray-600"
+                        >
+                          Become a Caregiver
+                        </Button>
+                      </div>
                       <div className="border-t pt-4">
                         <p className="text-sm text-gray-600 text-center">
-                          Sign in to search for care and book services
+                          Browse services freely. Sign in to book and manage your account.
                         </p>
                       </div>
                     </>
