@@ -59,7 +59,7 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link href="/">
-              <h1 className="text-2xl font-bold text-coral cursor-pointer">
+              <h1 className="text-2xl font-black text-coral cursor-pointer">
                 VIVALY
               </h1>
             </Link>
