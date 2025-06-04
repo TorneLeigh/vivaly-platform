@@ -53,7 +53,7 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
   ];
 
   return (
-    <div className={`bg-white rounded-2xl border border-gray-100 ${className}`} style={{ boxShadow: '0 20px 40px -8px rgba(0, 0, 0, 0.15), 0 8px 25px -6px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6)' }}>
+    <div className={`bg-white rounded-2xl border border-gray-100 transform translate-y-[-4px] ${className}`} style={{ boxShadow: '0 40px 80px -16px rgba(0, 0, 0, 0.3), 0 20px 40px -12px rgba(0, 0, 0, 0.2), 0 12px 24px -8px rgba(0, 0, 0, 0.15), 0 4px 8px -2px rgba(0, 0, 0, 0.1), inset 0 2px 0 rgba(255, 255, 255, 0.9)' }}>
       <div className="p-6 space-y-4">
         {/* Where and When on first row */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
