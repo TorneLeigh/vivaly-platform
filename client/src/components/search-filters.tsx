@@ -27,6 +27,7 @@ interface SearchFiltersProps {
     date: string;
     startTime: string;
     endTime: string;
+    numberOfPeople: string;
   }) => void;
   className?: string;
 }
@@ -37,10 +38,11 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [numberOfPeople, setNumberOfPeople] = useState("");
 
   const handleSearch = () => {
     const dateString = selectedDate ? selectedDate.toISOString().split('T')[0] : "";
-    onSearch({ location, serviceType, date: dateString, startTime, endTime });
+    onSearch({ location, serviceType, date: dateString, startTime, endTime, numberOfPeople });
   };
 
   const timeSlots = [
@@ -131,8 +133,8 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
           </div>
         </div>
 
-        {/* Time and Service on second row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Time, Service, and Number of People on second row */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Time */}
           <div>
             <label className="text-xs font-semibold text-gray-800 mb-2 block">Time</label>
@@ -178,6 +180,23 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
                     {type}
                   </SelectItem>
                 ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Number of People */}
+          <div>
+            <label className="text-xs font-semibold text-gray-800 mb-2 block">How many</label>
+            <Select value={numberOfPeople} onValueChange={setNumberOfPeople}>
+              <SelectTrigger>
+                <SelectValue placeholder="1 person" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1">1 person</SelectItem>
+                <SelectItem value="2">2 people</SelectItem>
+                <SelectItem value="3">3 people</SelectItem>
+                <SelectItem value="4">4 people</SelectItem>
+                <SelectItem value="5">5+ people</SelectItem>
               </SelectContent>
             </Select>
           </div>
