@@ -74,7 +74,7 @@ export default function Header() {
 
           <div className="flex items-center space-x-8">
             <nav className="hidden md:flex space-x-8">
-              {!isAuthenticated || viewMode === 'seeker' ? (
+              {viewMode === 'seeker' ? (
                 // Service Seeker Navigation
                 <>
                   <Link href="/find-care" className={`text-warm-gray hover:text-coral transition-colors ${
@@ -89,7 +89,7 @@ export default function Header() {
                   </Link>
                 </>
               ) : (
-                // Caregiver Navigation
+                // Caregiver Navigation - Day Care and Services tabs removed
                 <>
                   <Link href="/provider-dashboard" className={`text-warm-gray hover:text-coral transition-colors ${
                     location === '/provider-dashboard' ? 'text-coral' : ''
@@ -175,7 +175,7 @@ export default function Header() {
                 </div>
 
                 {/* Mobile Navigation Links */}
-                {!isAuthenticated || viewMode === 'seeker' ? (
+                {viewMode === 'seeker' ? (
                   // Service Seeker Navigation
                   <>
                     <Link href="/find-care" className="text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
@@ -186,7 +186,7 @@ export default function Header() {
                     </Link>
                   </>
                 ) : (
-                  // Caregiver Navigation
+                  // Caregiver Navigation - Day Care and Services tabs removed
                   <>
                     <Link href="/provider-dashboard" className="text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
                       Calendar
