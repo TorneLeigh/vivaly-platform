@@ -32,6 +32,8 @@ import NannyDashboard from "@/pages/nanny-dashboard";
 import CreateExperience from "@/pages/create-experience";
 import ProviderSelection from "@/pages/provider-selection";
 import BecomeChildcareProvider from "@/pages/become-childcare-provider";
+import FindCare from "@/pages/find-care";
+import ChildcareEnroll from "@/pages/childcare-enroll";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -48,6 +50,8 @@ function Router() {
           <Route path="/become-nanny" component={BecomeNanny} />
           <Route path="/provider-selection" component={ProviderSelection} />
           <Route path="/become-childcare-provider" component={BecomeChildcareProvider} />
+          <Route path="/find-care" component={FindCare} />
+          <Route path="/childcare-enroll/:id" component={ChildcareEnroll} />
           <Route path="/nanny-dashboard" component={NannyDashboard} />
           <Route path="/create-experience" component={CreateExperience} />
           <Route path="/messages" component={Messages} />

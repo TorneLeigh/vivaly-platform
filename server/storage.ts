@@ -105,7 +105,165 @@ export class MemStorage implements IStorage {
     this.seedData();
   }
 
+  private seedChildcareProviders() {
+    // Create users for childcare providers
+    const providerUsers = [
+      { email: "little.stars@childcare.com.au", password: "password", firstName: "Michelle", lastName: "Chen", phone: "0298765432" },
+      { email: "sunshine.kids@education.com.au", password: "password", firstName: "David", lastName: "Roberts", phone: "0287654321" },
+      { email: "happy.tots@learning.com.au", password: "password", firstName: "Sarah", lastName: "Williams", phone: "0276543210" },
+      { email: "bright.beginnings@care.com.au", password: "password", firstName: "Amanda", lastName: "Thompson", phone: "0265432109" },
+      { email: "little.learners@sydney.com.au", password: "password", firstName: "Jessica", lastName: "Davis", phone: "0254321098" },
+      { email: "kidz.zone@bondi.com.au", password: "password", firstName: "Michael", lastName: "Johnson", phone: "0243210987" },
+    ];
+
+    providerUsers.forEach(userData => {
+      const user: User = {
+        ...userData,
+        id: this.currentUserId++,
+        profileImage: null,
+        isNanny: false,
+        createdAt: new Date(),
+      };
+      this.users.set(user.id, user);
+
+      // Create corresponding childcare provider
+      const providers = [
+        {
+          centerName: "Little Stars Early Learning",
+          description: "Nurturing early childhood development through play-based learning in a safe, inclusive environment. Qualified educators focus on each child's individual growth and development milestones.",
+          address: "123 Pacific Highway",
+          suburb: "Bondi",
+          postcode: "2026",
+          state: "NSW",
+          totalCapacity: 7,
+          babyCapacity: 4,
+          ageGroups: ["0-2 years", "3-5 years"],
+          operatingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          startTime: "7:00 AM",
+          endTime: "6:00 PM",
+          hourlyRate: "35.00",
+          dailyRate: "120.00",
+          weeklyRate: "550.00",
+          wwccNumber: "WWC1234567B",
+          isActive: true,
+        },
+        {
+          centerName: "Sunshine Kids Learning Center",
+          description: "Award-winning childcare facility offering structured learning programs, nutritious meals, and outdoor play spaces. Our experienced team supports children's social and emotional development.",
+          address: "456 Crown Street",
+          suburb: "Surry Hills",
+          postcode: "2010",
+          state: "NSW",
+          totalCapacity: 6,
+          babyCapacity: 3,
+          ageGroups: ["0-2 years", "3-5 years"],
+          operatingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          startTime: "6:30 AM",
+          endTime: "6:30 PM",
+          hourlyRate: "38.00",
+          dailyRate: "135.00",
+          weeklyRate: "625.00",
+          wwccNumber: "WWC2345678C",
+          isActive: true,
+        },
+        {
+          centerName: "Happy Tots Family Day Care",
+          description: "Home-based family day care providing personalized attention in a warm family environment. Focus on building confidence, creativity, and independence in young children.",
+          address: "789 Oxford Street",
+          suburb: "Paddington",
+          postcode: "2021",
+          state: "NSW",
+          totalCapacity: 7,
+          babyCapacity: 4,
+          ageGroups: ["0-2 years", "2-3 years", "3-5 years"],
+          operatingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          startTime: "7:30 AM",
+          endTime: "5:30 PM",
+          hourlyRate: "32.00",
+          dailyRate: "110.00",
+          weeklyRate: "500.00",
+          wwccNumber: "WWC3456789D",
+          isActive: true,
+        },
+        {
+          centerName: "Bright Beginnings Early Education",
+          description: "Modern childcare center with qualified early childhood teachers. Structured programs include music, art, and pre-literacy activities to prepare children for school.",
+          address: "321 King Street",
+          suburb: "Newtown",
+          postcode: "2042",
+          state: "NSW",
+          totalCapacity: 6,
+          babyCapacity: 3,
+          ageGroups: ["2-3 years", "3-5 years"],
+          operatingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          startTime: "7:00 AM",
+          endTime: "6:00 PM",
+          hourlyRate: "40.00",
+          dailyRate: "140.00",
+          weeklyRate: "650.00",
+          wwccNumber: "WWC4567890E",
+          isActive: true,
+        },
+        {
+          centerName: "Little Learners Montessori",
+          description: "Authentic Montessori environment supporting independent learning and exploration. Mixed-age groups foster peer learning and natural development progression.",
+          address: "654 The Corso",
+          suburb: "Manly",
+          postcode: "2095",
+          state: "NSW",
+          totalCapacity: 5,
+          babyCapacity: 2,
+          ageGroups: ["2-3 years", "3-5 years", "5-6 years"],
+          operatingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          startTime: "8:00 AM",
+          endTime: "5:00 PM",
+          hourlyRate: "45.00",
+          dailyRate: "155.00",
+          weeklyRate: "725.00",
+          wwccNumber: "WWC5678901F",
+          isActive: true,
+        },
+        {
+          centerName: "Kidz Zone Beach Side Care",
+          description: "Beachside childcare with outdoor learning programs and nature-based activities. Regular beach walks and environmental education integrated into daily routines.",
+          address: "987 Campbell Parade",
+          suburb: "Bondi Beach",
+          postcode: "2026",
+          state: "NSW",
+          totalCapacity: 7,
+          babyCapacity: 3,
+          ageGroups: ["0-2 years", "3-5 years"],
+          operatingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          startTime: "6:00 AM",
+          endTime: "7:00 PM",
+          hourlyRate: "42.00",
+          dailyRate: "145.00",
+          weeklyRate: "675.00",
+          wwccNumber: "WWC6789012G",
+          isActive: true,
+        },
+      ];
+
+      if (providers[user.id - this.currentUserId + providerUsers.length]) {
+        const providerData = providers[user.id - this.currentUserId + providerUsers.length];
+        const provider: ChildcareProvider = {
+          ...providerData,
+          id: this.currentChildcareProviderId++,
+          userId: user.id,
+          currentEnrollments: Math.floor(Math.random() * 3), // Random current enrollments
+          currentBabies: Math.floor(Math.random() * 2),
+          verificationStatus: "approved",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        };
+        this.childcareProviders.set(provider.id, provider);
+      }
+    });
+  }
+
   private seedData() {
+    // Seed sample childcare providers
+    this.seedChildcareProviders();
     // Create sample users and nannies
     const sampleUsers = [
       { email: "sarah.m@email.com", password: "password", firstName: "Sarah", lastName: "Matthews", phone: "0412345678", isNanny: true },

@@ -1045,6 +1045,115 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Childcare Providers routes
+  app.get("/api/childcare-providers/search", async (req, res) => {
+    try {
+      const { suburb, ageGroups, maxRate, availableSpots } = req.query;
+      const providers = await storage.searchChildcareProviders({
+        suburb: suburb as string,
+        ageGroups: ageGroups ? (ageGroups as string).split(',') : undefined,
+        maxRate: maxRate ? Number(maxRate) : undefined,
+        availableSpots: availableSpots === 'true',
+      });
+      res.json(providers);
+    } catch (error) {
+      console.error("Error searching childcare providers:", error);
+      res.status(500).json({ message: "Failed to search childcare providers" });
+    }
+  });
+
+  app.get("/api/childcare-providers/featured", async (req, res) => {
+    try {
+      const providers = await storage.getFeaturedChildcareProviders();
+      res.json(providers);
+    } catch (error) {
+      console.error("Error fetching featured childcare providers:", error);
+      res.status(500).json({ message: "Failed to fetch featured childcare providers" });
+    }
+  });
+
+  app.get("/api/childcare-providers/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const provider = await storage.getChildcareProvider(id);
+      if (!provider) {
+        return res.status(404).json({ message: "Childcare provider not found" });
+      }
+      res.json(provider);
+    } catch (error) {
+      console.error("Error fetching childcare provider:", error);
+      res.status(500).json({ message: "Failed to fetch childcare provider" });
+    }
+  });
+
+  app.post("/api/childcare-providers", async (req, res) => {
+    try {
+      const validatedData = insertChildcareProviderSchema.parse(req.body);
+      const provider = await storage.createChildcareProvider(validatedData);
+      res.status(201).json(provider);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ message: "Validation error", errors: error.errors });
+      } else {
+        console.error("Error creating childcare provider:", error);
+        res.status(500).json({ message: "Failed to create childcare provider" });
+      }
+    }
+  });
+
+  // Childcare Enrollments routes
+  app.post("/api/childcare-enrollments", async (req, res) => {
+    try {
+      const validatedData = insertChildcareEnrollmentSchema.parse(req.body);
+      const enrollment = await storage.createChildcareEnrollment(validatedData);
+      res.status(201).json(enrollment);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ message: "Validation error", errors: error.errors });
+      } else {
+        console.error("Error creating childcare enrollment:", error);
+        res.status(500).json({ message: "Failed to create childcare enrollment" });
+      }
+    }
+  });
+
+  app.get("/api/childcare-enrollments/provider/:providerId", async (req, res) => {
+    try {
+      const providerId = parseInt(req.params.providerId);
+      const enrollments = await storage.getEnrollmentsByProvider(providerId);
+      res.json(enrollments);
+    } catch (error) {
+      console.error("Error fetching provider enrollments:", error);
+      res.status(500).json({ message: "Failed to fetch provider enrollments" });
+    }
+  });
+
+  app.get("/api/childcare-enrollments/parent/:parentId", async (req, res) => {
+    try {
+      const parentId = parseInt(req.params.parentId);
+      const enrollments = await storage.getEnrollmentsByParent(parentId);
+      res.json(enrollments);
+    } catch (error) {
+      console.error("Error fetching parent enrollments:", error);
+      res.status(500).json({ message: "Failed to fetch parent enrollments" });
+    }
+  });
+
+  app.patch("/api/childcare-enrollments/:id/status", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { status } = req.body;
+      const enrollment = await storage.updateEnrollmentStatus(id, status);
+      if (!enrollment) {
+        return res.status(404).json({ message: "Enrollment not found" });
+      }
+      res.json(enrollment);
+    } catch (error) {
+      console.error("Error updating enrollment status:", error);
+      res.status(500).json({ message: "Failed to update enrollment status" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
