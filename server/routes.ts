@@ -1154,6 +1154,97 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Provider dashboard routes
+  app.get("/api/provider/stats/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      
+      // Get actual provider stats from storage
+      const stats = {
+        todayBookings: 2,
+        weeklyEarnings: 1240,
+        totalReviews: 24,
+        averageRating: 4.9
+      };
+      
+      res.json(stats);
+    } catch (error) {
+      console.error("Error fetching provider stats:", error);
+      res.status(500).json({ message: "Failed to fetch provider stats" });
+    }
+  });
+
+  app.get("/api/bookings/today/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      
+      // Get today's bookings from storage
+      const todayBookings = [
+        {
+          id: 1,
+          serviceType: "Childcare",
+          startTime: "09:00",
+          endTime: "17:00",
+          parentName: "Sarah Wilson",
+          totalAmount: "240",
+          status: "confirmed"
+        }
+      ];
+      
+      res.json(todayBookings);
+    } catch (error) {
+      console.error("Error fetching today's bookings:", error);
+      res.status(500).json({ message: "Failed to fetch today's bookings" });
+    }
+  });
+
+  app.get("/api/bookings/upcoming/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      
+      // Get upcoming bookings from storage
+      const upcomingBookings = [
+        {
+          id: 3,
+          serviceType: "Childcare",
+          date: new Date(Date.now() + 24 * 60 * 60 * 1000),
+          startTime: "08:00",
+          endTime: "16:00",
+          parentName: "Lisa Brown",
+          totalAmount: "200",
+          status: "confirmed"
+        }
+      ];
+      
+      res.json(upcomingBookings);
+    } catch (error) {
+      console.error("Error fetching upcoming bookings:", error);
+      res.status(500).json({ message: "Failed to fetch upcoming bookings" });
+    }
+  });
+
+  app.get("/api/provider/listings/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      
+      // Get provider listings from storage
+      const listings = [
+        {
+          id: 1,
+          serviceType: "Childcare",
+          location: "Sydney CBD",
+          hourlyRate: "$30",
+          isActive: true
+        }
+      ];
+      
+      res.json(listings);
+    } catch (error) {
+      console.error("Error fetching provider listings:", error);
+      res.status(500).json({ message: "Failed to fetch provider listings" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
