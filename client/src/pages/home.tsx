@@ -61,10 +61,10 @@ const serviceCategories = [
     serviceType: "1-on-1 care"
   },
   {
-    title: "Group childcare",
-    description: "1-2 hour group childcare sessions", 
+    title: "1-2 hours group care",
+    description: "Short-term group childcare sessions", 
     image: "/images/daycare.jpg",
-    serviceType: "Group childcare"
+    serviceType: "1-2 hours group care"
   },
   {
     title: "Childcare",
