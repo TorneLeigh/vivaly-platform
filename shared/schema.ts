@@ -155,6 +155,75 @@ export const experiences = pgTable("experiences", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Childcare Providers - Licensed childcare centers
+export const childcareProviders = pgTable("childcare_providers", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  centerName: text("center_name").notNull(),
+  description: text("description").notNull(),
+  address: text("address").notNull(),
+  suburb: text("suburb").notNull(),
+  postcode: text("postcode").notNull(),
+  state: text("state").notNull(),
+  
+  // Capacity and age groups
+  totalCapacity: integer("total_capacity").notNull().default(7),
+  babyCapacity: integer("baby_capacity").notNull().default(4),
+  currentEnrollments: integer("current_enrollments").default(0),
+  currentBabies: integer("current_babies").default(0),
+  ageGroups: json("age_groups").$type<string[]>().default([]),
+  
+  // Operating details
+  operatingDays: json("operating_days").$type<string[]>().default([]),
+  startTime: text("start_time").notNull(),
+  endTime: text("end_time").notNull(),
+  
+  // Rates
+  hourlyRate: decimal("hourly_rate", { precision: 10, scale: 2 }).notNull(),
+  dailyRate: decimal("daily_rate", { precision: 10, scale: 2 }).notNull(),
+  weeklyRate: decimal("weekly_rate", { precision: 10, scale: 2 }).notNull(),
+  
+  // Verification
+  wwccNumber: text("wwcc_number").notNull(),
+  verificationStatus: text("verification_status").default("pending"),
+  isActive: boolean("is_active").default(false),
+  
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Childcare Enrollments - Applications from families
+export const childcareEnrollments = pgTable("childcare_enrollments", {
+  id: serial("id").primaryKey(),
+  providerId: integer("provider_id").notNull(),
+  parentUserId: integer("parent_user_id").notNull(),
+  
+  // Child details
+  childName: text("child_name").notNull(),
+  childAge: integer("child_age").notNull(),
+  childDateOfBirth: timestamp("child_date_of_birth").notNull(),
+  
+  // Enrollment details
+  enrollmentType: text("enrollment_type").notNull(),
+  startDate: timestamp("start_date").notNull(),
+  preferredDays: json("preferred_days").$type<string[]>().default([]),
+  
+  // Special requirements
+  allergies: text("allergies"),
+  medicalConditions: text("medical_conditions"),
+  emergencyContact: json("emergency_contact").$type<{
+    name: string;
+    relationship: string;
+    phone: string;
+  }>(),
+  
+  // Application status
+  status: text("status").default("pending"),
+  applicationDate: timestamp("application_date").defaultNow(),
+  
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
@@ -200,6 +269,23 @@ export const insertFamilyDayCareEnrollmentSchema = createInsertSchema(familyDayC
   createdAt: true,
 });
 
+export const insertChildcareProviderSchema = createInsertSchema(childcareProviders).omit({
+  id: true,
+  currentEnrollments: true,
+  currentBabies: true,
+  verificationStatus: true,
+  isActive: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertChildcareEnrollmentSchema = createInsertSchema(childcareEnrollments).omit({
+  id: true,
+  status: true,
+  applicationDate: true,
+  createdAt: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -221,6 +307,12 @@ export type InsertExperience = z.infer<typeof insertExperienceSchema>;
 
 export type FamilyDayCareEnrollment = typeof familyDayCareEnrollments.$inferSelect;
 export type InsertFamilyDayCareEnrollment = z.infer<typeof insertFamilyDayCareEnrollmentSchema>;
+
+export type ChildcareProvider = typeof childcareProviders.$inferSelect;
+export type InsertChildcareProvider = z.infer<typeof insertChildcareProviderSchema>;
+
+export type ChildcareEnrollment = typeof childcareEnrollments.$inferSelect;
+export type InsertChildcareEnrollment = z.infer<typeof insertChildcareEnrollmentSchema>;
 
 // Service types
 export const SERVICE_TYPES = [
