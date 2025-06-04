@@ -77,12 +77,6 @@ const serviceCategories = [
     serviceType: "Nanny"
   },
   {
-    title: "Au Pair",
-    description: "Live-in cultural exchange care",
-    image: "/images/aupair.jpg",
-    serviceType: "Au Pair"
-  },
-  {
     title: "Babysitting",
     description: "Occasional childcare",
     image: "/images/babysitter.jpg",
