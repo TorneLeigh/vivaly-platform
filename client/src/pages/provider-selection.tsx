@@ -40,12 +40,12 @@ export default function ProviderSelection() {
                 >
                   <div className="text-center">
                     <Heart className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                    <h3 className="text-lg font-semibold mb-2">Individual Services</h3>
+                    <h3 className="text-lg font-semibold mb-2">Events & Socials</h3>
                     <p className="text-sm text-gray-600">
-                      Offer specific services like babysitting, nannying, tutoring, or specialized care
+                      Create group activities, playdates, educational workshops, and social events for families
                     </p>
                     <div className="mt-4 text-xs text-gray-500">
-                      Examples: Babysitting, 1-on-1 care, Pet sitting, Elderly care
+                      Examples: Group play sessions, Parent workshops, Kids parties, Educational activities
                     </div>
                   </div>
                 </button>
@@ -77,7 +77,7 @@ export default function ProviderSelection() {
                   <div className="text-sm text-yellow-800">
                     <p className="font-medium mb-1">Different requirements apply:</p>
                     <ul className="list-disc list-inside space-y-1 text-xs">
-                      <li><strong>Individual Services:</strong> Basic verification, insurance optional</li>
+                      <li><strong>Events & Socials:</strong> Basic verification, public liability insurance recommended</li>
                       <li><strong>Childcare Center:</strong> Educator certificate, insurance, safety assessment required</li>
                     </ul>
                   </div>
@@ -88,7 +88,7 @@ export default function ProviderSelection() {
                 <Button
                   onClick={() => {
                     if (selectedType === "service") {
-                      setLocation("/become-nanny");
+                      setLocation("/create-experience");
                     } else if (selectedType === "childcare") {
                       setLocation("/become-childcare-provider");
                     }
