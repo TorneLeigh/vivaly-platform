@@ -3,6 +3,7 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { useAuth } from "@/hooks/useAuth";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import Home from "@/pages/home";
@@ -34,15 +35,42 @@ import ProviderSelection from "@/pages/provider-selection";
 import BecomeChildcareProvider from "@/pages/become-childcare-provider";
 import FindCare from "@/pages/find-care";
 import ChildcareEnroll from "@/pages/childcare-enroll";
+import ProviderDashboard from "@/pages/provider-dashboard";
+import ChildcareDashboard from "@/pages/childcare-dashboard";
 import NotFound from "@/pages/not-found";
 
 function Router() {
+  const { isAuthenticated, isLoading, isProvider, isSeeker } = useAuth();
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1">
         <Switch>
-          <Route path="/" component={Home} />
+          {/* Role-based home route */}
+          <Route path="/">
+            {() => {
+              if (isLoading) {
+                return (
+                  <div className="flex items-center justify-center h-64">
+                    <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+                  </div>
+                );
+              }
+              
+              if (!isAuthenticated) {
+                return <Home />;
+              }
+              
+              if (isProvider) {
+                return <ProviderDashboard />;
+              }
+              
+              return <Home />;
+            }}
+          </Route>
+
+          {/* Public routes */}
           <Route path="/nanny/:id" component={NannyProfile} />
           <Route path="/caregiver/:id" component={CaregiverProfile} />
           <Route path="/booking/:id" component={BookingFlow} />
@@ -52,9 +80,6 @@ function Router() {
           <Route path="/become-childcare-provider" component={BecomeChildcareProvider} />
           <Route path="/find-care" component={FindCare} />
           <Route path="/childcare-enroll/:id" component={ChildcareEnroll} />
-          <Route path="/nanny-dashboard" component={NannyDashboard} />
-          <Route path="/create-experience" component={CreateExperience} />
-          <Route path="/messages" component={Messages} />
           <Route path="/login" component={Login} />
           <Route path="/auth" component={Auth} />
           <Route path="/verification" component={ProviderVerification} />
@@ -70,7 +95,17 @@ function Router() {
           <Route path="/cookie-policy" component={CookiePolicy} />
           <Route path="/accessibility" component={Accessibility} />
           <Route path="/quick-start" component={QuickStart} />
+
+          {/* Provider-only routes */}
+          <Route path="/provider-dashboard" component={ProviderDashboard} />
+          <Route path="/childcare-dashboard" component={ChildcareDashboard} />
+          <Route path="/nanny-dashboard" component={NannyDashboard} />
+          <Route path="/create-experience" component={CreateExperience} />
           <Route path="/caregiver-onboarding" component={CaregiverOnboarding} />
+
+          {/* Authenticated user routes */}
+          <Route path="/messages" component={Messages} />
+          
           <Route component={NotFound} />
         </Switch>
       </main>
