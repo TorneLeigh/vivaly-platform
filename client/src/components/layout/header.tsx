@@ -70,17 +70,37 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Role Toggle Button */}
+          {/* Role Toggle Buttons */}
           <div className="flex items-center space-x-4">
             {isAuthenticated && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={toggleViewMode}
-                className="text-sm hidden md:block"
-              >
-                {viewMode === 'provider' ? 'Switch to Searching for Care' : 'Switch to Caregiver Mode'}
-              </Button>
+              <div className="hidden md:flex rounded-lg border border-gray-200 p-1">
+                <Button
+                  variant={viewMode === 'seeker' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('seeker')}
+                  className={`rounded-md px-3 py-1 text-sm transition-all ${
+                    viewMode === 'seeker' 
+                      ? 'text-white shadow-sm' 
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                  style={viewMode === 'seeker' ? { backgroundColor: '#FF6B35' } : {}}
+                >
+                  Searching for Care
+                </Button>
+                <Button
+                  variant={viewMode === 'provider' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('provider')}
+                  className={`rounded-md px-3 py-1 text-sm transition-all ${
+                    viewMode === 'provider' 
+                      ? 'text-white shadow-sm' 
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                  style={viewMode === 'provider' ? { backgroundColor: '#FF6B35' } : {}}
+                >
+                  Caregiver
+                </Button>
+              </div>
             )}
 
             <nav className="hidden md:flex space-x-8">
