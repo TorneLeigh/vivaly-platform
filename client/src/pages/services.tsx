@@ -50,9 +50,9 @@ const birthEducationClasses = [
     serviceType: "Birth education"
   },
   {
-    title: "Prenatal Yoga",
-    description: "Gentle yoga for expecting mothers",
-    image: "/images/prenatal-yoga.jpg",
+    title: "Sleeping Classes",
+    description: "Learn healthy sleep patterns for babies",
+    image: "/images/sleeping-classes.jpg",
     serviceType: "Birth education"
   },
   {
@@ -82,6 +82,12 @@ const birthEducationClasses = [
 ];
 
 const midwifeServices = [
+  {
+    title: "Midwife Visits",
+    description: "Regular home visits by qualified midwives",
+    image: "/images/midwife-visits.jpg",
+    serviceType: "Midwife services"
+  },
   {
     title: "Prenatal Care",
     description: "Comprehensive pregnancy monitoring",
