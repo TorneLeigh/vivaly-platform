@@ -72,31 +72,32 @@ export default function Header() {
 
           {/* Role Toggle Buttons */}
           <div className="flex items-center space-x-4">
-            <div className="flex rounded-lg border border-gray-200 p-1 bg-gray-50">
+            <div className="flex rounded-lg border border-gray-300 p-1 bg-white">
               <Button
-                variant={viewMode === 'seeker' ? 'default' : 'ghost'}
+                variant="ghost"
                 size="sm"
-                onClick={() => setViewMode('seeker')}
+                onClick={() => {
+                  setViewMode('seeker');
+                  window.location.href = '/';
+                }}
                 className={`rounded-md px-2 md:px-3 py-1 text-xs md:text-sm transition-all ${
                   viewMode === 'seeker' 
-                    ? 'text-white shadow-sm' 
-                    : 'text-gray-600 hover:text-gray-900'
+                    ? 'bg-black text-white shadow-sm' 
+                    : 'text-gray-700 hover:text-black hover:bg-gray-100'
                 }`}
-                style={viewMode === 'seeker' ? { backgroundColor: '#FF6B35' } : {}}
               >
-                <span className="hidden md:inline">Searching for Care</span>
-                <span className="md:hidden">Searching</span>
+                <span className="hidden md:inline">Search for Care</span>
+                <span className="md:hidden">Search</span>
               </Button>
               <Button
-                variant={viewMode === 'provider' ? 'default' : 'ghost'}
+                variant="ghost"
                 size="sm"
                 onClick={() => setViewMode('provider')}
                 className={`rounded-md px-2 md:px-3 py-1 text-xs md:text-sm transition-all ${
                   viewMode === 'provider' 
-                    ? 'text-white shadow-sm' 
-                    : 'text-gray-600 hover:text-gray-900'
+                    ? 'bg-black text-white shadow-sm' 
+                    : 'text-gray-700 hover:text-black hover:bg-gray-100'
                 }`}
-                style={viewMode === 'provider' ? { backgroundColor: '#FF6B35' } : {}}
               >
                 Caregiver
               </Button>
