@@ -25,9 +25,10 @@ import { useState } from "react";
 
 export default function Header() {
   const [location] = useLocation();
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, isProvider, user } = useAuth();
   const { toast } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<'seeker' | 'provider'>(isProvider ? 'provider' : 'seeker');
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
@@ -53,6 +54,10 @@ export default function Header() {
     logoutMutation.mutate();
   };
 
+  const toggleViewMode = () => {
+    setViewMode(viewMode === 'seeker' ? 'provider' : 'seeker');
+  };
+
   return (
     <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -65,114 +70,152 @@ export default function Header() {
             </Link>
           </div>
 
-          <nav className="hidden md:flex space-x-8">
-            <Link href="/become-nanny" className={`text-warm-gray hover:text-coral transition-colors ${
-              location === '/become-nanny' ? 'text-coral' : ''
-            }`}>
-              Sign Up as Caregiver
-            </Link>
-            <Link href="/provider-selection" className={`text-warm-gray hover:text-coral transition-colors ${
-              location === '/provider-selection' ? 'text-coral' : ''
-            }`}>
-              Offer Your Services
-            </Link>
-          </nav>
-
+          {/* Role Toggle Button */}
           <div className="flex items-center space-x-4">
-            {/* Mobile Menu */}
-            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="sm" className="md:hidden p-2">
-                  <MenuIcon className="h-6 w-6 text-gray-700" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-80">
-                <SheetHeader>
-                  <SheetTitle>Menu</SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col space-y-4 mt-6">
-                  <Link href="/become-nanny" className="text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
-                    Sign Up as Caregiver
+            {isAuthenticated && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={toggleViewMode}
+                className="text-sm hidden md:block"
+              >
+                {viewMode === 'provider' ? 'Switch to Searching for Care' : 'Switch to Caregiver Mode'}
+              </Button>
+            )}
+
+            <nav className="hidden md:flex space-x-8">
+              {!isAuthenticated || viewMode === 'seeker' ? (
+                // Service Seeker Navigation
+                <>
+                  <Link href="/find-care" className={`text-warm-gray hover:text-coral transition-colors ${
+                    location === '/find-care' ? 'text-coral' : ''
+                  }`}>
+                    Day Care
                   </Link>
-                  <Link href="/provider-selection" className="text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
-                    Offer Your Services
+                  <Link href="/find-care?category=services" className={`text-warm-gray hover:text-coral transition-colors ${
+                    location.includes('/find-care') && location.includes('services') ? 'text-coral' : ''
+                  }`}>
+                    Services
                   </Link>
-                  <Link href="/gift-cards" className="text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
-                    Gift Cards
+                </>
+              ) : (
+                // Caregiver Navigation
+                <>
+                  <Link href="/provider-dashboard" className={`text-warm-gray hover:text-coral transition-colors ${
+                    location === '/provider-dashboard' ? 'text-coral' : ''
+                  }`}>
+                    Calendar
                   </Link>
-                  {isAuthenticated && (
+                  <Link href="/messages" className={`text-warm-gray hover:text-coral transition-colors ${
+                    location === '/messages' ? 'text-coral' : ''
+                  }`}>
+                    Messages
+                  </Link>
+                  <Link href="/provider-dashboard?tab=listings" className={`text-warm-gray hover:text-coral transition-colors ${
+                    location.includes('listings') ? 'text-coral' : ''
+                  }`}>
+                    Services Listed
+                  </Link>
+                </>
+              )}
+            </nav>
+          </div>
+
+          {/* Mobile Menu */}
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="sm" className="md:hidden p-2">
+                <MenuIcon className="h-6 w-6 text-gray-700" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-80">
+              <SheetHeader>
+                <SheetTitle>Menu</SheetTitle>
+              </SheetHeader>
+              <div className="flex flex-col space-y-4 mt-6">
+                {/* Mobile Role Toggle */}
+                {isAuthenticated && (
+                  <Button
+                    variant="outline"
+                    onClick={() => { toggleViewMode(); setMobileMenuOpen(false); }}
+                    className="w-full text-sm"
+                  >
+                    {viewMode === 'provider' ? 'Switch to Searching for Care' : 'Switch to Caregiver Mode'}
+                  </Button>
+                )}
+
+                {/* Mobile Navigation Links */}
+                {!isAuthenticated || viewMode === 'seeker' ? (
+                  // Service Seeker Navigation
+                  <>
+                    <Link href="/find-care" className="text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
+                      Day Care
+                    </Link>
+                    <Link href="/find-care?category=services" className="text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
+                      Services
+                    </Link>
+                  </>
+                ) : (
+                  // Caregiver Navigation
+                  <>
+                    <Link href="/provider-dashboard" className="text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
+                      Calendar
+                    </Link>
                     <Link href="/messages" className="text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
                       Messages
                     </Link>
-                  )}
-                  {!isAuthenticated ? (
-                    <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                      <Button className="bg-coral hover:bg-coral/90 text-white w-full">
-                        Login
-                      </Button>
+                    <Link href="/provider-dashboard?tab=listings" className="text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
+                      Services Listed
                     </Link>
-                  ) : (
-                    <Button variant="outline" onClick={() => { handleLogout(); setMobileMenuOpen(false); }} className="w-full">
-                      Logout
-                    </Button>
-                  )}
-                </div>
-              </SheetContent>
-            </Sheet>
+                  </>
+                )}
 
-            <Link href="/search">
-              <Button variant="ghost" size="sm" className="hidden sm:flex">
-                <Search className="h-4 w-4 mr-2" />
-                Search
+                <Link href="/gift-cards" className="text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
+                  Gift Cards
+                </Link>
+                
+                {!isAuthenticated ? (
+                  <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                    <Button className="bg-coral hover:bg-coral/90 text-white w-full">
+                      Login
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button variant="outline" onClick={() => { handleLogout(); setMobileMenuOpen(false); }} className="w-full">
+                    Logout
+                  </Button>
+                )}
+              </div>
+            </SheetContent>
+          </Sheet>
+
+          {!isAuthenticated ? (
+            <Link href="/login">
+              <Button className="bg-coral hover:bg-coral/90 text-white">
+                Login
               </Button>
             </Link>
-            
-            {isAuthenticated && (
-              <Link href="/messages">
-                <Button variant="ghost" size="sm" className="hidden md:flex">
-                  <MessageCircle className="h-4 w-4" />
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  <User className="h-4 w-4 mr-2" />
+                  Account
                 </Button>
-              </Link>
-            )}
-
-            {!isAuthenticated && (
-              <Link href="/login">
-                <Button className="bg-coral hover:bg-coral/90 text-white hidden md:flex">
-                  Login
-                </Button>
-              </Link>
-            )}
-
-            {isAuthenticated && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="flex items-center space-x-2">
-                    <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                      <User className="h-4 w-4" />
-                    </div>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuItem>
-                    <User className="h-4 w-4 mr-2" />
-                    Profile
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link href="/messages" className="flex items-center w-full">
                     <MessageCircle className="h-4 w-4 mr-2" />
-                    <Link href="/messages">Messages</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <User className="h-4 w-4 mr-2" />
-                    <Link href="/nanny-dashboard">Dashboard</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>Settings</DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleLogout}>
-                    Sign out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
-          </div>
+                    Messages
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
       </div>
     </header>
