@@ -186,7 +186,7 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
 
           {/* Number of People */}
           <div>
-            <label className="text-xs font-semibold text-gray-800 mb-2 block">How many</label>
+            <label className="text-xs font-semibold text-gray-800 mb-2 block">Care for</label>
             <Select value={numberOfPeople} onValueChange={setNumberOfPeople}>
               <SelectTrigger>
                 <SelectValue placeholder="1 person" />

@@ -59,16 +59,16 @@ const serviceCategories = [
     serviceType: "Newborn Care"
   },
   {
-    title: "Childcare", 
-    description: "Daily care for children",
+    title: "1-on-1 care", 
+    description: "Personalized one-on-one care",
     image: "/images/childcare.jpg",
-    serviceType: "Childcare"
+    serviceType: "1-on-1 Care"
   },
   {
-    title: "Daycare",
+    title: "Group day care",
     description: "Group daycare services", 
     image: "/images/daycare.jpg",
-    serviceType: "Daycare"
+    serviceType: "Group Care"
   },
   {
     title: "Nanny Services",
