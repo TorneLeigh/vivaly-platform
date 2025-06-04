@@ -80,12 +80,6 @@ const serviceCategories = [
     serviceType: "Drop and dash"
   },
   {
-    title: "Midwife services",
-    description: "Professional midwife care",
-    image: "/images/midwife.jpg",
-    serviceType: "Midwife services"
-  },
-  {
     title: "Breastfeeding support",
     description: "Expert breastfeeding guidance",
     image: "/images/breastfeeding.jpg",
