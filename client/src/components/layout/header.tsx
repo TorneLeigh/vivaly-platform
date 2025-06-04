@@ -64,7 +64,7 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link href="/">
-              <h1 className="text-2xl font-black text-coral cursor-pointer">
+              <h1 className="text-2xl font-black cursor-pointer" style={{ color: '#FF6B35' }}>
                 VIVALY
               </h1>
             </Link>
@@ -72,36 +72,35 @@ export default function Header() {
 
           {/* Role Toggle Buttons */}
           <div className="flex items-center space-x-4">
-            {isAuthenticated && (
-              <div className="hidden md:flex rounded-lg border border-gray-200 p-1">
-                <Button
-                  variant={viewMode === 'seeker' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('seeker')}
-                  className={`rounded-md px-3 py-1 text-sm transition-all ${
-                    viewMode === 'seeker' 
-                      ? 'text-white shadow-sm' 
-                      : 'text-gray-600 hover:text-gray-900'
-                  }`}
-                  style={viewMode === 'seeker' ? { backgroundColor: '#FF6B35' } : {}}
-                >
-                  Searching for Care
-                </Button>
-                <Button
-                  variant={viewMode === 'provider' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('provider')}
-                  className={`rounded-md px-3 py-1 text-sm transition-all ${
-                    viewMode === 'provider' 
-                      ? 'text-white shadow-sm' 
-                      : 'text-gray-600 hover:text-gray-900'
-                  }`}
-                  style={viewMode === 'provider' ? { backgroundColor: '#FF6B35' } : {}}
-                >
-                  Caregiver
-                </Button>
-              </div>
-            )}
+            <div className="flex rounded-lg border border-gray-200 p-1 bg-gray-50">
+              <Button
+                variant={viewMode === 'seeker' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setViewMode('seeker')}
+                className={`rounded-md px-2 md:px-3 py-1 text-xs md:text-sm transition-all ${
+                  viewMode === 'seeker' 
+                    ? 'text-white shadow-sm' 
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+                style={viewMode === 'seeker' ? { backgroundColor: '#FF6B35' } : {}}
+              >
+                <span className="hidden md:inline">Searching for Care</span>
+                <span className="md:hidden">Searching</span>
+              </Button>
+              <Button
+                variant={viewMode === 'provider' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setViewMode('provider')}
+                className={`rounded-md px-2 md:px-3 py-1 text-xs md:text-sm transition-all ${
+                  viewMode === 'provider' 
+                    ? 'text-white shadow-sm' 
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+                style={viewMode === 'provider' ? { backgroundColor: '#FF6B35' } : {}}
+              >
+                Caregiver
+              </Button>
+            </div>
 
             <nav className="hidden md:flex space-x-8">
               {!isAuthenticated || viewMode === 'seeker' ? (
