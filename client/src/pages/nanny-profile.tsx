@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BookingCalendar from "@/components/booking-calendar";
 import MessageThread from "@/components/message-thread";
+import MobileBookingFlow from "@/components/mobile-booking-flow";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { formatCurrency, formatDate } from "@/lib/utils";
@@ -30,6 +31,7 @@ export default function NannyProfile() {
   const nannyId = parseInt(params?.id || "0");
   const [activeTab, setActiveTab] = useState("overview");
   const [showMessages, setShowMessages] = useState(false);
+  const [showMobileBooking, setShowMobileBooking] = useState(false);
   const { toast } = useToast();
 
   // Mock current user - in a real app this would come from auth context
