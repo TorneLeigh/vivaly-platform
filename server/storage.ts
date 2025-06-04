@@ -1,11 +1,13 @@
 import { 
-  users, nannies, bookings, reviews, messages, experiences,
+  users, nannies, bookings, reviews, messages, experiences, childcareProviders, childcareEnrollments,
   type User, type InsertUser,
   type Nanny, type InsertNanny,
   type Booking, type InsertBooking, 
   type Review, type InsertReview,
   type Message, type InsertMessage,
   type Experience, type InsertExperience,
+  type ChildcareProvider, type InsertChildcareProvider,
+  type ChildcareEnrollment, type InsertChildcareEnrollment,
   SERVICE_TYPES, CERTIFICATE_TYPES, SYDNEY_SUBURBS
 } from "@shared/schema";
 
@@ -58,6 +60,26 @@ export interface IStorage {
   createMessage(message: InsertMessage): Promise<Message>;
   getMessagesBetweenUsers(userId1: number, userId2: number): Promise<(Message & { sender: User, receiver: User })[]>;
   getConversations(userId: number): Promise<{ user: User, lastMessage: Message, unreadCount: number }[]>;
+
+  // Childcare Providers
+  getChildcareProvider(id: number): Promise<ChildcareProvider | undefined>;
+  getChildcareProviderByUserId(userId: number): Promise<ChildcareProvider | undefined>;
+  createChildcareProvider(provider: InsertChildcareProvider): Promise<ChildcareProvider>;
+  updateChildcareProvider(id: number, updates: Partial<ChildcareProvider>): Promise<ChildcareProvider | undefined>;
+  searchChildcareProviders(filters: {
+    suburb?: string;
+    ageGroups?: string[];
+    maxRate?: number;
+    availableSpots?: boolean;
+  }): Promise<(ChildcareProvider & { user: User })[]>;
+  getFeaturedChildcareProviders(): Promise<(ChildcareProvider & { user: User })[]>;
+
+  // Childcare Enrollments
+  getChildcareEnrollment(id: number): Promise<ChildcareEnrollment | undefined>;
+  createChildcareEnrollment(enrollment: InsertChildcareEnrollment): Promise<ChildcareEnrollment>;
+  getEnrollmentsByProvider(providerId: number): Promise<(ChildcareEnrollment & { parent: User })[]>;
+  getEnrollmentsByParent(parentId: number): Promise<(ChildcareEnrollment & { provider: ChildcareProvider })[]>;
+  updateEnrollmentStatus(id: number, status: string): Promise<ChildcareEnrollment | undefined>;
 }
 
 export class MemStorage implements IStorage {
@@ -67,6 +89,8 @@ export class MemStorage implements IStorage {
   private bookings: Map<number, Booking> = new Map();
   private reviews: Map<number, Review> = new Map();
   private messages: Map<number, Message> = new Map();
+  private childcareProviders: Map<number, ChildcareProvider> = new Map();
+  private childcareEnrollments: Map<number, ChildcareEnrollment> = new Map();
   
   private currentUserId = 1;
   private currentNannyId = 1;
@@ -74,6 +98,8 @@ export class MemStorage implements IStorage {
   private currentBookingId = 1;
   private currentReviewId = 1;
   private currentMessageId = 1;
+  private currentChildcareProviderId = 1;
+  private currentChildcareEnrollmentId = 1;
 
   constructor() {
     this.seedData();
@@ -519,6 +545,142 @@ export class MemStorage implements IStorage {
       const caregiver = this.users.get(experience.caregiverId)!;
       return { ...experience, caregiver };
     });
+  }
+
+  // Childcare Provider methods
+  async getChildcareProvider(id: number): Promise<ChildcareProvider | undefined> {
+    return this.childcareProviders.get(id);
+  }
+
+  async getChildcareProviderByUserId(userId: number): Promise<ChildcareProvider | undefined> {
+    for (const provider of this.childcareProviders.values()) {
+      if (provider.userId === userId) {
+        return provider;
+      }
+    }
+    return undefined;
+  }
+
+  async createChildcareProvider(providerData: InsertChildcareProvider): Promise<ChildcareProvider> {
+    const provider: ChildcareProvider = {
+      ...providerData,
+      id: this.currentChildcareProviderId++,
+      currentEnrollments: 0,
+      currentBabies: 0,
+      verificationStatus: "pending",
+      isActive: false,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    this.childcareProviders.set(provider.id, provider);
+    return provider;
+  }
+
+  async updateChildcareProvider(id: number, updates: Partial<ChildcareProvider>): Promise<ChildcareProvider | undefined> {
+    const provider = this.childcareProviders.get(id);
+    if (!provider) return undefined;
+
+    const updatedProvider = { ...provider, ...updates, updatedAt: new Date() };
+    this.childcareProviders.set(id, updatedProvider);
+    return updatedProvider;
+  }
+
+  async searchChildcareProviders(filters: {
+    suburb?: string;
+    ageGroups?: string[];
+    maxRate?: number;
+    availableSpots?: boolean;
+  }): Promise<(ChildcareProvider & { user: User })[]> {
+    const results: (ChildcareProvider & { user: User })[] = [];
+
+    for (const provider of this.childcareProviders.values()) {
+      const user = this.users.get(provider.userId);
+      if (!user) continue;
+
+      // Apply filters
+      if (filters.suburb && provider.suburb !== filters.suburb) continue;
+      if (filters.maxRate && parseFloat(provider.hourlyRate) > filters.maxRate) continue;
+      if (filters.availableSpots && provider.currentEnrollments >= provider.totalCapacity) continue;
+      if (filters.ageGroups && filters.ageGroups.length > 0) {
+        const hasMatchingAgeGroup = filters.ageGroups.some(age => 
+          provider.ageGroups.includes(age)
+        );
+        if (!hasMatchingAgeGroup) continue;
+      }
+
+      results.push({ ...provider, user });
+    }
+
+    return results;
+  }
+
+  async getFeaturedChildcareProviders(): Promise<(ChildcareProvider & { user: User })[]> {
+    const results: (ChildcareProvider & { user: User })[] = [];
+
+    for (const provider of this.childcareProviders.values()) {
+      const user = this.users.get(provider.userId);
+      if (!user || !provider.isActive) continue;
+
+      results.push({ ...provider, user });
+    }
+
+    return results.slice(0, 6);
+  }
+
+  // Childcare Enrollment methods
+  async getChildcareEnrollment(id: number): Promise<ChildcareEnrollment | undefined> {
+    return this.childcareEnrollments.get(id);
+  }
+
+  async createChildcareEnrollment(enrollmentData: InsertChildcareEnrollment): Promise<ChildcareEnrollment> {
+    const enrollment: ChildcareEnrollment = {
+      ...enrollmentData,
+      id: this.currentChildcareEnrollmentId++,
+      status: "pending",
+      applicationDate: new Date(),
+      createdAt: new Date(),
+    };
+    this.childcareEnrollments.set(enrollment.id, enrollment);
+    return enrollment;
+  }
+
+  async getEnrollmentsByProvider(providerId: number): Promise<(ChildcareEnrollment & { parent: User })[]> {
+    const results: (ChildcareEnrollment & { parent: User })[] = [];
+
+    for (const enrollment of this.childcareEnrollments.values()) {
+      if (enrollment.providerId === providerId) {
+        const parent = this.users.get(enrollment.parentUserId);
+        if (parent) {
+          results.push({ ...enrollment, parent });
+        }
+      }
+    }
+
+    return results;
+  }
+
+  async getEnrollmentsByParent(parentId: number): Promise<(ChildcareEnrollment & { provider: ChildcareProvider })[]> {
+    const results: (ChildcareEnrollment & { provider: ChildcareProvider })[] = [];
+
+    for (const enrollment of this.childcareEnrollments.values()) {
+      if (enrollment.parentUserId === parentId) {
+        const provider = this.childcareProviders.get(enrollment.providerId);
+        if (provider) {
+          results.push({ ...enrollment, provider });
+        }
+      }
+    }
+
+    return results;
+  }
+
+  async updateEnrollmentStatus(id: number, status: string): Promise<ChildcareEnrollment | undefined> {
+    const enrollment = this.childcareEnrollments.get(id);
+    if (!enrollment) return undefined;
+
+    const updatedEnrollment = { ...enrollment, status };
+    this.childcareEnrollments.set(id, updatedEnrollment);
+    return updatedEnrollment;
   }
 }
 
