@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import type { Nanny, User as UserType } from "@shared/schema";
 import petSittingImage from "@assets/b3a7dde99de0043cc2a382fe7c16f0fc.jpg";
+import petSittingServiceImage from "@assets/969c7a3eeacf469a3a4c50a32a9b3d57.jpg";
 
 // Service category colors
 const serviceColors = [
@@ -116,7 +117,7 @@ const serviceCategories = [
   {
     title: "Pet sitting",
     description: "Professional pet care",
-    image: petSittingImage,
+    image: petSittingServiceImage,
     serviceType: "Pet sitting"
   },
   {
