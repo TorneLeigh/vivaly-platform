@@ -90,6 +90,11 @@ export default function Header() {
                     }`}>
                       Services
                     </Link>
+                    <Link href="/gift-cards" className={`text-warm-gray hover:text-coral transition-colors ${
+                      location === '/gift-cards' ? 'text-coral' : ''
+                    }`}>
+                      Gift Cards
+                    </Link>
                   </>
                 ) : (
                   // Caregiver Navigation
@@ -197,6 +202,9 @@ export default function Header() {
                     </Link>
                     <Link href="/services" className="flex items-center text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
                       Services
+                    </Link>
+                    <Link href="/gift-cards" className="flex items-center text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
+                      Gift Cards
                     </Link>
                   </div>
 
