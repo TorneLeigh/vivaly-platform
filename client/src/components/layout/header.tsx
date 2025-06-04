@@ -28,7 +28,11 @@ export default function Header() {
   const { isAuthenticated, isLoading, isProvider, user } = useAuth();
   const { toast } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [viewMode, setViewMode] = useState<'seeker' | 'provider'>(isProvider ? 'provider' : 'seeker');
+  
+  // Determine view mode based on current route
+  const isProviderRoute = location.includes('/provider-dashboard') || location.includes('/childcare-dashboard') || 
+                         location.includes('/become-nanny') || location.includes('/become-childcare-provider');
+  const viewMode = isProviderRoute ? 'provider' : 'seeker';
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
@@ -54,9 +58,7 @@ export default function Header() {
     logoutMutation.mutate();
   };
 
-  const toggleViewMode = () => {
-    setViewMode(viewMode === 'seeker' ? 'provider' : 'seeker');
-  };
+
 
   return (
     <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
@@ -77,7 +79,6 @@ export default function Header() {
                 variant="ghost"
                 size="sm"
                 onClick={() => {
-                  setViewMode('seeker');
                   window.location.href = '/';
                 }}
                 className={`rounded-md px-2 md:px-3 py-1 text-xs md:text-sm transition-all ${
@@ -93,7 +94,6 @@ export default function Header() {
                 variant="ghost"
                 size="sm"
                 onClick={() => {
-                  setViewMode('provider');
                   window.location.href = '/provider-dashboard';
                 }}
                 className={`rounded-md px-2 md:px-3 py-1 text-xs md:text-sm transition-all ${
@@ -157,15 +157,22 @@ export default function Header() {
               </SheetHeader>
               <div className="flex flex-col space-y-4 mt-6">
                 {/* Mobile Role Toggle */}
-                {isAuthenticated && (
+                <div className="flex space-x-2">
                   <Button
-                    variant="outline"
-                    onClick={() => { toggleViewMode(); setMobileMenuOpen(false); }}
-                    className="w-full text-sm"
+                    variant={viewMode === 'seeker' ? 'default' : 'outline'}
+                    onClick={() => { window.location.href = '/'; setMobileMenuOpen(false); }}
+                    className="flex-1 text-sm"
                   >
-                    {viewMode === 'provider' ? 'Switch to Searching for Care' : 'Switch to Caregiver Mode'}
+                    Search for Care
                   </Button>
-                )}
+                  <Button
+                    variant={viewMode === 'provider' ? 'default' : 'outline'}
+                    onClick={() => { window.location.href = '/provider-dashboard'; setMobileMenuOpen(false); }}
+                    className="flex-1 text-sm"
+                  >
+                    Caregiver
+                  </Button>
+                </div>
 
                 {/* Mobile Navigation Links */}
                 {!isAuthenticated || viewMode === 'seeker' ? (
