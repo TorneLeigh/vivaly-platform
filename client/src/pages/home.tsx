@@ -331,7 +331,7 @@ export default function Home() {
           <div className="text-center mb-16">
             <div className="flex justify-center items-center gap-3 mb-4">
               <PawPrint className="h-8 w-8 text-blue-600" />
-              <h2 className="text-4xl font-bold text-gray-900">Pet Care Services</h2>
+              <h2 className="text-5xl font-bold text-gray-900">Pet Care Services</h2>
               <Dog className="h-8 w-8 text-blue-600" />
             </div>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -424,9 +424,9 @@ export default function Home() {
       {/* Services in Popular Areas */}
       <section className="py-6 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-warm-gray mb-4">Events and Social</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Events and Social</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Connect with other families through organized activities and social gatherings
             </p>
           </div>
