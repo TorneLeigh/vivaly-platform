@@ -216,7 +216,7 @@ export default function Home() {
           </p>
           
           {/* Large Search Bar - Airbnb Style */}
-          <div className="bg-white rounded-full shadow-lg border border-gray-200 p-2 max-w-3xl mx-auto mb-8">
+          <div className="bg-white rounded-full shadow-2xl border border-gray-200 p-2 max-w-3xl mx-auto mb-8" style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 10px 30px -8px rgba(0, 0, 0, 0.1)' }}>
             <SearchFilters onSearch={(filters) => {
               const searchParams = new URLSearchParams(filters);
               window.location.href = `/find-care?${searchParams.toString()}`;
