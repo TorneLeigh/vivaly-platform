@@ -61,16 +61,16 @@ const serviceCategories = [
     serviceType: "1-on-1 care"
   },
   {
-    title: "Group care",
-    description: "1-2 hour group care sessions", 
+    title: "Group childcare",
+    description: "1-2 hour group childcare sessions", 
     image: "/images/daycare.jpg",
-    serviceType: "Group care"
+    serviceType: "Group childcare"
   },
   {
-    title: "Family Day Care",
+    title: "Childcare",
     description: "Licensed home-based care (max 7 children)",
     image: "/images/daycare.jpg",
-    serviceType: "Family Day Care"
+    serviceType: "Childcare"
   },
   {
     title: "Drop and dash",

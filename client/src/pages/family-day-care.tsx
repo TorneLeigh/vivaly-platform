@@ -44,7 +44,7 @@ export default function FamilyDayCarePage() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Family Day Care in Sydney
+            Childcare in Sydney
           </h1>
           <p className="text-xl text-gray-600 mb-6">
             Licensed home-based childcare with space available now
@@ -237,7 +237,7 @@ export default function FamilyDayCarePage() {
 
         {/* How It Works */}
         <div className="mt-16 bg-white rounded-lg shadow-sm p-8">
-          <h2 className="text-2xl font-bold text-center mb-8">How Family Day Care Works</h2>
+          <h2 className="text-2xl font-bold text-center mb-8">How Home-Based Childcare Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
