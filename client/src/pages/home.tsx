@@ -513,7 +513,7 @@ export default function Home() {
       <section className="py-8 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Services available in Bondi</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Care in Bondi Beach</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Trusted caregivers ready to provide personalized one-on-one care for your family
             </p>
