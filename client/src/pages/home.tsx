@@ -77,10 +77,10 @@ const serviceCategories = [
     serviceType: "Nanny"
   },
   {
-    title: "Babysitting",
-    description: "Occasional childcare",
+    title: "Drop & Dash",
+    description: "Quick drop-off childcare",
     image: "/images/babysitter.jpg",
-    serviceType: "Babysitting"
+    serviceType: "Drop & Dash"
   },
   {
     title: "Midwife Services",
