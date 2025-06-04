@@ -874,6 +874,143 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Payment processing routes
+  app.post("/api/create-payment-intent", requireAuth, async (req, res) => {
+    try {
+      const { bookingId, amount, caregiverId } = req.body;
+      const userId = req.session.userId!;
+      
+      // Platform fee (10% of booking amount)
+      const platformFeePercent = 10;
+      const platformFeeAmount = Math.round(amount * 100 * (platformFeePercent / 100));
+      const caregiverAmount = Math.round(amount * 100) - platformFeeAmount;
+      
+      // Get caregiver's Stripe account ID (you'll need to implement Connect accounts)
+      const caregiver = await storage.getNannyByUserId(caregiverId);
+      
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(amount * 100), // Convert to cents
+        currency: "aud",
+        automatic_payment_methods: {
+          enabled: true,
+        },
+        application_fee_amount: platformFeeAmount,
+        metadata: {
+          bookingId: bookingId.toString(),
+          userId: userId.toString(),
+          caregiverId: caregiverId.toString(),
+          platformFee: platformFeeAmount.toString(),
+        },
+      });
+      
+      res.json({ 
+        clientSecret: paymentIntent.client_secret,
+        platformFee: platformFeeAmount / 100,
+        caregiverAmount: caregiverAmount / 100
+      });
+    } catch (error: any) {
+      console.error("Payment intent error:", error);
+      res.status(500).json({ message: "Error creating payment intent: " + error.message });
+    }
+  });
+
+  // Webhook for Stripe payment confirmations
+  app.post("/api/stripe-webhook", async (req, res) => {
+    const sig = req.headers['stripe-signature'];
+    let event;
+
+    try {
+      event = stripe.webhooks.constructEvent(req.body, sig!, process.env.STRIPE_WEBHOOK_SECRET!);
+    } catch (err: any) {
+      console.log(`Webhook signature verification failed.`, err.message);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    // Handle the event
+    switch (event.type) {
+      case 'payment_intent.succeeded':
+        const paymentIntent = event.data.object;
+        const bookingId = parseInt(paymentIntent.metadata.bookingId);
+        
+        // Update booking status to confirmed
+        await storage.updateBookingStatus(bookingId, 'confirmed');
+        
+        // Send confirmation emails
+        const booking = await storage.getBooking(bookingId);
+        if (booking) {
+          const caregiver = await storage.getNanny(booking.nannyId);
+          const parent = await storage.getUser(booking.parentId);
+          
+          if (caregiver && parent) {
+            await sendBookingConfirmation(
+              caregiver.user.email,
+              parent.email,
+              {
+                id: booking.id,
+                date: booking.date,
+                startTime: booking.startTime,
+                endTime: booking.endTime,
+                serviceType: booking.serviceType,
+                amount: paymentIntent.amount / 100
+              }
+            );
+          }
+        }
+        break;
+      
+      case 'payment_intent.payment_failed':
+        const failedPayment = event.data.object;
+        const failedBookingId = parseInt(failedPayment.metadata.bookingId);
+        await storage.updateBookingStatus(failedBookingId, 'payment_failed');
+        break;
+        
+      default:
+        console.log(`Unhandled event type ${event.type}`);
+    }
+
+    res.json({ received: true });
+  });
+
+  // Platform revenue analytics
+  app.get("/api/admin/revenue", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const user = await storage.getUser(userId);
+      
+      // Only admin users can access revenue data
+      if (!user || user.email !== 'admin@vivaly.com.au') {
+        return res.status(403).json({ message: "Access denied" });
+      }
+      
+      // Get payment data from Stripe
+      const payments = await stripe.paymentIntents.list({
+        limit: 100,
+      });
+      
+      let totalRevenue = 0;
+      let totalPlatformFees = 0;
+      let totalBookings = 0;
+      
+      payments.data.forEach(payment => {
+        if (payment.status === 'succeeded' && payment.metadata.platformFee) {
+          totalRevenue += payment.amount;
+          totalPlatformFees += parseInt(payment.metadata.platformFee);
+          totalBookings += 1;
+        }
+      });
+      
+      res.json({
+        totalRevenue: totalRevenue / 100,
+        totalPlatformFees: totalPlatformFees / 100,
+        totalBookings,
+        averageBookingValue: totalBookings > 0 ? (totalRevenue / 100) / totalBookings : 0
+      });
+    } catch (error) {
+      console.error("Revenue analytics error:", error);
+      res.status(500).json({ message: "Failed to fetch revenue data" });
+    }
+  });
+
   // Message routes for secure communication between parents and caregivers
   app.post("/api/messages", authenticateToken, async (req: any, res) => {
     try {

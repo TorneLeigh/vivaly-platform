@@ -69,15 +69,45 @@ export default function MobileBookingFlow({ caregiver, onClose }: MobileBookingF
 
   const bookingMutation = useMutation({
     mutationFn: async (bookingData: any) => {
-      return apiRequest("POST", "/api/bookings", bookingData);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/bookings"] });
-      toast({
-        title: "Booking Confirmed!",
-        description: "Your caregiver will contact you shortly.",
+      // First create the booking
+      const bookingResponse = await apiRequest("POST", "/api/bookings", bookingData);
+      const booking = await bookingResponse.json();
+      
+      // Then create payment intent
+      const paymentResponse = await apiRequest("POST", "/api/create-payment-intent", {
+        bookingId: booking.id,
+        amount: bookingData.totalAmount,
+        caregiverId: caregiver.id
       });
-      onClose();
+      const paymentData = await paymentResponse.json();
+      
+      return { booking, paymentData };
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["/api/bookings"] });
+      
+      // Store data for payment page
+      localStorage.setItem('pendingBooking', JSON.stringify({
+        date: selectedDate,
+        startTime: selectedStartTime,
+        endTime: selectedEndTime,
+        duration: selectedDuration,
+        serviceType: selectedServiceType,
+        specialRequests,
+        caregiver,
+        totalAmount: data.booking.totalAmount
+      }));
+      localStorage.setItem('pendingPayment', JSON.stringify(data.paymentData));
+      
+      toast({
+        title: "Booking Created!",
+        description: `Platform fee: $${data.paymentData.platformFee.toFixed(2)}. Redirecting to payment...`,
+      });
+      
+      // Redirect to payment page
+      setTimeout(() => {
+        window.location.href = '/payment-checkout';
+      }, 1500);
     },
     onError: (error: any) => {
       toast({

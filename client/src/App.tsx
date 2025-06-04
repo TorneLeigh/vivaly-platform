@@ -19,6 +19,8 @@ import ProviderVerification from "@/pages/provider-verification";
 import GiftCards from "@/pages/gift-cards";
 import GiftCardCheckout from "@/pages/gift-card-checkout";
 import Checkout from "@/pages/checkout";
+import PaymentCheckout from "@/pages/payment-checkout";
+import AdminDashboard from "@/pages/admin-dashboard";
 import BookingConfirmation from "@/pages/booking-confirmation";
 import Terms from "@/pages/terms";
 import Privacy from "@/pages/privacy";
@@ -88,7 +90,10 @@ function Router() {
           <Route path="/gift-cards" component={GiftCards} />
           <Route path="/gift-card-checkout" component={GiftCardCheckout} />
           <Route path="/checkout" component={Checkout} />
+          <Route path="/payment-checkout" component={PaymentCheckout} />
+          <Route path="/admin-dashboard" component={AdminDashboard} />
           <Route path="/booking-confirmed" component={BookingConfirmation} />
+          <Route path="/booking-confirmation" component={BookingConfirmation} />
           <Route path="/terms" component={Terms} />
           <Route path="/privacy" component={Privacy} />
           <Route path="/terms-of-service" component={TermsOfService} />
