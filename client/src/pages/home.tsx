@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import NannyCard from "@/components/nanny-card";
 import SearchFilters from "@/components/search-filters";
 import FloatingActionButton from "@/components/floating-action-button";
+import ServiceCarousel from "@/components/service-carousel";
 import { 
   User, 
   Users, 
@@ -277,52 +278,50 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {serviceCategories.map((category, index) => {
-              return (
-                <div 
-                  key={index}
-                  className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
-                  onClick={() => {
-                    const searchParams = new URLSearchParams({
-                      serviceType: category.serviceType,
-                      location: 'Sydney, NSW'
-                    });
-                    window.location.href = `/search?${searchParams.toString()}`;
-                  }}
-                >
-                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                    <img 
-                      src={category.image} 
-                      alt={category.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      onError={(e) => {
-                        console.error('Failed to load image:', category.image);
-                        console.error('Image path attempted:', e.currentTarget.src);
-                        // Fallback to a light background if image fails
-                        e.currentTarget.style.display = 'none';
-                        if (e.currentTarget.parentElement) {
-                          e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
-                          e.currentTarget.parentElement.innerHTML = `
-                            <div class="flex items-center justify-center h-full">
-                              <span class="text-gray-400 text-xs">${category.title}</span>
-                            </div>
-                          `;
-                        }
-                      }}
-                      onLoad={(e) => {
-                        console.log('Successfully loaded image:', category.image);
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 text-sm mb-1">{category.title}</h3>
-                    <p className="text-xs text-gray-600">{category.description}</p>
-                  </div>
+          <ServiceCarousel>
+            {serviceCategories.map((category, index) => (
+              <div 
+                key={index}
+                className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                onClick={() => {
+                  const searchParams = new URLSearchParams({
+                    serviceType: category.serviceType,
+                    location: 'Sydney, NSW'
+                  });
+                  window.location.href = `/search?${searchParams.toString()}`;
+                }}
+              >
+                <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                  <img 
+                    src={category.image} 
+                    alt={category.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    onError={(e) => {
+                      console.error('Failed to load image:', category.image);
+                      console.error('Image path attempted:', e.currentTarget.src);
+                      // Fallback to a light background if image fails
+                      e.currentTarget.style.display = 'none';
+                      if (e.currentTarget.parentElement) {
+                        e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
+                        e.currentTarget.parentElement.innerHTML = `
+                          <div class="flex items-center justify-center h-full">
+                            <span class="text-gray-400 text-xs">${category.title}</span>
+                          </div>
+                        `;
+                      }
+                    }}
+                    onLoad={(e) => {
+                      console.log('Successfully loaded image:', category.image);
+                    }}
+                  />
                 </div>
-              );
-            })}
-          </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 text-sm mb-1">{category.title}</h3>
+                  <p className="text-xs text-gray-600">{category.description}</p>
+                </div>
+              </div>
+            ))}
+          </ServiceCarousel>
         </div>
       </section>
 
@@ -340,8 +339,8 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+          <ServiceCarousel>
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
                  onClick={() => window.location.href = '/search?serviceType=Pet Sitting'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
@@ -354,7 +353,7 @@ export default function Home() {
               <p className="text-xs text-gray-600">In-home pet care</p>
             </div>
             
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
                  onClick={() => window.location.href = '/search?serviceType=Dog Walking'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
@@ -367,7 +366,7 @@ export default function Home() {
               <p className="text-xs text-gray-600">Daily exercise</p>
             </div>
             
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
                  onClick={() => window.location.href = '/search?serviceType=Pet Boarding'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
@@ -380,7 +379,7 @@ export default function Home() {
               <p className="text-xs text-gray-600">Overnight care</p>
             </div>
             
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
                  onClick={() => window.location.href = '/search?serviceType=Pet Grooming'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
@@ -393,7 +392,7 @@ export default function Home() {
               <p className="text-xs text-gray-600">Professional styling</p>
             </div>
             
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
                  onClick={() => window.location.href = '/search?serviceType=Pet Training'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
@@ -406,7 +405,7 @@ export default function Home() {
               <p className="text-xs text-gray-600">Behavioral guidance</p>
             </div>
             
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
                  onClick={() => window.location.href = '/search?serviceType=Overnight Pet Care'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
@@ -418,7 +417,7 @@ export default function Home() {
               <h3 className="font-semibold text-gray-900 text-sm mb-1">Overnight Care</h3>
               <p className="text-xs text-gray-600">Extended sitting</p>
             </div>
-          </div>
+          </ServiceCarousel>
         </div>
       </section>
 
@@ -432,8 +431,8 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+          <ServiceCarousel>
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
                  onClick={() => window.location.href = '/search?serviceType=Park Playdates&location=Sydney, NSW'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
@@ -446,7 +445,7 @@ export default function Home() {
               <p className="text-xs text-gray-600">Meet other families at local parks</p>
             </div>
             
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
                  onClick={() => window.location.href = '/search?serviceType=Coffee Catch-ups&location=Sydney, NSW'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
@@ -459,7 +458,7 @@ export default function Home() {
               <p className="text-xs text-gray-600">Parent meetups at local cafes</p>
             </div>
             
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
                  onClick={() => window.location.href = '/search?serviceType=Art & Craft&location=Sydney, NSW'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
@@ -472,7 +471,7 @@ export default function Home() {
               <p className="text-xs text-gray-600">Creative sessions for kids and parents</p>
             </div>
             
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
                  onClick={() => window.location.href = '/search?serviceType=New Parent Groups&location=Sydney, NSW'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
@@ -485,7 +484,7 @@ export default function Home() {
               <p className="text-xs text-gray-600">Support groups for new mothers</p>
             </div>
             
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
                  onClick={() => window.location.href = '/search?serviceType=Nature Exploration&location=Sydney, NSW'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
@@ -498,7 +497,7 @@ export default function Home() {
               <p className="text-xs text-gray-600">Outdoor discovery with children</p>
             </div>
             
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
                  onClick={() => window.location.href = '/search?serviceType=Elderly Care Social&location=Sydney, NSW'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
@@ -510,7 +509,7 @@ export default function Home() {
               <h3 className="font-semibold text-gray-900 text-sm mb-1">Elderly Care Social</h3>
               <p className="text-xs text-gray-600">Companionship and care activities</p>
             </div>
-          </div>
+          </ServiceCarousel>
         </div>
       </section>
 
