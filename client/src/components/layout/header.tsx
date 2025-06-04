@@ -72,40 +72,7 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Role Toggle Buttons */}
-          <div className="flex items-center space-x-4">
-            <div className="flex rounded-lg border border-gray-300 p-1 bg-white">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  window.location.href = '/';
-                }}
-                className={`rounded-md px-2 md:px-3 py-1 text-xs md:text-sm transition-all ${
-                  viewMode === 'seeker' 
-                    ? 'bg-black text-white shadow-sm' 
-                    : 'text-gray-700 hover:text-black hover:bg-gray-100'
-                }`}
-              >
-                <span className="hidden md:inline">Search for Care</span>
-                <span className="md:hidden">Search</span>
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  window.location.href = '/provider-dashboard';
-                }}
-                className={`rounded-md px-2 md:px-3 py-1 text-xs md:text-sm transition-all ${
-                  viewMode === 'provider' 
-                    ? 'bg-black text-white shadow-sm' 
-                    : 'text-gray-700 hover:text-black hover:bg-gray-100'
-                }`}
-              >
-                Caregiver
-              </Button>
-            </div>
-
+          <div className="flex items-center space-x-8">
             <nav className="hidden md:flex space-x-8">
               {!isAuthenticated || viewMode === 'seeker' ? (
                 // Service Seeker Navigation
@@ -142,6 +109,39 @@ export default function Header() {
                 </>
               )}
             </nav>
+            
+            {/* Role Toggle Buttons */}
+            <div className="hidden md:flex rounded-lg border border-gray-300 p-1 bg-white">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  window.location.href = '/';
+                }}
+                className={`rounded-md px-2 md:px-3 py-1 text-xs md:text-sm transition-all ${
+                  viewMode === 'seeker' 
+                    ? 'bg-black text-white shadow-sm' 
+                    : 'text-gray-700 hover:text-black hover:bg-gray-100'
+                }`}
+              >
+                <span className="hidden md:inline">Search for Care</span>
+                <span className="md:hidden">Search</span>
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  window.location.href = '/provider-dashboard';
+                }}
+                className={`rounded-md px-2 md:px-3 py-1 text-xs md:text-sm transition-all ${
+                  viewMode === 'provider' 
+                    ? 'bg-black text-white shadow-sm' 
+                    : 'text-gray-700 hover:text-black hover:bg-gray-100'
+                }`}
+              >
+                Caregiver
+              </Button>
+            </div>
           </div>
 
           {/* Mobile Menu */}
