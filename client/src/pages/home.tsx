@@ -115,7 +115,7 @@ const serviceCategories = [
   {
     title: "Pet sitting",
     description: "Professional pet care",
-    image: "/images/petcare.jpg",
+    image: "/images/pet4.jpg",
     serviceType: "Pet sitting"
   },
   {
@@ -382,7 +382,7 @@ export default function Home() {
                  onClick={() => window.location.href = '/search?serviceType=Pet Grooming'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
-                  src="/images/pet4.jpg" 
+                  src="/images/pet1.jpg" 
                   alt="Pet Grooming"
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
