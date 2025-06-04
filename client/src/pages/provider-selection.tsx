@@ -44,9 +44,6 @@ export default function ProviderSelection() {
                     <p className="text-sm text-gray-600">
                       Create group activities, playdates, educational workshops, and social events for families
                     </p>
-                    <div className="mt-4 text-xs text-gray-500">
-                      Examples: Group play sessions, Parent workshops, Kids parties, Educational activities
-                    </div>
                   </div>
                 </button>
 
@@ -64,9 +61,6 @@ export default function ProviderSelection() {
                     <p className="text-sm text-gray-600">
                       Run a licensed home-based childcare for multiple children
                     </p>
-                    <div className="mt-4 text-xs text-gray-500">
-                      Examples: Home-based childcare (max 7 children, max 4 babies)
-                    </div>
                   </div>
                 </button>
               </div>

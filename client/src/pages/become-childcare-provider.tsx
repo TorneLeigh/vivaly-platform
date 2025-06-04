@@ -50,11 +50,21 @@ const childcareProviderSchema = z.object({
   qualifications: z.array(z.string()).min(1, "Please select at least one qualification"),
   experience: z.number().min(0, "Experience cannot be negative"),
   
-  // Legal Requirements
+  // Legal Requirements & Verification
   wwccNumber: z.string().min(8, "Please enter your WWCC number"),
+  wwccExpiryDate: z.string().min(1, "WWCC expiry date is required"),
+  proofOfAddress: z.instanceof(File).optional(),
   firstAidCert: z.boolean().refine(val => val === true, "First aid certification is required"),
+  firstAidExpiryDate: z.string().min(1, "First aid expiry date is required"),
   publicLiability: z.boolean().refine(val => val === true, "Public liability insurance is required"),
+  publicLiabilityPolicyNumber: z.string().min(1, "Insurance policy number is required"),
   childcareInsurance: z.boolean().refine(val => val === true, "Childcare insurance is required"),
+  childcareInsurancePolicyNumber: z.string().min(1, "Childcare insurance policy number is required"),
+  
+  // Safety & Privacy Protection
+  backgroundCheckConsent: z.boolean().refine(val => val === true, "Background check consent is required"),
+  platformTermsAgreement: z.boolean().refine(val => val === true, "Platform terms agreement is required"),
+  dataProtectionConsent: z.boolean().refine(val => val === true, "Data protection consent is required"),
   
   // Additional Services
   mealsProvided: z.boolean().default(false),
@@ -117,6 +127,9 @@ export default function BecomeChildcareProvider() {
       firstAidCert: false,
       publicLiability: false,
       childcareInsurance: false,
+      backgroundCheckConsent: false,
+      platformTermsAgreement: false,
+      dataProtectionConsent: false,
     },
   });
 
@@ -150,11 +163,11 @@ export default function BecomeChildcareProvider() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">
-            Register Your Childcare Center
+            Verified Childcare Center Registration
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Join VIVALY's network of licensed childcare providers. Help address Sydney's childcare shortage 
-            while building a successful home-based childcare business.
+            Join VIVALY's secure network of fully verified childcare providers. Complete background checks 
+            and comprehensive verification protect both families and platform operators.
           </p>
         </div>
 
@@ -421,6 +434,256 @@ export default function BecomeChildcareProvider() {
               </CardContent>
             </Card>
 
+            {/* Verification & Documents */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="w-5 h-5" />
+                  Verification & Documents
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="wwccNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Working with Children Check Number</FormLabel>
+                        <FormControl>
+                          <Input {...field} placeholder="WWC1234567890" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="wwccExpiryDate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>WWCC Expiry Date</FormLabel>
+                        <FormControl>
+                          <Input type="date" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="proofOfAddress"
+                  render={({ field: { onChange, ...field } }) => (
+                    <FormItem>
+                      <FormLabel>Proof of Address (Utility Bill, Council Rates, etc.)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="file"
+                          accept=".pdf,.jpg,.jpeg,.png"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            onChange(file);
+                          }}
+                          {...field}
+                        />
+                      </FormControl>
+                      <p className="text-xs text-gray-500">
+                        Upload a recent utility bill, council rates notice, or bank statement showing your address
+                      </p>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="firstAidExpiryDate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>First Aid Certificate Expiry</FormLabel>
+                        <FormControl>
+                          <Input type="date" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="publicLiabilityPolicyNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Public Liability Policy Number</FormLabel>
+                        <FormControl>
+                          <Input {...field} placeholder="PLI123456789" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="childcareInsurancePolicyNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Childcare Insurance Policy Number</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="CCI987654321" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Legal Requirements Checkboxes */}
+                <div className="space-y-3 pt-4">
+                  <FormField
+                    control={form.control}
+                    name="firstAidCert"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel>I have current First Aid & CPR certification</FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="publicLiability"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel>I have current Public Liability insurance ($20M minimum)</FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="childcareInsurance"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel>I have childcare-specific insurance coverage</FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Safety & Privacy Protection */}
+            <Card className="border-green-200 bg-green-50">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-green-800">
+                  <Shield className="w-5 h-5" />
+                  Platform Safety & Privacy Protection
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-sm text-green-700 mb-4">
+                  VIVALY implements comprehensive verification to protect all parties:
+                </p>
+                
+                <div className="space-y-3">
+                  <FormField
+                    control={form.control}
+                    name="backgroundCheckConsent"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel className="text-sm">
+                            I consent to comprehensive background checks including criminal history, 
+                            reference verification, and address confirmation
+                          </FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="platformTermsAgreement"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel className="text-sm">
+                            I agree to VIVALY's platform terms, safety protocols, and dispute resolution process
+                          </FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="dataProtectionConsent"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel className="text-sm">
+                            I consent to secure data handling and verification sharing with authorized parties only
+                          </FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="bg-white border border-green-300 rounded-lg p-4 mt-4">
+                  <h4 className="font-semibold text-green-800 mb-2">Platform Owner Protection:</h4>
+                  <ul className="text-xs text-green-700 space-y-1">
+                    <li>• All providers undergo multi-stage verification before approval</li>
+                    <li>• Address verification prevents false registration</li>
+                    <li>• Insurance requirements protect against liability claims</li>
+                    <li>• Regular compliance monitoring and renewal tracking</li>
+                    <li>• Clear terms of service with enforceable dispute resolution</li>
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Submit Button */}
             <div className="flex justify-center pt-6">
               <Button
@@ -429,7 +692,7 @@ export default function BecomeChildcareProvider() {
                 className="w-full max-w-md bg-blue-600 hover:bg-blue-700"
                 disabled={mutation.isPending}
               >
-                {mutation.isPending ? "Submitting Application..." : "Submit Childcare Center Application"}
+                {mutation.isPending ? "Submitting Application..." : "Submit Verified Childcare Application"}
               </Button>
             </div>
           </form>
