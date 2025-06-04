@@ -30,6 +30,7 @@ import QuickStart from "@/pages/quick-start";
 import CaregiverOnboarding from "@/pages/caregiver-onboarding";
 import NannyDashboard from "@/pages/nanny-dashboard";
 import CreateExperience from "@/pages/create-experience";
+import ProviderSelection from "@/pages/provider-selection";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -44,6 +45,7 @@ function Router() {
           <Route path="/booking/:id" component={BookingFlow} />
           <Route path="/search" component={SearchResults} />
           <Route path="/become-nanny" component={BecomeNanny} />
+          <Route path="/provider-selection" component={ProviderSelection} />
           <Route path="/nanny-dashboard" component={NannyDashboard} />
           <Route path="/create-experience" component={CreateExperience} />
           <Route path="/messages" component={Messages} />
