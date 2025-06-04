@@ -195,9 +195,18 @@ export default function NannyProfile() {
                       <MessageCircle className="w-4 h-4 mr-2" />
                       Message
                     </Button>
+                    {/* Desktop booking button */}
                     <Button 
                       onClick={() => setActiveTab("booking")}
-                      className="flex-1 bg-coral hover:bg-coral/90"
+                      className="hidden md:flex flex-1 bg-coral hover:bg-coral/90"
+                    >
+                      <Calendar className="w-4 h-4 mr-2" />
+                      Book Now
+                    </Button>
+                    {/* Mobile booking button */}
+                    <Button 
+                      onClick={() => setShowMobileBooking(true)}
+                      className="md:hidden flex-1 bg-coral hover:bg-coral/90"
                     >
                       <Calendar className="w-4 h-4 mr-2" />
                       Book Now
@@ -381,6 +390,28 @@ export default function NannyProfile() {
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Mobile Booking Flow */}
+      {showMobileBooking && nannyProfile && (
+        <MobileBookingFlow
+          caregiver={{
+            id: nanny.id,
+            user: {
+              firstName: user.firstName,
+              lastName: user.lastName,
+              profileImage: user.profileImage || undefined,
+            },
+            hourlyRate: nanny.hourlyRate || "0",
+            rating: nanny.rating || "0",
+            reviewCount: nanny.reviewCount || 0,
+            location: `${nanny.suburb}, Sydney`,
+            bio: nanny.bio || "",
+            isVerified: nanny.isVerified || false,
+            serviceTypes: nanny.services || [],
+          }}
+          onClose={() => setShowMobileBooking(false)}
+        />
+      )}
     </div>
   );
 }
