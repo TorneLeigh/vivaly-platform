@@ -115,7 +115,7 @@ const serviceCategories = [
   {
     title: "Pet sitting",
     description: "Professional pet care",
-    image: "/images/pet4.jpg",
+    image: "@assets/b3a7dde99de0043cc2a382fe7c16f0fc.jpg",
     serviceType: "Pet sitting"
   },
   {
