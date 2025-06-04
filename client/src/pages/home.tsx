@@ -28,6 +28,7 @@ import {
   PawPrint
 } from "lucide-react";
 import type { Nanny, User as UserType } from "@shared/schema";
+import petSittingImage from "@assets/b3a7dde99de0043cc2a382fe7c16f0fc.jpg";
 
 // Service category colors
 const serviceColors = [
@@ -115,7 +116,7 @@ const serviceCategories = [
   {
     title: "Pet sitting",
     description: "Professional pet care",
-    image: "@assets/b3a7dde99de0043cc2a382fe7c16f0fc.jpg",
+    image: petSittingImage,
     serviceType: "Pet sitting"
   },
   {
