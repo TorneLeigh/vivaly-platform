@@ -913,7 +913,7 @@ export default function CaregiverOnboarding() {
                 <Button
                   type="button"
                   onClick={nextStep}
-                  className="bg-blue-600 hover:bg-blue-700"
+                  className="bg-black hover:bg-gray-800 text-white"
                 >
                   Continue
                 </Button>
