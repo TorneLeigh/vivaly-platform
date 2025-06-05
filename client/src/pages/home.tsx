@@ -226,37 +226,23 @@ export default function Home() {
           {/* Quick Booking Options */}
           <div className="flex flex-wrap justify-center gap-4 mb-6">
             <Link href="/quick-start?when=today">
-              <Button className="text-black animate-bounce-slow hover:opacity-90" style={{ backgroundColor: '#FFB366' }}>
+              <Button className="bg-black text-white animate-bounce-slow hover:bg-gray-800">
                 Book Today
               </Button>
             </Link>
             <Link href="/quick-start?when=weekend">
-              <Button className="text-black animate-bounce-slow hover:opacity-90" style={{ backgroundColor: '#FFB366' }}>
+              <Button className="bg-black text-white animate-bounce-slow hover:bg-gray-800">
                 This Weekend
               </Button>
             </Link>
             <Link href="/quick-start?when=next-week">
-              <Button className="text-black animate-bounce-slow hover:opacity-90" style={{ backgroundColor: '#FFB366' }}>
+              <Button className="bg-black text-white animate-bounce-slow hover:bg-gray-800">
                 Next Week
               </Button>
             </Link>
           </div>
 
-          {/* Quick Stats */}
-          <div className="flex justify-center items-center space-x-8 text-sm text-gray-600">
-            <div className="text-center">
-              <div className="font-semibold text-gray-900">500+</div>
-              <div>Caregivers</div>
-            </div>
-            <div className="text-center">
-              <div className="font-semibold text-gray-900">10,000+</div>
-              <div>Families served</div>
-            </div>
-            <div className="text-center">
-              <div className="font-semibold text-gray-900">4.9</div>
-              <div>Average rating</div>
-            </div>
-          </div>
+
         </div>
       </section>
 
