@@ -2,15 +2,17 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, User } from "lucide-react";
 
 export default function WorkingLogin() {
   const [isSignup, setIsSignup] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showProfileDialog, setShowProfileDialog] = useState(false);
   const [, setLocation] = useLocation();
   const { toast } = useToast();
 
@@ -44,7 +46,8 @@ export default function WorkingLogin() {
         description: "Signed in successfully!",
       });
       
-      setLocation("/");
+      // Show profile completion dialog
+      setShowProfileDialog(true);
     } catch (error: any) {
       toast({
         title: "Sign in failed",
@@ -262,6 +265,50 @@ export default function WorkingLogin() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Profile Completion Dialog */}
+      <Dialog open={showProfileDialog} onOpenChange={setShowProfileDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <User className="h-5 w-5" />
+              Complete Your Profile
+            </DialogTitle>
+            <DialogDescription>
+              Welcome to VIVALY! Complete your profile to get the best experience and connect with caregivers in your area.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col gap-4 py-4">
+            <div className="text-sm text-gray-600">
+              <p>• Add your location and preferences</p>
+              <p>• Tell us about your childcare needs</p>
+              <p>• Upload a profile photo</p>
+              <p>• Set your availability</p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Button 
+                onClick={() => {
+                  setShowProfileDialog(false);
+                  setLocation("/parent-profile");
+                }}
+                className="w-full bg-black hover:bg-gray-800 text-white"
+              >
+                Complete Profile Now
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  setShowProfileDialog(false);
+                  setLocation("/");
+                }}
+                className="w-full"
+              >
+                Skip for Now
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

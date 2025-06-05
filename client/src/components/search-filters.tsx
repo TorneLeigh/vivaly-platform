@@ -70,7 +70,7 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
 
   return (
     <div className={`bg-white rounded-2xl border border-gray-100 transform translate-y-[-4px] ${className}`} style={{ boxShadow: '0 40px 80px -16px rgba(0, 0, 0, 0.3), 0 20px 40px -12px rgba(0, 0, 0, 0.2), 0 12px 24px -8px rgba(0, 0, 0, 0.15), 0 4px 8px -2px rgba(0, 0, 0, 0.1), inset 0 2px 0 rgba(255, 255, 255, 0.9)' }}>
-      <div className="p-4 md:p-6 space-y-4">
+      <div className="p-3 md:p-6 space-y-3 md:space-y-4">
         {/* Where and When - Mobile-first responsive layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4">
           {/* Location */}
@@ -150,7 +150,7 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
         </div>
 
         {/* Time, Service, and Number of People - Mobile-optimized layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3 lg:gap-4">
           {/* Time */}
           <div>
             <label className="text-xs font-semibold text-gray-800 mb-2 block">Time</label>
