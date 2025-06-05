@@ -42,6 +42,8 @@ import ChildcareDashboard from "@/pages/childcare-dashboard";
 import Services from "@/pages/services";
 import FindCareSignup from "@/pages/find-care-signup";
 import BecomeCaregiver from "@/pages/become-caregiver";
+import Signup from "@/pages/signup";
+import CoSupport from "@/pages/co-support";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -85,6 +87,8 @@ function Router() {
           <Route path="/become-caregiver" component={BecomeCaregiver} />
           <Route path="/signup-parent" component={FindCareSignup} />
           <Route path="/signup-caregiver" component={BecomeCaregiver} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/co-support" component={CoSupport} />
           <Route path="/provider-selection" component={ProviderSelection} />
           <Route path="/become-childcare-provider" component={BecomeChildcareProvider} />
           <Route path="/find-care" component={FindCare} />
