@@ -129,46 +129,7 @@ export default function BecomeSeeker() {
 
 
 
-      {/* How it Works */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            How it works
-          </h2>
-        </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="text-center">
-            <div className="w-16 h-16 bg-coral text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-              1
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Create your profile</h3>
-            <p className="text-gray-600">
-              Tell us about your family and what type of care you need
-            </p>
-          </div>
-
-          <div className="text-center">
-            <div className="w-16 h-16 bg-coral text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-              2
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Browse & connect</h3>
-            <p className="text-gray-600">
-              Search verified caregivers in your area and read reviews
-            </p>
-          </div>
-
-          <div className="text-center">
-            <div className="w-16 h-16 bg-coral text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-              3
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Book with confidence</h3>
-            <p className="text-gray-600">
-              Schedule care and enjoy peace of mind with our safety features
-            </p>
-          </div>
-        </div>
-      </div>
 
       {/* CTA Section */}
       <div className="bg-coral text-white py-16">
