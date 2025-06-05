@@ -44,6 +44,9 @@ import FindCareSignup from "@/pages/find-care-signup";
 import BecomeCaregiver from "@/pages/become-caregiver";
 import BecomeSeeker from "@/pages/become-seeker";
 import Signup from "@/pages/signup";
+import Profile from "@/pages/profile";
+import AccountSettings from "@/pages/account-settings";
+import Help from "@/pages/help";
 import CoSupport from "@/pages/co-support";
 import NotFound from "@/pages/not-found";
 
@@ -97,6 +100,8 @@ function Router() {
           <Route path="/childcare-enroll/:id" component={ChildcareEnroll} />
           <Route path="/login" component={Login} />
           <Route path="/auth" component={Auth} />
+          <Route path="/profile" component={Profile} />
+          <Route path="/account-settings" component={AccountSettings} />
           <Route path="/verification" component={ProviderVerification} />
           <Route path="/gift-cards" component={GiftCards} />
           <Route path="/gift-card-checkout" component={GiftCardCheckout} />
