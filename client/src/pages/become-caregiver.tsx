@@ -793,12 +793,11 @@ export default function CaregiverRegistration() {
 
         {renderStep()}
 
-        {step < 5 && (
+        {step > 1 && step < 5 && (
           <div className="flex justify-between mt-8">
             <Button
               variant="outline"
               onClick={() => setStep(step - 1)}
-              disabled={step === 1}
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Previous
