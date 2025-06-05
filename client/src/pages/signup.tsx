@@ -235,7 +235,7 @@ export default function Signup() {
                           {...field} 
                           type="email" 
                           placeholder="Enter your email address" 
-                          className="h-12"
+                          className="h-12 bg-white border border-gray-300 text-black"
                           autoComplete="email"
                         />
                       </FormControl>
@@ -458,7 +458,7 @@ export default function Signup() {
                     <Button 
                       type="submit" 
                       disabled={signupMutation.isPending}
-                      className="flex-1 h-12"
+                      className="flex-1 h-12 bg-black hover:bg-gray-800 text-white"
                     >
                       {signupMutation.isPending ? "Creating Account..." : "Create Account"}
                     </Button>
