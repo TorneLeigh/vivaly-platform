@@ -48,100 +48,31 @@ export default function BecomeSeeker() {
         <div className="grid md:grid-cols-3 gap-12">
           <div className="text-left">
             <div className="text-6xl font-bold text-gray-300 mb-4">01</div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">Enter your home's location</h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-3">Create your account</h3>
             <p className="text-gray-600">
-              Explore available co-hosts in your area, along with their profile and guest ratings.
+              Sign up and tell us about your family and care needs to get started.
             </p>
           </div>
           
           <div className="text-left">
             <div className="text-6xl font-bold text-gray-300 mb-4">02</div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">Get to know some co-hosts</h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-3">Enter what you are looking for</h3>
             <p className="text-gray-600">
-              Message as many co-hosts as you like, and when you're ready, invite one to become your co-host.
+              Specify the type of care you need, your location, and schedule preferences.
             </p>
           </div>
           
           <div className="text-left">
             <div className="text-6xl font-bold text-gray-300 mb-4">03</div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">Collaborate with ease</h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-3">Book trusted help with ease</h3>
             <p className="text-gray-600">
-              Message your co-host directly, give them access to your calendar and more.
+              Browse verified caregivers in your area and connect with the perfect match.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Welcoming your first guests section */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="bg-orange-100 rounded-2xl p-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">
-            Welcoming your first guests
-          </h2>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg overflow-hidden shadow-sm">
-              <div className="h-48 bg-gray-200">
-                <img 
-                  src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=200&fit=crop" 
-                  alt="Preparing your space"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Preparing your space</h3>
-                <p className="text-gray-600 text-sm mb-4">
-                  Adopt a cleaning routine, stock the basics and add special touches.
-                </p>
-                <div className="flex items-center text-sm text-gray-500">
-                  <div className="w-3 h-3 bg-gray-300 rounded-full mr-2"></div>
-                  Not completed
-                </div>
-              </div>
-            </div>
 
-            <div className="bg-white rounded-lg overflow-hidden shadow-sm">
-              <div className="h-48 bg-gray-200">
-                <img 
-                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=200&fit=crop" 
-                  alt="Communicate effectively"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Communicate effectively</h3>
-                <p className="text-gray-600 text-sm mb-4">
-                  Send guests clear and timely messages.
-                </p>
-                <div className="flex items-center text-sm text-gray-500">
-                  <div className="w-3 h-3 bg-gray-300 rounded-full mr-2"></div>
-                  Not completed
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg overflow-hidden shadow-sm">
-              <div className="h-48 bg-gray-200">
-                <img 
-                  src="https://images.unsplash.com/photo-1595959183082-7b570b7e08e2?w=400&h=200&fit=crop" 
-                  alt="Create a 5-star stay"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Create a 5-star stay</h3>
-                <p className="text-gray-600 text-sm mb-4">
-                  Provide a memorable trip with these top tips.
-                </p>
-                <div className="flex items-center text-sm text-gray-500">
-                  <div className="w-3 h-3 bg-gray-300 rounded-full mr-2"></div>
-                  Not completed
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Benefits Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
