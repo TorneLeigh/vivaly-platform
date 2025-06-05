@@ -118,6 +118,33 @@ export default function Login() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {/* Google Login Button */}
+          <div className="mb-6">
+            <Button 
+              variant="outline" 
+              className="w-full flex items-center justify-center gap-3 py-3"
+              onClick={() => {
+                // Placeholder for Google OAuth - user will need to provide credentials
+                toast({
+                  title: "Google Login",
+                  description: "Google OAuth integration requires API credentials. Please contact support to set this up.",
+                  variant: "destructive",
+                });
+              }}
+            >
+              <Chrome className="h-5 w-5" />
+              Continue with Google
+            </Button>
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <Separator className="w-full" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-white px-2 text-gray-500">Or continue with email</span>
+              </div>
+            </div>
+          </div>
+
           {isSignup ? (
             <Form {...signupForm}>
               <form onSubmit={signupForm.handleSubmit(onSignupSubmit)} className="space-y-4">
