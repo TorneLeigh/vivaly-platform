@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Eye, EyeOff, User } from "lucide-react";
 
 export default function WorkingLogin() {
@@ -40,6 +40,9 @@ export default function WorkingLogin() {
         email,
         password,
       });
+      
+      // Invalidate user query to update authentication state
+      await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       
       toast({
         title: "Success",
@@ -80,13 +83,16 @@ export default function WorkingLogin() {
         phone: phone || null,
       });
       
+      // Invalidate user query to update authentication state
+      await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      
       toast({
         title: "Success",
         description: "Account created successfully!",
       });
       
-      // Force refresh the page to ensure session is recognized
-      window.location.href = "/";
+      // Show profile completion dialog
+      setShowProfileDialog(true);
     } catch (error: any) {
       toast({
         title: "Signup failed",
