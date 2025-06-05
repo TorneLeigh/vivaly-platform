@@ -89,12 +89,15 @@ export default function Header() {
           <div className="hidden lg:flex items-center space-x-2">
             {!isAuthenticated ? (
               <>
-                <Button variant="ghost" className="font-medium" onClick={() => window.location.href = '/become-seeker'}>
-                  Become a Seeker
-                </Button>
-                <Button variant="ghost" className="font-medium" onClick={() => window.location.href = '/become-caregiver'}>
-                  Become a Caregiver
-                </Button>
+                {viewMode === 'seeker' ? (
+                  <Button variant="ghost" className="font-medium" onClick={() => window.location.href = '/become-caregiver'}>
+                    Switch to Caregiver
+                  </Button>
+                ) : (
+                  <Button variant="ghost" className="font-medium" onClick={() => window.location.href = '/search'}>
+                    Search
+                  </Button>
+                )}
                 <div className="flex items-center border border-gray-300 rounded-full p-1 ml-4">
                   <Button variant="ghost" size="sm" className="rounded-full px-4 text-black hover:text-gray-700" onClick={() => window.location.href = '/login'}>
                     Log in
@@ -106,7 +109,18 @@ export default function Header() {
               </>
             ) : (
               <div className="flex items-center space-x-4">
+                {viewMode === 'seeker' ? (
+                  <Button variant="ghost" size="sm" className="flex items-center gap-2" onClick={() => window.location.href = '/search'}>
+                    <Search className="h-4 w-4" />
+                    Search
+                  </Button>
+                ) : (
+                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/find-care'}>
+                    Switch to Seeker
+                  </Button>
+                )}
                 <Button variant="ghost" size="sm" onClick={() => window.location.href = '/messages'}>
+                  <MessageCircle className="h-4 w-4 mr-2" />
                   Messages
                 </Button>
                 <DropdownMenu>
@@ -170,20 +184,23 @@ export default function Header() {
                     {!isAuthenticated ? (
                       <div className="p-6 space-y-4">
                         <div className="space-y-3">
-                          <Button 
-                            variant="ghost" 
-                            onClick={() => { window.location.href = '/become-seeker'; setMobileMenuOpen(false); }}
-                            className="w-full justify-start text-left font-medium text-gray-900"
-                          >
-                            Become a Seeker
-                          </Button>
-                          <Button 
-                            variant="ghost" 
-                            onClick={() => { window.location.href = '/become-caregiver'; setMobileMenuOpen(false); }}
-                            className="w-full justify-start text-left font-medium text-gray-900"
-                          >
-                            Become a Caregiver
-                          </Button>
+                          {viewMode === 'seeker' ? (
+                            <Button 
+                              variant="ghost" 
+                              onClick={() => { window.location.href = '/become-caregiver'; setMobileMenuOpen(false); }}
+                              className="w-full justify-start text-left font-medium text-gray-900"
+                            >
+                              Switch to Caregiver
+                            </Button>
+                          ) : (
+                            <Button 
+                              variant="ghost" 
+                              onClick={() => { window.location.href = '/search'; setMobileMenuOpen(false); }}
+                              className="w-full justify-start text-left font-medium text-gray-900"
+                            >
+                              Search
+                            </Button>
+                          )}
                         </div>
                         
                         <div className="border-t pt-4 space-y-3">
@@ -205,11 +222,30 @@ export default function Header() {
                       </div>
                     ) : (
                       <div className="p-6 space-y-4">
+                        {viewMode === 'seeker' ? (
+                          <Button
+                            variant="ghost"
+                            className="w-full justify-start text-left font-medium flex items-center gap-2"
+                            onClick={() => { window.location.href = '/search'; setMobileMenuOpen(false); }}
+                          >
+                            <Search className="h-4 w-4" />
+                            Search
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="ghost"
+                            className="w-full justify-start text-left font-medium"
+                            onClick={() => { window.location.href = '/find-care'; setMobileMenuOpen(false); }}
+                          >
+                            Switch to Seeker
+                          </Button>
+                        )}
                         <Button
                           variant="ghost"
-                          className="w-full justify-start text-left font-medium"
+                          className="w-full justify-start text-left font-medium flex items-center gap-2"
                           onClick={() => { window.location.href = '/messages'; setMobileMenuOpen(false); }}
                         >
+                          <MessageCircle className="h-4 w-4" />
                           Messages
                         </Button>
                         <Button
