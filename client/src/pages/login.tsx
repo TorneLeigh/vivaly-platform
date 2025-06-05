@@ -122,11 +122,13 @@ export default function Login() {
           <div className="mb-6">
             <Button 
               variant="outline" 
-              className="w-full flex items-center justify-center gap-3 py-3 opacity-60 cursor-not-allowed"
-              disabled
+              className="w-full flex items-center justify-center gap-3 py-3"
+              onClick={() => {
+                window.location.href = '/api/auth/google';
+              }}
             >
               <Chrome className="h-5 w-5" />
-              Continue with Google (Coming Soon)
+              Continue with Google
             </Button>
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
