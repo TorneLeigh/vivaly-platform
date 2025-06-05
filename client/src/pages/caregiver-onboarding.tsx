@@ -848,9 +848,9 @@ export default function CaregiverOnboarding() {
                           ${isCompleted 
                             ? 'bg-green-500 border-green-500 text-white' 
                             : isCurrent 
-                              ? 'bg-blue-500 border-blue-500 text-white'
+                              ? 'bg-black border-black text-white'
                               : isAccessible
-                                ? 'bg-white border-gray-300 text-gray-500 hover:border-blue-300'
+                                ? 'bg-white border-gray-300 text-gray-500 hover:border-gray-400'
                                 : 'bg-gray-100 border-gray-200 text-gray-400'
                           }
                         `}
@@ -862,10 +862,10 @@ export default function CaregiverOnboarding() {
                         )}
                       </button>
                       <div className="text-center">
-                        <div className={`text-xs font-medium ${isCurrent ? 'text-blue-600' : isCompleted ? 'text-green-600' : 'text-gray-500'}`}>
+                        <div className={`text-xs font-medium ${isCurrent ? 'text-black' : isCompleted ? 'text-green-600' : 'text-gray-500'}`}>
                           Step {step.id}
                         </div>
-                        <div className={`text-xs max-w-16 leading-tight ${isCurrent ? 'text-blue-800' : isCompleted ? 'text-green-700' : 'text-gray-600'}`}>
+                        <div className={`text-xs max-w-16 leading-tight ${isCurrent ? 'text-black' : isCompleted ? 'text-green-700' : 'text-gray-600'}`}>
                           {step.title}
                         </div>
                       </div>
