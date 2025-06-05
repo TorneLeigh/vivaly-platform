@@ -14,15 +14,16 @@ export const sessions = pgTable(
 );
 
 export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  email: text("email").notNull().unique(),
-  password: text("password").notNull(),
-  firstName: text("first_name").notNull(),
-  lastName: text("last_name").notNull(),
+  id: varchar("id").primaryKey().notNull(),
+  email: varchar("email").unique(),
+  firstName: varchar("first_name"),
+  lastName: varchar("last_name"),
+  profileImageUrl: varchar("profile_image_url"),
   phone: text("phone"),
-  profileImage: text("profile_image"),
+  password: text("password"), // For backwards compatibility with existing accounts
   isNanny: boolean("is_nanny").default(false),
   createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const nannies = pgTable("nannies", {
