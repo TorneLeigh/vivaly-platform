@@ -117,6 +117,7 @@ function Router() {
           <Route path="/refund-policy" component={RefundPolicy} />
           <Route path="/cookie-policy" component={CookiePolicy} />
           <Route path="/accessibility" component={Accessibility} />
+          <Route path="/help" component={Help} />
           <Route path="/quick-start" component={QuickStart} />
 
           {/* Provider-only routes */}
