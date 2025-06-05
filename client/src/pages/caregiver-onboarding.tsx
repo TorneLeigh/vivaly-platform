@@ -830,8 +830,8 @@ export default function CaregiverOnboarding() {
         {/* Step Navigation */}
         <div className="mb-8">
           <nav className="flex justify-center">
-            <ol className="flex items-center space-x-2 md:space-x-4">
-              {onboardingSteps.map((step) => {
+            <ol className="flex items-start">
+              {onboardingSteps.map((step, index) => {
                 const StepIcon = step.icon;
                 const isCompleted = completedSteps.includes(step.id);
                 const isCurrent = currentStep === step.id;
@@ -839,29 +839,39 @@ export default function CaregiverOnboarding() {
 
                 return (
                   <li key={step.id} className="flex items-center">
-                    <button
-                      onClick={() => goToStep(step.id)}
-                      disabled={!isAccessible}
-                      className={`
-                        flex items-center justify-center w-10 h-10 rounded-full border-2 transition-colors
-                        ${isCompleted 
-                          ? 'bg-green-500 border-green-500 text-white' 
-                          : isCurrent 
-                            ? 'bg-blue-500 border-blue-500 text-white'
-                            : isAccessible
-                              ? 'bg-white border-gray-300 text-gray-500 hover:border-blue-300'
-                              : 'bg-gray-100 border-gray-200 text-gray-400'
-                        }
-                      `}
-                    >
-                      {isCompleted ? (
-                        <CheckCircle className="w-6 h-6" />
-                      ) : (
-                        <StepIcon className="w-5 h-5" />
-                      )}
-                    </button>
-                    {step.id < onboardingSteps.length && (
-                      <div className={`w-12 h-0.5 ${isCompleted ? 'bg-green-500' : 'bg-gray-300'}`} />
+                    <div className="flex flex-col items-center">
+                      <button
+                        onClick={() => goToStep(step.id)}
+                        disabled={!isAccessible}
+                        className={`
+                          flex items-center justify-center w-12 h-12 rounded-full border-2 transition-colors mb-2
+                          ${isCompleted 
+                            ? 'bg-green-500 border-green-500 text-white' 
+                            : isCurrent 
+                              ? 'bg-blue-500 border-blue-500 text-white'
+                              : isAccessible
+                                ? 'bg-white border-gray-300 text-gray-500 hover:border-blue-300'
+                                : 'bg-gray-100 border-gray-200 text-gray-400'
+                          }
+                        `}
+                      >
+                        {isCompleted ? (
+                          <CheckCircle className="w-5 h-5" />
+                        ) : (
+                          <StepIcon className="w-4 h-4" />
+                        )}
+                      </button>
+                      <div className="text-center">
+                        <div className={`text-xs font-medium ${isCurrent ? 'text-blue-600' : isCompleted ? 'text-green-600' : 'text-gray-500'}`}>
+                          Step {step.id}
+                        </div>
+                        <div className={`text-xs max-w-16 leading-tight ${isCurrent ? 'text-blue-800' : isCompleted ? 'text-green-700' : 'text-gray-600'}`}>
+                          {step.title}
+                        </div>
+                      </div>
+                    </div>
+                    {index < onboardingSteps.length - 1 && (
+                      <div className={`w-8 h-0.5 mx-2 mt-[-20px] ${isCompleted ? 'bg-green-500' : 'bg-gray-300'}`} />
                     )}
                   </li>
                 );
