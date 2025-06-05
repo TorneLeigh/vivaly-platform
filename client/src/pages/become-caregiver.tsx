@@ -1,123 +1,184 @@
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
+import { 
+  User, 
+  MapPin, 
+  DollarSign, 
+  Award, 
+  FileText,
+  Camera,
+  Shield,
+  Calendar,
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle,
+  ChevronDown,
+  HelpCircle
+} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { z } from "zod";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
-import { insertNannySchema, SERVICE_TYPES, CERTIFICATE_TYPES } from "@shared/schema";
-import { z } from "zod";
-import { 
-  Heart, Shield, Award, DollarSign, MapPin, FileText, ChevronDown, 
-  Clock, HelpCircle, Users, CheckCircle, AlertCircle, Camera, Upload 
-} from "lucide-react";
 
-const caregiverFormSchema = insertNannySchema.extend({
+const caregiverRegistrationSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
   phone: z.string().min(10, "Please enter a valid phone number"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  dateOfBirth: z.string().min(1, "Date of birth is required"),
+  address: z.string().min(5, "Please enter your full address"),
+  suburb: z.string().min(2, "Suburb is required"),
+  state: z.string().min(2, "State is required"),
+  postcode: z.string().min(4, "Valid postcode required"),
+  bio: z.string().min(50, "Bio must be at least 50 characters"),
+  experience: z.number().min(0, "Experience cannot be negative"),
+  hourlyRate: z.number().min(15, "Hourly rate must be at least $15"),
+  services: z.array(z.string()).min(1, "Select at least one service"),
+  ageGroups: z.array(z.string()).min(1, "Select at least one age group"),
+  availability: z.object({
+    monday: z.object({ available: z.boolean(), start: z.string(), end: z.string() }),
+    tuesday: z.object({ available: z.boolean(), start: z.string(), end: z.string() }),
+    wednesday: z.object({ available: z.boolean(), start: z.string(), end: z.string() }),
+    thursday: z.object({ available: z.boolean(), start: z.string(), end: z.string() }),
+    friday: z.object({ available: z.boolean(), start: z.string(), end: z.string() }),
+    saturday: z.object({ available: z.boolean(), start: z.string(), end: z.string() }),
+    sunday: z.object({ available: z.boolean(), start: z.string(), end: z.string() }),
+  }),
+  hasWWCC: z.boolean(),
+  wwccNumber: z.string().optional(),
+  wwccExpiry: z.string().optional(),
+  hasFirstAid: z.boolean(),
+  firstAidExpiry: z.string().optional(),
+  hasPoliceCheck: z.boolean(),
+  policeCheckDate: z.string().optional(),
+  emergencyName: z.string().min(1, "Emergency contact name is required"),
+  emergencyPhone: z.string().min(10, "Emergency contact phone is required"),
+  emergencyRelation: z.string().min(1, "Emergency contact relation is required"),
+  agreeToTerms: z.boolean().refine(val => val === true, "You must agree to the terms"),
+  agreeToBackgroundCheck: z.boolean().refine(val => val === true, "You must agree to background check"),
 });
 
-type CaregiverFormData = z.infer<typeof caregiverFormSchema>;
+type CaregiverRegistrationForm = z.infer<typeof caregiverRegistrationSchema>;
 
-export default function BecomeCaregiver() {
+export default function CaregiverRegistration() {
   const [step, setStep] = useState(1);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
-  const form = useForm<CaregiverFormData>({
-    resolver: zodResolver(caregiverFormSchema),
+  const form = useForm<CaregiverRegistrationForm>({
+    resolver: zodResolver(caregiverRegistrationSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
       email: "",
       phone: "",
-      password: "",
+      dateOfBirth: "",
+      address: "",
       suburb: "",
+      state: "",
+      postcode: "",
       bio: "",
       experience: 0,
       hourlyRate: 25,
       services: [],
-      certifications: [],
-      availability: "",
+      ageGroups: [],
+      availability: {
+        monday: { available: false, start: "09:00", end: "17:00" },
+        tuesday: { available: false, start: "09:00", end: "17:00" },
+        wednesday: { available: false, start: "09:00", end: "17:00" },
+        thursday: { available: false, start: "09:00", end: "17:00" },
+        friday: { available: false, start: "09:00", end: "17:00" },
+        saturday: { available: false, start: "09:00", end: "17:00" },
+        sunday: { available: false, start: "09:00", end: "17:00" },
+      },
+      hasWWCC: false,
+      wwccNumber: "",
+      wwccExpiry: "",
+      hasFirstAid: false,
+      firstAidExpiry: "",
+      hasPoliceCheck: false,
+      policeCheckDate: "",
+      emergencyName: "",
+      emergencyPhone: "",
+      emergencyRelation: "",
+      agreeToTerms: false,
+      agreeToBackgroundCheck: false,
     },
   });
 
-  const mutation = useMutation({
-    mutationFn: async (data: CaregiverFormData) => {
-      return apiRequest("POST", "/api/nannies", data);
+  const registrationMutation = useMutation({
+    mutationFn: async (data: CaregiverRegistrationForm) => {
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        if (typeof value === 'object' && value !== null) {
+          formData.append(key, JSON.stringify(value));
+        } else {
+          formData.append(key, value.toString());
+        }
+      });
+      
+      if (profileImage) {
+        formData.append('profileImage', profileImage);
+      }
+      
+      return apiRequest("POST", "/api/caregivers/register", formData);
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       toast({
-        title: "Application Submitted!",
-        description: "Your caregiver profile has been submitted for review.",
+        title: "Registration Submitted!",
+        description: "Your caregiver profile is under review. You'll be notified within 2-3 business days.",
       });
       setStep(5);
     },
     onError: (error: any) => {
       toast({
-        title: "Submission Failed",
+        title: "Registration Failed",
         description: error.message || "Something went wrong. Please try again.",
         variant: "destructive",
       });
     },
   });
 
-  const onSubmit = (data: CaregiverFormData) => {
-    mutation.mutate(data);
-  };
+  const serviceTypes = [
+    "Childcare", "Babysitting", "Nanny", "Au Pair", 
+    "After School Care", "Holiday Care", "Overnight Care",
+    "Special Needs Care", "Newborn Care"
+  ];
 
-  const nextStep = () => {
-    const fieldsToValidate = getFieldsForStep(step);
-    form.trigger(fieldsToValidate).then((isValid) => {
-      if (isValid) {
-        setStep(step + 1);
-      }
-    });
-  };
+  const ageGroups = [
+    "Newborn (0-3 months)", "Baby (3-12 months)", 
+    "Toddler (1-3 years)", "Preschool (3-5 years)", 
+    "School Age (5-12 years)", "Teenager (13+ years)"
+  ];
 
-  const getFieldsForStep = (currentStep: number) => {
-    switch (currentStep) {
-      case 1:
-        return ['firstName', 'lastName', 'email', 'phone', 'password'] as const;
-      case 2:
-        return ['suburb'] as const;
-      case 3:
-        return ['services'] as const;
-      case 4:
-        return ['hourlyRate', 'bio'] as const;
-      default:
-        return [] as const;
-    }
-  };
+  const states = [
+    "NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"
+  ];
+
+  const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+
+  const timeSlots = [
+    "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", 
+    "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", 
+    "18:00", "19:00", "20:00", "21:00", "22:00"
+  ];
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -126,6 +187,26 @@ export default function BecomeCaregiver() {
     }
   };
 
+  const toggleService = (service: string) => {
+    const currentServices = form.getValues("services");
+    if (currentServices.includes(service)) {
+      form.setValue("services", currentServices.filter(s => s !== service));
+    } else {
+      form.setValue("services", [...currentServices, service]);
+    }
+  };
+
+  const toggleAgeGroup = (ageGroup: string) => {
+    const currentAgeGroups = form.getValues("ageGroups");
+    if (currentAgeGroups.includes(ageGroup)) {
+      form.setValue("ageGroups", currentAgeGroups.filter(a => a !== ageGroup));
+    } else {
+      form.setValue("ageGroups", [...currentAgeGroups, ageGroup]);
+    }
+  };
+
+  const progress = (step / 4) * 100;
+
   const renderStep = () => {
     switch (step) {
       case 1:
@@ -133,86 +214,174 @@ export default function BecomeCaregiver() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Users className="w-6 h-6 text-coral" />
+                <User className="w-5 h-5" />
                 Personal Information
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="text-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome to VIVALY</h2>
-                <p className="text-gray-600">Let's start with your basic information</p>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="firstName">First Name *</Label>
+                  <Input
+                    id="firstName"
+                    {...form.register("firstName")}
+                    placeholder="Enter your first name"
+                  />
+                  {form.formState.errors.firstName && (
+                    <p className="text-sm text-red-600 mt-1">
+                      {form.formState.errors.firstName.message}
+                    </p>
+                  )}
+                </div>
+                
+                <div>
+                  <Label htmlFor="lastName">Last Name *</Label>
+                  <Input
+                    id="lastName"
+                    {...form.register("lastName")}
+                    placeholder="Enter your last name"
+                  />
+                  {form.formState.errors.lastName && (
+                    <p className="text-sm text-red-600 mt-1">
+                      {form.formState.errors.lastName.message}
+                    </p>
+                  )}
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="firstName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>First Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter your first name" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                <div>
+                  <Label htmlFor="email">Email Address *</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    {...form.register("email")}
+                    placeholder="your.email@example.com"
+                  />
+                  {form.formState.errors.email && (
+                    <p className="text-sm text-red-600 mt-1">
+                      {form.formState.errors.email.message}
+                    </p>
                   )}
-                />
-                <FormField
-                  control={form.control}
-                  name="lastName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Last Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter your last name" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                </div>
+                
+                <div>
+                  <Label htmlFor="phone">Phone Number *</Label>
+                  <Input
+                    id="phone"
+                    {...form.register("phone")}
+                    placeholder="0412 345 678"
+                  />
+                  {form.formState.errors.phone && (
+                    <p className="text-sm text-red-600 mt-1">
+                      {form.formState.errors.phone.message}
+                    </p>
                   )}
-                />
+                </div>
               </div>
 
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email Address</FormLabel>
-                    <FormControl>
-                      <Input type="email" placeholder="your@email.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+              <div>
+                <Label htmlFor="dateOfBirth">Date of Birth *</Label>
+                <Input
+                  id="dateOfBirth"
+                  type="date"
+                  {...form.register("dateOfBirth")}
+                />
+                {form.formState.errors.dateOfBirth && (
+                  <p className="text-sm text-red-600 mt-1">
+                    {form.formState.errors.dateOfBirth.message}
+                  </p>
                 )}
-              />
+              </div>
 
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
-                    <FormControl>
-                      <Input type="tel" placeholder="0412 345 678" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+              <div>
+                <Label htmlFor="address">Full Address *</Label>
+                <Input
+                  id="address"
+                  {...form.register("address")}
+                  placeholder="123 Main Street"
+                />
+                {form.formState.errors.address && (
+                  <p className="text-sm text-red-600 mt-1">
+                    {form.formState.errors.address.message}
+                  </p>
                 )}
-              />
+              </div>
 
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Create Password</FormLabel>
-                    <FormControl>
-                      <Input type="password" placeholder="Create a secure password" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <Label htmlFor="suburb">Suburb *</Label>
+                  <Input
+                    id="suburb"
+                    {...form.register("suburb")}
+                    placeholder="Suburb"
+                  />
+                  {form.formState.errors.suburb && (
+                    <p className="text-sm text-red-600 mt-1">
+                      {form.formState.errors.suburb.message}
+                    </p>
+                  )}
+                </div>
+                
+                <div>
+                  <Label htmlFor="state">State *</Label>
+                  <Select onValueChange={(value) => form.setValue("state", value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select state" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {states.map((state) => (
+                        <SelectItem key={state} value={state}>{state}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {form.formState.errors.state && (
+                    <p className="text-sm text-red-600 mt-1">
+                      {form.formState.errors.state.message}
+                    </p>
+                  )}
+                </div>
+                
+                <div>
+                  <Label htmlFor="postcode">Postcode *</Label>
+                  <Input
+                    id="postcode"
+                    {...form.register("postcode")}
+                    placeholder="2000"
+                  />
+                  {form.formState.errors.postcode && (
+                    <p className="text-sm text-red-600 mt-1">
+                      {form.formState.errors.postcode.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <Label htmlFor="profileImage">Profile Photo</Label>
+                <div className="mt-2 flex items-center gap-4">
+                  <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center">
+                    {profileImage ? (
+                      <img
+                        src={URL.createObjectURL(profileImage)}
+                        alt="Profile"
+                        className="w-20 h-20 rounded-full object-cover"
+                      />
+                    ) : (
+                      <Camera className="w-8 h-8 text-gray-400" />
+                    )}
+                  </div>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="flex-1"
+                  />
+                </div>
+                <p className="text-sm text-gray-600 mt-1">
+                  Upload a professional photo (recommended)
+                </p>
+              </div>
             </CardContent>
           </Card>
         );
@@ -222,36 +391,111 @@ export default function BecomeCaregiver() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <MapPin className="w-6 h-6 text-coral" />
-                Location & Availability
+                <FileText className="w-5 h-5" />
+                Experience & Services
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <FormField
-                control={form.control}
-                name="suburb"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Location</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select your suburb" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="sydney-cbd">Sydney CBD</SelectItem>
-                        <SelectItem value="bondi">Bondi</SelectItem>
-                        {/* Add more suburbs */}
-                      </SelectContent>
-                    </Select>
-                    <FormDescription>
-                      Select the area where you're available to provide care services
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
+              <div>
+                <Label htmlFor="bio">About You *</Label>
+                <Textarea
+                  id="bio"
+                  {...form.register("bio")}
+                  placeholder="Tell families about yourself, your experience, and what makes you special..."
+                  rows={4}
+                  className="mt-1"
+                />
+                <p className="text-sm text-gray-600 mt-1">
+                  {form.watch("bio")?.length || 0}/50 characters minimum
+                </p>
+                {form.formState.errors.bio && (
+                  <p className="text-sm text-red-600 mt-1">
+                    {form.formState.errors.bio.message}
+                  </p>
                 )}
-              />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="experience">Years of Experience *</Label>
+                  <Input
+                    id="experience"
+                    type="number"
+                    min="0"
+                    {...form.register("experience", { valueAsNumber: true })}
+                    placeholder="0"
+                  />
+                  {form.formState.errors.experience && (
+                    <p className="text-sm text-red-600 mt-1">
+                      {form.formState.errors.experience.message}
+                    </p>
+                  )}
+                </div>
+                
+                <div>
+                  <Label htmlFor="hourlyRate">Hourly Rate (AUD) *</Label>
+                  <Input
+                    id="hourlyRate"
+                    type="number"
+                    min="15"
+                    {...form.register("hourlyRate", { valueAsNumber: true })}
+                    placeholder="25"
+                  />
+                  {form.formState.errors.hourlyRate && (
+                    <p className="text-sm text-red-600 mt-1">
+                      {form.formState.errors.hourlyRate.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <Label className="mb-3 block">Services You Offer *</Label>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  {serviceTypes.map((service) => (
+                    <div
+                      key={service}
+                      className={`p-3 border rounded-lg cursor-pointer transition-colors ${
+                        form.watch("services")?.includes(service)
+                          ? 'bg-orange-50 border-orange-200'
+                          : 'bg-white border-gray-200 hover:border-gray-300'
+                      }`}
+                      onClick={() => toggleService(service)}
+                    >
+                      <span className="text-sm font-medium">{service}</span>
+                    </div>
+                  ))}
+                </div>
+                {form.formState.errors.services && (
+                  <p className="text-sm text-red-600 mt-2">
+                    {form.formState.errors.services.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <Label className="mb-3 block">Age Groups You're Comfortable With *</Label>
+                <div className="grid grid-cols-2 gap-2">
+                  {ageGroups.map((ageGroup) => (
+                    <div
+                      key={ageGroup}
+                      className={`p-3 border rounded-lg cursor-pointer transition-colors ${
+                        form.watch("ageGroups")?.includes(ageGroup)
+                          ? 'bg-orange-50 border-orange-200'
+                          : 'bg-white border-gray-200 hover:border-gray-300'
+                      }`}
+                      onClick={() => toggleAgeGroup(ageGroup)}
+                    >
+                      <span className="text-sm font-medium">{ageGroup}</span>
+                    </div>
+                  ))}
+                </div>
+                {form.formState.errors.ageGroups && (
+                  <p className="text-sm text-red-600 mt-2">
+                    {form.formState.errors.ageGroups.message}
+                  </p>
+                )}
+              </div>
             </CardContent>
           </Card>
         );
@@ -261,141 +505,164 @@ export default function BecomeCaregiver() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Heart className="w-6 h-6 text-coral" />
-                Services & Expertise
+                <Calendar className="w-5 h-5" />
+                Availability & Qualifications
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <FormField
-                control={form.control}
-                name="services"
-                render={() => (
-                  <FormItem>
-                    <FormLabel>What services do you offer?</FormLabel>
-                    <div className="grid grid-cols-2 gap-4">
-                      {SERVICE_TYPES.map((service) => (
-                        <FormField
-                          key={service}
-                          control={form.control}
-                          name="services"
-                          render={({ field }) => {
-                            return (
-                              <FormItem
-                                key={service}
-                                className="flex flex-row items-start space-x-3 space-y-0"
-                              >
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value?.includes(service)}
-                                    onCheckedChange={(checked) => {
-                                      return checked
-                                        ? field.onChange([...field.value, service])
-                                        : field.onChange(
-                                            field.value?.filter(
-                                              (value) => value !== service
-                                            )
-                                          )
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormLabel className="font-normal">
-                                  {service}
-                                </FormLabel>
-                              </FormItem>
-                            )
-                          }}
-                        />
-                      ))}
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div>
+                <Label className="mb-3 block">Weekly Availability</Label>
+                <div className="space-y-3">
+                  {daysOfWeek.map((day) => {
+                    const availabilityField = form.watch("availability");
+                    const dayData = availabilityField[day as keyof typeof availabilityField];
+                    
+                    return (
+                      <div key={day} className="flex items-center gap-4 p-3 border rounded-lg">
+                        <div className="w-24">
+                          <Label className="flex items-center gap-2">
+                            <Checkbox
+                              checked={dayData.available}
+                              onCheckedChange={(checked) => 
+                                form.setValue(`availability.${day as keyof typeof availabilityField}.available`, !!checked)
+                              }
+                            />
+                            <span className="capitalize">{day}</span>
+                          </Label>
+                        </div>
+                        
+                        {dayData.available && (
+                          <div className="flex items-center gap-2 flex-1">
+                            <Select
+                              value={dayData.start}
+                              onValueChange={(value) => 
+                                form.setValue(`availability.${day as keyof typeof availabilityField}.start`, value)
+                              }
+                            >
+                              <SelectTrigger className="w-24">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {timeSlots.map((time) => (
+                                  <SelectItem key={time} value={time}>{time}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            
+                            <span className="text-gray-500">to</span>
+                            
+                            <Select
+                              value={dayData.end}
+                              onValueChange={(value) => 
+                                form.setValue(`availability.${day as keyof typeof availabilityField}.end`, value)
+                              }
+                            >
+                              <SelectTrigger className="w-24">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {timeSlots.map((time) => (
+                                  <SelectItem key={time} value={time}>{time}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
 
-              <FormField
-                control={form.control}
-                name="experience"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Years of Experience</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        min="0"
-                        max="50"
-                        placeholder="0"
-                        {...field}
-                        onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+              <div>
+                <Label className="mb-3 block">Qualifications & Certifications</Label>
+                <div className="space-y-4">
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-start space-x-2">
+                      <Checkbox
+                        id="hasWWCC"
+                        checked={form.watch("hasWWCC")}
+                        onCheckedChange={(checked) => form.setValue("hasWWCC", !!checked)}
                       />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="bio"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>About You</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Tell families about yourself, your experience, and why you love caring for others..."
-                        className="min-h-[120px]"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="certifications"
-                render={() => (
-                  <FormItem>
-                    <FormLabel>Certifications & Qualifications</FormLabel>
-                    <div className="grid grid-cols-1 gap-3">
-                      {CERTIFICATE_TYPES.map((cert) => (
-                        <FormField
-                          key={cert}
-                          control={form.control}
-                          name="certifications"
-                          render={({ field }) => {
-                            return (
-                              <FormItem
-                                key={cert}
-                                className="flex flex-row items-start space-x-3 space-y-0"
-                              >
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value?.includes(cert)}
-                                    onCheckedChange={(checked) => {
-                                      return checked
-                                        ? field.onChange([...field.value, cert])
-                                        : field.onChange(
-                                            field.value?.filter(
-                                              (value) => value !== cert
-                                            )
-                                          )
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormLabel className="font-normal">
-                                  {cert}
-                                </FormLabel>
-                              </FormItem>
-                            )
-                          }}
-                        />
-                      ))}
+                      <Label htmlFor="hasWWCC" className="flex-1">
+                        <div className="font-medium">Working With Children Check (WWCC)</div>
+                        <div className="text-sm text-gray-600">Required for all childcare providers in Australia</div>
+                      </Label>
                     </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                    
+                    {form.watch("hasWWCC") && (
+                      <div className="grid grid-cols-2 gap-4 mt-3">
+                        <div>
+                          <Label htmlFor="wwccNumber">WWCC Number</Label>
+                          <Input
+                            id="wwccNumber"
+                            {...form.register("wwccNumber")}
+                            placeholder="WWC1234567E"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="wwccExpiry">Expiry Date</Label>
+                          <Input
+                            id="wwccExpiry"
+                            type="date"
+                            {...form.register("wwccExpiry")}
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-start space-x-2">
+                      <Checkbox
+                        id="hasFirstAid"
+                        checked={form.watch("hasFirstAid")}
+                        onCheckedChange={(checked) => form.setValue("hasFirstAid", !!checked)}
+                      />
+                      <Label htmlFor="hasFirstAid" className="flex-1">
+                        <div className="font-medium">First Aid & CPR Certification</div>
+                        <div className="text-sm text-gray-600">Essential for child safety and emergencies</div>
+                      </Label>
+                    </div>
+                    
+                    {form.watch("hasFirstAid") && (
+                      <div className="mt-3">
+                        <Label htmlFor="firstAidExpiry">Certification Expiry Date</Label>
+                        <Input
+                          id="firstAidExpiry"
+                          type="date"
+                          {...form.register("firstAidExpiry")}
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-start space-x-2">
+                      <Checkbox
+                        id="hasPoliceCheck"
+                        checked={form.watch("hasPoliceCheck")}
+                        onCheckedChange={(checked) => form.setValue("hasPoliceCheck", !!checked)}
+                      />
+                      <Label htmlFor="hasPoliceCheck" className="flex-1">
+                        <div className="font-medium">National Police Check</div>
+                        <div className="text-sm text-gray-600">Background verification for child safety</div>
+                      </Label>
+                    </div>
+                    
+                    {form.watch("hasPoliceCheck") && (
+                      <div className="mt-3">
+                        <Label htmlFor="policeCheckDate">Issue Date</Label>
+                        <Input
+                          id="policeCheckDate"
+                          type="date"
+                          {...form.register("policeCheckDate")}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
         );
@@ -405,70 +672,114 @@ export default function BecomeCaregiver() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <DollarSign className="w-6 h-6 text-coral" />
-                Rates & Availability
+                <Shield className="w-5 h-5" />
+                Emergency Contact & Agreements
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <FormField
-                control={form.control}
-                name="hourlyRate"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Hourly Rate (AUD)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        min="15"
-                        max="150"
-                        placeholder="25"
-                        {...field}
-                        onChange={(e) => field.onChange(parseInt(e.target.value) || 25)}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      Set your hourly rate. You can adjust this later in your profile.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Profile Image Upload */}
-              <div className="space-y-4">
-                <Label>Profile Photo</Label>
-                <div className="flex items-center gap-4">
-                  <div className="w-24 h-24 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
-                    {profileImage ? (
-                      <img
-                        src={URL.createObjectURL(profileImage)}
-                        alt="Profile preview"
-                        className="w-full h-full object-cover rounded-lg"
-                      />
-                    ) : (
-                      <Camera className="w-8 h-8 text-gray-400" />
+              <div>
+                <Label className="mb-3 block">Emergency Contact Information</Label>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="emergencyName">Full Name *</Label>
+                    <Input
+                      id="emergencyName"
+                      {...form.register("emergencyName")}
+                      placeholder="Emergency contact full name"
+                    />
+                    {form.formState.errors.emergencyName && (
+                      <p className="text-sm text-red-600 mt-1">
+                        {form.formState.errors.emergencyName.message}
+                      </p>
                     )}
                   </div>
-                  <div>
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                      id="profile-upload"
-                    />
-                    <Label
-                      htmlFor="profile-upload"
-                      className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg"
-                    >
-                      <Upload className="w-4 h-4" />
-                      Upload Photo
-                    </Label>
-                    <p className="text-sm text-gray-500 mt-1">
-                      A friendly photo helps build trust with families
-                    </p>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="emergencyPhone">Phone Number *</Label>
+                      <Input
+                        id="emergencyPhone"
+                        {...form.register("emergencyPhone")}
+                        placeholder="0412 345 678"
+                      />
+                      {form.formState.errors.emergencyPhone && (
+                        <p className="text-sm text-red-600 mt-1">
+                          {form.formState.errors.emergencyPhone.message}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <Label htmlFor="emergencyRelation">Relationship *</Label>
+                      <Input
+                        id="emergencyRelation"
+                        {...form.register("emergencyRelation")}
+                        placeholder="e.g., Parent, Sibling, Friend"
+                      />
+                      {form.formState.errors.emergencyRelation && (
+                        <p className="text-sm text-red-600 mt-1">
+                          {form.formState.errors.emergencyRelation.message}
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="p-4 border rounded-lg bg-blue-50 border-blue-200">
+                  <div className="flex items-start space-x-2">
+                    <Checkbox
+                      id="agreeToTerms"
+                      checked={form.watch("agreeToTerms")}
+                      onCheckedChange={(checked) => form.setValue("agreeToTerms", !!checked)}
+                    />
+                    <Label htmlFor="agreeToTerms" className="text-sm">
+                      I agree to VIVALY's{" "}
+                      <a href="/terms" className="text-blue-600 underline">
+                        Terms of Service
+                      </a>{" "}
+                      and{" "}
+                      <a href="/privacy" className="text-blue-600 underline">
+                        Privacy Policy
+                      </a>
+                    </Label>
+                  </div>
+                  {form.formState.errors.agreeToTerms && (
+                    <p className="text-sm text-red-600 mt-1">
+                      {form.formState.errors.agreeToTerms.message}
+                    </p>
+                  )}
+                </div>
+
+                <div className="p-4 border rounded-lg bg-orange-50 border-orange-200">
+                  <div className="flex items-start space-x-2">
+                    <Checkbox
+                      id="agreeToBackgroundCheck"
+                      checked={form.watch("agreeToBackgroundCheck")}
+                      onCheckedChange={(checked) => form.setValue("agreeToBackgroundCheck", !!checked)}
+                    />
+                    <Label htmlFor="agreeToBackgroundCheck" className="text-sm">
+                      I consent to background checks and verification processes required for child safety
+                    </Label>
+                  </div>
+                  {form.formState.errors.agreeToBackgroundCheck && (
+                    <p className="text-sm text-red-600 mt-1">
+                      {form.formState.errors.agreeToBackgroundCheck.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                <h4 className="font-medium text-green-900 mb-2">What happens next?</h4>
+                <ul className="text-sm text-green-800 space-y-1">
+                  <li>• We'll review your application within 2-3 business days</li>
+                  <li>• Background checks and verification will be conducted</li>
+                  <li>• You'll receive email notification once approved</li>
+                  <li>• Complete any additional verification steps if required</li>
+                  <li>• Start accepting bookings from families</li>
+                </ul>
               </div>
             </CardContent>
           </Card>
@@ -479,7 +790,7 @@ export default function BecomeCaregiver() {
           <Card>
             <CardContent className="text-center py-12">
               <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Application Submitted!</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Registration Complete!</h2>
               <p className="text-gray-600 mb-6">
                 Thank you for joining VIVALY as a caregiver. We're reviewing your application 
                 and will notify you within 2-3 business days.
@@ -496,7 +807,7 @@ export default function BecomeCaregiver() {
               </div>
               
               <div className="space-y-3 mt-8">
-                <Button onClick={() => window.location.href = "/provider-dashboard"} className="w-full">
+                <Button onClick={() => window.location.href = "/caregiver-dashboard"} className="w-full">
                   Go to Dashboard
                 </Button>
                 <Button variant="outline" onClick={() => window.location.href = "/"} className="w-full">
@@ -512,68 +823,89 @@ export default function BecomeCaregiver() {
     }
   };
 
+  const canProceed = () => {
+    switch (step) {
+      case 1:
+        return form.formState.isValid || 
+               (form.watch("firstName") && form.watch("lastName") && 
+                form.watch("email") && form.watch("phone") && 
+                form.watch("address") && form.watch("suburb") && 
+                form.watch("state") && form.watch("postcode"));
+      case 2:
+        return form.watch("bio")?.length >= 50 && 
+               form.watch("services")?.length > 0 && 
+               form.watch("ageGroups")?.length > 0;
+      case 3:
+        const availability = form.watch("availability");
+        return daysOfWeek.some(day => availability[day as keyof typeof availability].available);
+      case 4:
+        return form.watch("emergencyName") && 
+               form.watch("emergencyPhone") && 
+               form.watch("emergencyRelation") &&
+               form.watch("agreeToTerms") && 
+               form.watch("agreeToBackgroundCheck");
+      default:
+        return false;
+    }
+  };
+
+  const handleSubmit = () => {
+    registrationMutation.mutate(form.getValues());
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-2xl mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Become a Caregiver</h1>
-          <p className="text-gray-600">Join our community of trusted care providers</p>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">Become a Caregiver</h1>
+          <p className="text-gray-600 mt-2">Join thousands of caregivers helping families across Australia</p>
         </div>
 
-        {/* Progress Bar */}
         {step < 5 && (
           <div className="mb-8">
-            <div className="flex justify-between text-sm text-gray-500 mb-2">
-              <span>Step {step} of 4</span>
-              <span>{Math.round((step / 4) * 100)}% Complete</span>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium text-gray-700">Step {step} of 4</span>
+              <span className="text-sm text-gray-500">{Math.round(progress)}% complete</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div
-                className="bg-coral h-2 rounded-full transition-all duration-300"
-                style={{ width: `${(step / 4) * 100}%` }}
-              ></div>
-            </div>
+            <Progress value={progress} className="h-2" />
           </div>
         )}
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {renderStep()}
+        {renderStep()}
 
-            {/* Navigation Buttons */}
-            {step < 5 && (
-              <div className="flex justify-between">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setStep(step - 1)}
-                  disabled={step === 1}
-                >
-                  Previous
-                </Button>
-                <Button
-                  type={step === 4 ? "submit" : "button"}
-                  onClick={step === 4 ? undefined : nextStep}
-                  disabled={mutation.isPending}
-                  className="bg-coral hover:bg-coral/90"
-                >
-                  {step === 4 
-                    ? mutation.isPending 
-                      ? "Submitting..." 
-                      : "Submit Application"
-                    : "Next"
-                  }
-                </Button>
-              </div>
-            )}
-          </form>
-        </Form>
+        {step < 5 && (
+          <div className="flex justify-between mt-8">
+            <Button
+              variant="outline"
+              onClick={() => setStep(step - 1)}
+              disabled={step === 1}
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Previous
+            </Button>
+
+            <Button
+              onClick={() => step === 4 ? handleSubmit() : setStep(step + 1)}
+              disabled={!canProceed() || (step === 4 && registrationMutation.isPending)}
+              style={{ backgroundColor: '#FF6B35' }}
+              className="text-white"
+            >
+              {step === 4 ? (
+                registrationMutation.isPending ? 'Submitting...' : 'Submit Application'
+              ) : (
+                <>
+                  Next
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </>
+              )}
+            </Button>
+          </div>
+        )}
 
         {/* FAQ Section */}
-        <div className="mt-12">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
-            <HelpCircle className="w-5 h-5" />
+        <div className="mt-16">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <HelpCircle className="w-6 h-6" />
             Frequently Asked Questions
           </h2>
 
@@ -610,55 +942,18 @@ export default function BecomeCaregiver() {
                 background checks. This process typically takes 2-3 business days. You'll be notified by email once approved.
               </CollapsibleContent>
             </Collapsible>
-          </div>
-        </div>
 
-        {/* Support Section */}
-        <div className="mt-8 p-6 bg-blue-50 rounded-lg border border-blue-200">
-          <div className="flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-blue-600 mt-0.5" />
-            <div>
-              <h3 className="font-medium text-blue-900">Need help with your application?</h3>
-              <p className="text-blue-700 text-sm mt-1">
-                Our support team is here to help you every step of the way. Contact us at support@vivaly.com.au 
-                or call 1800-VIVALY (1800-848-259).
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Professional Development */}
-        <div className="mt-8 p-6 bg-green-50 rounded-lg border border-green-200">
-          <div className="flex items-start gap-3">
-            <Award className="w-5 h-5 text-green-600 mt-0.5" />
-            <div>
-              <h3 className="font-medium text-green-900">Professional Development</h3>
-              <p className="text-green-700 text-sm mt-1">
-                Access free training courses, workshops, and resources to enhance your skills 
-                and advance your career in childcare. Available once you're approved.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Time Commitment */}
-        <div className="mt-8 grid md:grid-cols-2 gap-6">
-          <div className="p-6 bg-white rounded-lg border">
-            <Clock className="w-8 h-8 text-coral mb-3" />
-            <h3 className="font-semibold text-gray-900 mb-2">Flexible Hours</h3>
-            <p className="text-gray-600 text-sm">
-              Work as little or as much as you want. Set your own schedule and choose 
-              bookings that fit your lifestyle.
-            </p>
-          </div>
-          
-          <div className="p-6 bg-white rounded-lg border">
-            <Clock className="w-8 h-8 text-coral mb-3" />
-            <h3 className="font-semibold text-gray-900 mb-2">Quick Start</h3>
-            <p className="text-gray-600 text-sm">
-              Once approved, you can start accepting bookings immediately. 
-              Most caregivers get their first booking within a week.
-            </p>
+            <Collapsible>
+              <CollapsibleTrigger className="flex items-center justify-between w-full p-4 text-left bg-white rounded-lg border hover:bg-gray-50">
+                <span className="font-medium">Can I set my own schedule?</span>
+                <ChevronDown className="w-4 h-4" />
+              </CollapsibleTrigger>
+              <CollapsibleContent className="px-4 pb-4 text-gray-600">
+                Yes! You have complete control over your availability. Set your own hours, choose which bookings 
+                to accept, and work as much or as little as you want. Our platform gives you the flexibility to 
+                balance work with your other commitments.
+              </CollapsibleContent>
+            </Collapsible>
           </div>
         </div>
       </div>

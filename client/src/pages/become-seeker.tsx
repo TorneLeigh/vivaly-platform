@@ -19,8 +19,9 @@ export default function BecomeSeeker() {
             <div className="flex flex-col gap-4 items-center">
               <Button 
                 size="lg" 
-                className="bg-coral hover:bg-coral/90 text-white px-12 py-4 text-lg font-semibold rounded-lg shadow-lg"
+                className="bg-coral hover:bg-coral/90 text-white px-12 py-4 text-lg font-semibold rounded-lg shadow-lg border-0"
                 onClick={() => window.location.href = '/signup?role=seeker'}
+                style={{ color: '#FFFFFF', backgroundColor: '#FF6B35' }}
               >
                 Create an Account
               </Button>
@@ -28,7 +29,7 @@ export default function BecomeSeeker() {
                 variant="outline"
                 size="lg"
                 className="border-2 border-gray-300 hover:border-gray-400 px-12 py-4 text-lg font-semibold rounded-lg flex items-center gap-3"
-                onClick={() => window.location.href = '/signup?role=seeker&provider=google'}
+                onClick={() => window.location.href = '/api/login'}
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
