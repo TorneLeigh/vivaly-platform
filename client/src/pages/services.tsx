@@ -452,31 +452,56 @@ export default function Services() {
                 <div 
                   key={nanny.id}
                   className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                  onClick={() => window.location.href = `/nanny/${nanny.id}`}
+                  onClick={() => window.location.href = `/caregiver/${nanny.id}`}
                 >
-                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                    <img 
-                      src={nanny.user?.profileImage || "/images/default-avatar.jpg"} 
-                      alt={`${nanny.user?.firstName} ${nanny.user?.lastName}`}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <div className="absolute bottom-2 left-2">
-                      <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium shadow-sm">
-                        {nanny.isVerified ? "Verified" : "Pending"}
-                      </span>
+                  <div className="relative mb-2">
+                    <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+                      {nanny.user?.profileImage ? (
+                        <img 
+                          src={nanny.user.profileImage} 
+                          alt={`${nanny.user?.firstName} ${nanny.user?.lastName}`}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="h-full flex items-center justify-center">
+                          <div className="w-12 h-12 bg-white border border-gray-200 rounded-full flex items-center justify-center">
+                            <span className="text-lg font-semibold text-gray-700">
+                              {nanny.user?.firstName?.[0]}{nanny.user?.lastName?.[0]}
+                            </span>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                    <div className="absolute top-2 right-2">
-                      <span className="bg-white/90 text-gray-900 px-2 py-1 rounded-full text-xs font-medium shadow-sm">
-                        ⭐ {nanny.rating}
-                      </span>
-                    </div>
+                    {nanny.isVerified && (
+                      <div className="absolute top-1 right-1">
+                        <div className="bg-white rounded-full p-0.5 shadow-sm">
+                          <span className="w-4 h-4 text-green-600 text-xs">✓</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 text-sm mb-1">
+                  
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-medium text-gray-900 truncate">{nanny.suburb}</p>
+                      <div className="flex items-center gap-0.5">
+                        <span className="text-yellow-400">⭐</span>
+                        <span className="text-sm font-medium">{nanny.rating}</span>
+                      </div>
+                    </div>
+                    
+                    <p className="text-sm text-gray-600 truncate">
                       {nanny.user?.firstName} {nanny.user?.lastName}
-                    </h3>
-                    <p className="text-xs text-gray-600 mb-1">{nanny.suburb}</p>
-                    <p className="text-xs text-blue-600 font-medium">${nanny.hourlyRate}/hour</p>
+                    </p>
+                    
+                    <p className="text-sm text-gray-500 truncate">
+                      {nanny.services?.[0] || 'Care provider'}
+                    </p>
+                    
+                    <p className="text-sm">
+                      <span className="font-semibold text-gray-900">${nanny.hourlyRate}</span>
+                      <span className="text-gray-500"> /hour</span>
+                    </p>
                   </div>
                 </div>
               ))
