@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -19,7 +20,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { z } from "zod";
 import { 
   Mail, User, Phone, Lock, Clock, Shield, Heart, CheckCircle, 
-  Baby, Users2, Handshake, MapPin, ArrowRight
+  Baby, Users2, Handshake, MapPin, ArrowRight, Building
 } from "lucide-react";
 import { Link } from "wouter";
 
@@ -39,7 +40,7 @@ type SignupForm = z.infer<typeof signupSchema>;
 
 export default function Signup() {
   const [step, setStep] = useState(1);
-  const [selectedRole, setSelectedRole] = useState<string>("");
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -85,15 +86,15 @@ export default function Signup() {
   });
 
   const onSubmit = (data: SignupForm) => {
-    if (!selectedRole) {
+    if (selectedOptions.length === 0) {
       toast({
-        title: "Please Select Your Role",
+        title: "Please Select an Option",
         description: "Choose how you'd like to use VIVALY.",
         variant: "destructive",
       });
       return;
     }
-    signupMutation.mutate({ ...data, userType: selectedRole });
+    signupMutation.mutate({ ...data, userType: selectedOptions.join(",") });
   };
 
   const handleContinue = () => {
@@ -109,8 +110,23 @@ export default function Signup() {
     setStep(2);
   };
 
-  const handleRoleSelection = (role: string) => {
-    setSelectedRole(role);
+  const handleOptionToggle = (option: string) => {
+    setSelectedOptions(prev => 
+      prev.includes(option) 
+        ? prev.filter(item => item !== option)
+        : [...prev, option]
+    );
+  };
+
+  const handleContinueToPassword = () => {
+    if (selectedOptions.length === 0) {
+      toast({
+        title: "Please Select an Option",
+        description: "Choose at least one way you'd like to use VIVALY.",
+        variant: "destructive",
+      });
+      return;
+    }
     setStep(3);
   };
 
@@ -126,29 +142,14 @@ export default function Signup() {
           </CardHeader>
           <CardContent className="text-center space-y-6">
             <p className="text-warm-gray-light">
-              Your account has been created successfully. 
-              {selectedRole === "parent" && " You can now start finding trusted caregivers for your family."}
-              {selectedRole === "caregiver" && " Complete your profile to start receiving booking requests."}
-              {selectedRole === "co-support" && " Start connecting with other families in your area for mutual support."}
+              Your account has been created successfully. You can now access all the services you selected.
             </p>
             <div className="space-y-4">
-              {selectedRole === "parent" && (
-                <Button asChild className="w-full" size="lg">
-                  <Link href="/find-care">Start Finding Care</Link>
-                </Button>
-              )}
-              {selectedRole === "caregiver" && (
-                <Button asChild className="w-full" size="lg">
-                  <Link href="/signup-caregiver">Complete Caregiver Profile</Link>
-                </Button>
-              )}
-              {selectedRole === "co-support" && (
-                <Button asChild className="w-full" size="lg">
-                  <Link href="/co-support">Join Community</Link>
-                </Button>
-              )}
+              <Button asChild className="w-full" size="lg">
+                <Link href="/">Explore VIVALY</Link>
+              </Button>
               <Button asChild variant="outline" className="w-full" size="lg">
-                <Link href="/">Browse Services</Link>
+                <Link href="/profile">Complete Your Profile</Link>
               </Button>
             </div>
           </CardContent>
@@ -283,70 +284,100 @@ export default function Signup() {
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl text-center">How would you like to use VIVALY?</CardTitle>
-              <p className="text-center text-warm-gray-light">Choose the option that best describes you</p>
+              <p className="text-center text-warm-gray-light">Select all that apply to you</p>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 gap-4">
-                {/* Find Care Option */}
-                <button
-                  onClick={() => handleRoleSelection("parent")}
-                  className="p-6 border-2 border-gray-200 rounded-lg hover:border-coral hover:bg-coral-light/20 transition-all text-left group"
+                {/* Little Ones Care Option */}
+                <div
+                  className={`p-6 border-2 rounded-lg transition-all cursor-pointer ${
+                    selectedOptions.includes("little-ones") 
+                      ? "border-coral bg-coral-light/20" 
+                      : "border-gray-200 hover:border-coral hover:bg-coral-light/20"
+                  }`}
+                  onClick={() => handleOptionToggle("little-ones")}
                 >
                   <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-coral-light rounded-lg flex items-center justify-center group-hover:bg-coral group-hover:text-white transition-colors">
-                      <Baby className="h-6 w-6" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-warm-gray mb-2">I need care for my family</h3>
-                      <p className="text-warm-gray-light text-sm">Find trusted babysitters, nannies, and caregivers in your area</p>
-                      <div className="flex items-center mt-3 text-coral group-hover:text-coral-dark">
-                        <span className="text-sm font-medium">Get started</span>
-                        <ArrowRight className="h-4 w-4 ml-2" />
+                    <div className="flex items-center">
+                      <Checkbox 
+                        checked={selectedOptions.includes("little-ones")}
+                        onChange={() => handleOptionToggle("little-ones")}
+                        className="mr-3"
+                      />
+                      <div className="w-12 h-12 bg-coral-light rounded-lg flex items-center justify-center">
+                        <Baby className="h-6 w-6 text-coral" />
                       </div>
                     </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-warm-gray mb-2">I need care for little ones</h3>
+                      <p className="text-warm-gray-light text-sm">Find trusted babysitters, nannies, and caregivers for children in your area</p>
+                    </div>
                   </div>
-                </button>
+                </div>
 
-                {/* Provide Care Option */}
-                <button
-                  onClick={() => handleRoleSelection("caregiver")}
-                  className="p-6 border-2 border-gray-200 rounded-lg hover:border-coral hover:bg-coral-light/20 transition-all text-left group"
+                {/* Family Support Option */}
+                <div
+                  className={`p-6 border-2 rounded-lg transition-all cursor-pointer ${
+                    selectedOptions.includes("family-support") 
+                      ? "border-coral bg-coral-light/20" 
+                      : "border-gray-200 hover:border-coral hover:bg-coral-light/20"
+                  }`}
+                  onClick={() => handleOptionToggle("family-support")}
                 >
                   <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-coral-light rounded-lg flex items-center justify-center group-hover:bg-coral group-hover:text-white transition-colors">
-                      <Heart className="h-6 w-6" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-warm-gray mb-2">I want to provide care services</h3>
-                      <p className="text-warm-gray-light text-sm">Join as a caregiver and start earning flexible income helping families</p>
-                      <div className="flex items-center mt-3 text-coral group-hover:text-coral-dark">
-                        <span className="text-sm font-medium">Get started</span>
-                        <ArrowRight className="h-4 w-4 ml-2" />
+                    <div className="flex items-center">
+                      <Checkbox 
+                        checked={selectedOptions.includes("family-support")}
+                        onChange={() => handleOptionToggle("family-support")}
+                        className="mr-3"
+                      />
+                      <div className="w-12 h-12 bg-coral-light rounded-lg flex items-center justify-center">
+                        <Users2 className="h-6 w-6 text-coral" />
                       </div>
                     </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-warm-gray mb-2">I want to connect with families close by for support</h3>
+                      <p className="text-warm-gray-light text-sm">Join our community network for mutual family support and shared childcare</p>
+                    </div>
                   </div>
-                </button>
+                </div>
 
-                {/* Co-Support Option */}
-                <button
-                  onClick={() => handleRoleSelection("co-support")}
-                  className="p-6 border-2 border-gray-200 rounded-lg hover:border-coral hover:bg-coral-light/20 transition-all text-left group"
+                {/* Day Care Option */}
+                <div
+                  className={`p-6 border-2 rounded-lg transition-all cursor-pointer ${
+                    selectedOptions.includes("day-care") 
+                      ? "border-coral bg-coral-light/20" 
+                      : "border-gray-200 hover:border-coral hover:bg-coral-light/20"
+                  }`}
+                  onClick={() => handleOptionToggle("day-care")}
                 >
                   <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-coral-light rounded-lg flex items-center justify-center group-hover:bg-coral group-hover:text-white transition-colors">
-                      <Users2 className="h-6 w-6" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-warm-gray mb-2">I want to connect with other families</h3>
-                      <p className="text-warm-gray-light text-sm">Free community support - help other moms and get help when you need it</p>
-                      <div className="flex items-center mt-3 text-coral group-hover:text-coral-dark">
-                        <span className="text-sm font-medium">Join community</span>
-                        <ArrowRight className="h-4 w-4 ml-2" />
+                    <div className="flex items-center">
+                      <Checkbox 
+                        checked={selectedOptions.includes("day-care")}
+                        onChange={() => handleOptionToggle("day-care")}
+                        className="mr-3"
+                      />
+                      <div className="w-12 h-12 bg-coral-light rounded-lg flex items-center justify-center">
+                        <Building className="h-6 w-6 text-coral" />
                       </div>
                     </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-warm-gray mb-2">I'm looking for day care</h3>
+                      <p className="text-warm-gray-light text-sm">Find quality daycare centers and early learning programs in your area</p>
+                    </div>
                   </div>
-                </button>
+                </div>
               </div>
+
+              <Button 
+                onClick={handleContinueToPassword}
+                className="w-full h-12 text-lg"
+                size="lg"
+                disabled={selectedOptions.length === 0}
+              >
+                Continue
+              </Button>
 
               <Button 
                 type="button" 
