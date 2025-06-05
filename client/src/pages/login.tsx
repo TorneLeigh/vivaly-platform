@@ -122,18 +122,11 @@ export default function Login() {
           <div className="mb-6">
             <Button 
               variant="outline" 
-              className="w-full flex items-center justify-center gap-3 py-3"
-              onClick={() => {
-                // Placeholder for Google OAuth - user will need to provide credentials
-                toast({
-                  title: "Google Login",
-                  description: "Google OAuth integration requires API credentials. Please contact support to set this up.",
-                  variant: "destructive",
-                });
-              }}
+              className="w-full flex items-center justify-center gap-3 py-3 opacity-60 cursor-not-allowed"
+              disabled
             >
               <Chrome className="h-5 w-5" />
-              Continue with Google
+              Continue with Google (Coming Soon)
             </Button>
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
