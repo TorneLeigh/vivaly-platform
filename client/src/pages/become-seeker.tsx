@@ -16,22 +16,24 @@ export default function BecomeSeeker() {
               Connect with verified caregivers in your area. From childcare to elderly care, 
               find the perfect match for your family's needs.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button 
                 size="lg" 
                 className="bg-coral hover:bg-coral/90 text-white px-8 py-3"
                 onClick={() => window.location.href = '/signup?role=seeker'}
               >
-                Join as a Seeker
+                Create Account
               </Button>
-              <Button 
-                variant="outline" 
-                size="lg"
-                className="px-8 py-3"
-                onClick={() => window.location.href = '/services'}
-              >
-                Browse Services
-              </Button>
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <span>Already have an account?</span>
+                <Button 
+                  variant="link" 
+                  className="text-coral hover:text-coral/80 p-0 h-auto"
+                  onClick={() => window.location.href = '/login'}
+                >
+                  Log in
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -90,42 +92,7 @@ export default function BecomeSeeker() {
         </div>
       </div>
 
-      {/* Services Section */}
-      <div className="bg-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Care services available
-            </h2>
-          </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="text-center p-6 rounded-lg bg-gray-50 hover:bg-coral/5 transition-colors">
-              <Heart className="h-10 w-10 text-coral mx-auto mb-3" />
-              <h3 className="font-semibold mb-2">Childcare</h3>
-              <p className="text-sm text-gray-600">Nannies, babysitters, and daycare services</p>
-            </div>
-
-            <div className="text-center p-6 rounded-lg bg-gray-50 hover:bg-coral/5 transition-colors">
-              <Users className="h-10 w-10 text-coral mx-auto mb-3" />
-              <h3 className="font-semibold mb-2">Elderly Care</h3>
-              <p className="text-sm text-gray-600">Companionship and assistance for seniors</p>
-            </div>
-
-            <div className="text-center p-6 rounded-lg bg-gray-50 hover:bg-coral/5 transition-colors">
-              <Star className="h-10 w-10 text-coral mx-auto mb-3" />
-              <h3 className="font-semibold mb-2">Specialized Care</h3>
-              <p className="text-sm text-gray-600">Special needs and medical care support</p>
-            </div>
-
-            <div className="text-center p-6 rounded-lg bg-gray-50 hover:bg-coral/5 transition-colors">
-              <Heart className="h-10 w-10 text-coral mx-auto mb-3" />
-              <h3 className="font-semibold mb-2">Pet Care</h3>
-              <p className="text-sm text-gray-600">Pet sitting and walking services</p>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* How it Works */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
