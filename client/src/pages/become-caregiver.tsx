@@ -244,6 +244,15 @@ export default function CaregiverRegistration() {
                   </p>
                 )}
               </div>
+
+              <div className="flex justify-end mt-8">
+                <Button
+                  onClick={() => setStep(2)}
+                  className="bg-black hover:bg-gray-900 text-white px-8 py-3 text-lg font-medium rounded-lg"
+                >
+                  Continue
+                </Button>
+              </div>
             </div>
           </div>
         );
