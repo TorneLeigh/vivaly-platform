@@ -77,10 +77,10 @@ export default function WorkingLogin() {
       
       toast({
         title: "Success",
-        description: "Account created successfully!",
+        description: "Account created successfully! Please complete your profile.",
       });
       
-      setLocation("/");
+      setLocation("/profile");
     } catch (error: any) {
       toast({
         title: "Signup failed",
