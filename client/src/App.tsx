@@ -102,6 +102,7 @@ function Router() {
           <Route path="/find-care" component={FindCare} />
           <Route path="/childcare-enroll/:id" component={ChildcareEnroll} />
           <Route path="/login" component={WorkingLogin} />
+          <Route path="/working-login" component={WorkingLogin} />
           <Route path="/auth" component={Auth} />
           <Route path="/profile" component={ParentProfile} />
           <Route path="/basic-profile" component={Profile} />
