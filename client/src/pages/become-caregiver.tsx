@@ -332,9 +332,13 @@ export default function CaregiverRegistration() {
                 <Label htmlFor="dateOfBirth">Date of Birth *</Label>
                 <Input
                   id="dateOfBirth"
-                  type="date"
+                  type="text"
                   {...form.register("dateOfBirth")}
+                  placeholder="DD/MM/YYYY"
                 />
+                <p className="text-sm text-gray-600 mt-1">
+                  Please enter your date of birth in DD/MM/YYYY format (e.g., 15/08/1990)
+                </p>
                 {form.formState.errors.dateOfBirth && (
                   <p className="text-sm text-red-600 mt-1">
                     {form.formState.errors.dateOfBirth.message}
@@ -391,31 +395,7 @@ export default function CaregiverRegistration() {
                 </div>
               </div>
 
-              <div>
-                <Label htmlFor="profileImage">Profile Photo</Label>
-                <div className="mt-2 flex items-center gap-4">
-                  <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center">
-                    {profileImage ? (
-                      <img
-                        src={URL.createObjectURL(profileImage)}
-                        alt="Profile"
-                        className="w-20 h-20 rounded-full object-cover"
-                      />
-                    ) : (
-                      <Camera className="w-8 h-8 text-gray-400" />
-                    )}
-                  </div>
-                  <Input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="flex-1"
-                  />
-                </div>
-                <p className="text-sm text-gray-600 mt-1">
-                  Upload a professional photo (recommended)
-                </p>
-              </div>
+
             </CardContent>
           </Card>
         );
@@ -746,15 +726,12 @@ export default function CaregiverRegistration() {
   const canProceed = () => {
     switch (step) {
       case 1:
-        return form.formState.isValid || 
-               (form.watch("firstName") && form.watch("lastName") && 
-                form.watch("email") && form.watch("phone") && 
-                form.watch("address") && form.watch("suburb") && 
-                form.watch("state") && form.watch("postcode"));
+        return form.watch("suburb"); // Only need suburb for step 1
       case 2:
-        return form.watch("bio")?.length >= 50 && 
-               form.watch("services")?.length > 0 && 
-               form.watch("ageGroups")?.length > 0;
+        return form.watch("firstName") && form.watch("lastName") && 
+               form.watch("email") && form.watch("phone") && 
+               form.watch("dateOfBirth") && form.watch("address") && 
+               form.watch("state") && form.watch("postcode");
       case 3:
         const availability = form.watch("availability");
         return daysOfWeek.some(day => availability[day as keyof typeof availability].available);
