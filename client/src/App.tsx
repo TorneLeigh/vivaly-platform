@@ -15,6 +15,7 @@ import BecomeNanny from "@/pages/become-nanny";
 import Messages from "@/pages/messages";
 import Login from "@/pages/login";
 import SimpleLogin from "@/pages/simple-login";
+import WorkingLogin from "@/pages/working-login";
 import Auth from "@/pages/auth";
 import ProviderVerification from "@/pages/provider-verification";
 import GiftCards from "@/pages/gift-cards";
@@ -99,7 +100,7 @@ function Router() {
           <Route path="/become-childcare-provider" component={BecomeChildcareProvider} />
           <Route path="/find-care" component={FindCare} />
           <Route path="/childcare-enroll/:id" component={ChildcareEnroll} />
-          <Route path="/login" component={SimpleLogin} />
+          <Route path="/login" component={WorkingLogin} />
           <Route path="/auth" component={Auth} />
           <Route path="/profile" component={Profile} />
           <Route path="/account-settings" component={AccountSettings} />
