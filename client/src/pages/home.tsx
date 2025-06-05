@@ -245,9 +245,9 @@ export default function Home() {
       </section>
 
       {/* Service Categories */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Services
             </h2>
@@ -306,7 +306,7 @@ export default function Home() {
       {/* Pet Care Section */}
       <section className="py-6 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Pet Care Services</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Your furry family members deserve the best care too. Find trusted pet sitters, dog walkers, and animal care specialists.
@@ -398,7 +398,7 @@ export default function Home() {
       {/* Services in Popular Areas */}
       <section className="py-6 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Events and Social</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Connect with other families through organized activities and social gatherings
@@ -531,9 +531,9 @@ export default function Home() {
       </section>
 
       {/* Enhanced Trust Features */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
+      <section className="py-12 bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-warm-gray mb-4">Safety and trust first</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Every caregiver on CareConnect goes through our comprehensive verification process
