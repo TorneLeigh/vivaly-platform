@@ -1183,6 +1183,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Parent Profile routes - Comprehensive Airbnb-style profile system
+  app.post("/api/parent-profile", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const profileData = insertParentProfileSchema.parse({
+        ...req.body,
+        userId,
+      });
+      
+      const profile = await storage.createOrUpdateParentProfile(profileData);
+      res.json(profile);
+    } catch (error: any) {
+      console.error("Error creating/updating parent profile:", error);
+      res.status(500).json({ message: "Failed to save parent profile" });
+    }
+  });
+
+  app.get("/api/parent-profile", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const profile = await storage.getParentProfile(userId);
+      res.json(profile);
+    } catch (error) {
+      console.error("Error fetching parent profile:", error);
+      res.status(500).json({ message: "Failed to fetch parent profile" });
+    }
+  });
+
   // Review system routes for post-booking feedback
   app.post("/api/reviews", authenticateToken, async (req: any, res) => {
     try {

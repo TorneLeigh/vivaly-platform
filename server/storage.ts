@@ -1,5 +1,5 @@
 import { 
-  users, nannies, bookings, reviews, messages, experiences, childcareProviders, childcareEnrollments,
+  users, nannies, bookings, reviews, messages, experiences, childcareProviders, childcareEnrollments, parentProfiles,
   type User, type InsertUser,
   type Nanny, type InsertNanny,
   type Booking, type InsertBooking, 
@@ -8,6 +8,7 @@ import {
   type Experience, type InsertExperience,
   type ChildcareProvider, type InsertChildcareProvider,
   type ChildcareEnrollment, type InsertChildcareEnrollment,
+  type ParentProfile, type InsertParentProfile,
   SERVICE_TYPES, CERTIFICATE_TYPES, SYDNEY_SUBURBS
 } from "@shared/schema";
 
@@ -82,6 +83,10 @@ export interface IStorage {
   getEnrollmentsByProvider(providerId: number): Promise<(ChildcareEnrollment & { parent: User })[]>;
   getEnrollmentsByParent(parentId: number): Promise<(ChildcareEnrollment & { provider: ChildcareProvider })[]>;
   updateEnrollmentStatus(id: number, status: string): Promise<ChildcareEnrollment | undefined>;
+
+  // Parent Profiles - Comprehensive Airbnb-style profiles
+  getParentProfile(userId: string): Promise<ParentProfile | undefined>;
+  createOrUpdateParentProfile(profile: InsertParentProfile): Promise<ParentProfile>;
 }
 
 export class MemStorage implements IStorage {
