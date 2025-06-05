@@ -105,6 +105,7 @@ function Router() {
           <Route path="/working-login" component={WorkingLogin} />
           <Route path="/auth" component={Auth} />
           <Route path="/profile" component={ParentProfile} />
+          <Route path="/parent-profile" component={ParentProfile} />
           <Route path="/basic-profile" component={Profile} />
           <Route path="/account-settings" component={AccountSettings} />
           <Route path="/verification" component={ProviderVerification} />
