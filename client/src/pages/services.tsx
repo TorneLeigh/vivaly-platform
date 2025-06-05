@@ -460,13 +460,13 @@ export default function Services() {
                       alt={`${nanny.user?.firstName} ${nanny.user?.lastName}`}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
-                    <div className="absolute top-2 left-2">
-                      <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                    <div className="absolute bottom-2 left-2">
+                      <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium shadow-sm">
                         {nanny.isVerified ? "Verified" : "Pending"}
                       </span>
                     </div>
                     <div className="absolute top-2 right-2">
-                      <span className="bg-white/90 text-gray-900 px-2 py-1 rounded-full text-xs font-medium">
+                      <span className="bg-white/90 text-gray-900 px-2 py-1 rounded-full text-xs font-medium shadow-sm">
                         ⭐ {nanny.rating}
                       </span>
                     </div>
