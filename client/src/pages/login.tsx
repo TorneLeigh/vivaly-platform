@@ -11,7 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
-import { Chrome } from "lucide-react";
+
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -118,27 +118,7 @@ export default function Login() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {/* Google Login Button */}
-          <div className="mb-6">
-            <Button 
-              variant="outline" 
-              className="w-full flex items-center justify-center gap-3 py-3"
-              onClick={() => {
-                window.location.href = '/api/auth/google';
-              }}
-            >
-              <Chrome className="h-5 w-5" />
-              Continue with Google
-            </Button>
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <Separator className="w-full" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-gray-500">Or continue with email</span>
-              </div>
-            </div>
-          </div>
+
 
           {isSignup ? (
             <Form {...signupForm}>
