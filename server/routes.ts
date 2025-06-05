@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { storage } from "./storage";
 import { requireAuth } from "./auth-middleware";
+import { setupAuth, isAuthenticated } from "./replitAuth";
 import { 
   insertUserSchema, insertNannySchema, insertBookingSchema, 
   insertReviewSchema, insertMessageSchema, insertExperienceSchema,
@@ -1148,9 +1149,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Message routes for secure communication between parents and caregivers
-  app.post("/api/messages", requireAuth, async (req, res) => {
+  app.post("/api/messages", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.session.userId!;
+      const userId = req.user.claims.sub;
       const messageData = insertMessageSchema.parse({
         ...req.body,
         senderId: userId,
@@ -1163,21 +1164,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/messages/:userId", requireAuth, async (req, res) => {
+  app.get("/api/messages/:userId", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.session.userId!;
-      const otherUserId = parseInt(req.params.userId);
-      const messages = await storage.getMessagesBetweenUsers(parseInt(userId), otherUserId);
+      const userId = req.user.claims.sub;
+      const otherUserId = req.params.userId;
+      const messages = await storage.getMessagesBetweenUsers(userId, otherUserId);
       res.json(messages);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch messages" });
     }
   });
 
-  app.get("/api/conversations", requireAuth, async (req, res) => {
+  app.get("/api/conversations", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.session.userId!;
-      const conversations = await storage.getConversations(parseInt(userId));
+      const userId = req.user.claims.sub;
+      const conversations = await storage.getConversations(userId);
       res.json(conversations);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch conversations" });

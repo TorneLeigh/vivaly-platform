@@ -623,7 +623,7 @@ export class MemStorage implements IStorage {
     return message;
   }
 
-  async getMessagesBetweenUsers(userId1: number, userId2: number): Promise<(Message & { sender: User, receiver: User })[]> {
+  async getMessagesBetweenUsers(userId1: string, userId2: string): Promise<(Message & { sender: User, receiver: User })[]> {
     const messages = Array.from(this.messages.values())
       .filter(message => 
         (message.senderId === userId1 && message.receiverId === userId2) ||
@@ -638,11 +638,11 @@ export class MemStorage implements IStorage {
     }));
   }
 
-  async getConversations(userId: number): Promise<{ user: User, lastMessage: Message, unreadCount: number }[]> {
+  async getConversations(userId: string): Promise<{ user: User, lastMessage: Message, unreadCount: number }[]> {
     const userMessages = Array.from(this.messages.values())
       .filter(message => message.senderId === userId || message.receiverId === userId);
 
-    const conversations = new Map<number, { user: User, lastMessage: Message, unreadCount: number }>();
+    const conversations = new Map<string, { user: User, lastMessage: Message, unreadCount: number }>();
 
     for (const message of userMessages) {
       const otherUserId = message.senderId === userId ? message.receiverId : message.senderId;

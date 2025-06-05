@@ -162,8 +162,8 @@ export const reviews = pgTable("reviews", {
 
 export const messages = pgTable("messages", {
   id: serial("id").primaryKey(),
-  senderId: integer("sender_id").notNull(),
-  receiverId: integer("receiver_id").notNull(),
+  senderId: varchar("sender_id").notNull(),
+  receiverId: varchar("receiver_id").notNull(),
   content: text("content").notNull(),
   isBlocked: boolean("is_blocked").default(false),
   createdAt: timestamp("created_at").defaultNow(),
