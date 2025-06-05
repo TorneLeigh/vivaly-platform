@@ -61,8 +61,8 @@ export interface IStorage {
   // Messages
   getMessage(id: number): Promise<Message | undefined>;
   createMessage(message: InsertMessage): Promise<Message>;
-  getMessagesBetweenUsers(userId1: number, userId2: number): Promise<(Message & { sender: User, receiver: User })[]>;
-  getConversations(userId: number): Promise<{ user: User, lastMessage: Message, unreadCount: number }[]>;
+  getMessagesBetweenUsers(userId1: string, userId2: string): Promise<(Message & { sender: User, receiver: User })[]>;
+  getConversations(userId: string): Promise<{ user: User, lastMessage: Message, unreadCount: number }[]>;
 
   // Childcare Providers
   getChildcareProvider(id: number): Promise<ChildcareProvider | undefined>;
@@ -872,6 +872,52 @@ export class MemStorage implements IStorage {
     const updatedEnrollment = { ...enrollment, status };
     this.childcareEnrollments.set(id, updatedEnrollment);
     return updatedEnrollment;
+  }
+
+  // Parent Profile methods
+  async getParentProfile(userId: string): Promise<ParentProfile | undefined> {
+    // For in-memory storage, return undefined as profiles are not implemented yet
+    return undefined;
+  }
+
+  async createOrUpdateParentProfile(profile: InsertParentProfile): Promise<ParentProfile> {
+    // For in-memory storage, create a basic profile structure
+    const parentProfile: ParentProfile = {
+      ...profile,
+      id: Date.now(), // Simple ID generation for memory storage
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    return parentProfile;
+  }
+
+  // Add upsertUser method for Replit authentication
+  async upsertUser(userData: any): Promise<User> {
+    const existingUser = this.users.get(userData.id);
+    if (existingUser) {
+      const updatedUser = {
+        ...existingUser,
+        ...userData,
+        updatedAt: new Date(),
+      };
+      this.users.set(userData.id, updatedUser);
+      return updatedUser;
+    } else {
+      const newUser: User = {
+        id: userData.id,
+        email: userData.email || null,
+        firstName: userData.firstName || null,
+        lastName: userData.lastName || null,
+        profileImageUrl: userData.profileImageUrl || null,
+        phone: null,
+        password: null,
+        isNanny: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      this.users.set(newUser.id, newUser);
+      return newUser;
+    }
   }
 }
 
