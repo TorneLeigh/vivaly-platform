@@ -125,8 +125,11 @@ export default function Header() {
                 <Button variant="outline" onClick={() => window.location.href = '/login'}>
                   Sign In
                 </Button>
-                <Button className="bg-coral hover:bg-coral/90" onClick={() => window.location.href = '/auth'}>
-                  Join VIVALY
+                <Button className="bg-coral hover:bg-coral/90" onClick={() => window.location.href = '/signup-parent'}>
+                  Find Care
+                </Button>
+                <Button variant="outline" onClick={() => window.location.href = '/signup-caregiver'}>
+                  Become Caregiver
                 </Button>
               </div>
             ) : (
@@ -221,14 +224,14 @@ export default function Header() {
                         </Button>
                         <Button 
                           className="w-full bg-coral hover:bg-coral/90"
-                          onClick={() => { window.location.href = '/auth'; setMobileMenuOpen(false); }}
+                          onClick={() => { window.location.href = '/signup-parent'; setMobileMenuOpen(false); }}
                         >
-                          Join VIVALY
+                          Find Care
                         </Button>
                         <Button 
-                          variant="ghost"
-                          onClick={() => { window.location.href = '/become-nanny'; setMobileMenuOpen(false); }}
-                          className="w-full text-gray-600"
+                          variant="outline"
+                          onClick={() => { window.location.href = '/signup-caregiver'; setMobileMenuOpen(false); }}
+                          className="w-full"
                         >
                           Become a Caregiver
                         </Button>
