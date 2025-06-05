@@ -72,94 +72,39 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Desktop Navigation & Auth */}
-          <div className="hidden md:flex items-center space-x-6">
-            {/* Navigation - Only show when authenticated */}
-            {isAuthenticated && (
-              <nav className="flex space-x-8">
-                {viewMode === 'seeker' ? (
-                  // Service Seeker Navigation
-                  <>
-                    <Link href="/find-care" className={`text-warm-gray hover:text-coral transition-colors ${
-                      location === '/find-care' ? 'text-coral' : ''
-                    }`}>
-                      Day Care
-                    </Link>
-                    <Link href="/services" className={`text-warm-gray hover:text-coral transition-colors ${
-                      location === '/services' ? 'text-coral' : ''
-                    }`}>
-                      Services
-                    </Link>
-                    <Link href="/gift-cards" className={`text-warm-gray hover:text-coral transition-colors ${
-                      location === '/gift-cards' ? 'text-coral' : ''
-                    }`}>
-                      Gift Cards
-                    </Link>
-                  </>
-                ) : (
-                  // Caregiver Navigation
-                  <>
-                    <Link href="/provider-dashboard" className={`text-warm-gray hover:text-coral transition-colors ${
-                      location === '/provider-dashboard' ? 'text-coral' : ''
-                    }`}>
-                      Calendar
-                    </Link>
-                    <Link href="/messages" className={`text-warm-gray hover:text-coral transition-colors ${
-                      location === '/messages' ? 'text-coral' : ''
-                    }`}>
-                      Messages
-                    </Link>
-                    <Link href="/provider-dashboard?tab=listings" className={`text-warm-gray hover:text-coral transition-colors ${
-                      location.includes('listings') ? 'text-coral' : ''
-                    }`}>
-                      Services Listed
-                    </Link>
-                  </>
-                )}
-              </nav>
-            )}
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            <Link href="/find-care" className="text-warm-gray hover:text-coral transition-colors">
+              Day Care
+            </Link>
+            <Link href="/services" className="text-warm-gray hover:text-coral transition-colors">
+              Services
+            </Link>
+            <Link href="/gift-cards" className="text-warm-gray hover:text-coral transition-colors">
+              Gift Cards
+            </Link>
+          </div>
 
-            {/* Auth Buttons or User Menu */}
+          {/* Desktop Auth Buttons */}
+          <div className="hidden md:flex items-center space-x-3">
             {!isAuthenticated ? (
-              <div className="flex space-x-3">
-                <Button variant="outline" onClick={() => window.location.href = '/login'}>
+              <>
+                <Button variant="ghost" onClick={() => window.location.href = '/login'}>
                   Sign In
                 </Button>
                 <Button className="bg-coral hover:bg-coral/90" onClick={() => window.location.href = '/signup'}>
                   Join VIVALY
                 </Button>
-              </div>
+              </>
             ) : (
               <div className="flex items-center space-x-4">
-                {/* Role Toggle Buttons */}
-                <div className="flex rounded-lg border border-gray-300 p-1 bg-white">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => window.location.href = '/'}
-                    className={`px-4 py-2 text-sm font-medium transition-colors ${
-                      viewMode === 'seeker' 
-                        ? 'bg-coral text-white hover:bg-coral/90' 
-                        : 'text-gray-700 hover:text-coral'
-                    }`}
-                  >
-                    Search for Care
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => window.location.href = '/provider-dashboard'}
-                    className={`px-4 py-2 text-sm font-medium transition-colors ${
-                      viewMode === 'provider' 
-                        ? 'bg-coral text-white hover:bg-coral/90' 
-                        : 'text-gray-700 hover:text-coral'
-                    }`}
-                  >
-                    Caregiver
-                  </Button>
-                </div>
-
-                {/* User Dropdown */}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => window.location.href = '/messages'}
+                >
+                  Messages
+                </Button>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="sm" className="relative">
@@ -168,19 +113,25 @@ export default function Header() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56">
                     <DropdownMenuItem onClick={() => window.location.href = '/profile'}>
-                      Profile
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Profile</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => window.location.href = '/messages'}>
-                      Messages
+                    <DropdownMenuItem onClick={() => window.location.href = '/settings'}>
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span>Settings</span>
                     </DropdownMenuItem>
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleLogout}>
-                      Sign Out
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Log out</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
             )}
           </div>
+
+
 
           {/* Mobile Menu - Positioned on the right */}
           <div className="md:hidden">
