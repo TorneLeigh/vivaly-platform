@@ -16,19 +16,19 @@ export default function BecomeSeeker() {
               Connect with verified caregivers in your area. From childcare to elderly care, 
               find the perfect match for your family's needs.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div className="flex flex-col gap-6 items-center">
               <Button 
                 size="lg" 
-                className="bg-coral hover:bg-coral/90 text-white px-8 py-3"
+                className="bg-coral hover:bg-coral/90 text-white px-12 py-4 text-lg font-semibold rounded-lg shadow-lg"
                 onClick={() => window.location.href = '/signup?role=seeker'}
               >
-                Create Account
+                Get Started with Google
               </Button>
-              <div className="flex items-center gap-2 text-sm text-gray-600">
+              <div className="flex items-center gap-2 text-base text-gray-700">
                 <span>Already have an account?</span>
                 <Button 
                   variant="link" 
-                  className="text-coral hover:text-coral/80 p-0 h-auto"
+                  className="text-coral hover:text-coral/80 p-0 h-auto font-semibold underline"
                   onClick={() => window.location.href = '/login'}
                 >
                   Log in
