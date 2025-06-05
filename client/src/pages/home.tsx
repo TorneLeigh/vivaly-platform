@@ -206,17 +206,17 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section - Airbnb Style */}
-      <section className="bg-white relative min-h-[60vh] flex items-center pt-20">
+      <section className="bg-white relative min-h-[45vh] flex items-center pt-8 md:pt-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-tight mb-4">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-tight mb-3">
             Book trusted care in minutes
           </h1>
-          <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-600 mb-6 max-w-2xl mx-auto">
             Instant booking • Verified caregivers • Available today
           </p>
           
           {/* Large Search Bar - Airbnb Style */}
-          <div className="bg-white rounded-full shadow-2xl border border-gray-200 p-2 max-w-3xl mx-auto mb-8" style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 10px 30px -8px rgba(0, 0, 0, 0.1)' }}>
+          <div className="bg-white rounded-full shadow-2xl border border-gray-200 p-2 max-w-3xl mx-auto mb-4" style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 10px 30px -8px rgba(0, 0, 0, 0.1)' }}>
             <SearchFilters onSearch={(filters) => {
               const searchParams = new URLSearchParams(filters);
               window.location.href = `/find-care?${searchParams.toString()}`;
@@ -224,7 +224,7 @@ export default function Home() {
           </div>
 
           {/* Quick Booking Options */}
-          <div className="flex flex-wrap justify-center gap-4 mb-6">
+          <div className="flex flex-wrap justify-center gap-4 mb-4">
             <Link href="/quick-start?when=today">
               <Button className="bg-black text-white animate-bounce-slow hover:bg-gray-800">
                 Book Today
