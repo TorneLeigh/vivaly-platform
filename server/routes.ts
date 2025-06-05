@@ -11,7 +11,7 @@ import {
   insertReviewSchema, insertMessageSchema, insertExperienceSchema,
   insertParentProfileSchema
 } from "@shared/schema";
-import { sendNannyWelcomeSequence, sendBookingConfirmation, sendNewNannyAlert } from "./email-service";
+import { sendNannyWelcomeSequence, sendBookingConfirmation, sendNewNannyAlert, sendCaregiverWelcomeSequence, sendCaregiverApplicationAlert } from "./email-service";
 import { wwccVerificationService } from "./wwcc-verification-service";
 import { voucherService } from "./voucher-service";
 
