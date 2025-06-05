@@ -211,6 +211,45 @@ export default function CaregiverRegistration() {
     switch (step) {
       case 1:
         return (
+          <div className="max-w-2xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">Tell us about your location</h2>
+              <p className="text-xl text-gray-600">Where in Sydney are you available to provide care?</p>
+            </div>
+
+            <div className="space-y-6">
+              <div>
+                <Label className="text-lg font-medium text-gray-900 mb-4 block">Primary Service Area</Label>
+                <Select onValueChange={(value) => form.setValue("suburb", value)}>
+                  <SelectTrigger className="h-12 text-lg">
+                    <SelectValue placeholder="Bondi" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="bondi">Bondi</SelectItem>
+                    <SelectItem value="sydney-cbd">Sydney CBD</SelectItem>
+                    <SelectItem value="manly">Manly</SelectItem>
+                    <SelectItem value="parramatta">Parramatta</SelectItem>
+                    <SelectItem value="chatswood">Chatswood</SelectItem>
+                    <SelectItem value="newtown">Newtown</SelectItem>
+                    <SelectItem value="surry-hills">Surry Hills</SelectItem>
+                    <SelectItem value="paddington">Paddington</SelectItem>
+                    <SelectItem value="double-bay">Double Bay</SelectItem>
+                    <SelectItem value="mosman">Mosman</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-gray-600 mt-2">Choose the area where you're most available to provide care services.</p>
+                {form.formState.errors.suburb && (
+                  <p className="text-sm text-red-600 mt-1">
+                    {form.formState.errors.suburb.message}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 2:
+        return (
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -308,21 +347,7 @@ export default function CaregiverRegistration() {
                 )}
               </div>
 
-              <div className="grid grid-cols-3 gap-4">
-                <div>
-                  <Label htmlFor="suburb">Suburb *</Label>
-                  <Input
-                    id="suburb"
-                    {...form.register("suburb")}
-                    placeholder="Suburb"
-                  />
-                  {form.formState.errors.suburb && (
-                    <p className="text-sm text-red-600 mt-1">
-                      {form.formState.errors.suburb.message}
-                    </p>
-                  )}
-                </div>
-                
+              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="state">State *</Label>
                   <Select onValueChange={(value) => form.setValue("state", value)}>
@@ -381,120 +406,6 @@ export default function CaregiverRegistration() {
                 <p className="text-sm text-gray-600 mt-1">
                   Upload a professional photo (recommended)
                 </p>
-              </div>
-            </CardContent>
-          </Card>
-        );
-
-      case 2:
-        return (
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="w-5 h-5" />
-                Experience & Services
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div>
-                <Label htmlFor="bio">About You *</Label>
-                <Textarea
-                  id="bio"
-                  {...form.register("bio")}
-                  placeholder="Tell families about yourself, your experience, and what makes you special..."
-                  rows={4}
-                  className="mt-1"
-                />
-                <p className="text-sm text-gray-600 mt-1">
-                  {form.watch("bio")?.length || 0}/50 characters minimum
-                </p>
-                {form.formState.errors.bio && (
-                  <p className="text-sm text-red-600 mt-1">
-                    {form.formState.errors.bio.message}
-                  </p>
-                )}
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="experience">Years of Experience *</Label>
-                  <Input
-                    id="experience"
-                    type="number"
-                    min="0"
-                    {...form.register("experience", { valueAsNumber: true })}
-                    placeholder="0"
-                  />
-                  {form.formState.errors.experience && (
-                    <p className="text-sm text-red-600 mt-1">
-                      {form.formState.errors.experience.message}
-                    </p>
-                  )}
-                </div>
-                
-                <div>
-                  <Label htmlFor="hourlyRate">Hourly Rate (AUD) *</Label>
-                  <Input
-                    id="hourlyRate"
-                    type="number"
-                    min="15"
-                    {...form.register("hourlyRate", { valueAsNumber: true })}
-                    placeholder="25"
-                  />
-                  {form.formState.errors.hourlyRate && (
-                    <p className="text-sm text-red-600 mt-1">
-                      {form.formState.errors.hourlyRate.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div>
-                <Label className="mb-3 block">Services You Offer *</Label>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                  {serviceTypes.map((service) => (
-                    <div
-                      key={service}
-                      className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                        form.watch("services")?.includes(service)
-                          ? 'bg-orange-50 border-orange-200'
-                          : 'bg-white border-gray-200 hover:border-gray-300'
-                      }`}
-                      onClick={() => toggleService(service)}
-                    >
-                      <span className="text-sm font-medium">{service}</span>
-                    </div>
-                  ))}
-                </div>
-                {form.formState.errors.services && (
-                  <p className="text-sm text-red-600 mt-2">
-                    {form.formState.errors.services.message}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <Label className="mb-3 block">Age Groups You're Comfortable With *</Label>
-                <div className="grid grid-cols-2 gap-2">
-                  {ageGroups.map((ageGroup) => (
-                    <div
-                      key={ageGroup}
-                      className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                        form.watch("ageGroups")?.includes(ageGroup)
-                          ? 'bg-orange-50 border-orange-200'
-                          : 'bg-white border-gray-200 hover:border-gray-300'
-                      }`}
-                      onClick={() => toggleAgeGroup(ageGroup)}
-                    >
-                      <span className="text-sm font-medium">{ageGroup}</span>
-                    </div>
-                  ))}
-                </div>
-                {form.formState.errors.ageGroups && (
-                  <p className="text-sm text-red-600 mt-2">
-                    {form.formState.errors.ageGroups.message}
-                  </p>
-                )}
               </div>
             </CardContent>
           </Card>
@@ -902,58 +813,104 @@ export default function CaregiverRegistration() {
           </div>
         )}
 
-        {/* FAQ Section */}
+        {/* Information Boxes */}
         <div className="mt-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-            <HelpCircle className="w-6 h-6" />
-            Frequently Asked Questions
-          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* FAQ Section */}
+            <div className="bg-white border rounded-lg p-6">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <HelpCircle className="w-8 h-8 text-gray-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Frequently Asked Questions</h3>
+                <ChevronDown className="w-4 h-4 text-gray-600 mx-auto" />
+              </div>
+              
+              <div className="space-y-4">
+                <Collapsible>
+                  <CollapsibleTrigger className="w-full text-left font-medium text-gray-900 hover:text-coral transition-colors">
+                    How do I get started?
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="text-sm text-gray-600 mt-2">
+                    Complete our simple registration process, pass background checks, and start accepting bookings from families in your area.
+                  </CollapsibleContent>
+                </Collapsible>
 
-          <div className="space-y-4">
-            <Collapsible>
-              <CollapsibleTrigger className="flex items-center justify-between w-full p-4 text-left bg-white rounded-lg border hover:bg-gray-50">
-                <span className="font-medium">How much can I earn as a caregiver?</span>
-                <ChevronDown className="w-4 h-4" />
-              </CollapsibleTrigger>
-              <CollapsibleContent className="px-4 pb-4 text-gray-600">
-                Caregivers on VIVALY typically earn between $25-65 per hour, depending on their experience, 
-                qualifications, and the type of care provided. You set your own rates and keep 90% of what you earn.
-              </CollapsibleContent>
-            </Collapsible>
+                <Collapsible>
+                  <CollapsibleTrigger className="w-full text-left font-medium text-gray-900 hover:text-coral transition-colors">
+                    What qualifications do I need?
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="text-sm text-gray-600 mt-2">
+                    You need to be 18+, have relevant experience, hold current First Aid/CPR certifications, and pass our background checks.
+                  </CollapsibleContent>
+                </Collapsible>
 
-            <Collapsible>
-              <CollapsibleTrigger className="flex items-center justify-between w-full p-4 text-left bg-white rounded-lg border hover:bg-gray-50">
-                <span className="font-medium">What's required to become a caregiver?</span>
-                <ChevronDown className="w-4 h-4" />
-              </CollapsibleTrigger>
-              <CollapsibleContent className="px-4 pb-4 text-gray-600">
-                You need to be 18+ years old, have relevant experience or qualifications, pass our background checks, 
-                and hold current First Aid and CPR certifications. We also verify your identity and references.
-              </CollapsibleContent>
-            </Collapsible>
+                <Collapsible>
+                  <CollapsibleTrigger className="w-full text-left font-medium text-gray-900 hover:text-coral transition-colors">
+                    How does payment work?
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="text-sm text-gray-600 mt-2">
+                    You set your own rates and receive payment directly through our secure platform. VIVALY takes a 10% service fee.
+                  </CollapsibleContent>
+                </Collapsible>
+              </div>
+            </div>
 
-            <Collapsible>
-              <CollapsibleTrigger className="flex items-center justify-between w-full p-4 text-left bg-white rounded-lg border hover:bg-gray-50">
-                <span className="font-medium">How does the approval process work?</span>
-                <ChevronDown className="w-4 h-4" />
-              </CollapsibleTrigger>
-              <CollapsibleContent className="px-4 pb-4 text-gray-600">
-                After submitting your application, we review your profile, verify your qualifications, and conduct 
-                background checks. This process typically takes 2-3 business days. You'll be notified by email once approved.
-              </CollapsibleContent>
-            </Collapsible>
+            {/* VIVALY Fees & Earnings */}
+            <div className="bg-white border rounded-lg p-6">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <DollarSign className="w-8 h-8 text-gray-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">VIVALY Fees & Earnings</h3>
+                <ChevronDown className="w-4 h-4 text-gray-600 mx-auto" />
+              </div>
+              
+              <div className="space-y-4">
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-2">Platform Fee</h4>
+                  <p className="text-sm text-gray-600">VIVALY takes a 10% service fee from each booking to maintain the platform and provide customer support.</p>
+                </div>
 
-            <Collapsible>
-              <CollapsibleTrigger className="flex items-center justify-between w-full p-4 text-left bg-white rounded-lg border hover:bg-gray-50">
-                <span className="font-medium">Can I set my own schedule?</span>
-                <ChevronDown className="w-4 h-4" />
-              </CollapsibleTrigger>
-              <CollapsibleContent className="px-4 pb-4 text-gray-600">
-                Yes! You have complete control over your availability. Set your own hours, choose which bookings 
-                to accept, and work as much or as little as you want. Our platform gives you the flexibility to 
-                balance work with your other commitments.
-              </CollapsibleContent>
-            </Collapsible>
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-2">Average Earnings</h4>
+                  <p className="text-sm text-gray-600">Caregivers typically earn $25-65 per hour, with experienced providers earning $45+ per hour.</p>
+                </div>
+
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-2">Payment Schedule</h4>
+                  <p className="text-sm text-gray-600">Payments are processed within 24-48 hours after job completion via direct deposit.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Policies & Regulations */}
+            <div className="bg-white border rounded-lg p-6">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Shield className="w-8 h-8 text-gray-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Policies & Regulations</h3>
+                <ChevronDown className="w-4 h-4 text-gray-600 mx-auto" />
+              </div>
+              
+              <div className="space-y-4">
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-2">Background Checks</h4>
+                  <p className="text-sm text-gray-600">All caregivers undergo comprehensive background checks including police checks, WWCC verification, and reference validation.</p>
+                </div>
+
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-2">Insurance Coverage</h4>
+                  <p className="text-sm text-gray-600">VIVALY provides liability insurance coverage for all registered caregivers during active bookings.</p>
+                </div>
+
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-2">Compliance Standards</h4>
+                  <p className="text-sm text-gray-600">We adhere to Australian childcare regulations and maintain strict safety protocols for all services.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
