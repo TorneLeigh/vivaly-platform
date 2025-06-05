@@ -16,10 +16,236 @@ import {
   type InsertMessage,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and, or, desc, sql } from "drizzle-orm";
+import { eq, and, or, desc, sql, gte, lte } from "drizzle-orm";
 import type { IStorage } from "./storage";
 
 export class DatabaseStorage implements IStorage {
+  // Experience methods
+  async getExperience(id: number): Promise<Experience | undefined> {
+    const [experience] = await db.select().from(experiences).where(eq(experiences.id, id));
+    return experience || undefined;
+  }
+
+  async createExperience(experienceData: InsertExperience): Promise<Experience> {
+    const [experience] = await db.insert(experiences).values(experienceData).returning();
+    return experience;
+  }
+
+  async getExperiencesByCaregiver(caregiverId: number): Promise<Experience[]> {
+    return await db.select().from(experiences).where(eq(experiences.caregiverId, caregiverId));
+  }
+
+  async searchExperiences(filters: {
+    location?: string;
+    serviceType?: string;
+    ageRange?: string;
+    maxPrice?: number;
+  }): Promise<(Experience & { caregiver: User })[]> {
+    let query = db.select({
+      ...experiences,
+      caregiver: users
+    })
+    .from(experiences)
+    .leftJoin(users, eq(experiences.caregiverId, parseInt(users.id)));
+
+    return await query;
+  }
+
+  async getFeaturedExperiences(): Promise<(Experience & { caregiver: User })[]> {
+    return await db.select({
+      ...experiences,
+      caregiver: users
+    })
+    .from(experiences)
+    .leftJoin(users, eq(experiences.caregiverId, parseInt(users.id)))
+    .limit(6);
+  }
+
+  // Childcare Provider methods
+  async getChildcareProvider(id: number): Promise<ChildcareProvider | undefined> {
+    const [provider] = await db.select().from(childcareProviders).where(eq(childcareProviders.id, id));
+    return provider || undefined;
+  }
+
+  async getChildcareProviderByUserId(userId: number): Promise<ChildcareProvider | undefined> {
+    const [provider] = await db.select().from(childcareProviders).where(eq(childcareProviders.userId, userId));
+    return provider || undefined;
+  }
+
+  async createChildcareProvider(providerData: InsertChildcareProvider): Promise<ChildcareProvider> {
+    const [provider] = await db.insert(childcareProviders).values(providerData).returning();
+    return provider;
+  }
+
+  async updateChildcareProvider(id: number, updates: Partial<ChildcareProvider>): Promise<ChildcareProvider | undefined> {
+    const [provider] = await db.update(childcareProviders)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(childcareProviders.id, id))
+      .returning();
+    return provider || undefined;
+  }
+
+  async searchChildcareProviders(filters: {
+    suburb?: string;
+    ageGroups?: string[];
+    maxRate?: number;
+    availableSpots?: boolean;
+  }): Promise<(ChildcareProvider & { user: User })[]> {
+    let query = db.select({
+      ...childcareProviders,
+      user: users
+    })
+    .from(childcareProviders)
+    .leftJoin(users, eq(childcareProviders.userId, parseInt(users.id)));
+
+    return await query;
+  }
+
+  async getFeaturedChildcareProviders(): Promise<(ChildcareProvider & { user: User })[]> {
+    return await db.select({
+      ...childcareProviders,
+      user: users
+    })
+    .from(childcareProviders)
+    .leftJoin(users, eq(childcareProviders.userId, parseInt(users.id)))
+    .limit(6);
+  }
+
+  // Childcare Enrollment methods
+  async getChildcareEnrollment(id: number): Promise<ChildcareEnrollment | undefined> {
+    const [enrollment] = await db.select().from(childcareEnrollments).where(eq(childcareEnrollments.id, id));
+    return enrollment || undefined;
+  }
+
+  async createChildcareEnrollment(enrollmentData: InsertChildcareEnrollment): Promise<ChildcareEnrollment> {
+    const [enrollment] = await db.insert(childcareEnrollments).values(enrollmentData).returning();
+    return enrollment;
+  }
+
+  async getEnrollmentsByProvider(providerId: number): Promise<(ChildcareEnrollment & { parent: User })[]> {
+    return await db.select({
+      ...childcareEnrollments,
+      parent: users
+    })
+    .from(childcareEnrollments)
+    .leftJoin(users, eq(childcareEnrollments.parentUserId, parseInt(users.id)))
+    .where(eq(childcareEnrollments.providerId, providerId));
+  }
+
+  async getEnrollmentsByParent(parentId: number): Promise<(ChildcareEnrollment & { provider: ChildcareProvider })[]> {
+    return await db.select({
+      ...childcareEnrollments,
+      provider: childcareProviders
+    })
+    .from(childcareEnrollments)
+    .leftJoin(childcareProviders, eq(childcareEnrollments.providerId, childcareProviders.id))
+    .where(eq(childcareEnrollments.parentUserId, parentId));
+  }
+
+  async updateEnrollmentStatus(id: number, status: string): Promise<ChildcareEnrollment | undefined> {
+    const [enrollment] = await db.update(childcareEnrollments)
+      .set({ status })
+      .where(eq(childcareEnrollments.id, id))
+      .returning();
+    return enrollment || undefined;
+  }
+
+  // Parent Profile methods
+  async getParentProfile(userId: string): Promise<ParentProfile | undefined> {
+    const [profile] = await db.select().from(parentProfiles).where(eq(parentProfiles.userId, userId));
+    return profile || undefined;
+  }
+
+  async createOrUpdateParentProfile(profileData: InsertParentProfile): Promise<ParentProfile> {
+    const existing = await this.getParentProfile(profileData.userId);
+    
+    if (existing) {
+      const [profile] = await db.update(parentProfiles)
+        .set({ ...profileData, updatedAt: new Date() })
+        .where(eq(parentProfiles.userId, profileData.userId))
+        .returning();
+      return profile;
+    } else {
+      const [profile] = await db.insert(parentProfiles).values(profileData).returning();
+      return profile;
+    }
+  }
+
+  // Admin methods
+  async getAllBookings(): Promise<Booking[]> {
+    return await db.select().from(bookings);
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return await db.select().from(users);
+  }
+
+  async getAllNannies(): Promise<Nanny[]> {
+    return await db.select().from(nannies);
+  }
+
+  async getRecentBookingsWithDetails(): Promise<(Booking & { nanny: Nanny & { user: User }, parent: User })[]> {
+    return await db.select({
+      ...bookings,
+      nanny: nannies,
+      user: users,
+      parent: users
+    })
+    .from(bookings)
+    .leftJoin(nannies, eq(bookings.nannyId, nannies.id))
+    .leftJoin(users, eq(nannies.userId, parseInt(users.id)))
+    .orderBy(desc(bookings.createdAt))
+    .limit(10) as any;
+  }
+
+  async getPendingCaregivers(): Promise<(Nanny & { user: User })[]> {
+    return await db.select({
+      ...nannies,
+      user: users
+    })
+    .from(nannies)
+    .leftJoin(users, eq(nannies.userId, parseInt(users.id)))
+    .where(eq(nannies.verificationStatus, 'pending'));
+  }
+
+  async updateCaregiverVerification(id: number, approved: boolean, reason?: string): Promise<Nanny | undefined> {
+    const status = approved ? 'verified' : 'rejected';
+    const [nanny] = await db.update(nannies)
+      .set({ 
+        verificationStatus: status,
+        verificationNotes: reason,
+        updatedAt: new Date()
+      })
+      .where(eq(nannies.id, id))
+      .returning();
+    return nanny || undefined;
+  }
+
+  async getTodayBookingsByCaregiver(userId: number): Promise<(Booking & { parent: User })[]> {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    return await db.select({
+      ...bookings,
+      parent: users
+    })
+    .from(bookings)
+    .leftJoin(users, eq(bookings.parentId, parseInt(users.id)))
+    .where(
+      and(
+        gte(bookings.date, today),
+        lte(bookings.date, tomorrow)
+      )
+    );
+  }
+
+  // Missing utility method
+  async createUserSimple(userData: User): Promise<User> {
+    const [user] = await db.insert(users).values(userData).returning();
+    return user;
+  }
   // Users
   async getUser(id: number): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
