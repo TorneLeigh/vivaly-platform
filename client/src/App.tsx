@@ -42,6 +42,7 @@ import ChildcareDashboard from "@/pages/childcare-dashboard";
 import Services from "@/pages/services";
 import FindCareSignup from "@/pages/find-care-signup";
 import BecomeCaregiver from "@/pages/become-caregiver";
+import BecomeSeeker from "@/pages/become-seeker";
 import Signup from "@/pages/signup";
 import CoSupport from "@/pages/co-support";
 import NotFound from "@/pages/not-found";
@@ -85,6 +86,7 @@ function Router() {
           <Route path="/services" component={Services} />
           <Route path="/become-nanny" component={BecomeNanny} />
           <Route path="/become-caregiver" component={BecomeCaregiver} />
+          <Route path="/become-seeker" component={BecomeSeeker} />
           <Route path="/signup-parent" component={FindCareSignup} />
           <Route path="/signup-caregiver" component={BecomeCaregiver} />
           <Route path="/signup" component={Signup} />

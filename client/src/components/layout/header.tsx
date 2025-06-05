@@ -60,70 +60,70 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex items-center">
             <Link href="/">
-              <h1 className="text-2xl font-black cursor-pointer text-black">
+              <h1 className="text-2xl font-black cursor-pointer text-coral">
                 VIVALY
               </h1>
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link href="/find-care" className="text-warm-gray hover:text-coral transition-colors">
+          {/* Desktop Center Navigation */}
+          <div className="hidden lg:flex items-center space-x-8">
+            <Link href="/find-care" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
               Day Care
             </Link>
-            <Link href="/services" className="text-warm-gray hover:text-coral transition-colors">
+            <Link href="/services" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
               Services
             </Link>
-            <Link href="/gift-cards" className="text-warm-gray hover:text-coral transition-colors">
+            <Link href="/gift-cards" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
               Gift Cards
             </Link>
           </div>
 
-          {/* Desktop Auth Buttons */}
-          <div className="hidden md:flex items-center space-x-3">
+          {/* Desktop Right Side */}
+          <div className="hidden lg:flex items-center space-x-2">
             {!isAuthenticated ? (
               <>
-                <Button variant="ghost" onClick={() => window.location.href = '/login'}>
-                  Sign In
+                <Button variant="ghost" className="font-medium" onClick={() => window.location.href = '/become-seeker'}>
+                  Become a Seeker
                 </Button>
-                <Button className="bg-coral hover:bg-coral/90" onClick={() => window.location.href = '/signup'}>
-                  Join VIVALY
+                <Button variant="ghost" className="font-medium" onClick={() => window.location.href = '/become-caregiver'}>
+                  Become a Caregiver
                 </Button>
+                <div className="flex items-center border border-gray-300 rounded-full p-1 ml-4">
+                  <Button variant="ghost" size="sm" className="rounded-full px-4" onClick={() => window.location.href = '/login'}>
+                    Log in
+                  </Button>
+                  <Button size="sm" className="rounded-full bg-coral hover:bg-coral/90 text-white px-4" onClick={() => window.location.href = '/signup'}>
+                    Sign up
+                  </Button>
+                </div>
               </>
             ) : (
               <div className="flex items-center space-x-4">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => window.location.href = '/messages'}
-                >
+                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/messages'}>
                   Messages
                 </Button>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="relative">
+                    <Button variant="ghost" size="sm" className="relative rounded-full p-2">
                       <User className="h-5 w-5" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56">
                     <DropdownMenuItem onClick={() => window.location.href = '/profile'}>
-                      <User className="mr-2 h-4 w-4" />
-                      <span>Profile</span>
+                      Profile
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => window.location.href = '/settings'}>
-                      <Settings className="mr-2 h-4 w-4" />
-                      <span>Settings</span>
+                    <DropdownMenuItem onClick={() => window.location.href = '/messages'}>
+                      Messages
                     </DropdownMenuItem>
-                    <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleLogout}>
-                      <LogOut className="mr-2 h-4 w-4" />
-                      <span>Log out</span>
+                      Sign out
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -133,129 +133,104 @@ export default function Header() {
 
 
 
-          {/* Mobile Menu - Positioned on the right */}
-          <div className="md:hidden">
+          {/* Mobile/Tablet Menu Button - Airbnb style */}
+          <div className="lg:hidden">
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="sm" className="p-2">
-                  <MenuIcon className="h-6 w-6 text-gray-700" />
+                <Button variant="ghost" size="sm" className="flex items-center gap-2 border border-gray-300 rounded-full px-3 py-2">
+                  <MenuIcon className="h-4 w-4" />
+                  <User className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-80">
-                <SheetHeader>
-                  <SheetTitle>Menu</SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col space-y-4 mt-6">
-                  {/* Navigation Links - Always visible */}
-                  <div className="space-y-3">
-                    <Link href="/find-care" className="flex items-center text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
-                      Day Care
-                    </Link>
-                    <Link href="/services" className="flex items-center text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
-                      Services
-                    </Link>
-                    <Link href="/gift-cards" className="flex items-center text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
-                      Gift Cards
-                    </Link>
+              <SheetContent side="right" className="w-80 p-0">
+                <div className="flex flex-col h-full">
+                  {/* Header */}
+                  <div className="p-6 border-b">
+                    <h2 className="text-lg font-semibold">Menu</h2>
                   </div>
+                  
+                  {/* Content */}
+                  <div className="flex-1 overflow-y-auto">
+                    {/* Navigation Links */}
+                    <div className="p-6 space-y-4">
+                      <Link href="/find-care" className="block text-lg font-medium text-gray-900 hover:text-coral py-3" onClick={() => setMobileMenuOpen(false)}>
+                        Day Care
+                      </Link>
+                      <Link href="/services" className="block text-lg font-medium text-gray-900 hover:text-coral py-3" onClick={() => setMobileMenuOpen(false)}>
+                        Services
+                      </Link>
+                      <Link href="/gift-cards" className="block text-lg font-medium text-gray-900 hover:text-coral py-3" onClick={() => setMobileMenuOpen(false)}>
+                        Gift Cards
+                      </Link>
+                    </div>
 
-                  {!isAuthenticated ? (
-                    // Show auth buttons when not logged in
-                    <>
-                      <div className="border-t pt-4 space-y-3">
-                        <Button 
-                          variant="outline" 
-                          onClick={() => { window.location.href = '/login'; setMobileMenuOpen(false); }}
-                          className="w-full"
-                        >
-                          Sign In
-                        </Button>
-                        <Button 
-                          className="w-full bg-coral hover:bg-coral/90"
-                          onClick={() => { window.location.href = '/signup'; setMobileMenuOpen(false); }}
-                        >
-                          Join VIVALY
-                        </Button>
-                      </div>
-                      <div className="border-t pt-4">
-                        <p className="text-sm text-gray-600 text-center">
-                          Browse services freely. Sign in to book and manage your account.
-                        </p>
-                      </div>
-                    </>
-                  ) : (
-                    // Show navigation when authenticated
-                    <>
-                      {/* Mobile Role Toggle */}
-                      <div className="flex space-x-2">
-                        <Button
-                          variant={viewMode === 'seeker' ? 'default' : 'outline'}
-                          onClick={() => { window.location.href = '/'; setMobileMenuOpen(false); }}
-                          className="flex-1 text-sm"
-                        >
-                          Search for Care
-                        </Button>
-                        <Button
-                          variant={viewMode === 'provider' ? 'default' : 'outline'}
-                          onClick={() => { window.location.href = '/provider-dashboard'; setMobileMenuOpen(false); }}
-                          className="flex-1 text-sm"
-                        >
-                          Caregiver
-                        </Button>
-                      </div>
+                    <div className="border-t mx-6"></div>
 
-                      {/* Mobile Navigation Links */}
-                      {viewMode === 'seeker' ? (
-                        <>
-                          <Link href="/find-care" className="text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
-                            Day Care
-                          </Link>
-                          <Link href="/find-care?category=services" className="text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
-                            Services
-                          </Link>
-                        </>
-                      ) : (
-                        <>
-                          <Link href="/provider-dashboard" className="text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
-                            Calendar
-                          </Link>
-                          <Link href="/messages" className="text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
-                            Messages
-                          </Link>
-                          <Link href="/provider-dashboard?tab=listings" className="text-gray-700 hover:text-coral font-medium py-2" onClick={() => setMobileMenuOpen(false)}>
-                            Services Listed
-                          </Link>
-                        </>
-                      )}
-
-                      {/* Mobile User Actions */}
-                      <div className="border-t pt-4 space-y-2">
+                    {/* Auth Section */}
+                    {!isAuthenticated ? (
+                      <div className="p-6 space-y-4">
+                        <div className="space-y-3">
+                          <Button 
+                            variant="ghost" 
+                            onClick={() => { window.location.href = '/become-seeker'; setMobileMenuOpen(false); }}
+                            className="w-full justify-start text-left font-medium text-gray-900"
+                          >
+                            Become a Seeker
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            onClick={() => { window.location.href = '/become-caregiver'; setMobileMenuOpen(false); }}
+                            className="w-full justify-start text-left font-medium text-gray-900"
+                          >
+                            Become a Caregiver
+                          </Button>
+                        </div>
+                        
+                        <div className="border-t pt-4 space-y-3">
+                          <Button 
+                            variant="ghost" 
+                            onClick={() => { window.location.href = '/login'; setMobileMenuOpen(false); }}
+                            className="w-full justify-start text-left font-medium"
+                          >
+                            Log in
+                          </Button>
+                          <Button 
+                            variant="ghost"
+                            onClick={() => { window.location.href = '/signup'; setMobileMenuOpen(false); }}
+                            className="w-full justify-start text-left font-medium"
+                          >
+                            Sign up
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="p-6 space-y-4">
                         <Button
                           variant="ghost"
-                          className="w-full justify-start"
-                          onClick={() => { window.location.href = '/profile'; setMobileMenuOpen(false); }}
-                        >
-                          <User className="h-4 w-4 mr-2" />
-                          Profile
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start"
+                          className="w-full justify-start text-left font-medium"
                           onClick={() => { window.location.href = '/messages'; setMobileMenuOpen(false); }}
                         >
-                          <MessageCircle className="h-4 w-4 mr-2" />
                           Messages
                         </Button>
                         <Button
                           variant="ghost"
-                          className="w-full justify-start text-red-600 hover:text-red-700"
-                          onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
+                          className="w-full justify-start text-left font-medium"
+                          onClick={() => { window.location.href = '/profile'; setMobileMenuOpen(false); }}
                         >
-                          Sign Out
+                          Profile
                         </Button>
+                        <div className="border-t pt-4">
+                          <Button
+                            variant="ghost"
+                            className="w-full justify-start text-left font-medium text-red-600 hover:text-red-700"
+                            onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
+                          >
+                            Sign out
+                          </Button>
+                        </div>
                       </div>
-                    </>
-                  )}
+                    )}
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
