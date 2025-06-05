@@ -90,7 +90,7 @@ export interface IStorage {
 }
 
 export class MemStorage implements IStorage {
-  private users: Map<number, User> = new Map();
+  private users: Map<string, User> = new Map();
   private nannies: Map<number, Nanny> = new Map();
   private experiences: Map<number, Experience> = new Map();
   private bookings: Map<number, Booking> = new Map();
@@ -110,6 +110,26 @@ export class MemStorage implements IStorage {
 
   constructor() {
     this.seedData();
+    this.initializeTestUser();
+  }
+
+  private initializeTestUser() {
+    // Create a test user with a known password for testing
+    // In a real app, this would be properly hashed
+    const testUser: User = {
+      id: 'test_user_vivaly',
+      email: 'test@vivaly.com',
+      password: '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // "password"
+      firstName: 'Test',
+      lastName: 'User',
+      phone: '+61400000000',
+      profileImageUrl: null,
+      isNanny: false,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    
+    this.users.set(testUser.id, testUser);
   }
 
   private seedChildcareProviders() {
