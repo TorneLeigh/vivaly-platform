@@ -218,19 +218,19 @@ export default function Home() {
           {/* Search Bar with Quick Booking Buttons */}
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-center max-w-6xl mx-auto mb-4">
             {/* Quick Booking Options - Left Side */}
-            <div className="flex flex-col gap-2 order-2 lg:order-1">
+            <div className="flex flex-col gap-2 order-2 lg:order-1 lg:w-32">
               <Link href="/quick-start?when=today">
-                <Button className="bg-black text-white hover:bg-gray-800 text-sm px-4 py-2 w-full lg:w-auto">
+                <Button className="bg-black text-white hover:bg-gray-800 text-sm px-4 py-2 w-full">
                   Book Today
                 </Button>
               </Link>
               <Link href="/quick-start?when=weekend">
-                <Button className="bg-black text-white hover:bg-gray-800 text-sm px-4 py-2 w-full lg:w-auto">
+                <Button className="bg-black text-white hover:bg-gray-800 text-sm px-4 py-2 w-full">
                   This Weekend
                 </Button>
               </Link>
               <Link href="/quick-start?when=next-week">
-                <Button className="bg-black text-white hover:bg-gray-800 text-sm px-4 py-2 w-full lg:w-auto">
+                <Button className="bg-black text-white hover:bg-gray-800 text-sm px-4 py-2 w-full">
                   Next Week
                 </Button>
               </Link>
