@@ -102,7 +102,7 @@ export default function Header() {
                   <Button variant="ghost" size="sm" className="rounded-full px-4 text-black hover:text-gray-700" onClick={() => window.location.href = '/login'}>
                     Log in
                   </Button>
-                  <Button size="sm" className="rounded-full bg-coral hover:bg-coral/90 text-white px-4" onClick={() => window.location.href = '/signup'}>
+                  <Button size="sm" className="rounded-full bg-coral hover:bg-coral/90 text-white px-4 font-medium" onClick={() => window.location.href = '/signup'}>
                     Sign up
                   </Button>
                 </div>
