@@ -42,9 +42,173 @@ export async function sendEmail(params: EmailParams): Promise<boolean> {
   }
 }
 
+// Enhanced welcome email sequence for comprehensive caregiver onboarding
+export async function sendCaregiverWelcomeSequence(
+  caregiverEmail: string, 
+  caregiverName: string, 
+  applicationDetails: {
+    applicationId: number;
+    nextSteps: string[];
+  }
+) {
+  const fromEmail = 'welcome@vivaly.com.au';
+  
+  // Day 0 - Comprehensive welcome email
+  await sendEmail({
+    to: caregiverEmail,
+    from: fromEmail,
+    subject: `Welcome to VIVALY ${caregiverName}! Your Application Has Been Received`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f8f9fa;">
+        <div style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+          <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: #2563eb; margin: 0; font-size: 28px;">Welcome to VIVALY!</h1>
+            <p style="color: #64748b; margin: 10px 0 0 0; font-size: 16px;">Australia's Premier Childcare Platform</p>
+          </div>
+          
+          <h2 style="color: #1e293b; margin-bottom: 15px;">Hi ${caregiverName},</h2>
+          
+          <p style="color: #475569; line-height: 1.6; margin-bottom: 20px;">
+            Thank you for submitting your comprehensive caregiver application! We're excited to have you join our 
+            community of trusted childcare professionals across Australia.
+          </p>
+          
+          <div style="background-color: #eff6ff; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <h3 style="color: #1e40af; margin-top: 0;">Application Status: Under Review</h3>
+            <p style="color: #1e40af; margin: 10px 0;"><strong>Application ID:</strong> #${applicationDetails.applicationId}</p>
+          </div>
+          
+          <h3 style="color: #1e293b; margin-bottom: 15px;">What Happens Next:</h3>
+          <ul style="color: #475569; line-height: 1.8; padding-left: 20px;">
+            ${applicationDetails.nextSteps.map(step => `<li>${step}</li>`).join('')}
+          </ul>
+          
+          <div style="background-color: #f0fdf4; padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #22c55e;">
+            <h4 style="color: #166534; margin-top: 0;">Why Choose VIVALY?</h4>
+            <ul style="color: #166534; margin: 10px 0; padding-left: 20px;">
+              <li>Competitive rates with instant payments</li>
+              <li>Comprehensive insurance coverage</li>
+              <li>Flexible scheduling that works for you</li>
+              <li>Direct communication with families</li>
+              <li>Professional development opportunities</li>
+            </ul>
+          </div>
+          
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="https://vivaly.com.au/caregiver/dashboard" 
+               style="background-color: #2563eb; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: bold;">
+              Track Your Application
+            </a>
+          </div>
+          
+          <p style="color: #64748b; font-size: 14px; text-align: center; margin-top: 30px; border-top: 1px solid #e2e8f0; padding-top: 20px;">
+            Questions? Reply to this email or contact us at <a href="mailto:support@vivaly.com.au" style="color: #2563eb;">support@vivaly.com.au</a><br>
+            VIVALY - Connecting Families with Trusted Care
+          </p>
+        </div>
+      </div>
+    `
+  });
+}
+
+// Enhanced admin notification for caregiver applications
+export async function sendCaregiverApplicationAlert(applicationData: {
+  applicationId: number;
+  caregiver: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    location: string;
+    suburb: string;
+    experience: number;
+    hourlyRate: string;
+    services: string[];
+    wwccNumber?: string;
+    hasFirstAid: boolean;
+    hasPoliceCheck: boolean;
+  };
+  urgency: 'standard' | 'priority' | 'urgent';
+  estimatedReviewTime: string;
+}) {
+  const adminEmail = 'admin@vivaly.com.au';
+  
+  await sendEmail({
+    to: adminEmail,
+    from: 'applications@vivaly.com.au',
+    subject: `[${applicationData.urgency.toUpperCase()}] New Caregiver Application - ${applicationData.caregiver.firstName} ${applicationData.caregiver.lastName}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px;">
+        <div style="background-color: #1e293b; color: white; padding: 20px; border-radius: 8px 8px 0 0;">
+          <h1 style="margin: 0; font-size: 24px;">New Caregiver Application</h1>
+          <p style="margin: 10px 0 0 0; opacity: 0.9;">Requires review within ${applicationData.estimatedReviewTime}</p>
+        </div>
+        
+        <div style="background-color: white; padding: 25px; border: 1px solid #e2e8f0; border-top: none;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px;">
+            <div>
+              <h3 style="color: #1e293b; margin: 0 0 15px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px;">Applicant Details</h3>
+              <p><strong>Name:</strong> ${applicationData.caregiver.firstName} ${applicationData.caregiver.lastName}</p>
+              <p><strong>Email:</strong> ${applicationData.caregiver.email}</p>
+              <p><strong>Phone:</strong> ${applicationData.caregiver.phone}</p>
+              <p><strong>Location:</strong> ${applicationData.caregiver.suburb}, ${applicationData.caregiver.location}</p>
+            </div>
+            
+            <div>
+              <h3 style="color: #1e293b; margin: 0 0 15px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px;">Professional Profile</h3>
+              <p><strong>Experience:</strong> ${applicationData.caregiver.experience} years</p>
+              <p><strong>Hourly Rate:</strong> $${applicationData.caregiver.hourlyRate}/hour</p>
+              <p><strong>Services:</strong> ${applicationData.caregiver.services.join(', ')}</p>
+            </div>
+          </div>
+          
+          <div style="background-color: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <h3 style="color: #1e293b; margin: 0 0 15px 0;">Verification Status</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+              <div>
+                <span style="display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; 
+                      ${applicationData.caregiver.wwccNumber ? 'background-color: #dcfce7; color: #166534;' : 'background-color: #fef2f2; color: #dc2626;'}">
+                  WWCC: ${applicationData.caregiver.wwccNumber ? 'Provided' : 'Pending'}
+                </span>
+              </div>
+              <div>
+                <span style="display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; 
+                      ${applicationData.caregiver.hasFirstAid ? 'background-color: #dcfce7; color: #166534;' : 'background-color: #fef2f2; color: #dc2626;'}">
+                  First Aid: ${applicationData.caregiver.hasFirstAid ? 'Certified' : 'Not Provided'}
+                </span>
+              </div>
+              <div>
+                <span style="display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; 
+                      ${applicationData.caregiver.hasPoliceCheck ? 'background-color: #dcfce7; color: #166534;' : 'background-color: #fef2f2; color: #dc2626;'}">
+                  Police Check: ${applicationData.caregiver.hasPoliceCheck ? 'Completed' : 'Pending'}
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="https://vivaly.com.au/admin/applications/${applicationData.applicationId}" 
+               style="background-color: #2563eb; color: white; padding: 12px 25px; text-decoration: none; border-radius: 6px; font-weight: bold; margin-right: 10px;">
+              Review Application
+            </a>
+            <a href="mailto:${applicationData.caregiver.email}" 
+               style="background-color: #64748b; color: white; padding: 12px 25px; text-decoration: none; border-radius: 6px; font-weight: bold;">
+              Contact Applicant
+            </a>
+          </div>
+          
+          <p style="color: #64748b; font-size: 12px; text-align: center; margin-top: 25px; border-top: 1px solid #e2e8f0; padding-top: 15px;">
+            Application ID: #${applicationData.applicationId} | Submitted: ${new Date().toLocaleString('en-AU')}
+          </p>
+        </div>
+      </div>
+    `
+  });
+}
+
 // Welcome email sequence for new nannies
 export async function sendNannyWelcomeSequence(nannyEmail: string, nannyName: string) {
-  const fromEmail = 'welcome@careconnect.com.au';
+  const fromEmail = 'welcome@vivaly.com.au';
   
   // Day 0 - Welcome email
   await sendEmail({

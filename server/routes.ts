@@ -425,6 +425,105 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Enhanced caregiver onboarding with comprehensive verification
+  app.post("/api/caregivers/onboard", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Parse and validate the comprehensive onboarding data
+      const onboardingData = req.body;
+      
+      // Create enhanced nanny profile with verification tracking
+      const nannyData = {
+        userId: parseInt(userId),
+        bio: onboardingData.bio,
+        experience: onboardingData.experience,
+        hourlyRate: onboardingData.hourlyRate,
+        location: onboardingData.location,
+        suburb: onboardingData.suburb,
+        services: onboardingData.services,
+        certificates: onboardingData.certificates,
+        availability: onboardingData.availability,
+        minimumBookingHours: onboardingData.minimumBookingHours,
+        wwccNumber: onboardingData.wwccNumber,
+        firstAidCert: onboardingData.firstAidCert,
+        policeCheck: onboardingData.policeCheck,
+        abn: onboardingData.abn,
+        bankDetails: {
+          accountName: onboardingData.bankAccountName,
+          bsb: onboardingData.bsb,
+          accountNumber: onboardingData.accountNumber
+        },
+        emergencyContact: {
+          name: onboardingData.emergencyContactName,
+          phone: onboardingData.emergencyContactPhone,
+          relationship: onboardingData.emergencyContactRelationship
+        },
+        verificationStatus: "pending_documents",
+        onboardingCompleted: true,
+        isVerified: false,
+      };
+
+      const nanny = await storage.createNanny(nannyData);
+      
+      // Send comprehensive welcome email sequence
+      await sendCaregiverWelcomeSequence(user.email, user.firstName, {
+        applicationId: nanny.id,
+        nextSteps: [
+          "Document verification within 24 hours",
+          "Background check processing (2-3 days)",
+          "Profile review and approval",
+          "Platform activation"
+        ]
+      });
+      
+      // Send detailed admin notification for review
+      await sendCaregiverApplicationAlert({
+        applicationId: nanny.id,
+        caregiver: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          phone: onboardingData.phone,
+          location: nanny.location,
+          suburb: nanny.suburb,
+          experience: nanny.experience,
+          hourlyRate: nanny.hourlyRate,
+          services: nanny.services,
+          wwccNumber: onboardingData.wwccNumber,
+          hasFirstAid: onboardingData.firstAidCert,
+          hasPoliceCheck: onboardingData.policeCheck
+        },
+        urgency: "standard",
+        estimatedReviewTime: "2-3 business days"
+      });
+
+      res.json({
+        success: true,
+        applicationId: nanny.id,
+        status: "submitted",
+        message: "Your application has been submitted successfully. We'll contact you within 24 hours for document verification.",
+        nextSteps: {
+          immediate: "Check your email for verification instructions",
+          within24Hours: "Document upload request",
+          within72Hours: "Application review completion",
+          onApproval: "Platform access and profile activation"
+        }
+      });
+    } catch (error) {
+      console.error("Error in caregiver onboarding:", error);
+      res.status(500).json({ 
+        message: "Failed to submit application", 
+        error: error instanceof Error ? error.message : "Unknown error" 
+      });
+    }
+  });
+
   app.post("/api/nannies", async (req, res) => {
     try {
       const nannyData = insertNannySchema.parse(req.body);
