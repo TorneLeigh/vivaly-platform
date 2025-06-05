@@ -29,6 +29,9 @@ export default function Header() {
   const { toast } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
+  // Debug logging
+  console.log('Header Auth State:', { isAuthenticated, isLoading, user });
+  
   // Determine view mode based on current route
   const isProviderRoute = location.includes('/provider-dashboard') || location.includes('/childcare-dashboard') || 
                          location.includes('/become-nanny') || location.includes('/become-childcare-provider');
