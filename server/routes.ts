@@ -9,7 +9,7 @@ import { setupAuth, isAuthenticated } from "./replitAuth";
 import { 
   insertUserSchema, insertNannySchema, insertBookingSchema, 
   insertReviewSchema, insertMessageSchema, insertExperienceSchema,
-  insertParentProfileSchema
+  insertParentProfileSchema, insertChildcareProviderSchema, insertChildcareEnrollmentSchema
 } from "@shared/schema";
 import { sendNannyWelcomeSequence, sendBookingConfirmation, sendNewNannyAlert, sendCaregiverWelcomeSequence, sendCaregiverApplicationAlert } from "./email-service";
 import { wwccVerificationService } from "./wwcc-verification-service";

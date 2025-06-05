@@ -6,14 +6,9 @@ export function useAuth() {
     retry: false,
   });
 
-  const isProvider = user?.isNanny || user?.isCaregiver || user?.isChildcareProvider;
-  const isSeeker = !isProvider && !!user;
-
   return {
     user,
     isLoading,
     isAuthenticated: !!user,
-    isProvider,
-    isSeeker,
   };
 }
