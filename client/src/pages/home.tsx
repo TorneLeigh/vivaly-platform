@@ -306,7 +306,7 @@ export default function Home() {
       {/* Pet Care Section */}
       <section className="py-6 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
+          <div className="text-center mb-6">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Pet Care Services</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Your furry family members deserve the best care too. Find trusted pet sitters, dog walkers, and animal care specialists.
@@ -562,8 +562,10 @@ export default function Home() {
       </section>
 
 
-      {/* Floating Action Button */}
-      <FloatingActionButton />
+      {/* Floating Action Button - Hidden on mobile */}
+      <div className="hidden lg:block">
+        <FloatingActionButton />
+      </div>
     </div>
   );
 }
