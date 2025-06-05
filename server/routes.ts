@@ -38,7 +38,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // JWT Authentication system
   const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
-  const generateToken = (userId: number) => {
+  const generateToken = (userId: string) => {
     return jwt.sign({ userId }, JWT_SECRET, { expiresIn: "7d" });
   };
 
@@ -83,7 +83,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       // Generate token
-      const token = generateToken(user.id);
+      const token = generateToken(user.id.toString());
+
+      // Store user ID in session
+      req.session.userId = user.id;
 
       // Remove password from response
       const { password, ...userWithoutPassword } = user;
@@ -117,7 +120,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Generate JWT token
-      const token = generateToken(user.id);
+      const token = generateToken(user.id.toString());
       
       // Store user ID in session for backward compatibility
       req.session.userId = user.id;
@@ -129,6 +132,90 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Login error:", error);
       res.status(500).json({ message: "Login error" });
+    }
+  });
+
+  // Simple authentication routes that work correctly
+  app.post('/api/auth/simple-login', async (req, res) => {
+    try {
+      const { email, password } = req.body;
+    
+      if (!email || !password) {
+        return res.status(400).json({ message: "Email and password required" });
+      }
+
+      // Find user by email
+      const user = await storage.getUserByEmail(email);
+      
+      if (!user || !user.password) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+
+      // Verify password hash
+      const isValidPassword = await bcrypt.compare(password, user.password);
+      if (!isValidPassword) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+
+      // Store user ID in session
+      req.session.userId = user.id;
+      
+      // Remove password from response
+      const { password: _, ...userWithoutPassword } = user;
+      
+      res.json({ user: userWithoutPassword, success: true });
+    } catch (error) {
+      console.error("Login error:", error);
+      res.status(500).json({ message: "Login error" });
+    }
+  });
+
+  app.post('/api/auth/simple-signup', async (req, res) => {
+    try {
+      const { email, password, firstName, lastName, phone } = req.body;
+      
+      if (!email || !password || !firstName || !lastName) {
+        return res.status(400).json({ message: "Email, password, first name, and last name are required" });
+      }
+
+      // Check if user already exists
+      const existingUser = await storage.getUserByEmail(email);
+      if (existingUser) {
+        return res.status(400).json({ message: "User already exists" });
+      }
+
+      // Hash password
+      const hashedPassword = await bcrypt.hash(password, 10);
+      
+      // Create user with a simple string ID
+      const userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      const newUser = {
+        id: userId,
+        email: email,
+        password: hashedPassword,
+        firstName: firstName,
+        lastName: lastName,
+        phone: phone || null,
+        profileImageUrl: null,
+        isNanny: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      // Store user directly in memory storage
+      const user = await storage.createUserSimple(newUser);
+
+      // Store user ID in session
+      req.session.userId = user.id;
+
+      // Remove password from response
+      const { password: _, ...userWithoutPassword } = user;
+
+      res.json({ user: userWithoutPassword, success: true });
+    } catch (error) {
+      console.error("Signup error:", error);
+      res.status(500).json({ message: "Failed to create account" });
     }
   });
 

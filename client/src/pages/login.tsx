@@ -235,6 +235,21 @@ export default function Login() {
                 >
                   {loginMutation.isPending ? "Signing in..." : "Sign in"}
                 </Button>
+                
+                <div className="text-center mt-4">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      toast({
+                        title: "Forgot Password",
+                        description: "Password reset functionality will be available soon. Please contact support for assistance.",
+                      });
+                    }}
+                    className="text-sm text-gray-600 hover:text-gray-800 underline"
+                  >
+                    Forgot your password?
+                  </button>
+                </div>
               </form>
             </Form>
           )}
