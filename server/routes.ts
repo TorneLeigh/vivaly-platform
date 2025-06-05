@@ -1578,23 +1578,126 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin Dashboard API endpoints
+  app.get("/api/admin/revenue", async (req, res) => {
+    try {
+      const bookings = await storage.getAllBookings();
+      const completedBookings = bookings.filter(b => b.status === 'completed');
+      
+      const totalRevenue = completedBookings.reduce((sum, booking) => 
+        sum + parseFloat(booking.totalAmount || "0"), 0);
+      const totalPlatformFees = totalRevenue * 0.1; // 10% commission
+      const averageBookingValue = completedBookings.length > 0 ? 
+        totalRevenue / completedBookings.length : 0;
+      
+      res.json({
+        totalRevenue,
+        totalPlatformFees,
+        averageBookingValue,
+        totalBookings: completedBookings.length,
+        pendingBookings: bookings.filter(b => b.status === 'pending').length,
+        confirmedBookings: bookings.filter(b => b.status === 'confirmed').length
+      });
+    } catch (error) {
+      console.error("Error fetching admin revenue:", error);
+      res.status(500).json({ message: "Failed to fetch revenue data" });
+    }
+  });
+
+  app.get("/api/admin/bookings/stats", async (req, res) => {
+    try {
+      const bookings = await storage.getAllBookings();
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      const todayBookings = bookings.filter(b => {
+        const bookingDate = new Date(b.date);
+        bookingDate.setHours(0, 0, 0, 0);
+        return bookingDate.getTime() === today.getTime();
+      });
+      
+      const thisWeek = new Date();
+      thisWeek.setDate(thisWeek.getDate() - 7);
+      const weeklyBookings = bookings.filter(b => new Date(b.date) >= thisWeek);
+      
+      res.json({
+        todayCount: todayBookings.length,
+        weeklyCount: weeklyBookings.length,
+        totalCount: bookings.length,
+        pendingCount: bookings.filter(b => b.status === 'pending').length,
+        confirmedCount: bookings.filter(b => b.status === 'confirmed').length,
+        completedCount: bookings.filter(b => b.status === 'completed').length
+      });
+    } catch (error) {
+      console.error("Error fetching booking stats:", error);
+      res.status(500).json({ message: "Failed to fetch booking statistics" });
+    }
+  });
+
+  app.get("/api/admin/users/stats", async (req, res) => {
+    try {
+      const users = await storage.getAllUsers();
+      const nannies = await storage.getAllNannies();
+      
+      const totalUsers = users.length;
+      const totalCaregivers = nannies.length;
+      const totalParents = totalUsers - totalCaregivers;
+      const verifiedCaregivers = nannies.filter(n => n.isVerified).length;
+      
+      res.json({
+        totalUsers,
+        totalCaregivers,
+        totalParents,
+        verifiedCaregivers,
+        pendingVerifications: nannies.filter(n => n.verificationStatus === 'pending').length
+      });
+    } catch (error) {
+      console.error("Error fetching user stats:", error);
+      res.status(500).json({ message: "Failed to fetch user statistics" });
+    }
+  });
+
+  app.get("/api/admin/bookings/recent", async (req, res) => {
+    try {
+      const bookings = await storage.getRecentBookingsWithDetails();
+      res.json(bookings);
+    } catch (error) {
+      console.error("Error fetching recent bookings:", error);
+      res.status(500).json({ message: "Failed to fetch recent bookings" });
+    }
+  });
+
+  app.get("/api/admin/caregivers/pending", async (req, res) => {
+    try {
+      const pendingCaregivers = await storage.getPendingCaregivers();
+      res.json(pendingCaregivers);
+    } catch (error) {
+      console.error("Error fetching pending caregivers:", error);
+      res.status(500).json({ message: "Failed to fetch pending caregivers" });
+    }
+  });
+
+  app.patch("/api/admin/caregivers/:id/verify", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { approved, reason } = req.body;
+      
+      const caregiver = await storage.updateCaregiverVerification(id, approved, reason);
+      if (!caregiver) {
+        return res.status(404).json({ message: "Caregiver not found" });
+      }
+      
+      res.json(caregiver);
+    } catch (error) {
+      console.error("Error updating caregiver verification:", error);
+      res.status(500).json({ message: "Failed to update caregiver verification" });
+    }
+  });
+
   app.get("/api/bookings/today/:userId", async (req, res) => {
     try {
       const userId = parseInt(req.params.userId);
-      
-      // Get today's bookings from storage
-      const todayBookings = [
-        {
-          id: 1,
-          serviceType: "Childcare",
-          startTime: "09:00",
-          endTime: "17:00",
-          parentName: "Sarah Wilson",
-          totalAmount: "240",
-          status: "confirmed"
-        }
-      ];
-      
+      const todayBookings = await storage.getTodayBookingsByCaregiver(userId);
       res.json(todayBookings);
     } catch (error) {
       console.error("Error fetching today's bookings:", error);

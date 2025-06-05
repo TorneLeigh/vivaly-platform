@@ -87,6 +87,15 @@ export interface IStorage {
   // Parent Profiles - Comprehensive Airbnb-style profiles
   getParentProfile(userId: string): Promise<ParentProfile | undefined>;
   createOrUpdateParentProfile(profile: InsertParentProfile): Promise<ParentProfile>;
+
+  // Admin Dashboard Methods
+  getAllBookings(): Promise<Booking[]>;
+  getAllUsers(): Promise<User[]>;
+  getAllNannies(): Promise<Nanny[]>;
+  getRecentBookingsWithDetails(): Promise<(Booking & { nanny: Nanny & { user: User }, parent: User })[]>;
+  getPendingCaregivers(): Promise<(Nanny & { user: User })[]>;
+  updateCaregiverVerification(id: number, approved: boolean, reason?: string): Promise<Nanny | undefined>;
+  getTodayBookingsByCaregiver(userId: number): Promise<(Booking & { parent: User })[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -919,6 +928,88 @@ export class MemStorage implements IStorage {
       this.users.set(newUser.id, newUser);
       return newUser;
     }
+  }
+
+  // Admin Dashboard Methods Implementation
+  async getAllBookings(): Promise<Booking[]> {
+    return Array.from(this.bookings.values());
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return Array.from(this.users.values());
+  }
+
+  async getAllNannies(): Promise<Nanny[]> {
+    return Array.from(this.nannies.values());
+  }
+
+  async getRecentBookingsWithDetails(): Promise<(Booking & { nanny: Nanny & { user: User }, parent: User })[]> {
+    const bookings = Array.from(this.bookings.values())
+      .sort((a, b) => new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime())
+      .slice(0, 10);
+
+    return bookings.map(booking => {
+      const nanny = this.nannies.get(booking.nannyId);
+      const nannyUser = nanny ? this.users.get(nanny.userId.toString()) : undefined;
+      const parent = this.users.get(booking.parentId.toString());
+
+      return {
+        ...booking,
+        nanny: nanny && nannyUser ? { ...nanny, user: nannyUser } : {} as any,
+        parent: parent || {} as User
+      };
+    });
+  }
+
+  async getPendingCaregivers(): Promise<(Nanny & { user: User })[]> {
+    const pendingNannies = Array.from(this.nannies.values())
+      .filter(nanny => nanny.verificationStatus === 'pending');
+
+    return pendingNannies.map(nanny => {
+      const user = this.users.get(nanny.userId.toString());
+      return {
+        ...nanny,
+        user: user || {} as User
+      };
+    });
+  }
+
+  async updateCaregiverVerification(id: number, approved: boolean, reason?: string): Promise<Nanny | undefined> {
+    const nanny = this.nannies.get(id);
+    if (!nanny) return undefined;
+
+    const updatedNanny = {
+      ...nanny,
+      verificationStatus: approved ? 'approved' : 'rejected',
+      isVerified: approved,
+      verificationDate: new Date()
+    };
+
+    this.nannies.set(id, updatedNanny);
+    return updatedNanny;
+  }
+
+  async getTodayBookingsByCaregiver(userId: number): Promise<(Booking & { parent: User })[]> {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const nanny = Array.from(this.nannies.values()).find(n => n.userId === userId);
+    if (!nanny) return [];
+
+    const todayBookings = Array.from(this.bookings.values())
+      .filter(booking => {
+        const bookingDate = new Date(booking.date);
+        bookingDate.setHours(0, 0, 0, 0);
+        return booking.nannyId === nanny.id && bookingDate.getTime() === today.getTime();
+      });
+
+    return todayBookings.map(booking => {
+      const parent = this.users.get(booking.parentId.toString());
+      return {
+        ...booking,
+        parent: parent || {} as User
+      };
+    });
   }
 }
 
