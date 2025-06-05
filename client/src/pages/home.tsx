@@ -215,29 +215,9 @@ export default function Home() {
             Instant booking • Verified caregivers • Available today
           </p>
           
-          {/* Search Bar with Quick Booking Buttons */}
-          <div className="flex flex-col lg:flex-row gap-4 items-center justify-center max-w-6xl mx-auto mb-4 px-4">
-            {/* Quick Booking Options - Left Side on Desktop, Below on Mobile */}
-            <div className="flex flex-row lg:flex-col gap-2 order-2 lg:order-1 lg:w-32 w-full lg:w-auto">
-              <Link href="/quick-start?when=today" className="flex-1 lg:flex-none">
-                <Button className="bg-black text-white hover:bg-gray-800 text-xs lg:text-sm px-2 lg:px-4 py-2 w-full">
-                  Book Today
-                </Button>
-              </Link>
-              <Link href="/quick-start?when=weekend" className="flex-1 lg:flex-none">
-                <Button className="bg-black text-white hover:bg-gray-800 text-xs lg:text-sm px-2 lg:px-4 py-2 w-full">
-                  This Weekend
-                </Button>
-              </Link>
-              <Link href="/quick-start?when=next-week" className="flex-1 lg:flex-none">
-                <Button className="bg-black text-white hover:bg-gray-800 text-xs lg:text-sm px-2 lg:px-4 py-2 w-full">
-                  Next Week
-                </Button>
-              </Link>
-            </div>
-            
-            {/* Large Search Bar */}
-            <div className="bg-white rounded-full shadow-2xl border border-gray-200 p-2 w-full lg:flex-1 lg:max-w-3xl order-1 lg:order-2" style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 10px 30px -8px rgba(0, 0, 0, 0.1)' }}>
+          {/* Large Search Bar */}
+          <div className="max-w-4xl mx-auto mb-4 px-4">
+            <div className="bg-white rounded-full shadow-2xl border border-gray-200 p-2 w-full" style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 10px 30px -8px rgba(0, 0, 0, 0.1)' }}>
               <SearchFilters onSearch={(filters) => {
                 const searchParams = new URLSearchParams(filters);
                 window.location.href = `/find-care?${searchParams.toString()}`;
