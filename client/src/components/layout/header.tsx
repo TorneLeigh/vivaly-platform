@@ -29,8 +29,7 @@ export default function Header() {
   const { toast } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
-  // Debug logging
-  console.log('Header Auth State:', { isAuthenticated, isLoading, user });
+
   
   // Determine view mode based on current route
   const isProviderRoute = location.includes('/provider-dashboard') || location.includes('/childcare-dashboard') || 
@@ -90,7 +89,7 @@ export default function Header() {
 
           {/* Desktop Right Side */}
           <div className="hidden lg:flex items-center space-x-2">
-            {!isAuthenticated ? (
+            {!isAuthenticated && !isLoading ? (
               <>
                 {viewMode === 'seeker' ? (
                   <Button className="bg-black hover:bg-gray-800 text-white font-medium" onClick={() => window.location.href = '/become-caregiver'}>
@@ -102,15 +101,15 @@ export default function Header() {
                   </Button>
                 )}
                 <div className="flex items-center border border-gray-300 rounded-full p-1 ml-4">
-                  <Button variant="ghost" size="sm" className="rounded-full px-4 text-black hover:bg-pink-100 hover:text-gray-700" onClick={() => window.location.href = '/login'}>
+                  <Button variant="ghost" size="sm" className="rounded-full px-4 text-black hover:bg-pink-100 hover:text-gray-700" onClick={() => window.location.href = '/api/login'}>
                     Log in
                   </Button>
-                  <Button size="sm" className="rounded-full bg-coral hover:bg-pink-100 px-4 font-medium" style={{ color: '#000000' }} onClick={() => window.location.href = '/signup'}>
+                  <Button size="sm" className="rounded-full bg-coral hover:bg-pink-100 px-4 font-medium" style={{ color: '#000000' }} onClick={() => window.location.href = '/api/login'}>
                     Sign up
                   </Button>
                 </div>
               </>
-            ) : (
+            ) : isAuthenticated ? (
               <div className="flex items-center space-x-4">
                 {viewMode === 'seeker' ? (
                   <Button variant="ghost" size="sm" className="flex items-center gap-2" onClick={() => window.location.href = '/search'}>
@@ -151,7 +150,7 @@ export default function Header() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
-            )}
+            ) : null}
           </div>
 
 
@@ -214,17 +213,24 @@ export default function Header() {
                         <div className="border-t pt-4 space-y-3">
                           <Button 
                             variant="ghost" 
-                            onClick={() => { window.location.href = '/login'; setMobileMenuOpen(false); }}
+                            onClick={() => { window.location.href = '/api/login'; setMobileMenuOpen(false); }}
                             className="w-full justify-start text-left font-medium"
                           >
                             Log in
                           </Button>
                           <Button 
                             variant="ghost"
-                            onClick={() => { window.location.href = '/signup'; setMobileMenuOpen(false); }}
+                            onClick={() => { window.location.href = '/api/login'; setMobileMenuOpen(false); }}
                             className="w-full justify-start text-left font-medium"
                           >
                             Sign up
+                          </Button>
+                          <Button 
+                            variant="ghost"
+                            onClick={() => { window.location.href = '/help'; setMobileMenuOpen(false); }}
+                            className="w-full justify-start text-left font-medium"
+                          >
+                            Help
                           </Button>
                         </div>
                       </div>
