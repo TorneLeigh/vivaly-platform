@@ -79,10 +79,11 @@ export default function WorkingLogin() {
       
       toast({
         title: "Success",
-        description: "Account created successfully! Please complete your profile.",
+        description: "Account created successfully!",
       });
       
-      setLocation("/profile");
+      // Force refresh the page to ensure session is recognized
+      window.location.href = "/";
     } catch (error: any) {
       toast({
         title: "Signup failed",
