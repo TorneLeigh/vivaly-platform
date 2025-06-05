@@ -32,6 +32,7 @@ export default function BookingFlow() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { user, isAuthenticated, isLoading } = useAuth();
   
   const [step, setStep] = useState(1);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
@@ -48,7 +49,22 @@ export default function BookingFlow() {
     totalAmount: 0
   });
 
-  const { data: caregiver, isLoading } = useQuery<CaregiverWithUser>({
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to book a caregiver.",
+        variant: "destructive",
+      });
+      setTimeout(() => {
+        window.location.href = "/api/login";
+      }, 500);
+      return;
+    }
+  }, [isAuthenticated, isLoading, toast]);
+
+  const { data: caregiver, isLoading: caregiverLoading } = useQuery<CaregiverWithUser>({
     queryKey: ["/api/nannies", id],
     enabled: !!id,
   });
@@ -66,6 +82,18 @@ export default function BookingFlow() {
       setStep(4); // Success step
     },
     onError: (error: any) => {
+      if (isUnauthorizedError(error)) {
+        toast({
+          title: "Authentication Required",
+          description: "Your session has expired. Redirecting to login...",
+          variant: "destructive",
+        });
+        setTimeout(() => {
+          window.location.href = "/api/login";
+        }, 500);
+        return;
+      }
+      
       toast({
         title: "Booking Failed",
         description: error.message || "Something went wrong. Please try again.",
@@ -109,7 +137,7 @@ export default function BookingFlow() {
     "21:00", "21:30", "22:00"
   ];
 
-  if (isLoading) {
+  if (isLoading || caregiverLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
