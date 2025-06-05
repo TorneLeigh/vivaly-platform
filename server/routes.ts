@@ -7,7 +7,8 @@ import { storage } from "./storage";
 import { requireAuth } from "./auth-middleware";
 import { 
   insertUserSchema, insertNannySchema, insertBookingSchema, 
-  insertReviewSchema, insertMessageSchema, insertExperienceSchema 
+  insertReviewSchema, insertMessageSchema, insertExperienceSchema,
+  insertParentProfileSchema
 } from "@shared/schema";
 import { sendNannyWelcomeSequence, sendBookingConfirmation, sendNewNannyAlert } from "./email-service";
 import { wwccVerificationService } from "./wwcc-verification-service";

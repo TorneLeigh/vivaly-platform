@@ -26,6 +26,52 @@ export const users = pgTable("users", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+export const parentProfiles = pgTable("parent_profiles", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull(),
+  // Basic Information
+  address: text("address"),
+  suburb: text("suburb"),
+  
+  // Family Information
+  familySize: text("family_size"),
+  numberOfChildren: text("number_of_children"),
+  childrenAges: json("children_ages").$type<string[]>().default([]),
+  
+  // Health & Allergies
+  foodAllergies: json("food_allergies").$type<string[]>().default([]),
+  dietaryRestrictions: json("dietary_restrictions").$type<string[]>().default([]),
+  medicationRequirements: text("medication_requirements"),
+  
+  // Caregiver Preferences
+  preferredCaregiverGender: text("preferred_caregiver_gender"),
+  languagePreferences: json("language_preferences").$type<string[]>().default(["English"]),
+  caregiverExperienceLevel: text("caregiver_experience_level"),
+  specialSkillsRequired: json("special_skills_required").$type<string[]>().default([]),
+  
+  // Care Requirements
+  typicalCareHours: text("typical_care_hours"),
+  careFrequency: text("care_frequency"),
+  emergencyContactName: text("emergency_contact_name"),
+  emergencyContactPhone: text("emergency_contact_phone"),
+  emergencyContactRelation: text("emergency_contact_relation"),
+  
+  // Household Rules & Preferences
+  petsInHome: json("pets_in_home").$type<string[]>().default([]),
+  smokingPolicy: text("smoking_policy"),
+  screenTimePolicy: text("screen_time_policy"),
+  disciplineStyle: text("discipline_style"),
+  outdoorActivities: boolean("outdoor_activities").default(true),
+  
+  // Additional Information
+  specialInstructions: text("special_instructions"),
+  backgroundCheckRequired: boolean("background_check_required").default(true),
+  referencesRequired: boolean("references_required").default(true),
+  
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 export const nannies = pgTable("nannies", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull(),
@@ -367,3 +413,8 @@ export const SYDNEY_SUBURBS = [
   "The Rocks",
   "Glebe"
 ] as const;
+
+// Parent Profile Schema Types
+export const insertParentProfileSchema = createInsertSchema(parentProfiles);
+export type InsertParentProfile = z.infer<typeof insertParentProfileSchema>;
+export type ParentProfile = typeof parentProfiles.$inferSelect;
