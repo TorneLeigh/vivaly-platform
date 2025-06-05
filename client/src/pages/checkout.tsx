@@ -1,33 +1,23 @@
-import { useEffect, useState } from 'react';
 import { useStripe, Elements, PaymentElement, useElements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { useLocation } from 'wouter';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from 'react';
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { formatCurrency } from "@/lib/utils";
-import { ArrowLeft, CreditCard } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { isUnauthorizedError } from '@/lib/authUtils';
 
+// Make sure to call `loadStripe` outside of a component's render to avoid
+// recreating the `Stripe` object on every render.
 if (!import.meta.env.VITE_STRIPE_PUBLIC_KEY) {
   throw new Error('Missing required Stripe key: VITE_STRIPE_PUBLIC_KEY');
 }
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
-interface CheckoutProps {
-  amount: number;
-  serviceType: string;
-  nannyId?: number;
-  nannyName?: string;
-  date?: string;
-  time?: string;
-}
-
-const CheckoutForm = ({ amount, serviceType, nannyName, date, time }: CheckoutProps) => {
+const CheckoutForm = ({ amount, bookingId }: { amount: number, bookingId: number }) => {
   const stripe = useStripe();
   const elements = useElements();
   const { toast } = useToast();
-  const [, setLocation] = useLocation();
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -39,165 +29,119 @@ const CheckoutForm = ({ amount, serviceType, nannyName, date, time }: CheckoutPr
 
     setIsProcessing(true);
 
-    try {
-      const { error } = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-          return_url: `${window.location.origin}/booking-confirmation`,
-        },
-      });
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: `${window.location.origin}/booking-success`,
+      },
+    });
 
-      if (error) {
-        toast({
-          title: "Payment Failed",
-          description: error.message,
-          variant: "destructive",
-        });
-      }
-    } catch (err) {
+    if (error) {
       toast({
-        title: "Payment Error",
-        description: "Something went wrong. Please try again.",
+        title: "Payment Failed",
+        description: error.message,
         variant: "destructive",
       });
-    } finally {
-      setIsProcessing(false);
+    } else {
+      toast({
+        title: "Payment Successful",
+        description: "Your booking has been confirmed!",
+      });
     }
+
+    setIsProcessing(false);
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <Button 
-        variant="ghost" 
-        onClick={() => setLocation('/')} 
-        className="mb-6"
-      >
-        <ArrowLeft className="h-4 w-4 mr-2" />
-        Back to Search
-      </Button>
-
-      <div className="grid md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CreditCard className="h-5 w-5" />
-              Payment Details
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <PaymentElement />
-              <Button 
-                type="submit" 
-                className="w-full bg-coral hover:bg-coral/90" 
-                disabled={!stripe || isProcessing}
-              >
-                {isProcessing ? "Processing..." : `Pay ${formatCurrency(amount)}`}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Booking Summary</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex justify-between">
-              <span className="text-warm-gray">Service</span>
-              <span className="font-medium">{serviceType}</span>
-            </div>
-            {nannyName && (
-              <div className="flex justify-between">
-                <span className="text-warm-gray">Caregiver</span>
-                <span className="font-medium">{nannyName}</span>
-              </div>
-            )}
-            {date && (
-              <div className="flex justify-between">
-                <span className="text-warm-gray">Date</span>
-                <span className="font-medium">{date}</span>
-              </div>
-            )}
-            {time && (
-              <div className="flex justify-between">
-                <span className="text-warm-gray">Time</span>
-                <span className="font-medium">{time}</span>
-              </div>
-            )}
-            <hr className="my-4" />
-            <div className="flex justify-between text-lg font-semibold">
-              <span>Total</span>
-              <span className="text-coral">{formatCurrency(amount)}</span>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+    <Card className="w-full max-w-md mx-auto">
+      <CardHeader>
+        <CardTitle>Complete Payment</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="p-4 bg-gray-50 rounded-lg">
+            <p className="text-lg font-semibold">Total: ${amount}</p>
+          </div>
+          
+          <PaymentElement />
+          
+          <Button 
+            type="submit" 
+            disabled={!stripe || isProcessing} 
+            className="w-full"
+          >
+            {isProcessing ? "Processing..." : `Pay $${amount}`}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 };
 
 export default function Checkout() {
   const [clientSecret, setClientSecret] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [checkoutData, setCheckoutData] = useState<CheckoutProps | null>(null);
+  const [amount, setAmount] = useState(0);
+  const [bookingId, setBookingId] = useState(0);
+  const { toast } = useToast();
 
   useEffect(() => {
-    // Get booking data from URL params or localStorage
+    // Get booking details from URL params or state
     const urlParams = new URLSearchParams(window.location.search);
-    const amount = parseFloat(urlParams.get('amount') || '0');
-    const serviceType = urlParams.get('serviceType') || 'Childcare Service';
-    const nannyId = urlParams.get('nannyId') ? parseInt(urlParams.get('nannyId')!) : undefined;
-    const nannyName = urlParams.get('nannyName') || undefined;
-    const date = urlParams.get('date') || undefined;
-    const time = urlParams.get('time') || undefined;
-
-    if (amount > 0) {
-      setCheckoutData({ amount, serviceType, nannyId, nannyName, date, time });
+    const paramAmount = urlParams.get('amount');
+    const paramBookingId = urlParams.get('bookingId');
+    
+    if (paramAmount && paramBookingId) {
+      const amountValue = parseFloat(paramAmount);
+      const bookingIdValue = parseInt(paramBookingId);
+      
+      setAmount(amountValue);
+      setBookingId(bookingIdValue);
 
       // Create PaymentIntent
       apiRequest("POST", "/api/create-payment-intent", { 
-        amount, 
-        serviceType, 
-        nannyId 
+        amount: amountValue, 
+        bookingId: bookingIdValue 
       })
-        .then((res) => res.json())
-        .then((data) => {
-          setClientSecret(data.clientSecret);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Payment setup error:", error);
-          setLoading(false);
+      .then((res) => res.json())
+      .then((data) => {
+        setClientSecret(data.clientSecret);
+      })
+      .catch((error) => {
+        if (isUnauthorizedError(error)) {
+          toast({
+            title: "Unauthorized",
+            description: "You are logged out. Logging in again...",
+            variant: "destructive",
+          });
+          setTimeout(() => {
+            window.location.href = "/api/login";
+          }, 500);
+          return;
+        }
+        toast({
+          title: "Error",
+          description: "Failed to initialize payment",
+          variant: "destructive",
         });
-    } else {
-      setLoading(false);
+      });
     }
-  }, []);
+  }, [toast]);
 
-  if (loading) {
+  if (!clientSecret) {
     return (
       <div className="h-screen flex items-center justify-center">
-        <div className="animate-spin w-8 h-8 border-4 border-coral border-t-transparent rounded-full" />
-      </div>
-    );
-  }
-
-  if (!clientSecret || !checkoutData) {
-    return (
-      <div className="max-w-2xl mx-auto p-6 text-center">
-        <h1 className="text-2xl font-bold text-warm-gray mb-4">Invalid Checkout</h1>
-        <p className="text-warm-gray mb-6">No booking data found. Please start a new booking.</p>
-        <Button onClick={() => window.location.href = '/'}>
-          Return Home
-        </Button>
+        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" aria-label="Loading"/>
       </div>
     );
   }
 
   return (
-    <Elements stripe={stripePromise} options={{ clientSecret }}>
-      <CheckoutForm {...checkoutData} />
-    </Elements>
+    <div className="min-h-screen bg-gray-50 py-12">
+      <div className="container mx-auto px-4">
+        <Elements stripe={stripePromise} options={{ clientSecret }}>
+          <CheckoutForm amount={amount} bookingId={bookingId} />
+        </Elements>
+      </div>
+    </div>
   );
-}
+};
