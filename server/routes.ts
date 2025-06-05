@@ -1752,6 +1752,86 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Trial signup route
+  app.post('/api/trial-signup', async (req, res) => {
+    try {
+      const {
+        firstName,
+        lastName,
+        email,
+        phone,
+        suburb,
+        userType,
+        childrenAges,
+        careNeeds,
+        hasWWCC,
+        experience,
+        signupSource
+      } = req.body;
+
+      // Create user with trial status
+      const userData = {
+        id: `trial_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        email,
+        firstName,
+        lastName,
+        phone,
+        profileImageUrl: null,
+        password: null,
+        isNanny: userType === 'caregiver',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+
+      const user = await storage.createUserSimple(userData);
+
+      // Send welcome email based on user type
+      if (userType === 'parent') {
+        console.log(`Trial signup: Parent ${firstName} ${lastName} from ${suburb}`);
+        // Email automation will be triggered when SendGrid is configured
+      } else {
+        console.log(`Trial signup: Caregiver ${firstName} ${lastName} from ${suburb}`);
+        // Email automation will be triggered when SendGrid is configured
+      }
+
+      res.json({ 
+        success: true, 
+        message: 'Trial signup successful',
+        userId: user.id,
+        userType 
+      });
+
+    } catch (error) {
+      console.error('Trial signup error:', error);
+      res.status(500).json({ message: 'Failed to process trial signup' });
+    }
+  });
+
+  // Trial metrics endpoint
+  app.get('/api/trial/metrics', async (req, res) => {
+    try {
+      const users = await storage.getAllUsers();
+      const trialUsers = users.filter(u => u.id.startsWith('trial_'));
+      
+      const metrics = {
+        totalSignups: trialUsers.length,
+        parentSignups: trialUsers.filter(u => !u.isNanny).length,
+        caregiverSignups: trialUsers.filter(u => u.isNanny).length,
+        recentSignups: trialUsers.filter(u => {
+          const signupDate = new Date(u.createdAt || '');
+          const weekAgo = new Date();
+          weekAgo.setDate(weekAgo.getDate() - 7);
+          return signupDate > weekAgo;
+        }).length
+      };
+
+      res.json(metrics);
+    } catch (error) {
+      console.error('Trial metrics error:', error);
+      res.status(500).json({ message: 'Failed to fetch trial metrics' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
