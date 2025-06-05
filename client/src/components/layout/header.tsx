@@ -96,7 +96,7 @@ export default function Header() {
                   Become a Caregiver
                 </Button>
                 <div className="flex items-center border border-gray-300 rounded-full p-1 ml-4">
-                  <Button variant="ghost" size="sm" className="rounded-full px-4" onClick={() => window.location.href = '/login'}>
+                  <Button variant="ghost" size="sm" className="rounded-full px-4 text-black hover:text-gray-700" onClick={() => window.location.href = '/login'}>
                     Log in
                   </Button>
                   <Button size="sm" className="rounded-full bg-coral hover:bg-coral/90 text-white px-4" onClick={() => window.location.href = '/signup'}>
