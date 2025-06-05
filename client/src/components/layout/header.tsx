@@ -90,7 +90,7 @@ export default function Header() {
             {!isAuthenticated ? (
               <>
                 {viewMode === 'seeker' ? (
-                  <Button variant="ghost" className="font-medium" onClick={() => window.location.href = '/become-caregiver'}>
+                  <Button className="bg-black hover:bg-gray-800 text-white font-medium" onClick={() => window.location.href = '/become-caregiver'}>
                     Switch to Caregiver
                   </Button>
                 ) : (
@@ -133,8 +133,14 @@ export default function Header() {
                     <DropdownMenuItem onClick={() => window.location.href = '/profile'}>
                       Profile
                     </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => window.location.href = '/account-settings'}>
+                      Account Settings
+                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => window.location.href = '/messages'}>
                       Messages
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => window.location.href = '/help'}>
+                      Help
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={handleLogout}>
                       Sign out
@@ -160,7 +166,7 @@ export default function Header() {
                 <div className="flex flex-col h-full">
                   {/* Header */}
                   <div className="p-6 border-b">
-                    <h2 className="text-lg font-semibold">Menu</h2>
+                    <h2 className="text-lg font-semibold">VIVALY</h2>
                   </div>
                   
                   {/* Content */}
@@ -186,9 +192,8 @@ export default function Header() {
                         <div className="space-y-3">
                           {viewMode === 'seeker' ? (
                             <Button 
-                              variant="ghost" 
                               onClick={() => { window.location.href = '/become-caregiver'; setMobileMenuOpen(false); }}
-                              className="w-full justify-start text-left font-medium text-gray-900"
+                              className="w-full bg-black hover:bg-gray-800 text-white font-medium"
                             >
                               Switch to Caregiver
                             </Button>
@@ -254,6 +259,20 @@ export default function Header() {
                           onClick={() => { window.location.href = '/profile'; setMobileMenuOpen(false); }}
                         >
                           Profile
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start text-left font-medium"
+                          onClick={() => { window.location.href = '/account-settings'; setMobileMenuOpen(false); }}
+                        >
+                          Account Settings
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start text-left font-medium"
+                          onClick={() => { window.location.href = '/help'; setMobileMenuOpen(false); }}
+                        >
+                          Help
                         </Button>
                         <div className="border-t pt-4">
                           <Button
