@@ -21,9 +21,9 @@ export default function Terms() {
                 <h2 className="text-2xl font-semibold text-gray-900 mb-4">2. Intellectual Property Rights</h2>
                 <div className="space-y-4">
                   <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">2.1 CareConnect Property</h3>
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">2.1 VIVALY Property</h3>
                     <ul className="list-disc pl-6 text-gray-700 space-y-1">
-                      <li>All content, features, functionality, designs, logos, trademarks, and trade names are owned by CareConnect</li>
+                      <li>All content, features, functionality, designs, logos, trademarks, and trade names are owned by VIVALY</li>
                       <li>Protected by Australian and international copyright, trademark, patent, trade secret laws</li>
                       <li>No right to copy, modify, distribute, or create derivative works</li>
                     </ul>
@@ -94,14 +94,14 @@ export default function Terms() {
               <section>
                 <h2 className="text-2xl font-semibold text-gray-900 mb-4">5. Safety and Verification</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  CareConnect implements comprehensive safety measures including background checks, verification processes, and emergency support systems. However, users remain responsible for their own safety and additional due diligence.
+                  VIVALY implements comprehensive safety measures including background checks, verification processes, and emergency support systems. However, users remain responsible for their own safety and additional due diligence.
                 </p>
               </section>
 
               <section>
                 <h2 className="text-2xl font-semibold text-gray-900 mb-4">6. Limitation of Liability</h2>
                 <p className="text-gray-700 leading-relaxed">
-                  CareConnect provides platform services "as is" without warranties. We are not liable for actions of caregivers or families, disputes between users, or service interruptions.
+                  VIVALY provides platform services "as is" without warranties. We are not liable for actions of caregivers or families, disputes between users, or service interruptions.
                 </p>
               </section>
 

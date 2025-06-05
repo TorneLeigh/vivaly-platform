@@ -113,8 +113,8 @@ export default function SimpleLogin() {
             </CardTitle>
             <CardDescription>
               {isSignup 
-                ? "Join Vivaly to find trusted care services" 
-                : "Sign in to your Vivaly account"
+                ? "Join VIVALY to find trusted care services" 
+                : "Sign in to your VIVALY account"
               }
             </CardDescription>
           </CardHeader>

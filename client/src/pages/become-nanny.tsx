@@ -150,7 +150,7 @@ export default function BecomeNanny() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-warm-gray mb-4">
-            Join CareConnect as a Caregiver
+            Join VIVALY as a Caregiver
           </h1>
           <p className="text-xl text-gray-600">
             Help Sydney families while building your childcare career
