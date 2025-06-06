@@ -219,7 +219,7 @@ export default function Home() {
           </p>
           
           {/* Large Search Bar */}
-          <div className="max-w-4xl mx-auto mb-4 px-4">
+          <div className="max-w-5xl mx-auto mb-12 px-4">
             <div className="bg-white rounded-full shadow-2xl border border-gray-200 p-2 w-full" style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 10px 30px -8px rgba(0, 0, 0, 0.1)' }}>
               <SearchFilters onSearch={(filters) => {
                 const searchParams = new URLSearchParams(filters);
@@ -231,7 +231,7 @@ export default function Home() {
       </section>
 
       {/* Service Categories */}
-      <section className="py-6 bg-gray-50">
+      <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
