@@ -187,26 +187,86 @@ export default function ParentProfile() {
       familySize: "2-3",
       numberOfChildren: "1",
       childrenAges: [],
+      // Detailed Children Information
+      childrenNames: [],
+      childrenGenders: [],
+      childrenPersonalities: [],
+      childrenInterests: [],
+      childrenBehavioralNotes: [],
+      napSchedules: [],
+      mealPreferences: [],
+      pottyTrainingStatus: [],
+      schoolSchedules: [],
+      extracurricularActivities: [],
+      bedtimeRoutines: [],
+      comfortItems: [],
+      favoriteActivities: [],
+      // Health & Allergies
       foodAllergies: [],
+      environmentalAllergies: [],
       dietaryRestrictions: [],
       medicationRequirements: "",
+      medicalConditions: [],
+      doctorContactInfo: "",
+      hospitalPreference: "",
+      // Emergency Contacts
+      emergencyContactName: "",
+      emergencyContactPhone: "",
+      emergencyContactRelation: "",
+      emergencyContact2Name: "",
+      emergencyContact2Phone: "",
+      emergencyContact2Relation: "",
+      // Elderly Care Information
+      elderlyInHome: false,
+      elderlyName: "",
+      elderlyAge: undefined,
+      elderlyRelationship: "",
+      elderlyMedicalConditions: [],
+      elderlyMedicationSchedule: "",
+      elderlyMobilityNeeds: "",
+      elderlyCarePreferences: "",
+      elderlyDoctorInfo: "",
+      elderlyDietaryNeeds: "",
+      elderlyPersonalityNotes: "",
+      elderlyPreferredActivities: [],
+      elderlyEmergencyInfo: "",
+      // Pet Care Information
+      petsInHome: [],
+      petNames: [],
+      petTypes: [],
+      petBreeds: [],
+      petAges: [],
+      petPersonalities: [],
+      petMedicalNeeds: [],
+      petFeedingSchedule: "",
+      petWalkingRequirements: "",
+      petGroomingNeeds: "",
+      vetContactInfo: "",
+      petEmergencyInfo: "",
+      petBehavioralNotes: "",
+      petPreferredTreats: [],
+      // Caregiver Preferences
       preferredCaregiverGender: "no-preference",
       languagePreferences: ["English"],
       caregiverExperienceLevel: "experienced",
       specialSkillsRequired: [],
+      // Care Requirements
       typicalCareHours: "full-day",
       careFrequency: "regular",
-      emergencyContactName: "",
-      emergencyContactPhone: "",
-      emergencyContactRelation: "",
-      petsInHome: [],
+      transportationNeeds: "",
+      householdChores: false,
+      // Household Rules & Preferences
       smokingPolicy: "no-smoking",
       screenTimePolicy: "limited",
       disciplineStyle: "gentle",
       outdoorActivities: true,
-      specialInstructions: "",
+      // Safety & Verification
       backgroundCheckRequired: true,
       referencesRequired: true,
+      // Additional Information
+      specialInstructions: "",
+      familyValues: "",
+      communicationPreferences: "text",
     },
   });
 
@@ -241,7 +301,7 @@ export default function ParentProfile() {
     { id: "children", label: "Children Details", icon: Baby },
     { id: "health", label: "Health & Medical", icon: Heart },
     { id: "elderly", label: "Elderly Care", icon: User },
-    { id: "pets", label: "Pet Care", icon: PawPrint },
+    { id: "pets", label: "Pet Care", icon: Footprints },
     { id: "caregiver", label: "Caregiver Preferences", icon: Star },
     { id: "household", label: "Household Rules", icon: Home },
     { id: "safety", label: "Safety & Emergency", icon: Shield },
@@ -508,6 +568,488 @@ export default function ParentProfile() {
                           </FormItem>
                         )}
                       />
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Children Details Section */}
+                {activeSection === "children" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Baby className="h-5 w-5 mr-2" />
+                        Detailed Children Information
+                      </CardTitle>
+                      <p className="text-sm text-gray-600">Help caregivers understand your children better</p>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="grid grid-cols-2 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="childrenNames"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Children's Names</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  {...field} 
+                                  value={field.value?.join(", ") || ""} 
+                                  onChange={(e) => field.onChange(e.target.value.split(", ").filter(n => n.trim()))}
+                                  placeholder="Emma, Jack, etc." 
+                                  disabled={!isEditing} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="childrenGenders"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Children's Genders</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  {...field} 
+                                  value={field.value?.join(", ") || ""} 
+                                  onChange={(e) => field.onChange(e.target.value.split(", ").filter(g => g.trim()))}
+                                  placeholder="Girl, Boy, etc." 
+                                  disabled={!isEditing} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      
+                      <FormField
+                        control={form.control}
+                        name="childrenPersonalities"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Children's Personalities</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                {...field} 
+                                value={field.value?.join("; ") || ""} 
+                                onChange={(e) => field.onChange(e.target.value.split("; ").filter(p => p.trim()))}
+                                placeholder="Emma is outgoing and loves books; Jack is energetic and loves building" 
+                                disabled={!isEditing} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="childrenInterests"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Children's Interests & Hobbies</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                {...field} 
+                                value={field.value?.join("; ") || ""} 
+                                onChange={(e) => field.onChange(e.target.value.split("; ").filter(i => i.trim()))}
+                                placeholder="Drawing, soccer, music, reading, etc." 
+                                disabled={!isEditing} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <div className="grid grid-cols-2 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="bedtimeRoutines"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Bedtime Routines</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  {...field} 
+                                  value={field.value?.join("; ") || ""} 
+                                  onChange={(e) => field.onChange(e.target.value.split("; ").filter(r => r.trim()))}
+                                  placeholder="Story time at 7:30pm; Brush teeth; Lullaby" 
+                                  disabled={!isEditing} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="napSchedules"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Nap Schedules</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  {...field} 
+                                  value={field.value?.join("; ") || ""} 
+                                  onChange={(e) => field.onChange(e.target.value.split("; ").filter(n => n.trim()))}
+                                  placeholder="Emma: 1pm-3pm; Jack: No naps" 
+                                  disabled={!isEditing} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      
+                      <FormField
+                        control={form.control}
+                        name="mealPreferences"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Meal Preferences & Eating Habits</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                {...field} 
+                                value={field.value?.join("; ") || ""} 
+                                onChange={(e) => field.onChange(e.target.value.split("; ").filter(m => m.trim()))}
+                                placeholder="Emma loves sandwiches; Jack prefers pasta; No spicy food" 
+                                disabled={!isEditing} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="childrenBehavioralNotes"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Behavioral Notes & Special Considerations</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                {...field} 
+                                value={field.value?.join("; ") || ""} 
+                                onChange={(e) => field.onChange(e.target.value.split("; ").filter(b => b.trim()))}
+                                placeholder="Emma gets shy with new people; Jack needs reminders for transitions" 
+                                disabled={!isEditing} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Elderly Care Section */}
+                {activeSection === "elderly" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <User className="h-5 w-5 mr-2" />
+                        Elderly Care Information
+                      </CardTitle>
+                      <p className="text-sm text-gray-600">Information about elderly family members who may need care</p>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <FormField
+                        control={form.control}
+                        name="elderlyInHome"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center space-x-3">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                                disabled={!isEditing}
+                              />
+                            </FormControl>
+                            <FormLabel className="text-sm">We have elderly family members who may need care</FormLabel>
+                          </FormItem>
+                        )}
+                      />
+                      
+                      {form.watch("elderlyInHome") && (
+                        <>
+                          <div className="grid grid-cols-3 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="elderlyName"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Name</FormLabel>
+                                  <FormControl>
+                                    <Input {...field} placeholder="Grandma Rose" disabled={!isEditing} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="elderlyAge"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Age</FormLabel>
+                                  <FormControl>
+                                    <Input 
+                                      {...field} 
+                                      type="number"
+                                      value={field.value || ""}
+                                      onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
+                                      placeholder="75" 
+                                      disabled={!isEditing} 
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="elderlyRelationship"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Relationship</FormLabel>
+                                  <FormControl>
+                                    <Input {...field} placeholder="Grandmother" disabled={!isEditing} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                          
+                          <FormField
+                            control={form.control}
+                            name="elderlyMedicalConditions"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Medical Conditions</FormLabel>
+                                <FormControl>
+                                  <Textarea 
+                                    {...field} 
+                                    value={field.value?.join("; ") || ""} 
+                                    onChange={(e) => field.onChange(e.target.value.split("; ").filter(c => c.trim()))}
+                                    placeholder="Diabetes; Arthritis; High blood pressure" 
+                                    disabled={!isEditing} 
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="elderlyMobilityNeeds"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Mobility & Physical Needs</FormLabel>
+                                <FormControl>
+                                  <Textarea 
+                                    {...field} 
+                                    placeholder="Uses walker; Needs help with stairs; Independent" 
+                                    disabled={!isEditing} 
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="elderlyCarePreferences"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Care Preferences & Daily Routine</FormLabel>
+                                <FormControl>
+                                  <Textarea 
+                                    {...field} 
+                                    placeholder="Enjoys gardening; Prefers quiet activities; Likes afternoon tea at 3pm" 
+                                    disabled={!isEditing} 
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </>
+                      )}
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Pet Care Section */}
+                {activeSection === "pets" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Footprints className="h-5 w-5 mr-2" />
+                        Pet Care Information
+                      </CardTitle>
+                      <p className="text-sm text-gray-600">Information about pets that caregivers should know about</p>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <FormField
+                        control={form.control}
+                        name="petsInHome"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-base font-semibold">Pets in Home</FormLabel>
+                            <div className="grid grid-cols-4 gap-3">
+                              {petOptions.map((pet) => (
+                                <div key={pet} className="flex items-center space-x-2">
+                                  <Checkbox
+                                    id={pet}
+                                    checked={field.value?.includes(pet)}
+                                    onCheckedChange={(checked) => {
+                                      if (checked) {
+                                        field.onChange([...field.value, pet]);
+                                      } else {
+                                        field.onChange(field.value?.filter((v) => v !== pet));
+                                      }
+                                    }}
+                                    disabled={!isEditing}
+                                  />
+                                  <label htmlFor={pet} className="text-sm">{pet}</label>
+                                </div>
+                              ))}
+                            </div>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      {form.watch("petsInHome")?.length > 0 && !form.watch("petsInHome")?.includes("None") && (
+                        <>
+                          <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="petNames"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Pet Names</FormLabel>
+                                  <FormControl>
+                                    <Input 
+                                      {...field} 
+                                      value={field.value?.join(", ") || ""} 
+                                      onChange={(e) => field.onChange(e.target.value.split(", ").filter(n => n.trim()))}
+                                      placeholder="Buddy, Whiskers, etc." 
+                                      disabled={!isEditing} 
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="petBreeds"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Pet Breeds</FormLabel>
+                                  <FormControl>
+                                    <Input 
+                                      {...field} 
+                                      value={field.value?.join(", ") || ""} 
+                                      onChange={(e) => field.onChange(e.target.value.split(", ").filter(b => b.trim()))}
+                                      placeholder="Golden Retriever, Persian Cat" 
+                                      disabled={!isEditing} 
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                          
+                          <FormField
+                            control={form.control}
+                            name="petPersonalities"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Pet Personalities & Behavior</FormLabel>
+                                <FormControl>
+                                  <Textarea 
+                                    {...field} 
+                                    value={field.value?.join("; ") || ""} 
+                                    onChange={(e) => field.onChange(e.target.value.split("; ").filter(p => p.trim()))}
+                                    placeholder="Buddy is friendly and energetic; Whiskers is calm and likes to hide" 
+                                    disabled={!isEditing} 
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="petFeedingSchedule"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Feeding Schedule</FormLabel>
+                                  <FormControl>
+                                    <Textarea 
+                                      {...field} 
+                                      placeholder="Buddy: 7am and 6pm; Whiskers: 8am and 7pm" 
+                                      disabled={!isEditing} 
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="petWalkingRequirements"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Walking & Exercise Needs</FormLabel>
+                                  <FormControl>
+                                    <Textarea 
+                                      {...field} 
+                                      placeholder="Buddy needs 2 walks per day; Whiskers is indoor only" 
+                                      disabled={!isEditing} 
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                          
+                          <FormField
+                            control={form.control}
+                            name="petMedicalNeeds"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Medical Needs & Special Care</FormLabel>
+                                <FormControl>
+                                  <Textarea 
+                                    {...field} 
+                                    value={field.value?.join("; ") || ""} 
+                                    onChange={(e) => field.onChange(e.target.value.split("; ").filter(m => m.trim()))}
+                                    placeholder="Buddy takes arthritis medication; Whiskers has no special needs" 
+                                    disabled={!isEditing} 
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </>
+                      )}
                     </CardContent>
                   </Card>
                 )}
