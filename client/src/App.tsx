@@ -101,10 +101,7 @@ function Router() {
           <Route path="/become-childcare-provider" component={BecomeChildcareProvider} />
           <Route path="/find-care" component={FindCare} />
           <Route path="/childcare-enroll/:id" component={ChildcareEnroll} />
-          <Route path="/login" component={() => {
-            window.location.href = '/api/login';
-            return null;
-          }} />
+          <Route path="/login" component={Auth} />
           <Route path="/working-login" component={WorkingLogin} />
           <Route path="/auth" component={Auth} />
           <Route path="/profile" component={ParentProfile} />
