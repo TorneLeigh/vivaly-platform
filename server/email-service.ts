@@ -438,20 +438,12 @@ export async function sendParentEngagementEmail(parentEmail: string, parentName:
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h1 style="color: #000000; font-weight: 900;">Real Stories, Real Families</h1>
         <p>Hi ${parentName},</p>
-        <p>We wanted to share some inspiring stories from families who found their perfect caregiver through VIVALY.</p>
+        <p>Here are some helpful tips and featured caregivers to explore this week.</p>
         
         <div style="background: #f9fafb; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #000000;">
-          <h3>⭐ Featured Success Story</h3>
-          <blockquote style="font-style: italic; margin: 15px 0; color: #374151;">
-            "Sarah has been incredible with our twins. Finding her through VIVALY was the best decision we made as working parents. The verification process gave us complete peace of mind."
-          </blockquote>
-          <p style="color: #6b7280; margin: 0;"><strong>- Emma & James, Sydney</strong></p>
-        </div>
-        
-        <div style="background: #fef3e2; padding: 20px; border-radius: 8px; margin: 20px 0;">
           <h3>🎯 This Week's Featured Caregivers</h3>
           <p>We've hand-picked some amazing caregivers in your area:</p>
-          <ul>
+          <ul style="color: #374151;">
             <li><strong>Maria</strong> - 8 years experience, specializes in newborn care</li>
             <li><strong>David</strong> - Male nanny, great with energetic toddlers</li>
             <li><strong>Sophie</strong> - Montessori-trained, perfect for early learning</li>
@@ -552,11 +544,11 @@ export async function sendPostBookingFeedback(userEmail: string, userName: strin
         </div>
         
         <p style="text-align: center;">
-          <a href="https://aircareau.com/review/${bookingId}" style="background: #f97316; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">Write Detailed Review →</a>
+          <a href="https://vivaly.com.au/review/${bookingId}" style="background: #000000; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">Write Detailed Review →</a>
         </p>
         
-        <p>Thank you for being part of the Carely community!</p>
-        <p>Best regards,<br>The Carely Team</p>
+        <p>Thank you for being part of the VIVALY community!</p>
+        <p>Best regards,<br>The VIVALY Team</p>
       </div>
     `
   });
@@ -619,7 +611,7 @@ export async function sendCaregiverPerformanceAlert(caregiverEmail: string, care
           `}
           
           <p>Keep up the great work and thank you for being part of our community!</p>
-          <p>Best regards,<br>The Carely Team</p>
+          <p>Best regards,<br>The VIVALY Team</p>
         </div>
       </div>
     `
@@ -629,7 +621,7 @@ export async function sendCaregiverPerformanceAlert(caregiverEmail: string, care
 // Weekly Newsletter
 export async function sendWeeklyNewsletter(userEmail: string, userName: string, userType: 'parent' | 'caregiver') {
   const content = userType === 'parent' ? {
-    subject: 'This week in Carely: New caregivers and parenting tips',
+    subject: 'This week in VIVALY: New caregivers and parenting tips',
     title: 'Weekly Family Update',
     mainContent: `
       <div style="background: #f0fdf4; padding: 20px; border-radius: 8px; margin: 20px 0;">
@@ -643,9 +635,9 @@ export async function sendWeeklyNewsletter(userEmail: string, userName: string, 
       </div>
     `,
     cta: 'Find New Caregivers →',
-    ctaLink: 'https://aircareau.com/search'
+    ctaLink: 'https://vivaly.com.au/search'
   } : {
-    subject: 'Carely Weekly: Boost your bookings and care tips',
+    subject: 'VIVALY Weekly: Boost your bookings and care tips',
     title: 'Weekly Caregiver Update',
     mainContent: `
       <div style="background: #f0fdf4; padding: 20px; border-radius: 8px; margin: 20px 0;">
@@ -659,7 +651,7 @@ export async function sendWeeklyNewsletter(userEmail: string, userName: string, 
       </div>
     `,
     cta: 'Update Availability →',
-    ctaLink: 'https://aircareau.com/caregiver-dashboard'
+    ctaLink: 'https://vivaly.com.au/caregiver-dashboard'
   };
 
   await sendEmail({
