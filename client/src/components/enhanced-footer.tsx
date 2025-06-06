@@ -94,13 +94,13 @@ export default function EnhancedFooter() {
             </p>
             
             {/* Trust Badges */}
-            <div className="flex flex-wrap gap-4 mb-6">
+            <div className="flex flex-wrap gap-2 mb-6">
               {trustBadges.map((badge, index) => {
                 const IconComponent = badge.icon;
                 return (
-                  <div key={index} className="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-lg">
-                    <IconComponent className="w-4 h-4 text-orange-400" />
-                    <span className="text-sm text-gray-300">{badge.text}</span>
+                  <div key={index} className="flex items-center space-x-1 bg-gray-800 px-2 py-1 rounded-lg">
+                    <IconComponent className="w-3 h-3 text-orange-400" />
+                    <span className="text-xs text-gray-300">{badge.text}</span>
                   </div>
                 );
               })}

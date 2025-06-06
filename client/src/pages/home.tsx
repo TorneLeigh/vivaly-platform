@@ -211,7 +211,7 @@ export default function Home() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-tight mb-3">
             Book trusted care in minutes
           </h1>
-          <p className="text-lg sm:text-xl text-gray-600 mb-6 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-lg md:text-xl text-gray-600 mb-6 max-w-2xl mx-auto">
             Instant booking • Verified caregivers • Available today
           </p>
           
