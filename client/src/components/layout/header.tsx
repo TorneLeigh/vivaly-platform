@@ -199,8 +199,8 @@ export default function Header() {
                             Switch to Caregiver
                           </Button>
                           <Button 
-                            onClick={() => { window.location.href = '/become-childcare-provider'; setMobileMenuOpen(false); }}
-                            className="w-full bg-orange-600 hover:bg-orange-700 text-white font-medium"
+                            onClick={() => { window.location.href = '/become-service-provider'; setMobileMenuOpen(false); }}
+                            className="w-full bg-black hover:bg-gray-800 text-white font-medium"
                           >
                             Switch to Service Provider
                           </Button>
