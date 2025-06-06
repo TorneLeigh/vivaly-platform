@@ -36,19 +36,8 @@ export default function TrialSignup() {
         title: "Welcome to VIVALY!",
         description: "You're now part of our trial community. Check your email for next steps.",
       });
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        suburb: "",
-        childrenAges: "",
-        careNeeds: "",
-        hasWWCC: false,
-        experience: "",
-        agreedToTerms: false
-      });
-      setUserType("");
+      // Redirect to success page after successful signup
+      window.location.href = "/trial-success";
     },
     onError: () => {
       toast({
