@@ -25,6 +25,7 @@ import PaymentCheckout from "@/pages/payment-checkout";
 import AdminDashboard from "@/pages/admin-dashboard";
 import TrialSignup from "@/pages/trial-signup";
 import TrialSuccess from "@/pages/trial-success";
+import SMSTest from "@/pages/sms-test";
 import BookingConfirmation from "@/pages/booking-confirmation";
 import Terms from "@/pages/terms";
 import Privacy from "@/pages/privacy";
@@ -117,6 +118,7 @@ function Router() {
           <Route path="/payment-checkout" component={PaymentCheckout} />
           <Route path="/trial" component={TrialSignup} />
           <Route path="/trial-success" component={TrialSuccess} />
+          <Route path="/sms-test" component={SMSTest} />
           <Route path="/admin-dashboard" component={AdminDashboard} />
           <Route path="/booking-confirmed" component={BookingConfirmation} />
           <Route path="/booking-confirmation" component={BookingConfirmation} />

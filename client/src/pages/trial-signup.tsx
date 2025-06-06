@@ -211,10 +211,27 @@ export default function TrialSignup() {
                     <Label htmlFor="phone">Phone</Label>
                     <Input
                       id="phone"
+                      type="tel"
                       value={formData.phone}
-                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                      onChange={(e) => {
+                        // Format Australian phone number
+                        const digits = e.target.value.replace(/\D/g, '');
+                        let formatted = '';
+                        if (digits.startsWith('61')) {
+                          formatted = `+${digits.slice(0, 2)} ${digits.slice(2, 3)} ${digits.slice(3, 7)} ${digits.slice(7, 11)}`;
+                        } else if (digits.startsWith('0')) {
+                          formatted = `${digits.slice(0, 4)} ${digits.slice(4, 7)} ${digits.slice(7, 10)}`;
+                        } else if (digits.length <= 10) {
+                          formatted = `${digits.slice(0, 4)} ${digits.slice(4, 7)} ${digits.slice(7, 10)}`;
+                        } else {
+                          formatted = e.target.value;
+                        }
+                        setFormData({...formData, phone: formatted});
+                      }}
+                      placeholder="0400 000 000"
                       required
                     />
+                    <p className="text-xs text-gray-500 mt-1">Australian mobile number required for SMS notifications</p>
                   </div>
 
                   <div>
