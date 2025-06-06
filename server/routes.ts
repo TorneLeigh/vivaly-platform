@@ -1793,11 +1793,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
           await sendTrialWelcomeSMS(phone, firstName, 'parent');
         }
         // Send welcome email sequence
-        await sendParentWelcomeSequence(email, firstName);
-        
-        // Schedule the full email sequence
-        const { scheduleEmailSequence } = await import('./email-campaigns');
-        await scheduleEmailSequence(email, firstName, 'parent');
+        try {
+          await sendParentWelcomeSequence(email, firstName);
+          console.log(`✓ Welcome email sent to parent: ${email}`);
+          
+          // Schedule the full email sequence
+          const { scheduleEmailSequence } = await import('./email-campaigns');
+          await scheduleEmailSequence(email, firstName, 'parent');
+          console.log(`✓ Email sequence scheduled for parent: ${firstName}`);
+        } catch (error) {
+          console.error('Email send error:', error);
+        }
       } else {
         console.log(`Trial signup: Caregiver ${firstName} ${lastName} from ${suburb}`);
         // Send welcome SMS
@@ -1805,11 +1811,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
           await sendTrialWelcomeSMS(phone, firstName, 'caregiver');
         }
         // Send caregiver welcome sequence
-        await sendCaregiverWelcomeSequence(email, firstName);
-        
-        // Schedule the full email sequence
-        const { scheduleEmailSequence } = await import('./email-campaigns');
-        await scheduleEmailSequence(email, firstName, 'caregiver');
+        try {
+          await sendCaregiverWelcomeSequence(email, firstName);
+          console.log(`✓ Welcome email sent to caregiver: ${email}`);
+          
+          // Schedule the full email sequence
+          const { scheduleEmailSequence } = await import('./email-campaigns');
+          await scheduleEmailSequence(email, firstName, 'caregiver');
+          console.log(`✓ Email sequence scheduled for caregiver: ${firstName}`);
+        } catch (error) {
+          console.error('Email send error:', error);
+        }
       }
 
       res.json({ 
