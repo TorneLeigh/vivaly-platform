@@ -3,6 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import ServiceCarousel from "@/components/service-carousel";
 import petSittingServiceImage from "@assets/969c7a3eeacf469a3a4c50a32a9b3d57.jpg";
+import dogPlaytimeImage from "@assets/994aad74ac4664d9bd56815d3fda5f88_1749183011870.jpg";
+import dogTrainingImage from "@assets/04d9009db67d6c328f97e3b626b6d305_1749183011871.jpg";
+import dogWalkingGroupImage from "@assets/1f385011ff2b05a03672385eb150b795_1749183011871.jpg";
+import dogJoggingImage from "@assets/d886544ac5e3fae6b42acf55429e1aaa_1749183011871.jpg";
+import cityDogWalkImage from "@assets/32b2abcfc1fddbe1118ee928059ce66b_1749183011871.jpg";
 import newbornCareImage from "@assets/b1bc54b815bb1f418342a8203ae3e8e3_1749182535016.jpg";
 import newbornWithToyImage from "@assets/2d55b12ae13df50f6fbabfa2be240f07_1749182535016.jpg";
 import motherBabyBondingImage from "@assets/e3806ba7e7119fb379b95ce4d570e105_1749182535016.jpg";
@@ -148,39 +153,39 @@ const midwifeServices = [
 
 const petSittingServices = [
   {
-    title: "Dog Walking",
-    description: "Daily exercise and companionship",
+    title: "Dog Playtime",
+    description: "Interactive play and companionship for pets",
+    image: dogPlaytimeImage,
+    serviceType: "Pet sitting"
+  },
+  {
+    title: "Dog Training",
+    description: "Professional training and behavior coaching",
+    image: dogTrainingImage,
+    serviceType: "Pet sitting"
+  },
+  {
+    title: "Group Dog Walking",
+    description: "Socialized walks with multiple dogs",
+    image: dogWalkingGroupImage,
+    serviceType: "Pet sitting"
+  },
+  {
+    title: "Active Dog Jogging",
+    description: "High-energy exercise and fitness",
+    image: dogJoggingImage,
+    serviceType: "Pet sitting"
+  },
+  {
+    title: "Urban Dog Walking",
+    description: "City walks and outdoor adventures",
+    image: cityDogWalkImage,
+    serviceType: "Pet sitting"
+  },
+  {
+    title: "Pet Sitting",
+    description: "In-home care and companionship",
     image: petSittingServiceImage,
-    serviceType: "Pet sitting"
-  },
-  {
-    title: "Pet Boarding",
-    description: "Overnight care in your home",
-    image: "/images/pet-boarding.jpg",
-    serviceType: "Pet sitting"
-  },
-  {
-    title: "Cat Sitting",
-    description: "Specialized feline care",
-    image: "/images/cat-sitting.jpg",
-    serviceType: "Pet sitting"
-  },
-  {
-    title: "Pet Grooming",
-    description: "Professional grooming services",
-    image: "/images/pet-grooming.jpg",
-    serviceType: "Pet sitting"
-  },
-  {
-    title: "Vet Visits",
-    description: "Transportation to appointments",
-    image: "/images/vet-visits.jpg",
-    serviceType: "Pet sitting"
-  },
-  {
-    title: "Pet Training",
-    description: "Basic obedience and behavior",
-    image: "/images/pet-training.jpg",
     serviceType: "Pet sitting"
   }
 ];
