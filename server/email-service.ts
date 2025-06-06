@@ -62,7 +62,7 @@ export async function sendCaregiverWelcomeSequence(
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f8f9fa;">
         <div style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
           <div style="text-align: center; margin-bottom: 30px;">
-            <h1 style="color: #2563eb; margin: 0; font-size: 28px;">Welcome to VIVALY!</h1>
+            <h1 style="color: #000000; margin: 0; font-size: 28px; font-weight: 900;">VIVALY</h1>
             <p style="color: #64748b; margin: 10px 0 0 0; font-size: 16px;">Australia's Premier Childcare Platform</p>
           </div>
           
@@ -83,9 +83,9 @@ export async function sendCaregiverWelcomeSequence(
             ${applicationDetails.nextSteps.map(step => `<li>${step}</li>`).join('')}
           </ul>
           
-          <div style="background-color: #f0fdf4; padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #22c55e;">
-            <h4 style="color: #166534; margin-top: 0;">Why Choose VIVALY?</h4>
-            <ul style="color: #166534; margin: 10px 0; padding-left: 20px;">
+          <div style="background-color: #f9fafb; padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #000000;">
+            <h4 style="color: #1f2937; margin-top: 0;">Why Choose VIVALY?</h4>
+            <ul style="color: #374151; margin: 10px 0; padding-left: 20px;">
               <li>Competitive rates with instant payments</li>
               <li>Comprehensive insurance coverage</li>
               <li>Flexible scheduling that works for you</li>
@@ -96,7 +96,7 @@ export async function sendCaregiverWelcomeSequence(
           
           <div style="text-align: center; margin: 30px 0;">
             <a href="https://vivaly.com.au/caregiver/dashboard" 
-               style="background-color: #2563eb; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: bold;">
+               style="background-color: #000000; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: bold;">
               Track Your Application
             </a>
           </div>

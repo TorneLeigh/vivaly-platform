@@ -16,20 +16,25 @@ export const parentTrialSequence: EmailTemplate[] = [
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="text-align: center; margin-bottom: 30px;">
-          <h1 style="color: #7C3AED; font-size: 28px; margin: 0;">VIVALY</h1>
+          <h1 style="color: #000000; font-size: 28px; margin: 0; font-weight: 900;">VIVALY</h1>
         </div>
         
-        <h2 style="color: #1F2937;">Hi there! 👋</h2>
+        <h2 style="color: #1F2937;">Complete Your Profile in 3 Minutes</h2>
         
-        <p style="color: #374151; line-height: 1.6;">We noticed you haven't completed your family profile yet. This only takes 3 minutes and unlocks access to verified caregivers in your area.</p>
+        <p style="color: #374151; line-height: 1.6;">Hi there! We noticed you started setting up your VIVALY profile but haven't finished yet. Complete it now to access our verified caregivers.</p>
         
-        <div style="background: #FEF3C7; padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #F59E0B;">
-          <h4 style="color: #92400E; margin-top: 0;">⏰ Did You Know?</h4>
-          <p style="color: #92400E; margin: 0;">Families with complete profiles get 3x more caregiver responses and book 50% faster.</p>
+        <div style="background: #F9FAFB; padding: 20px; border-radius: 8px; margin: 25px 0;">
+          <h4 style="color: #1F2937; margin-top: 0;">📊 Families with complete profiles get:</h4>
+          <ul style="color: #374151; line-height: 1.6; margin: 0;">
+            <li>3x more responses from caregivers</li>
+            <li>Priority access to top-rated providers</li>
+            <li>Instant booking capabilities</li>
+            <li>Background-checked caregivers only</li>
+          </ul>
         </div>
         
         <div style="text-align: center; margin: 30px 0;">
-          <a href="https://vivaly.com.au/profile" style="background: #7C3AED; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold;">Complete Profile (3 min)</a>
+          <a href="https://vivaly.com.au/profile" style="background: #000000; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold;">Complete Your Profile</a>
         </div>
         
         <p style="color: #6B7280; font-size: 14px; text-align: center;">
@@ -46,38 +51,35 @@ export const parentTrialSequence: EmailTemplate[] = [
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="text-align: center; margin-bottom: 30px;">
-          <h1 style="color: #7C3AED; font-size: 28px; margin: 0;">VIVALY</h1>
+          <h1 style="color: #000000; font-size: 28px; margin: 0; font-weight: 900;">VIVALY</h1>
         </div>
         
-        <h2 style="color: #1F2937;">The True Cost of Childcare in Australia</h2>
+        <h2 style="color: #1F2937;">Save Thousands on Childcare Costs</h2>
         
-        <div style="background: linear-gradient(135deg, #FEE2E2 0%, #FEF3C7 100%); padding: 25px; border-radius: 12px; margin: 25px 0;">
-          <h3 style="color: #1F2937; margin-top: 0; text-align: center;">Monthly Childcare Costs Comparison</h3>
+        <div style="background: #F9FAFB; padding: 25px; border-radius: 12px; margin: 25px 0;">
+          <h3 style="color: #1F2937; margin-top: 0;">💰 VIVALY vs Traditional Daycare (Annual):</h3>
           
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0;">
-            <div style="background: white; padding: 15px; border-radius: 8px;">
-              <h4 style="color: #DC2626; margin: 0 0 10px 0;">Traditional Daycare</h4>
-              <p style="color: #374151; margin: 0; font-size: 24px; font-weight: bold;">$1,800/month</p>
-              <p style="color: #6B7280; font-size: 12px; margin: 5px 0 0 0;">+ waitlists + rigid schedules</p>
+          <div style="margin: 20px 0;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; padding: 10px; background: white; border-radius: 6px;">
+              <span style="color: #374151; font-weight: bold;">Traditional Daycare:</span>
+              <span style="color: #DC2626; font-weight: bold;">$25,000+</span>
             </div>
-            <div style="background: white; padding: 15px; border-radius: 8px;">
-              <h4 style="color: #059669; margin: 0 0 10px 0;">VIVALY Home Care</h4>
-              <p style="color: #374151; margin: 0; font-size: 24px; font-weight: bold;">$1,200/month</p>
-              <p style="color: #6B7280; font-size: 12px; margin: 5px 0 0 0;">+ flexible + personalized</p>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; padding: 10px; background: white; border-radius: 6px;">
+              <span style="color: #374151; font-weight: bold;">VIVALY Home Care:</span>
+              <span style="color: #000000; font-weight: bold;">$18,000</span>
             </div>
-          </div>
-          
-          <div style="text-align: center; background: #059669; color: white; padding: 15px; border-radius: 8px;">
-            <h4 style="margin: 0;">Annual Savings: $7,200</h4>
+            <div style="display: flex; justify-content: space-between; padding: 15px; background: #000000; color: white; border-radius: 6px; font-size: 18px;">
+              <span style="font-weight: bold;">Your Annual Savings:</span>
+              <span style="font-weight: bold;">$7,200+</span>
+            </div>
           </div>
         </div>
         
-        <div style="background: #F0FDF4; padding: 20px; border-radius: 8px; margin: 25px 0;">
-          <h4 style="color: #1F2937; margin-top: 0;">🎯 Additional VIVALY Benefits:</h4>
+        <div style="background: #EFF6FF; padding: 20px; border-radius: 8px; margin: 25px 0;">
+          <h4 style="color: #1F2937; margin-top: 0;">✨ Plus These Benefits:</h4>
           <ul style="color: #374151; line-height: 1.6; margin: 0;">
             <li>1-on-1 attention for your child</li>
-            <li>No sick day policies or fees</li>
-            <li>Care in your own home</li>
+            <li>No daycare waitlists or limited spots</li>
             <li>Flexible hours that suit your schedule</li>
           </ul>
         </div>
@@ -106,40 +108,42 @@ export const caregiverTrialSequence: EmailTemplate[] = [
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="text-align: center; margin-bottom: 30px;">
-          <h1 style="color: #7C3AED; font-size: 28px; margin: 0;">VIVALY</h1>
+          <h1 style="color: #000000; font-size: 28px; margin: 0; font-weight: 900;">VIVALY</h1>
         </div>
         
-        <h2 style="color: #1F2937;">Turn Your Childcare Skills Into Income</h2>
+        <h2 style="color: #1F2937;">Complete Your Profile & Start Earning</h2>
         
-        <p style="color: #374151; line-height: 1.6;">You're just a few steps away from joining Australia's highest-earning childcare professionals. Complete your profile to start receiving booking requests.</p>
+        <p style="color: #374151; line-height: 1.6;">Complete your caregiver profile to start receiving booking requests from families in your area. Caregivers with complete profiles earn significantly more.</p>
         
-        <div style="background: linear-gradient(135deg, #059669 0%, #0891B2 100%); padding: 25px; border-radius: 12px; margin: 25px 0; color: white; text-align: center;">
-          <h3 style="margin: 0 0 15px 0;">💰 Your Earning Potential</h3>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0;">
-            <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 8px;">
-              <h4 style="margin: 0; font-size: 24px;">$25-35/hr</h4>
-              <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 14px;">Casual Care</p>
+        <div style="background: #F9FAFB; padding: 25px; border-radius: 12px; margin: 25px 0;">
+          <h3 style="color: #1F2937; margin-top: 0;">💰 Average Caregiver Earnings:</h3>
+          
+          <div style="margin: 20px 0;">
+            <div style="margin-bottom: 15px; padding: 15px; background: white; border-radius: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: #374151; font-weight: bold;">Hourly Rate:</span>
+                <span style="color: #000000; font-weight: bold; font-size: 18px;">$25-45/hour</span>
+              </div>
             </div>
-            <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 8px;">
-              <h4 style="margin: 0; font-size: 24px;">$35-45/hr</h4>
-              <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 14px;">Experienced</p>
+            <div style="margin-bottom: 15px; padding: 15px; background: white; border-radius: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: #374151; font-weight: bold;">Weekly (25 hours):</span>
+                <span style="color: #000000; font-weight: bold; font-size: 18px;">$625-1,125</span>
+              </div>
+            </div>
+            <div style="padding: 15px; background: #000000; color: white; border-radius: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: bold;">Monthly Potential:</span>
+                <span style="font-weight: bold; font-size: 20px;">$2,500-4,500+</span>
+              </div>
             </div>
           </div>
-          <p style="margin: 0; opacity: 0.9;">Plus tips and bonuses from families!</p>
         </div>
         
-        <div style="background: #F0FDF4; padding: 20px; border-radius: 8px; margin: 25px 0;">
-          <h4 style="color: #1F2937; margin-top: 0;">📝 Quick Profile Checklist:</h4>
-          <ul style="color: #374151; line-height: 1.6; margin: 0;">
-            <li>✓ Add your experience and qualifications</li>
-            <li>✓ Upload WWCC and First Aid certificates</li>
-            <li>✓ Set your hourly rates and availability</li>
-            <li>✓ Write a brief bio about yourself</li>
-          </ul>
-        </div>
-        
-        <div style="text-align: center; margin: 30px 0;">
-          <a href="https://vivaly.com.au/caregiver-profile" style="background: #059669; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold;">Complete Profile & Start Earning</a>
+        <div style="text-align: center; background: #000000; padding: 25px; border-radius: 12px; margin: 25px 0;">
+          <h3 style="color: white; margin: 0 0 10px 0;">Ready to Start Earning?</h3>
+          <p style="color: white; margin: 0 0 20px 0; opacity: 0.9;">Join Australia's highest-earning childcare professionals</p>
+          <a href="https://vivaly.com.au/caregiver-profile" style="background: white; color: #000000; padding: 15px 30px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold;">Complete Your Profile</a>
         </div>
       </div>
     `,
@@ -152,24 +156,14 @@ export const caregiverTrialSequence: EmailTemplate[] = [
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="text-align: center; margin-bottom: 30px;">
-          <h1 style="color: #7C3AED; font-size: 28px; margin: 0;">VIVALY</h1>
+          <h1 style="color: #000000; font-size: 28px; margin: 0; font-weight: 900;">VIVALY</h1>
         </div>
         
-        <h2 style="color: #1F2937;">The childcare industry is booming 📈</h2>
+        <h2 style="color: #1F2937;">High Demand Alert: 3x More Families Than Caregivers</h2>
         
-        <p style="color: #374151; line-height: 1.6;">With daycare waitlists at an all-time high, families are desperately seeking quality caregivers like you. Don't miss this opportunity to join Australia's fastest-growing childcare marketplace.</p>
+        <p style="color: #374151; line-height: 1.6;">The demand for quality childcare has never been higher. Families are waiting 18+ months for daycare spots, creating unprecedented opportunities for home-based caregivers.</p>
         
-        <div style="background: #FEE2E2; padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #DC2626;">
-          <h4 style="color: #DC2626; margin-top: 0;">🚨 High Demand Alert</h4>
-          <p style="color: #374151; margin: 0;">We currently have 3x more family requests than available caregivers in most areas. This means:</p>
-          <ul style="color: #374151; margin: 10px 0 0 0;">
-            <li>More booking opportunities</li>
-            <li>Higher hourly rates</li>
-            <li>Choice of the best families</li>
-          </ul>
-        </div>
-        
-        <div style="background: linear-gradient(135deg, #7C3AED 0%, #EC4899 100%); padding: 25px; border-radius: 12px; margin: 25px 0; color: white; text-align: center;">
+        <div style="text-align: center; background: #000000; color: white; padding: 25px; border-radius: 12px; margin: 25px 0;">
           <h3 style="margin: 0 0 15px 0;">💰 What You Could Earn This Month:</h3>
           <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 8px; margin: 15px 0;">
             <h4 style="margin: 0; font-size: 32px;">$4,800+</h4>
@@ -195,11 +189,10 @@ export const caregiverTrialSequence: EmailTemplate[] = [
         </div>
       </div>
     `,
-    text: "Don't miss out! High demand for caregivers means more opportunities and higher rates. You could earn $4,800+ this month with VIVALY. Join now: https://vivaly.com.au/join-now"
+    text: "High demand: 3x more families than caregivers! Earn $4,800+/month with VIVALY. Transform your childcare career today: https://vivaly.com.au/join-now"
   }
 ];
 
-// Weekly Newsletter Templates
 export async function sendWeeklyNewsletter(userEmail: string, userName: string, userType: 'parent' | 'caregiver') {
   const isParent = userType === 'parent';
   
@@ -207,61 +200,47 @@ export async function sendWeeklyNewsletter(userEmail: string, userName: string, 
     ? "VIVALY Weekly: New Caregivers + Childcare Tips"
     : "VIVALY Caregiver Weekly: Booking Tips + Success Stories";
 
-  const html = isParent ? `
+  const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
       <div style="text-align: center; margin-bottom: 30px;">
-        <h1 style="color: #7C3AED; font-size: 28px; margin: 0;">VIVALY</h1>
-        <p style="color: #666; margin: 5px 0 0 0;">Your Weekly Childcare Update</p>
+        <h1 style="color: #000000; font-size: 28px; margin: 0; font-weight: 900;">VIVALY</h1>
       </div>
       
-      <h2 style="color: #1F2937;">Hi ${userName} 👋</h2>
+      <h2 style="color: #1F2937;">Weekly Update</h2>
       
-      <div style="background: #F0FDF4; padding: 20px; border-radius: 8px; margin: 25px 0;">
-        <h3 style="color: #1F2937; margin-top: 0;">🆕 New Caregivers This Week</h3>
-        <p style="color: #374151; margin: 0;">15 new verified caregivers joined in your area! Browse their profiles and book care for next week.</p>
-        <div style="text-align: center; margin: 15px 0 0 0;">
-          <a href="https://vivaly.com.au/find-caregivers" style="background: #10B981; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; display: inline-block;">Browse New Caregivers</a>
+      <p style="color: #374151;">Hi ${userName},</p>
+      
+      ${isParent ? `
+        <div style="background: #F9FAFB; padding: 20px; border-radius: 8px; margin: 20px 0;">
+          <h3 style="color: #1F2937; margin-top: 0;">🆕 New Caregivers This Week</h3>
+          <p style="color: #374151; margin: 0;">5 new verified caregivers joined in your area. Browse profiles and book care that fits your schedule.</p>
         </div>
-      </div>
-      
-      <div style="background: #EFF6FF; padding: 20px; border-radius: 8px; margin: 25px 0;">
-        <h3 style="color: #1F2937; margin-top: 0;">💡 Childcare Tip of the Week</h3>
-        <h4 style="color: #1F2937; margin: 10px 0;">Building Trust with New Caregivers</h4>
-        <p style="color: #374151; margin: 0;">Start with a meet-and-greet session before the first booking. This helps your child feel comfortable and gives you confidence in your caregiver choice.</p>
-      </div>
-      
-      <div style="text-align: center; margin: 30px 0;">
-        <a href="https://vivaly.com.au/resources" style="background: #7C3AED; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">More Parenting Resources</a>
-      </div>
-    </div>
-  ` : `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-      <div style="text-align: center; margin-bottom: 30px;">
-        <h1 style="color: #7C3AED; font-size: 28px; margin: 0;">VIVALY</h1>
-        <p style="color: #666; margin: 5px 0 0 0;">Caregiver Success Weekly</p>
-      </div>
-      
-      <h2 style="color: #1F2937;">Hi ${userName} 👋</h2>
-      
-      <div style="background: #FEF3C7; padding: 20px; border-radius: 8px; margin: 25px 0;">
-        <h3 style="color: #1F2937; margin-top: 0;">📈 This Week's Booking Tips</h3>
-        <p style="color: #374151; margin: 0;"><strong>Respond within 2 hours:</strong> Caregivers who respond to families quickly get 70% more bookings. Set up mobile notifications to never miss an opportunity!</p>
-      </div>
-      
-      <div style="background: #F0FDF4; padding: 20px; border-radius: 8px; margin: 25px 0;">
-        <h3 style="color: #1F2937; margin-top: 0;">⭐ Caregiver Spotlight</h3>
-        <p style="color: #374151; margin: 0;"><strong>Jessica K.</strong> earned $890 this week by being available for last-minute bookings. Emergency care requests often pay premium rates!</p>
-      </div>
+        
+        <div style="background: #EFF6FF; padding: 20px; border-radius: 8px; margin: 20px 0;">
+          <h3 style="color: #1F2937; margin-top: 0;">💡 Childcare Tip of the Week</h3>
+          <p style="color: #374151; margin: 0;">Create a simple daily routine chart to help your caregiver maintain consistency with your child's schedule.</p>
+        </div>
+      ` : `
+        <div style="background: #F9FAFB; padding: 20px; border-radius: 8px; margin: 20px 0;">
+          <h3 style="color: #1F2937; margin-top: 0;">📈 Booking Tip of the Week</h3>
+          <p style="color: #374151; margin: 0;">Respond to family requests within 2 hours to increase your booking rate by 40%.</p>
+        </div>
+        
+        <div style="background: #EFF6FF; padding: 20px; border-radius: 8px; margin: 20px 0;">
+          <h3 style="color: #1F2937; margin-top: 0;">⭐ Caregiver Spotlight</h3>
+          <p style="color: #374151; margin: 0;">This week we celebrate Emma K. from Melbourne, who achieved 50+ five-star reviews!</p>
+        </div>
+      `}
       
       <div style="text-align: center; margin: 30px 0;">
-        <a href="https://vivaly.com.au/caregiver-resources" style="background: #7C3AED; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">Caregiver Resources</a>
+        <a href="https://vivaly.com.au" style="background: #000000; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold;">Visit VIVALY</a>
       </div>
     </div>
   `;
 
   const text = isParent 
-    ? `VIVALY Weekly Update: 15 new caregivers in your area + childcare tips. Browse caregivers: https://vivaly.com.au/find-caregivers`
-    : `VIVALY Caregiver Weekly: Respond within 2 hours for 70% more bookings + success stories. Resources: https://vivaly.com.au/caregiver-resources`;
+    ? `VIVALY Weekly: 5 new verified caregivers in your area + childcare tips. Visit: https://vivaly.com.au`
+    : `VIVALY Weekly: Booking tips + caregiver spotlight. Respond within 2 hours for 40% more bookings. Visit: https://vivaly.com.au`;
 
   return await sendEmail({
     to: userEmail,
@@ -271,25 +250,25 @@ export async function sendWeeklyNewsletter(userEmail: string, userName: string, 
   });
 }
 
-// Automated email scheduling
 export async function scheduleEmailSequence(
-  userEmail: string, 
-  userName: string, 
-  userType: 'parent' | 'caregiver'
+  userEmail: string,
+  userName: string,
+  userType: 'parent' | 'caregiver',
+  userId: number
 ) {
-  const sequence = userType === 'parent' ? parentTrialSequence : caregiverTrialSequence;
-  const delays = userType === 'parent' 
-    ? [2, 4, 6, 8, 10, 12, 14] // Days for parent sequence
-    : [3, 5, 7, 10]; // Days for caregiver sequence
-
-  // In a production environment, you would use a job queue like Bull or a cron scheduler
+  // In production, this would integrate with a job queue like Bull or Agenda
   // For now, we'll log the scheduled emails
+  
+  const sequence = userType === 'parent' ? parentTrialSequence : caregiverTrialSequence;
+  const delays = userType === 'parent' ? [2, 5] : [3, 5]; // Days after signup
+  
   console.log(`Scheduled ${sequence.length} emails for ${userType} ${userName} (${userEmail})`);
   
   sequence.forEach((email, index) => {
-    const delay = delays[index];
-    console.log(`- Email ${index + 1}: "${email.subject}" scheduled for day ${delay}`);
+    console.log(`- Email ${index + 1}: "${email.subject}" scheduled for day ${delays[index]}`);
   });
-
-  return true;
+  
+  // In production, you would queue these emails with proper delays:
+  // await emailQueue.add('send-trial-email', { userEmail, userName, userType, emailIndex: 0 }, { delay: 2 * 24 * 60 * 60 * 1000 });
+  // await emailQueue.add('send-trial-email', { userEmail, userName, userType, emailIndex: 1 }, { delay: 5 * 24 * 60 * 60 * 1000 });
 }
