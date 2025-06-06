@@ -25,7 +25,7 @@ import { useState } from "react";
 
 export default function Header() {
   const [location] = useLocation();
-  const { isAuthenticated, isLoading, isProvider, user } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
   const { toast } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
