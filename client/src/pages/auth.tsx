@@ -41,6 +41,7 @@ type SignupForm = z.infer<typeof signupSchema>;
 
 export default function Auth() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -319,6 +320,37 @@ export default function Auth() {
                         {signupForm.formState.errors.password.message}
                       </p>
                     )}
+                    
+                    {/* Password Requirements */}
+                    <div className="mt-2 space-y-1">
+                      <p className="text-xs text-gray-500 font-medium">Password requirements:</p>
+                      <div className="space-y-1">
+                        <div className={`text-xs flex items-center space-x-1 ${
+                          signupForm.watch("password")?.length >= 8 ? "text-green-600" : "text-gray-400"
+                        }`}>
+                          <span className="w-1 h-1 rounded-full bg-current"></span>
+                          <span>At least 8 characters</span>
+                        </div>
+                        <div className={`text-xs flex items-center space-x-1 ${
+                          /[A-Z]/.test(signupForm.watch("password") || "") ? "text-green-600" : "text-gray-400"
+                        }`}>
+                          <span className="w-1 h-1 rounded-full bg-current"></span>
+                          <span>One uppercase letter</span>
+                        </div>
+                        <div className={`text-xs flex items-center space-x-1 ${
+                          /[a-z]/.test(signupForm.watch("password") || "") ? "text-green-600" : "text-gray-400"
+                        }`}>
+                          <span className="w-1 h-1 rounded-full bg-current"></span>
+                          <span>One lowercase letter</span>
+                        </div>
+                        <div className={`text-xs flex items-center space-x-1 ${
+                          /\d/.test(signupForm.watch("password") || "") ? "text-green-600" : "text-gray-400"
+                        }`}>
+                          <span className="w-1 h-1 rounded-full bg-current"></span>
+                          <span>One number</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
                   <div>
@@ -327,11 +359,18 @@ export default function Auth() {
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                       <Input
                         id="confirmPassword"
-                        type={showPassword ? "text" : "password"}
+                        type={showConfirmPassword ? "text" : "password"}
                         placeholder="Confirm your password"
-                        className="pl-10"
+                        className="pl-10 pr-10"
                         {...signupForm.register("confirmPassword")}
                       />
+                      <button
+                        type="button"
+                        className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      >
+                        {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </button>
                     </div>
                     {signupForm.formState.errors.confirmPassword && (
                       <p className="text-sm text-red-600 mt-1">
