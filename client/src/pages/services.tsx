@@ -462,10 +462,10 @@ export default function Services() {
       </section>
 
       {/* Featured Caregivers */}
-      <section className="py-8 bg-white">
+      <section className="py-6 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Available Caregivers</h2>
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">Available Caregivers</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Verified professionals ready to provide specialized care services
             </p>
@@ -540,10 +540,10 @@ export default function Services() {
       </section>
 
       {/* Social Events & Activities */}
-      <section className="py-8 bg-gray-50">
+      <section className="py-6 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Events and Social</h2>
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">Events and Social</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Connect with other families through organized activities and social gatherings
             </p>
@@ -585,10 +585,10 @@ export default function Services() {
       </section>
 
       {/* Featured Experiences */}
-      <section className="py-8 bg-white">
+      <section className="py-6 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Featured Experiences</h2>
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">Featured Experiences</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Unique activities and educational programs led by experienced caregivers
             </p>
