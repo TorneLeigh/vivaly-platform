@@ -245,23 +245,23 @@ export default function Services() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-white py-16">
+      <section className="bg-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
               Services
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
               Discover professional care services, connect with trusted caregivers, and join community events
             </p>
             
             {/* Quick Filter Buttons */}
-            <div className="flex flex-wrap justify-center gap-3 mb-8">
+            <div className="flex flex-wrap justify-center gap-3 mb-6">
               <button
                 onClick={() => setSelectedCategory("all")}
                 className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
                   selectedCategory === "all"
-                    ? "bg-blue-600 text-white"
+                    ? "bg-black text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
@@ -271,7 +271,7 @@ export default function Services() {
                 onClick={() => setSelectedCategory("midwife")}
                 className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
                   selectedCategory === "midwife"
-                    ? "bg-blue-600 text-white"
+                    ? "bg-black text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
@@ -281,7 +281,7 @@ export default function Services() {
                 onClick={() => setSelectedCategory("pet")}
                 className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
                   selectedCategory === "pet"
-                    ? "bg-blue-600 text-white"
+                    ? "bg-black text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
@@ -291,7 +291,7 @@ export default function Services() {
                 onClick={() => setSelectedCategory("elderly")}
                 className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
                   selectedCategory === "elderly"
-                    ? "bg-blue-600 text-white"
+                    ? "bg-black text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
@@ -303,10 +303,10 @@ export default function Services() {
       </section>
 
       {/* Birth Education Classes */}
-      <section className="py-8 bg-gray-50">
+      <section className="py-6 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">
               Birth Education Classes
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -356,10 +356,10 @@ export default function Services() {
       </section>
 
       {/* Midwife Services */}
-      <section className="py-8 bg-white">
+      <section className="py-6 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">
               Midwife Services
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -409,10 +409,10 @@ export default function Services() {
       </section>
 
       {/* Pet Sitting Services */}
-      <section className="py-8 bg-gray-50">
+      <section className="py-6 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">
               Pet Sitting Services
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
