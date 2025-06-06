@@ -151,7 +151,7 @@ export default function GiftCards() {
                         onClick={() => setSelectedColor(color.id)}
                         className={`p-4 rounded-xl border-2 transition-all ${
                           selectedColor === color.id
-                            ? "border-black bg-black bg-opacity-5"
+                            ? "border-black bg-black text-white"
                             : "border-gray-200 hover:border-gray-300"
                         }`}
                       >
