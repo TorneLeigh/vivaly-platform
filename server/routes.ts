@@ -1792,14 +1792,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         if (phone) {
           await sendTrialWelcomeSMS(phone, firstName, 'parent');
         }
-        // Email automation will be triggered when SendGrid is configured
+        // Send welcome email sequence
+        await sendParentWelcomeSequence(email, firstName);
+        
+        // Schedule the full email sequence
+        const { scheduleEmailSequence } = await import('./email-campaigns');
+        await scheduleEmailSequence(email, firstName, 'parent');
       } else {
         console.log(`Trial signup: Caregiver ${firstName} ${lastName} from ${suburb}`);
         // Send welcome SMS
         if (phone) {
           await sendTrialWelcomeSMS(phone, firstName, 'caregiver');
         }
-        // Email automation will be triggered when SendGrid is configured
+        // Send caregiver welcome sequence
+        await sendCaregiverWelcomeSequence(email, firstName);
+        
+        // Schedule the full email sequence
+        const { scheduleEmailSequence } = await import('./email-campaigns');
+        await scheduleEmailSequence(email, firstName, 'caregiver');
       }
 
       res.json({ 
@@ -1899,6 +1909,62 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('SMS test error:', error);
       res.status(500).json({ message: 'Failed to send test SMS' });
+    }
+  });
+
+  // Email test endpoint (for development)
+  app.post('/api/email/test', async (req, res) => {
+    try {
+      const { email, name, type } = req.body;
+      
+      if (!email || !name || !type) {
+        return res.status(400).json({ message: 'Email, name, and type are required' });
+      }
+      
+      let success = false;
+      
+      switch (type) {
+        case 'parent-welcome':
+          success = await sendParentWelcomeSequence(email, name);
+          break;
+        case 'caregiver-welcome':
+          success = await sendCaregiverWelcomeSequence(email, name);
+          break;
+        case 'parent-sequence':
+          success = await sendParentWelcomeSequence(email, name);
+          const { scheduleEmailSequence: scheduleParent } = await import('./email-campaigns');
+          await scheduleParent(email, name, 'parent');
+          break;
+        case 'caregiver-sequence':
+          success = await sendCaregiverWelcomeSequence(email, name);
+          const { scheduleEmailSequence: scheduleCaregiver } = await import('./email-campaigns');
+          await scheduleCaregiver(email, name, 'caregiver');
+          break;
+        case 'weekly-newsletter-parent':
+          const { sendWeeklyNewsletter: sendParentNewsletter } = await import('./email-campaigns');
+          success = await sendParentNewsletter(email, name, 'parent');
+          break;
+        case 'weekly-newsletter-caregiver':
+          const { sendWeeklyNewsletter: sendCaregiverNewsletter } = await import('./email-campaigns');
+          success = await sendCaregiverNewsletter(email, name, 'caregiver');
+          break;
+        case 'booking-confirmation':
+          success = await sendBookingConfirmation(email, email, {
+            caregiverName: 'Emma Wilson',
+            date: 'Tomorrow',
+            time: '9:00 AM',
+            duration: '4 hours',
+            location: '123 Main St, Sydney'
+          });
+          break;
+        default:
+          return res.status(400).json({ message: 'Invalid email type' });
+      }
+      
+      res.json({ success, message: success ? 'Email sent successfully' : 'Failed to send email' });
+    } catch (error) {
+      console.error('Email test error:', error);
+      res.status(500).json({ message: 'Failed to send test email' });
     }
   });
 
