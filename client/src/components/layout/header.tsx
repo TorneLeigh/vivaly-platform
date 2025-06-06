@@ -104,7 +104,7 @@ export default function Header() {
                   <Button variant="ghost" size="sm" className="rounded-full px-4 text-black hover:bg-pink-100 hover:text-gray-700" onClick={() => window.location.href = '/api/login'}>
                     Log in
                   </Button>
-                  <Button size="sm" className="rounded-full bg-coral hover:bg-pink-100 px-4 font-medium" style={{ color: '#000000' }} onClick={() => window.location.href = '/trial-signup'}>
+                  <Button size="sm" className="rounded-full bg-coral hover:bg-pink-100 px-4 font-medium" style={{ color: '#000000' }} onClick={() => window.location.href = '/signup'}>
                     Sign up
                   </Button>
                 </div>
@@ -220,7 +220,7 @@ export default function Header() {
                           </Button>
                           <Button 
                             variant="ghost"
-                            onClick={() => { window.location.href = '/trial-signup'; setMobileMenuOpen(false); }}
+                            onClick={() => { window.location.href = '/signup'; setMobileMenuOpen(false); }}
                             className="w-full justify-start text-left font-medium"
                           >
                             Sign up
