@@ -192,22 +192,18 @@ export default function Header() {
                     {!isAuthenticated ? (
                       <div className="p-6 space-y-4">
                         <div className="space-y-3">
-                          {viewMode === 'seeker' ? (
-                            <Button 
-                              onClick={() => { window.location.href = '/become-caregiver'; setMobileMenuOpen(false); }}
-                              className="w-full bg-black hover:bg-gray-800 text-white font-medium"
-                            >
-                              Switch to Service Provider
-                            </Button>
-                          ) : (
-                            <Button 
-                              variant="ghost" 
-                              onClick={() => { window.location.href = '/search'; setMobileMenuOpen(false); }}
-                              className="w-full justify-start text-left font-medium text-gray-900"
-                            >
-                              Search
-                            </Button>
-                          )}
+                          <Button 
+                            onClick={() => { window.location.href = '/become-caregiver'; setMobileMenuOpen(false); }}
+                            className="w-full bg-black hover:bg-gray-800 text-white font-medium"
+                          >
+                            Switch to Caregiver
+                          </Button>
+                          <Button 
+                            onClick={() => { window.location.href = '/become-childcare-provider'; setMobileMenuOpen(false); }}
+                            className="w-full bg-orange-600 hover:bg-orange-700 text-white font-medium"
+                          >
+                            Switch to Service Provider
+                          </Button>
                         </div>
                         
                         <div className="border-t pt-4 space-y-3">
