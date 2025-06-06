@@ -93,7 +93,7 @@ export default function Header() {
               <>
                 {viewMode === 'seeker' ? (
                   <Button className="bg-black hover:bg-gray-800 text-white font-medium" onClick={() => window.location.href = '/become-caregiver'}>
-                    Switch to Caregiver
+                    Switch to Service Provider
                   </Button>
                 ) : (
                   <Button variant="ghost" className="font-medium" onClick={() => window.location.href = '/search'}>
@@ -197,7 +197,7 @@ export default function Header() {
                               onClick={() => { window.location.href = '/become-caregiver'; setMobileMenuOpen(false); }}
                               className="w-full bg-black hover:bg-gray-800 text-white font-medium"
                             >
-                              Switch to Caregiver
+                              Switch to Service Provider
                             </Button>
                           ) : (
                             <Button 
