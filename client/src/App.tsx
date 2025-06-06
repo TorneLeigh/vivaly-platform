@@ -59,7 +59,7 @@ import CoSupport from "@/pages/co-support";
 import NotFound from "@/pages/not-found";
 
 function Router() {
-  const { isAuthenticated, isLoading, isProvider, isSeeker } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -75,14 +75,6 @@ function Router() {
                     <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
                   </div>
                 );
-              }
-              
-              if (!isAuthenticated) {
-                return <Home />;
-              }
-              
-              if (isProvider) {
-                return <ProviderDashboard />;
               }
               
               return <Home />;
