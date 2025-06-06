@@ -214,10 +214,10 @@ export async function sendNannyWelcomeSequence(nannyEmail: string, nannyName: st
   await sendEmail({
     to: nannyEmail,
     from: fromEmail,
-    subject: `Welcome to CareConnect, ${nannyName}! 🎉`,
+    subject: `Welcome to VIVALY, ${nannyName}! 🎉`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #3B82F6;">Welcome to CareConnect!</h1>
+        <h1 style="color: #000000; font-weight: 900;">Welcome to VIVALY!</h1>
         <p>Hi ${nannyName},</p>
         <p>We're thrilled to have you join our community of trusted caregivers! Your journey to connecting with amazing families starts now.</p>
         
@@ -231,10 +231,10 @@ export async function sendNannyWelcomeSequence(nannyEmail: string, nannyName: st
           </ul>
         </div>
         
-        <p><a href="https://careconnect.com.au/nanny-dashboard" style="background: #3B82F6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px;">Complete Your Profile →</a></p>
+        <p><a href="https://vivaly.com.au/nanny-dashboard" style="background: #000000; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px;">Complete Your Profile →</a></p>
         
         <p>Need help? Reply to this email and our team will assist you.</p>
-        <p>Best regards,<br>The CareConnect Team</p>
+        <p>Best regards,<br>The VIVALY Team</p>
       </div>
     `
   });
@@ -244,7 +244,7 @@ export async function sendNannyWelcomeSequence(nannyEmail: string, nannyName: st
 }
 
 export async function sendNannyProfileCompletionReminder(nannyEmail: string, nannyName: string) {
-  const fromEmail = 'support@careconnect.com.au';
+  const fromEmail = 'support@vivaly.com.au';
   
   await sendEmail({
     to: nannyEmail,
@@ -252,7 +252,7 @@ export async function sendNannyProfileCompletionReminder(nannyEmail: string, nan
     subject: `${nannyName}, complete your profile to get more bookings`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #3B82F6;">Don't Miss Out on Great Opportunities!</h1>
+        <h1 style="color: #000000; font-weight: 900;">Don't Miss Out on Great Opportunities!</h1>
         <p>Hi ${nannyName},</p>
         <p>We noticed your profile isn't complete yet. Nannies with complete profiles get <strong>3x more bookings</strong> than those without!</p>
         
@@ -266,17 +266,17 @@ export async function sendNannyProfileCompletionReminder(nannyEmail: string, nan
           </ul>
         </div>
         
-        <p><a href="https://careconnect.com.au/nanny-dashboard" style="background: #059669; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px;">Complete Profile Now →</a></p>
+        <p><a href="https://vivaly.com.au/nanny-dashboard" style="background: #000000; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px;">Complete Profile Now →</a></p>
         
         <p>Questions? Our team is here to help - just reply to this email.</p>
-        <p>Cheers,<br>The CareConnect Team</p>
+        <p>Cheers,<br>The VIVALY Team</p>
       </div>
     `
   });
 }
 
 export async function sendBookingConfirmation(nannyEmail: string, parentEmail: string, bookingDetails: any) {
-  const fromEmail = 'bookings@careconnect.com.au';
+  const fromEmail = 'bookings@vivaly.com.au';
   
   // Email to nanny
   await sendEmail({
@@ -285,10 +285,10 @@ export async function sendBookingConfirmation(nannyEmail: string, parentEmail: s
     subject: 'New Booking Confirmed! 📅',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #059669;">New Booking Confirmed!</h1>
+        <h1 style="color: #000000; font-weight: 900;">New Booking Confirmed!</h1>
         <p>Great news! You have a new booking confirmed.</p>
         
-        <div style="background: #F0FDF4; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <div style="background: #f9fafb; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #000000;">
           <h3>📋 Booking Details:</h3>
           <p><strong>Date:</strong> ${new Date(bookingDetails.date).toLocaleDateString()}</p>
           <p><strong>Time:</strong> ${bookingDetails.startTime} - ${bookingDetails.endTime}</p>
@@ -296,9 +296,9 @@ export async function sendBookingConfirmation(nannyEmail: string, parentEmail: s
           <p><strong>Amount:</strong> $${bookingDetails.totalAmount}</p>
         </div>
         
-        <p><a href="https://careconnect.com.au/nanny-dashboard" style="background: #059669; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px;">View Booking Details →</a></p>
+        <p><a href="https://vivaly.com.au/nanny-dashboard" style="background: #000000; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px;">View Booking Details →</a></p>
         
-        <p>Best of luck!<br>The CareConnect Team</p>
+        <p>Best of luck!<br>The VIVALY Team</p>
       </div>
     `
   });
@@ -310,10 +310,10 @@ export async function sendBookingConfirmation(nannyEmail: string, parentEmail: s
     subject: 'Booking Confirmed - Your caregiver is ready! ✅',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #059669;">Booking Confirmed!</h1>
+        <h1 style="color: #000000; font-weight: 900;">Booking Confirmed!</h1>
         <p>Your booking has been confirmed. We're excited for you to meet your caregiver!</p>
         
-        <div style="background: #F0FDF4; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <div style="background: #f9fafb; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #000000;">
           <h3>📋 Your Booking:</h3>
           <p><strong>Date:</strong> ${new Date(bookingDetails.date).toLocaleDateString()}</p>
           <p><strong>Time:</strong> ${bookingDetails.startTime} - ${bookingDetails.endTime}</p>
@@ -329,22 +329,22 @@ export async function sendBookingConfirmation(nannyEmail: string, parentEmail: s
         </ul>
         
         <p>Need to make changes? Contact us immediately.</p>
-        <p>Have a wonderful experience!<br>The CareConnect Team</p>
+        <p>Have a wonderful experience!<br>The VIVALY Team</p>
       </div>
     `
   });
 }
 
 export async function sendNewNannyAlert(nannyData: any) {
-  const adminEmail = 'admin@careconnect.com.au';
+  const adminEmail = 'admin@vivaly.com.au';
   
   await sendEmail({
     to: adminEmail,
-    from: 'alerts@careconnect.com.au',
+    from: 'alerts@vivaly.com.au',
     subject: `New Nanny Registration: ${nannyData.firstName} ${nannyData.lastName}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #3B82F6;">New Nanny Registration</h1>
+        <h1 style="color: #000000; font-weight: 900;">New Nanny Registration</h1>
         
         <div style="background: #F3F4F6; padding: 20px; border-radius: 8px; margin: 20px 0;">
           <h3>👤 Nanny Details:</h3>
@@ -356,7 +356,7 @@ export async function sendNewNannyAlert(nannyData: any) {
         </div>
         
         <p><strong>Action Required:</strong> Review and verify the new nanny's credentials.</p>
-        <p><a href="https://careconnect.com.au/admin/nannies/${nannyData.id}" style="background: #3B82F6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px;">Review Profile →</a></p>
+        <p><a href="https://vivaly.com.au/admin/nannies/${nannyData.id}" style="background: #000000; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px;">Review Profile →</a></p>
       </div>
     `
   });
@@ -366,24 +366,24 @@ export async function sendNewNannyAlert(nannyData: any) {
 
 // Parent Welcome Email Sequence
 export async function sendParentWelcomeSequence(parentEmail: string, parentName: string) {
-  const fromEmail = 'welcome@aircareau.com';
+  const fromEmail = 'welcome@vivaly.com.au';
   
   await sendEmail({
     to: parentEmail,
     from: fromEmail,
-    subject: `Welcome to Carely, ${parentName}! Your trusted care journey begins`,
+    subject: `Welcome to VIVALY, ${parentName}! Your trusted care journey begins`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
-        <div style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); padding: 40px 20px; text-align: center;">
-          <h1 style="color: white; margin: 0; font-size: 28px;">Welcome to Carely!</h1>
-          <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Australia's most trusted care marketplace</p>
+        <div style="background: #000000; padding: 40px 20px; text-align: center;">
+          <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 900;">Welcome to VIVALY!</h1>
+          <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Australia's Premier Childcare Platform</p>
         </div>
         
         <div style="padding: 30px 20px;">
           <p style="font-size: 16px; line-height: 1.6;">Hi ${parentName},</p>
-          <p style="font-size: 16px; line-height: 1.6;">Welcome to Carely! We're thrilled you've chosen us to help find the perfect care for your family.</p>
+          <p style="font-size: 16px; line-height: 1.6;">Welcome to VIVALY! We're thrilled you've chosen us to help find the perfect care for your family.</p>
           
-          <div style="background: #f8fafc; padding: 25px; border-radius: 10px; margin: 25px 0; border-left: 4px solid #f97316;">
+          <div style="background: #f8fafc; padding: 25px; border-radius: 10px; margin: 25px 0; border-left: 4px solid #000000;">
             <h3 style="color: #1f2937; margin: 0 0 15px 0;">🚀 Get Started in 3 Easy Steps:</h3>
             <div style="margin: 15px 0;">
               <strong style="color: #374151;">1. Browse Verified Caregivers</strong>
