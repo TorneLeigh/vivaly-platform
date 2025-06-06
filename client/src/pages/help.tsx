@@ -98,25 +98,7 @@ export default function Help() {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-            <CardContent className="p-6 text-center">
-              <MessageCircle className="h-12 w-12 text-coral mx-auto mb-4" />
-              <h3 className="font-semibold text-lg mb-2">Live Chat</h3>
-              <p className="text-gray-600 text-sm mb-4">Get instant help from our support team</p>
-              <Button className="bg-coral hover:bg-coral/90 text-white">Start Chat</Button>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-            <CardContent className="p-6 text-center">
-              <Phone className="h-12 w-12 text-coral mx-auto mb-4" />
-              <h3 className="font-semibold text-lg mb-2">Phone Support</h3>
-              <p className="text-gray-600 text-sm mb-4">Speak directly with our team</p>
-              <Button variant="outline">Call Now</Button>
-            </CardContent>
-          </Card>
-
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-6 mb-12 max-w-md mx-auto">
           <Card className="hover:shadow-lg transition-shadow cursor-pointer">
             <CardContent className="p-6 text-center">
               <Mail className="h-12 w-12 text-coral mx-auto mb-4" />
