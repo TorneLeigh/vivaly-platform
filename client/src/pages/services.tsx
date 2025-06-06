@@ -9,6 +9,14 @@ import motherBabyBondingImage from "@assets/e3806ba7e7119fb379b95ce4d570e105_174
 import motherHoldingBabyImage from "@assets/f01acbf088d9ff9aa3b69419fa01ff03_1749182535016.jpg";
 import birthEducationClassImage from "@assets/5c1756efeffe31b87ae42255a1e625b5_1749182535016.jpg";
 import parentingClassImage from "@assets/300ce6a6e339c054c341d15ef56cabbb_1749182535016.jpg";
+import babyFeetImage from "@assets/9717a7e59d32ac45c39a7f027a3230af_1749182897295.jpg";
+import laborSupportImage from "@assets/f087158c54b76ecf0250c6866d218c92_1749182897295.jpg";
+import birthCoachingImage from "@assets/8da0e0735821d20e3f8cb769e40a4c98_1749182897295.jpg";
+import breastfeedingLatchImage from "@assets/c18480e234907faffa31784936ac8816_1749182897295.jpg";
+import newbornHandsImage from "@assets/79c40dcc41bd092f6f03b26fd4cf94d8_1749182897295.jpg";
+import breastpadsImage from "@assets/d81ff6e441430a5c581dc3a72149844e_1749182897295.jpg";
+import birthBallImage from "@assets/f116334957ff9c74101be0e0c41edcda_1749182897295.jpg";
+import pregnancyMassageImage from "@assets/eba1794568e9061d6c6e016750154ee7_1749182897295.jpg";
 
 interface Nanny {
   id: number;
@@ -50,39 +58,51 @@ interface Experience {
 
 const birthEducationClasses = [
   {
-    title: "Hypnobirthing Classes",
-    description: "Relaxation techniques for natural birth",
-    image: "/images/hypnobirthing.jpg",
+    title: "Newborn Care",
+    description: "Essential baby care skills and techniques",
+    image: babyFeetImage,
     serviceType: "Birth education"
   },
   {
-    title: "Sleeping Classes",
-    description: "Learn healthy sleep patterns for babies",
-    image: "/images/sleeping-classes.jpg",
+    title: "Labor Support",
+    description: "Comfort techniques and birth preparation",
+    image: laborSupportImage,
     serviceType: "Birth education"
   },
   {
-    title: "Lamaze Method",
-    description: "Traditional breathing and relaxation",
-    image: "/images/lamaze.jpg",
+    title: "Birth Coaching",
+    description: "Personalized birthing guidance and support",
+    image: birthCoachingImage,
     serviceType: "Birth education"
   },
   {
-    title: "Bradley Method",
-    description: "Natural childbirth preparation",
-    image: "/images/bradley.jpg",
+    title: "Breastfeeding Latch",
+    description: "Proper breastfeeding techniques and positioning",
+    image: breastfeedingLatchImage,
     serviceType: "Birth education"
   },
   {
-    title: "Water Birth Classes",
-    description: "Preparation for water delivery",
-    image: "/images/waterbirth.jpg",
+    title: "Newborn Bonding",
+    description: "Building connection with your newborn",
+    image: newbornHandsImage,
     serviceType: "Birth education"
   },
   {
-    title: "Newborn Care Classes",
-    description: "Essential baby care skills",
-    image: "/images/newborn-care.jpg",
+    title: "Breastfeeding Support",
+    description: "Comprehensive lactation consultation",
+    image: breastpadsImage,
+    serviceType: "Birth education"
+  },
+  {
+    title: "Birth Ball Techniques",
+    description: "Exercise and comfort during pregnancy",
+    image: birthBallImage,
+    serviceType: "Birth education"
+  },
+  {
+    title: "Pregnancy Massage",
+    description: "Prenatal massage and wellness support",
+    image: pregnancyMassageImage,
     serviceType: "Birth education"
   }
 ];
