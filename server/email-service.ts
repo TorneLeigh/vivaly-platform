@@ -400,7 +400,7 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
           </div>
           
           <div style="text-align: center; margin: 30px 0;">
-            <a href="https://aircareau.com/search" style="background: #f97316; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);">Find Your Perfect Caregiver →</a>
+            <a href="https://vivaly.com.au/search" style="background: #000000; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Find Your Perfect Caregiver →</a>
           </div>
           
           <div style="background: #fef3e2; padding: 20px; border-radius: 8px; margin: 25px 0;">
@@ -409,15 +409,15 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
           </div>
           
           <p style="font-size: 16px; line-height: 1.6;">Need help getting started? Our support team is here for you - just reply to this email.</p>
-          <p style="font-size: 16px; line-height: 1.6;">Best regards,<br><strong>The Carely Team</strong></p>
+          <p style="font-size: 16px; line-height: 1.6;">Best regards,<br><strong>The VIVALY Team</strong></p>
         </div>
         
         <div style="background: #f8fafc; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
           <p style="color: #6b7280; font-size: 14px; margin: 0;">Follow us for tips and updates:</p>
           <div style="margin: 10px 0;">
-            <a href="#" style="color: #f97316; text-decoration: none; margin: 0 10px;">Facebook</a>
-            <a href="#" style="color: #f97316; text-decoration: none; margin: 0 10px;">Instagram</a>
-            <a href="#" style="color: #f97316; text-decoration: none; margin: 0 10px;">LinkedIn</a>
+            <a href="#" style="color: #000000; text-decoration: none; margin: 0 10px;">Facebook</a>
+            <a href="#" style="color: #000000; text-decoration: none; margin: 0 10px;">Instagram</a>
+            <a href="#" style="color: #000000; text-decoration: none; margin: 0 10px;">LinkedIn</a>
           </div>
         </div>
       </div>
@@ -432,18 +432,18 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
 export async function sendParentEngagementEmail(parentEmail: string, parentName: string) {
   await sendEmail({
     to: parentEmail,
-    from: 'support@aircareau.com',
-    subject: `${parentName}, discover what makes Carely families happy`,
+    from: 'support@vivaly.com.au',
+    subject: `${parentName}, discover what makes VIVALY families happy`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #f97316;">Real Stories, Real Families</h1>
+        <h1 style="color: #000000; font-weight: 900;">Real Stories, Real Families</h1>
         <p>Hi ${parentName},</p>
-        <p>We wanted to share some inspiring stories from families who found their perfect caregiver through Carely.</p>
+        <p>We wanted to share some inspiring stories from families who found their perfect caregiver through VIVALY.</p>
         
-        <div style="background: #f0fdf4; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #10b981;">
+        <div style="background: #f9fafb; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #000000;">
           <h3>⭐ Featured Success Story</h3>
           <blockquote style="font-style: italic; margin: 15px 0; color: #374151;">
-            "Sarah has been incredible with our twins. Finding her through Carely was the best decision we made as working parents. The verification process gave us complete peace of mind."
+            "Sarah has been incredible with our twins. Finding her through VIVALY was the best decision we made as working parents. The verification process gave us complete peace of mind."
           </blockquote>
           <p style="color: #6b7280; margin: 0;"><strong>- Emma & James, Sydney</strong></p>
         </div>
@@ -459,11 +459,11 @@ export async function sendParentEngagementEmail(parentEmail: string, parentName:
         </div>
         
         <p style="text-align: center;">
-          <a href="https://aircareau.com/search" style="background: #f97316; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">View Featured Caregivers →</a>
+          <a href="https://vivaly.com.au/search" style="background: #000000; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">View Featured Caregivers →</a>
         </p>
         
         <p>Still have questions? Our team is here to help you every step of the way.</p>
-        <p>Warm regards,<br>The Carely Team</p>
+        <p>Warm regards,<br>The VIVALY Team</p>
       </div>
     `
   });
@@ -472,11 +472,11 @@ export async function sendParentEngagementEmail(parentEmail: string, parentName:
 // Booking Reminder Emails
 export async function sendBookingReminder(userEmail: string, bookingDetails: any, reminderType: '24h' | '2h') {
   const timeframe = reminderType === '24h' ? '24 hours' : '2 hours';
-  const urgencyColor = reminderType === '24h' ? '#3b82f6' : '#f59e0b';
+  const urgencyColor = reminderType === '24h' ? '#000000' : '#6b7280';
   
   await sendEmail({
     to: userEmail,
-    from: 'reminders@aircareau.com',
+    from: 'reminders@vivaly.com.au',
     subject: `Booking reminder: Your care session starts in ${timeframe}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -506,11 +506,11 @@ export async function sendBookingReminder(userEmail: string, bookingDetails: any
           ` : ''}
           
           <p style="text-align: center; margin: 30px 0;">
-            <a href="https://aircareau.com/bookings" style="background: #10b981; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">View Booking Details →</a>
+            <a href="https://vivaly.com.au/bookings" style="background: #000000; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">View Booking Details →</a>
           </p>
           
-          <p>Need to make changes? Contact us immediately at support@aircareau.com</p>
-          <p>Best regards,<br>The Carely Team</p>
+          <p>Need to make changes? Contact us immediately at support@vivaly.com.au</p>
+          <p>Best regards,<br>The VIVALY Team</p>
         </div>
       </div>
     `
@@ -521,24 +521,24 @@ export async function sendBookingReminder(userEmail: string, bookingDetails: any
 export async function sendPostBookingFeedback(userEmail: string, userName: string, bookingId: number) {
   await sendEmail({
     to: userEmail,
-    from: 'feedback@aircareau.com',
+    from: 'feedback@vivaly.com.au',
     subject: 'How was your care experience? Share your feedback',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #10b981;">How was your experience?</h1>
+        <h1 style="color: #000000; font-weight: 900;">How was your experience?</h1>
         <p>Hi ${userName},</p>
         <p>We hope your recent care session went wonderfully! Your feedback helps us maintain the highest quality of care on our platform.</p>
         
-        <div style="background: #f0fdf4; padding: 25px; border-radius: 10px; margin: 25px 0; text-align: center;">
-          <h3 style="color: #065f46; margin: 0 0 20px 0;">Rate Your Experience</h3>
+        <div style="background: #f9fafb; padding: 25px; border-radius: 10px; margin: 25px 0; text-align: center; border: 1px solid #e5e7eb;">
+          <h3 style="color: #000000; margin: 0 0 20px 0;">Rate Your Experience</h3>
           <div style="margin: 20px 0;">
-            <a href="https://aircareau.com/review/${bookingId}?rating=5" style="background: #10b981; color: white; padding: 10px 15px; text-decoration: none; border-radius: 6px; margin: 0 5px; font-size: 18px;">⭐⭐⭐⭐⭐</a>
+            <a href="https://vivaly.com.au/review/${bookingId}?rating=5" style="background: #000000; color: white; padding: 10px 15px; text-decoration: none; border-radius: 6px; margin: 0 5px; font-size: 18px;">⭐⭐⭐⭐⭐</a>
           </div>
           <div style="margin: 10px 0;">
-            <a href="https://aircareau.com/review/${bookingId}?rating=4" style="background: #059669; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px; margin: 0 3px;">⭐⭐⭐⭐</a>
-            <a href="https://aircareau.com/review/${bookingId}?rating=3" style="background: #047857; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px; margin: 0 3px;">⭐⭐⭐</a>
-            <a href="https://aircareau.com/review/${bookingId}?rating=2" style="background: #065f46; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px; margin: 0 3px;">⭐⭐</a>
-            <a href="https://aircareau.com/review/${bookingId}?rating=1" style="background: #064e3b; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px; margin: 0 3px;">⭐</a>
+            <a href="https://vivaly.com.au/review/${bookingId}?rating=4" style="background: #374151; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px; margin: 0 3px;">⭐⭐⭐⭐</a>
+            <a href="https://vivaly.com.au/review/${bookingId}?rating=3" style="background: #4b5563; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px; margin: 0 3px;">⭐⭐⭐</a>
+            <a href="https://vivaly.com.au/review/${bookingId}?rating=2" style="background: #6b7280; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px; margin: 0 3px;">⭐⭐</a>
+            <a href="https://vivaly.com.au/review/${bookingId}?rating=1" style="background: #9ca3af; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px; margin: 0 3px;">⭐</a>
           </div>
         </div>
         
