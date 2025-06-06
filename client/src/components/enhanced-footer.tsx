@@ -84,10 +84,10 @@ export default function EnhancedFooter() {
           {/* Company Info */}
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-2 mb-6">
-              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">C</span>
+              <div className="w-10 h-10 bg-black rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg">V</span>
               </div>
-              <span className="text-2xl font-bold">Carely</span>
+              <span className="text-2xl font-bold">VIVALY</span>
             </div>
             <p className="text-gray-300 mb-6 leading-relaxed">
               Australia's most trusted care marketplace connecting families with verified, background-checked caregivers across childcare, elderly care, and pet services.
@@ -209,10 +209,10 @@ export default function EnhancedFooter() {
           {/* Copyright */}
           <div className="border-t border-gray-800 mt-8 pt-8 text-center">
             <p className="text-gray-400 text-sm">
-              © 2025 Carely Pty Ltd. All rights reserved. ABN: 12 345 678 901
+              © 2025 VIVALY Pty Ltd. All rights reserved. ABN: 12 345 678 901
             </p>
             <p className="text-gray-500 text-xs mt-2">
-              Carely is a registered trademark. Background checks powered by ASIC Connect.
+              VIVALY is a registered trademark. Background checks powered by ASIC Connect.
             </p>
           </div>
         </div>

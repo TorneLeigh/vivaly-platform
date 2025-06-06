@@ -40,8 +40,8 @@ export default function EnhancedNavigation() {
           {/* Logo */}
           <Link href="/">
             <div className="flex items-center space-x-2 cursor-pointer">
-              <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">C</span>
+              <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">V</span>
               </div>
               <span className="text-xl font-bold text-gray-900">VIVALY</span>
             </div>
@@ -51,7 +51,7 @@ export default function EnhancedNavigation() {
           <div className="hidden md:flex items-center space-x-8">
             {navigationItems.map((item, index) => (
               <Link key={index} href={item.href}>
-                <span className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200 cursor-pointer">
+                <span className="text-gray-700 hover:text-black font-medium transition-colors duration-200 cursor-pointer">
                   {item.label}
                 </span>
               </Link>
@@ -61,12 +61,12 @@ export default function EnhancedNavigation() {
           {/* Desktop User Actions */}
           <div className="hidden md:flex items-center space-x-4">
             <Link href="/login">
-              <Button variant="ghost" className="text-gray-700 hover:text-orange-600">
+              <Button variant="ghost" className="text-gray-700 hover:text-black">
                 Log in
               </Button>
             </Link>
             <Link href="/signup">
-              <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300">
+              <Button className="bg-black hover:bg-gray-800 text-white px-6 py-2 rounded-lg font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300">
                 Sign up
               </Button>
             </Link>
