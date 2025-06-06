@@ -101,8 +101,8 @@ export default function Auth() {
       toast({
         title: "Account Created!",
         description: variables.isCaregiver 
-          ? "Welcome to Carely! Complete your caregiver profile to start accepting bookings."
-          : "Welcome to Carely! You can now start booking caregivers.",
+          ? "Welcome to VIVALY! Complete your caregiver profile to start accepting bookings."
+          : "Welcome to VIVALY! You can now start booking caregivers.",
       });
       
       if (variables.isCaregiver) {
@@ -132,7 +132,7 @@ export default function Auth() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900">Welcome to Carely</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Welcome to VIVALY</h1>
           <p className="mt-2 text-gray-600">
             {activeTab === "login" 
               ? "Sign in to your account" 
@@ -213,8 +213,7 @@ export default function Auth() {
 
                   <Button
                     type="submit"
-                    className="w-full"
-                    style={{ backgroundColor: '#FF6B35' }}
+                    className="w-full bg-black hover:bg-gray-800 text-white"
                     disabled={loginMutation.isPending}
                   >
                     {loginMutation.isPending ? "Signing in..." : "Sign In"}
@@ -358,11 +357,11 @@ export default function Auth() {
                     />
                     <Label htmlFor="agreeToTerms" className="text-sm">
                       I agree to the{" "}
-                      <a href="/terms-of-service" className="text-orange-600 hover:underline">
+                      <a href="/terms-of-service" className="text-black hover:underline">
                         Terms of Service
                       </a>{" "}
                       and{" "}
-                      <a href="/privacy-policy" className="text-orange-600 hover:underline">
+                      <a href="/privacy-policy" className="text-black hover:underline">
                         Privacy Policy
                       </a>
                     </Label>
@@ -375,8 +374,7 @@ export default function Auth() {
 
                   <Button
                     type="submit"
-                    className="w-full"
-                    style={{ backgroundColor: '#FF6B35' }}
+                    className="w-full bg-black hover:bg-gray-800 text-white"
                     disabled={signupMutation.isPending}
                   >
                     {signupMutation.isPending ? "Creating account..." : "Create Account"}
