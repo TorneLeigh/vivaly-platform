@@ -34,12 +34,12 @@ export default function ProviderSelection() {
                   onClick={() => setSelectedType("service")}
                   className={`p-6 rounded-lg border-2 transition-all ${
                     selectedType === "service" 
-                      ? "border-blue-500 bg-blue-50" 
+                      ? "border-black bg-gray-50" 
                       : "border-gray-200 hover:border-gray-300"
                   }`}
                 >
                   <div className="text-center">
-                    <Heart className="w-12 h-12 mx-auto mb-4 text-blue-600" />
+                    <Heart className="w-12 h-12 mx-auto mb-4 text-black" />
                     <h3 className="text-lg font-semibold mb-2">Events & Socials</h3>
                     <p className="text-sm text-gray-600">
                       Create group activities, playdates, educational workshops, and social events for families
@@ -51,12 +51,12 @@ export default function ProviderSelection() {
                   onClick={() => setSelectedType("childcare")}
                   className={`p-6 rounded-lg border-2 transition-all ${
                     selectedType === "childcare" 
-                      ? "border-green-500 bg-green-50" 
+                      ? "border-black bg-gray-50" 
                       : "border-gray-200 hover:border-gray-300"
                   }`}
                 >
                   <div className="text-center">
-                    <Users className="w-12 h-12 mx-auto mb-4 text-green-600" />
+                    <Users className="w-12 h-12 mx-auto mb-4 text-black" />
                     <h3 className="text-lg font-semibold mb-2">Childcare Center</h3>
                     <p className="text-sm text-gray-600">
                       Run a licensed home-based childcare for multiple children
