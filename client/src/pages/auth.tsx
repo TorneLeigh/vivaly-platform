@@ -68,11 +68,10 @@ export default function Auth() {
 
   const loginMutation = useMutation({
     mutationFn: async (data: LoginForm) => {
-      return apiRequest("POST", "/api/auth/login", data);
+      const response = await apiRequest("POST", "/api/auth/login", data);
+      return response.json();
     },
-    onSuccess: (response: any) => {
-      const { user, token } = response;
-      localStorage.setItem("authToken", token);
+    onSuccess: (user: any) => {
       queryClient.setQueryData(["/api/auth/user"], user);
       toast({
         title: "Welcome back!",
@@ -91,11 +90,10 @@ export default function Auth() {
 
   const signupMutation = useMutation({
     mutationFn: async (data: SignupForm) => {
-      return apiRequest("POST", "/api/auth/signup", data);
+      const response = await apiRequest("POST", "/api/auth/signup", data);
+      return response.json();
     },
-    onSuccess: (response: any) => {
-      const { user, token } = response;
-      localStorage.setItem("authToken", token);
+    onSuccess: (user: any) => {
       queryClient.setQueryData(["/api/auth/user"], user);
       toast({
         title: "Account Created!",
