@@ -27,7 +27,6 @@ const signupSchema = z.object({
     .min(8, "Password must be at least 8 characters")
     .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "Password must contain at least one uppercase letter, one lowercase letter, and one number"),
   confirmPassword: z.string(),
-  isCaregiver: z.boolean().default(false),
   agreeToTerms: z.boolean().refine((val) => val === true, {
     message: "You must agree to the terms and conditions",
   }),
@@ -63,7 +62,6 @@ export default function Auth() {
       phone: "",
       password: "",
       confirmPassword: "",
-      isCaregiver: false,
       agreeToTerms: false,
     },
   });
@@ -95,22 +93,16 @@ export default function Auth() {
     mutationFn: async (data: SignupForm) => {
       return apiRequest("POST", "/api/auth/signup", data);
     },
-    onSuccess: (response: any, variables) => {
+    onSuccess: (response: any) => {
       const { user, token } = response;
       localStorage.setItem("authToken", token);
       queryClient.setQueryData(["/api/auth/user"], user);
       toast({
         title: "Account Created!",
-        description: variables.isCaregiver 
-          ? "Welcome to VIVALY! Complete your caregiver profile to start accepting bookings."
-          : "Welcome to VIVALY! You can now start booking caregivers.",
+        description: "Welcome to VIVALY! You can now start booking caregivers.",
       });
       
-      if (variables.isCaregiver) {
-        window.location.href = "/caregiver-onboarding";
-      } else {
-        window.location.href = "/";
-      }
+      window.location.href = "/";
     },
     onError: (error: any) => {
       toast({
@@ -379,15 +371,7 @@ export default function Auth() {
                     )}
                   </div>
 
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="isCaregiver"
-                      {...signupForm.register("isCaregiver")}
-                    />
-                    <Label htmlFor="isCaregiver" className="text-sm">
-                      I want to provide care services (become a caregiver)
-                    </Label>
-                  </div>
+
 
                   <div className="flex items-center space-x-2">
                     <Checkbox
@@ -424,10 +408,21 @@ export default function Auth() {
           </CardContent>
         </Card>
 
-        <div className="text-center">
+        <div className="text-center space-y-2">
           <p className="text-sm text-gray-600">
             By signing up, you agree to our Terms of Service and Privacy Policy
           </p>
+          <div className="border-t border-gray-200 pt-4">
+            <p className="text-sm text-gray-600 mb-2">
+              Want to offer care services?
+            </p>
+            <a 
+              href="/become-caregiver" 
+              className="text-sm text-orange-600 hover:text-orange-500 font-medium"
+            >
+              Switch to Service Provider Signup
+            </a>
+          </div>
         </div>
       </div>
     </div>
