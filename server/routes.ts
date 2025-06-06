@@ -1785,12 +1785,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const user = await storage.createUserSimple(userData);
 
-      // Send welcome email based on user type
+      // Send welcome communications
       if (userType === 'parent') {
         console.log(`Trial signup: Parent ${firstName} ${lastName} from ${suburb}`);
+        // Send welcome SMS
+        if (phone) {
+          await sendTrialWelcomeSMS(phone, firstName, 'parent');
+        }
         // Email automation will be triggered when SendGrid is configured
       } else {
         console.log(`Trial signup: Caregiver ${firstName} ${lastName} from ${suburb}`);
+        // Send welcome SMS
+        if (phone) {
+          await sendTrialWelcomeSMS(phone, firstName, 'caregiver');
+        }
         // Email automation will be triggered when SendGrid is configured
       }
 
@@ -1829,6 +1837,68 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Trial metrics error:', error);
       res.status(500).json({ message: 'Failed to fetch trial metrics' });
+    }
+  });
+
+  // Phone verification routes
+  app.post('/api/auth/send-verification', async (req, res) => {
+    try {
+      const { phone } = req.body;
+      
+      if (!phone) {
+        return res.status(400).json({ message: 'Phone number is required' });
+      }
+      
+      const result = await sendPhoneVerificationCode(phone);
+      
+      if (result.success) {
+        res.json({ success: true, message: result.message });
+      } else {
+        res.status(400).json({ success: false, message: result.message });
+      }
+    } catch (error) {
+      console.error('Send verification error:', error);
+      res.status(500).json({ message: 'Failed to send verification code' });
+    }
+  });
+
+  app.post('/api/auth/verify-phone', async (req, res) => {
+    try {
+      const { phone, code } = req.body;
+      
+      if (!phone || !code) {
+        return res.status(400).json({ message: 'Phone number and code are required' });
+      }
+      
+      const result = verifyPhoneCode(phone, code);
+      
+      if (result.success) {
+        res.json({ success: true, message: result.message });
+      } else {
+        res.status(400).json({ success: false, message: result.message });
+      }
+    } catch (error) {
+      console.error('Verify phone error:', error);
+      res.status(500).json({ message: 'Failed to verify phone number' });
+    }
+  });
+
+  // SMS notification test endpoint (for development)
+  app.post('/api/sms/test', async (req, res) => {
+    try {
+      const { phone, message } = req.body;
+      
+      if (!phone || !message) {
+        return res.status(400).json({ message: 'Phone and message are required' });
+      }
+      
+      const { sendSMS } = await import('./sms-service');
+      const success = await sendSMS({ to: phone, message });
+      
+      res.json({ success, message: success ? 'SMS sent successfully' : 'Failed to send SMS' });
+    } catch (error) {
+      console.error('SMS test error:', error);
+      res.status(500).json({ message: 'Failed to send test SMS' });
     }
   });
 
