@@ -149,18 +149,18 @@ export default function GiftCards() {
                       <button
                         key={color.id}
                         onClick={() => setSelectedColor(color.id)}
-                        className={`p-4 rounded-xl border-2 transition-all ${
+                        className={`p-3 rounded-lg border-2 font-medium transition-all ${
                           selectedColor === color.id
                             ? "border-black bg-black text-white"
-                            : "border-gray-200 hover:border-gray-300"
+                            : "border-gray-200 text-gray-700 hover:border-gray-300"
                         }`}
                       >
                         <div className="flex items-center space-x-3">
-                          <div className={`w-10 h-10 bg-gradient-to-br ${color.gradient} rounded-lg flex items-center justify-center`}>
-                            <Gift className="w-5 h-5 text-white" />
+                          <div className={`w-8 h-8 bg-gradient-to-br ${color.gradient} rounded-lg flex items-center justify-center`}>
+                            <Gift className="w-4 h-4 text-white" />
                           </div>
                           <div className="text-left">
-                            <div className="font-medium text-gray-900">{color.name}</div>
+                            <div className={`font-medium ${selectedColor === color.id ? "text-white" : "text-gray-900"}`}>{color.name}</div>
                           </div>
                         </div>
                       </button>
@@ -316,10 +316,8 @@ export default function GiftCards() {
         </div>
       </section>
 
-
-
       {/* Perfect For Section */}
-      <section className="py-8 bg-gray-50">
+      <section className="py-6 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Perfect Gift For</h2>
