@@ -656,18 +656,19 @@ export async function sendWeeklyNewsletter(userEmail: string, userName: string, 
 
   await sendEmail({
     to: userEmail,
-    from: 'newsletter@aircareau.com',
+    from: 'newsletter@vivaly.com.au',
     subject: content.subject,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <div style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; padding: 30px 20px; text-align: center; border-radius: 8px 8px 0 0;">
-          <h1 style="margin: 0; font-size: 24px;">${content.title}</h1>
+        <div style="background: #000000; color: white; padding: 30px 20px; text-align: center; border-radius: 8px 8px 0 0;">
+          <h1 style="margin: 0; font-size: 24px; font-weight: 900;">VIVALY</h1>
+          <h2 style="margin: 10px 0 0 0; font-weight: 600;">${content.title}</h2>
           <p style="margin: 10px 0 0 0;">Your weekly dose of care community updates</p>
         </div>
         
         <div style="padding: 30px 20px; background: white; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
           <p>Hi ${userName},</p>
-          <p>Hope you're having a wonderful week! Here's what's happening in your Carely community:</p>
+          <p>Hope you're having a wonderful week! Here's what's happening in your VIVALY community:</p>
           
           ${content.mainContent}
           
@@ -681,15 +682,15 @@ export async function sendWeeklyNewsletter(userEmail: string, userName: string, 
           </div>
           
           <p style="text-align: center; margin: 30px 0;">
-            <a href="${content.ctaLink}" style="background: #f97316; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">${content.cta}</a>
+            <a href="${content.ctaLink}" style="background: #000000; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">${content.cta}</a>
           </p>
           
           <p>Thanks for being part of our amazing community!</p>
-          <p>Warm regards,<br>The Carely Team</p>
+          <p>Warm regards,<br>The VIVALY Team</p>
           
           <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0;">
           <p style="color: #6b7280; font-size: 14px; text-align: center;">
-            Don't want weekly updates? <a href="#" style="color: #f97316;">Unsubscribe here</a>
+            Don't want weekly updates? <a href="#" style="color: #000000;">Unsubscribe here</a>
           </p>
         </div>
       </div>
@@ -701,8 +702,8 @@ export async function sendWeeklyNewsletter(userEmail: string, userName: string, 
 export async function sendEmergencyContactVerification(contactEmail: string, familyName: string, caregiverName: string) {
   await sendEmail({
     to: contactEmail,
-    from: 'safety@aircareau.com',
-    subject: 'Emergency Contact Verification - Carely Care Session',
+    from: 'safety@vivaly.com.au',
+    subject: 'Emergency Contact Verification - VIVALY Care Session',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background: #dc2626; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
@@ -730,12 +731,12 @@ export async function sendEmergencyContactVerification(contactEmail: string, fam
           </div>
           
           <p style="text-align: center; margin: 30px 0;">
-            <a href="https://aircareau.com/emergency-contact/confirm" style="background: #dc2626; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">Confirm Availability →</a>
+            <a href="https://vivaly.com.au/emergency-contact/confirm" style="background: #dc2626; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">Confirm Availability →</a>
           </p>
           
-          <p><strong>Questions or concerns?</strong> Contact our safety team immediately at safety@aircareau.com or call our emergency line.</p>
+          <p><strong>Questions or concerns?</strong> Contact our safety team immediately at safety@vivaly.com.au or call our emergency line.</p>
           <p>Thank you for helping keep our community safe.</p>
-          <p>The Carely Safety Team</p>
+          <p>The VIVALY Safety Team</p>
         </div>
       </div>
     `
