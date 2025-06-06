@@ -24,11 +24,11 @@ export const parentTrialSequence: EmailTemplate[] = [
         <p style="color: #374151; line-height: 1.6;">Hi there! We noticed you started setting up your VIVALY profile but haven't finished yet. Complete it now to access our verified caregivers.</p>
         
         <div style="background: #F9FAFB; padding: 20px; border-radius: 8px; margin: 25px 0;">
-          <h4 style="color: #1F2937; margin-top: 0;">📊 Families with complete profiles get:</h4>
+          <h4 style="color: #1F2937; margin-top: 0;">📊 Complete profiles unlock:</h4>
           <ul style="color: #374151; line-height: 1.6; margin: 0;">
-            <li>3x more responses from caregivers</li>
-            <li>Priority access to top-rated providers</li>
-            <li>Instant booking capabilities</li>
+            <li>Access to verified caregivers</li>
+            <li>Direct messaging with providers</li>
+            <li>Booking and scheduling tools</li>
             <li>Background-checked caregivers only</li>
           </ul>
         </div>
@@ -57,22 +57,13 @@ export const parentTrialSequence: EmailTemplate[] = [
         <h2 style="color: #1F2937;">Save Thousands on Childcare Costs</h2>
         
         <div style="background: #F9FAFB; padding: 25px; border-radius: 12px; margin: 25px 0;">
-          <h3 style="color: #1F2937; margin-top: 0;">💰 VIVALY vs Traditional Daycare (Annual):</h3>
-          
-          <div style="margin: 20px 0;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; padding: 10px; background: white; border-radius: 6px;">
-              <span style="color: #374151; font-weight: bold;">Traditional Daycare:</span>
-              <span style="color: #DC2626; font-weight: bold;">$25,000+</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; padding: 10px; background: white; border-radius: 6px;">
-              <span style="color: #374151; font-weight: bold;">VIVALY Home Care:</span>
-              <span style="color: #000000; font-weight: bold;">$18,000</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding: 15px; background: #000000; color: white; border-radius: 6px; font-size: 18px;">
-              <span style="font-weight: bold;">Your Annual Savings:</span>
-              <span style="font-weight: bold;">$7,200+</span>
-            </div>
-          </div>
+          <h3 style="color: #1F2937; margin-top: 0;">💰 Why Choose VIVALY:</h3>
+          <ul style="color: #374151; line-height: 1.6; margin: 0;">
+            <li>Flexible pricing options to fit your budget</li>
+            <li>No long-term daycare center contracts</li>
+            <li>Pay only for the care you need</li>
+            <li>Transparent pricing with no hidden fees</li>
+          </ul>
         </div>
         
         <div style="background: #EFF6FF; padding: 20px; border-radius: 8px; margin: 25px 0;">

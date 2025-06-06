@@ -441,13 +441,8 @@ export async function sendParentEngagementEmail(parentEmail: string, parentName:
         <p>Here are some helpful tips and featured caregivers to explore this week.</p>
         
         <div style="background: #f9fafb; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #000000;">
-          <h3>🎯 This Week's Featured Caregivers</h3>
-          <p>We've hand-picked some amazing caregivers in your area:</p>
-          <ul style="color: #374151;">
-            <li><strong>Maria</strong> - 8 years experience, specializes in newborn care</li>
-            <li><strong>David</strong> - Male nanny, great with energetic toddlers</li>
-            <li><strong>Sophie</strong> - Montessori-trained, perfect for early learning</li>
-          </ul>
+          <h3>🎯 New Caregivers Available</h3>
+          <p>New verified caregivers have joined VIVALY in your area. Visit your dashboard to browse their profiles, read reviews, and connect with the right caregiver for your family.</p>
         </div>
         
         <p style="text-align: center;">
@@ -625,13 +620,13 @@ export async function sendWeeklyNewsletter(userEmail: string, userName: string, 
     title: 'Weekly Family Update',
     mainContent: `
       <div style="background: #f0fdf4; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="color: #065f46;">🌟 This Week's Featured Caregivers</h3>
-        <p>New verified caregivers have joined in your area! Check out their profiles and book your next care session.</p>
+        <h3 style="color: #065f46;">🌟 New Caregivers This Week</h3>
+        <p>New verified caregivers have joined in your area. Check out their profiles and book your next care session.</p>
       </div>
       
       <div style="background: #fef3e2; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="color: #92400e;">📚 Parenting Tip of the Week</h3>
-        <p><strong>Building Independence:</strong> Encourage your toddler's independence by creating simple choices. "Would you like to wear the red shirt or blue shirt?" helps them feel in control while keeping you in charge of appropriate options.</p>
+        <h3 style="color: #92400e;">📚 Care Resources</h3>
+        <p>Browse our resource library for expert guidance on child development, safety tips, and family wellness.</p>
       </div>
     `,
     cta: 'Find New Caregivers →',
@@ -646,8 +641,8 @@ export async function sendWeeklyNewsletter(userEmail: string, userName: string, 
       </div>
       
       <div style="background: #fef3e2; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="color: #92400e;">🎯 Pro Tip of the Week</h3>
-        <p><strong>Quick Response = More Bookings:</strong> Caregivers who respond within 2 hours get 3x more bookings. Set up mobile notifications to never miss an opportunity!</p>
+        <h3 style="color: #92400e;">🎯 Caregiver Resources</h3>
+        <p>Access our professional development resources, safety guidelines, and best practices for exceptional child care.</p>
       </div>
     `,
     cta: 'Update Availability →',
@@ -673,11 +668,11 @@ export async function sendWeeklyNewsletter(userEmail: string, userName: string, 
           ${content.mainContent}
           
           <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <h3 style="color: #1f2937;">📱 Community Highlights</h3>
+            <h3 style="color: #1f2937;">📱 Platform Updates</h3>
             <ul style="color: #4b5563;">
-              <li>🎉 500+ new families joined this week</li>
-              <li>⭐ 98% satisfaction rate across all bookings</li>
-              <li>🏆 15 caregivers earned "Excellent Service" badges</li>
+              <li>🎉 New families joining daily</li>
+              <li>⭐ Growing community of verified caregivers</li>
+              <li>🏆 Enhanced safety and verification processes</li>
             </ul>
           </div>
           
