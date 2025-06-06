@@ -31,39 +31,26 @@ const giftCardAmounts = [
   { value: "500", label: "$500" },
 ];
 
-const giftCardDesigns = [
+const giftCardColors = [
   {
-    id: "baby",
-    name: "Baby Care",
-    icon: Baby,
-    gradient: "from-pink-400 to-rose-400",
-    description: "Perfect for new parents"
+    id: "blue",
+    name: "Blue",
+    gradient: "from-blue-500 to-blue-600",
   },
   {
-    id: "heart",
-    name: "With Love",
-    icon: Heart,
-    gradient: "from-coral to-pink-500",
-    description: "Show you care"
+    id: "grey",
+    name: "Grey", 
+    gradient: "from-gray-500 to-gray-600",
   },
   {
-    id: "family",
-    name: "Family Time",
-    icon: Users,
-    gradient: "from-soft-green to-trust-blue",
-    description: "Quality family moments"
-  },
-  {
-    id: "clock",
-    name: "Time Gift",
-    icon: Clock,
-    gradient: "from-trust-blue to-purple-500",
-    description: "The gift of time"
+    id: "pink",
+    name: "Pink",
+    gradient: "from-pink-500 to-pink-600",
   }
 ];
 
 export default function GiftCards() {
-  const [selectedDesign, setSelectedDesign] = useState("baby");
+  const [selectedColor, setSelectedColor] = useState("blue");
   const [selectedAmount, setSelectedAmount] = useState("100");
   const [customAmount, setCustomAmount] = useState("");
 
@@ -92,7 +79,7 @@ export default function GiftCards() {
     window.location.href = `/gift-card-checkout?${params.toString()}`;
   };
 
-  const selectedDesignData = giftCardDesigns.find(d => d.id === selectedDesign);
+  const selectedColorData = giftCardColors.find(c => c.id === selectedColor);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -100,11 +87,11 @@ export default function GiftCards() {
       <section className="bg-gradient-to-br from-coral to-pink-500 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Gift className="w-16 h-16 text-white mx-auto mb-6" />
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
+          <h1 className="text-4xl md:text-5xl font-bold text-black mb-4 drop-shadow-lg">
             Give the Gift of Care
           </h1>
-          <p className="text-xl text-white opacity-90 max-w-2xl mx-auto drop-shadow-md">
-            Help families find trusted childcare with CareConnect gift cards. Perfect for baby showers, new parents, or anyone who needs quality care.
+          <p className="text-xl text-black opacity-90 max-w-2xl mx-auto drop-shadow-md">
+            Help families find trusted childcare with VIVALY gift cards. Perfect for baby showers, new parents, or anyone who needs quality care.
           </p>
         </div>
       </section>
@@ -121,7 +108,7 @@ export default function GiftCards() {
                 
                 {/* Gift Card Visual */}
                 <div className="relative">
-                  <div className={`w-full h-64 bg-gradient-to-br ${selectedDesignData?.gradient} rounded-2xl p-8 text-white relative overflow-hidden shadow-xl`}>
+                  <div className={`w-full h-64 bg-gradient-to-br ${selectedColorData?.gradient} rounded-2xl p-8 text-white relative overflow-hidden shadow-xl`}>
                     {/* Background Pattern */}
                     <div className="absolute inset-0 opacity-10">
                       <div className="absolute top-4 left-4 w-8 h-8 border-2 border-white rounded-full"></div>
@@ -134,10 +121,8 @@ export default function GiftCards() {
                     <div className="relative z-10 h-full flex flex-col justify-between">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2">
-                          {selectedDesignData && (
-                            <selectedDesignData.icon className="w-6 h-6" />
-                          )}
-                          <span className="font-semibold">CareConnect</span>
+                          <Gift className="w-6 h-6" />
+                          <span className="font-semibold">VIVALY</span>
                         </div>
                         <Gift className="w-6 h-6" />
                       </div>
@@ -150,33 +135,32 @@ export default function GiftCards() {
                       </div>
                       
                       <div className="text-right">
-                        <div className="text-sm opacity-90">{selectedDesignData?.description}</div>
+                        <div className="text-sm opacity-90">The gift of care</div>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Design Selection */}
+                {/* Color Selection */}
                 <div className="mt-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Choose Design</h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    {giftCardDesigns.map((design) => (
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Choose Color</h3>
+                  <div className="grid grid-cols-3 gap-3">
+                    {giftCardColors.map((color) => (
                       <button
-                        key={design.id}
-                        onClick={() => setSelectedDesign(design.id)}
+                        key={color.id}
+                        onClick={() => setSelectedColor(color.id)}
                         className={`p-4 rounded-xl border-2 transition-all ${
-                          selectedDesign === design.id
-                            ? "border-coral bg-coral bg-opacity-5"
+                          selectedColor === color.id
+                            ? "border-black bg-black bg-opacity-5"
                             : "border-gray-200 hover:border-gray-300"
                         }`}
                       >
                         <div className="flex items-center space-x-3">
-                          <div className={`w-10 h-10 bg-gradient-to-br ${design.gradient} rounded-lg flex items-center justify-center`}>
-                            <design.icon className="w-5 h-5 text-white" />
+                          <div className={`w-10 h-10 bg-gradient-to-br ${color.gradient} rounded-lg flex items-center justify-center`}>
+                            <Gift className="w-5 h-5 text-white" />
                           </div>
                           <div className="text-left">
-                            <div className="font-medium text-gray-900">{design.name}</div>
-                            <div className="text-sm text-gray-500">{design.description}</div>
+                            <div className="font-medium text-gray-900">{color.name}</div>
                           </div>
                         </div>
                       </button>
@@ -208,7 +192,7 @@ export default function GiftCards() {
                           }}
                           className={`p-3 rounded-lg border-2 font-medium transition-all ${
                             selectedAmount === amount.value && !customAmount
-                              ? "border-coral bg-coral text-white"
+                              ? "border-black bg-black text-white"
                               : "border-gray-200 text-gray-700 hover:border-gray-300"
                           }`}
                         >
