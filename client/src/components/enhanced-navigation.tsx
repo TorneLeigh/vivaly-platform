@@ -96,7 +96,7 @@ export default function EnhancedNavigation() {
               {navigationItems.map((item, index) => (
                 <Link key={index} href={item.href}>
                   <div 
-                    className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors duration-200 cursor-pointer"
+                    className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:text-black hover:bg-gray-50 rounded-lg transition-colors duration-200 cursor-pointer"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.icon && <item.icon className="h-5 w-5" />}
@@ -109,7 +109,7 @@ export default function EnhancedNavigation() {
                 <Link href="/login">
                   <Button 
                     variant="ghost" 
-                    className="w-full justify-start text-gray-700 hover:text-orange-600"
+                    className="w-full justify-start text-gray-700 hover:text-black"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Log in
@@ -117,7 +117,7 @@ export default function EnhancedNavigation() {
                 </Link>
                 <Link href="/signup">
                   <Button 
-                    className="w-full bg-orange-500 hover:bg-orange-600 text-white"
+                    className="w-full bg-black hover:bg-gray-800 text-white"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Sign up
