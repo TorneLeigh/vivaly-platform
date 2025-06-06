@@ -32,7 +32,8 @@ import {
   Users,
   Home,
   Star,
-  CheckCircle
+  CheckCircle,
+  Footprints
 } from "lucide-react";
 
 const parentProfileSchema = z.object({
@@ -49,10 +50,68 @@ const parentProfileSchema = z.object({
   numberOfChildren: z.string(),
   childrenAges: z.array(z.string()),
   
-  // Food Allergies & Dietary Requirements
+  // Detailed Children Information
+  childrenNames: z.array(z.string()).default([]),
+  childrenGenders: z.array(z.string()).default([]),
+  childrenPersonalities: z.array(z.string()).default([]),
+  childrenInterests: z.array(z.string()).default([]),
+  childrenBehavioralNotes: z.array(z.string()).default([]),
+  napSchedules: z.array(z.string()).default([]),
+  mealPreferences: z.array(z.string()).default([]),
+  pottyTrainingStatus: z.array(z.string()).default([]),
+  schoolSchedules: z.array(z.string()).default([]),
+  extracurricularActivities: z.array(z.string()).default([]),
+  bedtimeRoutines: z.array(z.string()).default([]),
+  comfortItems: z.array(z.string()).default([]),
+  favoriteActivities: z.array(z.string()).default([]),
+  
+  // Health & Allergies
   foodAllergies: z.array(z.string()),
+  environmentalAllergies: z.array(z.string()).default([]),
   dietaryRestrictions: z.array(z.string()),
   medicationRequirements: z.string().optional(),
+  medicalConditions: z.array(z.string()).default([]),
+  doctorContactInfo: z.string().optional(),
+  hospitalPreference: z.string().optional(),
+  
+  // Emergency Contacts
+  emergencyContactName: z.string(),
+  emergencyContactPhone: z.string(),
+  emergencyContactRelation: z.string(),
+  emergencyContact2Name: z.string().optional(),
+  emergencyContact2Phone: z.string().optional(),
+  emergencyContact2Relation: z.string().optional(),
+  
+  // Elderly Care Information
+  elderlyInHome: z.boolean().default(false),
+  elderlyName: z.string().optional(),
+  elderlyAge: z.number().optional(),
+  elderlyRelationship: z.string().optional(),
+  elderlyMedicalConditions: z.array(z.string()).default([]),
+  elderlyMedicationSchedule: z.string().optional(),
+  elderlyMobilityNeeds: z.string().optional(),
+  elderlyCarePreferences: z.string().optional(),
+  elderlyDoctorInfo: z.string().optional(),
+  elderlyDietaryNeeds: z.string().optional(),
+  elderlyPersonalityNotes: z.string().optional(),
+  elderlyPreferredActivities: z.array(z.string()).default([]),
+  elderlyEmergencyInfo: z.string().optional(),
+  
+  // Pet Care Information
+  petsInHome: z.array(z.string()),
+  petNames: z.array(z.string()).default([]),
+  petTypes: z.array(z.string()).default([]),
+  petBreeds: z.array(z.string()).default([]),
+  petAges: z.array(z.string()).default([]),
+  petPersonalities: z.array(z.string()).default([]),
+  petMedicalNeeds: z.array(z.string()).default([]),
+  petFeedingSchedule: z.string().optional(),
+  petWalkingRequirements: z.string().optional(),
+  petGroomingNeeds: z.string().optional(),
+  vetContactInfo: z.string().optional(),
+  petEmergencyInfo: z.string().optional(),
+  petBehavioralNotes: z.string().optional(),
+  petPreferredTreats: z.array(z.string()).default([]),
   
   // Caregiver Preferences
   preferredCaregiverGender: z.string().optional(),
@@ -63,21 +122,23 @@ const parentProfileSchema = z.object({
   // Care Requirements
   typicalCareHours: z.string(),
   careFrequency: z.string(),
-  emergencyContactName: z.string(),
-  emergencyContactPhone: z.string(),
-  emergencyContactRelation: z.string(),
+  transportationNeeds: z.string().optional(),
+  householdChores: z.boolean().default(false),
   
   // Household Rules & Preferences
-  petsInHome: z.array(z.string()),
   smokingPolicy: z.string(),
   screenTimePolicy: z.string(),
   disciplineStyle: z.string(),
   outdoorActivities: z.boolean(),
   
-  // Additional Information
-  specialInstructions: z.string().optional(),
+  // Safety & Verification
   backgroundCheckRequired: z.boolean(),
   referencesRequired: z.boolean(),
+  
+  // Additional Information
+  specialInstructions: z.string().optional(),
+  familyValues: z.string().optional(),
+  communicationPreferences: z.string().default("text"),
 });
 
 type ParentProfileForm = z.infer<typeof parentProfileSchema>;
@@ -176,8 +237,11 @@ export default function ParentProfile() {
 
   const sections = [
     { id: "basic", label: "Basic Info", icon: User },
-    { id: "family", label: "Family", icon: Users },
-    { id: "health", label: "Health & Allergies", icon: Heart },
+    { id: "family", label: "Family & Children", icon: Users },
+    { id: "children", label: "Children Details", icon: Baby },
+    { id: "health", label: "Health & Medical", icon: Heart },
+    { id: "elderly", label: "Elderly Care", icon: User },
+    { id: "pets", label: "Pet Care", icon: PawPrint },
     { id: "caregiver", label: "Caregiver Preferences", icon: Star },
     { id: "household", label: "Household Rules", icon: Home },
     { id: "safety", label: "Safety & Emergency", icon: Shield },

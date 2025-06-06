@@ -38,10 +38,68 @@ export const parentProfiles = pgTable("parent_profiles", {
   numberOfChildren: text("number_of_children"),
   childrenAges: json("children_ages").$type<string[]>().default([]),
   
+  // Detailed Children Information
+  childrenNames: json("children_names").$type<string[]>().default([]),
+  childrenGenders: json("children_genders").$type<string[]>().default([]),
+  childrenPersonalities: json("children_personalities").$type<string[]>().default([]),
+  childrenInterests: json("children_interests").$type<string[]>().default([]),
+  childrenBehavioralNotes: json("children_behavioral_notes").$type<string[]>().default([]),
+  napSchedules: json("nap_schedules").$type<string[]>().default([]),
+  mealPreferences: json("meal_preferences").$type<string[]>().default([]),
+  pottyTrainingStatus: json("potty_training_status").$type<string[]>().default([]),
+  schoolSchedules: json("school_schedules").$type<string[]>().default([]),
+  extracurricularActivities: json("extracurricular_activities").$type<string[]>().default([]),
+  bedtimeRoutines: json("bedtime_routines").$type<string[]>().default([]),
+  comfortItems: json("comfort_items").$type<string[]>().default([]),
+  favoriteActivities: json("favorite_activities").$type<string[]>().default([]),
+  
   // Health & Allergies
   foodAllergies: json("food_allergies").$type<string[]>().default([]),
+  environmentalAllergies: json("environmental_allergies").$type<string[]>().default([]),
   dietaryRestrictions: json("dietary_restrictions").$type<string[]>().default([]),
   medicationRequirements: text("medication_requirements"),
+  medicalConditions: json("medical_conditions").$type<string[]>().default([]),
+  doctorContactInfo: text("doctor_contact_info"),
+  hospitalPreference: text("hospital_preference"),
+  
+  // Emergency Contacts
+  emergencyContactName: text("emergency_contact_name"),
+  emergencyContactPhone: text("emergency_contact_phone"),
+  emergencyContactRelation: text("emergency_contact_relation"),
+  emergencyContact2Name: text("emergency_contact_2_name"),
+  emergencyContact2Phone: text("emergency_contact_2_phone"),
+  emergencyContact2Relation: text("emergency_contact_2_relation"),
+  
+  // Elderly Care Information
+  elderlyInHome: boolean("elderly_in_home").default(false),
+  elderlyName: text("elderly_name"),
+  elderlyAge: integer("elderly_age"),
+  elderlyRelationship: text("elderly_relationship"),
+  elderlyMedicalConditions: json("elderly_medical_conditions").$type<string[]>().default([]),
+  elderlyMedicationSchedule: text("elderly_medication_schedule"),
+  elderlyMobilityNeeds: text("elderly_mobility_needs"),
+  elderlyCarePreferences: text("elderly_care_preferences"),
+  elderlyDoctorInfo: text("elderly_doctor_info"),
+  elderlyDietaryNeeds: text("elderly_dietary_needs"),
+  elderlyPersonalityNotes: text("elderly_personality_notes"),
+  elderlyPreferredActivities: json("elderly_preferred_activities").$type<string[]>().default([]),
+  elderlyEmergencyInfo: text("elderly_emergency_info"),
+  
+  // Pet Care Information
+  petsInHome: json("pets_in_home").$type<string[]>().default([]),
+  petNames: json("pet_names").$type<string[]>().default([]),
+  petTypes: json("pet_types").$type<string[]>().default([]),
+  petBreeds: json("pet_breeds").$type<string[]>().default([]),
+  petAges: json("pet_ages").$type<string[]>().default([]),
+  petPersonalities: json("pet_personalities").$type<string[]>().default([]),
+  petMedicalNeeds: json("pet_medical_needs").$type<string[]>().default([]),
+  petFeedingSchedule: text("pet_feeding_schedule"),
+  petWalkingRequirements: text("pet_walking_requirements"),
+  petGroomingNeeds: text("pet_grooming_needs"),
+  vetContactInfo: text("vet_contact_info"),
+  petEmergencyInfo: text("pet_emergency_info"),
+  petBehavioralNotes: text("pet_behavioral_notes"),
+  petPreferredTreats: json("pet_preferred_treats").$type<string[]>().default([]),
   
   // Caregiver Preferences
   preferredCaregiverGender: text("preferred_caregiver_gender"),
@@ -52,21 +110,23 @@ export const parentProfiles = pgTable("parent_profiles", {
   // Care Requirements
   typicalCareHours: text("typical_care_hours"),
   careFrequency: text("care_frequency"),
-  emergencyContactName: text("emergency_contact_name"),
-  emergencyContactPhone: text("emergency_contact_phone"),
-  emergencyContactRelation: text("emergency_contact_relation"),
+  transportationNeeds: text("transportation_needs"),
+  householdChores: boolean("household_chores").default(false),
   
   // Household Rules & Preferences
-  petsInHome: json("pets_in_home").$type<string[]>().default([]),
   smokingPolicy: text("smoking_policy"),
   screenTimePolicy: text("screen_time_policy"),
   disciplineStyle: text("discipline_style"),
   outdoorActivities: boolean("outdoor_activities").default(true),
   
-  // Additional Information
-  specialInstructions: text("special_instructions"),
+  // Safety & Verification
   backgroundCheckRequired: boolean("background_check_required").default(true),
   referencesRequired: boolean("references_required").default(true),
+  
+  // Additional Information
+  specialInstructions: text("special_instructions"),
+  familyValues: text("family_values"),
+  communicationPreferences: text("communication_preferences").default("text"),
   
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
