@@ -119,6 +119,7 @@ function Router() {
           <Route path="/checkout" component={Checkout} />
           <Route path="/payment-checkout" component={PaymentCheckout} />
           <Route path="/trial" component={TrialSignup} />
+          <Route path="/trial-signup" component={TrialSignup} />
           <Route path="/trial-success" component={TrialSuccess} />
           <Route path="/sms-test" component={SMSTest} />
           <Route path="/email-test" component={EmailTest} />
