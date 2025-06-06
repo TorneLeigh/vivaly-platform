@@ -3,6 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import ServiceCarousel from "@/components/service-carousel";
 import petSittingServiceImage from "@assets/969c7a3eeacf469a3a4c50a32a9b3d57.jpg";
+import newbornCareImage from "@assets/b1bc54b815bb1f418342a8203ae3e8e3_1749182535016.jpg";
+import newbornWithToyImage from "@assets/2d55b12ae13df50f6fbabfa2be240f07_1749182535016.jpg";
+import motherBabyBondingImage from "@assets/e3806ba7e7119fb379b95ce4d570e105_1749182535016.jpg";
+import motherHoldingBabyImage from "@assets/f01acbf088d9ff9aa3b69419fa01ff03_1749182535016.jpg";
+import birthEducationClassImage from "@assets/5c1756efeffe31b87ae42255a1e625b5_1749182535016.jpg";
+import parentingClassImage from "@assets/300ce6a6e339c054c341d15ef56cabbb_1749182535016.jpg";
 
 interface Nanny {
   id: number;
@@ -83,45 +89,39 @@ const birthEducationClasses = [
 
 const midwifeServices = [
   {
-    title: "Midwife Visits",
-    description: "Regular home visits by qualified midwives",
-    image: "/images/midwife-visits.jpg",
-    serviceType: "Midwife services"
-  },
-  {
-    title: "Prenatal Care",
-    description: "Comprehensive pregnancy monitoring",
-    image: "/images/prenatal.jpg",
-    serviceType: "Midwife services"
-  },
-  {
-    title: "Birth Support",
-    description: "Professional delivery assistance",
-    image: "/images/birth-support.jpg",
-    serviceType: "Midwife services"
-  },
-  {
     title: "Postnatal Care",
     description: "Recovery and newborn support",
-    image: "/images/postnatal.jpg",
+    image: motherHoldingBabyImage,
+    serviceType: "Midwife services"
+  },
+  {
+    title: "Newborn Care",
+    description: "Specialized care for newborns",
+    image: newbornWithToyImage,
     serviceType: "Midwife services"
   },
   {
     title: "Breastfeeding Support",
     description: "Expert lactation consultation",
-    image: "/images/breastfeeding.jpg",
+    image: motherBabyBondingImage,
     serviceType: "Midwife services"
   },
   {
-    title: "Home Birth Services",
-    description: "Safe home delivery options",
-    image: "/images/homebirth.jpg",
+    title: "Birth Education",
+    description: "Comprehensive birth preparation classes",
+    image: birthEducationClassImage,
     serviceType: "Midwife services"
   },
   {
-    title: "Birth Planning",
-    description: "Personalized birth plan creation",
-    image: "/images/birthplan.jpg",
+    title: "Parenting Classes",
+    description: "Baby care and parenting education",
+    image: parentingClassImage,
+    serviceType: "Midwife services"
+  },
+  {
+    title: "Sleep Support",
+    description: "Newborn sleep guidance and support",
+    image: newbornCareImage,
     serviceType: "Midwife services"
   }
 ];
