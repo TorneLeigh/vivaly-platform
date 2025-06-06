@@ -97,9 +97,9 @@ export default function GiftCards() {
       </section>
 
       {/* Gift Card Builder */}
-      <section className="py-16">
+      <section className="py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid lg:grid-cols-2 gap-8">
             
             {/* Gift Card Preview */}
             <div className="space-y-8">
@@ -319,9 +319,9 @@ export default function GiftCards() {
 
 
       {/* Perfect For Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-8 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Perfect Gift For</h2>
             <p className="text-lg text-gray-600">Show you care with the gift of trusted childcare</p>
           </div>
