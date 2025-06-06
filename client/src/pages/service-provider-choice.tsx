@@ -25,7 +25,7 @@ export default function ServiceProviderChoice() {
 
         {/* Service Type Cards */}
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {/* Individual Caregiver */}
+          {/* Care Services */}
           <Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-2 hover:border-orange-200">
             <CardContent className="p-8">
               <div className="text-center">
@@ -33,21 +33,21 @@ export default function ServiceProviderChoice() {
                   <User className="w-8 h-8 text-orange-600" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                  Individual Caregiver
+                  Care Services
                 </h3>
                 <p className="text-gray-600 mb-6 text-left">
-                  Perfect for nannies, babysitters, and individual childcare providers who offer:
+                  Offer specialized care services across multiple categories:
                 </p>
                 <ul className="text-left text-gray-600 space-y-2 mb-8">
-                  <li>• In-home childcare services</li>
-                  <li>• Flexible hourly or daily care</li>
-                  <li>• Personalized one-on-one attention</li>
-                  <li>• Babysitting and nanny services</li>
-                  <li>• Travel and event childcare</li>
+                  <li>• Baby and childcare services</li>
+                  <li>• Elderly care and companionship</li>
+                  <li>• Pet care and animal services</li>
+                  <li>• In-home and flexible care</li>
+                  <li>• Specialized support services</li>
                 </ul>
                 <Link href="/become-caregiver">
                   <Button className="w-full bg-black hover:bg-gray-800 text-white font-medium group">
-                    Sign Up as Individual Caregiver
+                    Sign Up for Care Services
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
