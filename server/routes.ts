@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { storage } from "./storage";
 import { requireAuth } from "./auth-middleware";
-import { setupAuth, isAuthenticated } from "./replitAuth";
+import session from "express-session";
 import { 
   insertUserSchema, insertNannySchema, insertBookingSchema, 
   insertReviewSchema, insertMessageSchema, insertExperienceSchema,
@@ -21,34 +21,113 @@ if (!process.env.STRIPE_SECRET_KEY) {
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Initialize Replit authentication
-  await setupAuth(app);
+  // Setup session middleware
+  app.use(session({
+    secret: process.env.SESSION_SECRET || 'vivaly-secret-key-development',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false, // Set to true in production with HTTPS
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
+  }));
 
   // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      res.json(user);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
-    }
-  });
-
-  app.get('/api/auth/user-public', async (req, res) => {
-    // Check session for authenticated user
-    const userId = req.session?.userId;
+  app.get('/api/auth/user', async (req, res) => {
+    const userId = (req.session as any)?.userId;
     if (userId) {
       try {
         const user = await storage.getUser(userId);
-        res.json(user);
+        if (user) {
+          const { password: _, ...userWithoutPassword } = user;
+          res.json(userWithoutPassword);
+        } else {
+          res.json(null);
+        }
       } catch (error) {
         res.status(500).json({ message: "Error fetching user" });
       }
     } else {
       res.json(null);
     }
+  });
+
+  // Registration endpoint
+  app.post('/api/register', async (req, res) => {
+    try {
+      const { email, password, firstName, lastName, phone } = req.body;
+      
+      // Check if user already exists
+      const existingUser = await storage.getUserByEmail(email);
+      if (existingUser) {
+        return res.status(400).json({ message: "User already exists with this email" });
+      }
+
+      // Hash password
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      // Create user
+      const user = await storage.createUser({
+        email,
+        password: hashedPassword,
+        firstName,
+        lastName,
+        phone,
+        isNanny: false
+      });
+
+      // Set session
+      (req.session as any).userId = user.id;
+
+      // Return user without password
+      const { password: _, ...userWithoutPassword } = user;
+      res.status(201).json(userWithoutPassword);
+    } catch (error) {
+      console.error("Registration error:", error);
+      res.status(500).json({ message: "Registration failed" });
+    }
+  });
+
+  // Login endpoint
+  app.post('/api/login', async (req, res) => {
+    try {
+      const { email, password } = req.body;
+
+      // Find user by email
+      const user = await storage.getUserByEmail(email);
+      if (!user || !user.password) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+
+      // Check password
+      const validPassword = await bcrypt.compare(password, user.password);
+      if (!validPassword) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+
+      // Set session
+      (req.session as any).userId = user.id;
+
+      // Return user without password
+      const { password: _, ...userWithoutPassword } = user;
+      res.json(userWithoutPassword);
+    } catch (error) {
+      console.error("Login error:", error);
+      res.status(500).json({ message: "Login failed" });
+    }
+  });
+
+  // Logout endpoint
+  app.post('/api/logout', async (req, res) => {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Logout error:", err);
+        return res.status(500).json({ message: "Logout failed" });
+      }
+      res.clearCookie('connect.sid');
+      res.json({ message: "Logged out successfully" });
+    });
   });
 
   // JWT Authentication system
@@ -440,9 +519,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Enhanced caregiver onboarding with comprehensive verification
-  app.post("/api/caregivers/onboard", isAuthenticated, async (req: any, res) => {
+  app.post("/api/caregivers/onboard", async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = (req.session as any)?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const user = await storage.getUser(userId);
       
       if (!user) {
@@ -1262,9 +1344,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Message routes for secure communication between parents and caregivers
-  app.post("/api/messages", isAuthenticated, async (req: any, res) => {
+  app.post("/api/messages", async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = (req.session as any)?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const messageData = insertMessageSchema.parse({
         ...req.body,
         senderId: userId,
@@ -1277,9 +1362,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/messages/:userId", isAuthenticated, async (req: any, res) => {
+  app.get("/api/messages/:userId", async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = (req.session as any)?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const otherUserId = req.params.userId;
       const messages = await storage.getMessagesBetweenUsers(userId, otherUserId);
       res.json(messages);
@@ -1288,9 +1376,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/conversations", isAuthenticated, async (req: any, res) => {
+  app.get("/api/conversations", async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = (req.session as any)?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const conversations = await storage.getConversations(userId);
       res.json(conversations);
     } catch (error) {
