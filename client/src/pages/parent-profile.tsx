@@ -178,10 +178,10 @@ export default function ParentProfile() {
   const form = useForm<ParentProfileForm>({
     resolver: zodResolver(parentProfileSchema),
     defaultValues: {
-      firstName: user?.firstName || "",
-      lastName: user?.lastName || "",
-      email: user?.email || "",
-      phone: user?.phone || "",
+      firstName: (user as any)?.firstName || (user as any)?.first_name || "",
+      lastName: (user as any)?.lastName || (user as any)?.last_name || "",
+      email: (user as any)?.email || "",
+      phone: (user as any)?.phone || "",
       address: "",
       suburb: "",
       familySize: "2-3",
