@@ -431,9 +431,9 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
             <a href="https://www.vivaly.com.au/services" style="background: #ffffff; color: #000000; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; border: 2px solid #000000; margin: 0 0 10px 10px;">VIEW SERVICES</a>
           </div>
           
-          <div style="background: #fef3e2; padding: 20px; border-radius: 8px; margin: 25px 0;">
-            <h4 style="color: #92400e; margin: 0 0 10px 0;">💡 Pro Tip:</h4>
-            <p style="color: #92400e; margin: 0; line-height: 1.5;">Complete your family profile to help caregivers understand your needs better. Families with complete profiles receive 40% more responses!</p>
+          <div style="background: #f0f9ff; padding: 20px; border-radius: 8px; margin: 25px 0;">
+            <h4 style="color: #0369a1; margin: 0 0 10px 0;">💡 Did you know?</h4>
+            <p style="color: #0369a1; margin: 0; line-height: 1.5;">You can also create a service to support the community too! Share your skills and help other families in need.</p>
           </div>
           
           <p style="font-size: 16px; line-height: 1.6;">Need help getting started? Our support team is here for you - just reply to this email.</p>
