@@ -2102,93 +2102,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { email, type } = req.body;
       
-      sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
+      let success = false;
       
-      const emailTemplate = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Weekly Care Newsletter - VIVALY</title>
-        </head>
-        <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #ffffff; line-height: 1.6;">
-          <div style="max-width: 600px; margin: 0 auto; background: white;">
-            <div style="background: linear-gradient(135deg, #000000 0%, #333333 100%); color: white; padding: 30px 25px; text-align: center;">
-              <h1 style="margin: 0; font-size: 28px; font-weight: bold;">VIVALY</h1>
-              <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">Sydney's Premier Care Platform</p>
-            </div>
-            
-            <div style="padding: 25px;">
-              <h2 style="color: #1f2937; margin: 0 0 20px 0; font-size: 24px;">Hello Test User!</h2>
-              <p style="color: #374151; margin: 0 0 20px 0; font-size: 16px;">Your weekly update from VIVALY is here with new caregivers and services to explore.</p>
-              
-              <div style="background: #f9fafb; padding: 25px; border-radius: 10px; margin: 25px 0;">
-                <h3 style="color: #1f2937; margin: 0 0 20px 0; text-align: center;">Popular Services</h3>
-                <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
-                  <div style="text-align: center; min-width: 120px; max-width: 150px;">
-                    <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #1e3a8a, #3b82f6); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                      <span style="font-size: 24px; color: white;">🌙</span>
-                    </div>
-                    <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Overnight Care</h4>
-                    <p style="font-size: 11px; color: #6b7280; margin: 0;">Rest assured with trusted night support</p>
-                  </div>
-                  
-                  <div style="text-align: center; min-width: 120px; max-width: 150px;">
-                    <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #065f46, #10b981); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                      <span style="font-size: 24px; color: white;">👥</span>
-                    </div>
-                    <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Group Care</h4>
-                    <p style="font-size: 11px; color: #6b7280; margin: 0;">Social learning with other children</p>
-                  </div>
-                  
-                  <div style="text-align: center; min-width: 120px; max-width: 150px;">
-                    <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #7c2d12, #ea580c); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                      <span style="font-size: 24px; color: white;">🤱</span>
-                    </div>
-                    <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Postnatal Care</h4>
-                    <p style="font-size: 11px; color: #6b7280; margin: 0;">Professional support for new mothers</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div style="background: #f0f9ff; padding: 25px; border-radius: 10px; margin: 25px 0; border-left: 4px solid #0ea5e9;">
-                <h3 style="color: #0c4a6e; margin: 0 0 15px 0;">What Makes VIVALY Different:</h3>
-                <p style="color: #0369a1; margin: 0 0 20px 0; font-style: italic;">"Because it takes a village"</p>
-                <ul style="margin: 0; padding-left: 20px; color: #0369a1;">
-                  <li>Drop-in childcare when you need it</li>
-                  <li>Overnight newborn support</li>
-                  <li>Support from bump to toddler</li>
-                  <li>Birth & postnatal education</li>
-                </ul>
-              </div>
-              
-              <div style="text-align: center; margin: 30px 0;">
-                <a href="https://www.vivaly.com.au" style="background: #000000; color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">FIND CARE</a>
-              </div>
-              
-              <div style="text-align: center; padding: 20px 0; border-top: 1px solid #e5e7eb; margin-top: 30px; color: #6b7280; font-size: 14px;">
-                <p style="margin: 0;">© 2025 VIVALY. Sydney's Premier Care Platform.</p>
-                <p style="margin: 5px 0 0 0;">Because it takes a village.</p>
-              </div>
-            </div>
-          </div>
-        </body>
-        </html>
-      `;
+      if (type === 'parent-welcome') {
+        success = await sendParentWelcomeSequence(email, 'Test User');
+      } else if (type === 'weekly-newsletter-parent') {
+        success = await sendWeeklyNewsletter(email, 'Test User', 'parent');
+      } else {
+        // Default to parent welcome email
+        success = await sendParentWelcomeSequence(email, 'Test User');
+      }
       
-      const msg = {
-        to: email,
-        from: 'hello@vivaly.com.au',
-        subject: 'Your Weekly Care Update - VIVALY',
-        html: emailTemplate,
-        trackingSettings: {
-          clickTracking: { enable: false },
-          openTracking: { enable: false }
-        }
-      };
-      
-      await sgMail.send(msg);
       res.json({ success: true, message: 'Test email sent successfully' });
     } catch (error) {
       console.error('Test email error:', error);
