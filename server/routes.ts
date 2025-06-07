@@ -11,7 +11,8 @@ import {
   insertReviewSchema, insertMessageSchema, insertExperienceSchema,
   insertParentProfileSchema, insertChildcareProviderSchema, insertChildcareEnrollmentSchema
 } from "@shared/schema";
-import { sendNannyWelcomeSequence, sendBookingConfirmation, sendNewNannyAlert, sendCaregiverWelcomeSequence, sendCaregiverApplicationAlert } from "./email-service";
+import { sendNannyWelcomeSequence, sendBookingConfirmation, sendNewNannyAlert, sendCaregiverWelcomeSequence, sendCaregiverApplicationAlert, sendParentWelcomeSequence } from "./email-service";
+import { emailAutomationService } from "./email-automation-service";
 import { wwccVerificationService } from "./wwcc-verification-service";
 import { voucherService } from "./voucher-service";
 
@@ -79,6 +80,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Set session
       (req.session as any).userId = user.id;
+
+      // Send welcome email
+      try {
+        if (user.email && user.firstName) {
+          await sendParentWelcomeSequence(user.email, user.firstName);
+        }
+      } catch (emailError) {
+        console.error('Welcome email failed:', emailError);
+        // Don't fail registration if email fails
+      }
 
       // Return user without password
       const { password: _, ...userWithoutPassword } = user;
