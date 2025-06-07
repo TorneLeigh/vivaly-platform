@@ -435,29 +435,29 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
             <h3 style="color: #1f2937; margin: 0 0 20px 0; text-align: center;">Popular Services</h3>
             <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
               <div style="text-align: center; min-width: 120px; max-width: 150px;">
-                <div style="width: 80px; height: 80px; border-radius: 15px; overflow: hidden; margin: 0 auto 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                  <img src="https://vivaly.com.au/images/dropin.jpg" alt="Drop-in Care" style="width: 100%; height: 100%; object-fit: cover;" />
+                <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #fef3e2, #fed7aa); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <span style="font-size: 24px;">🧸</span>
                 </div>
                 <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Drop-in Care</h4>
                 <p style="font-size: 10px; color: #6b7280; margin: 0;">When you need it</p>
               </div>
               <div style="text-align: center; min-width: 120px; max-width: 150px;">
-                <div style="width: 80px; height: 80px; border-radius: 15px; overflow: hidden; margin: 0 auto 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                  <img src="https://replit.com/@hondacobalt/attached_assets/c18480e234907faffa31784936ac8816_1749267000694.jpg" alt="Overnight Support" style="width: 100%; height: 100%; object-fit: cover;" />
+                <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #e0f2fe, #b3e5fc); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <span style="font-size: 24px;">🌙</span>
                 </div>
                 <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Overnight Support</h4>
                 <p style="font-size: 10px; color: #6b7280; margin: 0;">Night doulas</p>
               </div>
               <div style="text-align: center; min-width: 120px; max-width: 150px;">
-                <div style="width: 80px; height: 80px; border-radius: 15px; overflow: hidden; margin: 0 auto 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                  <img src="https://vivaly.com.au/images/newborn.jpg" alt="Newborn Care" style="width: 100%; height: 100%; object-fit: cover;" />
+                <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #f3e8ff, #ddd6fe); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <span style="font-size: 24px;">🧑‍🍼</span>
                 </div>
                 <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Newborn Care</h4>
                 <p style="font-size: 10px; color: #6b7280; margin: 0;">Sleep & feeding</p>
               </div>
               <div style="text-align: center; min-width: 120px; max-width: 150px;">
-                <div style="width: 80px; height: 80px; border-radius: 15px; overflow: hidden; margin: 0 auto 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                  <img src="https://replit.com/@hondacobalt/attached_assets/f087158c54b76ecf0250c6866d218c92_1749267022177.jpg" alt="Birth Classes" style="width: 100%; height: 100%; object-fit: cover;" />
+                <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #f0fdf4, #bbf7d0); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <span style="font-size: 24px;">🎓</span>
                 </div>
                 <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Birth Classes</h4>
                 <p style="font-size: 10px; color: #6b7280; margin: 0;">Expert guidance</p>
