@@ -253,11 +253,7 @@ export default function Home() {
                 key={index}
                 className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
                 onClick={() => {
-                  const searchParams = new URLSearchParams({
-                    serviceType: category.serviceType,
-                    location: 'Sydney, NSW'
-                  });
-                  window.location.href = `/search?${searchParams.toString()}`;
+                  window.location.href = '/services';
                 }}
               >
                 <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
@@ -319,7 +315,7 @@ export default function Home() {
             </div>
             
             <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/search?serviceType=Dog Walking'}>
+                 onClick={() => window.location.href = '/services'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
                   src="/images/pet2.jpg" 
@@ -332,7 +328,7 @@ export default function Home() {
             </div>
             
             <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/search?serviceType=Pet Boarding'}>
+                 onClick={() => window.location.href = '/services'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
                   src="/images/pet3.jpg" 
