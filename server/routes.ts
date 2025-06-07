@@ -2112,6 +2112,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Email preview endpoint
+  app.get('/api/email-preview', async (req, res) => {
+    try {
+      const { generateWelcomeEmail } = await import('./email-service');
+      const html = await generateWelcomeEmail('Test User', 'parent');
+      res.setHeader('Content-Type', 'text/html');
+      res.send(html);
+    } catch (error) {
+      console.error('Email preview error:', error);
+      res.status(500).json({ message: 'Failed to generate email preview' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
