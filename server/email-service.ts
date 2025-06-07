@@ -449,28 +449,28 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
             <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 320px; margin: 0 auto;">
               <div style="text-align: center;">
                 <div style="width: 120px; height: 120px; border-radius: 20px; margin: 0 auto 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.1);">
-                  <img src="https://vivaly.com.au/attached_assets/62016dc1fb72cd9a4d96847a6daf6c0e_1749278446432.jpg" alt="Drop-in care" style="width: 100%; height: 100%; object-fit: cover;" />
+                  <img src="https://vivaly.com.au/images/babysitter.jpg" alt="Drop-in care" style="width: 100%; height: 100%; object-fit: cover;" />
                 </div>
                 <h4 style="font-size: 14px; font-weight: bold; color: #1f2937; margin: 0 0 4px 0;">Drop-in Care</h4>
                 <p style="font-size: 12px; color: #6b7280; margin: 0; line-height: 1.3;">Flexible care when you need it</p>
               </div>
               <div style="text-align: center;">
                 <div style="width: 120px; height: 120px; border-radius: 20px; margin: 0 auto 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.1);">
-                  <img src="https://vivaly.com.au/attached_assets/02a899c095b5a44d96492e700bf8fd0c_1749278450847.jpg" alt="Overnight newborn support" style="width: 100%; height: 100%; object-fit: cover;" />
+                  <img src="https://vivaly.com.au/attached_assets/02a899c095b5a44d96492e700bf8fd0c_1749275818681.jpg" alt="Overnight newborn support" style="width: 100%; height: 100%; object-fit: cover;" />
                 </div>
                 <h4 style="font-size: 14px; font-weight: bold; color: #1f2937; margin: 0 0 4px 0;">Overnight Newborn Support</h4>
                 <p style="font-size: 12px; color: #6b7280; margin: 0; line-height: 1.3;">Night doulas for the fourth trimester</p>
               </div>
               <div style="text-align: center;">
                 <div style="width: 120px; height: 120px; border-radius: 20px; margin: 0 auto 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.1);">
-                  <img src="https://vivaly.com.au/attached_assets/72a1a9c0773aeb45b624a5e05e355eb0_1749278454511.jpg" alt="Newborn support" style="width: 100%; height: 100%; object-fit: cover;" />
+                  <img src="https://vivaly.com.au/images/newborn.jpg" alt="Newborn support" style="width: 100%; height: 100%; object-fit: cover;" />
                 </div>
-                <h4 style="font-size: 14px; font-weight: bold; color: #1f2937; margin: 0 0 4px 0;">Newborn Care</h4>
-                <p style="font-size: 12px; color: #6b7280; margin: 0; line-height: 1.3;">Sleep & feeding</p>
+                <h4 style="font-size: 14px; font-weight: bold; color: #1f2937; margin: 0 0 4px 0;">Newborn Support</h4>
+                <p style="font-size: 12px; color: #6b7280; margin: 0; line-height: 1.3;">Sleep guidance, swaddling & feeding techniques</p>
               </div>
               <div style="text-align: center;">
                 <div style="width: 120px; height: 120px; border-radius: 20px; margin: 0 auto 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.1);">
-                  <img src="https://vivaly.com.au/attached_assets/f116334957ff9c74101be0e0c41edcda_1749278462888.jpg" alt="Birth education" style="width: 100%; height: 100%; object-fit: cover;" />
+                  <img src="https://vivaly.com.au/attached_assets/f087158c54b76ecf0250c6866d218c92_1749267022177.jpg" alt="Birth education" style="width: 100%; height: 100%; object-fit: cover;" />
                 </div>
                 <h4 style="font-size: 14px; font-weight: bold; color: #1f2937; margin: 0 0 4px 0;">Birth Education</h4>
                 <p style="font-size: 12px; color: #6b7280; margin: 0; line-height: 1.3;">Childbirth preparation classes</p>
