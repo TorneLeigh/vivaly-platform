@@ -64,9 +64,21 @@ interface Experience {
 const birthEducationClasses = [
   {
     title: "Newborn Care",
-    description: "Essential baby care skills and techniques",
+    description: "Sleep guidance, swaddling & feeding techniques",
     image: babyFeetImage,
     serviceType: "Birth education"
+  },
+  {
+    title: "Overnight Newborn Support",
+    description: "Night doulas for the fourth trimester - help during those crucial early weeks",
+    image: newbornCareImage,
+    serviceType: "Overnight newborn support"
+  },
+  {
+    title: "Drop-in Care",
+    description: "Flexible childcare when you need it - gym visits, appointments, errands",
+    image: motherBabyBondingImage,
+    serviceType: "Drop-in care"
   },
   {
     title: "Labor Support",

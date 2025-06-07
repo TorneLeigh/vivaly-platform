@@ -98,9 +98,21 @@ const serviceCategories = [
   },
   {
     title: "Newborn support",
-    description: "Specialized newborn care",
+    description: "Sleep guidance, swaddling & feeding techniques",
     image: "/images/newborn.jpg",
     serviceType: "Newborn support"
+  },
+  {
+    title: "Overnight newborn support",
+    description: "Night doulas for the fourth trimester",
+    image: postnatalImage,
+    serviceType: "Overnight newborn support"
+  },
+  {
+    title: "Drop-in care",
+    description: "Flexible care when you need it - gym, appointments, errands",
+    image: "/images/dropin.jpg", 
+    serviceType: "Drop-in care"
   },
   {
     title: "Pregnancy assistance",
