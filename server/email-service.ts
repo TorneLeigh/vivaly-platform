@@ -417,18 +417,18 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
               <p style="margin: 5px 0; color: #6b7280;">All our caregivers are background-checked and WWCC verified</p>
             </div>
             <div style="margin: 15px 0;">
-              <strong style="color: #374151;">2. Read Reviews & Connect</strong>
-              <p style="margin: 5px 0; color: #6b7280;">Chat directly with caregivers and read authentic reviews</p>
+              <strong style="color: #374151;">2. Share Your Requirements</strong>
+              <p style="margin: 5px 0; color: #6b7280;">Tell us what kind of care you need and when</p>
             </div>
             <div style="margin: 15px 0;">
-              <strong style="color: #374151;">3. Book with Confidence</strong>
-              <p style="margin: 5px 0; color: #6b7280;">Secure booking system with payment protection</p>
+              <strong style="color: #374151;">3. Book Through Our Secure System</strong>
+              <p style="margin: 5px 0; color: #6b7280;">Easy booking with payment protection and support</p>
             </div>
           </div>
           
           <div style="text-align: center; margin: 30px 0;">
-            <a href="https://vivaly.com.au" style="background: #000000; color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; margin: 0 10px 10px 0;">FIND CARE</a>
-            <a href="https://vivaly.com.au/profile" style="background: #ffffff; color: #000000; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; border: 2px solid #000000; margin: 0 0 10px 10px;">YOUR PROFILE</a>
+            <a href="http://vivaly.com.au" style="background: #000000; color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; margin: 0 10px 10px 0;">FIND CARE</a>
+            <a href="http://vivaly.com.au/services" style="background: #ffffff; color: #000000; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; border: 2px solid #000000; margin: 0 0 10px 10px;">VIEW SERVICES</a>
           </div>
           
           <div style="background: #fef3e2; padding: 20px; border-radius: 8px; margin: 25px 0;">
