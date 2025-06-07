@@ -11,7 +11,8 @@ import {
   insertReviewSchema, insertMessageSchema, insertExperienceSchema,
   insertParentProfileSchema, insertChildcareProviderSchema, insertChildcareEnrollmentSchema
 } from "@shared/schema";
-import { sendNannyWelcomeSequence, sendBookingConfirmation, sendNewNannyAlert, sendCaregiverWelcomeSequence, sendCaregiverApplicationAlert, sendParentWelcomeSequence, sendWeeklyNewsletter } from "./email-service";
+import { sendNannyWelcomeSequence, sendBookingConfirmation, sendNewNannyAlert, sendCaregiverWelcomeSequence, sendCaregiverApplicationAlert, sendParentWelcomeSequence } from "./email-service";
+import sgMail from '@sendgrid/mail';
 import { emailAutomationService } from "./email-automation-service";
 import { wwccVerificationService } from "./wwcc-verification-service";
 import { voucherService } from "./voucher-service";
@@ -2101,7 +2102,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { email, type } = req.body;
       
-      const sgMail = await import('@sendgrid/mail');
       sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
       
       const emailTemplate = `
