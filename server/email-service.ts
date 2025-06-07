@@ -687,8 +687,22 @@ export async function sendWeeklyNewsletter(userEmail: string, userName: string, 
       </div>
       
       <div style="background: #fef3e2; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="color: #92400e;">📚 Care Resources</h3>
-        <p>Browse our resource library for expert guidance on child development, safety tips, and family wellness.</p>
+        <h3 style="color: #92400e;">📚 Featured Services This Week</h3>
+        <div style="display: flex; gap: 15px; margin: 15px 0; flex-wrap: wrap;">
+          <div style="text-align: center; flex: 1; min-width: 120px;">
+            <img src="https://vivaly.com.au/assets/overnight-care.jpg" alt="Overnight Care" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover; margin-bottom: 8px;" />
+            <p style="margin: 0; font-size: 12px; color: #374151;">Overnight Newborn Support</p>
+          </div>
+          <div style="text-align: center; flex: 1; min-width: 120px;">
+            <img src="https://vivaly.com.au/assets/group-care.jpg" alt="Group Care" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover; margin-bottom: 8px;" />
+            <p style="margin: 0; font-size: 12px; color: #374151;">Drop-in Group Care</p>
+          </div>
+          <div style="text-align: center; flex: 1; min-width: 120px;">
+            <img src="https://vivaly.com.au/assets/postnatal-care.jpg" alt="Postnatal Care" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover; margin-bottom: 8px;" />
+            <p style="margin: 0; font-size: 12px; color: #374151;">Postnatal Care</p>
+          </div>
+        </div>
+        <p>Browse our comprehensive care services for every stage of your family's journey.</p>
       </div>
     `,
     cta: 'Find New Caregivers →',
@@ -698,8 +712,25 @@ export async function sendWeeklyNewsletter(userEmail: string, userName: string, 
     title: 'Weekly Caregiver Update',
     mainContent: `
       <div style="background: #f0fdf4; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="color: #065f46;">💼 Booking Opportunities</h3>
-        <p>New families are looking for caregivers in your area. Update your availability to get more booking requests this week.</p>
+        <h3 style="color: #065f46;">💼 High-Demand Services This Week</h3>
+        <div style="display: flex; gap: 15px; margin: 15px 0; flex-wrap: wrap;">
+          <div style="text-align: center; flex: 1; min-width: 120px;">
+            <img src="https://vivaly.com.au/assets/overnight-care.jpg" alt="Overnight Care" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover; margin-bottom: 8px;" />
+            <p style="margin: 0; font-size: 12px; color: #374151;">Overnight Support</p>
+            <p style="margin: 0; font-size: 10px; color: #10b981; font-weight: bold;">$45-65/hour</p>
+          </div>
+          <div style="text-align: center; flex: 1; min-width: 120px;">
+            <img src="https://vivaly.com.au/assets/birth-education.jpg" alt="Birth Education" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover; margin-bottom: 8px;" />
+            <p style="margin: 0; font-size: 12px; color: #374151;">Birth Education</p>
+            <p style="margin: 0; font-size: 10px; color: #10b981; font-weight: bold;">$50-80/hour</p>
+          </div>
+          <div style="text-align: center; flex: 1; min-width: 120px;">
+            <img src="https://vivaly.com.au/assets/group-care.jpg" alt="Group Care" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover; margin-bottom: 8px;" />
+            <p style="margin: 0; font-size: 12px; color: #374151;">Drop-in Care</p>
+            <p style="margin: 0; font-size: 10px; color: #10b981; font-weight: bold;">$30-45/hour</p>
+          </div>
+        </div>
+        <p>New families are actively booking these services. Update your availability to secure more bookings.</p>
       </div>
       
       <div style="background: #fef3e2; padding: 20px; border-radius: 8px; margin: 20px 0;">
