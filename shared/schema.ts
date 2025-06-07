@@ -101,27 +101,63 @@ export const parentProfiles = pgTable("parent_profiles", {
   petBehavioralNotes: text("pet_behavioral_notes"),
   petPreferredTreats: json("pet_preferred_treats").$type<string[]>().default([]),
   
-  // Caregiver Preferences
-  preferredCaregiverGender: text("preferred_caregiver_gender"),
+  // Caregiver Requirements & Preferences
+  minimumAge: text("minimum_age").default("18"),
+  preferredCaregiverGender: text("preferred_caregiver_gender").default("no-preference"),
   languagePreferences: json("language_preferences").$type<string[]>().default(["English"]),
-  caregiverExperienceLevel: text("caregiver_experience_level"),
+  caregiverExperienceLevel: text("caregiver_experience_level").default("some-experience"),
   specialSkillsRequired: json("special_skills_required").$type<string[]>().default([]),
   
+  // Essential Requirements (Australian childcare compliance)
+  mustHaveWWCC: boolean("must_have_wwcc").default(true),
+  mustHaveFirstAid: boolean("must_have_first_aid").default(false),
+  mustHaveCPR: boolean("must_have_cpr").default(false),
+  mustHaveReferences: boolean("must_have_references").default(true),
+  mustBeNonSmoker: boolean("must_be_non_smoker").default(true),
+  mustHaveDriversLicense: boolean("must_have_drivers_license").default(false),
+  mustHaveOwnCar: boolean("must_have_own_car").default(false),
+  mustHaveAustralianLicense: boolean("must_have_australian_license").default(false),
+  experienceWithToddlers: boolean("experience_with_toddlers").default(false),
+  experienceWithSchoolAge: boolean("experience_with_school_age").default(false),
+  experienceWithNewborns: boolean("experience_with_newborns").default(false),
+  
+  // Position Details
+  positionType: text("position_type").default("casual"),
+  startDate: text("start_date"),
+  preferredStartTime: text("preferred_start_time"),
+  preferredEndTime: text("preferred_end_time"),
+  daysPerWeek: json("days_per_week").$type<string[]>().default([]),
+  hoursPerDay: text("hours_per_day"),
+  
+  // Responsibilities Required
+  childSupervision: boolean("child_supervision").default(true),
+  schoolPickupDropoff: boolean("school_pickup_dropoff").default(false),
+  afterSchoolActivities: boolean("after_school_activities").default(false),
+  mealPreparation: boolean("meal_preparation").default(false),
+  lightHousework: boolean("light_housework").default(false),
+  laundryFolding: boolean("laundry_folding").default(false),
+  lunchboxPrep: boolean("lunchbox_prep").default(false),
+  bathTimeHelp: boolean("bath_time_help").default(false),
+  bedtimeRoutine: boolean("bedtime_routine").default(false),
+  homeworkHelp: boolean("homework_help").default(false),
+  playAndEngagement: boolean("play_and_engagement").default(true),
+  
   // Care Requirements
-  typicalCareHours: text("typical_care_hours"),
-  careFrequency: text("care_frequency"),
-  transportationNeeds: text("transportation_needs"),
+  typicalCareHours: text("typical_care_hours").default("part-time"),
+  careFrequency: text("care_frequency").default("weekly"),
+  transportationNeeds: text("transportation_needs").default("none"),
   householdChores: boolean("household_chores").default(false),
   
   // Household Rules & Preferences
-  smokingPolicy: text("smoking_policy"),
-  screenTimePolicy: text("screen_time_policy"),
-  disciplineStyle: text("discipline_style"),
+  smokingPolicy: text("smoking_policy").default("no-smoking"),
+  screenTimePolicy: text("screen_time_policy").default("limited"),
+  disciplineStyle: text("discipline_style").default("positive"),
   outdoorActivities: boolean("outdoor_activities").default(true),
   
   // Safety & Verification
   backgroundCheckRequired: boolean("background_check_required").default(true),
   referencesRequired: boolean("references_required").default(true),
+  policeCheckRequired: boolean("police_check_required").default(true),
   
   // Additional Information
   specialInstructions: text("special_instructions"),

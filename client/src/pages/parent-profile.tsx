@@ -331,6 +331,7 @@ export default function ParentProfile() {
       // Safety & Verification
       backgroundCheckRequired: true,
       referencesRequired: true,
+      policeCheckRequired: true,
       // Additional Information
       specialInstructions: "",
       familyValues: "",
