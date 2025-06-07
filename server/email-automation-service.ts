@@ -209,9 +209,9 @@ export class EmailAutomationService {
   }
 
   async scheduleWeeklyNewsletters() {
-    // This would typically be called by a cron job
-    console.log('Scheduling weekly newsletters for all users...');
-    // Implementation would fetch all users and send newsletters
+    // DISABLED: Weekly newsletters are not being sent
+    console.log('Weekly newsletters are disabled');
+    return;
   }
 
   async performanceReviewCheck(caregiverId: number) {

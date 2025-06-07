@@ -2097,23 +2097,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Test email endpoint
+  // Test email endpoint - ONLY WELCOME EMAILS
   app.post('/api/send-test-email', async (req, res) => {
     try {
       const { email, type } = req.body;
       
-      let success = false;
+      // ONLY send welcome emails - weekly newsletters are DISABLED
+      await sendParentWelcomeSequence(email, 'Test User');
       
-      if (type === 'parent-welcome') {
-        success = await sendParentWelcomeSequence(email, 'Test User');
-      } else if (type === 'weekly-newsletter-parent') {
-        success = await sendWeeklyNewsletter(email, 'Test User', 'parent');
-      } else {
-        // Default to parent welcome email
-        success = await sendParentWelcomeSequence(email, 'Test User');
-      }
-      
-      res.json({ success: true, message: 'Test email sent successfully' });
+      res.json({ success: true, message: 'Welcome email sent successfully' });
     } catch (error) {
       console.error('Test email error:', error);
       res.status(500).json({ message: 'Failed to send test email' });
