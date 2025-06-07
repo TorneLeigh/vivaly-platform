@@ -14,6 +14,10 @@ interface EmailParams {
   subject: string;
   text?: string;
   html?: string;
+  trackingSettings?: {
+    clickTracking?: { enable: boolean };
+    openTracking?: { enable: boolean };
+  };
 }
 
 export async function sendEmail(params: EmailParams): Promise<boolean> {
@@ -34,10 +38,15 @@ export async function sendEmail(params: EmailParams): Promise<boolean> {
       to: params.to,
       from: fromAddress,
       subject: params.subject,
+      trackingSettings: {
+        clickTracking: { enable: false },
+        openTracking: { enable: false }
+      }
     };
     
     if (params.text) emailData.text = params.text;
     if (params.html) emailData.html = params.html;
+    if (params.trackingSettings) emailData.trackingSettings = params.trackingSettings;
     
     await mailService.send(emailData);
     return true;
@@ -690,15 +699,15 @@ export async function sendWeeklyNewsletter(userEmail: string, userName: string, 
         <h3 style="color: #92400e;">📚 Featured Services This Week</h3>
         <div style="display: flex; gap: 15px; margin: 15px 0; flex-wrap: wrap;">
           <div style="text-align: center; flex: 1; min-width: 120px;">
-            <img src="https://vivaly.com.au/assets/overnight-care.jpg" alt="Overnight Care" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover; margin-bottom: 8px;" />
+            <img src="https://i.imgur.com/overnight-care.jpg" alt="Overnight Care" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover; margin-bottom: 8px;" />
             <p style="margin: 0; font-size: 12px; color: #374151;">Overnight Newborn Support</p>
           </div>
           <div style="text-align: center; flex: 1; min-width: 120px;">
-            <img src="https://vivaly.com.au/assets/group-care.jpg" alt="Group Care" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover; margin-bottom: 8px;" />
+            <img src="https://i.imgur.com/group-care.jpg" alt="Group Care" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover; margin-bottom: 8px;" />
             <p style="margin: 0; font-size: 12px; color: #374151;">Drop-in Group Care</p>
           </div>
           <div style="text-align: center; flex: 1; min-width: 120px;">
-            <img src="https://vivaly.com.au/assets/postnatal-care.jpg" alt="Postnatal Care" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover; margin-bottom: 8px;" />
+            <img src="https://i.imgur.com/postnatal-care.jpg" alt="Postnatal Care" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover; margin-bottom: 8px;" />
             <p style="margin: 0; font-size: 12px; color: #374151;">Postnatal Care</p>
           </div>
         </div>
@@ -706,7 +715,11 @@ export async function sendWeeklyNewsletter(userEmail: string, userName: string, 
       </div>
     `,
     cta: 'Find New Caregivers →',
-    ctaLink: 'https://vivaly.com.au/search'
+    ctaLink: 'https://vivaly.com.au/search',
+    trackingSettings: {
+      clickTracking: { enable: false },
+      openTracking: { enable: false }
+    }
   } : {
     subject: 'VIVALY Weekly: Boost your bookings and care tips',
     title: 'Weekly Caregiver Update',
@@ -739,7 +752,11 @@ export async function sendWeeklyNewsletter(userEmail: string, userName: string, 
       </div>
     `,
     cta: 'Update Availability →',
-    ctaLink: 'https://vivaly.com.au/caregiver-dashboard'
+    ctaLink: 'https://vivaly.com.au/caregiver-dashboard',
+    trackingSettings: {
+      clickTracking: { enable: false },
+      openTracking: { enable: false }
+    }
   };
 
   await sendEmail({

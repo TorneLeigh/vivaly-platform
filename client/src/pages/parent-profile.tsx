@@ -312,7 +312,7 @@ export default function ParentProfile() {
       mustBeNonSmoker: true,
       mustHaveDriversLicense: false,
       mustHaveOwnCar: false,
-      mustHaveAustralianLicense: false,
+
       experienceWithToddlers: false,
       experienceWithSchoolAge: false,
       experienceWithNewborns: false,
