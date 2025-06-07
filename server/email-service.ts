@@ -448,35 +448,29 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
             <h3 style="color: #1f2937; margin: 0 0 20px 0; text-align: center;">Popular Services</h3>
             <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
               <div style="text-align: center; min-width: 120px; max-width: 150px;">
-                <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #f59e0b, #d97706); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                  <div style="width: 30px; height: 30px; background: rgba(255,255,255,0.9); border-radius: 50%; position: relative;">
-                    <div style="width: 12px; height: 12px; background: #f59e0b; border-radius: 50%; position: absolute; top: 9px; left: 9px;"></div>
-                  </div>
+                <div style="width: 80px; height: 80px; border-radius: 15px; margin: 0 auto 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <img src="https://vivaly.com.au/attached_assets/62016dc1fb72cd9a4d96847a6daf6c0e_1749278446432.jpg" alt="Drop-in care" style="width: 100%; height: 100%; object-fit: cover;" />
                 </div>
                 <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Drop-in care</h4>
                 <p style="font-size: 10px; color: #6b7280; margin: 0;">Flexible care when you need it</p>
               </div>
               <div style="text-align: center; min-width: 120px; max-width: 150px;">
-                <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #1e293b, #475569); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                  <div style="width: 35px; height: 35px; background: rgba(255,255,255,0.9); border-radius: 50% 50% 0 50%; transform: rotate(-45deg);"></div>
+                <div style="width: 80px; height: 80px; border-radius: 15px; margin: 0 auto 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <img src="https://vivaly.com.au/attached_assets/02a899c095b5a44d96492e700bf8fd0c_1749278450847.jpg" alt="Overnight newborn support" style="width: 100%; height: 100%; object-fit: cover;" />
                 </div>
                 <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Overnight newborn support</h4>
                 <p style="font-size: 10px; color: #6b7280; margin: 0;">Night doulas for the fourth trimester</p>
               </div>
               <div style="text-align: center; min-width: 120px; max-width: 150px;">
-                <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #f97316, #ea580c); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                  <div style="width: 30px; height: 40px; background: rgba(255,255,255,0.9); border-radius: 15px 15px 5px 5px; position: relative;">
-                    <div style="width: 20px; height: 20px; background: rgba(249,115,22,0.7); border-radius: 50%; position: absolute; top: 5px; left: 5px;"></div>
-                  </div>
+                <div style="width: 80px; height: 80px; border-radius: 15px; margin: 0 auto 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <img src="https://vivaly.com.au/attached_assets/72a1a9c0773aeb45b624a5e05e355eb0_1749278454511.jpg" alt="Newborn support" style="width: 100%; height: 100%; object-fit: cover;" />
                 </div>
                 <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Newborn support</h4>
                 <p style="font-size: 10px; color: #6b7280; margin: 0;">Sleep guidance, swaddling & feeding</p>
               </div>
               <div style="text-align: center; min-width: 120px; max-width: 150px;">
-                <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #10b981, #059669); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                  <div style="width: 35px; height: 25px; background: rgba(255,255,255,0.9); border-radius: 3px; position: relative;">
-                    <div style="width: 20px; height: 15px; background: rgba(16,185,129,0.7); border-radius: 2px; position: absolute; top: 5px; left: 7.5px;"></div>
-                  </div>
+                <div style="width: 80px; height: 80px; border-radius: 15px; margin: 0 auto 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <img src="https://vivaly.com.au/attached_assets/f116334957ff9c74101be0e0c41edcda_1749278462888.jpg" alt="Birth education" style="width: 100%; height: 100%; object-fit: cover;" />
                 </div>
                 <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Birth education</h4>
                 <p style="font-size: 10px; color: #6b7280; margin: 0;">Childbirth preparation classes</p>
