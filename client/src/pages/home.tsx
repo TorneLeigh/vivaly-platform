@@ -341,7 +341,7 @@ export default function Home() {
             </div>
             
             <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/search?serviceType=Pet Grooming'}>
+                 onClick={() => window.location.href = '/services'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
                   src="/images/pet1.jpg" 
@@ -354,7 +354,7 @@ export default function Home() {
             </div>
             
             <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/search?serviceType=Pet Training'}>
+                 onClick={() => window.location.href = '/services'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
                   src="/images/pet5.jpg" 
@@ -367,7 +367,7 @@ export default function Home() {
             </div>
             
             <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/search?serviceType=Overnight Pet Care'}>
+                 onClick={() => window.location.href = '/services'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
                   src="/images/pet6.jpg" 
