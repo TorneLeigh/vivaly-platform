@@ -122,8 +122,9 @@ const parentProfileSchema = z.object({
   
   // Essential Requirements
   mustHaveWWCC: z.boolean().default(true),
+  mustHaveBlueCard: z.boolean().default(false),
   mustHaveFirstAid: z.boolean().default(false),
-  mustHaveCPR: z.boolean().default(false),
+  mustHavePaediatricCPR: z.boolean().default(false),
   mustHaveReferences: z.boolean().default(true),
   mustBeNonSmoker: z.boolean().default(true),
   mustHaveDriversLicense: z.boolean().default(false),
@@ -132,6 +133,11 @@ const parentProfileSchema = z.object({
   experienceWithToddlers: z.boolean().default(false),
   experienceWithSchoolAge: z.boolean().default(false),
   experienceWithNewborns: z.boolean().default(false),
+  experienceWithInfants: z.boolean().default(false),
+  maternityNurseExperience: z.boolean().default(false),
+  nightNannyExperience: z.boolean().default(false),
+  sleepTrainingExperience: z.boolean().default(false),
+  evidenceBasedCare: z.boolean().default(false),
   
   // Position Details
   positionType: z.string().default("casual"),
@@ -195,9 +201,12 @@ const languageOptions = [
 ];
 
 const specialSkillsOptions = [
-  "First Aid Certified", "CPR Certified", "Early Childhood Education", 
-  "Special Needs Experience", "Newborn Care", "Toddler Development", 
-  "School Age Care", "Tutoring", "Music/Arts", "Swimming", "Cooking", "Driving License"
+  "First Aid Certified", "CPR Certified (Paediatric)", "Early Childhood Education", 
+  "Maternity Nurse", "Night Nanny", "Newborn Care", "Sleep Training", 
+  "Evidence-based Newborn Care", "Developmental Support", "Special Needs Experience", 
+  "Toddler Development", "School Age Care", "Tutoring", "Music/Arts", "Swimming", 
+  "Cooking", "Creative Play", "Cognitive Development", "Blue Card Verified", 
+  "Mom's Helper", "Overnight Care", "Part-time Educator", "Driving License"
 ];
 
 const petOptions = [
