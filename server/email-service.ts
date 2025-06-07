@@ -391,25 +391,22 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
           
           <div style="background: #f0f9ff; padding: 25px; border-radius: 10px; margin: 25px 0; border-left: 4px solid #0ea5e9;">
             <h3 style="color: #0c4a6e; margin: 0 0 15px 0;">🌟 What Makes VIVALY Different:</h3>
+            <p style="color: #0369a1; margin: 0 0 20px 0; font-style: italic;">"Because it takes a village"</p>
             <div style="margin: 15px 0;">
               <strong style="color: #075985;">🧸 Drop-in childcare when you need a break</strong>
-              <p style="margin: 5px 0; color: #0369a1;">Perfect for gym visits, appointments, or self-care - verified caregivers ready when you are</p>
+              <p style="margin: 5px 0; color: #0369a1;">Trusted caregivers ready when you are - quick and easy booking for gym visits, appointments, or self-care</p>
             </div>
             <div style="margin: 15px 0;">
               <strong style="color: #075985;">🌙 Overnight newborn support</strong>
-              <p style="margin: 5px 0; color: #0369a1;">Trusted night doulas so you can finally rest - no more sleepless nights alone</p>
+              <p style="margin: 5px 0; color: #0369a1;">Trusted night doulas so you can finally rest - support when you need it most</p>
             </div>
             <div style="margin: 15px 0;">
-              <strong style="color: #075985;">🧑‍🍼 Affordable 1-on-1 care</strong>
-              <p style="margin: 5px 0; color: #0369a1;">Personalized support at prices that work for you - browse and book verified professionals</p>
+              <strong style="color: #075985;">🧑‍🍼 Support from bump to toddler</strong>
+              <p style="margin: 5px 0; color: #0369a1;">Trusted care at every stage - quick and easy access to verified professionals when you need them</p>
             </div>
             <div style="margin: 15px 0;">
               <strong style="color: #075985;">🎓 Birth & postnatal class bundles</strong>
-              <p style="margin: 5px 0; color: #0369a1;">Everything from bump to baby in one place - convenient learning without scattered bookings</p>
-            </div>
-            <div style="margin: 15px 0;">
-              <strong style="color: #075985;">🧍‍♀️ Postnatal physiotherapy</strong>
-              <p style="margin: 5px 0; color: #0369a1;">Skip the waitlists - find certified physios near you with real availability and reviews</p>
+              <p style="margin: 5px 0; color: #0369a1;">Learn all you need to know in one place - comprehensive classes covering everything from pregnancy to parenting</p>
             </div>
           </div>
           
