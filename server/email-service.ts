@@ -440,7 +440,7 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
           </div>
           
           <div style="text-align: center; margin: 30px 0;">
-            <a href="https://vivaly.com.au/services" style="background: #000000; color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; margin: 0 10px 10px 0;">FIND CARE</a>
+            <a href="https://vivaly.com.au/find-care" style="background: #000000; color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; margin: 0 10px 10px 0;">FIND CARE</a>
             <a href="https://vivaly.com.au/services" style="background: #ffffff; color: #000000; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; border: 2px solid #000000; margin: 0 0 10px 10px;">VIEW SERVICES</a>
           </div>
           
@@ -448,20 +448,20 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
             <h3 style="color: #1f2937; margin: 0 0 20px 0; text-align: center;">Popular Services</h3>
             <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
               <div style="text-align: center; min-width: 120px; max-width: 150px;">
-                <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                  <div style="width: 40px; height: 40px; background: rgba(255,255,255,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                    <div style="width: 20px; height: 20px; background: white; border-radius: 50%;"></div>
+                <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #f59e0b, #d97706); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <div style="width: 30px; height: 30px; background: rgba(255,255,255,0.9); border-radius: 50%; position: relative;">
+                    <div style="width: 12px; height: 12px; background: #f59e0b; border-radius: 50%; position: absolute; top: 9px; left: 9px;"></div>
                   </div>
                 </div>
-                <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Drop-in Care</h4>
-                <p style="font-size: 10px; color: #6b7280; margin: 0;">When you need it</p>
+                <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Drop-in care</h4>
+                <p style="font-size: 10px; color: #6b7280; margin: 0;">Flexible care when you need it</p>
               </div>
               <div style="text-align: center; min-width: 120px; max-width: 150px;">
                 <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #1e293b, #475569); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
                   <div style="width: 35px; height: 35px; background: rgba(255,255,255,0.9); border-radius: 50% 50% 0 50%; transform: rotate(-45deg);"></div>
                 </div>
-                <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Overnight Support</h4>
-                <p style="font-size: 10px; color: #6b7280; margin: 0;">Night doulas</p>
+                <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Overnight newborn support</h4>
+                <p style="font-size: 10px; color: #6b7280; margin: 0;">Night doulas for the fourth trimester</p>
               </div>
               <div style="text-align: center; min-width: 120px; max-width: 150px;">
                 <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #f97316, #ea580c); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
@@ -469,8 +469,8 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
                     <div style="width: 20px; height: 20px; background: rgba(249,115,22,0.7); border-radius: 50%; position: absolute; top: 5px; left: 5px;"></div>
                   </div>
                 </div>
-                <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Newborn Care</h4>
-                <p style="font-size: 10px; color: #6b7280; margin: 0;">Sleep & feeding</p>
+                <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Newborn support</h4>
+                <p style="font-size: 10px; color: #6b7280; margin: 0;">Sleep guidance, swaddling & feeding</p>
               </div>
               <div style="text-align: center; min-width: 120px; max-width: 150px;">
                 <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #10b981, #059669); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
@@ -478,8 +478,8 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
                     <div style="width: 20px; height: 15px; background: rgba(16,185,129,0.7); border-radius: 2px; position: absolute; top: 5px; left: 7.5px;"></div>
                   </div>
                 </div>
-                <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Birth Classes</h4>
-                <p style="font-size: 10px; color: #6b7280; margin: 0;">Expert guidance</p>
+                <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Birth education</h4>
+                <p style="font-size: 10px; color: #6b7280; margin: 0;">Childbirth preparation classes</p>
               </div>
             </div>
           </div>
