@@ -1147,13 +1147,13 @@ export default function ParentProfile() {
                     <CardHeader>
                       <CardTitle className="flex items-center">
                         <CheckCircle className="h-5 w-5 mr-2" />
-                        Essential Requirements for Caregivers
+                        Caregiver Preferences
                       </CardTitle>
-                      <p className="text-sm text-gray-600">Australian childcare safety standards and mandatory requirements</p>
+                      <p className="text-sm text-gray-600">What you're looking for in a caregiver - select your preferences</p>
                     </CardHeader>
                     <CardContent className="space-y-6">
                       <div className="bg-blue-50 p-4 rounded-lg">
-                        <h4 className="font-semibold text-blue-900 mb-3">Mandatory Safety Requirements</h4>
+                        <h4 className="font-semibold text-blue-900 mb-3">Safety & Verification Preferences</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <FormField
                             control={form.control}
@@ -1167,7 +1167,7 @@ export default function ParentProfile() {
                                     disabled={!isEditing}
                                   />
                                 </FormControl>
-                                <FormLabel className="text-sm font-medium">Working with Children Check (WWCC) required</FormLabel>
+                                <FormLabel className="text-sm font-medium">Working with Children Check (WWCC) preferred</FormLabel>
                               </FormItem>
                             )}
                           />
@@ -1184,7 +1184,7 @@ export default function ParentProfile() {
                                     disabled={!isEditing}
                                   />
                                 </FormControl>
-                                <FormLabel className="text-sm font-medium">References from previous families required</FormLabel>
+                                <FormLabel className="text-sm font-medium">References from previous families preferred</FormLabel>
                               </FormItem>
                             )}
                           />
@@ -1201,7 +1201,7 @@ export default function ParentProfile() {
                                     disabled={!isEditing}
                                   />
                                 </FormControl>
-                                <FormLabel className="text-sm font-medium">Must be non-smoker</FormLabel>
+                                <FormLabel className="text-sm font-medium">Non-smoker preferred</FormLabel>
                               </FormItem>
                             )}
                           />
@@ -1218,27 +1218,12 @@ export default function ParentProfile() {
                                     disabled={!isEditing}
                                   />
                                 </FormControl>
-                                <FormLabel className="text-sm font-medium">Police check required</FormLabel>
+                                <FormLabel className="text-sm font-medium">Police check preferred</FormLabel>
                               </FormItem>
                             )}
                           />
                           
-                          <FormField
-                            control={form.control}
-                            name="mustHaveBlueCard"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-x-3">
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                    disabled={!isEditing}
-                                  />
-                                </FormControl>
-                                <FormLabel className="text-sm font-medium">Blue Card verified (Queensland)</FormLabel>
-                              </FormItem>
-                            )}
-                          />
+
                         </div>
                       </div>
 
@@ -1369,7 +1354,7 @@ export default function ParentProfile() {
                                     disabled={!isEditing}
                                   />
                                 </FormControl>
-                                <FormLabel className="text-sm">Infant experience (4 weeks+)</FormLabel>
+                                <FormLabel className="text-sm">Infant experience (3-12 months)</FormLabel>
                               </FormItem>
                             )}
                           />
