@@ -298,8 +298,9 @@ export default function ParentProfile() {
       specialSkillsRequired: [],
       // Essential Requirements
       mustHaveWWCC: true,
+      mustHaveBlueCard: false,
       mustHaveFirstAid: false,
-      mustHaveCPR: false,
+      mustHavePaediatricCPR: false,
       mustHaveReferences: true,
       mustBeNonSmoker: true,
       mustHaveDriversLicense: false,
@@ -308,6 +309,11 @@ export default function ParentProfile() {
       experienceWithToddlers: false,
       experienceWithSchoolAge: false,
       experienceWithNewborns: false,
+      experienceWithInfants: false,
+      maternityNurseExperience: false,
+      nightNannyExperience: false,
+      sleepTrainingExperience: false,
+      evidenceBasedCare: false,
       // Position Details
       positionType: "casual",
       startDate: "",
@@ -1216,6 +1222,23 @@ export default function ParentProfile() {
                               </FormItem>
                             )}
                           />
+                          
+                          <FormField
+                            control={form.control}
+                            name="mustHaveBlueCard"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-medium">Blue Card verified (Queensland)</FormLabel>
+                              </FormItem>
+                            )}
+                          />
                         </div>
                       </div>
 
@@ -1241,7 +1264,7 @@ export default function ParentProfile() {
                           
                           <FormField
                             control={form.control}
-                            name="mustHaveCPR"
+                            name="mustHavePaediatricCPR"
                             render={({ field }) => (
                               <FormItem className="flex items-center space-x-3">
                                 <FormControl>
@@ -1251,7 +1274,7 @@ export default function ParentProfile() {
                                     disabled={!isEditing}
                                   />
                                 </FormControl>
-                                <FormLabel className="text-sm">CPR certification preferred</FormLabel>
+                                <FormLabel className="text-sm">Paediatric CPR certification preferred</FormLabel>
                               </FormItem>
                             )}
                           />
@@ -1315,8 +1338,42 @@ export default function ParentProfile() {
                       </div>
 
                       <div className="bg-orange-50 p-4 rounded-lg">
-                        <h4 className="font-semibold text-orange-900 mb-3">Experience Requirements</h4>
+                        <h4 className="font-semibold text-orange-900 mb-3">Age Group Experience</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="experienceWithNewborns"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Newborn experience (0-3 months)</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="experienceWithInfants"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Infant experience (4 weeks+)</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
                           <FormField
                             control={form.control}
                             name="experienceWithToddlers"
@@ -1329,7 +1386,7 @@ export default function ParentProfile() {
                                     disabled={!isEditing}
                                   />
                                 </FormControl>
-                                <FormLabel className="text-sm">Experience with toddlers preferred</FormLabel>
+                                <FormLabel className="text-sm">Toddler experience preferred</FormLabel>
                               </FormItem>
                             )}
                           />
@@ -1346,14 +1403,19 @@ export default function ParentProfile() {
                                     disabled={!isEditing}
                                   />
                                 </FormControl>
-                                <FormLabel className="text-sm">Experience with school-age children</FormLabel>
+                                <FormLabel className="text-sm">School-age children experience</FormLabel>
                               </FormItem>
                             )}
                           />
-                          
+                        </div>
+                      </div>
+
+                      <div className="bg-pink-50 p-4 rounded-lg">
+                        <h4 className="font-semibold text-pink-900 mb-3">Specialized Care Experience</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <FormField
                             control={form.control}
-                            name="experienceWithNewborns"
+                            name="maternityNurseExperience"
                             render={({ field }) => (
                               <FormItem className="flex items-center space-x-3">
                                 <FormControl>
@@ -1363,7 +1425,58 @@ export default function ParentProfile() {
                                     disabled={!isEditing}
                                   />
                                 </FormControl>
-                                <FormLabel className="text-sm">Experience with newborns</FormLabel>
+                                <FormLabel className="text-sm">Maternity nurse experience</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="nightNannyExperience"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Night nanny experience</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="sleepTrainingExperience"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Sleep training expertise</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="evidenceBasedCare"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Evidence-based newborn care</FormLabel>
                               </FormItem>
                             )}
                           />
