@@ -523,7 +523,7 @@ export default function CaregiverProfile() {
                     </CardHeader>
                     <CardContent className="space-y-6">
                       <div className="bg-blue-50 p-4 rounded-lg">
-                        <h4 className="font-semibold text-blue-900 mb-3">Safety Certifications</h4>
+                        <h4 className="font-semibold text-blue-900 mb-3">Safety Certifications (Optional)</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <FormField
                             control={form.control}
@@ -571,7 +571,7 @@ export default function CaregiverProfile() {
                                     disabled={!isEditing}
                                   />
                                 </FormControl>
-                                <FormLabel className="text-sm">First Aid Certified</FormLabel>
+                                <FormLabel className="text-sm">First Aid Certified - Optional</FormLabel>
                               </FormItem>
                             )}
                           />
@@ -588,7 +588,7 @@ export default function CaregiverProfile() {
                                     disabled={!isEditing}
                                   />
                                 </FormControl>
-                                <FormLabel className="text-sm">CPR Certified (Paediatric)</FormLabel>
+                                <FormLabel className="text-sm">CPR Certified (Paediatric) - Optional</FormLabel>
                               </FormItem>
                             )}
                           />
