@@ -68,7 +68,7 @@ export async function sendCaregiverWelcomeSequence(
         <div style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
           <div style="text-align: center; margin-bottom: 30px;">
             <h1 style="color: #000000; margin: 0; font-size: 28px; font-weight: 900;">VIVALY</h1>
-            <p style="color: #64748b; margin: 10px 0 0 0; font-size: 16px;">Australia's Premier Childcare Platform</p>
+            <p style="color: #64748b; margin: 10px 0 0 0; font-size: 16px;">Sydney's Premier Care Platform</p>
           </div>
           
           <h2 style="color: #1e293b; margin-bottom: 15px;">Hi ${caregiverName},</h2>
@@ -381,12 +381,13 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
         <div style="background: #000000; padding: 40px 20px; text-align: center;">
           <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 900;">Welcome to VIVALY!</h1>
-          <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Australia's Premier Childcare Platform</p>
+          <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Sydney's Premier Care Platform</p>
         </div>
         
         <div style="padding: 30px 20px;">
           <p style="font-size: 16px; line-height: 1.6;">Hi ${parentName},</p>
-          <p style="font-size: 16px; line-height: 1.6;">Welcome to VIVALY! We're thrilled you've chosen us to help find the perfect care for your family.</p>
+          <p style="font-size: 16px; line-height: 1.6;">Welcome to VIVALY! We're thrilled to have you join our community of families and caregivers. Explore our network of verified care providers and discover your perfect care match!</p>
+          <p style="font-size: 16px; line-height: 1.6;">Thank you for choosing VIVALY! Get ready to experience trusted, quality care. Explore our diverse selection of childcare, elderly care, and specialized support services.</p>
           
           <div style="background: #f8fafc; padding: 25px; border-radius: 10px; margin: 25px 0; border-left: 4px solid #000000;">
             <h3 style="color: #1f2937; margin: 0 0 15px 0;">🚀 Get Started in 3 Easy Steps:</h3>
@@ -405,7 +406,7 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
           </div>
           
           <div style="text-align: center; margin: 30px 0;">
-            <a href="https://vivaly.com.au/search" style="background: #000000; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Find Your Perfect Caregiver →</a>
+            <a href="https://vivaly.com.au" style="background: #000000; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">FIND CARE →</a>
           </div>
           
           <div style="background: #fef3e2; padding: 20px; border-radius: 8px; margin: 25px 0;">
