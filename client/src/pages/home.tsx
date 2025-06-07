@@ -394,7 +394,7 @@ export default function Home() {
           
           <ServiceCarousel>
             <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/search?serviceType=Park Playdates&location=Sydney, NSW'}>
+                 onClick={() => window.location.href = '/services'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
                   src="/images/social1.jpg" 
@@ -407,7 +407,7 @@ export default function Home() {
             </div>
             
             <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/search?serviceType=Coffee Catch-ups&location=Sydney, NSW'}>
+                 onClick={() => window.location.href = '/services'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
                   src="/images/social2.jpg" 
@@ -420,7 +420,7 @@ export default function Home() {
             </div>
             
             <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/search?serviceType=Art & Craft&location=Sydney, NSW'}>
+                 onClick={() => window.location.href = '/services'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
                   src="/images/social3.jpg" 
@@ -433,7 +433,7 @@ export default function Home() {
             </div>
             
             <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/search?serviceType=New Parent Groups&location=Sydney, NSW'}>
+                 onClick={() => window.location.href = '/services'}>
               <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                 <img 
                   src="/images/social4.jpg" 
