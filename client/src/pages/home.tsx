@@ -35,6 +35,7 @@ import pregnancyImage from "@assets/f116334957ff9c74101be0e0c41edcda_17492670051
 import postnatalImage from "@assets/c18480e234907faffa31784936ac8816_1749267000694.jpg";
 import breastfeedingImage from "@assets/31d064b6874d9bd38e6f664bff0e8352_1749267180596.jpg";
 import birthingImage from "@assets/f087158c54b76ecf0250c6866d218c92_1749267022177.jpg";
+import groupCareImage from "@assets/ad23d9f10c69e3bfc73ffe82a1bac618_1749267219539.jpg";
 
 // Service category colors
 const serviceColors = [
@@ -68,7 +69,7 @@ const serviceCategories = [
   {
     title: "1-2 hours group care",
     description: "Short-term group childcare sessions", 
-    image: "/images/daycare.jpg",
+    image: groupCareImage,
     serviceType: "1-2 hours group care"
   },
   {
