@@ -190,6 +190,45 @@ const petSittingServices = [
   }
 ];
 
+const elderlyCareServices = [
+  {
+    title: "Companionship Care",
+    description: "Social interaction and emotional support",
+    image: "/images/elderly.jpg",
+    serviceType: "Elderly care"
+  },
+  {
+    title: "Personal Care Assistance",
+    description: "Help with daily activities and hygiene",
+    image: "/images/companionship.jpg",
+    serviceType: "Elderly care"
+  },
+  {
+    title: "Medication Management",
+    description: "Assistance with medication schedules",
+    image: "/images/elderly.jpg",
+    serviceType: "Elderly care"
+  },
+  {
+    title: "Meal Preparation",
+    description: "Nutritious meal planning and cooking",
+    image: "/images/companionship.jpg",
+    serviceType: "Elderly care"
+  },
+  {
+    title: "Transportation Services",
+    description: "Safe transport to appointments and activities",
+    image: "/images/elderly.jpg",
+    serviceType: "Elderly care"
+  },
+  {
+    title: "Household Support",
+    description: "Light cleaning and home maintenance",
+    image: "/images/companionship.jpg",
+    serviceType: "Elderly care"
+  }
+];
+
 const socialEvents = [
   {
     title: "Park Playdates",
@@ -241,6 +280,22 @@ export default function Services() {
   const { data: featuredExperiences = [] } = useQuery({
     queryKey: ["/api/experiences/featured"],
   });
+
+  // Filter function to determine which sections to show
+  const shouldShowSection = (sectionType: string) => {
+    if (selectedCategory === "all") return true;
+    
+    switch (selectedCategory) {
+      case "midwife":
+        return sectionType === "midwife" || sectionType === "birth-education";
+      case "pet":
+        return sectionType === "pet";
+      case "elderly":
+        return sectionType === "elderly";
+      default:
+        return true;
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -303,7 +358,8 @@ export default function Services() {
       </section>
 
       {/* Birth Education Classes */}
-      <section className="py-6 bg-gray-50">
+      {shouldShowSection("birth-education") && (
+        <section className="py-6 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6">
             <h2 className="text-3xl font-bold text-gray-900 mb-3">
@@ -353,9 +409,11 @@ export default function Services() {
             ))}
           </ServiceCarousel>
         </div>
-      </section>
+        </section>
+      )}
 
       {/* Midwife Services */}
+      {shouldShowSection("midwife") && (
       <section className="py-6 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6">
@@ -407,8 +465,10 @@ export default function Services() {
           </ServiceCarousel>
         </div>
       </section>
+      )}
 
       {/* Pet Sitting Services */}
+      {shouldShowSection("pet") && (
       <section className="py-6 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6">
@@ -460,8 +520,66 @@ export default function Services() {
           </ServiceCarousel>
         </div>
       </section>
+      )}
+
+      {/* Elderly Care Services */}
+      {shouldShowSection("elderly") && (
+        <section className="py-6 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 mb-3">
+                Elderly Care Services
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Compassionate care and support services for seniors
+              </p>
+            </div>
+            
+            <ServiceCarousel>
+              {elderlyCareServices.map((service, index) => (
+                <div 
+                  key={index}
+                  className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                  onClick={() => {
+                    const searchParams = new URLSearchParams({
+                      serviceType: service.serviceType,
+                      location: 'Sydney, NSW'
+                    });
+                    window.location.href = `/search?${searchParams.toString()}`;
+                  }}
+                >
+                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                    <img 
+                      src={service.image} 
+                      alt={service.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        if (e.currentTarget.parentElement) {
+                          e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
+                          e.currentTarget.parentElement.innerHTML = `
+                            <div class="flex items-center justify-center h-full">
+                              <span class="text-gray-400 text-xs">${service.title}</span>
+                            </div>
+                          `;
+                        }
+                      }}
+                    />
+                  </div>
+                  
+                  <div className="text-center">
+                    <h3 className="font-semibold text-gray-900 text-sm mb-1">{service.title}</h3>
+                    <p className="text-xs text-gray-600">{service.description}</p>
+                  </div>
+                </div>
+              ))}
+            </ServiceCarousel>
+          </div>
+        </section>
+      )}
 
       {/* Featured Caregivers */}
+      {shouldShowSection("all") && (
       <section className="py-6 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6">
@@ -538,8 +656,10 @@ export default function Services() {
           </ServiceCarousel>
         </div>
       </section>
+      )}
 
       {/* Social Events & Activities */}
+      {shouldShowSection("all") && (
       <section className="py-6 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6">
