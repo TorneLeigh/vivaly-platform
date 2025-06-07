@@ -68,6 +68,7 @@ export async function sendCaregiverWelcomeSequence(
   const fromEmail = 'welcome@vivaly.com.au';
   
   // Day 0 - Comprehensive welcome email
+  console.log('Sending CAREGIVER EMAIL with subject:', `Welcome to VIVALY ${caregiverName}! Your Application Has Been Received`);
   await sendEmail({
     to: caregiverEmail,
     from: fromEmail,
