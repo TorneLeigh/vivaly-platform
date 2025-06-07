@@ -2070,13 +2070,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
           await scheduleCaregiver(email, name, 'caregiver');
           break;
         case 'weekly-newsletter-parent':
-          const { sendWeeklyNewsletter: sendParentNewsletter } = await import('./email-campaigns');
-          success = await sendParentNewsletter(email, name, 'parent');
-          break;
+          // WEEKLY NEWSLETTERS ARE DISABLED
+          res.status(400).json({ message: 'Weekly newsletters are disabled', success: false });
+          return;
         case 'weekly-newsletter-caregiver':
-          const { sendWeeklyNewsletter: sendCaregiverNewsletter } = await import('./email-campaigns');
-          success = await sendCaregiverNewsletter(email, name, 'caregiver');
-          break;
+          // WEEKLY NEWSLETTERS ARE DISABLED  
+          res.status(400).json({ message: 'Weekly newsletters are disabled', success: false });
+          return;
         case 'booking-confirmation':
           success = await sendBookingConfirmation(email, email, {
             caregiverName: 'Emma Wilson',

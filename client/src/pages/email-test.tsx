@@ -51,10 +51,6 @@ export default function EmailTest() {
   const emailTypes = [
     { value: "parent-welcome", label: "Parent Welcome Email" },
     { value: "caregiver-welcome", label: "Caregiver Welcome Email" },
-    { value: "parent-sequence", label: "Parent Trial Sequence (7 emails)" },
-    { value: "caregiver-sequence", label: "Caregiver Trial Sequence (5 emails)" },
-    { value: "weekly-newsletter-parent", label: "Parent Weekly Newsletter" },
-    { value: "weekly-newsletter-caregiver", label: "Caregiver Weekly Newsletter" },
     { value: "booking-confirmation", label: "Booking Confirmation" },
   ];
 
