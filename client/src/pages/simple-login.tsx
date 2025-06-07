@@ -53,7 +53,7 @@ export default function SimpleLogin() {
 
   const loginMutation = useMutation({
     mutationFn: async (data: LoginFormData) => {
-      const response = await apiRequest("POST", "/api/auth/simple-login", data);
+      const response = await apiRequest("POST", "/api/login", data);
       return response.json();
     },
     onSuccess: (data) => {
@@ -75,7 +75,7 @@ export default function SimpleLogin() {
 
   const signupMutation = useMutation({
     mutationFn: async (data: SignupFormData) => {
-      const response = await apiRequest("POST", "/api/auth/simple-signup", data);
+      const response = await apiRequest("POST", "/api/register", data);
       return response.json();
     },
     onSuccess: (data) => {
