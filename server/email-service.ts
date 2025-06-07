@@ -446,35 +446,85 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
           
           <div style="background: #f9fafb; padding: 25px; border-radius: 10px; margin: 25px 0;">
             <h3 style="color: #1f2937; margin: 0 0 20px 0; text-align: center;">Popular Services</h3>
-            <table style="width: 100%; margin: 0 auto; border-collapse: collapse;">
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; max-width: 360px; margin: 0 auto;">
               <tr>
-                <td style="text-align: center; padding: 0 10px; width: 25%;">
-                  <div style="width: 80px; height: 80px; border-radius: 12px; margin: 0 auto 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background: #e5e7eb;">
-                    <img src="https://vivaly.com.au/images/babysitter.jpg" alt="Drop-in care" style="width: 80px; height: 80px; border-radius: 12px; display: block; border: none;" />
-                  </div>
-                  <h4 style="font-size: 12px; font-weight: bold; color: #1f2937; margin: 0 0 4px 0;">Drop-in Care</h4>
-                  <p style="font-size: 10px; color: #6b7280; margin: 0; line-height: 1.3;">Flexible care when you need it</p>
+                <td align="center" valign="top" style="width: 50%; padding: 10px;">
+                  <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                    <tr>
+                      <td align="center" style="padding-bottom: 10px;">
+                        <img src="https://vivaly.com.au/images/babysitter.jpg" alt="Drop-in care" width="100" height="100" style="display: block; width: 100px; height: 100px; border-radius: 15px; border: 0; outline: none;" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center" style="font-family: Arial, sans-serif; font-size: 13px; font-weight: bold; color: #1f2937; padding-bottom: 5px;">
+                        Drop-in Care
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center" style="font-family: Arial, sans-serif; font-size: 11px; color: #6b7280; line-height: 1.3;">
+                        Flexible care when you need it
+                      </td>
+                    </tr>
+                  </table>
                 </td>
-                <td style="text-align: center; padding: 0 10px; width: 25%;">
-                  <div style="width: 80px; height: 80px; border-radius: 12px; margin: 0 auto 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background: #e5e7eb;">
-                    <img src="https://vivaly.com.au/images/newborn.jpg" alt="Newborn support" style="width: 80px; height: 80px; border-radius: 12px; display: block; border: none;" />
-                  </div>
-                  <h4 style="font-size: 12px; font-weight: bold; color: #1f2937; margin: 0 0 4px 0;">Newborn Support</h4>
-                  <p style="font-size: 10px; color: #6b7280; margin: 0; line-height: 1.3;">Sleep guidance & feeding</p>
+                <td align="center" valign="top" style="width: 50%; padding: 10px;">
+                  <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                    <tr>
+                      <td align="center" style="padding-bottom: 10px;">
+                        <img src="https://vivaly.com.au/images/newborn.jpg" alt="Newborn support" width="100" height="100" style="display: block; width: 100px; height: 100px; border-radius: 15px; border: 0; outline: none;" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center" style="font-family: Arial, sans-serif; font-size: 13px; font-weight: bold; color: #1f2937; padding-bottom: 5px;">
+                        Newborn Support
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center" style="font-family: Arial, sans-serif; font-size: 11px; color: #6b7280; line-height: 1.3;">
+                        Sleep guidance & feeding
+                      </td>
+                    </tr>
+                  </table>
                 </td>
-                <td style="text-align: center; padding: 0 10px; width: 25%;">
-                  <div style="width: 80px; height: 80px; border-radius: 12px; margin: 0 auto 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background: #e5e7eb;">
-                    <img src="https://vivaly.com.au/images/childcare.jpg" alt="Childcare" style="width: 80px; height: 80px; border-radius: 12px; display: block; border: none;" />
-                  </div>
-                  <h4 style="font-size: 12px; font-weight: bold; color: #1f2937; margin: 0 0 4px 0;">Childcare</h4>
-                  <p style="font-size: 10px; color: #6b7280; margin: 0; line-height: 1.3;">Licensed home-based care</p>
+              </tr>
+              <tr>
+                <td align="center" valign="top" style="width: 50%; padding: 10px;">
+                  <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                    <tr>
+                      <td align="center" style="padding-bottom: 10px;">
+                        <img src="https://vivaly.com.au/images/childcare.jpg" alt="Childcare" width="100" height="100" style="display: block; width: 100px; height: 100px; border-radius: 15px; border: 0; outline: none;" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center" style="font-family: Arial, sans-serif; font-size: 13px; font-weight: bold; color: #1f2937; padding-bottom: 5px;">
+                        Childcare
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center" style="font-family: Arial, sans-serif; font-size: 11px; color: #6b7280; line-height: 1.3;">
+                        Licensed home-based care
+                      </td>
+                    </tr>
+                  </table>
                 </td>
-                <td style="text-align: center; padding: 0 10px; width: 25%;">
-                  <div style="width: 80px; height: 80px; border-radius: 12px; margin: 0 auto 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background: #e5e7eb;">
-                    <img src="https://vivaly.com.au/images/elderly.jpg" alt="Elderly care" style="width: 80px; height: 80px; border-radius: 12px; display: block; border: none;" />
-                  </div>
-                  <h4 style="font-size: 12px; font-weight: bold; color: #1f2937; margin: 0 0 4px 0;">Elderly Care</h4>
-                  <p style="font-size: 10px; color: #6b7280; margin: 0; line-height: 1.3;">Senior care services</p>
+                <td align="center" valign="top" style="width: 50%; padding: 10px;">
+                  <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                    <tr>
+                      <td align="center" style="padding-bottom: 10px;">
+                        <img src="https://vivaly.com.au/images/elderly.jpg" alt="Elderly care" width="100" height="100" style="display: block; width: 100px; height: 100px; border-radius: 15px; border: 0; outline: none;" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center" style="font-family: Arial, sans-serif; font-size: 13px; font-weight: bold; color: #1f2937; padding-bottom: 5px;">
+                        Elderly Care
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center" style="font-family: Arial, sans-serif; font-size: 11px; color: #6b7280; line-height: 1.3;">
+                        Senior care services
+                      </td>
+                    </tr>
+                  </table>
                 </td>
               </tr>
             </table>
