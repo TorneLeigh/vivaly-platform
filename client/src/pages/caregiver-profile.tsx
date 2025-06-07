@@ -129,6 +129,14 @@ const caregiverProfileSchema = z.object({
   specialInstructions: z.string().optional(),
   personalityDescription: z.string().optional(),
   approach: z.string().optional(),
+  
+  // Personal Touch Questions
+  myLoveLanguage: z.string().optional(),
+  littleAboutMe: z.string().optional(),
+  imProudOf: z.string().optional(),
+  whatMakesMe: z.string().optional(),
+  mySuperpowerIs: z.string().optional(),
+  onePerfectDay: z.string().optional(),
 });
 
 type CaregiverProfileForm = z.infer<typeof caregiverProfileSchema>;
@@ -238,6 +246,13 @@ export default function CaregiverProfile() {
       specialInstructions: "",
       personalityDescription: "",
       approach: "",
+      // Personal Touch
+      myLoveLanguage: "",
+      littleAboutMe: "",
+      imProudOf: "",
+      whatMakesMe: "",
+      mySuperpowerIs: "",
+      onePerfectDay: "",
     },
   });
 
@@ -275,6 +290,7 @@ export default function CaregiverProfile() {
     { id: "skills", label: "Additional Skills", icon: CheckCircle },
     { id: "availability", label: "Availability", icon: Clock },
     { id: "references", label: "References", icon: Users },
+    { id: "personal", label: "Personal Touch", icon: Heart },
     { id: "emergency", label: "Emergency Contact", icon: Shield },
   ];
 
@@ -1654,6 +1670,152 @@ export default function CaregiverProfile() {
                               <Textarea 
                                 {...field} 
                                 placeholder="Any additional information families should know about you or your services"
+                                disabled={!isEditing}
+                                rows={3}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Personal Touch Section */}
+                {activeSection === "personal" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Heart className="h-5 w-5 mr-2" />
+                        Personal Touch
+                      </CardTitle>
+                      <p className="text-sm text-gray-600">Help families connect with you by sharing your personality and passion for caregiving</p>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <FormField
+                        control={form.control}
+                        name="myLoveLanguage"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2">
+                              <Heart className="h-4 w-4 text-purple-500" />
+                              My love language is...
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                {...field} 
+                                placeholder="acts of service, quality time, words of affirmation..."
+                                disabled={!isEditing}
+                                rows={3}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="littleAboutMe"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2">
+                              <User className="h-4 w-4 text-blue-500" />
+                              A little about me...
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                {...field} 
+                                placeholder="Tell families what makes you special!"
+                                disabled={!isEditing}
+                                rows={3}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="imProudOf"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2">
+                              <Star className="h-4 w-4 text-yellow-500" />
+                              I'm proud of...
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                {...field} 
+                                placeholder="Share something you're proud of accomplishing"
+                                disabled={!isEditing}
+                                rows={3}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="whatMakesMe"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2">
+                              <Heart className="h-4 w-4 text-red-500" />
+                              What makes me a great caregiver is...
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                {...field} 
+                                placeholder="Share your caregiving strengths and passion"
+                                disabled={!isEditing}
+                                rows={3}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="mySuperpowerIs"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2">
+                              <Star className="h-4 w-4 text-purple-500" />
+                              My superpower with kids is...
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                {...field} 
+                                placeholder="What's your special talent with children?"
+                                disabled={!isEditing}
+                                rows={3}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="onePerfectDay"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2">
+                              <Heart className="h-4 w-4 text-pink-500" />
+                              One perfect day caring for children would be...
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                {...field} 
+                                placeholder="Describe your ideal day with the kids you care for"
                                 disabled={!isEditing}
                                 rows={3}
                               />

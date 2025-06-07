@@ -11,7 +11,7 @@ import {
   insertReviewSchema, insertMessageSchema, insertExperienceSchema,
   insertParentProfileSchema, insertChildcareProviderSchema, insertChildcareEnrollmentSchema
 } from "@shared/schema";
-import { sendNannyWelcomeSequence, sendBookingConfirmation, sendNewNannyAlert, sendCaregiverWelcomeSequence, sendCaregiverApplicationAlert, sendParentWelcomeSequence } from "./email-service";
+import { sendNannyWelcomeSequence, sendBookingConfirmation, sendNewNannyAlert, sendCaregiverWelcomeSequence, sendCaregiverApplicationAlert, sendParentWelcomeSequence, sendWeeklyNewsletter } from "./email-service";
 import { emailAutomationService } from "./email-automation-service";
 import { wwccVerificationService } from "./wwcc-verification-service";
 import { voucherService } from "./voucher-service";
