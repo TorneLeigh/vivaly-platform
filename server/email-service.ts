@@ -17,7 +17,7 @@ interface EmailParams {
 }
 
 export async function sendEmail(params: EmailParams): Promise<boolean> {
-  const fromAddress = params.from || 'automated@vivaly.com';
+  const fromAddress = params.from || 'automated@vivaly.com.au';
   
   if (!mailService) {
     console.log('📧 Email would be sent:', {
