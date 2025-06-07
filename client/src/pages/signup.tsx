@@ -58,7 +58,7 @@ export default function Signup() {
 
   const signupMutation = useMutation({
     mutationFn: async (data: SignupForm & { userType: string }) => {
-      const response = await apiRequest("POST", "/api/auth/signup", {
+      const response = await apiRequest("POST", "/api/register", {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
