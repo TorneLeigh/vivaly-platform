@@ -164,6 +164,13 @@ export const parentProfiles = pgTable("parent_profiles", {
   familyValues: text("family_values"),
   communicationPreferences: text("communication_preferences").default("text"),
   
+  // Personal Touch Questions
+  myLoveLanguage: text("my_love_language"),
+  littleAboutMe: text("little_about_me"),
+  imProudOf: text("im_proud_of"),
+  myFamilyIsSpecialBecause: text("my_family_is_special_because"),
+  onePerfectDay: text("one_perfect_day"),
+  
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -294,6 +301,15 @@ export const experiences = pgTable("experiences", {
   isActive: boolean("is_active").default(true),
   rating: decimal("rating", { precision: 3, scale: 2 }).default("0"),
   reviewCount: integer("review_count").default(0),
+  
+  // Personal Touch Questions
+  myLoveLanguage: text("my_love_language"),
+  littleAboutMe: text("little_about_me"),
+  imProudOf: text("im_proud_of"),
+  whatMakesMe: text("what_makes_me"),
+  onePerfectDay: text("one_perfect_day"),
+  mySuperpowerIs: text("my_superpower_is"),
+  
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

@@ -48,6 +48,7 @@ import ChildcareEnroll from "@/pages/childcare-enroll";
 import ProviderDashboard from "@/pages/provider-dashboard";
 import ChildcareDashboard from "@/pages/childcare-dashboard";
 import Services from "@/pages/services";
+import PersonalityProfile from "@/pages/profile";
 import FindCareSignup from "@/pages/find-care-signup";
 import BecomeCaregiver from "@/pages/become-caregiver";
 import BecomeSeeker from "@/pages/become-seeker";
@@ -107,7 +108,8 @@ function Router() {
           <Route path="/profile" component={ParentProfile} />
           <Route path="/parent-profile" component={ParentProfile} />
           <Route path="/caregiver-profile" component={CaregiverProfile} />
-          <Route path="/basic-profile" component={Profile} />
+          <Route path="/basic-profile" component={PersonalityProfile} />
+          <Route path="/profile" component={PersonalityProfile} />
           <Route path="/account-settings" component={AccountSettings} />
           <Route path="/verification" component={ProviderVerification} />
           <Route path="/gift-cards" component={GiftCards} />
