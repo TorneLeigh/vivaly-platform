@@ -427,7 +427,8 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
           </div>
           
           <div style="text-align: center; margin: 30px 0;">
-            <a href="https://vivaly.com.au" style="background: #000000; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">FIND CARE →</a>
+            <a href="https://vivaly.com.au" style="background: #000000; color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; margin: 0 10px 10px 0;">FIND CARE</a>
+            <a href="https://vivaly.com.au/profile" style="background: #ffffff; color: #000000; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; border: 2px solid #000000; margin: 0 0 10px 10px;">YOUR PROFILE</a>
           </div>
           
           <div style="background: #fef3e2; padding: 20px; border-radius: 8px; margin: 25px 0;">
