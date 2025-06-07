@@ -33,7 +33,7 @@ import petSittingImage from "@assets/b3a7dde99de0043cc2a382fe7c16f0fc.jpg";
 import petSittingServiceImage from "@assets/969c7a3eeacf469a3a4c50a32a9b3d57.jpg";
 import pregnancyImage from "@assets/f116334957ff9c74101be0e0c41edcda_1749267005194.jpg";
 import postnatalImage from "@assets/c18480e234907faffa31784936ac8816_1749267000694.jpg";
-import breastfeedingImage from "@assets/e3806ba7e7119fb379b95ce4d570e105_1749267017855.jpg";
+import breastfeedingImage from "@assets/31d064b6874d9bd38e6f664bff0e8352_1749267180596.jpg";
 import birthingImage from "@assets/f087158c54b76ecf0250c6866d218c92_1749267022177.jpg";
 
 // Service category colors
