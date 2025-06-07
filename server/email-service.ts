@@ -386,6 +386,10 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
     to: parentEmail,
     from: fromEmail,
     subject: `Welcome to VIVALY, ${parentName}! Your trusted care journey begins`,
+    trackingSettings: {
+      clickTracking: { enable: false },
+      openTracking: { enable: false }
+    },
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
         <div style="background: #000000; padding: 40px 20px; text-align: center;">
@@ -444,29 +448,35 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
             <h3 style="color: #1f2937; margin: 0 0 20px 0; text-align: center;">Popular Services</h3>
             <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
               <div style="text-align: center; min-width: 120px; max-width: 150px;">
-                <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #fef3e2, #fed7aa); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                  <span style="font-size: 24px;">🧸</span>
+                <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <div style="width: 40px; height: 40px; background: rgba(255,255,255,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 20px; height: 20px; background: white; border-radius: 50%;"></div>
+                  </div>
                 </div>
                 <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Drop-in Care</h4>
                 <p style="font-size: 10px; color: #6b7280; margin: 0;">When you need it</p>
               </div>
               <div style="text-align: center; min-width: 120px; max-width: 150px;">
-                <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #e0f2fe, #b3e5fc); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                  <span style="font-size: 24px;">🌙</span>
+                <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #1e293b, #475569); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <div style="width: 35px; height: 35px; background: rgba(255,255,255,0.9); border-radius: 50% 50% 0 50%; transform: rotate(-45deg);"></div>
                 </div>
                 <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Overnight Support</h4>
                 <p style="font-size: 10px; color: #6b7280; margin: 0;">Night doulas</p>
               </div>
               <div style="text-align: center; min-width: 120px; max-width: 150px;">
-                <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #f3e8ff, #ddd6fe); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                  <span style="font-size: 24px;">🧑‍🍼</span>
+                <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #f97316, #ea580c); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <div style="width: 30px; height: 40px; background: rgba(255,255,255,0.9); border-radius: 15px 15px 5px 5px; position: relative;">
+                    <div style="width: 20px; height: 20px; background: rgba(249,115,22,0.7); border-radius: 50%; position: absolute; top: 5px; left: 5px;"></div>
+                  </div>
                 </div>
                 <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Newborn Care</h4>
                 <p style="font-size: 10px; color: #6b7280; margin: 0;">Sleep & feeding</p>
               </div>
               <div style="text-align: center; min-width: 120px; max-width: 150px;">
-                <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #f0fdf4, #bbf7d0); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                  <span style="font-size: 24px;">🎓</span>
+                <div style="width: 80px; height: 80px; border-radius: 15px; background: linear-gradient(135deg, #10b981, #059669); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <div style="width: 35px; height: 25px; background: rgba(255,255,255,0.9); border-radius: 3px; position: relative;">
+                    <div style="width: 20px; height: 15px; background: rgba(16,185,129,0.7); border-radius: 2px; position: absolute; top: 5px; left: 7.5px;"></div>
+                  </div>
                 </div>
                 <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Birth Classes</h4>
                 <p style="font-size: 10px; color: #6b7280; margin: 0;">Expert guidance</p>
