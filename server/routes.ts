@@ -2096,6 +2096,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Test email endpoint
+  app.post('/api/send-test-email', async (req, res) => {
+    try {
+      const { email, type } = req.body;
+      
+      if (type === 'weekly-newsletter-parent') {
+        await sendWeeklyNewsletter(email, 'Test User', 'parent');
+      } else if (type === 'weekly-newsletter-caregiver') {
+        await sendWeeklyNewsletter(email, 'Test User', 'caregiver');
+      }
+      
+      res.json({ success: true, message: 'Test email sent successfully' });
+    } catch (error) {
+      console.error('Test email error:', error);
+      res.status(500).json({ message: 'Failed to send test email' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
