@@ -393,7 +393,7 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
             <h3 style="color: #0c4a6e; margin: 0 0 15px 0;">🌟 What Makes VIVALY Different:</h3>
             <p style="color: #0369a1; margin: 0 0 20px 0; font-style: italic;">"Because it takes a village"</p>
             <div style="margin: 15px 0;">
-              <strong style="color: #075985;">🧸 Drop-in childcare when you need a break</strong>
+              <strong style="color: #075985;">🧸 Drop-in childcare when you need it</strong>
               <p style="margin: 5px 0; color: #0369a1;">Trusted caregivers ready when you are - quick and easy booking for gym visits, appointments, or self-care</p>
             </div>
             <div style="margin: 15px 0;">
