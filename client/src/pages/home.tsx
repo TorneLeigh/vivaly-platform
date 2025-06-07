@@ -33,6 +33,7 @@ import petSittingImage from "@assets/b3a7dde99de0043cc2a382fe7c16f0fc.jpg";
 import petSittingServiceImage from "@assets/969c7a3eeacf469a3a4c50a32a9b3d57.jpg";
 import pregnancyImage from "@assets/f116334957ff9c74101be0e0c41edcda_1749267005194.jpg";
 import postnatalImage from "@assets/c18480e234907faffa31784936ac8816_1749267000694.jpg";
+import overnightCareImage from "@assets/02a899c095b5a44d96492e700bf8fd0c_1749275818681.jpg";
 import breastfeedingImage from "@assets/31d064b6874d9bd38e6f664bff0e8352_1749267180596.jpg";
 import birthingImage from "@assets/f087158c54b76ecf0250c6866d218c92_1749267022177.jpg";
 import groupCareImage from "@assets/ad23d9f10c69e3bfc73ffe82a1bac618_1749267219539.jpg";
@@ -105,7 +106,7 @@ const serviceCategories = [
   {
     title: "Overnight newborn support",
     description: "Night doulas for the fourth trimester",
-    image: postnatalImage,
+    image: overnightCareImage,
     serviceType: "Overnight newborn support"
   },
   {

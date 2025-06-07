@@ -130,6 +130,8 @@ const parentProfileSchema = z.object({
   mustHaveDriversLicense: z.boolean().default(false),
   mustHaveOwnCar: z.boolean().default(false),
   mustHaveAustralianLicense: z.boolean().default(false),
+  carIsAMust: z.boolean().default(false),
+  weHaveACarYouCanUse: z.boolean().default(false),
   experienceWithToddlers: z.boolean().default(false),
   experienceWithSchoolAge: z.boolean().default(false),
   experienceWithNewborns: z.boolean().default(false),
@@ -1327,6 +1329,40 @@ export default function ParentProfile() {
                                   />
                                 </FormControl>
                                 <FormLabel className="text-sm">Must have own reliable car</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="carIsAMust"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">CAR IS A MUST</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="weHaveACarYouCanUse"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">WE HAVE A CAR YOU CAN USE</FormLabel>
                               </FormItem>
                             )}
                           />
