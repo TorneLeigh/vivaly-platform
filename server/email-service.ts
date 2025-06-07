@@ -405,8 +405,8 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
               <p style="margin: 5px 0; color: #0369a1;">Trusted care at every stage - quick and easy access to verified professionals when you need them</p>
             </div>
             <div style="margin: 15px 0;">
-              <strong style="color: #075985;">🎓 Birth & postnatal class bundles</strong>
-              <p style="margin: 5px 0; color: #0369a1;">Learn all you need to know in one place - comprehensive classes covering everything from pregnancy to parenting</p>
+              <strong style="color: #075985;">🎓 Birth & postnatal education</strong>
+              <p style="margin: 5px 0; color: #0369a1;">Learn all you need to know - comprehensive classes covering everything from pregnancy to parenting</p>
             </div>
           </div>
           
