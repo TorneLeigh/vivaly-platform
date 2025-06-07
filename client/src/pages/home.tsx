@@ -526,17 +526,17 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+          <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-8 lg:gap-12">
             {trustFeatures.map((feature, index) => {
               const IconComponent = feature.icon;
               return (
                 <div key={index} className="group text-center transform transition-all duration-300 hover:-translate-y-2">
-                  <div className="bg-white rounded-2xl p-8 shadow-lg group-hover:shadow-2xl transition-shadow duration-300 border border-gray-100">
-                    <div className="w-20 h-20 mx-auto mb-6 bg-gray-100 rounded-2xl flex items-center justify-center group-hover:bg-orange-50 transition-colors duration-300">
-                      <IconComponent className="w-10 h-10 text-gray-700 group-hover:text-orange-600 transition-colors duration-300" />
+                  <div className="bg-white rounded-xl p-3 sm:p-6 md:p-8 shadow-lg group-hover:shadow-2xl transition-shadow duration-300 border border-gray-100">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 mx-auto mb-3 sm:mb-4 md:mb-6 bg-gray-100 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:bg-orange-50 transition-colors duration-300">
+                      <IconComponent className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-gray-700 group-hover:text-orange-600 transition-colors duration-300" />
                     </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-orange-600 transition-colors duration-300">{feature.title}</h3>
-                    <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                    <h3 className="text-sm sm:text-lg md:text-xl font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4 group-hover:text-orange-600 transition-colors duration-300">{feature.title}</h3>
+                    <p className="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed">{feature.description}</p>
                   </div>
                 </div>
               );

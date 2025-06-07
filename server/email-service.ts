@@ -17,10 +17,12 @@ interface EmailParams {
 }
 
 export async function sendEmail(params: EmailParams): Promise<boolean> {
+  const fromAddress = params.from || 'automated@vivaly.com';
+  
   if (!mailService) {
     console.log('📧 Email would be sent:', {
       to: params.to,
-      from: params.from || 'noreply@aircareau.com',
+      from: fromAddress,
       subject: params.subject,
       preview: params.text ? params.text.substring(0, 100) + '...' : 'HTML email'
     });
@@ -30,10 +32,10 @@ export async function sendEmail(params: EmailParams): Promise<boolean> {
   try {
     await mailService.send({
       to: params.to,
-      from: params.from || 'noreply@aircareau.com',
+      from: fromAddress,
       subject: params.subject,
-      text: params.text,
-      html: params.html,
+      ...(params.text && { text: params.text }),
+      ...(params.html && { html: params.html }),
     });
     return true;
   } catch (error) {
