@@ -195,6 +195,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Store user ID in session
       req.session.userId = user.id;
 
+      // Send appropriate welcome email based on user type
+      try {
+        const userName = `${userData.firstName || ''} ${userData.lastName || ''}`.trim() || 'there';
+        
+        if (userData.isCaregiver) {
+          // Send caregiver welcome email
+          await sendCaregiverWelcomeSequence(userData.email, userName, {
+            applicationId: Math.floor(Math.random() * 90000) + 10000, // Generate random application ID
+            nextSteps: [
+              'Background verification and WWCC check',
+              'Review of your qualifications and experience', 
+              'Phone interview with our team',
+              'Profile setup and onboarding'
+            ]
+          });
+        } else {
+          // Send parent welcome email
+          await sendParentWelcomeSequence(userData.email, userName);
+        }
+      } catch (emailError) {
+        console.error('Welcome email error:', emailError);
+        // Don't fail registration if email fails
+      }
+
       // Remove password from response
       const { password, ...userWithoutPassword } = user;
 
