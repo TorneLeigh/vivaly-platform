@@ -446,34 +446,34 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
           
           <div style="background: #f9fafb; padding: 25px; border-radius: 10px; margin: 25px 0;">
             <h3 style="color: #1f2937; margin: 0 0 20px 0; text-align: center;">Popular Services</h3>
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 320px; margin: 0 auto;">
-              <div style="text-align: center;">
-                <div style="width: 120px; height: 120px; border-radius: 20px; margin: 0 auto 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.1);">
-                  <img src="https://vivaly.com.au/images/babysitter.jpg" alt="Drop-in care" style="width: 100%; height: 100%; object-fit: cover;" />
+            <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; align-items: flex-start;">
+              <div style="text-align: center; min-width: 100px; max-width: 120px;">
+                <div style="width: 80px; height: 80px; border-radius: 12px; margin: 0 auto 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <img src="https://vivaly.com.au/images/babysitter.jpg" alt="Drop-in care" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
                 </div>
-                <h4 style="font-size: 14px; font-weight: bold; color: #1f2937; margin: 0 0 4px 0;">Drop-in Care</h4>
-                <p style="font-size: 12px; color: #6b7280; margin: 0; line-height: 1.3;">Flexible care when you need it</p>
+                <h4 style="font-size: 11px; font-weight: bold; color: #1f2937; margin: 0 0 3px 0;">Drop-in Care</h4>
+                <p style="font-size: 9px; color: #6b7280; margin: 0; line-height: 1.2;">Flexible care when you need it</p>
               </div>
-              <div style="text-align: center;">
-                <div style="width: 120px; height: 120px; border-radius: 20px; margin: 0 auto 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.1);">
-                  <img src="https://vivaly.com.au/attached_assets/02a899c095b5a44d96492e700bf8fd0c_1749275818681.jpg" alt="Overnight newborn support" style="width: 100%; height: 100%; object-fit: cover;" />
+              <div style="text-align: center; min-width: 100px; max-width: 120px;">
+                <div style="width: 80px; height: 80px; border-radius: 12px; margin: 0 auto 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <img src="https://vivaly.com.au/images/newborn.jpg" alt="Newborn support" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
                 </div>
-                <h4 style="font-size: 14px; font-weight: bold; color: #1f2937; margin: 0 0 4px 0;">Overnight Newborn Support</h4>
-                <p style="font-size: 12px; color: #6b7280; margin: 0; line-height: 1.3;">Night doulas for the fourth trimester</p>
+                <h4 style="font-size: 11px; font-weight: bold; color: #1f2937; margin: 0 0 3px 0;">Newborn Support</h4>
+                <p style="font-size: 9px; color: #6b7280; margin: 0; line-height: 1.2;">Sleep guidance & feeding</p>
               </div>
-              <div style="text-align: center;">
-                <div style="width: 120px; height: 120px; border-radius: 20px; margin: 0 auto 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.1);">
-                  <img src="https://vivaly.com.au/images/newborn.jpg" alt="Newborn support" style="width: 100%; height: 100%; object-fit: cover;" />
+              <div style="text-align: center; min-width: 100px; max-width: 120px;">
+                <div style="width: 80px; height: 80px; border-radius: 12px; margin: 0 auto 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <img src="https://vivaly.com.au/images/childcare.jpg" alt="Childcare" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
                 </div>
-                <h4 style="font-size: 14px; font-weight: bold; color: #1f2937; margin: 0 0 4px 0;">Newborn Support</h4>
-                <p style="font-size: 12px; color: #6b7280; margin: 0; line-height: 1.3;">Sleep guidance, swaddling & feeding techniques</p>
+                <h4 style="font-size: 11px; font-weight: bold; color: #1f2937; margin: 0 0 3px 0;">Childcare</h4>
+                <p style="font-size: 9px; color: #6b7280; margin: 0; line-height: 1.2;">Licensed home-based care</p>
               </div>
-              <div style="text-align: center;">
-                <div style="width: 120px; height: 120px; border-radius: 20px; margin: 0 auto 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.1);">
-                  <img src="https://vivaly.com.au/attached_assets/f087158c54b76ecf0250c6866d218c92_1749267022177.jpg" alt="Birth education" style="width: 100%; height: 100%; object-fit: cover;" />
+              <div style="text-align: center; min-width: 100px; max-width: 120px;">
+                <div style="width: 80px; height: 80px; border-radius: 12px; margin: 0 auto 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <img src="https://vivaly.com.au/images/elderly.jpg" alt="Elderly care" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
                 </div>
-                <h4 style="font-size: 14px; font-weight: bold; color: #1f2937; margin: 0 0 4px 0;">Birth Education</h4>
-                <p style="font-size: 12px; color: #6b7280; margin: 0; line-height: 1.3;">Childbirth preparation classes</p>
+                <h4 style="font-size: 11px; font-weight: bold; color: #1f2937; margin: 0 0 3px 0;">Elderly Care</h4>
+                <p style="font-size: 9px; color: #6b7280; margin: 0; line-height: 1.2;">Senior care services</p>
               </div>
             </div>
           </div>
