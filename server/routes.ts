@@ -2102,21 +2102,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { email, type } = req.body;
       
-      console.log('Sending CAREGIVER welcome email to:', email);
-      
       // ONLY send welcome emails - weekly newsletters are DISABLED
-      await sendCaregiverWelcomeSequence(email, 'Test User', {
-        applicationId: 12345,
-        nextSteps: [
-          'Background check verification (2-3 business days)',
-          'WWCC verification review',
-          'Profile review and approval',
-          'Welcome to the VIVALY community!'
-        ]
-      });
+      await sendParentWelcomeSequence(email, 'Test User');
       
-      console.log('CAREGIVER welcome email sent successfully');
-      res.json({ success: true, message: 'Caregiver welcome email sent successfully' });
+      res.json({ success: true, message: 'Welcome email sent successfully' });
     } catch (error) {
       console.error('Test email error:', error);
       res.status(500).json({ message: 'Failed to send test email' });
