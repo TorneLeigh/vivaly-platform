@@ -431,6 +431,40 @@ export async function sendParentWelcomeSequence(parentEmail: string, parentName:
             <a href="https://www.vivaly.com.au/services" style="background: #ffffff; color: #000000; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; border: 2px solid #000000; margin: 0 0 10px 10px;">VIEW SERVICES</a>
           </div>
           
+          <div style="background: #f9fafb; padding: 25px; border-radius: 10px; margin: 25px 0;">
+            <h3 style="color: #1f2937; margin: 0 0 20px 0; text-align: center;">Popular Services</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
+              <div style="text-align: center; min-width: 120px; max-width: 150px;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #fef3e2, #fed7aa); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center;">
+                  <span style="font-size: 24px;">🧸</span>
+                </div>
+                <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Drop-in Care</h4>
+                <p style="font-size: 10px; color: #6b7280; margin: 0;">When you need it</p>
+              </div>
+              <div style="text-align: center; min-width: 120px; max-width: 150px;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #e0f2fe, #b3e5fc); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center;">
+                  <span style="font-size: 24px;">🌙</span>
+                </div>
+                <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Overnight Support</h4>
+                <p style="font-size: 10px; color: #6b7280; margin: 0;">Night doulas</p>
+              </div>
+              <div style="text-align: center; min-width: 120px; max-width: 150px;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #f3e8ff, #ddd6fe); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center;">
+                  <span style="font-size: 24px;">🧑‍🍼</span>
+                </div>
+                <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Newborn Care</h4>
+                <p style="font-size: 10px; color: #6b7280; margin: 0;">Sleep & feeding</p>
+              </div>
+              <div style="text-align: center; min-width: 120px; max-width: 150px;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #f0fdf4, #bbf7d0); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center;">
+                  <span style="font-size: 24px;">🎓</span>
+                </div>
+                <h4 style="font-size: 12px; font-weight: bold; color: #374151; margin: 0 0 5px 0;">Birth Classes</h4>
+                <p style="font-size: 10px; color: #6b7280; margin: 0;">Expert guidance</p>
+              </div>
+            </div>
+          </div>
+          
           <div style="background: #f0f9ff; padding: 20px; border-radius: 8px; margin: 25px 0;">
             <h4 style="color: #0369a1; margin: 0 0 10px 0;">💡 Did you know?</h4>
             <p style="color: #0369a1; margin: 0; line-height: 1.5;">You can also create a service to support the community too! Share your skills and help other families in need.</p>
