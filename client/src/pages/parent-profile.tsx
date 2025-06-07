@@ -181,6 +181,13 @@ const parentProfileSchema = z.object({
   specialInstructions: z.string().optional(),
   familyValues: z.string().optional(),
   communicationPreferences: z.string().default("text"),
+  
+  // Personality Questions
+  myLoveLanguage: z.string().optional(),
+  littleAboutMe: z.string().optional(),
+  imProudOf: z.string().optional(),
+  myFamilyIsSpecialBecause: z.string().optional(),
+  onePerfectDay: z.string().optional(),
 });
 
 type ParentProfileForm = z.infer<typeof parentProfileSchema>;
@@ -392,6 +399,7 @@ export default function ParentProfile() {
     { id: "caregiver", label: "Caregiver Preferences", icon: Star },
     { id: "household", label: "Household Rules", icon: Home },
     { id: "safety", label: "Safety & Emergency", icon: Shield },
+    { id: "personality", label: "Personal Touch", icon: Heart },
   ];
 
   // Temporarily bypass auth for demo
@@ -2338,6 +2346,130 @@ export default function ParentProfile() {
                                 disabled={!isEditing}
                                 placeholder="Any additional information caregivers should know about your family, children, or home..."
                                 rows={4}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Personality Questions */}
+                {activeSection === "personality" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Heart className="h-5 w-5 mr-2 text-pink-500" />
+                        Personal Touch Questions
+                      </CardTitle>
+                      <p className="text-sm text-gray-600">Help caregivers connect with your family by sharing what makes you special</p>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <FormField
+                        control={form.control}
+                        name="myLoveLanguage"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2 text-base font-medium">
+                              <Heart className="h-4 w-4 text-pink-500" />
+                              My love language is...
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea
+                                {...field}
+                                placeholder="acts of service, quality time, words of affirmation..."
+                                className="min-h-[80px] resize-none"
+                                disabled={!isEditing}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="littleAboutMe"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2 text-base font-medium">
+                              <User className="h-4 w-4 text-blue-500" />
+                              A little about me...
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea
+                                {...field}
+                                placeholder="Tell us what makes you unique!"
+                                className="min-h-[80px] resize-none"
+                                disabled={!isEditing}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="imProudOf"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2 text-base font-medium">
+                              <Star className="h-4 w-4 text-yellow-500" />
+                              I'm proud of...
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea
+                                {...field}
+                                placeholder="Share something you're proud of accomplishing"
+                                className="min-h-[80px] resize-none"
+                                disabled={!isEditing}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="myFamilyIsSpecialBecause"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2 text-base font-medium">
+                              <Users className="h-4 w-4 text-purple-500" />
+                              My family is special because...
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea
+                                {...field}
+                                placeholder="What makes your family unique and wonderful?"
+                                className="min-h-[80px] resize-none"
+                                disabled={!isEditing}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="onePerfectDay"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2 text-base font-medium">
+                              <Heart className="h-4 w-4 text-pink-500" />
+                              One perfect day with my family would be...
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea
+                                {...field}
+                                placeholder="Describe your ideal family day"
+                                className="min-h-[80px] resize-none"
+                                disabled={!isEditing}
                               />
                             </FormControl>
                             <FormMessage />
