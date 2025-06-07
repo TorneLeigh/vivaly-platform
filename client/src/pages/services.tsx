@@ -360,166 +360,169 @@ export default function Services() {
       {/* Birth Education Classes */}
       {shouldShowSection("birth-education") && (
         <section className="py-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">
-              Birth Education Classes
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive childbirth preparation and education programs
-            </p>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 mb-3">
+                Birth Education Classes
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Comprehensive childbirth preparation and education programs
+              </p>
+            </div>
+            
+            <ServiceCarousel>
+              {birthEducationClasses.map((classType, index) => (
+                <div 
+                  key={index}
+                  className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                  onClick={() => {
+                    const searchParams = new URLSearchParams({
+                      serviceType: classType.serviceType,
+                      location: 'Sydney, NSW'
+                    });
+                    window.location.href = `/search?${searchParams.toString()}`;
+                  }}
+                >
+                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                    <img 
+                      src={classType.image} 
+                      alt={classType.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        if (e.currentTarget.parentElement) {
+                          e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
+                          e.currentTarget.parentElement.innerHTML = `
+                            <div class="flex items-center justify-center h-full">
+                              <span class="text-gray-400 text-xs">${classType.title}</span>
+                            </div>
+                          `;
+                        }
+                      }}
+                    />
+                  </div>
+                  
+                  <div className="text-center">
+                    <h3 className="font-semibold text-gray-900 text-sm mb-1">{classType.title}</h3>
+                    <p className="text-xs text-gray-600">{classType.description}</p>
+                  </div>
+                </div>
+              ))}
+            </ServiceCarousel>
           </div>
-          
-          <ServiceCarousel>
-            {birthEducationClasses.map((classType, index) => (
-              <div 
-                key={index}
-                className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                onClick={() => {
-                  const searchParams = new URLSearchParams({
-                    serviceType: classType.serviceType,
-                    location: 'Sydney, NSW'
-                  });
-                  window.location.href = `/search?${searchParams.toString()}`;
-                }}
-              >
-                <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                  <img 
-                    src={classType.image} 
-                    alt={classType.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      if (e.currentTarget.parentElement) {
-                        e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
-                        e.currentTarget.parentElement.innerHTML = `
-                          <div class="flex items-center justify-center h-full">
-                            <span class="text-gray-400 text-xs">${classType.title}</span>
-                          </div>
-                        `;
-                      }
-                    }}
-                  />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 text-sm mb-1">{classType.title}</h3>
-                  <p className="text-xs text-gray-600">{classType.description}</p>
-                </div>
-              </div>
-            ))}
-          </ServiceCarousel>
-        </div>
         </section>
       )}
 
       {/* Midwife Services */}
       {shouldShowSection("midwife") && (
-      <section className="py-6 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">
-              Midwife Services
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Professional midwifery care from prenatal to postnatal support
-            </p>
+        <section className="py-6 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 mb-3">
+                Midwife Services
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Professional midwifery care from prenatal to postnatal support
+              </p>
+            </div>
+            
+            <ServiceCarousel>
+              {midwifeServices.map((service, index) => (
+                <div 
+                  key={index}
+                  className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                  onClick={() => {
+                    const searchParams = new URLSearchParams({
+                      serviceType: service.serviceType,
+                      location: 'Sydney, NSW'
+                    });
+                    window.location.href = `/search?${searchParams.toString()}`;
+                  }}
+                >
+                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                    <img 
+                      src={service.image} 
+                      alt={service.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        if (e.currentTarget.parentElement) {
+                          e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
+                          e.currentTarget.parentElement.innerHTML = `
+                            <div class="flex items-center justify-center h-full">
+                              <span class="text-gray-400 text-xs">${service.title}</span>
+                            </div>
+                          `;
+                        }
+                      }}
+                    />
+                  </div>
+                  
+                  <div className="text-center">
+                    <h3 className="font-semibold text-gray-900 text-sm mb-1">{service.title}</h3>
+                    <p className="text-xs text-gray-600">{service.description}</p>
+                  </div>
+                </div>
+              ))}
+            </ServiceCarousel>
           </div>
-          
-          <ServiceCarousel>
-            {midwifeServices.map((service, index) => (
-              <div 
-                key={index}
-                className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                onClick={() => {
-                  const searchParams = new URLSearchParams({
-                    serviceType: service.serviceType,
-                    location: 'Sydney, NSW'
-                  });
-                  window.location.href = `/search?${searchParams.toString()}`;
-                }}
-              >
-                <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                  <img 
-                    src={service.image} 
-                    alt={service.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      if (e.currentTarget.parentElement) {
-                        e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
-                        e.currentTarget.parentElement.innerHTML = `
-                          <div class="flex items-center justify-center h-full">
-                            <span class="text-gray-400 text-xs">${service.title}</span>
-                          </div>
-                        `;
-                      }
-                    }}
-                  />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 text-sm mb-1">{service.title}</h3>
-                  <p className="text-xs text-gray-600">{service.description}</p>
-                </div>
-              </div>
-            ))}
-          </ServiceCarousel>
-        </div>
-      </section>
+        </section>
       )}
 
       {/* Pet Sitting Services */}
       {shouldShowSection("pet") && (
-      <section className="py-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">
-              Pet Sitting Services
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Professional pet care services for your beloved companions
-            </p>
+        <section className="py-6 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 mb-3">
+                Pet Sitting Services
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Professional pet care services for your beloved companions
+              </p>
+            </div>
+            
+            <ServiceCarousel>
+              {petSittingServices.map((service, index) => (
+                <div 
+                  key={index}
+                  className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                  onClick={() => {
+                    const searchParams = new URLSearchParams({
+                      serviceType: service.serviceType,
+                      location: 'Sydney, NSW'
+                    });
+                    window.location.href = `/search?${searchParams.toString()}`;
+                  }}
+                >
+                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                    <img 
+                      src={service.image} 
+                      alt={service.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        if (e.currentTarget.parentElement) {
+                          e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
+                          e.currentTarget.parentElement.innerHTML = `
+                            <div class="flex items-center justify-center h-full">
+                              <span class="text-gray-400 text-xs">${service.title}</span>
+                            </div>
+                          `;
+                        }
+                      }}
+                    />
+                  </div>
+                  
+                  <div className="text-center">
+                    <h3 className="font-semibold text-gray-900 text-sm mb-1">{service.title}</h3>
+                    <p className="text-xs text-gray-600">{service.description}</p>
+                  </div>
+                </div>
+              ))}
+            </ServiceCarousel>
           </div>
-          
-          <ServiceCarousel>
-            {petSittingServices.map((service, index) => (
-              <div 
-                key={index}
-                className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                onClick={() => {
-                  const searchParams = new URLSearchParams({
-                    serviceType: service.serviceType,
-                    location: 'Sydney, NSW'
-                  });
-                  window.location.href = `/search?${searchParams.toString()}`;
-                }}
-              >
-                <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                  <img 
-                    src={service.image} 
-                    alt={service.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      if (e.currentTarget.parentElement) {
-                        e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
-                        e.currentTarget.parentElement.innerHTML = `
-                          <div class="flex items-center justify-center h-full">
-                            <span class="text-gray-400 text-xs">${service.title}</span>
-                          </div>
-                        `;
-                      }
-                    }}
-                  />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 text-sm mb-1">{service.title}</h3>
-                  <p className="text-xs text-gray-600">{service.description}</p>
-                </div>
-              </div>
-            ))}
-          </ServiceCarousel>
-        </div>
-      </section>
+        </section>
       )}
 
       {/* Elderly Care Services */}
@@ -580,152 +583,100 @@ export default function Services() {
 
       {/* Featured Caregivers */}
       {shouldShowSection("all") && (
-      <section className="py-6 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Available Caregivers</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Verified professionals ready to provide specialized care services
-            </p>
-          </div>
-          
-          <ServiceCarousel>
-            {Array.isArray(featuredNannies) && featuredNannies.length > 0 ? (
-              featuredNannies.slice(0, 8).map((nanny: Nanny & { user: User }) => (
-                <div 
-                  key={nanny.id}
-                  className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                  onClick={() => window.location.href = `/caregiver/${nanny.id}`}
-                >
-                  <div className="relative mb-2">
-                    <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
-                      {nanny.user?.profileImage ? (
-                        <img 
-                          src={nanny.user.profileImage} 
-                          alt={`${nanny.user?.firstName} ${nanny.user?.lastName}`}
-                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                      ) : (
-                        <div className="h-full flex items-center justify-center">
-                          <div className="w-12 h-12 bg-white border border-gray-200 rounded-full flex items-center justify-center">
-                            <span className="text-lg font-semibold text-gray-700">
-                              {nanny.user?.firstName?.[0]}{nanny.user?.lastName?.[0]}
-                            </span>
+        <section className="py-6 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 mb-3">Available Caregivers</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Verified professionals ready to provide specialized care services
+              </p>
+            </div>
+            
+            <ServiceCarousel>
+              {Array.isArray(featuredNannies) && featuredNannies.length > 0 ? (
+                featuredNannies.slice(0, 8).map((nanny: Nanny & { user: User }) => (
+                  <div 
+                    key={nanny.id}
+                    className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                    onClick={() => window.location.href = `/caregiver/${nanny.id}`}
+                  >
+                    <div className="relative mb-2">
+                      <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+                        {nanny.user?.profileImage ? (
+                          <img 
+                            src={nanny.user.profileImage} 
+                            alt={`${nanny.user?.firstName} ${nanny.user?.lastName}`}
+                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="h-full flex items-center justify-center">
+                            <div className="w-12 h-12 bg-white border border-gray-200 rounded-full flex items-center justify-center">
+                              <span className="text-lg font-semibold text-gray-700">
+                                {nanny.user?.firstName?.[0]}{nanny.user?.lastName?.[0]}
+                              </span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      {nanny.isVerified && (
+                        <div className="absolute top-1 right-1">
+                          <div className="bg-white rounded-full p-0.5 shadow-sm">
+                            <span className="w-4 h-4 text-green-600 text-xs">✓</span>
                           </div>
                         </div>
                       )}
                     </div>
-                    {nanny.isVerified && (
-                      <div className="absolute top-1 right-1">
-                        <div className="bg-white rounded-full p-0.5 shadow-sm">
-                          <span className="w-4 h-4 text-green-600 text-xs">✓</span>
-                        </div>
+                    
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-semibold text-gray-900 text-sm">
+                          {nanny.user?.firstName} {nanny.user?.lastName}
+                        </h3>
+                        <span className="text-xs text-gray-500">⭐ {nanny.rating}</span>
                       </div>
-                    )}
-                  </div>
-                  
-                  <div className="space-y-1">
-                    <div className="flex items-center justify-between">
-                      <p className="text-sm font-medium text-gray-900 truncate">{nanny.suburb}</p>
-                      <div className="flex items-center gap-0.5">
-                        <span className="text-yellow-400">⭐</span>
-                        <span className="text-sm font-medium">{nanny.rating}</span>
-                      </div>
+                      <p className="text-xs text-gray-600">{nanny.location}</p>
+                      <p className="text-xs text-blue-600 font-medium">${nanny.hourlyRate}/hr</p>
                     </div>
-                    
-                    <p className="text-sm text-gray-600 truncate">
-                      {nanny.user?.firstName} {nanny.user?.lastName}
-                    </p>
-                    
-                    <p className="text-sm text-gray-500 truncate">
-                      {nanny.services?.[0] || 'Care provider'}
-                    </p>
-                    
-                    <p className="text-sm">
-                      <span className="font-semibold text-gray-900">${nanny.hourlyRate}</span>
-                      <span className="text-gray-500"> /hour</span>
-                    </p>
                   </div>
+                ))
+              ) : (
+                <div className="flex items-center justify-center w-full py-12">
+                  <p className="text-gray-500">No caregivers available at the moment</p>
                 </div>
-              ))
-            ) : (
-              <div className="flex items-center justify-center w-full py-12">
-                <p className="text-gray-500">No caregivers available at the moment</p>
-              </div>
-            )}
-          </ServiceCarousel>
-        </div>
-      </section>
+              )}
+            </ServiceCarousel>
+          </div>
+        </section>
       )}
 
       {/* Social Events & Activities */}
       {shouldShowSection("all") && (
-      <section className="py-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Events and Social</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Connect with other families through organized activities and social gatherings
-            </p>
-          </div>
-          
-          <ServiceCarousel>
-            {socialEvents.map((event, index) => (
-              <div 
-                key={index}
-                className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                onClick={() => window.location.href = `/search?serviceType=${event.serviceType}&location=Sydney, NSW`}
-              >
-                <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                  <img 
-                    src={event.image} 
-                    alt={event.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      if (e.currentTarget.parentElement) {
-                        e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
-                        e.currentTarget.parentElement.innerHTML = `
-                          <div class="flex items-center justify-center h-full">
-                            <span class="text-gray-400 text-xs">${event.title}</span>
-                          </div>
-                        `;
-                      }
-                    }}
-                  />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 text-sm mb-1">{event.title}</h3>
-                  <p className="text-xs text-gray-600">{event.description}</p>
-                </div>
-              </div>
-            ))}
-          </ServiceCarousel>
-        </div>
-      </section>
-
-      {/* Featured Experiences */}
-      <section className="py-6 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Featured Experiences</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Unique activities and educational programs led by experienced caregivers
-            </p>
-          </div>
-          
-          <ServiceCarousel>
-            {Array.isArray(featuredExperiences) && featuredExperiences.length > 0 ? (
-              featuredExperiences.slice(0, 8).map((experience: Experience) => (
+        <section className="py-6 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 mb-3">Events and Social</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Connect with other families through organized activities and social gatherings
+              </p>
+            </div>
+            
+            <ServiceCarousel>
+              {socialEvents.map((event, index) => (
                 <div 
-                  key={experience.id}
+                  key={index}
                   className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                  onClick={() => window.location.href = `/experience/${experience.id}`}
+                  onClick={() => {
+                    const searchParams = new URLSearchParams({
+                      serviceType: event.serviceType,
+                      location: 'Sydney, NSW'
+                    });
+                    window.location.href = `/search?${searchParams.toString()}`;
+                  }}
                 >
                   <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
                     <img 
-                      src="/images/default-experience.jpg" 
-                      alt={experience.title}
+                      src={event.image} 
+                      alt={event.title}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
@@ -733,34 +684,83 @@ export default function Services() {
                           e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
                           e.currentTarget.parentElement.innerHTML = `
                             <div class="flex items-center justify-center h-full">
-                              <span class="text-gray-400 text-xs">${experience.title}</span>
+                              <span class="text-gray-400 text-xs">${event.title}</span>
                             </div>
                           `;
                         }
                       }}
                     />
-                    <div className="absolute top-2 right-2">
-                      <span className="bg-white/90 text-gray-900 px-2 py-1 rounded-full text-xs font-medium">
-                        ⭐ {experience.rating}
-                      </span>
-                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 text-sm mb-1">{experience.title}</h3>
-                    <p className="text-xs text-gray-600 mb-1">{experience.ageRange} • {experience.location}</p>
-                    <p className="text-xs text-blue-600 font-medium">${experience.price}</p>
+                  
+                  <div className="text-center">
+                    <h3 className="font-semibold text-gray-900 text-sm mb-1">{event.title}</h3>
+                    <p className="text-xs text-gray-600">{event.description}</p>
                   </div>
                 </div>
-              ))
-            ) : (
-              <div className="flex items-center justify-center w-full py-12">
-                <p className="text-gray-500">No experiences available at the moment</p>
-              </div>
-            )}
-          </ServiceCarousel>
-        </div>
-      </section>
+              ))}
+            </ServiceCarousel>
+          </div>
+        </section>
+      )}
 
+      {/* Featured Experiences */}
+      {shouldShowSection("all") && (
+        <section className="py-6 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 mb-3">Featured Experiences</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Unique activities and educational programs led by experienced caregivers
+              </p>
+            </div>
+            
+            <ServiceCarousel>
+              {Array.isArray(featuredExperiences) && featuredExperiences.length > 0 ? (
+                featuredExperiences.slice(0, 8).map((experience: Experience) => (
+                  <div 
+                    key={experience.id}
+                    className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                    onClick={() => window.location.href = `/experience/${experience.id}`}
+                  >
+                    <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                      <img 
+                        src="/images/default-experience.jpg" 
+                        alt={experience.title}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                          if (e.currentTarget.parentElement) {
+                            e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
+                            e.currentTarget.parentElement.innerHTML = `
+                              <div class="flex items-center justify-center h-full">
+                                <span class="text-gray-400 text-xs">${experience.title}</span>
+                              </div>
+                            `;
+                          }
+                        }}
+                      />
+                      <div className="absolute top-2 right-2">
+                        <span className="bg-white/90 text-gray-900 px-2 py-1 rounded-full text-xs font-medium">
+                          ⭐ {experience.rating}
+                        </span>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 text-sm mb-1">{experience.title}</h3>
+                      <p className="text-xs text-gray-600 mb-1">{experience.ageRange} • {experience.location}</p>
+                      <p className="text-xs text-blue-600 font-medium">${experience.price}</p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="flex items-center justify-center w-full py-12">
+                  <p className="text-gray-500">No experiences available at the moment</p>
+                </div>
+              )}
+            </ServiceCarousel>
+          </div>
+        </section>
+      )}
 
     </div>
   );
