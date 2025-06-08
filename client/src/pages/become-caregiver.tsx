@@ -881,18 +881,18 @@ export default function CaregiverRegistration() {
               
               <div className="space-y-4">
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Background Checks</h4>
-                  <p className="text-sm text-gray-600">All caregivers undergo comprehensive background checks including police checks, WWCC verification, and reference validation.</p>
+                  <h4 className="font-medium text-gray-900 mb-2">Background Check Requirements</h4>
+                  <p className="text-sm text-gray-600">Caregivers must provide valid police checks, WWCC verification, and professional references. Families can request to view these documents before booking.</p>
                 </div>
 
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Insurance Coverage</h4>
-                  <p className="text-sm text-gray-600">VIVALY provides liability insurance coverage for all registered caregivers during active bookings.</p>
+                  <h4 className="font-medium text-gray-900 mb-2">Safety & Protection</h4>
+                  <p className="text-sm text-gray-600">We recommend all caregivers maintain current first aid certification and appropriate insurance. Families should verify coverage details directly with caregivers.</p>
                 </div>
 
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Compliance Standards</h4>
-                  <p className="text-sm text-gray-600">We adhere to Australian childcare regulations and maintain strict safety protocols for all services.</p>
+                  <h4 className="font-medium text-gray-900 mb-2">Quality Standards</h4>
+                  <p className="text-sm text-gray-600">VIVALY connects families with qualified caregivers who meet Australian childcare standards. All bookings are subject to mutual agreement between families and caregivers.</p>
                 </div>
               </div>
             </div>
