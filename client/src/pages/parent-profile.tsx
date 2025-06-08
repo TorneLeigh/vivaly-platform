@@ -207,24 +207,54 @@ const languageOptions = [
   "French", "German", "Hindi", "Tagalog", "Korean", "Japanese", "Other"
 ];
 
-// Arranged for 3-column vertical flow A-Z
-const specialSkillsOptions = [
-  "ADHD Management", "Holiday/Weekend Care", "School Age Care",
-  "Autism Spectrum Support", "Maternity Nurse", "Sleep Training",
-  "Behavioral Support", "Montessori Training", "Special Needs Experience",
-  "Blue Card Verified", "Multiple Children Experience", "Swimming",
-  "Breastfeeding Support", "Music/Arts", "Toddler Development",
-  "Cognitive Development", "Newborn Care", "Travel Nanny",
-  "Cooking", "Night Nanny", "Tutoring",
-  "CPR Certified (Paediatric)", "Overnight Care Specialist", "Twins/Multiples Experience",
-  "Creative Play", "Part-time Educator", "Water Safety/Swimming Instructor",
-  "Developmental Support", "Pediatric First Aid Certified",
-  "Doula", "Postpartum Doula",
+// First sort alphabetically, then arrange for 3-column vertical flow
+const alphabeticalSkills = [
+  "ADHD Management",
+  "Autism Spectrum Support", 
+  "Behavioral Support",
+  "Blue Card Verified",
+  "Breastfeeding Support",
+  "Cognitive Development",
+  "Cooking",
+  "CPR Certified (Paediatric)",
+  "Creative Play",
+  "Developmental Support",
+  "Doula",
   "Driving License (School pickup/dropoff)",
   "Early Childhood Education",
   "Event Childcare",
-  "Evidence-based Newborn Care"
+  "Evidence-based Newborn Care",
+  "Holiday/Weekend Care",
+  "Maternity Nurse",
+  "Montessori Training",
+  "Multiple Children Experience",
+  "Music/Arts",
+  "Newborn Care",
+  "Night Nanny",
+  "Overnight Care Specialist",
+  "Part-time Educator",
+  "Pediatric First Aid Certified",
+  "Postpartum Doula",
+  "School Age Care",
+  "Sleep Training",
+  "Special Needs Experience",
+  "Swimming",
+  "Toddler Development",
+  "Travel Nanny",
+  "Tutoring",
+  "Twins/Multiples Experience",
+  "Water Safety/Swimming Instructor"
 ];
+
+// Arrange for 3-column vertical flow: divide into thirds
+const itemsPerColumn = Math.ceil(alphabeticalSkills.length / 3);
+const specialSkillsOptions = [];
+
+for (let i = 0; i < itemsPerColumn; i++) {
+  if (alphabeticalSkills[i]) specialSkillsOptions.push(alphabeticalSkills[i]); // Column 1
+  if (alphabeticalSkills[i + itemsPerColumn]) specialSkillsOptions.push(alphabeticalSkills[i + itemsPerColumn]); // Column 2
+  if (alphabeticalSkills[i + itemsPerColumn * 2]) specialSkillsOptions.push(alphabeticalSkills[i + itemsPerColumn * 2]); // Column 3
+}
 
 const petOptions = [
   "Dogs", "Cats", "Birds", "Fish", "Rabbits", "Guinea Pigs", "Reptiles", "None"
