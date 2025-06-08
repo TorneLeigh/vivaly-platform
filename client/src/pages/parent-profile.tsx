@@ -2079,7 +2079,7 @@ export default function ParentProfile() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Special Skills Required</FormLabel>
-                            <div className="grid grid-cols-2 gap-3">
+                            <div className="grid grid-cols-3 gap-3">
                               {specialSkillsOptions.map((skill) => (
                                 <div key={skill} className="flex items-center space-x-2">
                                   <Checkbox
