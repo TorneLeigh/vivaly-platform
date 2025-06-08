@@ -22,7 +22,14 @@ import newbornHandsImage from "@assets/79c40dcc41bd092f6f03b26fd4cf94d8_17491828
 import breastpadsImage from "@assets/d81ff6e441430a5c581dc3a72149844e_1749182897295.jpg";
 import birthBallImage from "@assets/f116334957ff9c74101be0e0c41edcda_1749182897295.jpg";
 import pregnancyMassageImage from "@assets/eba1794568e9061d6c6e016750154ee7_1749182897295.jpg";
-import doulaImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749359311276.jpg";
+import doulaImage1 from "@assets/71f27a774a4b4ecaa46e30332bf23131_1749360121452.jpg";
+import doulaImage2 from "@assets/2211c4a4f0b5f624766fb6ce4c54de99_1749360121452.jpg";
+import doulaImage3 from "@assets/702b767994f2c076bab98adb9368662e_1749360121452.jpg";
+import doulaImage4 from "@assets/43d1ada7714ec38aef8a9c6639cf3182_1749360121452.jpg";
+import doulaImage5 from "@assets/2c4a91a9b547f50bb709e6399c12a2a0_1749360121452.jpg";
+import doulaImage6 from "@assets/6a343ff11de7689d7a8361bbc05075a5_1749360121452.jpg";
+import doulaImage7 from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749360121452.jpg";
+import doulaImage8 from "@assets/79c40dcc41bd092f6f03b26fd4cf94d8_1749360121452.jpg";
 
 interface Nanny {
   id: number;
@@ -129,37 +136,37 @@ const doulaServices = [
   {
     title: "Birth Doula Support",
     description: "Continuous labor and delivery support",
-    image: doulaImage,
+    image: doulaImage1,
     serviceType: "Doula services"
   },
   {
     title: "Postpartum Doula Care",
     description: "Recovery and newborn adjustment support",
-    image: doulaImage,
+    image: doulaImage5,
     serviceType: "Doula services"
   },
   {
     title: "Emotional Support",
     description: "Mental health and emotional guidance",
-    image: doulaImage,
+    image: doulaImage2,
     serviceType: "Doula services"
   },
   {
     title: "Breastfeeding Guidance",
     description: "Lactation support and positioning help",
-    image: doulaImage,
+    image: doulaImage7,
     serviceType: "Doula services"
   },
   {
     title: "Birth Plan Preparation",
     description: "Creating your personalized birth plan",
-    image: doulaImage,
+    image: doulaImage3,
     serviceType: "Doula services"
   },
   {
     title: "Comfort Techniques",
     description: "Pain management and relaxation methods",
-    image: doulaImage,
+    image: doulaImage6,
     serviceType: "Doula services"
   }
 ];
