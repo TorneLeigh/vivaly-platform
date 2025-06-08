@@ -124,6 +124,45 @@ const birthEducationClasses = [
   }
 ];
 
+const doulaServices = [
+  {
+    title: "Birth Doula Support",
+    description: "Continuous labor and delivery support",
+    image: laborSupportImage,
+    serviceType: "Doula services"
+  },
+  {
+    title: "Postpartum Doula Care",
+    description: "Recovery and newborn adjustment support",
+    image: motherHoldingBabyImage,
+    serviceType: "Doula services"
+  },
+  {
+    title: "Emotional Support",
+    description: "Mental health and emotional guidance",
+    image: motherBabyBondingImage,
+    serviceType: "Doula services"
+  },
+  {
+    title: "Breastfeeding Guidance",
+    description: "Lactation support and positioning help",
+    image: breastfeedingLatchImage,
+    serviceType: "Doula services"
+  },
+  {
+    title: "Birth Plan Preparation",
+    description: "Creating your personalized birth plan",
+    image: birthCoachingImage,
+    serviceType: "Doula services"
+  },
+  {
+    title: "Comfort Techniques",
+    description: "Pain management and relaxation methods",
+    image: pregnancyMassageImage,
+    serviceType: "Doula services"
+  }
+];
+
 const midwifeServices = [
   {
     title: "Postnatal Care",
@@ -300,6 +339,8 @@ export default function Services() {
     switch (selectedCategory) {
       case "midwife":
         return sectionType === "midwife" || sectionType === "birth-education";
+      case "doula":
+        return sectionType === "doula";
       case "pet":
         return sectionType === "pet";
       case "elderly":
@@ -353,6 +394,16 @@ export default function Services() {
                 }`}
               >
                 Pet Care
+              </button>
+              <button
+                onClick={() => setSelectedCategory("doula")}
+                className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
+                  selectedCategory === "doula"
+                    ? "bg-black text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                Doula Services
               </button>
               <button
                 onClick={() => setSelectedCategory("elderly")}

@@ -128,6 +128,12 @@ const serviceCategories = [
     serviceType: "Postnatal care"
   },
   {
+    title: "Doula services",
+    description: "Birth and emotional support",
+    image: pregnancyImage,
+    serviceType: "Doula services"
+  },
+  {
     title: "Pet sitting",
     description: "Professional pet care",
     image: petSittingServiceImage,

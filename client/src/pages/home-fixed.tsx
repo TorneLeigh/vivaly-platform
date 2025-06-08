@@ -52,6 +52,14 @@ const serviceCategories = [
     serviceType: "Midwife Services"
   },
   {
+    icon: Heart,
+    title: "Doula Services",
+    description: "Birth & emotional support", 
+    bgColor: "bg-rose-500 bg-opacity-10",
+    iconColor: "text-rose-500",
+    serviceType: "Doula Services"
+  },
+  {
     icon: Clock,
     title: "Drop & Dash",
     description: "Quick care",
