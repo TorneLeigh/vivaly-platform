@@ -571,15 +571,29 @@ export class MemStorage implements IStorage {
   }
 
   async getFeaturedNannies(): Promise<(Nanny & { user: User })[]> {
-    const nannies = Array.from(this.nannies.values())
-      .filter(nanny => nanny.isVerified)
-      .sort((a, b) => parseFloat(b.rating!) - parseFloat(a.rating!))
-      .slice(0, 4);
+    try {
+      const nannies = Array.from(this.nannies.values())
+        .filter(nanny => nanny.isVerified)
+        .sort((a, b) => parseFloat(b.rating || '0') - parseFloat(a.rating || '0'))
+        .slice(0, 4);
 
-    return nannies.map(nanny => ({
-      ...nanny,
-      user: this.users.get(nanny.userId)!
-    }));
+      const results: (Nanny & { user: User })[] = [];
+      
+      for (const nanny of nannies) {
+        const user = this.users.get(nanny.userId);
+        if (user) {
+          results.push({
+            ...nanny,
+            user
+          });
+        }
+      }
+
+      return results;
+    } catch (error) {
+      console.error('Error in getFeaturedNannies:', error);
+      return [];
+    }
   }
 
   // Bookings
