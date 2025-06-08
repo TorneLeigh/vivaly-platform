@@ -37,6 +37,7 @@ import overnightCareImage from "@assets/02a899c095b5a44d96492e700bf8fd0c_1749275
 import breastfeedingImage from "@assets/31d064b6874d9bd38e6f664bff0e8352_1749267180596.jpg";
 import birthingImage from "@assets/f087158c54b76ecf0250c6866d218c92_1749267022177.jpg";
 import groupCareImage from "@assets/ad23d9f10c69e3bfc73ffe82a1bac618_1749267219539.jpg";
+import doulaImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749359311276.jpg";
 
 // Service category colors
 const serviceColors = [
@@ -94,7 +95,7 @@ const serviceCategories = [
   {
     title: "Birth education",
     description: "Childbirth preparation classes",
-    image: birthingImage,
+    image: doulaImage,
     serviceType: "Birth education"
   },
   {

@@ -25,6 +25,7 @@ import {
   Baby
 } from "lucide-react";
 import type { Nanny, User as UserType } from "@shared/schema";
+import doulaImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749359311276.jpg";
 
 const serviceCategories = [
   {
