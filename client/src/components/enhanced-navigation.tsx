@@ -39,10 +39,12 @@ export default function EnhancedNavigation() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/">
-            <div className="flex items-center space-x-2 cursor-pointer">
-              <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">V</span>
-              </div>
+            <div className="flex items-center space-x-3 cursor-pointer">
+              <img 
+                src="/@fs/home/runner/workspace/attached_assets/Screenshot 2025-06-08 at 14.42.50_1749357795894.png" 
+                alt="VIVALY Logo" 
+                className="w-8 h-8 rounded-md object-cover"
+              />
               <span className="text-xl font-bold text-gray-900">VIVALY</span>
             </div>
           </Link>
