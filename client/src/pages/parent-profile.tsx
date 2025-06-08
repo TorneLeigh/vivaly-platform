@@ -207,19 +207,20 @@ const languageOptions = [
   "French", "German", "Hindi", "Tagalog", "Korean", "Japanese", "Other"
 ];
 
+// Arranged for 3-column vertical flow (column 1, column 2, column 3)
 const specialSkillsOptions = [
-  "ADHD Management", "Autism Spectrum Support", "Behavioral Support", 
-  "Blue Card Verified", "Breastfeeding Support", "Cognitive Development", 
-  "Cooking", "CPR Certified (Paediatric)", "Creative Play", 
-  "Developmental Support", "Doula", "Driving License (School pickup/dropoff)", 
-  "Early Childhood Education", "Event Childcare", "Evidence-based Newborn Care", 
-  "Holiday/Weekend Care", "Maternity Nurse", "Montessori Training", 
-  "Multiple Children Experience", "Music/Arts", "Newborn Care", 
-  "Night Nanny", "Overnight Care Specialist", "Part-time Educator", 
-  "Pediatric First Aid Certified", "Postpartum Doula", "School Age Care", 
-  "Sleep Training", "Special Needs Experience", "Swimming", 
-  "Toddler Development", "Travel Nanny", "Tutoring", 
-  "Twins/Multiples Experience", "Water Safety/Swimming Instructor"
+  "ADHD Management", "Developmental Support", "Music/Arts",
+  "Autism Spectrum Support", "Doula", "Newborn Care",
+  "Behavioral Support", "Driving License (School pickup/dropoff)", "Night Nanny",
+  "Blue Card Verified", "Early Childhood Education", "Overnight Care Specialist",
+  "Breastfeeding Support", "Event Childcare", "Part-time Educator",
+  "Cognitive Development", "Evidence-based Newborn Care", "Pediatric First Aid Certified",
+  "Cooking", "Holiday/Weekend Care", "Postpartum Doula",
+  "CPR Certified (Paediatric)", "Maternity Nurse", "School Age Care",
+  "Creative Play", "Montessori Training", "Sleep Training",
+  "Multiple Children Experience", "Special Needs Experience",
+  "Swimming", "Toddler Development", "Travel Nanny",
+  "Tutoring", "Twins/Multiples Experience", "Water Safety/Swimming Instructor"
 ];
 
 const petOptions = [
