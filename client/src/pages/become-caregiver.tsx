@@ -835,7 +835,7 @@ export default function CaregiverRegistration() {
                     How does payment work?
                   </CollapsibleTrigger>
                   <CollapsibleContent className="text-sm text-gray-600 mt-2">
-                    You set your own rates and receive payment directly through our secure platform. VIVALY takes a competitive 10% service fee (lower than most platforms).
+                    You set your own rates and receive payment directly through our secure platform. VIVALY takes a 10% service fee.
                   </CollapsibleContent>
                 </Collapsible>
               </div>
@@ -854,7 +854,7 @@ export default function CaregiverRegistration() {
               <div className="space-y-4">
                 <div>
                   <h4 className="font-medium text-gray-900 mb-2">Platform Fee</h4>
-                  <p className="text-sm text-gray-600">VIVALY takes a 10% service fee from each booking to maintain the platform and provide customer support. This is lower than industry leaders like Airbnb (12-14% in Australia).</p>
+                  <p className="text-sm text-gray-600">VIVALY takes a competitive 10% service fee from each booking to maintain the platform and provide customer support.</p>
                 </div>
 
                 <div>
