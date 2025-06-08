@@ -476,6 +476,62 @@ export default function Services() {
         </section>
       )}
 
+      {/* Doula Services */}
+      {shouldShowSection("doula") && (
+        <section className="py-6 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 mb-3">
+                Doula Services
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Comprehensive birth and postpartum doula support for your journey
+              </p>
+            </div>
+            
+            <ServiceCarousel>
+              {doulaServices.map((service, index) => (
+                <div 
+                  key={index}
+                  className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                  onClick={() => {
+                    const searchParams = new URLSearchParams({
+                      serviceType: service.serviceType,
+                      location: 'Sydney, NSW'
+                    });
+                    window.location.href = `/search?${searchParams.toString()}`;
+                  }}
+                >
+                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                    <img 
+                      src={service.image} 
+                      alt={service.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        if (e.currentTarget.parentElement) {
+                          e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
+                          e.currentTarget.parentElement.innerHTML = `
+                            <div class="flex items-center justify-center h-full">
+                              <span class="text-gray-400 text-xs">${service.title}</span>
+                            </div>
+                          `;
+                        }
+                      }}
+                    />
+                  </div>
+                  
+                  <div className="text-center">
+                    <h3 className="font-semibold text-gray-900 text-sm mb-1">{service.title}</h3>
+                    <p className="text-xs text-gray-600">{service.description}</p>
+                  </div>
+                </div>
+              ))}
+            </ServiceCarousel>
+          </div>
+        </section>
+      )}
+
       {/* Midwife Services */}
       {shouldShowSection("midwife") && (
         <section className="py-6 bg-white">

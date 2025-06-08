@@ -480,6 +480,7 @@ export const SERVICE_TYPES = [
   "Childcare",
   "Drop and dash",
   "Midwife services",
+  "Doula services",
   "Breastfeeding support",
   "Birth education",
   "Newborn support",

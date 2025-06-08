@@ -317,17 +317,17 @@ export class MemStorage implements IStorage {
     const serviceOptions = [
       [SERVICE_TYPES[0], SERVICE_TYPES[1]], // Traditional childcare
       [SERVICE_TYPES[0], SERVICE_TYPES[2]], // 1-on-1 Care + Group Play (Eastern Suburbs)
-      [SERVICE_TYPES[4]], // Postpartum
-      [SERVICE_TYPES[5], SERVICE_TYPES[4]], // Breastfeeding + postpartum
-      [SERVICE_TYPES[6], SERVICE_TYPES[7]], // Birth education + postnatal
+      [SERVICE_TYPES[4]], // Midwife services
+      [SERVICE_TYPES[5]], // Doula services
+      [SERVICE_TYPES[6], SERVICE_TYPES[4]], // Breastfeeding + midwife
+      [SERVICE_TYPES[7], SERVICE_TYPES[8]], // Birth education + newborn
       [SERVICE_TYPES[0], SERVICE_TYPES[2]], // Mix of care types
       [SERVICE_TYPES[1], SERVICE_TYPES[3]], // Group services
-      [SERVICE_TYPES[5], SERVICE_TYPES[7]], // Midwife services
-      [SERVICE_TYPES[8]], // Elderly Companionship
-      [SERVICE_TYPES[9]], // Elderly Care
-      [SERVICE_TYPES[11], SERVICE_TYPES[12]], // Pet sitting + Dog walking
-      [SERVICE_TYPES[13], SERVICE_TYPES[14]], // Pet boarding + grooming
-      [SERVICE_TYPES[15], SERVICE_TYPES[16]], // Pet training + overnight care
+      [SERVICE_TYPES[9]], // Pregnancy assistance
+      [SERVICE_TYPES[10]], // Postnatal care
+      [SERVICE_TYPES[11]], // Pet sitting
+      [SERVICE_TYPES[12]], // Elderly care
+      [SERVICE_TYPES[13]], // Elderly companionship
     ];
 
     const certificateOptions = [
