@@ -69,14 +69,11 @@ export default function Header() {
           <div className="flex items-center">
             <Link href="/">
               <div className="flex items-center space-x-3 cursor-pointer">
-                <div className="w-8 h-8 bg-slate-100 rounded-md flex items-center justify-center shadow-sm border">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-slate-600">
-                    <path 
-                      d="M2 3.5C2 3.5 3.5 3 5 8.5C6.5 3 8 3.5 8 3.5C8.5 3.5 9 4 9 4.5C9 5 8.5 5.5 8 5.5C7.5 5.5 7 5 6.5 6L5 12L3.5 6C3 5 2.5 5.5 2 5.5C1.5 5.5 1 5 1 4.5C1 4 1.5 3.5 2 3.5Z" 
-                      fill="currentColor"
-                    />
-                  </svg>
-                </div>
+                <img 
+                  src="/vivaly-logo.jpg" 
+                  alt="VIVALY Logo" 
+                  className="w-8 h-8 rounded-md object-cover shadow-sm"
+                />
                 <h1 className="text-2xl font-black text-coral">
                   VIVALY
                 </h1>
