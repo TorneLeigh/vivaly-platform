@@ -208,12 +208,17 @@ const languageOptions = [
 ];
 
 const specialSkillsOptions = [
-  "First Aid Certified", "CPR Certified (Paediatric)", "Early Childhood Education", 
+  "Pediatric First Aid Certified", "CPR Certified (Paediatric)", "Early Childhood Education", 
   "Maternity Nurse", "Night Nanny", "Newborn Care", "Sleep Training", 
-  "Evidence-based Newborn Care", "Developmental Support", "Special Needs Experience", 
-  "Toddler Development", "School Age Care", "Tutoring", "Music/Arts", "Swimming", 
-  "Cooking", "Creative Play", "Cognitive Development", "Blue Card Verified", 
-  "Mom's Helper", "Overnight Care", "Part-time Educator", "Driving License"
+  "Evidence-based Newborn Care", "Doula", "Postpartum Doula", 
+  "Water Safety/Swimming Instructor", "Montessori Training", "Special Needs Experience", 
+  "Autism Spectrum Support", "ADHD Management", "Behavioral Support", 
+  "Breastfeeding Support", "Developmental Support", "Toddler Development", 
+  "School Age Care", "Tutoring", "Music/Arts", "Swimming", "Cooking", 
+  "Creative Play", "Cognitive Development", "Blue Card Verified", 
+  "Overnight Care Specialist", "Part-time Educator", "Driving License (School pickup/dropoff)", 
+  "Travel Nanny", "Event Childcare", "Multiple Children Experience", 
+  "Twins/Multiples Experience", "Holiday/Weekend Care"
 ];
 
 const petOptions = [
