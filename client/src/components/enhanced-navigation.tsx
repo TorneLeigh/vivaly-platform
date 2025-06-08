@@ -41,9 +41,12 @@ export default function EnhancedNavigation() {
           {/* Logo */}
           <Link href="/">
             <div className="flex items-center space-x-3 cursor-pointer">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-700 rounded-md flex items-center justify-center">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M3 3c1.5 0 3 1 4.5 6C9 4 10.5 3 12 3c1.5 0 3 1 3 2.5 0 1.5-1 2.5-2.5 2.5-0.5 0-1-0.5-1.5-1L10 12l-1-5c-0.5 0.5-1 1-1.5 1-1.5 0-2.5-1-2.5-2.5C5 4 6 3 7.5 3z" fill="white"/>
+              <div className="w-8 h-8 bg-slate-100 rounded-md flex items-center justify-center shadow-sm border">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-slate-600">
+                  <path 
+                    d="M2 3.5C2 3.5 3.5 3 5 8.5C6.5 3 8 3.5 8 3.5C8.5 3.5 9 4 9 4.5C9 5 8.5 5.5 8 5.5C7.5 5.5 7 5 6.5 6L5 12L3.5 6C3 5 2.5 5.5 2 5.5C1.5 5.5 1 5 1 4.5C1 4 1.5 3.5 2 3.5Z" 
+                    fill="currentColor"
+                  />
                 </svg>
               </div>
               <span className="text-xl font-bold text-gray-900">VIVALY</span>
