@@ -13,7 +13,7 @@ import {
   LogOut,
   ChevronDown
 } from "lucide-react";
-import vivalyLogo from "@assets/Screenshot 2025-06-08 at 14.42.50_1749357795894.png";
+
 
 export default function EnhancedNavigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -41,11 +41,11 @@ export default function EnhancedNavigation() {
           {/* Logo */}
           <Link href="/">
             <div className="flex items-center space-x-3 cursor-pointer">
-              <img 
-                src={vivalyLogo} 
-                alt="VIVALY Logo" 
-                className="w-8 h-8 rounded-md object-cover"
-              />
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-700 rounded-md flex items-center justify-center">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 3c1.5 0 3 1 4.5 6C9 4 10.5 3 12 3c1.5 0 3 1 3 2.5 0 1.5-1 2.5-2.5 2.5-0.5 0-1-0.5-1.5-1L10 12l-1-5c-0.5 0.5-1 1-1.5 1-1.5 0-2.5-1-2.5-2.5C5 4 6 3 7.5 3z" fill="white"/>
+                </svg>
+              </div>
               <span className="text-xl font-bold text-gray-900">VIVALY</span>
             </div>
           </Link>
