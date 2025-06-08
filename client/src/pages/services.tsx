@@ -889,6 +889,106 @@ export default function Services() {
         </section>
       )}
 
+      {/* Additional Care Services - Prominent Buttons */}
+      <section className="py-12 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Looking for Specialized Care?
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              We also provide expert care services for your elderly family members and beloved pets
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Elderly Care Button */}
+            <div 
+              className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1"
+              onClick={() => {
+                const searchParams = new URLSearchParams({
+                  serviceType: 'Elderly care',
+                  location: 'Sydney, NSW'
+                });
+                window.location.href = `/search?${searchParams.toString()}`;
+              }}
+            >
+              <div className="aspect-[4/3] relative overflow-hidden">
+                <img 
+                  src="/images/elderly.jpg" 
+                  alt="Elderly Care Services"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                <div className="absolute bottom-6 left-6 right-6 text-white">
+                  <h3 className="text-2xl font-bold mb-2">I am searching for elderly care</h3>
+                  <p className="text-sm opacity-90 mb-4">
+                    Professional companion care, medication assistance, mobility support, and daily living help for seniors
+                  </p>
+                  <div className="flex items-center text-sm font-medium">
+                    <span>Find elderly care providers</span>
+                    <svg className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Pet Care Button */}
+            <div 
+              className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1"
+              onClick={() => {
+                const searchParams = new URLSearchParams({
+                  serviceType: 'Pet sitting',
+                  location: 'Sydney, NSW'
+                });
+                window.location.href = `/search?${searchParams.toString()}`;
+              }}
+            >
+              <div className="aspect-[4/3] relative overflow-hidden">
+                <img 
+                  src="/images/dog-walking.jpg" 
+                  alt="Pet Care Services"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                <div className="absolute bottom-6 left-6 right-6 text-white">
+                  <h3 className="text-2xl font-bold mb-2">I am searching for pet care</h3>
+                  <p className="text-sm opacity-90 mb-4">
+                    Dog walking, pet sitting, feeding schedules, exercise, and loving companionship for your furry family members
+                  </p>
+                  <div className="flex items-center text-sm font-medium">
+                    <span>Find pet care providers</span>
+                    <svg className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Important Note for Caregivers */}
+          <div className="mt-12 bg-blue-50 rounded-xl p-6 border border-blue-100">
+            <div className="flex items-start space-x-3">
+              <div className="flex-shrink-0">
+                <svg className="w-6 h-6 text-blue-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h4 className="text-lg font-semibold text-blue-900 mb-2">For Caregivers & Babysitters</h4>
+                <p className="text-blue-800 text-sm leading-relaxed">
+                  When creating your profile, please include information about any pets in households you work with. 
+                  This helps families with allergies find suitable caregivers and ensures the safety and comfort of both children and pets.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }
