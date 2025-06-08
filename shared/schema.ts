@@ -54,8 +54,7 @@ export const parentProfiles = pgTable("parent_profiles", {
   favoriteActivities: json("favorite_activities").$type<string[]>().default([]),
   
   // Health & Allergies
-  foodAllergies: json("food_allergies").$type<string[]>().default([]),
-  environmentalAllergies: json("environmental_allergies").$type<string[]>().default([]),
+  foodAllergies: text("food_allergies"),
   dietaryRestrictions: json("dietary_restrictions").$type<string[]>().default([]),
   medicationRequirements: text("medication_requirements"),
   medicalConditions: json("medical_conditions").$type<string[]>().default([]),

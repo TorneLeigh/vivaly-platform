@@ -254,8 +254,7 @@ export default function ParentProfile() {
       comfortItems: [],
       favoriteActivities: [],
       // Health & Allergies
-      foodAllergies: [],
-      environmentalAllergies: [],
+      foodAllergies: "",
       dietaryRestrictions: [],
       medicationRequirements: "",
       medicalConditions: [],
@@ -1911,26 +1910,17 @@ export default function ParentProfile() {
                         name="foodAllergies"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-base font-semibold">Food Allergies</FormLabel>
-                            <div className="grid grid-cols-3 gap-3">
-                              {foodAllergyOptions.map((allergy) => (
-                                <div key={allergy} className="flex items-center space-x-2">
-                                  <Checkbox
-                                    id={allergy}
-                                    checked={field.value?.includes(allergy)}
-                                    onCheckedChange={(checked) => {
-                                      if (checked) {
-                                        field.onChange([...field.value, allergy]);
-                                      } else {
-                                        field.onChange(field.value?.filter((v) => v !== allergy));
-                                      }
-                                    }}
-                                    disabled={!isEditing}
-                                  />
-                                  <label htmlFor={allergy} className="text-sm">{allergy}</label>
-                                </div>
-                              ))}
-                            </div>
+                            <FormLabel className="text-base font-semibold">Allergies</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                {...field}
+                                value={Array.isArray(field.value) ? field.value.join("; ") : field.value || ""}
+                                onChange={(e) => field.onChange(e.target.value)}
+                                disabled={!isEditing}
+                                placeholder="List any food allergies, environmental allergies, or other allergies here..."
+                                rows={3}
+                              />
+                            </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
