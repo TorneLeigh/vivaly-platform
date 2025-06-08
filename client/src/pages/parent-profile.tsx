@@ -751,7 +751,7 @@ export default function ParentProfile() {
                                   {...field} 
                                   value={field.value?.join(", ") || ""} 
                                   onChange={(e) => field.onChange(e.target.value.split(", ").filter(g => g.trim()))}
-                                  placeholder="Girl, Boy, etc." 
+                                  placeholder="Girl, Boy" 
                                   disabled={!isEditing} 
                                 />
                               </FormControl>
