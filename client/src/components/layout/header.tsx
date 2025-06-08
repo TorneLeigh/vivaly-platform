@@ -11,6 +11,7 @@ import {
   Users,
   X
 } from "lucide-react";
+import vivalyLogo from "@/assets/vivaly-logo.jpg";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -70,7 +71,7 @@ export default function Header() {
             <Link href="/">
               <div className="flex items-center space-x-3 cursor-pointer">
                 <img 
-                  src="/vivaly-logo.jpg" 
+                  src={vivalyLogo} 
                   alt="VIVALY Logo" 
                   className="w-8 h-8 rounded-md object-cover shadow-sm"
                 />
