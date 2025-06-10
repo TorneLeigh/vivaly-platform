@@ -934,6 +934,55 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Profile preview routes
+  app.get("/api/nannies/profile/:userId", requireAuth, async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const nanny = await storage.getNannyByUserId(userId);
+      
+      if (!nanny) {
+        return res.status(404).json({ message: "Caregiver profile not found" });
+      }
+      
+      // Get user info
+      const user = await storage.getUser(userId.toString());
+      
+      // Get reviews
+      const reviews = await storage.getReviewsByNanny(nanny.id);
+      
+      res.json({
+        ...nanny,
+        user,
+        reviews
+      });
+    } catch (error) {
+      console.error("Error fetching caregiver profile:", error);
+      res.status(500).json({ message: "Failed to fetch caregiver profile" });
+    }
+  });
+
+  app.get("/api/parent-profile/:userId", requireAuth, async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const profile = await storage.getParentProfile(userId);
+      
+      if (!profile) {
+        return res.status(404).json({ message: "Parent profile not found" });
+      }
+      
+      // Get user info
+      const user = await storage.getUser(userId);
+      
+      res.json({
+        ...profile,
+        user
+      });
+    } catch (error) {
+      console.error("Error fetching parent profile:", error);
+      res.status(500).json({ message: "Failed to fetch parent profile" });
+    }
+  });
+
   // Nanny Dashboard routes
   app.get("/api/nanny/bookings", requireAuth, async (req, res) => {
     try {
