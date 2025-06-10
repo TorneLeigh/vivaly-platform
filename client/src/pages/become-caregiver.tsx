@@ -34,6 +34,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import MultiPhotoUpload from "@/components/multi-photo-upload";
+import AvailabilityCalendar from "@/components/availability-calendar";
 
 const caregiverRegistrationSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
@@ -48,6 +50,13 @@ const caregiverRegistrationSchema = z.object({
   bio: z.string().min(50, "Bio must be at least 50 characters"),
   experience: z.number().min(0, "Experience cannot be negative"),
   hourlyRate: z.number().min(15, "Hourly rate must be at least $15"),
+  profilePhotos: z.array(z.string()).min(3, "At least 3 professional photos required"),
+  photoGuidanceAccepted: z.boolean().refine(val => val === true, "You must accept the photo guidelines"),
+  instantBookingEnabled: z.boolean().default(false),
+  availabilityCalendar: z.record(z.object({
+    available: z.boolean(),
+    rate: z.number().optional()
+  })).default({}),
   services: z.array(z.string()).min(1, "Select at least one service"),
   ageGroups: z.array(z.string()).min(1, "Select at least one age group"),
   availability: z.object({
@@ -96,6 +105,10 @@ export default function CaregiverRegistration() {
       bio: "",
       experience: 0,
       hourlyRate: 25,
+      profilePhotos: [],
+      photoGuidanceAccepted: false,
+      instantBookingEnabled: false,
+      availabilityCalendar: {},
       services: [],
       ageGroups: [],
       availability: {
