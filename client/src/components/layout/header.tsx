@@ -118,7 +118,7 @@ export default function Header() {
                       Profile
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => window.location.href = '/profile-preview'}>
-                      Preview My Profile
+                      View My Profile
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => window.location.href = '/account-settings'}>
                       Account Settings
@@ -132,7 +132,7 @@ export default function Header() {
                         <DropdownMenuItem onClick={() => window.location.href = '/provider-dashboard'}>
                           Switch to Service Provider
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => window.location.href = '/become-caregiver'}>
+                        <DropdownMenuItem onClick={() => window.location.href = '/become-caregiver'} className="bg-black text-white hover:bg-gray-800 hover:text-white">
                           Switch to Caregiver
                         </DropdownMenuItem>
                       </>
