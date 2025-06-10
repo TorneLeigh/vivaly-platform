@@ -149,7 +149,6 @@ function Router() {
           <Route path="/profile" component={Profile} />
           <Route path="/parent-profile" component={ParentProfile} />
           <Route path="/profile-preview" component={ProfilePreview} />
-          <Route path="/profile-preview" component={ProfilePreview} />
           <Route path="/account-settings" component={AccountSettings} />
           
           <Route component={NotFound} />

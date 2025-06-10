@@ -98,8 +98,8 @@ export default function ParentProfile() {
 
   // Fetch existing profile data
   const { data: profile, isLoading } = useQuery({
-    queryKey: ["/api/parent-profile", user?.id],
-    enabled: !!user?.id,
+    queryKey: ["/api/parent-profile", (user as any)?.id],
+    enabled: !!(user as any)?.id,
   });
 
   const updateProfileMutation = useMutation({

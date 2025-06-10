@@ -30,13 +30,13 @@ export default function ProfilePreview() {
   const profileType = isProviderRoute ? 'caregiver' : 'parent';
 
   const { data: caregiverProfile, isLoading: caregiverLoading } = useQuery({
-    queryKey: ["/api/nannies/profile", user?.id],
-    enabled: profileType === 'caregiver' && !!user?.id,
+    queryKey: ["/api/nannies/profile", (user as any)?.id],
+    enabled: profileType === 'caregiver' && !!(user as any)?.id,
   });
 
   const { data: parentProfile, isLoading: parentLoading } = useQuery({
-    queryKey: ["/api/parent-profile", user?.id],
-    enabled: profileType === 'parent' && !!user?.id,
+    queryKey: ["/api/parent-profile", (user as any)?.id],
+    enabled: profileType === 'parent' && !!(user as any)?.id,
   });
 
   if (!isAuthenticated) {

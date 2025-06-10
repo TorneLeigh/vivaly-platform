@@ -983,6 +983,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.post("/api/parent-profile", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const profileData = req.body;
+      
+      const profile = await storage.createOrUpdateParentProfile({
+        userId,
+        ...profileData
+      });
+      
+      res.json(profile);
+    } catch (error) {
+      console.error("Error updating parent profile:", error);
+      res.status(500).json({ message: "Failed to update parent profile" });
+    }
+  });
+
   // Nanny Dashboard routes
   app.get("/api/nanny/bookings", requireAuth, async (req, res) => {
     try {
