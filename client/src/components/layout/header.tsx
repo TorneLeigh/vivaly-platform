@@ -120,14 +120,25 @@ export default function Header() {
             ) : isAuthenticated ? (
               <div className="flex items-center space-x-4">
                 {viewMode === 'seeker' ? (
-                  <Button variant="ghost" size="sm" className="flex items-center gap-2" onClick={() => window.location.href = '/search'}>
-                    <Search className="h-4 w-4" />
-                    Search
-                  </Button>
+                  <>
+                    <Button variant="ghost" size="sm" className="flex items-center gap-2" onClick={() => window.location.href = '/search'}>
+                      <Search className="h-4 w-4" />
+                      Search
+                    </Button>
+                    <Button className="bg-black hover:bg-gray-800 text-white font-medium" onClick={() => window.location.href = '/become-caregiver'}>
+                      Switch to Service Provider
+                    </Button>
+                  </>
                 ) : (
-                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/find-care'}>
-                    Switch to Seeker
-                  </Button>
+                  <>
+                    <Button variant="ghost" size="sm" onClick={() => window.location.href = '/find-care'}>
+                      Switch to Parent
+                    </Button>
+                    <Button variant="ghost" size="sm" className="flex items-center gap-2" onClick={() => window.location.href = '/provider-dashboard'}>
+                      <Plus className="h-4 w-4" />
+                      My Services
+                    </Button>
+                  </>
                 )}
                 <Button variant="ghost" size="sm" onClick={() => window.location.href = '/messages'}>
                   <MessageCircle className="h-4 w-4 mr-2" />
@@ -142,6 +153,9 @@ export default function Header() {
                   <DropdownMenuContent align="end" className="w-56">
                     <DropdownMenuItem onClick={() => window.location.href = '/profile'}>
                       Profile
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => window.location.href = '/profile-preview'}>
+                      Preview My Profile
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => window.location.href = '/account-settings'}>
                       Account Settings

@@ -56,6 +56,7 @@ import ServiceProviderChoice from "@/pages/service-provider-choice";
 import Signup from "@/pages/signup";
 import Profile from "@/pages/profile";
 import ParentProfile from "@/pages/parent-profile";
+import ProfilePreview from "@/pages/profile-preview";
 import AccountSettings from "@/pages/account-settings";
 import Help from "@/pages/help";
 import CoSupport from "@/pages/co-support";
@@ -145,6 +146,10 @@ function Router() {
 
           {/* Authenticated user routes */}
           <Route path="/messages" component={Messages} />
+          <Route path="/profile" component={Profile} />
+          <Route path="/parent-profile" component={ParentProfile} />
+          <Route path="/profile-preview" component={ProfilePreview} />
+          <Route path="/account-settings" component={AccountSettings} />
           
           <Route component={NotFound} />
         </Switch>
