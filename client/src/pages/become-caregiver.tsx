@@ -158,7 +158,7 @@ export default function CaregiverRegistration() {
         title: "Registration Submitted!",
         description: "Your caregiver profile is under review. You'll be notified within 2-3 business days.",
       });
-      setStep(5);
+      setStep(7);
     },
     onError: (error: any) => {
       toast({

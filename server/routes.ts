@@ -1572,6 +1572,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         hasWwcc: registrationData.hasWWCC,
         hasFirstAid: registrationData.hasFirstAid,
         hasPoliceCheck: registrationData.hasPoliceCheck,
+        profilePhotos: registrationData.profilePhotos || [],
+        photoGuidanceAccepted: registrationData.photoGuidanceAccepted || false,
+        instantBookingEnabled: registrationData.instantBookingEnabled || false,
+        availabilityCalendar: registrationData.availabilityCalendar || {},
         isVerified: false, // Pending verification
       });
       
