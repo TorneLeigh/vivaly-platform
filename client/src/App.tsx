@@ -48,6 +48,7 @@ import FindCare from "@/pages/find-care";
 import ChildcareEnroll from "@/pages/childcare-enroll";
 import ProviderDashboard from "@/pages/provider-dashboard";
 import ChildcareDashboard from "@/pages/childcare-dashboard";
+import AIChat from "@/pages/ai-chat";
 import Services from "@/pages/services";
 import PersonalityProfile from "@/pages/profile";
 import FindCareSignup from "@/pages/find-care-signup";
@@ -128,6 +129,7 @@ function Router() {
           <Route path="/email-test" component={EmailTest} />
           <Route path="/email-preview" component={EmailPreview} />
           <Route path="/admin-dashboard" component={AdminDashboard} />
+          <Route path="/ai-chat" component={AIChat} />
           <Route path="/booking-confirmed" component={BookingConfirmation} />
           <Route path="/booking-confirmation" component={BookingConfirmation} />
           <Route path="/terms" component={Terms} />

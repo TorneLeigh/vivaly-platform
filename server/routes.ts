@@ -16,6 +16,7 @@ import sgMail from '@sendgrid/mail';
 import { emailAutomationService } from "./email-automation-service";
 import { wwccVerificationService } from "./wwcc-verification-service";
 import { voucherService } from "./voucher-service";
+import { aiService } from "./ai-service";
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
@@ -2062,6 +2063,88 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('SMS test error:', error);
       res.status(500).json({ message: 'Failed to send test SMS' });
+    }
+  });
+
+  // AI Chat and Recommendations API Routes
+  app.post('/api/ai/chat', async (req, res) => {
+    try {
+      const { messages } = req.body;
+      
+      if (!messages || !Array.isArray(messages)) {
+        return res.status(400).json({ message: 'Messages array is required' });
+      }
+      
+      const response = await aiService.provideChatSupport(messages);
+      res.json({ message: response });
+    } catch (error) {
+      console.error('AI Chat error:', error);
+      res.status(500).json({ message: 'Failed to process chat request' });
+    }
+  });
+
+  app.post('/api/ai/care-recommendations', async (req, res) => {
+    try {
+      const recommendations = await aiService.getCareRecommendations(req.body);
+      res.json(recommendations);
+    } catch (error) {
+      console.error('AI Recommendations error:', error);
+      res.status(500).json({ message: 'Failed to get care recommendations' });
+    }
+  });
+
+  app.post('/api/ai/generate-profile', async (req, res) => {
+    try {
+      const { name, experience, specialties, certifications, personality } = req.body;
+      
+      if (!name || !experience || !specialties) {
+        return res.status(400).json({ message: 'Name, experience, and specialties are required' });
+      }
+      
+      const bio = await aiService.generateCaregiverProfile({
+        name,
+        experience,
+        specialties: Array.isArray(specialties) ? specialties : [specialties],
+        certifications: Array.isArray(certifications) ? certifications : [],
+        personality
+      });
+      
+      res.json({ bio });
+    } catch (error) {
+      console.error('AI Profile Generation error:', error);
+      res.status(500).json({ message: 'Failed to generate profile' });
+    }
+  });
+
+  app.post('/api/ai/analyze-feedback', async (req, res) => {
+    try {
+      const { feedback, rating } = req.body;
+      
+      if (!feedback || rating === undefined) {
+        return res.status(400).json({ message: 'Feedback and rating are required' });
+      }
+      
+      const analysis = await aiService.analyzeFeedback(feedback, rating);
+      res.json(analysis);
+    } catch (error) {
+      console.error('AI Feedback Analysis error:', error);
+      res.status(500).json({ message: 'Failed to analyze feedback' });
+    }
+  });
+
+  app.post('/api/ai/safety-tips', async (req, res) => {
+    try {
+      const { careType, childAge } = req.body;
+      
+      if (!careType) {
+        return res.status(400).json({ message: 'Care type is required' });
+      }
+      
+      const tips = await aiService.generateSafetyTips(careType, childAge);
+      res.json({ tips });
+    } catch (error) {
+      console.error('AI Safety Tips error:', error);
+      res.status(500).json({ message: 'Failed to generate safety tips' });
     }
   });
 
