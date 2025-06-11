@@ -163,3 +163,53 @@
     animation: float 3s ease-in-out infinite;
   }
 }
+
+/* Custom header and role toggle styles */
+@layer components {
+  .vivaly-header {
+    @apply flex justify-between items-center px-5 py-4 bg-white border-b border-gray-200;
+  }
+  
+  .vivaly-logo {
+    @apply text-2xl font-bold text-blue-600;
+  }
+  
+  .vivaly-role-toggle {
+    @apply flex items-center gap-2.5 text-sm;
+  }
+  
+  .vivaly-switch {
+    @apply relative inline-block w-12 h-6;
+  }
+  
+  .vivaly-switch input {
+    @apply opacity-0 w-0 h-0;
+  }
+  
+  .vivaly-slider {
+    @apply absolute cursor-pointer bg-gray-300 rounded-full top-0 left-0 right-0 bottom-0;
+    transition: 0.4s;
+  }
+  
+  .vivaly-slider::before {
+    @apply absolute content-[''] bg-white rounded-full;
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    transition: 0.4s;
+  }
+  
+  .vivaly-switch input:checked + .vivaly-slider {
+    @apply bg-blue-600;
+  }
+  
+  .vivaly-switch input:checked + .vivaly-slider::before {
+    @apply transform translate-x-6;
+    transform: translateX(26px);
+  }
+  
+  .vivaly-content {
+    @apply p-8 text-center;
+  }
+}
