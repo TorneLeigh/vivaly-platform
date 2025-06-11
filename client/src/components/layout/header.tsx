@@ -23,6 +23,7 @@ import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+import AirbnbSearch from "@/components/airbnb-search";
 
 export default function Header() {
   const [location] = useLocation();
@@ -62,6 +63,17 @@ export default function Header() {
     logoutMutation.mutate();
   };
 
+  const handleSearch = (filters: any) => {
+    const params = new URLSearchParams();
+    if (filters.location) params.set("location", filters.location);
+    if (filters.date) params.set("date", filters.date);
+    if (filters.careFor) params.set("careFor", filters.careFor);
+    if (filters.serviceType) params.set("serviceType", filters.serviceType);
+    
+    const searchUrl = `/search${params.toString() ? `?${params.toString()}` : ""}`;
+    window.location.href = searchUrl;
+  };
+
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
@@ -82,17 +94,9 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Desktop Center Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
-            <Link href="/find-care" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
-              Day Care
-            </Link>
-            <Link href="/services" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
-              Services
-            </Link>
-            <Link href="/gift-cards" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
-              Gift Cards
-            </Link>
+          {/* Desktop Center Search */}
+          <div className="hidden lg:flex flex-1 max-w-2xl mx-8">
+            <AirbnbSearch onSearch={handleSearch} />
           </div>
 
           {/* Desktop Right Side */}
@@ -181,6 +185,13 @@ export default function Header() {
                   
                   {/* Content */}
                   <div className="flex-1 overflow-y-auto">
+                    {/* Mobile Search */}
+                    <div className="p-6">
+                      <AirbnbSearch onSearch={handleSearch} className="w-full" />
+                    </div>
+
+                    <div className="border-t mx-6"></div>
+
                     {/* Navigation Links */}
                     <div className="p-6 space-y-4">
                       <Link href="/find-care" className="block text-lg font-medium text-gray-900 hover:text-coral py-3" onClick={() => setMobileMenuOpen(false)}>
