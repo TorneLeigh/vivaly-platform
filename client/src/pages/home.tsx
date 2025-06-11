@@ -244,11 +244,6 @@ export default function Home() {
           <p className="text-sm sm:text-lg md:text-xl text-gray-600 mb-6 max-w-2xl mx-auto">
             Instant booking • Verified caregivers • Available today
           </p>
-
-          {/* Role Toggle */}
-          <div className="flex justify-center mb-8">
-            <RoleToggle />
-          </div>
           
           {/* Airbnb-style Search Bar - Fixed positioning to prevent movement */}
           <div className="relative z-10">
