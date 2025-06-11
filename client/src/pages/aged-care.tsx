@@ -1,54 +1,54 @@
 import { Link } from 'wouter';
 import { ChevronRight, Home } from 'lucide-react';
-import doulaImage1 from "@assets/71f27a774a4b4ecaa46e30332bf23131_1749360121452.jpg";
-import birthEducationClassImage from "@assets/5c1756efeffe31b87ae42255a1e625b5_1749182535016.jpg";
-import motherHoldingBabyImage from "@assets/e3806ba7e7119fb379b95ce4d570e105_1749182535016.jpg";
-import newbornCareImage from "@assets/b1bc54b815bb1f418342a8203ae3e8e3_1749182535016.jpg";
-import breastfeedingLatchImage from "@assets/c18480e234907faffa31784936ac8816_1749182897295.jpg";
-import doulaImage5 from "@assets/2c4a91a9b547f50bb709e6399c12a2a0_1749360121452.jpg";
+import companionshipImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749360121452.jpg";
+import personalCareImage from "@assets/79c40dcc41bd092f6f03b26fd4cf94d8_1749360121452.jpg";
+import mobilityAssistanceImage from "@assets/6a343ff11de7689d7a8361bbc05075a5_1749360121452.jpg";
+import medicationManagementImage from "@assets/43d1ada7714ec38aef8a9c6639cf3182_1749360121452.jpg";
+import householdSupportImage from "@assets/702b767994f2c076bab98adb9368662e_1749360121452.jpg";
+import respiteCareImage from "@assets/2211c4a4f0b5f624766fb6ce4c54de99_1749360121452.jpg";
 
-export default function PrenatalServices() {
-  const prenatalServices = [
+export default function AgedCare() {
+  const agedCareServices = [
     {
-      title: "Doula Support",
-      description: "Certified doulas to guide you emotionally and physically during pregnancy and labor.",
-      image: doulaImage1,
-      link: "/book/doula",
+      title: "Companionship",
+      description: "Friendly companions to provide social interaction, conversation, and emotional support for seniors.",
+      image: companionshipImage,
+      link: "/book/companionship",
       buttonText: "Book Now"
     },
     {
-      title: "Prenatal Classes",
-      description: "Join small group or one-on-one prenatal education sessions tailored to your needs.",
-      image: birthEducationClassImage,
-      link: "/book/classes",
+      title: "Personal Care",
+      description: "Assistance with daily personal care tasks including bathing, dressing, and grooming.",
+      image: personalCareImage,
+      link: "/book/personal-care",
       buttonText: "Learn More"
     },
     {
-      title: "Midwife Services",
-      description: "Professional midwifery care from prenatal to postnatal support with personalized attention.",
-      image: motherHoldingBabyImage,
-      link: "/book/midwife",
+      title: "Mobility Assistance",
+      description: "Support with movement, transfers, and maintaining independence around the home.",
+      image: mobilityAssistanceImage,
+      link: "/book/mobility-assistance",
       buttonText: "Book Now"
     },
     {
-      title: "Newborn Care",
-      description: "Expert guidance on sleep, feeding, swaddling and bonding with your newborn.",
-      image: newbornCareImage,
-      link: "/book/newborn-care",
+      title: "Medication Management",
+      description: "Professional assistance with medication schedules and health monitoring.",
+      image: medicationManagementImage,
+      link: "/book/medication-management",
       buttonText: "Learn More"
     },
     {
-      title: "Lactation Support",
-      description: "Comprehensive breastfeeding support and lactation consultation from certified specialists.",
-      image: breastfeedingLatchImage,
-      link: "/book/lactation",
+      title: "Household Support",
+      description: "Help with cooking, cleaning, shopping, and maintaining a comfortable living environment.",
+      image: householdSupportImage,
+      link: "/book/household-support",
       buttonText: "Book Now"
     },
     {
-      title: "Postpartum Care",
-      description: "Recovery support and guidance through the fourth trimester with experienced caregivers.",
-      image: doulaImage5,
-      link: "/book/postpartum",
+      title: "Respite Care",
+      description: "Temporary care services to give family caregivers a well-deserved break.",
+      image: respiteCareImage,
+      link: "/book/respite-care",
       buttonText: "Learn More"
     }
   ];
@@ -64,7 +64,7 @@ export default function PrenatalServices() {
               Home
             </Link>
             <ChevronRight className="w-4 h-4" />
-            <span className="text-gray-900 font-medium">Prenatal Services</span>
+            <span className="text-gray-900 font-medium">Aged Care</span>
           </div>
         </div>
       </section>
@@ -74,16 +74,16 @@ export default function PrenatalServices() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Support for Every Stage of Pregnancy
+              Compassionate Care for Seniors
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive prenatal and postnatal care services to support you and your growing family throughout your journey.
+              Professional aged care services designed to support independence, dignity, and quality of life for seniors in their own homes.
             </p>
           </div>
 
           {/* Services Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {prenatalServices.map((service, index) => (
+            {agedCareServices.map((service, index) => (
               <div 
                 key={index}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
@@ -119,16 +119,16 @@ export default function PrenatalServices() {
 
           {/* CTA Section */}
           <div className="mt-16 text-center">
-            <div className="bg-gradient-to-r from-pink-50 to-blue-50 rounded-2xl p-8">
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Need Help Choosing the Right Service?
+                Need Help Finding the Right Care?
               </h2>
               <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-                Our care coordinators are here to help you find the perfect prenatal or postnatal support for your unique needs.
+                Our care coordinators are here to help you find the perfect aged care support tailored to your loved one's specific needs.
               </p>
               <Link href="/contact">
                 <button className="bg-black text-white px-8 py-4 rounded-full font-medium hover:bg-gray-800 transition-colors duration-200">
-                  Get Personalized Guidance
+                  Get Personalized Care Plan
                 </button>
               </Link>
             </div>

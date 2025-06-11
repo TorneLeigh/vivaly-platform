@@ -1,54 +1,54 @@
 import { Link } from 'wouter';
 import { ChevronRight, Home } from 'lucide-react';
-import doulaImage1 from "@assets/71f27a774a4b4ecaa46e30332bf23131_1749360121452.jpg";
-import birthEducationClassImage from "@assets/5c1756efeffe31b87ae42255a1e625b5_1749182535016.jpg";
-import motherHoldingBabyImage from "@assets/e3806ba7e7119fb379b95ce4d570e105_1749182535016.jpg";
-import newbornCareImage from "@assets/b1bc54b815bb1f418342a8203ae3e8e3_1749182535016.jpg";
-import breastfeedingLatchImage from "@assets/c18480e234907faffa31784936ac8816_1749182897295.jpg";
-import doulaImage5 from "@assets/2c4a91a9b547f50bb709e6399c12a2a0_1749360121452.jpg";
+import dogWalkingImage from "@assets/994aad74ac4664d9bd56815d3fda5f88_1749183011870.jpg";
+import petSittingImage from "@assets/d886544ac5e3fae6b42acf55429e1aaa_1749183011871.jpg";
+import petGroomingImage from "@assets/32b2abcfc1fddbe1118ee928059ce66b_1749183011871.jpg";
+import veterinaryTransportImage from "@assets/1f385011ff2b05a03672385eb150b795_1749183011871.jpg";
+import petBoardingImage from "@assets/04d9009db67d6c328f97e3b626b6d305_1749183011871.jpg";
+import petTrainingImage from "@assets/8da0e0735821d20e3f8cb769e40a4c98_1749182897295.jpg";
 
-export default function PrenatalServices() {
-  const prenatalServices = [
+export default function PetCare() {
+  const petCareServices = [
     {
-      title: "Doula Support",
-      description: "Certified doulas to guide you emotionally and physically during pregnancy and labor.",
-      image: doulaImage1,
-      link: "/book/doula",
+      title: "Dog Walking",
+      description: "Reliable daily walks to keep your dog happy, healthy, and well-exercised while you're away.",
+      image: dogWalkingImage,
+      link: "/book/dog-walking",
       buttonText: "Book Now"
     },
     {
-      title: "Prenatal Classes",
-      description: "Join small group or one-on-one prenatal education sessions tailored to your needs.",
-      image: birthEducationClassImage,
-      link: "/book/classes",
+      title: "Pet Sitting",
+      description: "In-home pet care providing companionship and attention for your pets in their familiar environment.",
+      image: petSittingImage,
+      link: "/book/pet-sitting",
       buttonText: "Learn More"
     },
     {
-      title: "Midwife Services",
-      description: "Professional midwifery care from prenatal to postnatal support with personalized attention.",
-      image: motherHoldingBabyImage,
-      link: "/book/midwife",
+      title: "Pet Grooming",
+      description: "Professional grooming services including baths, brushing, nail trimming, and styling.",
+      image: petGroomingImage,
+      link: "/book/pet-grooming",
       buttonText: "Book Now"
     },
     {
-      title: "Newborn Care",
-      description: "Expert guidance on sleep, feeding, swaddling and bonding with your newborn.",
-      image: newbornCareImage,
-      link: "/book/newborn-care",
+      title: "Veterinary Transport",
+      description: "Safe and comfortable transportation to veterinary appointments and pet care facilities.",
+      image: veterinaryTransportImage,
+      link: "/book/vet-transport",
       buttonText: "Learn More"
     },
     {
-      title: "Lactation Support",
-      description: "Comprehensive breastfeeding support and lactation consultation from certified specialists.",
-      image: breastfeedingLatchImage,
-      link: "/book/lactation",
+      title: "Pet Boarding",
+      description: "Overnight care in a loving home environment when you need to be away for extended periods.",
+      image: petBoardingImage,
+      link: "/book/pet-boarding",
       buttonText: "Book Now"
     },
     {
-      title: "Postpartum Care",
-      description: "Recovery support and guidance through the fourth trimester with experienced caregivers.",
-      image: doulaImage5,
-      link: "/book/postpartum",
+      title: "Pet Training",
+      description: "Professional training sessions to help your pet develop good behaviors and social skills.",
+      image: petTrainingImage,
+      link: "/book/pet-training",
       buttonText: "Learn More"
     }
   ];
@@ -64,7 +64,7 @@ export default function PrenatalServices() {
               Home
             </Link>
             <ChevronRight className="w-4 h-4" />
-            <span className="text-gray-900 font-medium">Prenatal Services</span>
+            <span className="text-gray-900 font-medium">Pet Care</span>
           </div>
         </div>
       </section>
@@ -74,16 +74,16 @@ export default function PrenatalServices() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Support for Every Stage of Pregnancy
+              Loving Care for Your Furry Family
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive prenatal and postnatal care services to support you and your growing family throughout your journey.
+              Professional pet care services to keep your beloved companions happy, healthy, and well-cared for when you can't be there.
             </p>
           </div>
 
           {/* Services Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {prenatalServices.map((service, index) => (
+            {petCareServices.map((service, index) => (
               <div 
                 key={index}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
@@ -119,16 +119,16 @@ export default function PrenatalServices() {
 
           {/* CTA Section */}
           <div className="mt-16 text-center">
-            <div className="bg-gradient-to-r from-pink-50 to-blue-50 rounded-2xl p-8">
+            <div className="bg-gradient-to-r from-green-50 to-teal-50 rounded-2xl p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Need Help Choosing the Right Service?
+                Need Help Choosing Pet Care Services?
               </h2>
               <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-                Our care coordinators are here to help you find the perfect prenatal or postnatal support for your unique needs.
+                Our pet care coordinators are here to help you find the perfect care solution for your furry, feathered, or scaled family members.
               </p>
               <Link href="/contact">
                 <button className="bg-black text-white px-8 py-4 rounded-full font-medium hover:bg-gray-800 transition-colors duration-200">
-                  Get Personalized Guidance
+                  Get Personalized Pet Care Plan
                 </button>
               </Link>
             </div>

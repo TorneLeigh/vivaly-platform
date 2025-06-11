@@ -1,54 +1,54 @@
 import { Link } from 'wouter';
 import { ChevronRight, Home } from 'lucide-react';
-import doulaImage1 from "@assets/71f27a774a4b4ecaa46e30332bf23131_1749360121452.jpg";
-import birthEducationClassImage from "@assets/5c1756efeffe31b87ae42255a1e625b5_1749182535016.jpg";
-import motherHoldingBabyImage from "@assets/e3806ba7e7119fb379b95ce4d570e105_1749182535016.jpg";
-import newbornCareImage from "@assets/b1bc54b815bb1f418342a8203ae3e8e3_1749182535016.jpg";
-import breastfeedingLatchImage from "@assets/c18480e234907faffa31784936ac8816_1749182897295.jpg";
-import doulaImage5 from "@assets/2c4a91a9b547f50bb709e6399c12a2a0_1749360121452.jpg";
+import nannyCareImage from "@assets/31d064b6874d9bd38e6f664bff0e8352_1749267180596.jpg";
+import afterSchoolCareImage from "@assets/ad23d9f10c69e3bfc73ffe82a1bac618_1749267219539.jpg";
+import babysittingImage from "@assets/c18480e234907faffa31784936ac8816_1749267000694.jpg";
+import emergencyCareImage from "@assets/e3806ba7e7119fb379b95ce4d570e105_1749267017855.jpg";
+import overnightCareImage from "@assets/9717a7e59d32ac45c39a7f027a3230af_1749182897295.jpg";
+import holidayCareImage from "@assets/d81ff6e441430a5c581dc3a72149844e_1749182897295.jpg";
 
-export default function PrenatalServices() {
-  const prenatalServices = [
+export default function Childcare() {
+  const childcareServices = [
     {
-      title: "Doula Support",
-      description: "Certified doulas to guide you emotionally and physically during pregnancy and labor.",
-      image: doulaImage1,
-      link: "/book/doula",
+      title: "Nanny Care",
+      description: "Professional full-time or part-time nannies to provide personalized care for your children.",
+      image: nannyCareImage,
+      link: "/book/nanny",
       buttonText: "Book Now"
     },
     {
-      title: "Prenatal Classes",
-      description: "Join small group or one-on-one prenatal education sessions tailored to your needs.",
-      image: birthEducationClassImage,
-      link: "/book/classes",
+      title: "After School Care",
+      description: "Safe and engaging after-school supervision with homework help and activities.",
+      image: afterSchoolCareImage,
+      link: "/book/after-school",
       buttonText: "Learn More"
     },
     {
-      title: "Midwife Services",
-      description: "Professional midwifery care from prenatal to postnatal support with personalized attention.",
-      image: motherHoldingBabyImage,
-      link: "/book/midwife",
+      title: "Babysitting",
+      description: "Trusted babysitters for date nights, appointments, or when you need a few hours away.",
+      image: babysittingImage,
+      link: "/book/babysitting",
       buttonText: "Book Now"
     },
     {
-      title: "Newborn Care",
-      description: "Expert guidance on sleep, feeding, swaddling and bonding with your newborn.",
-      image: newbornCareImage,
-      link: "/book/newborn-care",
+      title: "Emergency Care",
+      description: "Last-minute childcare support when unexpected situations arise.",
+      image: emergencyCareImage,
+      link: "/book/emergency-care",
       buttonText: "Learn More"
     },
     {
-      title: "Lactation Support",
-      description: "Comprehensive breastfeeding support and lactation consultation from certified specialists.",
-      image: breastfeedingLatchImage,
-      link: "/book/lactation",
+      title: "Overnight Care",
+      description: "Reliable overnight supervision for work trips, special events, or emergencies.",
+      image: overnightCareImage,
+      link: "/book/overnight",
       buttonText: "Book Now"
     },
     {
-      title: "Postpartum Care",
-      description: "Recovery support and guidance through the fourth trimester with experienced caregivers.",
-      image: doulaImage5,
-      link: "/book/postpartum",
+      title: "Holiday Care",
+      description: "Childcare during school holidays with fun activities and educational programs.",
+      image: holidayCareImage,
+      link: "/book/holiday-care",
       buttonText: "Learn More"
     }
   ];
@@ -64,7 +64,7 @@ export default function PrenatalServices() {
               Home
             </Link>
             <ChevronRight className="w-4 h-4" />
-            <span className="text-gray-900 font-medium">Prenatal Services</span>
+            <span className="text-gray-900 font-medium">Childcare</span>
           </div>
         </div>
       </section>
@@ -74,16 +74,16 @@ export default function PrenatalServices() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Support for Every Stage of Pregnancy
+              Trusted Childcare Solutions
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive prenatal and postnatal care services to support you and your growing family throughout your journey.
+              Professional childcare services providing safe, nurturing, and engaging care for children of all ages when you need it most.
             </p>
           </div>
 
           {/* Services Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {prenatalServices.map((service, index) => (
+            {childcareServices.map((service, index) => (
               <div 
                 key={index}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
@@ -119,16 +119,16 @@ export default function PrenatalServices() {
 
           {/* CTA Section */}
           <div className="mt-16 text-center">
-            <div className="bg-gradient-to-r from-pink-50 to-blue-50 rounded-2xl p-8">
+            <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Need Help Choosing the Right Service?
+                Need Help Finding the Right Childcare?
               </h2>
               <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-                Our care coordinators are here to help you find the perfect prenatal or postnatal support for your unique needs.
+                Our childcare coordinators are here to help you find the perfect care solution that matches your family's unique needs and schedule.
               </p>
               <Link href="/contact">
                 <button className="bg-black text-white px-8 py-4 rounded-full font-medium hover:bg-gray-800 transition-colors duration-200">
-                  Get Personalized Guidance
+                  Get Personalized Childcare Plan
                 </button>
               </Link>
             </div>

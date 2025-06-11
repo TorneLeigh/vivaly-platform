@@ -203,44 +203,53 @@ export default function Services() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Services
+              Our Care Services
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
-              Discover professional care services, connect with trusted caregivers, and join community events
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+              Professional care services to support you and your loved ones. Browse our main service categories below.
             </p>
             
-            {/* Quick Filter Buttons */}
-            <div className="flex flex-wrap justify-center gap-3 mb-6">
-              <button
-                onClick={() => setSelectedCategory("all")}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
-                  selectedCategory === "all"
-                    ? "bg-black text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                All Services
-              </button>
-              <button
-                onClick={() => setSelectedCategory("pet")}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
-                  selectedCategory === "pet"
-                    ? "bg-black text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                Pet Care
-              </button>
-              <button
-                onClick={() => setSelectedCategory("elderly")}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
-                  selectedCategory === "elderly"
-                    ? "bg-black text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                Elderly Care
-              </button>
+            {/* Service Category Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+              <Link href="/prenatal-services">
+                <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer border border-pink-100">
+                  <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl">🤱</span>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Prenatal Services</h3>
+                  <p className="text-sm text-gray-600">Doula support, classes, and postnatal care</p>
+                </div>
+              </Link>
+              
+              <Link href="/childcare">
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer border border-blue-100">
+                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl">👶</span>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Childcare</h3>
+                  <p className="text-sm text-gray-600">Nannies, babysitting, and after-school care</p>
+                </div>
+              </Link>
+              
+              <Link href="/aged-care">
+                <div className="bg-gradient-to-br from-purple-50 to-violet-50 rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer border border-purple-100">
+                  <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl">👴</span>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Aged Care</h3>
+                  <p className="text-sm text-gray-600">Companionship and personal care services</p>
+                </div>
+              </Link>
+              
+              <Link href="/pet-care">
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer border border-green-100">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl">🐕</span>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Pet Care</h3>
+                  <p className="text-sm text-gray-600">Dog walking, pet sitting, and grooming</p>
+                </div>
+              </Link>
             </div>
           </div>
         </div>
