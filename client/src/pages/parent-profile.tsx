@@ -346,7 +346,7 @@ export default function ParentProfile() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Baby className="w-5 h-5" />
-                Family Details
+                Family Details & Requirements
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -383,6 +383,36 @@ export default function ParentProfile() {
                       {form.formState.errors.childrenAges.message}
                     </p>
                   )}
+                </div>
+              </div>
+
+              {/* Household Information */}
+              <div>
+                <Label className="mb-3 block text-lg font-semibold">Household Information</Label>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {["Pet-friendly home", "Smoke-free home", "Pool on property", "Stairs in home", "Security cameras", "Alarm system", "Garden/outdoor space", "Parking available", "Public transport nearby"].map((feature) => (
+                    <div
+                      key={feature}
+                      className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
+                    >
+                      <span className="text-sm font-medium">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Family Preferences */}
+              <div>
+                <Label className="mb-3 block text-lg font-semibold">Family Values & Preferences</Label>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {["Religious household", "Vegetarian/Vegan meals", "Organic food only", "Screen time limits", "Outdoor activities focus", "Educational emphasis", "Multilingual environment", "Cultural traditions", "Eco-conscious family"].map((value) => (
+                    <div
+                      key={value}
+                      className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
+                    >
+                      <span className="text-sm font-medium">{value}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -479,12 +509,51 @@ export default function ParentProfile() {
             </CardContent>
           </Card>
 
-          {/* Additional Preferences */}
+          {/* Scheduling & Availability */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Settings className="w-5 h-5" />
-                Care Preferences & Requirements
+                Scheduling & Care Requirements
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div>
+                <Label className="mb-3 block text-lg font-semibold">Typical Care Schedule Needed</Label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {["Weekday mornings", "Weekday afternoons", "Weekday evenings", "Weekend mornings", "Weekend afternoons", "Weekend evenings", "Overnight care", "Emergency care", "School holidays", "Flexible schedule"].map((schedule) => (
+                    <div
+                      key={schedule}
+                      className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
+                    >
+                      <span className="text-sm font-medium">{schedule}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <Label className="mb-3 block text-lg font-semibold">Care Setting Preferences</Label>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {["In our home", "At caregiver's home", "Both locations", "Outdoor activities", "Public venues", "Educational outings", "Flexible locations"].map((setting) => (
+                    <div
+                      key={setting}
+                      className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
+                    >
+                      <span className="text-sm font-medium">{setting}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Additional Preferences */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Heart className="w-5 h-5" />
+                Additional Care Preferences
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">

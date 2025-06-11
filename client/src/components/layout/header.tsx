@@ -129,12 +129,16 @@ export default function Header() {
                     <div className="border-t my-1"></div>
                     {viewMode === 'seeker' ? (
                       <>
-                        <DropdownMenuItem onClick={() => window.location.href = '/provider-dashboard'} className="!bg-black !text-white hover:!bg-gray-800 hover:!text-white focus:!bg-black focus:!text-white data-[highlighted]:!bg-black data-[highlighted]:!text-white">
-                          Switch to Service Provider
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => window.location.href = '/become-caregiver'} className="!bg-black !text-white hover:!bg-gray-800 hover:!text-white focus:!bg-black focus:!text-white data-[highlighted]:!bg-black data-[highlighted]:!text-white">
-                          Switch to Caregiver
-                        </DropdownMenuItem>
+                        <div className="bg-black text-white rounded-md p-2 my-1">
+                          <DropdownMenuItem onClick={() => window.location.href = '/provider-dashboard'} className="bg-transparent text-white hover:bg-gray-800 hover:text-white focus:bg-transparent focus:text-white">
+                            Switch to Service Provider
+                          </DropdownMenuItem>
+                        </div>
+                        <div className="bg-black text-white rounded-md p-2 my-1">
+                          <DropdownMenuItem onClick={() => window.location.href = '/become-caregiver'} className="bg-transparent text-white hover:bg-gray-800 hover:text-white focus:bg-transparent focus:text-white">
+                            Switch to Caregiver
+                          </DropdownMenuItem>
+                        </div>
                       </>
                     ) : (
                       <DropdownMenuItem onClick={() => window.location.href = '/find-care'}>
