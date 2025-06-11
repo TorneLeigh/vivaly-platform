@@ -247,8 +247,14 @@ export default function Home() {
           <div className="max-w-4xl mx-auto mb-12 px-4">
             <AirbnbSearch 
               onSearch={(filters) => {
-                const searchParams = new URLSearchParams(filters);
-                window.location.href = `/find-care?${searchParams.toString()}`;
+                const params = new URLSearchParams();
+                if (filters.location) params.set("location", filters.location);
+                if (filters.date) params.set("date", filters.date);
+                if (filters.careFor) params.set("careFor", filters.careFor);
+                if (filters.serviceType) params.set("serviceType", filters.serviceType);
+                
+                const searchUrl = `/find-care${params.toString() ? `?${params.toString()}` : ""}`;
+                window.location.href = searchUrl;
               }}
               className="w-full"
             />

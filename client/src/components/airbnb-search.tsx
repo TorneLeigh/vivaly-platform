@@ -190,7 +190,7 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
       {!isExpanded && (
         <div 
           onClick={() => setIsExpanded(true)}
-          className="flex items-center justify-between bg-white border border-gray-300 rounded-full px-6 py-3 shadow-md hover:shadow-lg transition-shadow cursor-pointer max-w-md mx-auto"
+          className="flex items-center justify-between bg-white border border-gray-300 rounded-full px-6 py-3 shadow-md hover:shadow-lg transition-shadow cursor-pointer w-full max-w-2xl mx-auto"
         >
           <div className="flex items-center space-x-4 flex-1">
             <div className="flex items-center space-x-2">
@@ -208,9 +208,27 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
                 {selectedDate ? format(selectedDate, "MMM dd") : "When"}
               </span>
             </div>
+
+            <div className="h-6 w-px bg-gray-300" />
+            
+            <div className="flex items-center space-x-2">
+              <Users className="h-4 w-4 text-gray-500" />
+              <span className="text-sm font-medium text-gray-900 truncate">
+                {getCareForDisplay()}
+              </span>
+            </div>
+
+            <div className="h-6 w-px bg-gray-300" />
+            
+            <div className="flex items-center space-x-2">
+              <Briefcase className="h-4 w-4 text-gray-500" />
+              <span className="text-sm font-medium text-gray-900 truncate">
+                {filters.serviceType || "Service"}
+              </span>
+            </div>
           </div>
           
-          <div className="bg-coral p-2 rounded-full">
+          <div className="bg-coral p-2 rounded-full ml-4">
             <Search className="h-4 w-4 text-white" />
           </div>
         </div>
