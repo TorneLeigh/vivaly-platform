@@ -20,7 +20,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { z } from "zod";
 import { 
   Mail, User, Phone, Lock, Clock, Shield, Heart, CheckCircle, 
-  Baby, Users2, Handshake, MapPin, ArrowRight, Building
+  Baby, Users2, Handshake, MapPin, ArrowRight, Building, UserPlus, PawPrint
 } from "lucide-react";
 import { Link } from "wouter";
 
@@ -365,6 +365,60 @@ export default function Signup() {
                     <div className="flex-1">
                       <h3 className="text-lg font-semibold text-warm-gray mb-2">I'm looking for day care</h3>
                       <p className="text-warm-gray-light text-sm">Find quality daycare centers and early learning programs in your area</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Elderly Care Option */}
+                <div
+                  className={`p-6 border-2 rounded-lg transition-all cursor-pointer ${
+                    selectedOptions.includes("elderly-care") 
+                      ? "border-coral bg-coral-light/20" 
+                      : "border-gray-200 hover:border-coral hover:bg-coral-light/20"
+                  }`}
+                  onClick={() => handleOptionToggle("elderly-care")}
+                >
+                  <div className="flex items-start space-x-4">
+                    <div className="flex items-center">
+                      <Checkbox 
+                        checked={selectedOptions.includes("elderly-care")}
+                        onChange={() => handleOptionToggle("elderly-care")}
+                        className="mr-3"
+                      />
+                      <div className="w-12 h-12 bg-coral-light rounded-lg flex items-center justify-center">
+                        <UserPlus className="h-6 w-6 text-coral" />
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-warm-gray mb-2">I need elderly care services</h3>
+                      <p className="text-warm-gray-light text-sm">Find trusted caregivers for elderly family members and companionship support</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Pet Care Option */}
+                <div
+                  className={`p-6 border-2 rounded-lg transition-all cursor-pointer ${
+                    selectedOptions.includes("pet-care") 
+                      ? "border-coral bg-coral-light/20" 
+                      : "border-gray-200 hover:border-coral hover:bg-coral-light/20"
+                  }`}
+                  onClick={() => handleOptionToggle("pet-care")}
+                >
+                  <div className="flex items-start space-x-4">
+                    <div className="flex items-center">
+                      <Checkbox 
+                        checked={selectedOptions.includes("pet-care")}
+                        onChange={() => handleOptionToggle("pet-care")}
+                        className="mr-3"
+                      />
+                      <div className="w-12 h-12 bg-coral-light rounded-lg flex items-center justify-center">
+                        <PawPrint className="h-6 w-6 text-coral" />
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-warm-gray mb-2">I need pet care services</h3>
+                      <p className="text-warm-gray-light text-sm">Find trusted pet sitters, dog walkers, and animal care specialists in your area</p>
                     </div>
                   </div>
                 </div>
