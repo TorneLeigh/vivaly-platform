@@ -60,6 +60,7 @@ import ParentProfile from "@/pages/parent-profile";
 import AccountSettings from "@/pages/account-settings";
 import Help from "@/pages/help";
 import CoSupport from "@/pages/co-support";
+import EmergencyInformation from "@/pages/emergency-information";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -136,6 +137,7 @@ function Router() {
           <Route path="/cookie-policy" component={CookiePolicy} />
           <Route path="/accessibility" component={Accessibility} />
           <Route path="/help" component={Help} />
+          <Route path="/emergency-information" component={EmergencyInformation} />
           <Route path="/quick-start" component={QuickStart} />
 
           {/* Provider-only routes */}

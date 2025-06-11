@@ -29,12 +29,12 @@ export default function Footer() {
           </div>
           
           <div>
-            <h4 className="font-semibold mb-4">For Caregivers</h4>
+            <h4 className="font-semibold mb-4">Help Center</h4>
             <ul className="space-y-2 text-gray-300">
-              <li><Link href="/become-nanny" className="hover:text-white transition-colors">Join as Caregiver</Link></li>
+              <li><Link href="/help" className="hover:text-white transition-colors">Help Center</Link></li>
+              <li><Link href="/emergency-information" className="hover:text-white transition-colors">Emergency Information</Link></li>
               <li><Link href="/safety-center" className="hover:text-white transition-colors">Safety Center</Link></li>
               <li><Link href="/background-checks" className="hover:text-white transition-colors">Background Checks</Link></li>
-              <li><Link href="/help" className="hover:text-white transition-colors">Help Center</Link></li>
             </ul>
           </div>
           
