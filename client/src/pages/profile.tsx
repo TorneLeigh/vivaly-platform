@@ -7,7 +7,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Heart, Sparkles, Star, Smile } from "lucide-react";
+import { Heart, Sparkles, Star, Smile, Eye, Camera } from "lucide-react";
+import ParentPhotoUpload from "@/components/parent-photo-upload";
+import MultiPhotoUpload from "@/components/multi-photo-upload";
 
 export default function Profile() {
   const { toast } = useToast();
@@ -90,8 +92,20 @@ export default function Profile() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Your Profile</h1>
-          <p className="text-gray-600">Let families get to know the real you with these personal touches</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Your Profile</h1>
+              <p className="text-gray-600">Let families get to know the real you with these personal touches</p>
+            </div>
+            <Button
+              variant="outline"
+              onClick={() => window.location.href = '/profile-preview'}
+              className="flex items-center gap-2"
+            >
+              <Eye className="h-4 w-4" />
+              View My Profile
+            </Button>
+          </div>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
@@ -134,6 +148,22 @@ export default function Profile() {
                     Save Profile
                   </Button>
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* Photo Upload Section for Parents */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Camera className="h-5 w-5 text-blue-500" />
+                  Family Photos
+                </CardTitle>
+                <CardDescription>
+                  Share photos of your family activities and home environment (optional - no children's faces required for privacy)
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ParentPhotoUpload />
               </CardContent>
             </Card>
           </TabsContent>
