@@ -1,7 +1,4 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
-import { Users, Heart } from "lucide-react";
 
 interface RoleToggleProps {
   className?: string;
@@ -19,42 +16,39 @@ export default function RoleToggle({ className = "" }: RoleToggleProps) {
   
   const currentRole = isProviderRoute ? 'provider' : 'seeker';
 
-  const handleRoleSwitch = (role: 'seeker' | 'provider') => {
-    if (role === 'seeker') {
-      setLocation('/');
-    } else {
+  const handleToggle = () => {
+    if (currentRole === 'seeker') {
       setLocation('/become-caregiver');
+    } else {
+      setLocation('/');
     }
   };
 
   return (
-    <div className={`flex items-center bg-gray-100 rounded-full p-1 ${className}`}>
-      <Button
-        variant={currentRole === 'seeker' ? 'default' : 'ghost'}
-        size="sm"
-        onClick={() => handleRoleSwitch('seeker')}
-        className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
-          currentRole === 'seeker'
-            ? 'bg-coral text-white shadow-sm'
-            : 'text-gray-600 hover:text-gray-900 hover:bg-white'
-        }`}
-      >
-        <Users className="h-4 w-4 mr-2" />
+    <div className={`flex items-center gap-3 text-sm ${className}`}>
+      <span className={`font-medium ${currentRole === 'seeker' ? 'text-gray-900' : 'text-gray-500'}`}>
         Parent/Seeker
-      </Button>
-      <Button
-        variant={currentRole === 'provider' ? 'default' : 'ghost'}
-        size="sm"
-        onClick={() => handleRoleSwitch('provider')}
-        className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
-          currentRole === 'provider'
-            ? 'bg-coral text-white shadow-sm'
-            : 'text-gray-600 hover:text-gray-900 hover:bg-white'
-        }`}
-      >
-        <Heart className="h-4 w-4 mr-2" />
+      </span>
+      
+      <label className="relative inline-block w-12 h-6 cursor-pointer">
+        <input
+          type="checkbox"
+          checked={currentRole === 'provider'}
+          onChange={handleToggle}
+          className="opacity-0 w-0 h-0"
+        />
+        <span className={`absolute inset-0 rounded-full transition-all duration-400 ${
+          currentRole === 'provider' ? 'bg-coral' : 'bg-gray-300'
+        }`}>
+          <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform duration-400 ${
+            currentRole === 'provider' ? 'transform translate-x-6' : ''
+          }`} />
+        </span>
+      </label>
+      
+      <span className={`font-medium ${currentRole === 'provider' ? 'text-gray-900' : 'text-gray-500'}`}>
         Caregiver/Provider
-      </Button>
+      </span>
     </div>
   );
 }
