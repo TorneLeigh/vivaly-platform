@@ -105,10 +105,90 @@ export class AIService {
       });
 
       return completion.choices[0].message.content || "I'm here to help! How can I assist you with your care needs today?";
-    } catch (error) {
+    } catch (error: any) {
       console.error('Chat Support Error:', error);
-      throw new Error('I apologize, but I\'m having trouble responding right now. Please contact our human support team for immediate assistance.');
+      
+      // Check if it's a quota/billing error and provide demo response
+      if (error?.status === 429 || error?.code === 'insufficient_quota' || 
+          (error?.message && (error.message.includes('quota') || error.message.includes('billing')))) {
+        console.log('OpenAI quota exceeded, using demo response');
+        return this.getDemoResponse(messages);
+      }
+      
+      // For other errors, return the demo response as well for now
+      console.log('OpenAI API error, falling back to demo response');
+      return this.getDemoResponse(messages);
     }
+  }
+
+  private getDemoResponse(messages: ChatMessage[]): string {
+    const lastMessage = messages[messages.length - 1]?.content.toLowerCase() || '';
+    
+    if (lastMessage.includes('nanny') || lastMessage.includes('babysitter')) {
+      return `I'd be happy to help you find a nanny! Here are some key things to consider:
+
+• **Background checks**: All VIVALY nannies undergo comprehensive WWCC and police checks
+• **Experience level**: We can match you with nannies who have experience with your child's age group
+• **Location**: We have qualified nannies across Sydney, Melbourne, Brisbane, and other major cities
+• **Scheduling**: From casual babysitting to full-time care arrangements
+
+Would you like me to help you search for nannies in your area? I can also provide safety tips for interviewing potential caregivers.
+
+*Note: This is a demo response. Full AI features will be available once OpenAI billing is configured.*`;
+    }
+    
+    if (lastMessage.includes('childcare') || lastMessage.includes('daycare')) {
+      return `Great question about childcare options! Here's what VIVALY offers:
+
+• **Licensed centers**: We partner with fully accredited childcare facilities
+• **Age-appropriate programs**: From infant care to school-age programs
+• **Flexible scheduling**: Full-time, part-time, or casual care options
+• **Quality assurance**: All centers meet Australian National Quality Standards
+
+I can help you find centers in your area and explain our enrollment process. What age is your child and which suburb are you looking in?
+
+*Note: This is a demo response. Full AI features will be available once OpenAI billing is configured.*`;
+    }
+    
+    if (lastMessage.includes('elderly') || lastMessage.includes('aged care')) {
+      return `I understand you're looking for elderly care services. VIVALY offers:
+
+• **Companion care**: Social interaction and light assistance
+• **Personal care**: Help with daily activities and mobility
+• **Respite care**: Support for family caregivers
+• **24/7 availability**: Emergency and overnight care options
+
+All our aged care providers are trained, insured, and background-checked. Would you like information about services in your area?
+
+*Note: This is a demo response. Full AI features will be available once OpenAI billing is configured.*`;
+    }
+    
+    if (lastMessage.includes('safety') || lastMessage.includes('verification')) {
+      return `Safety is our top priority at VIVALY. Here's how we ensure secure care:
+
+• **Thorough screening**: Working with Children Checks, police clearances, and reference verification
+• **Insurance coverage**: All caregivers carry professional indemnity insurance
+• **Real-time updates**: GPS tracking and regular check-ins during care sessions
+• **24/7 support**: Emergency helpline always available
+• **Review system**: Transparent feedback from other families
+
+Would you like specific safety tips for interviewing caregivers or setting up care arrangements?
+
+*Note: This is a demo response. Full AI features will be available once OpenAI billing is configured.*`;
+    }
+    
+    // Default helpful response
+    return `Hello! I'm VIVALY's AI assistant. I'm here to help you with:
+
+• Finding qualified nannies and caregivers
+• Exploring childcare center options
+• Understanding our safety and verification processes
+• Booking and scheduling care services
+• Emergency care arrangements
+
+What specific care needs can I help you with today? Just let me know your location and the type of care you're looking for.
+
+*Note: This is a demo response. Full AI features will be available once OpenAI billing is configured.*`;
   }
 
   async generateCaregiverProfile(caregiverData: {

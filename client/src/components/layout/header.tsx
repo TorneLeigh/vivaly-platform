@@ -9,7 +9,8 @@ import {
   Plus,
   Heart,
   Users,
-  X
+  X,
+  Sparkles
 } from "lucide-react";
 import vivalyLogo from "@/assets/vivaly-logo-new.jpeg";
 import {
@@ -124,6 +125,10 @@ export default function Header() {
                 <Button variant="ghost" size="sm" onClick={() => window.location.href = '/messages'}>
                   <MessageCircle className="h-4 w-4 mr-2" />
                   Messages
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/ai-chat'} className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
+                  <Sparkles className="h-4 w-4 mr-2" />
+                  AI Assistant
                 </Button>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
