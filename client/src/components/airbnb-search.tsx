@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calendar } from "@/components/ui/calendar";
 import { 
   Search, 
@@ -11,7 +10,8 @@ import {
   Calendar as CalendarIcon, 
   Users,
   Briefcase,
-  ChevronDown
+  Plus,
+  Minus
 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -28,6 +28,29 @@ interface AirbnbSearchProps {
   className?: string;
 }
 
+const AUSTRALIAN_LOCATIONS = [
+  "Sydney, NSW",
+  "Melbourne, VIC", 
+  "Brisbane, QLD",
+  "Perth, WA",
+  "Adelaide, SA",
+  "Gold Coast, QLD",
+  "Newcastle, NSW",
+  "Canberra, ACT",
+  "Sunshine Coast, QLD",
+  "Wollongong, NSW",
+  "Geelong, VIC",
+  "Townsville, QLD",
+  "Cairns, QLD",
+  "Darwin, NT",
+  "Toowoomba, QLD",
+  "Ballarat, VIC",
+  "Bendigo, VIC",
+  "Albury-Wodonga, NSW/VIC",
+  "Launceston, TAS",
+  "Mackay, QLD"
+];
+
 const SERVICE_TYPES = [
   "Babysitting",
   "Childcare", 
@@ -36,67 +59,117 @@ const SERVICE_TYPES = [
   "House Sitting",
   "Tutoring",
   "Cleaning",
-  "All Services"
+  "Nanny Services",
+  "Overnight Care",
+  "Emergency Care"
 ];
 
-const CARE_FOR_OPTIONS = [
-  "1 child",
-  "2 children", 
-  "3 children",
-  "4+ children",
-  "1 adult",
-  "2 adults",
-  "3+ adults",
-  "Pets"
-];
+interface CareOption {
+  type: 'babies' | 'kids' | 'pets' | 'elderly';
+  label: string;
+  count: number;
+}
 
-export default function AirbnbSearch({ onSearch, className = "" }: AirbnbSearchProps) {
+export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeField, setActiveField] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+  const [locationQuery, setLocationQuery] = useState("");
+  const [filteredLocations, setFilteredLocations] = useState<string[]>([]);
+  
+  const [careOptions, setCareOptions] = useState<CareOption[]>([
+    { type: 'babies', label: 'Babies', count: 0 },
+    { type: 'kids', label: 'Kids', count: 0 },
+    { type: 'pets', label: 'Pets', count: 0 },
+    { type: 'elderly', label: 'Elderly', count: 0 }
+  ]);
+
   const [filters, setFilters] = useState<SearchFilters>({
     location: "",
     date: "",
     careFor: "",
     serviceType: ""
   });
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
-  
+
   const searchRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown when clicking outside
+  // Handle clicks outside to close expanded search
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    function handleClickOutside(event: MouseEvent) {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setIsExpanded(false);
         setActiveField(null);
       }
-    };
+    }
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Filter locations based on query
+  useEffect(() => {
+    if (locationQuery) {
+      const filtered = AUSTRALIAN_LOCATIONS.filter(location =>
+        location.toLowerCase().includes(locationQuery.toLowerCase())
+      );
+      setFilteredLocations(filtered);
+    } else {
+      setFilteredLocations([]);
+    }
+  }, [locationQuery]);
+
   const handleFieldClick = (field: string) => {
+    setActiveField(field);
     if (!isExpanded) {
       setIsExpanded(true);
     }
-    setActiveField(field);
+  };
+
+  const handleFieldChange = (field: keyof SearchFilters, value: string) => {
+    setFilters(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleLocationSelect = (location: string) => {
+    handleFieldChange("location", location);
+    setLocationQuery(location);
+    setActiveField(null);
   };
 
   const handleDateSelect = (date: Date | undefined) => {
     setSelectedDate(date);
-    setFilters({
-      ...filters,
-      date: date ? format(date, "yyyy-MM-dd") : ""
-    });
+    if (date) {
+      handleFieldChange("date", format(date, "yyyy-MM-dd"));
+    }
     setActiveField(null);
   };
 
-  const handleFieldChange = (field: keyof SearchFilters, value: string) => {
-    setFilters({
-      ...filters,
-      [field]: value
-    });
+  const updateCareOption = (type: CareOption['type'], increment: boolean) => {
+    setCareOptions(prev => 
+      prev.map(option => 
+        option.type === type 
+          ? { ...option, count: Math.max(0, option.count + (increment ? 1 : -1)) }
+          : option
+      )
+    );
+    
+    // Update the care for filter
+    const updatedOptions = careOptions.map(option => 
+      option.type === type 
+        ? { ...option, count: Math.max(0, option.count + (increment ? 1 : -1)) }
+        : option
+    );
+    
+    const careForText = updatedOptions
+      .filter(option => option.count > 0)
+      .map(option => `${option.count} ${option.label}`)
+      .join(", ");
+    
+    handleFieldChange("careFor", careForText);
+  };
+
+  const handleServiceSelect = (service: string) => {
+    handleFieldChange("serviceType", service);
+    setActiveField(null);
   };
 
   const handleSearch = () => {
@@ -105,7 +178,11 @@ export default function AirbnbSearch({ onSearch, className = "" }: AirbnbSearchP
     setActiveField(null);
   };
 
-  const hasFilters = Object.values(filters).some(value => value !== "");
+  const getCareForDisplay = () => {
+    const activeCare = careOptions.filter(option => option.count > 0);
+    if (activeCare.length === 0) return "Care for";
+    return activeCare.map(option => `${option.count} ${option.label}`).join(", ");
+  };
 
   return (
     <div ref={searchRef} className={cn("relative", className)}>
@@ -113,12 +190,12 @@ export default function AirbnbSearch({ onSearch, className = "" }: AirbnbSearchP
       {!isExpanded && (
         <div 
           onClick={() => setIsExpanded(true)}
-          className="flex items-center justify-between bg-white border border-gray-300 rounded-full px-6 py-3 shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+          className="flex items-center justify-between bg-white border border-gray-300 rounded-full px-6 py-3 shadow-md hover:shadow-lg transition-shadow cursor-pointer max-w-md mx-auto"
         >
-          <div className="flex items-center space-x-6 flex-1">
+          <div className="flex items-center space-x-4 flex-1">
             <div className="flex items-center space-x-2">
               <MapPin className="h-4 w-4 text-gray-500" />
-              <span className="text-sm font-medium text-gray-900">
+              <span className="text-sm font-medium text-gray-900 truncate">
                 {filters.location || "Where"}
               </span>
             </div>
@@ -131,177 +208,196 @@ export default function AirbnbSearch({ onSearch, className = "" }: AirbnbSearchP
                 {selectedDate ? format(selectedDate, "MMM dd") : "When"}
               </span>
             </div>
-            
-            <div className="h-6 w-px bg-gray-300" />
-            
-            <div className="flex items-center space-x-2">
-              <Users className="h-4 w-4 text-gray-500" />
-              <span className="text-sm font-medium text-gray-900">
-                {filters.careFor || "Care for"}
-              </span>
-            </div>
-            
-            <div className="h-6 w-px bg-gray-300" />
-            
-            <div className="flex items-center space-x-2">
-              <Briefcase className="h-4 w-4 text-gray-500" />
-              <span className="text-sm font-medium text-gray-900">
-                {filters.serviceType || "Service"}
-              </span>
-            </div>
           </div>
           
-          <div className="ml-4">
-            <div className="bg-coral text-white rounded-full p-2 hover:bg-coral/90 transition-colors">
-              <Search className="h-4 w-4" />
-            </div>
+          <div className="bg-coral p-2 rounded-full">
+            <Search className="h-4 w-4 text-white" />
           </div>
         </div>
       )}
 
-      {/* Expanded Search Form */}
+      {/* Expanded Search Bar */}
       {isExpanded && (
-        <Card className="absolute top-0 left-0 right-0 z-50 shadow-2xl border-0">
-          <CardContent className="p-0">
-            <div className="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200">
+        <div className="absolute top-0 left-0 right-0 z-50 bg-white border border-gray-300 rounded-2xl shadow-2xl p-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-4 gap-0 border border-gray-200 rounded-full overflow-hidden">
+            
+            {/* Where */}
+            <div 
+              className={cn(
+                "p-4 cursor-pointer transition-colors relative",
+                activeField === "location" ? "bg-gray-50" : "hover:bg-gray-50"
+              )}
+              onClick={() => handleFieldClick("location")}
+            >
+              <Label className="text-xs font-semibold text-gray-900 uppercase tracking-wide">
+                Where
+              </Label>
+              <Input
+                placeholder="Search destinations"
+                value={locationQuery}
+                onChange={(e) => setLocationQuery(e.target.value)}
+                className="border-0 p-0 text-sm font-medium focus-visible:ring-0 bg-transparent mt-1"
+                autoFocus={activeField === "location"}
+              />
               
-              {/* Where */}
-              <div 
-                className={cn(
-                  "p-4 cursor-pointer transition-colors",
-                  activeField === "location" ? "bg-gray-50" : "hover:bg-gray-50"
-                )}
-                onClick={() => handleFieldClick("location")}
-              >
-                <Label className="text-xs font-semibold text-gray-900 uppercase tracking-wide">
-                  Where
-                </Label>
-                <Input
-                  placeholder="Search destinations"
-                  value={filters.location}
-                  onChange={(e) => handleFieldChange("location", e.target.value)}
-                  className="border-0 p-0 text-sm font-medium placeholder:text-gray-500 focus-visible:ring-0 bg-transparent"
-                  autoFocus={activeField === "location"}
-                />
-              </div>
-
-              {/* When */}
-              <div 
-                className={cn(
-                  "p-4 cursor-pointer transition-colors",
-                  activeField === "date" ? "bg-gray-50" : "hover:bg-gray-50"
-                )}
-                onClick={() => handleFieldClick("date")}
-              >
-                <Label className="text-xs font-semibold text-gray-900 uppercase tracking-wide">
-                  When
-                </Label>
-                <Input
-                  type="date"
-                  value={filters.date}
-                  onChange={(e) => {
-                    handleFieldChange("date", e.target.value);
-                    setSelectedDate(e.target.value ? new Date(e.target.value) : undefined);
-                  }}
-                  className="border-0 p-0 text-sm font-medium focus-visible:ring-0 bg-transparent"
-                  min={new Date().toISOString().split('T')[0]}
-                  autoFocus={activeField === "date"}
-                />
-              </div>
-
-              {/* Care For */}
-              <div 
-                className={cn(
-                  "p-4 cursor-pointer transition-colors",
-                  activeField === "careFor" ? "bg-gray-50" : "hover:bg-gray-50"
-                )}
-                onClick={() => handleFieldClick("careFor")}
-              >
-                <Label className="text-xs font-semibold text-gray-900 uppercase tracking-wide">
-                  Care for
-                </Label>
-                <Select 
-                  value={filters.careFor} 
-                  onValueChange={(value) => {
-                    handleFieldChange("careFor", value);
-                    setActiveField(null);
-                  }}
-                  open={activeField === "careFor"}
-                  onOpenChange={(open) => !open && setActiveField(null)}
-                >
-                  <SelectTrigger className="border-0 p-0 h-auto focus:ring-0 bg-transparent">
-                    <div className="text-sm font-medium text-gray-900 text-left">
-                      {filters.careFor || "Add guests"}
+              {/* Location Dropdown */}
+              {activeField === "location" && filteredLocations.length > 0 && (
+                <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg mt-2 max-h-48 overflow-y-auto z-10">
+                  {filteredLocations.map((location, index) => (
+                    <div
+                      key={index}
+                      className="p-3 hover:bg-gray-50 cursor-pointer text-sm"
+                      onClick={() => handleLocationSelect(location)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <MapPin className="h-4 w-4 text-gray-400" />
+                        <span>{location}</span>
+                      </div>
                     </div>
-                  </SelectTrigger>
-                  <SelectContent>
-                    {CARE_FOR_OPTIONS.map((option) => (
-                      <SelectItem key={option} value={option}>{option}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
-              {/* Service */}
-              <div 
-                className={cn(
-                  "p-4 cursor-pointer transition-colors",
-                  activeField === "service" ? "bg-gray-50" : "hover:bg-gray-50"
-                )}
-                onClick={() => handleFieldClick("service")}
-              >
+            {/* When */}
+            <div 
+              className={cn(
+                "p-4 cursor-pointer transition-colors border-l border-gray-200 relative",
+                activeField === "date" ? "bg-gray-50" : "hover:bg-gray-50"
+              )}
+              onClick={() => handleFieldClick("date")}
+            >
+              <Label className="text-xs font-semibold text-gray-900 uppercase tracking-wide">
+                When
+              </Label>
+              <div className="text-sm font-medium text-gray-900 mt-1">
+                {selectedDate ? format(selectedDate, "MMM dd, yyyy") : "Add dates"}
+              </div>
+              
+              {/* Calendar Dropdown */}
+              {activeField === "date" && (
+                <div className="absolute top-full left-0 bg-white border border-gray-200 rounded-lg shadow-lg mt-2 z-10">
+                  <Calendar
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={handleDateSelect}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Care For */}
+            <div 
+              className={cn(
+                "p-4 cursor-pointer transition-colors border-l border-gray-200 relative",
+                activeField === "careFor" ? "bg-gray-50" : "hover:bg-gray-50"
+              )}
+              onClick={() => handleFieldClick("careFor")}
+            >
+              <Label className="text-xs font-semibold text-gray-900 uppercase tracking-wide">
+                Care for
+              </Label>
+              <div className="text-sm font-medium text-gray-900 mt-1 truncate">
+                {getCareForDisplay()}
+              </div>
+              
+              {/* Care For Dropdown */}
+              {activeField === "careFor" && (
+                <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg mt-2 p-4 z-10 min-w-64">
+                  <div className="space-y-4">
+                    {careOptions.map((option) => (
+                      <div key={option.type} className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <Users className="h-4 w-4 text-gray-400" />
+                          <span className="text-sm font-medium">{option.label}</span>
+                        </div>
+                        <div className="flex items-center space-x-3">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              updateCareOption(option.type, false);
+                            }}
+                            disabled={option.count === 0}
+                          >
+                            <Minus className="h-3 w-3" />
+                          </Button>
+                          <span className="w-8 text-center text-sm font-medium">{option.count}</span>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              updateCareOption(option.type, true);
+                            }}
+                          >
+                            <Plus className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Service */}
+            <div 
+              className={cn(
+                "p-4 cursor-pointer transition-colors border-l border-gray-200 relative flex items-center justify-between",
+                activeField === "service" ? "bg-gray-50" : "hover:bg-gray-50"
+              )}
+              onClick={() => handleFieldClick("service")}
+            >
+              <div className="flex-1">
                 <Label className="text-xs font-semibold text-gray-900 uppercase tracking-wide">
                   Service
                 </Label>
-                <Select 
-                  value={filters.serviceType} 
-                  onValueChange={(value) => {
-                    handleFieldChange("serviceType", value);
-                    setActiveField(null);
-                  }}
-                  open={activeField === "service"}
-                  onOpenChange={(open) => !open && setActiveField(null)}
-                >
-                  <SelectTrigger className="border-0 p-0 h-auto focus:ring-0 bg-transparent">
-                    <div className="text-sm font-medium text-gray-900 text-left">
-                      {filters.serviceType || "Service type"}
+                <div className="text-sm font-medium text-gray-900 mt-1 truncate">
+                  {filters.serviceType || "Any service"}
+                </div>
+              </div>
+              
+              <div className="bg-coral p-2 rounded-full ml-4">
+                <Search className="h-4 w-4 text-white" />
+              </div>
+              
+              {/* Service Dropdown */}
+              {activeField === "service" && (
+                <div className="absolute top-full right-0 bg-white border border-gray-200 rounded-lg shadow-lg mt-2 max-h-48 overflow-y-auto z-10 min-w-48">
+                  {SERVICE_TYPES.map((service, index) => (
+                    <div
+                      key={index}
+                      className="p-3 hover:bg-gray-50 cursor-pointer text-sm"
+                      onClick={() => handleServiceSelect(service)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <Briefcase className="h-4 w-4 text-gray-400" />
+                        <span>{service}</span>
+                      </div>
                     </div>
-                  </SelectTrigger>
-                  <SelectContent>
-                    {SERVICE_TYPES.map((service) => (
-                      <SelectItem key={service} value={service}>{service}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
+          </div>
 
-            {/* Search Button */}
-            <div className="p-4 border-t bg-gray-50">
-              <div className="flex items-center justify-between">
-                <Button
-                  variant="ghost"
-                  onClick={() => {
-                    setFilters({ location: "", date: "", careFor: "", serviceType: "" });
-                    setSelectedDate(undefined);
-                  }}
-                  className="text-sm font-medium underline"
-                  disabled={!hasFilters}
-                >
-                  Clear all
-                </Button>
-                
-                <Button
-                  onClick={handleSearch}
-                  className="bg-coral hover:bg-coral/90 text-white rounded-lg px-8 py-2 font-medium flex items-center gap-2"
-                >
-                  <Search className="h-4 w-4" />
-                  Search
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+          {/* Search Button */}
+          <div className="flex justify-center mt-6">
+            <Button 
+              onClick={handleSearch}
+              className="bg-coral hover:bg-coral/90 text-white px-8 py-3 rounded-full font-medium"
+            >
+              <Search className="h-4 w-4 mr-2" />
+              Search
+            </Button>
+          </div>
+        </div>
       )}
     </div>
   );
