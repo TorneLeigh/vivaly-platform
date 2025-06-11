@@ -16,9 +16,8 @@ export default function RoleToggle({ className = "" }: RoleToggleProps) {
   
   const currentRole = isProviderRoute ? 'provider' : 'seeker';
 
-  const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedRole = event.target.value;
-    if (selectedRole === 'provider') {
+  const handleRoleChange = (role: 'seeker' | 'provider') => {
+    if (role === 'provider') {
       setLocation('/become-caregiver');
     } else {
       setLocation('/');
@@ -26,16 +25,27 @@ export default function RoleToggle({ className = "" }: RoleToggleProps) {
   };
 
   return (
-    <div className={`role-toggle ${className}`}>
-      <select
-        id="roleToggle"
-        value={currentRole}
-        onChange={handleRoleChange}
-        className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-coral focus:border-coral bg-white"
+    <div className={`role-button-toggle flex gap-2.5 ${className}`}>
+      <button
+        onClick={() => handleRoleChange('seeker')}
+        className={`px-4 py-2 border rounded-md text-sm font-medium transition-all duration-300 cursor-pointer ${
+          currentRole === 'seeker'
+            ? 'bg-black text-white border-black'
+            : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400'
+        }`}
       >
-        <option value="seeker">Parent / Seeker</option>
-        <option value="provider">Caregiver / Provider</option>
-      </select>
+        Parent / Seeker
+      </button>
+      <button
+        onClick={() => handleRoleChange('provider')}
+        className={`px-4 py-2 border rounded-md text-sm font-medium transition-all duration-300 cursor-pointer ${
+          currentRole === 'provider'
+            ? 'bg-black text-white border-black'
+            : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400'
+        }`}
+      >
+        Caregiver / Provider
+      </button>
     </div>
   );
 }

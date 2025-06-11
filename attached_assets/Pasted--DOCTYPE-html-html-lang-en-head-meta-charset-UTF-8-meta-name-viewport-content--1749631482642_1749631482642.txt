@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vivaly Role Toggle</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+    }
+
+    header {
+      background-color: #fff;
+      padding: 16px 24px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #0077cc;
+    }
+
+    .role-button-toggle {
+      display: flex;
+      gap: 10px;
+    }
+
+    .role-btn {
+      padding: 8px 16px;
+      border: 1px solid #ccc;
+      background-color: white;
+      color: #333;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .role-btn.active {
+      background-color: #000;
+      color: white;
+      border-color: #000;
+    }
+
+    main {
+      padding: 40px;
+      text-align: center;
+    }
+
+    .status {
+      margin-top: 20px;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Vivaly</div>
+    <div class="role-button-toggle">
+      <button id="seekerBtn" class="role-btn active">Parent / Seeker</button>
+      <button id="providerBtn" class="role-btn">Caregiver / Provider</button>
+    </div>
+  </header>
+
+  <main>
+    <h1>Welcome to Vivaly</h1>
+    <div class="status" id="roleStatus">You are browsing as: Parent / Seeker</div>
+  </main>
+
+  <script>
+    const seekerBtn = document.getElementById('seekerBtn');
+    const providerBtn = document.getElementById('providerBtn');
+    const status = document.getElementById('roleStatus');
+
+    seekerBtn.addEventListener('click', () => {
+      seekerBtn.classList.add('active');
+      providerBtn.classList.remove('active');
+      status.textContent = 'You are browsing as: Parent / Seeker';
+      console.log("Selected role: seeker");
+    });
+
+    providerBtn.addEventListener('click', () => {
+      providerBtn.classList.add('active');
+      seekerBtn.classList.remove('active');
+      status.textContent = 'You are browsing as: Caregiver / Provider';
+      console.log("Selected role: provider");
+    });
+  </script>
+
+</body>
+</html>
