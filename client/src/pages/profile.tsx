@@ -14,6 +14,9 @@ import MultiPhotoUpload from "@/components/multi-photo-upload";
 export default function Profile() {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("personal");
+  const [parentPhotos, setParentPhotos] = useState<string[]>([]);
+  const [caregiverPhotos, setCaregiverPhotos] = useState<string[]>([]);
+  const [guidanceAccepted, setGuidanceAccepted] = useState(false);
 
   // Personal Touch Questions for display
   const personalQuestions = [
@@ -163,7 +166,10 @@ export default function Profile() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ParentPhotoUpload />
+                <ParentPhotoUpload 
+                  photos={parentPhotos}
+                  onPhotosChange={setParentPhotos}
+                />
               </CardContent>
             </Card>
           </TabsContent>
@@ -202,6 +208,27 @@ export default function Profile() {
                     Save Profile
                   </Button>
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* Photo Upload Section for Caregivers */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Camera className="h-5 w-5 text-purple-500" />
+                  Professional Photos
+                </CardTitle>
+                <CardDescription>
+                  Upload 3+ clear, professional photos. Include photos of yourself caring for children, pets, or elderly if available (with proper permissions)
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <MultiPhotoUpload 
+                  photos={caregiverPhotos}
+                  onPhotosChange={setCaregiverPhotos}
+                  guidanceAccepted={guidanceAccepted}
+                  onGuidanceAccept={() => setGuidanceAccepted(true)}
+                />
               </CardContent>
             </Card>
           </TabsContent>
