@@ -4,7 +4,7 @@ interface RoleToggleProps {
   className?: string;
 }
 
-export default function RoleToggle({ className = "" }: RoleToggleProps) {
+export function RoleToggle({ className = "" }: RoleToggleProps) {
   const [location, setLocation] = useLocation();
   
   // Determine current role based on route
@@ -25,7 +25,7 @@ export default function RoleToggle({ className = "" }: RoleToggleProps) {
   };
 
   return (
-    <div className={`role-button-toggle flex gap-2.5 ${className}`}>
+    <div className={`flex gap-2 ${className}`}>
       <button
         onClick={() => handleRoleChange('seeker')}
         className={`px-4 py-2 border rounded-md text-sm font-medium transition-all duration-300 cursor-pointer ${

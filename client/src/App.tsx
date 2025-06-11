@@ -4,7 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
-import Header from "@/components/layout/header";
+import NewHeader from "@/components/layout/new-header";
 import Footer from "@/components/layout/footer";
 import Home from "@/pages/home";
 import NannyProfile from "@/pages/nanny-profile";
@@ -75,7 +75,7 @@ function Router() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      <NewHeader />
       <main className="flex-1">
         <Switch>
           {/* Role-based home route */}

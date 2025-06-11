@@ -6,7 +6,7 @@ import AirbnbSearch from "@/components/airbnb-search-new";
 import FloatingActionButton from "@/components/floating-action-button";
 import ServiceCarousel from "@/components/service-carousel";
 import AIRecommendations from "@/components/ai-recommendations";
-import RoleToggle from "@/components/role-toggle";
+import { RoleToggle } from "@/components/role-toggle";
 import { 
   User, 
   Users, 

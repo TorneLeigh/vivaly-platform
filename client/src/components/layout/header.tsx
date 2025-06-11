@@ -24,7 +24,7 @@ import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
-import RoleToggle from "@/components/role-toggle";
+import { RoleToggle } from "@/components/role-toggle";
 
 
 export default function Header() {
