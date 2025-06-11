@@ -53,15 +53,21 @@ const AUSTRALIAN_LOCATIONS = [
 
 const SERVICE_TYPES = [
   "Babysitting",
-  "Childcare", 
+  "Childcare",
+  "Nanny Services", 
+  "Drop-in care",
+  "Overnight newborn support",
+  "Newborn support",
+  "Birth education",
+  "Breastfeeding support",
+  "Pregnancy assistance",
+  "1-2 hours group care",
+  "Drop and dash",
   "Elderly Care",
   "Pet Care",
   "House Sitting",
   "Tutoring",
-  "Cleaning",
-  "Nanny Services",
-  "Overnight Care",
-  "Emergency Care"
+  "Cleaning"
 ];
 
 interface CareOption {

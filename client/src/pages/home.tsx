@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import NannyCard from "@/components/nanny-card";
-import AirbnbSearch from "@/components/airbnb-search";
+import AirbnbSearch from "@/components/airbnb-search-new";
 import FloatingActionButton from "@/components/floating-action-button";
 import ServiceCarousel from "@/components/service-carousel";
 import { 
@@ -243,21 +243,23 @@ export default function Home() {
             Instant booking • Verified caregivers • Available today
           </p>
           
-          {/* Airbnb-style Search Bar */}
-          <div className="max-w-4xl mx-auto mb-12 px-4">
-            <AirbnbSearch 
-              onSearch={(filters) => {
-                const params = new URLSearchParams();
-                if (filters.location) params.set("location", filters.location);
-                if (filters.date) params.set("date", filters.date);
-                if (filters.careFor) params.set("careFor", filters.careFor);
-                if (filters.serviceType) params.set("serviceType", filters.serviceType);
-                
-                const searchUrl = `/find-care${params.toString() ? `?${params.toString()}` : ""}`;
-                window.location.href = searchUrl;
-              }}
-              className="w-full"
-            />
+          {/* Airbnb-style Search Bar - Fixed positioning to prevent movement */}
+          <div className="relative z-10">
+            <div className="max-w-4xl mx-auto mb-12 px-4">
+              <AirbnbSearch 
+                onSearch={(filters) => {
+                  const params = new URLSearchParams();
+                  if (filters.location) params.set("location", filters.location);
+                  if (filters.date) params.set("date", filters.date);
+                  if (filters.careFor) params.set("careFor", filters.careFor);
+                  if (filters.serviceType) params.set("serviceType", filters.serviceType);
+                  
+                  const searchUrl = `/find-care${params.toString() ? `?${params.toString()}` : ""}`;
+                  window.location.href = searchUrl;
+                }}
+                className="w-full"
+              />
+            </div>
           </div>
         </div>
       </section>
