@@ -90,8 +90,8 @@ export default function Header() {
 
 
           {/* Desktop Right Side */}
-          <div className="hidden lg:flex items-center space-x-4">
-            {/* Role Toggle - Always visible */}
+          <div className="hidden md:flex items-center space-x-4">
+            {/* Role Toggle - Always visible on desktop */}
             <RoleToggle />
             
             {!isAuthenticated && !isLoading ? (
@@ -160,7 +160,7 @@ export default function Header() {
 
 
           {/* Mobile/Tablet Menu Button - Airbnb style */}
-          <div className="lg:hidden">
+          <div className="md:hidden">
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="sm" className="flex items-center gap-2 border border-gray-300 rounded-full px-3 py-2">
