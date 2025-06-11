@@ -340,8 +340,8 @@ export default function Home() {
               <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-colors duration-300 text-2xl">
                 🪪
               </div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-2">Identity Verified</h4>
-              <p className="text-gray-600 text-sm">Photos and ID reviewed by our team.</p>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">Identity Verification</h4>
+              <p className="text-gray-600 text-sm">Profile photos and IDs are verified for authenticity.</p>
             </div>
           </div>
         </div>
