@@ -107,30 +107,17 @@ export default function PetCareServices() {
                 </div>
                 
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">
                     {service.title}
                   </h3>
                   
-                  <p className="text-gray-600 mb-4 leading-relaxed text-sm">
+                  <p className="text-gray-600 mb-6 text-center leading-relaxed">
                     {service.description}
                   </p>
                   
-                  {/* Features List */}
-                  <div className="mb-6">
-                    <h4 className="font-semibold text-gray-900 mb-2 text-sm">What's Included:</h4>
-                    <ul className="space-y-1">
-                      {service.features.map((feature, idx) => (
-                        <li key={idx} className="text-xs text-gray-600 flex items-center">
-                          <span className="w-1.5 h-1.5 bg-green-500 rounded-full mr-2"></span>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  
                   <div className="text-center">
                     <Link href={service.link}>
-                      <button className="bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center mx-auto w-full">
+                      <button className="bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center mx-auto">
                         {service.buttonText}
                         <ChevronRight className="w-4 h-4 ml-2" />
                       </button>

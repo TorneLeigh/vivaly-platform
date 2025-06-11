@@ -1,5 +1,6 @@
 import { Link } from 'wouter';
 import { ChevronRight, Home } from 'lucide-react';
+import { OptimizedImage } from '@/components/OptimizedImage';
 import doulaImage1 from "@assets/71f27a774a4b4ecaa46e30332bf23131_1749360121452.jpg";
 import birthEducationClassImage from "@assets/5c1756efeffe31b87ae42255a1e625b5_1749182535016.jpg";
 import motherHoldingBabyImage from "@assets/e3806ba7e7119fb379b95ce4d570e105_1749182535016.jpg";
@@ -88,11 +89,12 @@ export default function PrenatalServices() {
                 key={index}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
               >
-                <div className="aspect-w-16 aspect-h-9 bg-gray-100">
-                  <img
-                    src={service.image}
+                <div className="h-48 overflow-hidden bg-gray-100">
+                  <OptimizedImage 
+                    src={service.image} 
                     alt={service.title}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    style={{ aspectRatio: '16/9' }}
                   />
                 </div>
                 <div className="p-6">
