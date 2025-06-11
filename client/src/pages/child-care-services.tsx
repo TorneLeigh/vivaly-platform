@@ -1,5 +1,7 @@
 import { Link } from 'wouter';
 import { ChevronRight, Home } from 'lucide-react';
+import { ChildCareIcon, NannyIcon, BabysittingIcon } from '../components/ServiceIcons';
+import OptimizedImage from '../components/OptimizedImage';
 import infantCareImage from "@assets/b1bc54b815bb1f418342a8203ae3e8e3_1749182535016.jpg";
 import toddlerProgramImage from "@assets/32b2abcfc1fddbe1118ee928059ce66b_1749183011871.jpg";
 import preschoolEducationImage from "@assets/5c1756efeffe31b87ae42255a1e625b5_1749182535016.jpg";
@@ -95,11 +97,14 @@ export default function ChildCareServices() {
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
               >
                 {/* Service Image */}
-                <div className="h-48 overflow-hidden">
+                <div className="h-48 overflow-hidden bg-gray-100">
                   <img 
                     src={service.image} 
                     alt={service.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
+                    style={{ aspectRatio: '16/9' }}
                   />
                 </div>
                 

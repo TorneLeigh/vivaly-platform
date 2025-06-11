@@ -95,11 +95,14 @@ export default function PetCareServices() {
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
               >
                 {/* Service Image */}
-                <div className="h-48 overflow-hidden">
+                <div className="h-48 overflow-hidden bg-gray-100">
                   <img 
                     src={service.image} 
                     alt={service.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
+                    style={{ aspectRatio: '16/9' }}
                   />
                 </div>
                 
