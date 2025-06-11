@@ -120,7 +120,7 @@ export default function Header() {
             ) : isAuthenticated ? (
               <div className="flex items-center space-x-4">
                 {viewMode === 'seeker' ? (
-                  <Button variant="ghost" size="sm" className="flex items-center gap-2 px-6" onClick={() => window.location.href = '/search'}>
+                  <Button variant="ghost" size="sm" className="flex items-center gap-2 px-10" onClick={() => window.location.href = '/search'}>
                     <Search className="h-4 w-4" />
                     Search
                   </Button>
