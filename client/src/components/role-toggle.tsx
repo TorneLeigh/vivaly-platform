@@ -16,8 +16,9 @@ export default function RoleToggle({ className = "" }: RoleToggleProps) {
   
   const currentRole = isProviderRoute ? 'provider' : 'seeker';
 
-  const handleToggle = () => {
-    if (currentRole === 'seeker') {
+  const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedRole = event.target.value;
+    if (selectedRole === 'provider') {
       setLocation('/become-caregiver');
     } else {
       setLocation('/');
@@ -25,30 +26,16 @@ export default function RoleToggle({ className = "" }: RoleToggleProps) {
   };
 
   return (
-    <div className={`flex items-center gap-3 text-sm ${className}`}>
-      <span className={`font-medium ${currentRole === 'seeker' ? 'text-gray-900' : 'text-gray-500'}`}>
-        Parent/Seeker
-      </span>
-      
-      <label className="relative inline-block w-12 h-6 cursor-pointer">
-        <input
-          type="checkbox"
-          checked={currentRole === 'provider'}
-          onChange={handleToggle}
-          className="opacity-0 w-0 h-0"
-        />
-        <span className={`absolute inset-0 rounded-full transition-all duration-400 ${
-          currentRole === 'provider' ? 'bg-coral' : 'bg-gray-300'
-        }`}>
-          <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform duration-400 ${
-            currentRole === 'provider' ? 'transform translate-x-6' : ''
-          }`} />
-        </span>
-      </label>
-      
-      <span className={`font-medium ${currentRole === 'provider' ? 'text-gray-900' : 'text-gray-500'}`}>
-        Caregiver/Provider
-      </span>
+    <div className={`role-toggle ${className}`}>
+      <select
+        id="roleToggle"
+        value={currentRole}
+        onChange={handleRoleChange}
+        className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-coral focus:border-coral bg-white"
+      >
+        <option value="seeker">Parent / Seeker</option>
+        <option value="provider">Caregiver / Provider</option>
+      </select>
     </div>
   );
 }

@@ -24,6 +24,7 @@ import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+import RoleToggle from "@/components/role-toggle";
 
 
 export default function Header() {
@@ -89,7 +90,10 @@ export default function Header() {
 
 
           {/* Desktop Right Side */}
-          <div className="hidden lg:flex items-center space-x-2">
+          <div className="hidden lg:flex items-center space-x-4">
+            {/* Role Toggle - Always visible */}
+            <RoleToggle />
+            
             {!isAuthenticated && !isLoading ? (
               <>
                 <Button 
@@ -102,16 +106,7 @@ export default function Header() {
                   <Sparkles className="h-4 w-4" />
                   Smart Match
                 </Button>
-                {viewMode === 'seeker' ? (
-                  <Button className="bg-black hover:bg-gray-800 text-white font-medium" onClick={() => window.location.href = '/become-caregiver'}>
-                    Switch to Service Provider
-                  </Button>
-                ) : (
-                  <Button variant="ghost" className="font-medium" onClick={() => window.location.href = '/search'}>
-                    Search
-                  </Button>
-                )}
-                <div className="flex items-center border border-gray-300 rounded-full p-1 ml-4">
+                <div className="flex items-center border border-gray-300 rounded-full p-1">
                   <Button variant="ghost" size="sm" className="rounded-full px-4 text-black hover:bg-pink-100 hover:text-gray-700" onClick={() => window.location.href = '/auth'}>
                     Log in
                   </Button>
@@ -122,16 +117,10 @@ export default function Header() {
               </>
             ) : isAuthenticated ? (
               <div className="flex items-center space-x-4">
-                {viewMode === 'seeker' ? (
-                  <Button variant="ghost" size="lg" className="flex items-center gap-3 px-16 py-3 text-base font-medium min-w-[300px]" onClick={() => window.location.href = '/search'}>
-                    <Search className="h-5 w-5" />
-                    Search
-                  </Button>
-                ) : (
-                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/find-care'}>
-                    Switch to Seeker
-                  </Button>
-                )}
+                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/search'} className="flex items-center gap-2">
+                  <Search className="h-4 w-4" />
+                  Search
+                </Button>
                 <Button variant="ghost" size="sm" onClick={() => window.location.href = '/messages'}>
                   <MessageCircle className="h-4 w-4 mr-2" />
                   Messages
@@ -188,6 +177,16 @@ export default function Header() {
                   
                   {/* Content */}
                   <div className="flex-1 overflow-y-auto">
+                    <div className="border-t mx-6"></div>
+
+                    {/* Role Toggle for Mobile */}
+                    <div className="p-6">
+                      <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Browse as:</label>
+                        <RoleToggle />
+                      </div>
+                    </div>
+
                     <div className="border-t mx-6"></div>
 
                     {/* Navigation Links */}
