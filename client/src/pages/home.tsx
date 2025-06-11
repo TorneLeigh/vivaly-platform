@@ -269,50 +269,6 @@ export default function Home() {
       {/* Trust Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Find Trusted Care, Simply
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Everything Your Family Needs — All in One Place
-            </p>
-          </div>
-          
-          {/* Steps Grid */}
-          <div className="grid md:grid-cols-4 gap-8 mb-16">
-            <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300 text-2xl">
-                🧭
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Browse Carers</h3>
-              <p className="text-gray-600 text-sm">Enter your location and care category to view available carers.</p>
-            </div>
-            
-            <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300 text-2xl">
-                🔍
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Check Profiles</h3>
-              <p className="text-gray-600 text-sm">Review qualifications, experience, and user reviews.</p>
-            </div>
-            
-            <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300 text-2xl">
-                🔒
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Book Securely</h3>
-              <p className="text-gray-600 text-sm">Utilize the platform's secure payment system.</p>
-            </div>
-            
-            <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300 text-2xl">
-                💬
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Post-Care Review</h3>
-              <p className="text-gray-600 text-sm">Leave feedback and rebook as needed.</p>
-            </div>
-          </div>
-
           {/* Trust Grid */}
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center group">
