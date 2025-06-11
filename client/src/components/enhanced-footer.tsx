@@ -53,7 +53,7 @@ export default function EnhancedFooter() {
   ];
 
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-white text-black">
       {/* Newsletter Section */}
       <div className="bg-orange-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -89,7 +89,7 @@ export default function EnhancedFooter() {
               </div>
               <span className="text-2xl font-bold">VIVALY</span>
             </div>
-            <p className="text-gray-300 mb-6 leading-relaxed">
+            <p className="text-gray-700 mb-6 leading-relaxed">
               Australia's most trusted care marketplace connecting families with verified, background-checked caregivers across childcare, elderly care, and pet services.
             </p>
             
@@ -98,9 +98,9 @@ export default function EnhancedFooter() {
               {trustBadges.map((badge, index) => {
                 const IconComponent = badge.icon;
                 return (
-                  <div key={index} className="flex items-center space-x-1 bg-gray-800 px-2 py-1 rounded-lg">
+                  <div key={index} className="flex items-center space-x-1 bg-gray-100 px-2 py-1 rounded-lg">
                     <IconComponent className="w-3 h-3 text-orange-400" />
-                    <span className="text-xs text-gray-300">{badge.text}</span>
+                    <span className="text-xs text-gray-700">{badge.text}</span>
                   </div>
                 );
               })}
@@ -110,15 +110,15 @@ export default function EnhancedFooter() {
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-orange-400" />
-                <span className="text-gray-300">1800 CARELY (1800 227 359)</span>
+                <span className="text-gray-700">1800 CARELY (1800 227 359)</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-orange-400" />
-                <span className="text-gray-300">hello@aircareau.com</span>
+                <span className="text-gray-700">hello@aircareau.com</span>
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="w-5 h-5 text-orange-400" />
-                <span className="text-gray-300">Sydney, Australia</span>
+                <span className="text-gray-700">Sydney, Australia</span>
               </div>
             </div>
           </div>
@@ -130,7 +130,7 @@ export default function EnhancedFooter() {
               {serviceLinks.map((link, index) => (
                 <li key={index}>
                   <Link href={link.href}>
-                    <span className="text-gray-300 hover:text-orange-400 transition-colors duration-200 cursor-pointer">
+                    <span className="text-gray-700 hover:text-orange-400 transition-colors duration-200 cursor-pointer">
                       {link.label}
                     </span>
                   </Link>
@@ -146,7 +146,7 @@ export default function EnhancedFooter() {
               {supportLinks.map((link, index) => (
                 <li key={index}>
                   <Link href={link.href}>
-                    <span className="text-gray-300 hover:text-orange-400 transition-colors duration-200 cursor-pointer">
+                    <span className="text-gray-700 hover:text-orange-400 transition-colors duration-200 cursor-pointer">
                       {link.label}
                     </span>
                   </Link>

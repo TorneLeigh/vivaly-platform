@@ -273,7 +273,7 @@ export default function Home() {
               Find Trusted Care, Simply
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Book qualified, verified carers for children, pets, or elderly family — with peace of mind from start to finish.
+              Everything Your Family Needs — All in One Place
             </p>
           </div>
           
