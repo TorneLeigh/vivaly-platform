@@ -2,189 +2,167 @@ import { useEffect } from "react";
 
 export default function TermsOfService() {
   useEffect(() => {
-    document.title = "Terms of Service | Aircare";
+    document.title = "Terms of Service | VIVALY";
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <div className="prose prose-lg max-w-none">
-        <h1 className="text-3xl font-bold mb-8">Terms of Service</h1>
+    <div className="max-w-4xl mx-auto px-4 py-6">
+      <div className="prose prose-sm max-w-none">
+        <h1 className="text-2xl font-bold mb-4">Terms of Service</h1>
         
-        <p className="text-sm text-gray-600 mb-6">
+        <p className="text-xs text-gray-600 mb-4">
           <strong>Effective Date:</strong> June 3, 2025<br />
           <strong>Last Updated:</strong> June 3, 2025
         </p>
 
-        <h2>1. Acceptance of Terms</h2>
-        <p>
-          By accessing and using Aircare Australia ("we," "our," or "the Platform"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our platform.
+        <h2 className="text-lg font-semibold mt-6 mb-3">Acceptance of Terms</h2>
+        <p className="text-sm mb-4">
+          By accessing and using VIVALY ("we," "our," or "the Platform"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our platform.
         </p>
 
-        <h2>2. Description of Service</h2>
-        <p>
-          Aircare is a digital marketplace platform that facilitates connections between families seeking care services and independent caregivers. <strong>IMPORTANT: Aircare does not provide care services directly, does not employ caregivers, and acts solely as a technology platform for introductions.</strong> All care services are provided by independent contractors who are solely responsible for their services.
+        <h2 className="text-lg font-semibold mt-6 mb-3">Description of Service</h2>
+        <p className="text-sm mb-4">
+          VIVALY is a digital marketplace platform that facilitates connections between families seeking care services and independent caregivers. <strong>IMPORTANT: VIVALY does not provide care services directly, does not employ caregivers, and acts solely as a technology platform for introductions.</strong> All care services are provided by independent contractors who are solely responsible for their services.
         </p>
 
-        <h2>3. User Accounts and Registration</h2>
-        <h3>3.1 Account Creation</h3>
-        <ul>
-          <li>Users must provide accurate and complete information during registration</li>
-          <li>You are responsible for maintaining the confidentiality of your account</li>
-          <li>One account per person is permitted</li>
-          <li>Accounts are non-transferable</li>
+        <h2 className="text-lg font-semibold mt-6 mb-3">User Eligibility</h2>
+        <h3 className="text-base font-medium mt-4 mb-2">Age Requirements</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Users must be at least 18 years old</li>
+          <li>Minors may use the platform with parental supervision</li>
+          <li>Age verification may be required for certain services</li>
         </ul>
 
-        <h3>3.2 Government Verification Integration</h3>
-        <ul>
-          <li><strong>Working with Children Check (WWCC):</strong> All childcare providers must provide valid WWCC clearance as required by Australian state law</li>
-          <li><strong>Identity Verification:</strong> Government-issued photo ID verification required for all caregivers</li>
-          <li><strong>WWCC Integration:</strong> Platform integrates with government WWCC databases to verify current clearance status</li>
-          <li><strong>Reference Verification:</strong> Caregivers must provide verifiable professional references</li>
-          <li><strong>Ongoing Compliance:</strong> Automatic monitoring of WWCC expiry dates and renewal requirements</li>
-          <li>Verification badges indicate current government clearance status</li>
-          <li>Caregivers without valid WWCC cannot provide childcare services through the platform</li>
+        <h3 className="text-base font-medium mt-4 mb-2">Identity Verification</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Accurate personal information required</li>
+          <li>Government-issued ID verification for caregivers</li>
+          <li>Background checks completed as legally permitted</li>
         </ul>
 
-        <h2>4. Platform Usage</h2>
-        <h3>4.1 Permitted Uses</h3>
-        <ul>
-          <li>Searching for and connecting with caregivers</li>
-          <li>Posting legitimate care opportunities</li>
-          <li>Communicating through our messaging system</li>
-          <li>Leaving honest reviews and feedback</li>
+        <h2 className="text-lg font-semibold mt-6 mb-3">Platform Rules</h2>
+        <h3 className="text-base font-medium mt-4 mb-2">Prohibited Activities</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Providing false or misleading information</li>
+          <li>Harassment or inappropriate communication</li>
+          <li>Circumventing platform payment systems</li>
+          <li>Soliciting services outside the platform</li>
         </ul>
 
-        <h3>4.2 Prohibited Activities</h3>
-        <ul>
-          <li>Creating fake profiles or providing false information</li>
-          <li>Harassment, discrimination, or inappropriate behavior</li>
-          <li>Circumventing platform fees or payment systems</li>
-          <li>Posting illegal or harmful content</li>
-          <li>Spamming or unsolicited marketing</li>
+        <h3 className="text-base font-medium mt-4 mb-2">Account Responsibilities</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Maintain account security and confidentiality</li>
+          <li>Report suspicious activity immediately</li>
+          <li>Keep profile information current and accurate</li>
+          <li>Comply with all applicable laws and regulations</li>
         </ul>
 
-        <h2>5. Payments and Fees</h2>
-        <h3>5.1 Platform Fees</h3>
-        <ul>
-          <li>Service fees apply to completed bookings</li>
+        <h2 className="text-lg font-semibold mt-6 mb-3">Payments and Fees</h2>
+        <h3 className="text-base font-medium mt-4 mb-2">Service Fees</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Platform charges processing fees on transactions</li>
+          <li>Caregivers pay service fees for bookings</li>
           <li>Payment processing fees are non-refundable</li>
-          <li>Fee structures are clearly displayed before payment</li>
+          <li>Fee structure is transparent and disclosed upfront</li>
         </ul>
 
-        <h3>5.2 Payment Processing</h3>
-        <ul>
-          <li>Payments are processed through secure third-party providers</li>
-          <li>Families pay through the platform for protection</li>
-          <li>Caregivers receive payments according to our schedule</li>
+        <h3 className="text-base font-medium mt-4 mb-2">Payment Terms</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Payments processed securely through authorized providers</li>
+          <li>Automatic payment authorization for confirmed bookings</li>
+          <li>Dispute resolution available for payment issues</li>
+          <li>Refunds subject to cancellation policy terms</li>
         </ul>
 
-        <h2>6. Safety and Government Compliance</h2>
-        <p><strong>GOVERNMENT CLEARANCE VERIFICATION:</strong></p>
-        <ul>
-          <li><strong>Working with Children Check (WWCC) Compliance:</strong> Platform integrates with government WWCC systems to verify current clearance status for all childcare providers</li>
-          <li><strong>Government Database Integration:</strong> Real-time verification of WWCC validity and expiry dates through official government APIs</li>
-          <li><strong>State Law Compliance:</strong> Full adherence to individual state WWCC requirements across Australia</li>
-          <li><strong>Identity Verification:</strong> Government-issued photo ID verification for all caregivers</li>
-          <li><strong>Reference Requirements:</strong> Professional reference verification from previous employers or clients</li>
-          <li><strong>Automatic Compliance Monitoring:</strong> System alerts for WWCC renewals and expiry notifications</li>
-          <li>Caregivers without valid government clearances cannot access childcare bookings</li>
-          <li>All caregivers are independent contractors subject to government safety regulations</li>
+        <h2 className="text-lg font-semibold mt-6 mb-3">Safety and Liability</h2>
+        <h3 className="text-base font-medium mt-4 mb-2">Platform Safety Measures</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Background verification for caregivers</li>
+          <li>Emergency contact systems during services</li>
+          <li>Incident reporting and resolution procedures</li>
+          <li>Safety resources and training materials</li>
         </ul>
 
-        <h2>7. Liability and Disclaimers</h2>
-        <h3>7.1 LIMITED LIABILITY</h3>
-        <p><strong>TO THE MAXIMUM EXTENT PERMITTED BY LAW:</strong></p>
-        <ul>
-          <li><strong>Aircare disclaims all liability for any injuries, damages, losses, or claims arising from care services</strong></li>
-          <li>We are not liable for caregiver actions, negligence, theft, abuse, or misconduct</li>
-          <li>Platform provided "AS IS" without warranties of any kind</li>
-          <li>We do not guarantee caregiver qualifications, reliability, or safety</li>
-          <li>Maximum liability limited to platform fees paid in the 12 months prior to any claim</li>
+        <h3 className="text-base font-medium mt-4 mb-2">Limitation of Liability</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Platform facilitates connections only</li>
+          <li>Users engage services at their own risk</li>
+          <li>Caregivers are independent contractors</li>
+          <li>Additional safety measures are user responsibility</li>
         </ul>
 
-        <h3>7.2 User Assumption of Risk</h3>
-        <ul>
-          <li><strong>Users acknowledge they assume all risks when engaging caregivers</strong></li>
-          <li>Families must independently verify all caregiver credentials, references, and insurance</li>
-          <li>Users waive claims against Aircare for caregiver-related incidents</li>
-          <li>Follow all appropriate safety protocols and local laws</li>
+        <h2 className="text-lg font-semibold mt-6 mb-3">Intellectual Property</h2>
+        <h3 className="text-base font-medium mt-4 mb-2">Platform Content</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>VIVALY owns all platform technology and design</li>
+          <li>Users retain rights to their personal content</li>
+          <li>License granted to use platform materials</li>
+          <li>Unauthorized copying or distribution prohibited</li>
         </ul>
 
-        <h3>7.3 Indemnification</h3>
-        <p>
-          Users agree to indemnify and hold harmless Aircare from any claims, damages, or expenses arising from their use of the platform or engagement with caregivers.
-        </p>
-
-        <h2>8. Intellectual Property</h2>
-        <ul>
-          <li>Platform content and design are protected by copyright</li>
-          <li>Users retain rights to their own content</li>
-          <li>Grant us license to use content for platform operations</li>
-          <li>Respect intellectual property rights of others</li>
+        <h3 className="text-base font-medium mt-4 mb-2">User Content</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Users responsible for content accuracy</li>
+          <li>Grant platform license to display user content</li>
+          <li>Remove content that violates terms</li>
+          <li>Respect intellectual property of others</li>
         </ul>
 
-        <h2>9. Privacy and Data Protection</h2>
-        <ul>
-          <li>Your privacy is governed by our Privacy Policy</li>
-          <li>We comply with Australian Privacy Principles</li>
-          <li>Data is used to facilitate care connections</li>
-          <li>You control your privacy settings</li>
+        <h2 className="text-lg font-semibold mt-6 mb-3">Account Termination</h2>
+        <h3 className="text-base font-medium mt-4 mb-2">User Termination</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Users may close accounts at any time</li>
+          <li>Outstanding obligations must be fulfilled</li>
+          <li>Data retention per privacy policy</li>
+          <li>Some information may be retained for legal compliance</li>
         </ul>
 
-        <h2>10. Termination</h2>
-        <h3>10.1 User Termination</h3>
-        <ul>
-          <li>You may terminate your account at any time</li>
-          <li>Some data may be retained per legal requirements</li>
-          <li>Outstanding obligations remain after termination</li>
+        <h3 className="text-base font-medium mt-4 mb-2">Platform Termination</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Accounts may be suspended for terms violations</li>
+          <li>Immediate termination for serious safety issues</li>
+          <li>Notice provided when reasonably possible</li>
+          <li>Appeal process available for disputed actions</li>
         </ul>
 
-        <h3>10.2 Platform Termination</h3>
-        <ul>
-          <li>We may suspend or terminate accounts for violations</li>
-          <li>Notice will be provided when reasonably possible</li>
-          <li>Repeat violations may result in permanent bans</li>
+        <h2 className="text-lg font-semibold mt-6 mb-3">Dispute Resolution</h2>
+        <h3 className="text-base font-medium mt-4 mb-2">Internal Resolution</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Contact support team for initial dispute resolution</li>
+          <li>Mediation services provided for platform-related disputes</li>
+          <li>Good faith cooperation expected from all parties</li>
+          <li>Documentation maintained throughout process</li>
         </ul>
 
-        <h2>11. Dispute Resolution</h2>
-        <h3>11.1 Internal Resolution</h3>
-        <ul>
-          <li>Contact our support team for initial dispute resolution</li>
-          <li>We provide mediation services for platform-related disputes</li>
-          <li>Good faith cooperation is expected from all parties</li>
-        </ul>
-
-        <h3>11.2 Legal Remedies</h3>
-        <ul>
+        <h3 className="text-base font-medium mt-4 mb-2">Legal Remedies</h3>
+        <ul className="text-sm space-y-1 mb-4">
           <li>Australian Consumer Law protections apply</li>
-          <li>Disputes may be resolved through appropriate courts</li>
+          <li>Disputes resolved through appropriate courts</li>
           <li>Alternative dispute resolution options available</li>
+          <li>Legal costs may apply for frivolous claims</li>
         </ul>
 
-        <h2>12. Changes to Terms</h2>
-        <ul>
+        <h2 className="text-lg font-semibold mt-6 mb-3">Changes to Terms</h2>
+        <ul className="text-sm space-y-1 mb-4">
           <li>Terms may be updated to reflect service changes</li>
-          <li>Significant changes will be communicated via email</li>
+          <li>Significant changes communicated via email</li>
           <li>Continued use constitutes acceptance of new terms</li>
           <li>Previous versions available upon request</li>
         </ul>
 
-        <h2>13. Governing Law</h2>
-        <p>
+        <h2 className="text-lg font-semibold mt-6 mb-3">Governing Law</h2>
+        <p className="text-sm mb-4">
           These terms are governed by Australian law and the laws of New South Wales. Any disputes will be subject to the jurisdiction of Australian courts.
         </p>
 
-        <h2>14. Contact Information</h2>
-        <p>
-          For questions about these Terms of Service:<br />
-          <strong>Email:</strong> legal@careconnect.com.au<br />
-          <strong>Phone:</strong> 1800 CARE HELP (1800 2273 4357)<br />
-          <strong>Address:</strong> Care Platform Australia Pty Ltd
+        <h2 className="text-lg font-semibold mt-6 mb-3">Contact Information</h2>
+        <p className="text-sm mb-4">
+          For questions about these Terms of Service: <strong>support@vivaly.com.au</strong>
         </p>
 
-        <div className="mt-8 p-4 bg-gray-50 rounded-lg">
-          <p className="text-sm text-gray-600">
-            <strong>Important:</strong> These terms constitute a legally binding agreement. Please read them carefully and contact us if you have any questions before using our platform.
+        <div className="mt-6 p-3 bg-orange-50 rounded-lg">
+          <p className="text-xs text-orange-800">
+            <strong>Legal Agreement:</strong> These terms constitute a legally binding agreement. Please read them carefully and contact us if you have any questions before using our platform.
           </p>
         </div>
       </div>

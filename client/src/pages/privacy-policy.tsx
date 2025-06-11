@@ -2,22 +2,22 @@ import { useEffect } from "react";
 
 export default function PrivacyPolicy() {
   useEffect(() => {
-    document.title = "Privacy Policy | Aircare";
+    document.title = "Privacy Policy | VIVALY";
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <div className="prose prose-lg max-w-none">
-        <h1 className="text-3xl font-bold mb-8">Privacy Policy</h1>
+    <div className="max-w-4xl mx-auto px-4 py-6">
+      <div className="prose prose-sm max-w-none">
+        <h1 className="text-2xl font-bold mb-4">Privacy Policy</h1>
         
-        <p className="text-sm text-gray-600 mb-6">
+        <p className="text-xs text-gray-600 mb-4">
           <strong>Effective Date:</strong> June 3, 2025<br />
           <strong>Last Updated:</strong> June 3, 2025
         </p>
 
-        <h2>1. Information We Collect</h2>
-        <h3>1.1 Personal Information</h3>
-        <ul>
+        <h2 className="text-lg font-semibold mt-6 mb-3">Information We Collect</h2>
+        <h3 className="text-base font-medium mt-4 mb-2">Personal Information</h3>
+        <ul className="text-sm space-y-1 mb-4">
           <li>Name, email address, phone number</li>
           <li>Address and location information</li>
           <li>Payment and billing information</li>
@@ -25,180 +25,136 @@ export default function PrivacyPolicy() {
           <li>Identity verification documents</li>
         </ul>
 
-        <h3>1.2 Service Information</h3>
-        <ul>
+        <h3 className="text-base font-medium mt-4 mb-2">Service Information</h3>
+        <ul className="text-sm space-y-1 mb-4">
           <li>Care preferences and requirements</li>
           <li>Booking and service history</li>
           <li>Reviews and ratings</li>
           <li>Communication records through our platform</li>
         </ul>
 
-        <h3>1.3 Technical Information</h3>
-        <ul>
+        <h3 className="text-base font-medium mt-4 mb-2">Technical Information</h3>
+        <ul className="text-sm space-y-1 mb-4">
           <li>Device and browser information</li>
           <li>IP address and location data</li>
           <li>Usage patterns and preferences</li>
           <li>Cookies and tracking technologies</li>
         </ul>
 
-        <h2>2. How We Use Your Information</h2>
-        <h3>2.1 Service Provision</h3>
-        <ul>
+        <h2 className="text-lg font-semibold mt-6 mb-3">How We Use Your Information</h2>
+        <h3 className="text-base font-medium mt-4 mb-2">Service Provision</h3>
+        <ul className="text-sm space-y-1 mb-4">
           <li>Matching families with suitable caregivers</li>
           <li>Processing bookings and payments</li>
           <li>Facilitating communication between users</li>
           <li>Providing customer support</li>
         </ul>
 
-        <h3>2.2 Safety and Security</h3>
-        <ul>
-          <li>Identity verification and background checks</li>
-          <li>Fraud prevention and detection</li>
-          <li>Platform security monitoring</li>
-          <li>Compliance with legal obligations</li>
+        <h3 className="text-base font-medium mt-4 mb-2">Safety and Security</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Verifying caregiver backgrounds and qualifications</li>
+          <li>Monitoring platform for suspicious activity</li>
+          <li>Ensuring compliance with safety standards</li>
+          <li>Protecting against fraud and misuse</li>
         </ul>
 
-        <h3>2.3 Platform Improvement</h3>
-        <ul>
-          <li>Analyzing usage patterns to enhance services</li>
-          <li>Developing new features and functionality</li>
+        <h3 className="text-base font-medium mt-4 mb-2">Platform Improvement</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Analyzing usage patterns to enhance features</li>
           <li>Personalizing user experience</li>
-          <li>Market research and analytics</li>
+          <li>Developing new services and offerings</li>
+          <li>Conducting research and analytics</li>
         </ul>
 
-        <h2>3. Information Sharing</h2>
-        <h3>3.1 With Other Users</h3>
-        <ul>
-          <li>Profile information visible to potential matches</li>
-          <li>Contact information shared after booking confirmation</li>
-          <li>Reviews and ratings from completed services</li>
-          <li>Communication through our messaging system</li>
+        <h2 className="text-lg font-semibold mt-6 mb-3">Information Sharing</h2>
+        <h3 className="text-base font-medium mt-4 mb-2">With Caregivers and Families</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Contact information for confirmed bookings</li>
+          <li>Relevant care requirements and preferences</li>
+          <li>Reviews and ratings (with consent)</li>
+          <li>Location information for service delivery</li>
         </ul>
 
-        <h3>3.2 With Service Providers</h3>
-        <ul>
+        <h3 className="text-base font-medium mt-4 mb-2">With Service Providers</h3>
+        <ul className="text-sm space-y-1 mb-4">
           <li>Payment processors for transaction handling</li>
-          <li>Background check providers for verification</li>
-          <li>Cloud storage providers for data hosting</li>
-          <li>Analytics providers for service improvement</li>
+          <li>Background check services for verification</li>
+          <li>Communication tools for platform messaging</li>
+          <li>Analytics services for platform improvement</li>
         </ul>
 
-        <h3>3.3 Legal Requirements</h3>
-        <ul>
-          <li>Law enforcement when legally required</li>
-          <li>Court orders and legal proceedings</li>
-          <li>Regulatory compliance obligations</li>
-          <li>Child protection and safety concerns</li>
+        <h3 className="text-base font-medium mt-4 mb-2">Legal Requirements</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Compliance with Australian privacy laws</li>
+          <li>Response to legal requests and investigations</li>
+          <li>Protection of rights and safety</li>
+          <li>Regulatory reporting requirements</li>
         </ul>
 
-        <h2>4. Data Security</h2>
-        <h3>4.1 Protection Measures</h3>
-        <ul>
-          <li>Encryption of sensitive data in transit and at rest</li>
+        <h2 className="text-lg font-semibold mt-6 mb-3">Data Security</h2>
+        <h3 className="text-base font-medium mt-4 mb-2">Protection Measures</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Encrypted data transmission and storage</li>
           <li>Regular security audits and assessments</li>
-          <li>Access controls and authentication systems</li>
-          <li>Secure data centers and infrastructure</li>
+          <li>Access controls and authentication</li>
+          <li>Secure payment processing systems</li>
         </ul>
 
-        <h3>4.2 User Responsibilities</h3>
-        <ul>
-          <li>Protecting account credentials</li>
-          <li>Reporting suspected security breaches</li>
-          <li>Using secure internet connections</li>
-          <li>Following platform safety guidelines</li>
+        <h3 className="text-base font-medium mt-4 mb-2">Data Retention</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Personal information retained as legally required</li>
+          <li>Account data deleted upon request</li>
+          <li>Transaction records kept for compliance</li>
+          <li>Anonymous analytics data may be retained longer</li>
         </ul>
 
-        <h2>5. Your Privacy Rights</h2>
-        <h3>5.1 Access and Control</h3>
-        <ul>
-          <li>View and update your personal information</li>
+        <h2 className="text-lg font-semibold mt-6 mb-3">Your Rights</h2>
+        <h3 className="text-base font-medium mt-4 mb-2">Access and Control</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>View and update personal information</li>
           <li>Download your data in portable format</li>
-          <li>Delete your account and associated data</li>
-          <li>Opt out of marketing communications</li>
+          <li>Delete account and associated data</li>
+          <li>Withdraw consent for optional processing</li>
         </ul>
 
-        <h3>5.2 Australian Privacy Rights</h3>
-        <ul>
-          <li>Access to personal information we hold</li>
-          <li>Correction of inaccurate information</li>
-          <li>Complaint procedures for privacy concerns</li>
-          <li>Protection under Australian Privacy Principles</li>
+        <h3 className="text-base font-medium mt-4 mb-2">Privacy Preferences</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Control marketing communications</li>
+          <li>Manage cookie and tracking preferences</li>
+          <li>Opt out of non-essential data processing</li>
+          <li>Request restriction of processing</li>
         </ul>
 
-        <h2>6. Data Retention</h2>
-        <h3>6.1 Retention Periods</h3>
-        <ul>
-          <li>Account information: Retained while account is active</li>
-          <li>Booking records: 7 years for legal compliance</li>
-          <li>Payment information: As required by financial regulations</li>
-          <li>Communication records: 3 years for dispute resolution</li>
+        <h2 className="text-lg font-semibold mt-6 mb-3">Cookies and Tracking</h2>
+        <h3 className="text-base font-medium mt-4 mb-2">Essential Cookies</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Authentication and security</li>
+          <li>Platform functionality and preferences</li>
+          <li>Shopping cart and booking progress</li>
+          <li>Error reporting and troubleshooting</li>
         </ul>
 
-        <h3>6.2 Deletion Process</h3>
-        <ul>
-          <li>Automatic deletion after retention periods</li>
-          <li>Secure deletion procedures for sensitive data</li>
-          <li>Anonymization of research and analytics data</li>
-          <li>Legal hold procedures when required</li>
+        <h3 className="text-base font-medium mt-4 mb-2">Optional Tracking</h3>
+        <ul className="text-sm space-y-1 mb-4">
+          <li>Analytics and usage statistics</li>
+          <li>Marketing and advertising optimization</li>
+          <li>Social media integration</li>
+          <li>Third-party service integration</li>
         </ul>
 
-        <h2>7. Cookies and Tracking</h2>
-        <h3>7.1 Cookie Types</h3>
-        <ul>
-          <li>Essential cookies for platform functionality</li>
-          <li>Performance cookies for analytics</li>
-          <li>Preference cookies for personalization</li>
-          <li>Marketing cookies for advertising (with consent)</li>
-        </ul>
-
-        <h3>7.2 Cookie Management</h3>
-        <ul>
-          <li>Browser settings to control cookies</li>
-          <li>Opt-out options for marketing cookies</li>
-          <li>Cookie preference center on our platform</li>
-          <li>Regular review and updates of cookie practices</li>
-        </ul>
-
-        <h2>8. Children's Privacy</h2>
-        <ul>
-          <li>Platform not intended for children under 18</li>
-          <li>Parental consent required for minor care recipients</li>
-          <li>Enhanced protection for child-related information</li>
-          <li>Immediate deletion of improperly collected child data</li>
-        </ul>
-
-        <h2>9. International Data Transfers</h2>
-        <ul>
-          <li>Data primarily stored within Australia</li>
-          <li>International transfers only to adequate protection countries</li>
-          <li>Contractual safeguards for international service providers</li>
-          <li>Compliance with Australian cross-border privacy laws</li>
-        </ul>
-
-        <h2>10. Privacy Policy Updates</h2>
-        <ul>
-          <li>Regular review and updating of privacy practices</li>
-          <li>Email notification for material changes</li>
-          <li>Prominent display of updated policies</li>
-          <li>Archive of previous policy versions</li>
-        </ul>
-
-        <h2>11. Contact Information</h2>
-        <h3>11.1 Privacy Officer</h3>
-        <p>
-          <strong>Email:</strong> privacy@careconnect.com.au<br />
-          <strong>Phone:</strong> 1800 CARE HELP (1800 2273 4357)<br />
-          <strong>Mail:</strong> Privacy Officer, Care Platform Australia Pty Ltd
+        <h2 className="text-lg font-semibold mt-6 mb-3">Contact Information</h2>
+        <p className="text-sm mb-4">
+          For privacy questions or requests: <strong>support@vivaly.com.au</strong>
         </p>
 
-        <h3>11.2 Complaints</h3>
-        <p>
-          If you have concerns about our privacy practices that we cannot resolve, you may contact the Office of the Australian Information Commissioner (OAIC) at oaic.gov.au.
+        <h2 className="text-lg font-semibold mt-6 mb-3">Policy Updates</h2>
+        <p className="text-sm mb-4">
+          This privacy policy may be updated to reflect changes in our practices or legal requirements. Users will be notified of material changes via email and platform notifications.
         </p>
 
-        <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-          <p className="text-sm text-blue-800">
-            <strong>Your Privacy Matters:</strong> We are committed to protecting your privacy and handling your personal information responsibly. If you have any questions about this policy or our privacy practices, please contact us.
+        <div className="mt-6 p-3 bg-blue-50 rounded-lg">
+          <p className="text-xs text-blue-800">
+            <strong>Privacy Protection:</strong> This privacy policy complies with Australian Privacy Principles and provides transparent information about how we collect, use, and protect your personal information.
           </p>
         </div>
       </div>
