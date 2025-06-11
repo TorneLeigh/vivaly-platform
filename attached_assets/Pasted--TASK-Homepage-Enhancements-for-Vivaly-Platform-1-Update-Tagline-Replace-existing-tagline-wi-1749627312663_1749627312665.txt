@@ -1,0 +1,41 @@
+# TASK: Homepage Enhancements for Vivaly Platform
+
+# 1. Update Tagline
+# Replace existing tagline with: "Everything Your Family Needs — All in One Place"
+
+# 2. Structure Homepage Categories
+categories = [
+    {"title": "Childcare", "description": "Trusted nannies and babysitters for your little ones.", "cta": "Find Childcare"},
+    {"title": "Pet Care", "description": "Reliable pet sitters and dog walkers.", "cta": "Find Pet Care"},
+    {"title": "Aged Care", "description": "Compassionate care for your elderly loved ones.", "cta": "Find Aged Care"}
+]
+
+# 3. Implement User Role Toggle
+# Add functionality allowing users to switch between 'Parent/Seeker' and 'Caregiver/Provider' roles.
+
+# 4. Add Booking Process Guide
+booking_steps = [
+    {"step": "Browse Carers", "description": "Enter your location and care category to view available carers."},
+    {"step": "Check Profiles", "description": "Review qualifications, experience, and user reviews."},
+    {"step": "Book Securely", "description": "Utilize the platform's secure payment system."},
+    {"step": "Post-Care Review", "description": "Leave feedback and rebook as needed."}
+]
+
+# 5. Highlight Trust & Safety Measures
+trust_measures = [
+    {"title": "Background Checks", "description": "All caregivers undergo comprehensive background verification."},
+    {"title": "Certified Professionals", "description": "Providers possess relevant certifications and training."},
+    {"title": "Identity Verification", "description": "Profile photos and IDs are verified for authenticity."}
+]
+
+# 6. Introduce Pre & Postnatal Support Section
+prenatal_support = {
+    "title": "Pre & Postnatal Support",
+    "description": "Professional doulas and parenting classes to support new and expecting parents.",
+    "cta": "Explore Support"
+}
+
+# 7. Integrate AI Recommendation Icon
+# Add an AI icon in the header that opens a modal or redirects to the AI-assisted caregiver matching page.
+
+print("✅ Homepage enhancements have been outlined for implementation.")
