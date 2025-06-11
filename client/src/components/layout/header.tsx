@@ -120,8 +120,8 @@ export default function Header() {
             ) : isAuthenticated ? (
               <div className="flex items-center space-x-4">
                 {viewMode === 'seeker' ? (
-                  <Button variant="ghost" size="sm" className="flex items-center gap-2 px-10" onClick={() => window.location.href = '/search'}>
-                    <Search className="h-4 w-4" />
+                  <Button variant="ghost" size="lg" className="flex items-center gap-3 px-16 py-3 text-base font-medium min-w-[300px]" onClick={() => window.location.href = '/search'}>
+                    <Search className="h-5 w-5" />
                     Search
                   </Button>
                 ) : (
