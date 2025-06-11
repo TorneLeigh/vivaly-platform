@@ -287,6 +287,70 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
               </div>
             </div>
 
+            {/* Mobile Expanded Fields */}
+            {isExpanded && (
+              <div className="md:hidden mt-4 space-y-3">
+                {/* Mobile Where */}
+                <div 
+                  className={cn(
+                    "flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-colors",
+                    activeField === 'where' ? "border-coral bg-coral/5" : "border-gray-200 hover:border-gray-300"
+                  )}
+                  onClick={() => handleFieldClick('where')}
+                >
+                  <MapPin className="h-4 w-4 text-gray-500" />
+                  <div>
+                    <div className="text-xs font-medium text-gray-700">Where</div>
+                    <div className="text-sm text-gray-900">{filters.location || "Search destinations"}</div>
+                  </div>
+                </div>
+
+                {/* Mobile When */}
+                <div 
+                  className={cn(
+                    "flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-colors",
+                    activeField === 'when' ? "border-coral bg-coral/5" : "border-gray-200 hover:border-gray-300"
+                  )}
+                  onClick={() => handleFieldClick('when')}
+                >
+                  <CalendarIcon className="h-4 w-4 text-gray-500" />
+                  <div>
+                    <div className="text-xs font-medium text-gray-700">When</div>
+                    <div className="text-sm text-gray-900">{selectedDate ? format(selectedDate, "MMM d") : "Add dates"}</div>
+                  </div>
+                </div>
+
+                {/* Mobile Care For */}
+                <div 
+                  className={cn(
+                    "flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-colors",
+                    activeField === 'careFor' ? "border-coral bg-coral/5" : "border-gray-200 hover:border-gray-300"
+                  )}
+                  onClick={() => handleFieldClick('careFor')}
+                >
+                  <Users className="h-4 w-4 text-gray-500" />
+                  <div>
+                    <div className="text-xs font-medium text-gray-700">Care for</div>
+                    <div className="text-sm text-gray-900">{getCareForDisplay()}</div>
+                  </div>
+                </div>
+
+                {/* Mobile Service */}
+                <div 
+                  className={cn(
+                    "flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-colors",
+                    activeField === 'service' ? "border-coral bg-coral/5" : "border-gray-200 hover:border-gray-300"
+                  )}
+                  onClick={() => handleFieldClick('service')}
+                >
+                  <div>
+                    <div className="text-xs font-medium text-gray-700">Service</div>
+                    <div className="text-sm text-gray-900">{filters.serviceType || "Select service"}</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Search Button */}
             <Button
               onClick={handleSearch}
@@ -408,12 +472,16 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
 
             {/* Service Dropdown */}
             {activeField === 'service' && (
-              <div className="p-6">
-                <div className="grid grid-cols-1 gap-1">
+              <div className="p-4 md:p-6">
+                <h3 className="text-sm font-medium text-gray-900 mb-4">What type of care do you need?</h3>
+                <div className="grid grid-cols-1 gap-2">
                   {SERVICE_TYPES.map((service) => (
                     <div
                       key={service}
-                      className="p-3 hover:bg-gray-50 rounded-lg cursor-pointer text-sm"
+                      className={cn(
+                        "p-3 hover:bg-gray-50 rounded-lg cursor-pointer text-sm transition-colors border border-transparent",
+                        filters.serviceType === service ? "bg-coral/10 border-coral text-coral font-medium" : "text-gray-700"
+                      )}
                       onClick={() => handleServiceSelect(service)}
                     >
                       {service}
