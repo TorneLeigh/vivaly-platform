@@ -354,10 +354,11 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
             {/* Search Button */}
             <Button
               onClick={handleSearch}
-              className="bg-coral hover:bg-coral/90 text-white rounded-full p-3 ml-4 flex-shrink-0"
+              className="rounded-full p-3 ml-4 flex-shrink-0"
+              style={{ backgroundColor: '#FFBD59' }}
               size="sm"
             >
-              <Search className="h-4 w-4" />
+              <Search className="h-4 w-4 text-white" />
             </Button>
           </div>
         </div>
