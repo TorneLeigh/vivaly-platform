@@ -192,13 +192,16 @@ export default function Header() {
                     {/* Navigation Links */}
                     <div className="p-6 space-y-4">
                       <Link href="/find-care" className="block text-lg font-medium text-gray-900 hover:text-coral py-3" onClick={() => setMobileMenuOpen(false)}>
-                        Day Care
+                        Day Care Services
                       </Link>
                       <Link href="/services" className="block text-lg font-medium text-gray-900 hover:text-coral py-3" onClick={() => setMobileMenuOpen(false)}>
-                        Services
+                        All Services
                       </Link>
                       <Link href="/gift-cards" className="block text-lg font-medium text-gray-900 hover:text-coral py-3" onClick={() => setMobileMenuOpen(false)}>
                         Gift Cards
+                      </Link>
+                      <Link href="/help" className="block text-lg font-medium text-gray-900 hover:text-coral py-3" onClick={() => setMobileMenuOpen(false)}>
+                        Help & Support
                       </Link>
                     </div>
 
