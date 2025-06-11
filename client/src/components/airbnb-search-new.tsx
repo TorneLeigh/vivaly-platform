@@ -144,7 +144,7 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
 
   const getCareForDisplay = () => {
     const totalCount = careOptions.reduce((sum, option) => sum + option.count, 0);
-    if (totalCount === 0) return "Care for";
+    if (totalCount === 0) return "Add people";
     if (totalCount === 1) {
       const activeOption = careOptions.find(option => option.count > 0);
       return `${activeOption?.count} ${activeOption?.label}`;
@@ -274,28 +274,30 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
               </div>
             </div>
 
-            {/* Mobile Layout */}
-            <div className="md:hidden flex items-center space-x-3 flex-1" onClick={() => !isExpanded && setIsExpanded(true)}>
-              <MapPin className="h-4 w-4 text-gray-500 flex-shrink-0" />
-              <div className="flex-1 min-w-0">
-                <div className="text-sm font-medium text-gray-900 truncate">
-                  {(() => {
-                    if (filters.location && filters.serviceType && selectedDate) {
-                      return `${filters.location} • ${filters.serviceType}`;
-                    } else if (filters.location) {
-                      return filters.location;
-                    } else if (filters.serviceType) {
-                      return filters.serviceType;
-                    } else {
-                      return "Where to?";
-                    }
-                  })()}
-                </div>
-                <div className="text-xs text-gray-500 truncate">
-                  {selectedDate ? format(selectedDate, "MMM d") : "When"} • {getCareForDisplay()}
+            {/* Mobile Layout - Only show when collapsed */}
+            {!isExpanded && (
+              <div className="md:hidden flex items-center space-x-3 flex-1" onClick={() => setIsExpanded(true)}>
+                <MapPin className="h-4 w-4 text-gray-500 flex-shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-medium text-gray-900 truncate">
+                    {(() => {
+                      if (filters.location && filters.serviceType && selectedDate) {
+                        return `${filters.location} • ${filters.serviceType}`;
+                      } else if (filters.location) {
+                        return filters.location;
+                      } else if (filters.serviceType) {
+                        return filters.serviceType;
+                      } else {
+                        return "Where to?";
+                      }
+                    })()}
+                  </div>
+                  <div className="text-xs text-gray-500 truncate">
+                    {selectedDate ? format(selectedDate, "MMM d") : "When"} • {getCareForDisplay()}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Mobile Expanded Fields */}
             {isExpanded && (
