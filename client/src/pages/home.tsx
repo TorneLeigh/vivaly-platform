@@ -273,7 +273,7 @@ export default function Home() {
               How It Works
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Book trusted care in 4 simple steps
+              Find the perfect care for your family
             </p>
           </div>
           
@@ -443,57 +443,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-          
-          {/* All Services Carousel */}
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              All Available Services
-            </h3>
-            <p className="text-lg text-gray-600">
-              Browse our complete range of care services
-            </p>
-          </div>
-          
-          <ServiceCarousel>
-            {serviceCategories.map((category, index) => (
-              <div 
-                key={index}
-                className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                onClick={() => {
-                  window.location.href = '/services';
-                }}
-              >
-                <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                  <img 
-                    src={category.image} 
-                    alt={category.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    onError={(e) => {
-                      console.error('Failed to load image:', category.image);
-                      console.error('Image path attempted:', e.currentTarget.src);
-                      // Fallback to a light background if image fails
-                      e.currentTarget.style.display = 'none';
-                      if (e.currentTarget.parentElement) {
-                        e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
-                        e.currentTarget.parentElement.innerHTML = `
-                          <div class="flex items-center justify-center h-full">
-                            <span class="text-gray-400 text-xs">${category.title}</span>
-                          </div>
-                        `;
-                      }
-                    }}
-                    onLoad={(e) => {
-                      console.log('Successfully loaded image:', category.image);
-                    }}
-                  />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 text-sm mb-1">{category.title}</h3>
-                  <p className="text-xs text-gray-600">{category.description}</p>
-                </div>
-              </div>
-            ))}
-          </ServiceCarousel>
         </div>
       </section>
 
