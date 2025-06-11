@@ -100,61 +100,7 @@ export default function CancellationPolicy() {
               </div>
             </div>
 
-            {/* Moderate Policy */}
-            <div className="border rounded-lg p-4">
-              <h3 className="font-semibold text-gray-900 mb-3">Moderate Cancellation</h3>
-              <div className="space-y-3">
-                <div className="flex items-start space-x-2">
-                  <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-medium text-gray-900">Full refund if cancelled 5+ days before</p>
-                    <p className="text-sm text-gray-600">Plenty of time for caregiver to find other work</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-2">
-                  <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-medium text-gray-900">50% refund if cancelled 24 hours - 5 days before</p>
-                    <p className="text-sm text-gray-600">Shared cost for shorter notice period</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-2">
-                  <XCircle className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-medium text-gray-900">No refund if cancelled less than 24 hours before</p>
-                    <p className="text-sm text-gray-600">Protects caregiver from last-minute cancellations</p>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            {/* Strict Policy */}
-            <div className="border rounded-lg p-4">
-              <h3 className="font-semibold text-gray-900 mb-3">Strict Cancellation</h3>
-              <div className="space-y-3">
-                <div className="flex items-start space-x-2">
-                  <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-medium text-gray-900">Full refund if cancelled 14+ days before</p>
-                    <p className="text-sm text-gray-600">For long-term planning and specialized care</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-2">
-                  <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-medium text-gray-900">50% refund if cancelled 7-14 days before</p>
-                    <p className="text-sm text-gray-600">Compensation for advance preparation</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-2">
-                  <XCircle className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-medium text-gray-900">No refund if cancelled less than 7 days before</p>
-                    <p className="text-sm text-gray-600">For caregivers requiring extensive preparation</p>
-                  </div>
-                </div>
-              </div>
-            </div>
           </CardContent>
         </Card>
 
@@ -327,18 +273,11 @@ export default function CancellationPolicy() {
           </CardHeader>
           <CardContent>
             <p className="text-gray-700 mb-4">
-              If you have questions about cancellation policies or need to report an emergency, 
-              our support team is here to help 24/7.
+              If you have questions about cancellation policies, our support team is here to help.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="text-center">
-                <p className="font-medium text-gray-900">Emergency Support</p>
-                <p className="text-sm text-gray-600">1800 VIVALY (1800 848 259)</p>
-              </div>
-              <div className="text-center">
-                <p className="font-medium text-gray-900">General Inquiries</p>
-                <p className="text-sm text-gray-600">support@vivaly.com.au</p>
-              </div>
+            <div className="text-center">
+              <p className="font-medium text-gray-900">General Inquiries</p>
+              <p className="text-sm text-gray-600">support@vivaly.com.au</p>
             </div>
           </CardContent>
         </Card>
