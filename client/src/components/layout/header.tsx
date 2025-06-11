@@ -92,6 +92,16 @@ export default function Header() {
           <div className="hidden lg:flex items-center space-x-2">
             {!isAuthenticated && !isLoading ? (
               <>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => window.location.href = '/ai-chat'} 
+                  className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 flex items-center gap-2"
+                  title="Need help finding the right carer? Use Smart Match"
+                >
+                  <Sparkles className="h-4 w-4" />
+                  Smart Match
+                </Button>
                 {viewMode === 'seeker' ? (
                   <Button className="bg-black hover:bg-gray-800 text-white font-medium" onClick={() => window.location.href = '/become-caregiver'}>
                     Switch to Service Provider
@@ -199,6 +209,13 @@ export default function Header() {
                     {!isAuthenticated ? (
                       <div className="p-6 space-y-4">
                         <div className="space-y-3">
+                          <Button 
+                            onClick={() => { window.location.href = '/ai-chat'; setMobileMenuOpen(false); }}
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium flex items-center gap-2"
+                          >
+                            <Sparkles className="h-4 w-4" />
+                            Smart Match
+                          </Button>
                           <Button 
                             onClick={() => { window.location.href = '/become-caregiver'; setMobileMenuOpen(false); }}
                             className="w-full bg-black hover:bg-gray-800 text-white font-medium"

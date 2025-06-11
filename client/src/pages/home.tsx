@@ -265,10 +265,51 @@ export default function Home() {
         </div>
       </section>
 
-      {/* AI Recommendations Section */}
+      {/* Step-by-Step Booking Guide */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AIRecommendations />
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              How It Works
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Book trusted care in 4 simple steps
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-4 gap-8">
+            <div className="text-center group">
+              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300">
+                <Search className="w-8 h-8 text-coral" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">1. Browse carers</h3>
+              <p className="text-gray-600 text-sm">Enter your location and care category to view trusted, verified carers.</p>
+            </div>
+            
+            <div className="text-center group">
+              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300">
+                <User className="w-8 h-8 text-coral" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">2. Check profiles</h3>
+              <p className="text-gray-600 text-sm">Read reviews, see availability, and view caregiver credentials.</p>
+            </div>
+            
+            <div className="text-center group">
+              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300">
+                <Shield className="w-8 h-8 text-coral" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">3. Book securely</h3>
+              <p className="text-gray-600 text-sm">Pay via our platform, with full transparency and built-in protection.</p>
+            </div>
+            
+            <div className="text-center group">
+              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300">
+                <Heart className="w-8 h-8 text-coral" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">4. After care</h3>
+              <p className="text-gray-600 text-sm">Leave a review and easily rebook your favorite carers.</p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -284,8 +325,8 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Three Main Categories */}
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
+          {/* Four Main Categories */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {/* CHILDCARE */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
               <div className="relative h-64">
@@ -368,6 +409,35 @@ export default function Home() {
                 <Link href="/aged-care-services">
                   <Button className="w-full bg-coral hover:bg-coral/90 text-white">
                     Explore Elderly Care
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            {/* PRE & POSTNATAL SUPPORT */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-64">
+                <img 
+                  src={doulaImage} 
+                  alt="Pre & Postnatal Support"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-2xl font-bold mb-2 flex items-center">
+                    <Baby className="mr-2" size={24} />
+                    PRE & POSTNATAL
+                  </h3>
+                  <p className="text-sm opacity-90">Expert birth & newborn support</p>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  Book qualified doulas, newborn support, and join parenting classes
+                </p>
+                <Link href="/child-care-services">
+                  <Button className="w-full bg-coral hover:bg-coral/90 text-white">
+                    Explore Support
                   </Button>
                 </Link>
               </div>
