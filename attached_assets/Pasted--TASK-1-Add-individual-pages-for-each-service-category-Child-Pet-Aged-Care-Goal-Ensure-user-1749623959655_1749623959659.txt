@@ -1,0 +1,67 @@
+# TASK 1: Add individual pages for each service category (Child, Pet, Aged Care)
+# Goal: Ensure users can navigate directly to relevant services with detailed descriptions
+
+services = [
+    {
+        "title": "Child Care Services",
+        "slug": "child-care",
+        "description": "Find experienced babysitters, nannies, and after-school carers in your area. All carers are WWCC verified and reviewed by other parents."
+    },
+    {
+        "title": "Pet Care Services",
+        "slug": "pet-care",
+        "description": "Whether you're looking for a dog walker, pet sitter, or someone to check in on your furry friend, Vivaly connects you with trusted, local animal lovers."
+    },
+    {
+        "title": "Aged Care Support",
+        "slug": "aged-care",
+        "description": "Compassionate, verified carers to support the elderly with companionship, transport, daily tasks, and more — in the comfort of their own home."
+    }
+]
+
+# Generate HTML or Markdown pages for each of the above with navigation links back to home
+
+# TASK 2: Add booking flow explanation to homepage or a dedicated "How It Works" page
+
+booking_steps = [
+    "1. Search for care: Enter your location and choose your care category.",
+    "2. Browse verified carers: View profiles, reviews, availability, and rates.",
+    "3. Book and pay securely: Pay through Vivaly’s secure system with peace of mind.",
+    "4. Leave a review: After the care is complete, share your experience to help others."
+]
+
+# Display these steps as a section on the homepage or a separate /how-it-works page
+
+# TASK 3: Improve Mobile Responsiveness
+# - Check for responsive layout using CSS flexbox/grid
+# - Ensure text doesn't overlap on screen widths < 600px
+# - Use media queries to adjust font sizes, button padding, and nav layout
+
+# TASK 4: Add FAQs section or page
+faqs = [
+    {
+        "question": "How are carers verified?",
+        "answer": "Each carer undergoes ID verification and must upload a valid Working With Children Check (WWCC), Police Check or relevant qualification, depending on the service."
+    },
+    {
+        "question": "Is payment secure?",
+        "answer": "Yes. All bookings and payments are handled securely through Stripe with encrypted data handling."
+    },
+    {
+        "question": "Can I get recurring bookings?",
+        "answer": "Yes, Vivaly supports both one-time and recurring care bookings. Set your preferred schedule in the booking flow."
+    }
+]
+
+# Create collapsible FAQ elements using JavaScript or HTML/CSS
+
+# TASK 5: (Optional) Highlight API and integrations if relevant
+# If offering an API, create a /partners or /integrate page that explains:
+# - What the API does
+# - Example use cases (e.g., retirement villages integrating with Vivaly)
+# - How to request access or API key
+
+# BONUS: Add a blog or knowledge section to improve SEO
+# Topics: "How to hire a trusted nanny", "Pet care tips while traveling", "Signs your elderly parent needs support"
+
+print("✅ Tasks ready to be implemented. Start with the service pages and booking flow.")

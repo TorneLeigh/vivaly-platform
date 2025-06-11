@@ -49,6 +49,11 @@ import ChildcareEnroll from "@/pages/childcare-enroll";
 import ProviderDashboard from "@/pages/provider-dashboard";
 import ChildcareDashboard from "@/pages/childcare-dashboard";
 import AIChat from "@/pages/ai-chat";
+import ChildCareServices from "@/pages/child-care-services";
+import PetCareServices from "@/pages/pet-care-services";
+import AgedCareServices from "@/pages/aged-care-services";
+import HowItWorks from "@/pages/how-it-works";
+import FAQs from "@/pages/faqs";
 import Services from "@/pages/services";
 import PersonalityProfile from "@/pages/profile";
 import FindCareSignup from "@/pages/find-care-signup";
@@ -130,6 +135,11 @@ function Router() {
           <Route path="/email-preview" component={EmailPreview} />
           <Route path="/admin-dashboard" component={AdminDashboard} />
           <Route path="/ai-chat" component={AIChat} />
+          <Route path="/child-care-services" component={ChildCareServices} />
+          <Route path="/pet-care-services" component={PetCareServices} />
+          <Route path="/aged-care-services" component={AgedCareServices} />
+          <Route path="/how-it-works" component={HowItWorks} />
+          <Route path="/faqs" component={FAQs} />
           <Route path="/booking-confirmed" component={BookingConfirmation} />
           <Route path="/booking-confirmation" component={BookingConfirmation} />
           <Route path="/terms" component={Terms} />
