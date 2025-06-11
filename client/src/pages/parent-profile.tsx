@@ -454,8 +454,18 @@ export default function ParentProfile() {
             </CardContent>
           </Card>
 
-          {/* Submit Button */}
-          <div className="flex justify-end">
+          {/* Action Buttons */}
+          <div className="flex justify-between items-center">
+            <Button
+              type="button"
+              variant="outline"
+              className="flex items-center gap-2"
+              onClick={() => window.location.href = '/profile-preview'}
+            >
+              <Eye className="h-4 w-4" />
+              View My Profile
+            </Button>
+            
             <Button
               type="submit"
               className="flex items-center gap-2"

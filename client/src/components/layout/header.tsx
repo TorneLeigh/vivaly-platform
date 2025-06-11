@@ -129,10 +129,10 @@ export default function Header() {
                     <div className="border-t my-1"></div>
                     {viewMode === 'seeker' ? (
                       <>
-                        <DropdownMenuItem onClick={() => window.location.href = '/provider-dashboard'} className="bg-black text-white hover:bg-gray-800 hover:text-white">
+                        <DropdownMenuItem onClick={() => window.location.href = '/provider-dashboard'} className="bg-black text-white hover:bg-gray-800 hover:text-white focus:bg-black focus:text-white">
                           Switch to Service Provider
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => window.location.href = '/become-caregiver'} className="bg-black text-white hover:bg-gray-800 hover:text-white">
+                        <DropdownMenuItem onClick={() => window.location.href = '/become-caregiver'} className="bg-black text-white hover:bg-gray-800 hover:text-white focus:bg-black focus:text-white">
                           Switch to Caregiver
                         </DropdownMenuItem>
                       </>
