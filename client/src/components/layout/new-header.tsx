@@ -45,12 +45,7 @@ export default function NewHeader() {
                   Sign Up
                 </Link>
               </div>
-              <Button 
-                onClick={() => window.location.href = '/become-caregiver'}
-                className="px-4 py-2 bg-black text-white border-none rounded cursor-pointer font-medium hover:bg-gray-800"
-              >
-                Become a Carer
-              </Button>
+
             </>
           ) : isAuthenticated ? (
             <div className="flex items-center gap-4">
@@ -97,9 +92,7 @@ export default function NewHeader() {
             <Link href="/signup" className="py-2.5 text-black border-b border-gray-200 no-underline" onClick={() => setMobileMenuOpen(false)}>
               Sign Up
             </Link>
-            <Link href="/become-caregiver" className="py-2.5 text-black no-underline" onClick={() => setMobileMenuOpen(false)}>
-              Become a Carer
-            </Link>
+
           </>
         ) : isAuthenticated ? (
           <>

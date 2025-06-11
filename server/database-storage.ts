@@ -347,10 +347,7 @@ export class DatabaseStorage implements IStorage {
   async getFeaturedNannies(): Promise<(Nanny & { user: User })[]> {
     try {
       const results = await db
-        .select({
-          ...nannies,
-          user: users
-        })
+        .select()
         .from(nannies)
         .innerJoin(users, eq(nannies.userId, users.id))
         .where(eq(nannies.isVerified, true))
@@ -358,12 +355,12 @@ export class DatabaseStorage implements IStorage {
         .limit(12);
 
       return results.map(row => ({
-        ...row,
-        user: row.user,
+        ...row.nannies,
+        user: row.users,
       }));
     } catch (error) {
       console.error('Error fetching featured nannies:', error);
-      throw new Error('Failed to fetch featured nannies');
+      return [];
     }
   }
 
