@@ -235,10 +235,10 @@ export default function Home() {
       <section className="bg-white relative min-h-[45vh] flex items-center pt-8 md:pt-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-tight mb-2">
-            Book trusted care in minutes
+            Everything Your Family Needs — All in One Place
           </h1>
           <p className="text-lg sm:text-xl text-coral font-medium mb-3 italic">
-            Because it takes a village
+            Book trusted care in minutes
           </p>
           <p className="text-sm sm:text-lg md:text-xl text-gray-600 mb-6 max-w-2xl mx-auto">
             Instant booking • Verified caregivers • Available today
@@ -353,8 +353,8 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Four Main Categories */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          {/* Three Main Categories */}
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
             {/* CHILDCARE */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
               <div className="relative h-64">
@@ -367,18 +367,17 @@ export default function Home() {
                 <div className="absolute bottom-4 left-4 text-white">
                   <h3 className="text-2xl font-bold mb-2 flex items-center">
                     <Baby className="mr-2" size={24} />
-                    CHILDCARE
+                    Childcare
                   </h3>
-                  <p className="text-sm opacity-90">Professional child care services</p>
                 </div>
               </div>
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
-                  From babysitting to full-time nanny services, find qualified caregivers for your children
+                  Trusted nannies and babysitters for your little ones.
                 </p>
                 <Link href="/child-care-services">
                   <Button className="w-full bg-coral hover:bg-coral/90 text-white">
-                    Explore Childcare
+                    Find Childcare
                   </Button>
                 </Link>
               </div>
@@ -396,18 +395,17 @@ export default function Home() {
                 <div className="absolute bottom-4 left-4 text-white">
                   <h3 className="text-2xl font-bold mb-2 flex items-center">
                     <PawPrint className="mr-2" size={24} />
-                    PETS
+                    Pet Care
                   </h3>
-                  <p className="text-sm opacity-90">Loving pet care services</p>
                 </div>
               </div>
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
-                  Trusted pet sitters and dog walkers to keep your furry friends happy and healthy
+                  Reliable pet sitters and dog walkers.
                 </p>
                 <Link href="/pet-care-services">
                   <Button className="w-full bg-coral hover:bg-coral/90 text-white">
-                    Explore Pet Care
+                    Find Pet Care
                   </Button>
                 </Link>
               </div>
@@ -425,46 +423,43 @@ export default function Home() {
                 <div className="absolute bottom-4 left-4 text-white">
                   <h3 className="text-2xl font-bold mb-2 flex items-center">
                     <Heart className="mr-2" size={24} />
-                    ELDERLY CARE
+                    Aged Care
                   </h3>
-                  <p className="text-sm opacity-90">Compassionate senior care</p>
                 </div>
               </div>
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
-                  Professional elderly care and companionship services for your loved ones
+                  Compassionate care for your elderly loved ones.
                 </p>
                 <Link href="/aged-care-services">
                   <Button className="w-full bg-coral hover:bg-coral/90 text-white">
-                    Explore Elderly Care
+                    Find Aged Care
                   </Button>
                 </Link>
               </div>
             </div>
 
-            {/* PRE & POSTNATAL SUPPORT */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <div className="relative h-64">
+          </div>
+
+          {/* Pre & Postnatal Support Section */}
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 mb-16">
+            <div className="flex flex-col md:flex-row items-center">
+              <div className="md:w-1/2 mb-6 md:mb-0">
                 <img 
-                  src={doulaImage} 
+                  src={pregnancyImage} 
                   alt="Pre & Postnatal Support"
-                  className="w-full h-full object-cover"
+                  className="w-full h-64 object-cover rounded-lg"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold mb-2 flex items-center">
-                    <Baby className="mr-2" size={24} />
-                    PRE & POSTNATAL
-                  </h3>
-                  <p className="text-sm opacity-90">Expert birth & newborn support</p>
-                </div>
               </div>
-              <div className="p-6">
-                <p className="text-gray-600 mb-4">
-                  Book qualified doulas, newborn support, and join parenting classes
+              <div className="md:w-1/2 md:pl-8">
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">
+                  Pre & Postnatal Support
+                </h3>
+                <p className="text-lg text-gray-600 mb-6">
+                  Professional doulas and parenting classes to support new and expecting parents.
                 </p>
-                <Link href="/child-care-services">
-                  <Button className="w-full bg-coral hover:bg-coral/90 text-white">
+                <Link href="/prenatal-services">
+                  <Button className="bg-coral hover:bg-coral/90 text-white px-8 py-3">
                     Explore Support
                   </Button>
                 </Link>
