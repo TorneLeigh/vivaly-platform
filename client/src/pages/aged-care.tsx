@@ -54,85 +54,39 @@ export default function AgedCare() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Breadcrumb */}
-      <section className="bg-white py-4 border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center space-x-2 text-sm text-gray-600">
-            <Link href="/" className="flex items-center hover:text-gray-900 transition-colors">
-              <Home className="w-4 h-4 mr-1" />
-              Home
-            </Link>
-            <ChevronRight className="w-4 h-4" />
-            <span className="text-gray-900 font-medium">Aged Care</span>
-          </div>
-        </div>
+    <div className="min-h-screen bg-white">
+      <section className="breadcrumb py-4 px-8 text-sm text-gray-600 bg-gray-50">
+        <Link href="/" className="text-blue-600 hover:text-blue-800">Home</Link>
+        <span className="mx-2">&gt;</span>
+        <span className="text-gray-900 font-medium">Aged Care Services</span>
       </section>
 
-      {/* Main Content */}
-      <section className="py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Compassionate Care for Seniors
-            </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Professional aged care services designed to support independence, dignity, and quality of life for seniors in their own homes.
-            </p>
-          </div>
-
-          {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {agedCareServices.map((service, index) => (
-              <div 
-                key={index}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
-              >
-                <div className="aspect-w-16 aspect-h-9 bg-gray-100">
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    className="w-full h-48 object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">
-                    {service.title}
-                  </h3>
-                  
-                  <p className="text-gray-600 mb-6 text-center leading-relaxed">
-                    {service.description}
-                  </p>
-                  
-                  <div className="text-center">
-                    <Link href={service.link}>
-                      <button className="bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center mx-auto">
-                        {service.buttonText}
-                        <ChevronRight className="w-4 h-4 ml-2" />
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* CTA Section */}
-          <div className="mt-16 text-center">
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Need Help Finding the Right Care?
-              </h2>
-              <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-                Our care coordinators are here to help you find the perfect aged care support tailored to your loved one's specific needs.
+      <section className="services-wrapper py-12 px-6 bg-gray-50 text-center">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8">
+          Supportive, Trusted Aged Care Services
+        </h2>
+        
+        <div className="services-grid grid gap-8 max-w-5xl mx-auto" style={{gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))'}}>
+          {agedCareServices.map((service, index) => (
+            <div key={index} className="service-card bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:transform hover:-translate-y-1 transition-all duration-200">
+              <img
+                src={service.image}
+                alt={service.title}
+                className="w-16 h-16 mb-4 mx-auto"
+              />
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                {service.title}
+              </h3>
+              <p className="text-gray-600 mb-4 text-sm">
+                {service.description}
               </p>
-              <Link href="/contact">
-                <button className="bg-black text-white px-8 py-4 rounded-full font-medium hover:bg-gray-800 transition-colors duration-200">
-                  Get Personalized Care Plan
+              <Link href={service.link}>
+                <button className="cta-button inline-block bg-black text-white py-2 px-5 rounded-lg font-semibold hover:bg-gray-800 transition-colors duration-200">
+                  {service.buttonText}
                 </button>
               </Link>
             </div>
-          </div>
+          ))}
         </div>
       </section>
     </div>

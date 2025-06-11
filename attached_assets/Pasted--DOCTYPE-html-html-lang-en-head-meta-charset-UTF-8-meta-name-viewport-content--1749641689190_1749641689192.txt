@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aged Care Services - Vivaly</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      color: #111;
+    }
+
+    .breadcrumb {
+      padding: 1rem 2rem;
+      font-size: 0.9rem;
+      color: #666;
+      background-color: #fafafa;
+    }
+
+    .services-wrapper {
+      padding: 3rem 1.5rem;
+      background-color: #f9f9f9;
+      text-align: center;
+    }
+
+    .services-wrapper h2 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: #222;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .service-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid #eee;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.04);
+      transition: transform 0.2s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .service-card img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 1rem;
+    }
+
+    .service-card h3 {
+      font-size: 1.25rem;
+      color: #111;
+      margin-bottom: 0.5rem;
+    }
+
+    .service-card p {
+      font-size: 0.95rem;
+      color: #444;
+      margin-bottom: 1rem;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background-color: black;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background 0.2s ease;
+    }
+
+    .cta-button:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <section class="breadcrumb">
+    <a href="/">Home</a> &gt; <span>Aged Care Services</span>
+  </section>
+
+  <section class="services-wrapper">
+    <h2>Supportive, Trusted Aged Care Services</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <img src="https://img.icons8.com/ios-filled/100/cottage.png" alt="In-Home Care" />
+        <h3>In-Home Support</h3>
+        <p>Qualified carers providing daily assistance and companionship in the comfort of your home.</p>
+        <a href="/book/in-home-care" class="cta-button">Book Now</a>
+      </div>
+
+      <div class="service-card">
+        <img src="https://img.icons8.com/ios-filled/100/bedroom.png" alt="Respite Care" />
+        <h3>Respite Care</h3>
+        <p>Short-term relief for primary carers with peace of mind that your loved one is in safe hands.</p>
+        <a href="/book/respite-care" class="cta-button">Learn More</a>
+      </div>
+
+      <div class="service-card">
+        <img src="https://img.icons8.com/ios-filled/100/hospital-room.png" alt="Palliative Support" />
+        <h3>Palliative Support</h3>
+        <p>Comfort-focused care tailored for seniors and families during advanced stages of illness.</p>
+        <a href="/book/palliative" class="cta-button">Book Support</a>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

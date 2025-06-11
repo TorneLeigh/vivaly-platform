@@ -1,138 +1,91 @@
 import { Link } from 'wouter';
-import { ChevronRight, Home } from 'lucide-react';
-import dogWalkingImage from "@assets/994aad74ac4664d9bd56815d3fda5f88_1749183011870.jpg";
-import petSittingImage from "@assets/d886544ac5e3fae6b42acf55429e1aaa_1749183011871.jpg";
-import petGroomingImage from "@assets/32b2abcfc1fddbe1118ee928059ce66b_1749183011871.jpg";
-import veterinaryTransportImage from "@assets/1f385011ff2b05a03672385eb150b795_1749183011871.jpg";
-import petBoardingImage from "@assets/04d9009db67d6c328f97e3b626b6d305_1749183011871.jpg";
-import petTrainingImage from "@assets/8da0e0735821d20e3f8cb769e40a4c98_1749182897295.jpg";
+import petSittingImage from "@assets/969c7a3eeacf469a3a4c50a32a9b3d57.jpg";
+import dogWalkingImage from "@assets/540c7ede798b410d249591160f8b4b9f.jpg";
+import petGroomingImage from "@assets/5204c0c48d0dc2e1af450973bc115d18.jpg";
+import overnightPetCareImage from "@assets/51eb7e79d90e3a22f5628012c3866e10.jpg";
+import holidayPetCareImage from "@assets/8a24c5a3f190ad6dab3bdec778071075.jpg";
+import petTrainingImage from "@assets/58268e04ad7e7126279d8950565a0cd6.jpg";
 
 export default function PetCare() {
   const petCareServices = [
     {
-      title: "Dog Walking",
-      description: "Reliable daily walks to keep your dog happy, healthy, and well-exercised while you're away.",
-      image: dogWalkingImage,
-      link: "/book/dog-walking",
+      title: "Pet Sitting",
+      description: "Loving in-home pet sitting services providing companionship, feeding, and care while you're away from home.",
+      image: petSittingImage,
+      link: "/book/pet-sitting",
       buttonText: "Book Now"
     },
     {
-      title: "Pet Sitting",
-      description: "In-home pet care providing companionship and attention for your pets in their familiar environment.",
-      image: petSittingImage,
-      link: "/book/pet-sitting",
-      buttonText: "Learn More"
+      title: "Dog Walking",
+      description: "Regular dog walking services ensuring your furry friends get the exercise and outdoor time they need daily.",
+      image: dogWalkingImage,
+      link: "/book/dog-walking",
+      buttonText: "Schedule Walks"
     },
     {
       title: "Pet Grooming",
-      description: "Professional grooming services including baths, brushing, nail trimming, and styling.",
+      description: "Professional pet grooming services including bathing, brushing, nail trimming, and styling for all breeds.",
       image: petGroomingImage,
-      link: "/book/pet-grooming",
-      buttonText: "Book Now"
+      link: "/book/grooming",
+      buttonText: "Book Grooming"
     },
     {
-      title: "Veterinary Transport",
-      description: "Safe and comfortable transportation to veterinary appointments and pet care facilities.",
-      image: veterinaryTransportImage,
-      link: "/book/vet-transport",
+      title: "Overnight Pet Care",
+      description: "Trusted overnight pet care for extended trips, ensuring your pets receive constant attention and companionship.",
+      image: overnightPetCareImage,
+      link: "/book/overnight-pet",
       buttonText: "Learn More"
     },
     {
-      title: "Pet Boarding",
-      description: "Overnight care in a loving home environment when you need to be away for extended periods.",
-      image: petBoardingImage,
-      link: "/book/pet-boarding",
+      title: "Holiday Pet Care",
+      description: "Specialized holiday pet care services for vacation periods, maintaining routines and providing extra attention.",
+      image: holidayPetCareImage,
+      link: "/book/holiday-pet",
       buttonText: "Book Now"
     },
     {
       title: "Pet Training",
-      description: "Professional training sessions to help your pet develop good behaviors and social skills.",
+      description: "Professional pet training sessions helping with obedience, behavior modification, and socialization skills.",
       image: petTrainingImage,
-      link: "/book/pet-training",
-      buttonText: "Learn More"
+      link: "/book/training",
+      buttonText: "Start Training"
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Breadcrumb */}
-      <section className="bg-white py-4 border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center space-x-2 text-sm text-gray-600">
-            <Link href="/" className="flex items-center hover:text-gray-900 transition-colors">
-              <Home className="w-4 h-4 mr-1" />
-              Home
-            </Link>
-            <ChevronRight className="w-4 h-4" />
-            <span className="text-gray-900 font-medium">Pet Care</span>
-          </div>
-        </div>
+    <div className="min-h-screen bg-white">
+      <section className="breadcrumb py-4 px-8 text-sm text-gray-600 bg-gray-50">
+        <Link href="/" className="text-blue-600 hover:text-blue-800">Home</Link>
+        <span className="mx-2">&gt;</span>
+        <span className="text-gray-900 font-medium">Pet Care Services</span>
       </section>
 
-      {/* Main Content */}
-      <section className="py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Loving Care for Your Furry Family
-            </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Professional pet care services to keep your beloved companions happy, healthy, and well-cared for when you can't be there.
-            </p>
-          </div>
-
-          {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {petCareServices.map((service, index) => (
-              <div 
-                key={index}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
-              >
-                <div className="aspect-w-16 aspect-h-9 bg-gray-100">
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    className="w-full h-48 object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">
-                    {service.title}
-                  </h3>
-                  
-                  <p className="text-gray-600 mb-6 text-center leading-relaxed">
-                    {service.description}
-                  </p>
-                  
-                  <div className="text-center">
-                    <Link href={service.link}>
-                      <button className="bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center mx-auto">
-                        {service.buttonText}
-                        <ChevronRight className="w-4 h-4 ml-2" />
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* CTA Section */}
-          <div className="mt-16 text-center">
-            <div className="bg-gradient-to-r from-green-50 to-teal-50 rounded-2xl p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Need Help Choosing Pet Care Services?
-              </h2>
-              <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-                Our pet care coordinators are here to help you find the perfect care solution for your furry, feathered, or scaled family members.
+      <section className="services-wrapper py-12 px-6 bg-gray-50 text-center">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8">
+          Loving Care for Your Furry Family
+        </h2>
+        
+        <div className="services-grid grid gap-8 max-w-5xl mx-auto" style={{gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))'}}>
+          {petCareServices.map((service, index) => (
+            <div key={index} className="service-card bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:transform hover:-translate-y-1 transition-all duration-200">
+              <img
+                src={service.image}
+                alt={service.title}
+                className="w-16 h-16 mb-4 mx-auto"
+              />
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                {service.title}
+              </h3>
+              <p className="text-gray-600 mb-4 text-sm">
+                {service.description}
               </p>
-              <Link href="/contact">
-                <button className="bg-black text-white px-8 py-4 rounded-full font-medium hover:bg-gray-800 transition-colors duration-200">
-                  Get Personalized Pet Care Plan
+              <Link href={service.link}>
+                <button className="cta-button inline-block bg-black text-white py-2 px-5 rounded-lg font-semibold hover:bg-gray-800 transition-colors duration-200">
+                  {service.buttonText}
                 </button>
               </Link>
             </div>
-          </div>
+          ))}
         </div>
       </section>
     </div>
