@@ -6,6 +6,7 @@ import AirbnbSearch from "@/components/airbnb-search-new";
 import FloatingActionButton from "@/components/floating-action-button";
 import ServiceCarousel from "@/components/service-carousel";
 import AIRecommendations from "@/components/ai-recommendations";
+import RoleToggle from "@/components/role-toggle";
 import { 
   User, 
   Users, 
@@ -243,6 +244,11 @@ export default function Home() {
           <p className="text-sm sm:text-lg md:text-xl text-gray-600 mb-6 max-w-2xl mx-auto">
             Instant booking • Verified caregivers • Available today
           </p>
+
+          {/* Role Toggle */}
+          <div className="flex justify-center mb-8">
+            <RoleToggle />
+          </div>
           
           {/* Airbnb-style Search Bar - Fixed positioning to prevent movement */}
           <div className="relative z-10">
@@ -284,7 +290,7 @@ export default function Home() {
                 🧭
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Browse Carers</h3>
-              <p className="text-gray-600 text-sm">Enter your location and care category to find the right match.</p>
+              <p className="text-gray-600 text-sm">Enter your location and care category to view available carers.</p>
             </div>
             
             <div className="text-center group">
@@ -292,7 +298,7 @@ export default function Home() {
                 🔍
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Check Profiles</h3>
-              <p className="text-gray-600 text-sm">See reviews, availability, and certifications.</p>
+              <p className="text-gray-600 text-sm">Review qualifications, experience, and user reviews.</p>
             </div>
             
             <div className="text-center group">
@@ -300,15 +306,15 @@ export default function Home() {
                 🔒
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Book Securely</h3>
-              <p className="text-gray-600 text-sm">Pay safely through our platform.</p>
+              <p className="text-gray-600 text-sm">Utilize the platform's secure payment system.</p>
             </div>
             
             <div className="text-center group">
               <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300 text-2xl">
                 💬
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">After Care</h3>
-              <p className="text-gray-600 text-sm">Leave a review and rebook your favourites.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Post-Care Review</h3>
+              <p className="text-gray-600 text-sm">Leave feedback and rebook as needed.</p>
             </div>
           </div>
 
@@ -318,8 +324,8 @@ export default function Home() {
               <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-colors duration-300 text-2xl">
                 🛡️
               </div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-2">Background Checked</h4>
-              <p className="text-gray-600 text-sm">All carers complete police or WWCC checks.</p>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">Background Checks</h4>
+              <p className="text-gray-600 text-sm">All caregivers undergo comprehensive background verification.</p>
             </div>
             
             <div className="text-center group">
@@ -327,7 +333,7 @@ export default function Home() {
                 📄
               </div>
               <h4 className="text-lg font-semibold text-gray-900 mb-2">Certified Professionals</h4>
-              <p className="text-gray-600 text-sm">We verify caregiver qualifications and training.</p>
+              <p className="text-gray-600 text-sm">Providers possess relevant certifications and training.</p>
             </div>
             
             <div className="text-center group">
