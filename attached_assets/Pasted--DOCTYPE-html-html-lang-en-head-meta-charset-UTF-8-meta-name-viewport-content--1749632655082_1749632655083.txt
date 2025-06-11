@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vivaly Header</title>
+  <style>
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Sticky header */
+    header {
+      position: sticky;
+      top: 0;
+      background: white;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      height: 60px;
+      z-index: 999;
+    }
+
+    /* Logo */
+    .logo {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: #0077cc;
+      cursor: pointer;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    /* Navigation container */
+    nav.main-nav {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      flex-grow: 1;
+      margin-left: 32px;
+    }
+
+    nav.main-nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      padding: 8px 0;
+      border-bottom: 3px solid transparent;
+      transition: border-color 0.3s ease;
+      cursor: pointer;
+    }
+    nav.main-nav a:hover,
+    nav.main-nav a:focus {
+      border-color: #0077cc;
+      outline: none;
+    }
+
+    /* Call to Action button */
+    .btn-cta {
+      background-color: #0077cc;
+      color: white !important;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      white-space: nowrap;
+    }
+    .btn-cta:hover,
+    .btn-cta:focus {
+      background-color: #005fa3;
+      outline: none;
+    }
+
+    /* Role toggle */
+    .role-toggle {
+      display: flex;
+      gap: 8px;
+      margin-left: 24px;
+    }
+    .role-btn {
+      padding: 6px 14px;
+      border: 1.5px solid #ccc;
+      background-color: white;
+      color: #333;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      user-select: none;
+    }
+    .role-btn.active {
+      background-color: #000;
+      color: white;
+      border-color: #000;
+    }
+
+    /* Auth buttons */
+    .auth-buttons {
+      margin-left: 24px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .login-link,
+    .signup-link {
+      cursor: pointer;
+      font-weight: 600;
+      color: #0077cc;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .signup-link {
+      border: 1.5px solid #0077cc;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      white-space: nowrap;
+    }
+    .signup-link:hover,
+    .signup-link:focus {
+      background-color: #0077cc;
+      color: white;
+      outline: none;
+    }
+
+    /* Burger menu button */
+    .burger-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      width: 28px;
+      height: 22px;
+      cursor: pointer;
+      margin-left: 16px;
+      user-select: none;
+    }
+    .burger-btn span {
+      height: 3px;
+      background: #333;
+      margin: 3px 0;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* Mobile menu panel */
+    .mobile-menu {
+      position: fixed;
+      top: 60px; /* height of header */
+      right: 0;
+      width: 260px;
+      height: calc(100% - 60px);
+      background: white;
+      box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 1000;
+    }
+    .mobile-menu.open {
+      transform: translateX(0);
+    }
+    .mobile-menu a {
+      text-decoration: none;
+      color: #333;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      user-select: none;
+    }
+    .mobile-menu a:hover,
+    .mobile-menu a:focus {
+      color: #0077cc;
+      outline: none;
+    }
+    .mobile-menu .close-btn {
+      align-self: flex-end;
+      font-size: 1.4rem;
+      cursor: pointer;
+      user-select: none;
+      padding: 4px 8px;
+      border: none;
+      background: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      nav.main-nav,
+      .auth-buttons,
+      .role-toggle {
+        display: none;
+      }
+      .burger-btn {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo" tabindex="0" role="link" aria-label="Go to homepage">Vivaly</div>
+
+  <nav class="main-nav" aria-label="Primary navigation">
+    <a href="/childcare" tabindex="0">Childcare</a>
+    <a href="/petcare" tabindex="0">Pet Care</a>
+    <a href="/agedcare" tabindex="0">Aged Care</a>
+    <button class="btn-cta" tabindex="0" onclick="alert('Navigate to Become a Carer sign up')">Become a Carer</button>
+  </nav>
+
+  <div class="role-toggle" role="radiogroup" aria-label="Select user role">
+    <button id="seekerBtn" class="role-btn active" role="radio" aria-checked="true" tabindex="0">Parent / Seeker</button>
+    <button id="providerBtn" class="role-btn" role="radio" aria-checked="false" tabindex="-1">Caregiver / Provider</button>
+  </div>
+
+  <div class="auth-buttons">
+    <a href="/login" class="login-link" tabindex="0">Log In</a>
+    <a href="/signup" class="signup-link" tabindex="0">Sign Up</a>
+  </div>
+
+  <div class="burger-btn" aria-label="Open menu" role="button" tabindex="0" aria-expanded="false" aria-controls="mobileMenu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</header>
+
+<nav id="mobileMenu" class="mobile-menu" aria-hidden="true">
+  <button class="close-btn" aria-label="Close menu" role="button" tabindex="0">&times;</button>
+  <a href="/my-bookings" tabindex="0">My Bookings</a>
+  <a href="/favourites" tabindex="0">Favourites</a>
+  <a href="/messages" tabindex="0">Messages</a>
+  <a href="/pricing" tabindex="0">Pricing</a>
+  <a href="/faq" tabindex="0">FAQs</a>
+  <a href="/about" tabindex="0">About Us</a>
+  <a href="/contact" tabindex="0">Contact</a>
+  <a href="/logout" tabindex="0">Log Out</a>
+</nav>
+
+<script>
+  // Role toggle logic
+  const seekerBtn = document.getElementById('seekerBtn');
+  const providerBtn = document.getElementById('providerBtn');
+
+  seekerBtn.addEventListener('click', () => {
+    seekerBtn.classList.add('active');
+    seekerBtn.setAttribute('aria-checked', 'true');
+    seekerBtn.tabIndex = 0;
+
+    providerBtn.classList.remove('active');
+    providerBtn.setAttribute('aria-checked', 'false');
+    providerBtn.tabIndex = -1;
+
+    console.log("Selected role: Parent / Seeker");
+    // TODO: Insert your role-switch logic here
+  });
+
+  providerBtn.addEventListener('click', () => {
+    providerBtn.classList.add('active');
+    providerBtn.setAttribute('aria-checked', 'true');
+    providerBtn.tabIndex = 0;
+
+    seekerBtn.classList.remove('active');
+    seekerBtn.setAttribute('aria-checked', 'false');
+    seekerBtn.tabIndex = -1;
+
+    console.log("Selected role: Caregiver / Provider");
+    // TODO: Insert your role-switch logic here
+  });
+
+  // Burger menu logic
+  const burgerBtn = document.querySelector('.burger-btn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const closeBtn = mobileMenu.querySelector('.close-btn');
+
+  burgerBtn.addEventListener('click', () => {
+    const expanded = burgerBtn.getAttribute('aria-expanded') === 'true';
+    burgerBtn.setAttribute('aria-expanded', String(!expanded));
+    if (!expanded) {
+      mobileMenu.classList.add('open');
+      mobileMenu.setAttribute('aria-hidden', 'false');
+      mobileMenu.querySelector('a').focus();
+    } else {
+      mobileMenu.classList.remove('open');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      burgerBtn.focus();
+    }
+  });
+
+  closeBtn.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    burgerBtn.setAttribute('aria-expanded', 'false');
+    burgerBtn.focus();
+  });
+
+  // Close mobile menu on outside click (optional)
+  document.addEventListener('click', (e) => {
+    if (!mobileMenu.contains(e.target) && !burgerBtn.contains(e.target)) {
+      mobileMenu.classList.remove('open');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      burgerBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+</script>
+
+</body>
+</html>

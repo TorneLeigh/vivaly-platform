@@ -1,366 +1,236 @@
-import { Link, useLocation } from "wouter";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { useState } from 'react';
+import { Link, useLocation } from 'wouter';
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/useAuth';
+import RoleToggle from '@/components/role-toggle';
 import { 
-  MenuIcon, 
+  Search, 
+  Calendar, 
   MessageCircle, 
-  User,
-  Search,
-  Plus,
-  Heart,
-  Users,
-  X,
-  Sparkles
-} from "lucide-react";
-import vivalyLogo from "@/assets/vivaly-logo-new.jpeg";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useAuth } from "@/hooks/useAuth";
-import { useMutation } from "@tanstack/react-query";
-import { apiRequest, queryClient } from "@/lib/queryClient";
-import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
-import RoleToggle from "@/components/role-toggle";
-
+  User, 
+  LogOut,
+  Menu,
+  X
+} from 'lucide-react';
 
 export default function Header() {
+  const { user, isAuthenticated, isLoading } = useAuth();
   const [location] = useLocation();
-  const { isAuthenticated, isLoading, user } = useAuth();
-  const { toast } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  
 
-  
-  // Determine view mode based on current route
-  const isProviderRoute = location.includes('/provider-dashboard') || location.includes('/childcare-dashboard') || 
-                         location.includes('/become-nanny') || location.includes('/become-childcare-provider');
-  const viewMode = isProviderRoute ? 'provider' : 'seeker';
-
-  const logoutMutation = useMutation({
-    mutationFn: async () => {
-      return await apiRequest("POST", "/api/auth/logout", {});
-    },
-    onSuccess: () => {
-      toast({
-        title: "Logged out",
-        description: "You have been logged out successfully.",
-      });
-      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/logout', { method: 'POST' });
       window.location.href = '/';
-    },
-    onError: (error: Error) => {
-      toast({
-        title: "Logout failed",
-        description: error.message,
-        variant: "destructive",
-      });
-    },
-  });
-
-  const handleLogout = () => {
-    logoutMutation.mutate();
+    } catch (error) {
+      console.error('Logout failed:', error);
+      window.location.href = '/';
+    }
   };
 
-
-
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
-        <div className="flex justify-between items-center h-20">
-          {/* Logo */}
-          <div className="flex items-center">
-            <Link href="/">
-              <div className="flex items-center space-x-3 cursor-pointer">
-                <img 
-                  src={vivalyLogo} 
-                  alt="VIVALY Logo" 
-                  className="w-8 h-8 rounded-md object-cover shadow-sm"
-                />
-                <h1 className="text-2xl font-black text-coral">
-                  VIVALY
-                </h1>
-              </div>
+    <header className="sticky top-0 bg-white border-b border-gray-200 flex items-center justify-between px-6 h-16 z-50">
+      {/* Logo */}
+      <Link href="/">
+        <div className="font-bold text-xl text-blue-600 cursor-pointer select-none flex-shrink-0">
+          VIVALY
+        </div>
+      </Link>
+
+      {/* Desktop Navigation */}
+      <nav className="hidden lg:flex items-center gap-6 flex-grow ml-8">
+        <Link href="/find-care" className="text-gray-700 font-medium py-2 border-b-2 border-transparent hover:border-blue-600 transition-all">
+          Day Care
+        </Link>
+        <Link href="/services" className="text-gray-700 font-medium py-2 border-b-2 border-transparent hover:border-blue-600 transition-all">
+          All Services
+        </Link>
+        <Link href="/gift-cards" className="text-gray-700 font-medium py-2 border-b-2 border-transparent hover:border-blue-600 transition-all">
+          Gift Cards
+        </Link>
+        <Link href="/help" className="text-gray-700 font-medium py-2 border-b-2 border-transparent hover:border-blue-600 transition-all">
+          Help
+        </Link>
+        <Button 
+          onClick={() => window.location.href = '/become-caregiver'}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-semibold whitespace-nowrap"
+        >
+          Become a Carer
+        </Button>
+      </nav>
+
+      {/* Role Toggle - Desktop */}
+      <div className="hidden lg:flex ml-6">
+        <RoleToggle />
+      </div>
+
+      {/* Auth Buttons - Desktop */}
+      <div className="hidden lg:flex items-center gap-4 ml-6">
+        {!isAuthenticated && !isLoading ? (
+          <>
+            <Link href="/auth" className="text-blue-600 font-semibold hover:text-blue-700 transition-colors">
+              Log In
+            </Link>
+            <Link 
+              href="/signup" 
+              className="border-2 border-blue-600 text-blue-600 px-3 py-1.5 rounded-md font-semibold hover:bg-blue-600 hover:text-white transition-all whitespace-nowrap"
+            >
+              Sign Up
+            </Link>
+          </>
+        ) : isAuthenticated ? (
+          <div className="flex items-center space-x-4">
+            <Button variant="ghost" size="sm" onClick={() => window.location.href = '/search'} className="flex items-center gap-2">
+              <Search className="h-4 w-4" />
+              Search
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => window.location.href = '/bookings'} className="flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              Bookings
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => window.location.href = '/messages'} className="flex items-center gap-2">
+              <MessageCircle className="h-4 w-4" />
+              Messages
+            </Button>
+            <Button variant="ghost" size="sm" onClick={handleLogout} className="flex items-center gap-2 text-red-600 hover:text-red-700">
+              <LogOut className="h-4 w-4" />
+              Logout
+            </Button>
+          </div>
+        ) : null}
+      </div>
+
+      {/* Mobile Menu Button */}
+      <button
+        className="lg:hidden flex flex-col justify-center w-7 h-6 cursor-pointer ml-4"
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        aria-label="Toggle menu"
+      >
+        <span className={`h-0.5 bg-gray-700 mb-1 rounded transition-all ${mobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}></span>
+        <span className={`h-0.5 bg-gray-700 mb-1 rounded transition-all ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
+        <span className={`h-0.5 bg-gray-700 rounded transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
+      </button>
+
+      {/* Mobile Menu Panel */}
+      <div 
+        className={`fixed top-16 right-0 w-64 h-[calc(100vh-4rem)] bg-white shadow-lg transform transition-transform lg:hidden z-50 ${
+          mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        <div className="flex flex-col gap-5 p-6">
+          {/* Close Button */}
+          <button 
+            className="self-end text-xl font-bold"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label="Close menu"
+          >
+            ×
+          </button>
+
+          {/* Role Toggle for Mobile */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Browse as:</label>
+            <RoleToggle />
+          </div>
+
+          {/* Navigation Links */}
+          <div className="space-y-4">
+            <Link 
+              href="/find-care" 
+              className="block text-lg font-medium text-gray-900 hover:text-blue-600 py-3"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Day Care Services
+            </Link>
+            <Link 
+              href="/services" 
+              className="block text-lg font-medium text-gray-900 hover:text-blue-600 py-3"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              All Services
+            </Link>
+            <Link 
+              href="/gift-cards" 
+              className="block text-lg font-medium text-gray-900 hover:text-blue-600 py-3"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Gift Cards
+            </Link>
+            <Link 
+              href="/help" 
+              className="block text-lg font-medium text-gray-900 hover:text-blue-600 py-3"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Help & Support
+            </Link>
+            <Link 
+              href="/become-caregiver" 
+              className="block text-lg font-medium text-blue-600 hover:text-blue-700 py-3"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Become a Carer
             </Link>
           </div>
 
-
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
-            {/* Navigation Links */}
-            <nav className="flex items-center space-x-4">
-              <Link href="/find-care" className="text-sm font-medium text-gray-700 hover:text-coral transition-colors">
-                Day Care
+          {/* Auth Section */}
+          {!isAuthenticated ? (
+            <div className="space-y-3 pt-4 border-t">
+              <Button 
+                onClick={() => { window.location.href = '/auth'; setMobileMenuOpen(false); }}
+                variant="outline" 
+                className="w-full"
+              >
+                Log In
+              </Button>
+              <Button 
+                onClick={() => { window.location.href = '/signup'; setMobileMenuOpen(false); }}
+                className="w-full bg-blue-600 hover:bg-blue-700"
+              >
+                Sign Up
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-3 pt-4 border-t">
+              <Link 
+                href="/search" 
+                className="block text-lg font-medium text-gray-900 hover:text-blue-600 py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Search
               </Link>
-              <Link href="/services" className="text-sm font-medium text-gray-700 hover:text-coral transition-colors">
-                Services
+              <Link 
+                href="/bookings" 
+                className="block text-lg font-medium text-gray-900 hover:text-blue-600 py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                My Bookings
               </Link>
-              <Link href="/gift-cards" className="text-sm font-medium text-gray-700 hover:text-coral transition-colors">
-                Gift Cards
+              <Link 
+                href="/messages" 
+                className="block text-lg font-medium text-gray-900 hover:text-blue-600 py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Messages
               </Link>
-              <Link href="/help" className="text-sm font-medium text-gray-700 hover:text-coral transition-colors">
-                Help
-              </Link>
-            </nav>
-            
-            {/* Role Toggle */}
-            <RoleToggle />
-            
-            {!isAuthenticated && !isLoading ? (
-              <>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={() => window.location.href = '/ai-chat'} 
-                  className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 flex items-center gap-2"
-                  title="Need help finding the right carer? Use Smart Match"
-                >
-                  <Sparkles className="h-4 w-4" />
-                  Smart Match
-                </Button>
-                <div className="flex items-center border border-gray-300 rounded-full p-1">
-                  <Button variant="ghost" size="sm" className="rounded-full px-4 text-black hover:bg-pink-100 hover:text-gray-700" onClick={() => window.location.href = '/auth'}>
-                    Log in
-                  </Button>
-                  <Button size="sm" className="rounded-full bg-coral hover:bg-pink-100 px-4 font-medium" style={{ color: '#000000' }} onClick={() => window.location.href = '/signup'}>
-                    Sign up
-                  </Button>
-                </div>
-              </>
-            ) : isAuthenticated ? (
-              <div className="flex items-center space-x-4">
-                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/search'} className="flex items-center gap-2">
-                  <Search className="h-4 w-4" />
-                  Search
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/messages'}>
-                  <MessageCircle className="h-4 w-4 mr-2" />
-                  Messages
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/ai-chat'} className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
-                  <Sparkles className="h-4 w-4 mr-2" />
-                  AI Assistant
-                </Button>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="relative rounded-full p-2">
-                      <User className="h-5 w-5" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    <DropdownMenuItem onClick={() => window.location.href = '/profile'}>
-                      Profile
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => window.location.href = '/account-settings'}>
-                      Account Settings
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => window.location.href = '/messages'}>
-                      Messages
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => window.location.href = '/help'}>
-                      Help
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleLogout}>
-                      Sign out
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            ) : null}
-          </div>
-
-
-
-          {/* Mobile/Tablet Menu Button - Airbnb style */}
-          <div className="md:hidden">
-            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="sm" className="flex items-center gap-2 border border-gray-300 rounded-full px-3 py-2">
-                  <MenuIcon className="h-4 w-4" />
-                  <User className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-80 p-0">
-                <div className="flex flex-col h-full">
-                  {/* Header */}
-                  <div className="p-6 border-b">
-                    <h2 className="text-lg font-semibold">VIVALY</h2>
-                  </div>
-                  
-                  {/* Content */}
-                  <div className="flex-1 overflow-y-auto">
-                    <div className="border-t mx-6"></div>
-
-                    {/* Role Toggle for Mobile */}
-                    <div className="p-6">
-                      <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Browse as:</label>
-                        <RoleToggle />
-                      </div>
-                    </div>
-
-                    <div className="border-t mx-6"></div>
-
-                    {/* Navigation Links */}
-                    <div className="p-6 space-y-4">
-                      <Link href="/find-care" className="block text-lg font-medium text-gray-900 hover:text-coral py-3" onClick={() => setMobileMenuOpen(false)}>
-                        Day Care Services
-                      </Link>
-                      <Link href="/services" className="block text-lg font-medium text-gray-900 hover:text-coral py-3" onClick={() => setMobileMenuOpen(false)}>
-                        All Services
-                      </Link>
-                      <Link href="/gift-cards" className="block text-lg font-medium text-gray-900 hover:text-coral py-3" onClick={() => setMobileMenuOpen(false)}>
-                        Gift Cards
-                      </Link>
-                      <Link href="/help" className="block text-lg font-medium text-gray-900 hover:text-coral py-3" onClick={() => setMobileMenuOpen(false)}>
-                        Help & Support
-                      </Link>
-                    </div>
-
-                    <div className="border-t mx-6"></div>
-
-                    {/* Auth Section */}
-                    {!isAuthenticated ? (
-                      <div className="p-6 space-y-4">
-                        <div className="space-y-3">
-                          <Button 
-                            onClick={() => { window.location.href = '/ai-chat'; setMobileMenuOpen(false); }}
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium flex items-center gap-2"
-                          >
-                            <Sparkles className="h-4 w-4" />
-                            Smart Match
-                          </Button>
-                          <Button 
-                            onClick={() => { window.location.href = '/become-caregiver'; setMobileMenuOpen(false); }}
-                            className="w-full bg-black hover:bg-gray-800 text-white font-medium"
-                          >
-                            Switch to Caregiver
-                          </Button>
-                          <Button 
-                            onClick={() => { window.location.href = '/become-service-provider'; setMobileMenuOpen(false); }}
-                            className="w-full bg-black hover:bg-gray-800 text-white font-medium"
-                          >
-                            Switch to Service Provider
-                          </Button>
-                        </div>
-                        
-                        <div className="border-t pt-4 space-y-3">
-                          <Button 
-                            variant="ghost" 
-                            onClick={() => { window.location.href = '/auth'; setMobileMenuOpen(false); }}
-                            className="w-full justify-start text-left font-medium"
-                          >
-                            Log in
-                          </Button>
-                          <Button 
-                            variant="ghost"
-                            onClick={() => { window.location.href = '/signup'; setMobileMenuOpen(false); }}
-                            className="w-full justify-start text-left font-medium"
-                          >
-                            Sign up
-                          </Button>
-                          <Button 
-                            variant="ghost"
-                            onClick={() => { window.location.href = '/help'; setMobileMenuOpen(false); }}
-                            className="w-full justify-start text-left font-medium"
-                          >
-                            Help
-                          </Button>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="p-6 space-y-4">
-                        {/* User Type Switching - Available for authenticated users */}
-                        <div className="space-y-3 mb-6">
-                          {viewMode === 'seeker' ? (
-                            <>
-                              <Button 
-                                onClick={() => { window.location.href = '/become-caregiver'; setMobileMenuOpen(false); }}
-                                className="w-full bg-black hover:bg-gray-800 text-white font-medium"
-                              >
-                                Switch to Caregiver
-                              </Button>
-                              <Button 
-                                onClick={() => { window.location.href = '/services'; setMobileMenuOpen(false); }}
-                                className="w-full bg-black hover:bg-gray-800 text-white font-medium"
-                              >
-                                Switch to Services
-                              </Button>
-                            </>
-                          ) : (
-                            <Button
-                              variant="ghost"
-                              className="w-full justify-start text-left font-medium"
-                              onClick={() => { window.location.href = '/find-care'; setMobileMenuOpen(false); }}
-                            >
-                              Switch to Seeker
-                            </Button>
-                          )}
-                        </div>
-
-                        <div className="border-t pt-4 space-y-3">
-                          {viewMode === 'seeker' && (
-                            <Button
-                              variant="ghost"
-                              className="w-full justify-start text-left font-medium flex items-center gap-2 text-gray-900 hover:text-gray-900 hover:bg-gray-100"
-                              onClick={() => { window.location.href = '/search'; setMobileMenuOpen(false); }}
-                            >
-                              <Search className="h-4 w-4" />
-                              Search
-                            </Button>
-                          )}
-                          <Button
-                            variant="ghost"
-                            className="w-full justify-start text-left font-medium flex items-center gap-2 text-gray-900 hover:text-gray-900 hover:bg-gray-100"
-                            onClick={() => { window.location.href = '/messages'; setMobileMenuOpen(false); }}
-                          >
-                            <MessageCircle className="h-4 w-4" />
-                            Messages
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            className="w-full justify-start text-left font-medium text-gray-900 hover:text-gray-900 hover:bg-gray-100"
-                            onClick={() => { window.location.href = '/profile'; setMobileMenuOpen(false); }}
-                          >
-                            View Profile
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            className="w-full justify-start text-left font-medium text-gray-900 hover:text-gray-900 hover:bg-gray-100"
-                            onClick={() => { window.location.href = '/account-settings'; setMobileMenuOpen(false); }}
-                          >
-                            Account Settings
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            className="w-full justify-start text-left font-medium text-gray-900 hover:text-gray-900 hover:bg-gray-100"
-                            onClick={() => { window.location.href = '/help'; setMobileMenuOpen(false); }}
-                          >
-                            Help
-                          </Button>
-                          <div className="border-t pt-4">
-                            <Button
-                              variant="ghost"
-                              className="w-full justify-start text-left font-medium text-red-600 hover:text-red-700 hover:bg-red-50"
-                              onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
-                            >
-                              Sign out
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
+              <Button 
+                onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
+                variant="outline" 
+                className="w-full text-red-600 hover:text-red-700 border-red-200"
+              >
+                Log Out
+              </Button>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
     </header>
   );
 }
