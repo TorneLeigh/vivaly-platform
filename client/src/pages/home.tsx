@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import NannyCard from "@/components/nanny-card";
-import SearchFilters from "@/components/search-filters";
+import AirbnbSearch from "@/components/airbnb-search";
 import FloatingActionButton from "@/components/floating-action-button";
 import ServiceCarousel from "@/components/service-carousel";
 import { 
@@ -243,14 +243,15 @@ export default function Home() {
             Instant booking • Verified caregivers • Available today
           </p>
           
-          {/* Large Search Bar */}
-          <div className="max-w-5xl mx-auto mb-12 px-4">
-            <div className="bg-white rounded-full shadow-2xl border border-gray-200 p-2 w-full" style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 10px 30px -8px rgba(0, 0, 0, 0.1)' }}>
-              <SearchFilters onSearch={(filters) => {
+          {/* Airbnb-style Search Bar */}
+          <div className="max-w-4xl mx-auto mb-12 px-4">
+            <AirbnbSearch 
+              onSearch={(filters) => {
                 const searchParams = new URLSearchParams(filters);
                 window.location.href = `/find-care?${searchParams.toString()}`;
-              }} />
-            </div>
+              }}
+              className="w-full"
+            />
           </div>
         </div>
       </section>
