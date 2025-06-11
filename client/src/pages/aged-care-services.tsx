@@ -1,5 +1,7 @@
 import { Link } from 'wouter';
 import { ChevronRight, Home } from 'lucide-react';
+import { AgedCareIcon, CompanionshipIcon } from '../components/ServiceIcons';
+import OptimizedImage from '../components/OptimizedImage';
 import companionCareImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749278454511.jpg";
 import personalCareImage from "@assets/62016dc1fb72cd9a4d96847a6daf6c0e_1749278446432.jpg";
 import respiteCareImage from "@assets/79c40dcc41bd092f6f03b26fd4cf94d8_1749182897295.jpg";
@@ -94,16 +96,18 @@ export default function AgedCareServices() {
                 key={index}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
               >
-                {/* Service Image */}
-                <div className="h-48 overflow-hidden bg-gray-100">
-                  <img 
+                {/* Service Image with Icon Overlay */}
+                <div className="h-48 overflow-hidden bg-gray-100 relative">
+                  <OptimizedImage 
                     src={service.image} 
                     alt={service.title}
                     className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                    loading="lazy"
-                    decoding="async"
                     style={{ aspectRatio: '16/9' }}
                   />
+                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-full p-2">
+                    {index < 3 ? <AgedCareIcon className="w-8 h-8" /> : 
+                     <CompanionshipIcon className="w-8 h-8" />}
+                  </div>
                 </div>
                 
                 <div className="p-6">

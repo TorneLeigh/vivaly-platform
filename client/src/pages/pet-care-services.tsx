@@ -1,5 +1,7 @@
 import { Link } from 'wouter';
 import { ChevronRight, Home } from 'lucide-react';
+import { PetCareIcon } from '../components/ServiceIcons';
+import OptimizedImage from '../components/OptimizedImage';
 import dogWalkingImage from "@assets/c18480e234907faffa31784936ac8816_1749182897295.jpg";
 import petSittingImage from "@assets/8da0e0735821d20e3f8cb769e40a4c98_1749182897295.jpg";
 import dropInVisitsImage from "@assets/9717a7e59d32ac45c39a7f027a3230af_1749182897295.jpg";
@@ -94,16 +96,17 @@ export default function PetCareServices() {
                 key={index}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
               >
-                {/* Service Image */}
-                <div className="h-48 overflow-hidden bg-gray-100">
-                  <img 
+                {/* Service Image with Icon Overlay */}
+                <div className="h-48 overflow-hidden bg-gray-100 relative">
+                  <OptimizedImage 
                     src={service.image} 
                     alt={service.title}
                     className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                    loading="lazy"
-                    decoding="async"
                     style={{ aspectRatio: '16/9' }}
                   />
+                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-full p-2">
+                    <PetCareIcon className="w-8 h-8" />
+                  </div>
                 </div>
                 
                 <div className="p-6">
