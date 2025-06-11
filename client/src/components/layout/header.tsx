@@ -89,9 +89,25 @@ export default function Header() {
 
 
 
-          {/* Desktop Right Side */}
-          <div className="hidden md:flex items-center space-x-4">
-            {/* Role Toggle - Always visible on desktop */}
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-6">
+            {/* Navigation Links */}
+            <nav className="flex items-center space-x-4">
+              <Link href="/find-care" className="text-sm font-medium text-gray-700 hover:text-coral transition-colors">
+                Day Care
+              </Link>
+              <Link href="/services" className="text-sm font-medium text-gray-700 hover:text-coral transition-colors">
+                Services
+              </Link>
+              <Link href="/gift-cards" className="text-sm font-medium text-gray-700 hover:text-coral transition-colors">
+                Gift Cards
+              </Link>
+              <Link href="/help" className="text-sm font-medium text-gray-700 hover:text-coral transition-colors">
+                Help
+              </Link>
+            </nav>
+            
+            {/* Role Toggle */}
             <RoleToggle />
             
             {!isAuthenticated && !isLoading ? (
