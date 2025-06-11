@@ -162,7 +162,7 @@ export default function EnhancedFooter() {
               {companyLinks.map((link, index) => (
                 <li key={index}>
                   <Link href={link.href}>
-                    <span className="text-gray-300 hover:text-orange-400 transition-colors duration-200 cursor-pointer">
+                    <span className="text-gray-700 hover:text-orange-400 transition-colors duration-200 cursor-pointer">
                       {link.label}
                     </span>
                   </Link>
@@ -173,22 +173,22 @@ export default function EnhancedFooter() {
         </div>
 
         {/* Social Media & Legal */}
-        <div className="border-t border-gray-800 mt-12 pt-8">
+        <div className="border-t border-gray-200 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             {/* Social Media */}
             <div className="flex items-center space-x-6">
-              <span className="text-gray-400 text-sm">Follow us:</span>
+              <span className="text-gray-600 text-sm">Follow us:</span>
               <div className="flex space-x-4">
-                <a href="#" className="text-gray-400 hover:text-orange-400 transition-colors duration-200">
+                <a href="#" className="text-gray-600 hover:text-orange-400 transition-colors duration-200">
                   <Facebook className="w-5 h-5" />
                 </a>
-                <a href="#" className="text-gray-400 hover:text-orange-400 transition-colors duration-200">
+                <a href="#" className="text-gray-600 hover:text-orange-400 transition-colors duration-200">
                   <Instagram className="w-5 h-5" />
                 </a>
-                <a href="#" className="text-gray-400 hover:text-orange-400 transition-colors duration-200">
+                <a href="#" className="text-gray-600 hover:text-orange-400 transition-colors duration-200">
                   <Twitter className="w-5 h-5" />
                 </a>
-                <a href="#" className="text-gray-400 hover:text-orange-400 transition-colors duration-200">
+                <a href="#" className="text-gray-600 hover:text-orange-400 transition-colors duration-200">
                   <Linkedin className="w-5 h-5" />
                 </a>
               </div>
