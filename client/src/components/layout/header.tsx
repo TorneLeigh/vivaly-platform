@@ -11,7 +11,7 @@ import {
   Users,
   X
 } from "lucide-react";
-import vivalyLogo from "@/assets/vivaly-logo.jpg";
+import vivalyLogo from "@/assets/vivaly-logo-new.jpeg";
 import {
   DropdownMenu,
   DropdownMenuContent,
