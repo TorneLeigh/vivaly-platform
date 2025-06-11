@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { useAuth } from "@/hooks/useAuth";
@@ -156,7 +157,7 @@ export default function ParentProfile() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
@@ -179,7 +180,18 @@ export default function ParentProfile() {
           </div>
         </div>
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <Tabs defaultValue="personal" className="w-full">
+          <TabsList className="grid w-full grid-cols-6">
+            <TabsTrigger value="personal">Personal Info</TabsTrigger>
+            <TabsTrigger value="family">Family Details</TabsTrigger>
+            <TabsTrigger value="preferences">Care Preferences</TabsTrigger>
+            <TabsTrigger value="requirements">Requirements</TabsTrigger>
+            <TabsTrigger value="photos">Photos</TabsTrigger>
+            <TabsTrigger value="emergency">Emergency Contact</TabsTrigger>
+          </TabsList>
+
+          <form onSubmit={form.handleSubmit(onSubmit)} className="mt-8 space-y-8">
+            <TabsContent value="personal" className="space-y-6">
           {/* Personal Information */}
           <Card>
             <CardHeader>
@@ -340,7 +352,9 @@ export default function ParentProfile() {
               </div>
             </CardContent>
           </Card>
+            </TabsContent>
 
+            <TabsContent value="family" className="space-y-6">
           {/* Family Details */}
           <Card>
             <CardHeader>
@@ -508,52 +522,15 @@ export default function ParentProfile() {
               </div>
             </CardContent>
           </Card>
+            </TabsContent>
 
-          {/* Scheduling & Availability */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Settings className="w-5 h-5" />
-                Scheduling & Care Requirements
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div>
-                <Label className="mb-3 block text-lg font-semibold">Typical Care Schedule Needed</Label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {["Weekday mornings", "Weekday afternoons", "Weekday evenings", "Weekend mornings", "Weekend afternoons", "Weekend evenings", "Overnight care", "Emergency care", "School holidays", "Flexible schedule"].map((schedule) => (
-                    <div
-                      key={schedule}
-                      className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
-                    >
-                      <span className="text-sm font-medium">{schedule}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <Label className="mb-3 block text-lg font-semibold">Care Setting Preferences</Label>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  {["In our home", "At caregiver's home", "Both locations", "Outdoor activities", "Public venues", "Educational outings", "Flexible locations"].map((setting) => (
-                    <div
-                      key={setting}
-                      className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
-                    >
-                      <span className="text-sm font-medium">{setting}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Additional Preferences */}
+            <TabsContent value="preferences" className="space-y-6">
+          {/* Care Preferences */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Heart className="w-5 h-5" />
-                Additional Care Preferences
+                Care Preferences & Requirements
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -633,29 +610,101 @@ export default function ParentProfile() {
               </div>
             </CardContent>
           </Card>
+            </TabsContent>
 
-          {/* Action Buttons */}
-          <div className="flex justify-between items-center">
-            <Button
-              type="button"
-              variant="outline"
-              className="flex items-center gap-2"
-              onClick={() => window.location.href = '/profile-preview'}
-            >
-              <Eye className="h-4 w-4" />
-              View My Profile
-            </Button>
-            
-            <Button
-              type="submit"
-              className="flex items-center gap-2"
-              disabled={updateProfileMutation.isPending}
-            >
-              <Save className="h-4 w-4" />
-              {updateProfileMutation.isPending ? "Saving..." : "Save Profile"}
-            </Button>
-          </div>
-        </form>
+            <TabsContent value="requirements" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Settings className="w-5 h-5" />
+                    Scheduling & Care Requirements
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div>
+                    <Label className="mb-3 block text-lg font-semibold">Typical Care Schedule Needed</Label>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      {["Weekday mornings", "Weekday afternoons", "Weekday evenings", "Weekend mornings", "Weekend afternoons", "Weekend evenings", "Overnight care", "Emergency care", "School holidays", "Flexible schedule"].map((schedule) => (
+                        <div
+                          key={schedule}
+                          className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
+                        >
+                          <span className="text-sm font-medium">{schedule}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="photos" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Camera className="w-5 h-5" />
+                    Profile Photos
+                  </CardTitle>
+                  <p className="text-sm text-gray-600">
+                    Add photos to help caregivers get to know your family (children's faces will be blurred automatically)
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <ParentPhotoUpload />
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="emergency" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <User className="w-5 h-5" />
+                    Emergency Contact Information
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <Label htmlFor="emergencyContact">Emergency Contact Details *</Label>
+                    <Textarea
+                      id="emergencyContact"
+                      {...form.register("emergencyContact")}
+                      placeholder="Name, relationship, phone number of emergency contact..."
+                      rows={2}
+                    />
+                    {form.formState.errors.emergencyContact && (
+                      <p className="text-sm text-red-600 mt-1">
+                        {form.formState.errors.emergencyContact.message}
+                      </p>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Action Buttons */}
+            <div className="flex justify-between items-center mt-8">
+              <Button
+                type="button"
+                variant="outline"
+                className="flex items-center gap-2"
+                onClick={() => window.location.href = '/profile-preview'}
+              >
+                <Eye className="h-4 w-4" />
+                View My Profile
+              </Button>
+              
+              <Button
+                type="submit"
+                className="flex items-center gap-2"
+                disabled={updateProfileMutation.isPending}
+              >
+                <Save className="h-4 w-4" />
+                {updateProfileMutation.isPending ? "Saving..." : "Save Profile"}
+              </Button>
+            </div>
+          </form>
+        </Tabs>
       </div>
     </div>
   );
