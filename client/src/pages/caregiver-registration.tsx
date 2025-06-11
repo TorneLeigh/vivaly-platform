@@ -163,9 +163,20 @@ export default function CaregiverRegistration() {
   });
 
   const serviceTypes = [
-    "Childcare", "Babysitting", "Nanny", "Au Pair", 
-    "After School Care", "Holiday Care", "Overnight Care",
-    "Special Needs Care", "Newborn Care"
+    "1-on-1 care",
+    "1-2 hours group care", 
+    "Childcare",
+    "Drop and dash",
+    "Midwife services",
+    "Doula services",
+    "Breastfeeding support",
+    "Birth education",
+    "Newborn support",
+    "Pregnancy assistance",
+    "Postnatal care",
+    "Pet sitting",
+    "Elderly care",
+    "Elderly companionship"
   ];
 
   const ageGroups = [
