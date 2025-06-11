@@ -35,6 +35,7 @@ import Privacy from "@/pages/privacy";
 import TermsOfService from "@/pages/terms-of-service";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import RefundPolicy from "@/pages/refund-policy";
+import CancellationPolicy from "@/pages/cancellation-policy";
 import CookiePolicy from "@/pages/cookie-policy";
 import Accessibility from "@/pages/accessibility";
 import QuickStart from "@/pages/quick-start";
@@ -131,6 +132,7 @@ function Router() {
           <Route path="/terms-of-service" component={TermsOfService} />
           <Route path="/privacy-policy" component={PrivacyPolicy} />
           <Route path="/refund-policy" component={RefundPolicy} />
+          <Route path="/cancellation-policy" component={CancellationPolicy} />
           <Route path="/cookie-policy" component={CookiePolicy} />
           <Route path="/accessibility" component={Accessibility} />
           <Route path="/help" component={Help} />
