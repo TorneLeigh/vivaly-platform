@@ -359,8 +359,8 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Three Main Categories */}
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
+          {/* Four Main Categories */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {/* CHILDCARE */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
               <div className="relative h-64">
@@ -445,32 +445,34 @@ export default function Home() {
               </div>
             </div>
 
-          </div>
-
-          {/* Pre & Postnatal Support Section */}
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 mb-16">
-            <div className="flex flex-col md:flex-row items-center">
-              <div className="md:w-1/2 mb-6 md:mb-0">
+            {/* PRE & POSTNATAL SUPPORT */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-64">
                 <img 
                   src={pregnancyImage} 
                   alt="Pre & Postnatal Support"
-                  className="w-full h-64 object-cover rounded-lg"
+                  className="w-full h-full object-cover"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-2xl font-bold mb-2 flex items-center">
+                    <Baby className="mr-2" size={24} />
+                    Pre & Postnatal
+                  </h3>
+                </div>
               </div>
-              <div className="md:w-1/2 md:pl-8">
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">
-                  Pre & Postnatal Support
-                </h3>
-                <p className="text-lg text-gray-600 mb-6">
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
                   Professional doulas and parenting classes to support new and expecting parents.
                 </p>
                 <Link href="/prenatal-services">
-                  <Button className="bg-coral hover:bg-coral/90 text-white px-8 py-3">
+                  <Button className="w-full bg-coral hover:bg-coral/90 text-white">
                     Explore Support
                   </Button>
                 </Link>
               </div>
             </div>
+
           </div>
         </div>
       </section>
