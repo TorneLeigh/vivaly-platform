@@ -89,12 +89,78 @@ export default function Header() {
 
 
 
-          {/* Right Side - Role Toggle + Burger Menu */}
-          <div className="flex items-center space-x-4">
-            {/* Role Toggle - Always visible */}
+          {/* Desktop Right Side */}
+          <div className="hidden md:flex items-center space-x-4">
+            {/* Role Toggle - Always visible on desktop */}
             <RoleToggle />
             
-            {/* Burger Menu - Always visible */}
+            {!isAuthenticated && !isLoading ? (
+              <>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => window.location.href = '/ai-chat'} 
+                  className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 flex items-center gap-2"
+                  title="Need help finding the right carer? Use Smart Match"
+                >
+                  <Sparkles className="h-4 w-4" />
+                  Smart Match
+                </Button>
+                <div className="flex items-center border border-gray-300 rounded-full p-1">
+                  <Button variant="ghost" size="sm" className="rounded-full px-4 text-black hover:bg-pink-100 hover:text-gray-700" onClick={() => window.location.href = '/auth'}>
+                    Log in
+                  </Button>
+                  <Button size="sm" className="rounded-full bg-coral hover:bg-pink-100 px-4 font-medium" style={{ color: '#000000' }} onClick={() => window.location.href = '/signup'}>
+                    Sign up
+                  </Button>
+                </div>
+              </>
+            ) : isAuthenticated ? (
+              <div className="flex items-center space-x-4">
+                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/search'} className="flex items-center gap-2">
+                  <Search className="h-4 w-4" />
+                  Search
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/messages'}>
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  Messages
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/ai-chat'} className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
+                  <Sparkles className="h-4 w-4 mr-2" />
+                  AI Assistant
+                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="relative rounded-full p-2">
+                      <User className="h-5 w-5" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuItem onClick={() => window.location.href = '/profile'}>
+                      Profile
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => window.location.href = '/account-settings'}>
+                      Account Settings
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => window.location.href = '/messages'}>
+                      Messages
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => window.location.href = '/help'}>
+                      Help
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleLogout}>
+                      Sign out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            ) : null}
+          </div>
+
+
+
+          {/* Mobile/Tablet Menu Button - Airbnb style */}
+          <div className="md:hidden">
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="sm" className="flex items-center gap-2 border border-gray-300 rounded-full px-3 py-2">
@@ -112,6 +178,14 @@ export default function Header() {
                   {/* Content */}
                   <div className="flex-1 overflow-y-auto">
                     <div className="border-t mx-6"></div>
+
+                    {/* Role Toggle for Mobile */}
+                    <div className="p-6">
+                      <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Browse as:</label>
+                        <RoleToggle />
+                      </div>
+                    </div>
 
                     <div className="border-t mx-6"></div>
 
