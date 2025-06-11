@@ -52,6 +52,7 @@ import AIChat from "@/pages/ai-chat";
 import ChildCareServices from "@/pages/child-care-services";
 import PetCareServices from "@/pages/pet-care-services";
 import AgedCareServices from "@/pages/aged-care-services";
+import PrenatalServices from "@/pages/prenatal-services";
 import HowItWorks from "@/pages/how-it-works";
 import FAQs from "@/pages/faqs";
 import Services from "@/pages/services";
@@ -138,6 +139,7 @@ function Router() {
           <Route path="/child-care-services" component={ChildCareServices} />
           <Route path="/pet-care-services" component={PetCareServices} />
           <Route path="/aged-care-services" component={AgedCareServices} />
+          <Route path="/prenatal-services" component={PrenatalServices} />
           <Route path="/how-it-works" component={HowItWorks} />
           <Route path="/faqs" component={FAQs} />
           <Route path="/booking-confirmed" component={BookingConfirmation} />

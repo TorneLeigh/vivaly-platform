@@ -32,7 +32,7 @@ export default function NewHeader() {
           <Link href="/aged-care-services" className="text-black font-medium py-2 border-b-2 border-transparent hover:border-black transition-colors no-underline">
             Aged Care
           </Link>
-          <Link href="/services" className="text-black font-medium py-2 border-b-2 border-transparent hover:border-black transition-colors no-underline">
+          <Link href="/prenatal-services" className="text-black font-medium py-2 border-b-2 border-transparent hover:border-black transition-colors no-underline">
             Pre/Post Natal
           </Link>
         </nav>
@@ -118,7 +118,7 @@ export default function NewHeader() {
         <Link href="/aged-care-services" className="py-2.5 text-black border-b border-gray-200 no-underline" onClick={() => setMobileMenuOpen(false)}>
           Aged Care
         </Link>
-        <Link href="/services" className="py-2.5 text-black border-b border-gray-200 no-underline" onClick={() => setMobileMenuOpen(false)}>
+        <Link href="/prenatal-services" className="py-2.5 text-black border-b border-gray-200 no-underline" onClick={() => setMobileMenuOpen(false)}>
           Pre/Post Natal
         </Link>
         <Link href="/gift-card" className="py-2.5 text-black border-b border-gray-200 no-underline" onClick={() => setMobileMenuOpen(false)}>
