@@ -265,49 +265,77 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Step-by-Step Booking Guide */}
+      {/* Trust Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              How It Works
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Find Trusted Care, Simply
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Find the perfect care for your family
+              Book qualified, verified carers for children, pets, or elderly family — with peace of mind from start to finish.
             </p>
           </div>
           
-          <div className="grid md:grid-cols-4 gap-8">
+          {/* Steps Grid */}
+          <div className="grid md:grid-cols-4 gap-8 mb-16">
             <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300">
-                <Search className="w-8 h-8 text-coral" />
+              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300 text-2xl">
+                🧭
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">1. Browse carers</h3>
-              <p className="text-gray-600 text-sm">Enter your location and care category to view trusted, verified carers.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Browse Carers</h3>
+              <p className="text-gray-600 text-sm">Enter your location and care category to find the right match.</p>
             </div>
             
             <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300">
-                <User className="w-8 h-8 text-coral" />
+              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300 text-2xl">
+                🔍
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">2. Check profiles</h3>
-              <p className="text-gray-600 text-sm">Read reviews, see availability, and view caregiver credentials.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Check Profiles</h3>
+              <p className="text-gray-600 text-sm">See reviews, availability, and certifications.</p>
             </div>
             
             <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300">
-                <Shield className="w-8 h-8 text-coral" />
+              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300 text-2xl">
+                🔒
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">3. Book securely</h3>
-              <p className="text-gray-600 text-sm">Pay via our platform, with full transparency and built-in protection.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Book Securely</h3>
+              <p className="text-gray-600 text-sm">Pay safely through our platform.</p>
             </div>
             
             <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300">
-                <Heart className="w-8 h-8 text-coral" />
+              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300 text-2xl">
+                💬
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">4. After care</h3>
-              <p className="text-gray-600 text-sm">Leave a review and easily rebook your favorite carers.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">After Care</h3>
+              <p className="text-gray-600 text-sm">Leave a review and rebook your favourites.</p>
+            </div>
+          </div>
+
+          {/* Trust Grid */}
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center group">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-colors duration-300 text-2xl">
+                🛡️
+              </div>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">Background Checked</h4>
+              <p className="text-gray-600 text-sm">All carers complete police or WWCC checks.</p>
+            </div>
+            
+            <div className="text-center group">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-colors duration-300 text-2xl">
+                📄
+              </div>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">Certified Professionals</h4>
+              <p className="text-gray-600 text-sm">We verify caregiver qualifications and training.</p>
+            </div>
+            
+            <div className="text-center group">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-colors duration-300 text-2xl">
+                🪪
+              </div>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">Identity Verified</h4>
+              <p className="text-gray-600 text-sm">Photos and ID reviewed by our team.</p>
             </div>
           </div>
         </div>
@@ -448,36 +476,7 @@ export default function Home() {
 
 
 
-      {/* Enhanced Trust Features */}
-      <section className="py-12 bg-gradient-to-br from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-warm-gray mb-4">Safety and trust first</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Every caregiver on CareConnect goes through our comprehensive verification process
-            </p>
-          </div>
 
-          <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-8 lg:gap-12">
-            {trustFeatures.map((feature, index) => {
-              const IconComponent = feature.icon;
-              return (
-                <div key={index} className="group text-center transform transition-all duration-300 hover:-translate-y-2">
-                  <div className="bg-white rounded-xl p-3 sm:p-6 md:p-8 shadow-lg group-hover:shadow-2xl transition-shadow duration-300 border border-gray-100">
-                    <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 mx-auto mb-3 sm:mb-4 md:mb-6 bg-gray-100 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:bg-orange-50 transition-colors duration-300">
-                      <IconComponent className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-gray-700 group-hover:text-orange-600 transition-colors duration-300" />
-                    </div>
-                    <h3 className="text-sm sm:text-lg md:text-xl font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4 group-hover:text-orange-600 transition-colors duration-300">{feature.title}</h3>
-                    <p className="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed">{feature.description}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-
-        </div>
-      </section>
 
 
       {/* Floating Action Button - Hidden on mobile */}
