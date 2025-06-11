@@ -1,560 +1,2535 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { useAuth } from "@/hooks/useAuth";
 import { 
   User, 
+  Mail, 
+  Phone, 
   MapPin, 
+  Edit3, 
+  Save, 
+  X, 
+  Camera, 
+  Baby, 
+  Heart, 
+  Shield, 
+  Clock,
+  AlertTriangle,
   Users,
-  Camera,
-  Save,
-  Eye,
   Home,
-  Baby,
-  Heart,
-  Settings
+  Star,
+  CheckCircle,
+  Footprints
 } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import ParentPhotoUpload from "@/components/parent-photo-upload";
 
 const parentProfileSchema = z.object({
+  // Basic Information
   firstName: z.string().min(2, "First name must be at least 2 characters"),
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
-  location: z.string().min(5, "Location must be at least 5 characters"),
-  suburb: z.string().min(2, "Suburb must be at least 2 characters"),
-  bio: z.string().min(20, "Bio must be at least 20 characters"),
-  familySize: z.string().min(1, "Please select family size"),
-  childrenAges: z.string().min(1, "Please enter children's ages"),
-  careNeeds: z.array(z.string()).min(1, "Please select at least one care need"),
-  specialRequirements: z.string().optional(),
-  emergencyContact: z.string().min(10, "Emergency contact information is required"),
+  phone: z.string().min(10, "Please enter a valid phone number"),
+  address: z.string().min(5, "Please enter your full address"),
+  suburb: z.string().min(2, "Please enter your suburb"),
+  
+  // Family Information
+  familySize: z.string(),
+  numberOfChildren: z.string(),
+  childrenAges: z.array(z.string()),
+  
+  // Detailed Children Information
+  childrenNames: z.array(z.string()).default([]),
+  childrenGenders: z.array(z.string()).default([]),
+  childrenPersonalities: z.array(z.string()).default([]),
+  childrenInterests: z.array(z.string()).default([]),
+  childrenBehavioralNotes: z.array(z.string()).default([]),
+  napSchedules: z.array(z.string()).default([]),
+  mealPreferences: z.array(z.string()).default([]),
+  pottyTrainingStatus: z.array(z.string()).default([]),
+  schoolSchedules: z.array(z.string()).default([]),
+  extracurricularActivities: z.array(z.string()).default([]),
+  bedtimeRoutines: z.array(z.string()).default([]),
+  comfortItems: z.array(z.string()).default([]),
+  favoriteActivities: z.array(z.string()).default([]),
+  
+  // Health & Allergies
+  foodAllergies: z.array(z.string()),
+  environmentalAllergies: z.array(z.string()).default([]),
+  dietaryRestrictions: z.array(z.string()),
+  medicationRequirements: z.string().optional(),
+  medicalConditions: z.array(z.string()).default([]),
+  doctorContactInfo: z.string().optional(),
+  hospitalPreference: z.string().optional(),
+  
+  // Emergency Contacts
+  emergencyContactName: z.string(),
+  emergencyContactPhone: z.string(),
+  emergencyContactRelation: z.string(),
+  emergencyContact2Name: z.string().optional(),
+  emergencyContact2Phone: z.string().optional(),
+  emergencyContact2Relation: z.string().optional(),
+  
+  // Elderly Care Information
+  elderlyInHome: z.boolean().default(false),
+  elderlyName: z.string().optional(),
+  elderlyAge: z.number().optional(),
+  elderlyRelationship: z.string().optional(),
+  elderlyMedicalConditions: z.array(z.string()).default([]),
+  elderlyMedicationSchedule: z.string().optional(),
+  elderlyMobilityNeeds: z.string().optional(),
+  elderlyCarePreferences: z.string().optional(),
+  elderlyDoctorInfo: z.string().optional(),
+  elderlyDietaryNeeds: z.string().optional(),
+  elderlyPersonalityNotes: z.string().optional(),
+  elderlyPreferredActivities: z.array(z.string()).default([]),
+  elderlyEmergencyInfo: z.string().optional(),
+  
+  // Pet Care Information
+  petsInHome: z.array(z.string()),
+  petNames: z.array(z.string()).default([]),
+  petTypes: z.array(z.string()).default([]),
+  petBreeds: z.array(z.string()).default([]),
+  petAges: z.array(z.string()).default([]),
+  petPersonalities: z.array(z.string()).default([]),
+  petMedicalNeeds: z.array(z.string()).default([]),
+  petFeedingSchedule: z.string().optional(),
+  petWalkingRequirements: z.string().optional(),
+  petGroomingNeeds: z.string().optional(),
+  vetContactInfo: z.string().optional(),
+  petEmergencyInfo: z.string().optional(),
+  petBehavioralNotes: z.string().optional(),
+  petPreferredTreats: z.array(z.string()).default([]),
+  
+  // Caregiver Requirements & Preferences
+  minimumAge: z.string().default("18"),
+  preferredCaregiverGender: z.string().default("no-preference"),
+  languagePreferences: z.array(z.string()).default(["English"]),
+  caregiverExperienceLevel: z.string().default("some-experience"),
+  specialSkillsRequired: z.array(z.string()).default([]),
+  
+  // Essential Requirements
+  mustHaveWWCC: z.boolean().default(true),
+  mustHaveBlueCard: z.boolean().default(false),
+  mustHaveFirstAid: z.boolean().default(false),
+  mustHavePaediatricCPR: z.boolean().default(false),
+  mustHaveReferences: z.boolean().default(true),
+  mustBeNonSmoker: z.boolean().default(true),
+  mustHaveDriversLicense: z.boolean().default(false),
+  mustHaveOwnCar: z.boolean().default(false),
+  weHaveACarYouCanUse: z.boolean().default(false),
+  experienceWithToddlers: z.boolean().default(false),
+  experienceWithSchoolAge: z.boolean().default(false),
+  experienceWithNewborns: z.boolean().default(false),
+  experienceWithInfants: z.boolean().default(false),
+  maternityNurseExperience: z.boolean().default(false),
+  nightNannyExperience: z.boolean().default(false),
+  sleepTrainingExperience: z.boolean().default(false),
+  evidenceBasedCare: z.boolean().default(false),
+  
+  // Position Details
+  positionType: z.string().default("casual"),
+  startDate: z.string().optional(),
+  preferredStartTime: z.string().optional(),
+  preferredEndTime: z.string().optional(),
+  daysPerWeek: z.array(z.string()).default([]),
+  hoursPerDay: z.string().optional(),
+  
+  // Responsibilities Required
+  childSupervision: z.boolean().default(true),
+  schoolPickupDropoff: z.boolean().default(false),
+  afterSchoolActivities: z.boolean().default(false),
+  mealPreparation: z.boolean().default(false),
+  lightHousework: z.boolean().default(false),
+  laundryFolding: z.boolean().default(false),
+  lunchboxPrep: z.boolean().default(false),
+  bathTimeHelp: z.boolean().default(false),
+  bedtimeRoutine: z.boolean().default(false),
+  homeworkHelp: z.boolean().default(false),
+  playAndEngagement: z.boolean().default(true),
+  
+  // Care Requirements
+  typicalCareHours: z.string().default("part-time"),
+  careFrequency: z.string().default("weekly"),
+  transportationNeeds: z.string().default("none"),
+  householdChores: z.boolean().default(false),
+  
+  // Household Rules & Preferences
+  smokingPolicy: z.string().default("no-smoking"),
+  screenTimePolicy: z.string().default("limited"),
+  disciplineStyle: z.string().default("positive"),
+  outdoorActivities: z.boolean().default(true),
+  
+  // Safety & Verification
+  backgroundCheckRequired: z.boolean().default(true),
+  referencesRequired: z.boolean().default(true),
+  policeCheckRequired: z.boolean().default(true),
+  
+  // Additional Information
+  specialInstructions: z.string().optional(),
+  familyValues: z.string().optional(),
+  communicationPreferences: z.string().default("text"),
+  
+  // Personality Questions
+  myLoveLanguage: z.string().optional(),
+  littleAboutMe: z.string().optional(),
+  imProudOf: z.string().optional(),
+  myFamilyIsSpecialBecause: z.string().optional(),
+  onePerfectDay: z.string().optional(),
 });
 
-type ParentProfileFormData = z.infer<typeof parentProfileSchema>;
+type ParentProfileForm = z.infer<typeof parentProfileSchema>;
+
+const foodAllergyOptions = [
+  "Nuts", "Peanuts", "Shellfish", "Fish", "Eggs", "Dairy", "Soy", "Wheat/Gluten", 
+  "Sesame", "Tree Nuts", "Kiwi", "Strawberries", "Chocolate", "Food Coloring", "None"
+];
+
+const dietaryOptions = [
+  "Vegetarian", "Vegan", "Halal", "Kosher", "Gluten-Free", "Dairy-Free", 
+  "Sugar-Free", "Organic Only", "No Processed Foods", "None"
+];
+
+const languageOptions = [
+  "English", "Mandarin", "Arabic", "Vietnamese", "Greek", "Italian", "Spanish", 
+  "French", "German", "Hindi", "Tagalog", "Korean", "Japanese", "Other"
+];
+
+// First sort alphabetically, then arrange for 3-column vertical flow
+const alphabeticalSkills = [
+  "ADHD Management",
+  "Autism Spectrum Support", 
+  "Behavioral Support",
+  "Blue Card Verified",
+  "Breastfeeding Support",
+  "Cognitive Development",
+  "Cooking",
+  "CPR Certified (Paediatric)",
+  "Creative Play",
+  "Developmental Support",
+  "Doula",
+  "Driving License (School pickup/dropoff)",
+  "Early Childhood Education",
+  "Event Childcare",
+  "Evidence-based Newborn Care",
+  "Holiday/Weekend Care",
+  "Maternity Nurse",
+  "Montessori Training",
+  "Multiple Children Experience",
+  "Music/Arts",
+  "Newborn Care",
+  "Night Nanny",
+  "Overnight Care Specialist",
+  "Part-time Educator",
+  "Pediatric First Aid Certified",
+  "Postpartum Doula",
+  "School Age Care",
+  "Sleep Training",
+  "Special Needs Experience",
+  "Swimming",
+  "Toddler Development",
+  "Travel Nanny",
+  "Tutoring",
+  "Twins/Multiples Experience",
+  "Water Safety/Swimming Instructor"
+];
+
+// Arrange for 3-column vertical flow: divide into thirds
+const itemsPerColumn = Math.ceil(alphabeticalSkills.length / 3);
+const specialSkillsOptions = [];
+
+for (let i = 0; i < itemsPerColumn; i++) {
+  if (alphabeticalSkills[i]) specialSkillsOptions.push(alphabeticalSkills[i]); // Column 1
+  if (alphabeticalSkills[i + itemsPerColumn]) specialSkillsOptions.push(alphabeticalSkills[i + itemsPerColumn]); // Column 2
+  if (alphabeticalSkills[i + itemsPerColumn * 2]) specialSkillsOptions.push(alphabeticalSkills[i + itemsPerColumn * 2]); // Column 3
+}
+
+const petOptions = [
+  "Dogs", "Cats", "Birds", "Fish", "Rabbits", "Guinea Pigs", "Reptiles", "None"
+];
 
 export default function ParentProfile() {
+  const [isEditing, setIsEditing] = useState(false);
+  const [activeSection, setActiveSection] = useState("basic");
   const { user } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [photos, setPhotos] = useState<string[]>([]);
 
-  const form = useForm<ParentProfileFormData>({
+  const form = useForm<ParentProfileForm>({
     resolver: zodResolver(parentProfileSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      location: "",
+      firstName: (user as any)?.firstName || (user as any)?.first_name || "",
+      lastName: (user as any)?.lastName || (user as any)?.last_name || "",
+      email: (user as any)?.email || "",
+      phone: (user as any)?.phone || "",
+      address: "",
       suburb: "",
-      bio: "",
-      familySize: "",
-      childrenAges: "",
-      careNeeds: [],
-      specialRequirements: "",
-      emergencyContact: "",
+      familySize: "2-3",
+      numberOfChildren: "1",
+      childrenAges: [],
+      // Detailed Children Information
+      childrenNames: [],
+      childrenGenders: [],
+      childrenPersonalities: [],
+      childrenInterests: [],
+      childrenBehavioralNotes: [],
+      napSchedules: [],
+      mealPreferences: [],
+      pottyTrainingStatus: [],
+      schoolSchedules: [],
+      extracurricularActivities: [],
+      bedtimeRoutines: [],
+      comfortItems: [],
+      favoriteActivities: [],
+      // Health & Allergies
+      foodAllergies: "",
+      dietaryRestrictions: [],
+      medicationRequirements: "",
+      medicalConditions: [],
+      doctorContactInfo: "",
+      hospitalPreference: "",
+      // Emergency Contacts
+      emergencyContactName: "",
+      emergencyContactPhone: "",
+      emergencyContactRelation: "",
+      emergencyContact2Name: "",
+      emergencyContact2Phone: "",
+      emergencyContact2Relation: "",
+      // Elderly Care Information
+      elderlyInHome: false,
+      elderlyName: "",
+      elderlyAge: undefined,
+      elderlyRelationship: "",
+      elderlyMedicalConditions: [],
+      elderlyMedicationSchedule: "",
+      elderlyMobilityNeeds: "",
+      elderlyCarePreferences: "",
+      elderlyDoctorInfo: "",
+      elderlyDietaryNeeds: "",
+      elderlyPersonalityNotes: "",
+      elderlyPreferredActivities: [],
+      elderlyEmergencyInfo: "",
+      // Pet Care Information
+      petsInHome: [],
+      petNames: [],
+      petTypes: [],
+      petBreeds: [],
+      petAges: [],
+      petPersonalities: [],
+      petMedicalNeeds: [],
+      petFeedingSchedule: "",
+      petWalkingRequirements: "",
+      petGroomingNeeds: "",
+      vetContactInfo: "",
+      petEmergencyInfo: "",
+      petBehavioralNotes: "",
+      petPreferredTreats: [],
+      // Caregiver Requirements & Preferences
+      minimumAge: "18",
+      preferredCaregiverGender: "no-preference",
+      languagePreferences: ["English"],
+      caregiverExperienceLevel: "some-experience",
+      specialSkillsRequired: [],
+      // Essential Requirements
+      mustHaveWWCC: true,
+      mustHaveBlueCard: false,
+      mustHaveFirstAid: false,
+      mustHavePaediatricCPR: false,
+      mustHaveReferences: true,
+      mustBeNonSmoker: true,
+      mustHaveDriversLicense: false,
+      mustHaveOwnCar: false,
+
+      experienceWithToddlers: false,
+      experienceWithSchoolAge: false,
+      experienceWithNewborns: false,
+      experienceWithInfants: false,
+      maternityNurseExperience: false,
+      nightNannyExperience: false,
+      sleepTrainingExperience: false,
+      evidenceBasedCare: false,
+      // Position Details
+      positionType: "casual",
+      startDate: "",
+      preferredStartTime: "",
+      preferredEndTime: "",
+      daysPerWeek: [],
+      hoursPerDay: "",
+      // Responsibilities Required
+      childSupervision: true,
+      schoolPickupDropoff: false,
+      afterSchoolActivities: false,
+      mealPreparation: false,
+      lightHousework: false,
+      laundryFolding: false,
+      lunchboxPrep: false,
+      bathTimeHelp: false,
+      bedtimeRoutine: false,
+      homeworkHelp: false,
+      playAndEngagement: true,
+      // Care Requirements
+      typicalCareHours: "part-time",
+      careFrequency: "regular",
+      transportationNeeds: "",
+      householdChores: false,
+      // Household Rules & Preferences
+      smokingPolicy: "no-smoking",
+      screenTimePolicy: "limited",
+      disciplineStyle: "gentle",
+      outdoorActivities: true,
+      // Safety & Verification
+      backgroundCheckRequired: true,
+      referencesRequired: true,
+      policeCheckRequired: true,
+      // Additional Information
+      specialInstructions: "",
+      familyValues: "",
+      communicationPreferences: "text",
     },
   });
 
   const updateProfileMutation = useMutation({
-    mutationFn: async (data: ParentProfileFormData) => {
-      console.log("Submitting profile data:", data);
-      return { success: true };
+    mutationFn: async (data: ParentProfileForm) => {
+      const response = await apiRequest("POST", "/api/parent-profile", data);
+      return response.json();
     },
     onSuccess: () => {
       toast({
         title: "Profile Updated",
-        description: "Your profile has been successfully updated.",
+        description: "Your parent profile has been saved successfully.",
       });
+      setIsEditing(false);
     },
-    onError: (error: Error) => {
+    onError: (error: any) => {
       toast({
-        title: "Error",
-        description: error.message || "Failed to update profile",
+        title: "Update Failed",
+        description: error.message || "Failed to update profile. Please try again.",
         variant: "destructive",
       });
     },
   });
 
-  const onSubmit = (data: ParentProfileFormData) => {
+  const onSubmit = (data: ParentProfileForm) => {
     updateProfileMutation.mutate(data);
   };
 
-  // Temporarily show profile for preview - will restore auth check
+  const sections = [
+    { id: "basic", label: "Basic Info", icon: User },
+    { id: "family", label: "Family & Children", icon: Users },
+    { id: "children", label: "Children Details", icon: Baby },
+    { id: "health", label: "Health & Medical", icon: Heart },
+    { id: "elderly", label: "Elderly Care", icon: User },
+    { id: "pets", label: "Pet Care", icon: Footprints },
+    { id: "requirements", label: "Essential Requirements", icon: CheckCircle },
+    { id: "position", label: "Position Details", icon: Clock },
+    { id: "responsibilities", label: "Responsibilities", icon: Star },
+    { id: "caregiver", label: "Caregiver Preferences", icon: Star },
+    { id: "household", label: "Household Rules", icon: Home },
+    { id: "safety", label: "Safety & Emergency", icon: Shield },
+    { id: "personality", label: "Personal Touch", icon: Heart },
+  ];
+
+  // Temporarily bypass auth for demo
+  const tempUser = user || { firstName: "Demo", lastName: "User", email: "demo@example.com" };
+  
   // if (!user) {
   //   return (
-  //     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-  //       <div className="text-center">
-  //         <h2 className="text-2xl font-bold text-gray-900 mb-4">Access Denied</h2>
-  //         <p className="text-gray-600 mb-4">Please log in to access your profile.</p>
-  //         <Button onClick={() => window.location.href = "/auth"}>
-  //           Go to Login
-  //         </Button>
-  //       </div>
+  //     <div className="flex items-center justify-center h-64">
+  //       <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
   //     </div>
   //   );
   // }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-6xl mx-auto px-4">
-        {/* Header */}
-        <div className="mb-8">
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Parent Profile</h1>
-              <p className="text-gray-600 mt-2">
-                Complete your profile to help caregivers understand your family's needs
-              </p>
+              <p className="text-gray-600 mt-1">Complete your profile to find the perfect caregiver</p>
             </div>
-            <div className="flex items-center gap-3">
-              <Button
-                variant="outline"
-                onClick={() => window.location.href = '/profile-preview'}
-                className="flex items-center gap-2"
-              >
-                <Eye className="h-4 w-4" />
-                View My Profile
-              </Button>
+            <div className="flex items-center space-x-4">
+              {!isEditing ? (
+                <Button onClick={() => setIsEditing(true)} className="bg-black hover:bg-gray-800 text-white">
+                  <Edit3 className="h-4 w-4 mr-2" />
+                  Edit Profile
+                </Button>
+              ) : (
+                <div className="flex space-x-2">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setIsEditing(false)}
+                  >
+                    <X className="h-4 w-4 mr-2" />
+                    Cancel
+                  </Button>
+                  <Button 
+                    onClick={form.handleSubmit(onSubmit)}
+                    disabled={updateProfileMutation.isPending}
+                    className="bg-black hover:bg-gray-800 text-white"
+                  >
+                    <Save className="h-4 w-4 mr-2" />
+                    {updateProfileMutation.isPending ? "Saving..." : "Save Profile"}
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </div>
+      </div>
 
-        <Tabs defaultValue="personal" className="w-full">
-          <TabsList className="grid w-full grid-cols-6">
-            <TabsTrigger value="personal">Personal Info</TabsTrigger>
-            <TabsTrigger value="family">Family Details</TabsTrigger>
-            <TabsTrigger value="preferences">Care Preferences</TabsTrigger>
-            <TabsTrigger value="requirements">Requirements</TabsTrigger>
-            <TabsTrigger value="photos">Photos</TabsTrigger>
-            <TabsTrigger value="emergency">Emergency Contact</TabsTrigger>
-          </TabsList>
-
-          <form onSubmit={form.handleSubmit(onSubmit)} className="mt-8">
-            <TabsContent value="personal" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <User className="w-5 h-5" />
-                    Personal Information
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="firstName">First Name *</Label>
-                      <Input
-                        id="firstName"
-                        {...form.register("firstName")}
-                        placeholder="Your first name"
-                      />
-                      {form.formState.errors.firstName && (
-                        <p className="text-sm text-red-600 mt-1">
-                          {form.formState.errors.firstName.message}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <Label htmlFor="lastName">Last Name *</Label>
-                      <Input
-                        id="lastName"
-                        {...form.register("lastName")}
-                        placeholder="Your last name"
-                      />
-                      {form.formState.errors.lastName && (
-                        <p className="text-sm text-red-600 mt-1">
-                          {form.formState.errors.lastName.message}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="email">Email Address *</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        {...form.register("email")}
-                        placeholder="your.email@example.com"
-                      />
-                      {form.formState.errors.email && (
-                        <p className="text-sm text-red-600 mt-1">
-                          {form.formState.errors.email.message}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <Label htmlFor="phone">Phone Number *</Label>
-                      <Input
-                        id="phone"
-                        {...form.register("phone")}
-                        placeholder="0412 345 678"
-                      />
-                      {form.formState.errors.phone && (
-                        <p className="text-sm text-red-600 mt-1">
-                          {form.formState.errors.phone.message}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="suburb">Suburb *</Label>
-                      <Input
-                        id="suburb"
-                        {...form.register("suburb")}
-                        placeholder="e.g., Bondi Beach"
-                      />
-                      {form.formState.errors.suburb && (
-                        <p className="text-sm text-red-600 mt-1">
-                          {form.formState.errors.suburb.message}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <Label htmlFor="location">Full Address *</Label>
-                      <Input
-                        id="location"
-                        {...form.register("location")}
-                        placeholder="123 Ocean St, Bondi Beach NSW 2026"
-                      />
-                      {form.formState.errors.location && (
-                        <p className="text-sm text-red-600 mt-1">
-                          {form.formState.errors.location.message}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="bio">About Our Family *</Label>
-                    <Textarea
-                      id="bio"
-                      {...form.register("bio")}
-                      placeholder="Tell caregivers about your family, values, lifestyle, and what makes your home special..."
-                      rows={4}
-                    />
-                    {form.formState.errors.bio && (
-                      <p className="text-sm text-red-600 mt-1">
-                        {form.formState.errors.bio.message}
-                      </p>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="family" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Baby className="w-5 h-5" />
-                    Family Details & Requirements
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="familySize">Family Size *</Label>
-                      <Select onValueChange={(value) => form.setValue("familySize", value)}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select family size" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="1-2">1-2 people</SelectItem>
-                          <SelectItem value="3-4">3-4 people</SelectItem>
-                          <SelectItem value="5-6">5-6 people</SelectItem>
-                          <SelectItem value="7+">7+ people</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      {form.formState.errors.familySize && (
-                        <p className="text-sm text-red-600 mt-1">
-                          {form.formState.errors.familySize.message}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <Label htmlFor="childrenAges">Children's Ages *</Label>
-                      <Input
-                        id="childrenAges"
-                        {...form.register("childrenAges")}
-                        placeholder="e.g., 3, 7, 12 years old"
-                      />
-                      {form.formState.errors.childrenAges && (
-                        <p className="text-sm text-red-600 mt-1">
-                          {form.formState.errors.childrenAges.message}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label className="mb-3 block">Care Needs *</Label>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                      {["Nanny/Babysitting", "Before/After School Care", "Holiday Care", "Overnight Care", "Emergency Care", "Special Needs Care", "Newborn Care", "Toddler Care", "School Age Care"].map((need) => (
-                        <div
-                          key={need}
-                          className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
-                        >
-                          <span className="text-sm font-medium">{need}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label className="mb-3 block text-lg font-semibold">Household Information</Label>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                      {["Pet-friendly home", "Smoke-free home", "Pool on property", "Stairs in home", "Security cameras", "Alarm system", "Garden/outdoor space", "Parking available", "Public transport nearby"].map((feature) => (
-                        <div
-                          key={feature}
-                          className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
-                        >
-                          <span className="text-sm font-medium">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label className="mb-3 block text-lg font-semibold">Family Values & Preferences</Label>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                      {["Religious household", "Vegetarian/Vegan meals", "Organic food only", "Screen time limits", "Outdoor activities focus", "Educational emphasis", "Multilingual environment", "Cultural traditions", "Eco-conscious family"].map((value) => (
-                        <div
-                          key={value}
-                          className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
-                        >
-                          <span className="text-sm font-medium">{value}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="specialRequirements">Special Requirements or Notes</Label>
-                    <Textarea
-                      id="specialRequirements"
-                      {...form.register("specialRequirements")}
-                      placeholder="Any special needs, allergies, dietary requirements, behavioral considerations, house rules, or specific care instructions..."
-                      rows={4}
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="preferences" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Heart className="w-5 h-5" />
-                    Care Preferences & Requirements
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div>
-                    <Label className="mb-3 block">Preferred Communication Method</Label>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      {["Phone Call", "Text Message", "Email", "In-App Messaging"].map((method) => (
-                        <div
-                          key={method}
-                          className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
-                        >
-                          <span className="text-sm font-medium">{method}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label className="mb-3 block">Language Preferences</Label>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                      {["English", "Mandarin", "Cantonese", "Arabic", "Hindi", "Spanish", "Italian", "Greek", "Other"].map((language) => (
-                        <div
-                          key={language}
-                          className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
-                        >
-                          <span className="text-sm font-medium">{language}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label className="mb-3 block">Transportation Requirements</Label>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                      {["School Drop-off/Pick-up", "Activity Transport", "Medical Appointments", "Emergency Transport", "No Transport Needed"].map((transport) => (
-                        <div
-                          key={transport}
-                          className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
-                        >
-                          <span className="text-sm font-medium">{transport}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label className="mb-3 block">Budget Range (per hour)</Label>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      {["$25-35", "$35-45", "$45-55", "$55-65", "$65+", "Flexible"].map((budget) => (
-                        <div
-                          key={budget}
-                          className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
-                        >
-                          <span className="text-sm font-medium">{budget}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label className="mb-3 block">Required Qualifications</Label>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                      {["First Aid Certified", "CPR Certified", "WWCC Verified", "Early Childhood Education", "Teaching Background", "Nursing Background", "Previous References", "Own Transport", "Non-smoker"].map((qualification) => (
-                        <div
-                          key={qualification}
-                          className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
-                        >
-                          <span className="text-sm font-medium">{qualification}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="requirements" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Settings className="w-5 h-5" />
-                    Scheduling & Care Requirements
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div>
-                    <Label className="mb-3 block text-lg font-semibold">Typical Care Schedule Needed</Label>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      {["Weekday mornings", "Weekday afternoons", "Weekday evenings", "Weekend mornings", "Weekend afternoons", "Weekend evenings", "Overnight care", "Emergency care", "School holidays", "Flexible schedule"].map((schedule) => (
-                        <div
-                          key={schedule}
-                          className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
-                        >
-                          <span className="text-sm font-medium">{schedule}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label className="mb-3 block text-lg font-semibold">Care Setting Preferences</Label>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                      {["In our home", "At caregiver's home", "Both locations", "Outdoor activities", "Public venues", "Educational outings", "Flexible locations"].map((setting) => (
-                        <div
-                          key={setting}
-                          className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
-                        >
-                          <span className="text-sm font-medium">{setting}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="photos" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Camera className="w-5 h-5" />
-                    Profile Photos
-                  </CardTitle>
-                  <p className="text-sm text-gray-600">
-                    Add photos to help caregivers get to know your family (children's faces will be blurred automatically)
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  <ParentPhotoUpload
-                    photos={photos}
-                    onPhotosChange={setPhotos}
-                    maxPhotos={3}
-                  />
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="emergency" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <User className="w-5 h-5" />
-                    Emergency Contact Information
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <Label htmlFor="emergencyContact">Emergency Contact Details *</Label>
-                    <Textarea
-                      id="emergencyContact"
-                      {...form.register("emergencyContact")}
-                      placeholder="Name, relationship, phone number of emergency contact..."
-                      rows={2}
-                    />
-                    {form.formState.errors.emergencyContact && (
-                      <p className="text-sm text-red-600 mt-1">
-                        {form.formState.errors.emergencyContact.message}
-                      </p>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            {/* Action Buttons */}
-            <div className="flex justify-between items-center mt-8">
-              <Button
-                type="button"
-                variant="outline"
-                className="flex items-center gap-2"
-                onClick={() => window.location.href = '/profile-preview'}
-              >
-                <Eye className="h-4 w-4" />
-                View My Profile
-              </Button>
-              
-              <Button
-                type="submit"
-                className="flex items-center gap-2"
-                disabled={updateProfileMutation.isPending}
-              >
-                <Save className="h-4 w-4" />
-                {updateProfileMutation.isPending ? "Saving..." : "Save Profile"}
-              </Button>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Navigation Sidebar */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-lg shadow-sm border p-4 sticky top-4">
+              <nav className="space-y-2">
+                {sections.map((section) => {
+                  const IconComponent = section.icon;
+                  return (
+                    <button
+                      key={section.id}
+                      onClick={() => setActiveSection(section.id)}
+                      className={`w-full flex items-center px-3 py-2 text-left rounded-lg transition-colors ${
+                        activeSection === section.id
+                          ? "bg-black text-white"
+                          : "text-gray-700 hover:bg-gray-100"
+                      }`}
+                    >
+                      <IconComponent className="h-4 w-4 mr-3" />
+                      {section.label}
+                    </button>
+                  );
+                })}
+              </nav>
             </div>
-          </form>
-        </Tabs>
+          </div>
+
+          {/* Main Content */}
+          <div className="lg:col-span-3">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                {/* Basic Information */}
+                {activeSection === "basic" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <User className="h-5 w-5 mr-2" />
+                        Basic Information
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="firstName"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>First Name</FormLabel>
+                              <FormControl>
+                                <Input {...field} disabled={!isEditing} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="lastName"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Last Name</FormLabel>
+                              <FormControl>
+                                <Input {...field} disabled={!isEditing} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="email"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Email</FormLabel>
+                              <FormControl>
+                                <Input {...field} type="email" disabled={!isEditing} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="phone"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Phone Number</FormLabel>
+                              <FormControl>
+                                <Input {...field} disabled={!isEditing} placeholder="0412 345 678" />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <FormField
+                        control={form.control}
+                        name="address"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Home Address</FormLabel>
+                            <FormControl>
+                              <Input {...field} disabled={!isEditing} placeholder="123 Main Street, Sydney NSW 2000" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="suburb"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Suburb</FormLabel>
+                            <FormControl>
+                              <Input {...field} disabled={!isEditing} placeholder="Bondi Beach" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Family Information */}
+                {activeSection === "family" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Users className="h-5 w-5 mr-2" />
+                        Family Information
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="familySize"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Family Size</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value} disabled={!isEditing}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select family size" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="2-3">2-3 people</SelectItem>
+                                  <SelectItem value="4-5">4-5 people</SelectItem>
+                                  <SelectItem value="6+">6+ people</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="numberOfChildren"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Number of Children</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value} disabled={!isEditing}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select number" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="1">1 child</SelectItem>
+                                  <SelectItem value="2">2 children</SelectItem>
+                                  <SelectItem value="3">3 children</SelectItem>
+                                  <SelectItem value="4+">4+ children</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <FormField
+                        control={form.control}
+                        name="childrenAges"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Children's Ages</FormLabel>
+                            <div className="grid grid-cols-6 gap-2">
+                              {["0-1", "2-3", "4-5", "6-8", "9-12", "13+"].map((age) => (
+                                <div key={age} className="flex items-center space-x-2">
+                                  <Checkbox
+                                    id={age}
+                                    checked={field.value?.includes(age)}
+                                    onCheckedChange={(checked) => {
+                                      if (checked) {
+                                        field.onChange([...field.value, age]);
+                                      } else {
+                                        field.onChange(field.value?.filter((v) => v !== age));
+                                      }
+                                    }}
+                                    disabled={!isEditing}
+                                  />
+                                  <label htmlFor={age} className="text-sm">{age}</label>
+                                </div>
+                              ))}
+                            </div>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Children Details Section */}
+                {activeSection === "children" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Baby className="h-5 w-5 mr-2" />
+                        Detailed Children Information
+                      </CardTitle>
+                      <p className="text-sm text-gray-600">Help caregivers understand your children better</p>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="grid grid-cols-2 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="childrenNames"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Children's Names</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  {...field} 
+                                  value={field.value?.join(", ") || ""} 
+                                  onChange={(e) => field.onChange(e.target.value.split(", ").filter(n => n.trim()))}
+                                  placeholder="Emma, Jack, etc." 
+                                  disabled={!isEditing} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="childrenGenders"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Children's Genders</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  {...field} 
+                                  value={field.value?.join(", ") || ""} 
+                                  onChange={(e) => field.onChange(e.target.value.split(", ").filter(g => g.trim()))}
+                                  placeholder="Girl, Boy" 
+                                  disabled={!isEditing} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      
+                      <FormField
+                        control={form.control}
+                        name="childrenPersonalities"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Children's Personalities</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                {...field} 
+                                value={field.value?.join("; ") || ""} 
+                                onChange={(e) => field.onChange(e.target.value.split("; ").filter(p => p.trim()))}
+                                placeholder="Emma is outgoing and loves books; Jack is energetic and loves building" 
+                                disabled={!isEditing} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="childrenInterests"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Children's Interests & Hobbies</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                {...field} 
+                                value={field.value?.join("; ") || ""} 
+                                onChange={(e) => field.onChange(e.target.value.split("; ").filter(i => i.trim()))}
+                                placeholder="Drawing, soccer, music, reading, etc." 
+                                disabled={!isEditing} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <div className="grid grid-cols-2 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="bedtimeRoutines"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Bedtime Routines</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  {...field} 
+                                  value={field.value?.join("; ") || ""} 
+                                  onChange={(e) => field.onChange(e.target.value.split("; ").filter(r => r.trim()))}
+                                  placeholder="Story time at 7:30pm; Brush teeth; Lullaby" 
+                                  disabled={!isEditing} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="napSchedules"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Nap Schedules</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  {...field} 
+                                  value={field.value?.join("; ") || ""} 
+                                  onChange={(e) => field.onChange(e.target.value.split("; ").filter(n => n.trim()))}
+                                  placeholder="Emma: 1pm-3pm; Jack: No naps" 
+                                  disabled={!isEditing} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      
+                      <FormField
+                        control={form.control}
+                        name="mealPreferences"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Meal Preferences & Eating Habits</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                {...field} 
+                                value={field.value?.join("; ") || ""} 
+                                onChange={(e) => field.onChange(e.target.value.split("; ").filter(m => m.trim()))}
+                                placeholder="Emma loves sandwiches; Jack prefers pasta; No spicy food" 
+                                disabled={!isEditing} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="childrenBehavioralNotes"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Behavioral Notes & Special Considerations</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                {...field} 
+                                value={field.value?.join("; ") || ""} 
+                                onChange={(e) => field.onChange(e.target.value.split("; ").filter(b => b.trim()))}
+                                placeholder="Emma gets shy with new people; Jack needs reminders for transitions" 
+                                disabled={!isEditing} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Elderly Care Section */}
+                {activeSection === "elderly" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <User className="h-5 w-5 mr-2" />
+                        Elderly Care Information
+                      </CardTitle>
+                      <p className="text-sm text-gray-600">Information about elderly family members who may need care</p>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <FormField
+                        control={form.control}
+                        name="elderlyInHome"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center space-x-3">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                                disabled={!isEditing}
+                              />
+                            </FormControl>
+                            <FormLabel className="text-sm">We have elderly family members who may need care</FormLabel>
+                          </FormItem>
+                        )}
+                      />
+                      
+                      {form.watch("elderlyInHome") && (
+                        <>
+                          <div className="grid grid-cols-3 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="elderlyName"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Name</FormLabel>
+                                  <FormControl>
+                                    <Input {...field} placeholder="Grandma Rose" disabled={!isEditing} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="elderlyAge"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Age</FormLabel>
+                                  <FormControl>
+                                    <Input 
+                                      {...field} 
+                                      type="number"
+                                      value={field.value || ""}
+                                      onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
+                                      placeholder="75" 
+                                      disabled={!isEditing} 
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="elderlyRelationship"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Relationship</FormLabel>
+                                  <FormControl>
+                                    <Input {...field} placeholder="Grandmother" disabled={!isEditing} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                          
+                          <FormField
+                            control={form.control}
+                            name="elderlyMedicalConditions"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Medical Conditions</FormLabel>
+                                <FormControl>
+                                  <Textarea 
+                                    {...field} 
+                                    value={field.value?.join("; ") || ""} 
+                                    onChange={(e) => field.onChange(e.target.value.split("; ").filter(c => c.trim()))}
+                                    placeholder="Diabetes; Arthritis; High blood pressure" 
+                                    disabled={!isEditing} 
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="elderlyMobilityNeeds"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Mobility & Physical Needs</FormLabel>
+                                <FormControl>
+                                  <Textarea 
+                                    {...field} 
+                                    placeholder="Uses walker; Needs help with stairs; Independent" 
+                                    disabled={!isEditing} 
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="elderlyCarePreferences"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Care Preferences & Daily Routine</FormLabel>
+                                <FormControl>
+                                  <Textarea 
+                                    {...field} 
+                                    placeholder="Enjoys gardening; Prefers quiet activities; Likes afternoon tea at 3pm" 
+                                    disabled={!isEditing} 
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </>
+                      )}
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Pet Care Section */}
+                {activeSection === "pets" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Footprints className="h-5 w-5 mr-2" />
+                        Pet Care Information
+                      </CardTitle>
+                      <p className="text-sm text-gray-600">Information about pets that caregivers should know about</p>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <FormField
+                        control={form.control}
+                        name="petsInHome"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-base font-semibold">Pets in Home</FormLabel>
+                            <div className="grid grid-cols-4 gap-3">
+                              {petOptions.map((pet) => (
+                                <div key={pet} className="flex items-center space-x-2">
+                                  <Checkbox
+                                    id={pet}
+                                    checked={field.value?.includes(pet)}
+                                    onCheckedChange={(checked) => {
+                                      if (checked) {
+                                        field.onChange([...field.value, pet]);
+                                      } else {
+                                        field.onChange(field.value?.filter((v) => v !== pet));
+                                      }
+                                    }}
+                                    disabled={!isEditing}
+                                  />
+                                  <label htmlFor={pet} className="text-sm">{pet}</label>
+                                </div>
+                              ))}
+                            </div>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      {form.watch("petsInHome")?.length > 0 && !form.watch("petsInHome")?.includes("None") && (
+                        <>
+                          <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="petNames"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Pet Names</FormLabel>
+                                  <FormControl>
+                                    <Input 
+                                      {...field} 
+                                      value={field.value?.join(", ") || ""} 
+                                      onChange={(e) => field.onChange(e.target.value.split(", ").filter(n => n.trim()))}
+                                      placeholder="Buddy, Whiskers, etc." 
+                                      disabled={!isEditing} 
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="petBreeds"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Pet Breeds</FormLabel>
+                                  <FormControl>
+                                    <Input 
+                                      {...field} 
+                                      value={field.value?.join(", ") || ""} 
+                                      onChange={(e) => field.onChange(e.target.value.split(", ").filter(b => b.trim()))}
+                                      placeholder="Golden Retriever, Persian Cat" 
+                                      disabled={!isEditing} 
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                          
+                          <FormField
+                            control={form.control}
+                            name="petPersonalities"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Pet Personalities & Behavior</FormLabel>
+                                <FormControl>
+                                  <Textarea 
+                                    {...field} 
+                                    value={field.value?.join("; ") || ""} 
+                                    onChange={(e) => field.onChange(e.target.value.split("; ").filter(p => p.trim()))}
+                                    placeholder="Buddy is friendly and energetic; Whiskers is calm and likes to hide" 
+                                    disabled={!isEditing} 
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="petFeedingSchedule"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Feeding Schedule</FormLabel>
+                                  <FormControl>
+                                    <Textarea 
+                                      {...field} 
+                                      placeholder="Buddy: 7am and 6pm; Whiskers: 8am and 7pm" 
+                                      disabled={!isEditing} 
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="petWalkingRequirements"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Walking & Exercise Needs</FormLabel>
+                                  <FormControl>
+                                    <Textarea 
+                                      {...field} 
+                                      placeholder="Buddy needs 2 walks per day; Whiskers is indoor only" 
+                                      disabled={!isEditing} 
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                          
+                          <FormField
+                            control={form.control}
+                            name="petMedicalNeeds"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Medical Needs & Special Care</FormLabel>
+                                <FormControl>
+                                  <Textarea 
+                                    {...field} 
+                                    value={field.value?.join("; ") || ""} 
+                                    onChange={(e) => field.onChange(e.target.value.split("; ").filter(m => m.trim()))}
+                                    placeholder="Buddy takes arthritis medication; Whiskers has no special needs" 
+                                    disabled={!isEditing} 
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </>
+                      )}
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Essential Requirements Section */}
+                {activeSection === "requirements" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <CheckCircle className="h-5 w-5 mr-2" />
+                        Caregiver Preferences
+                      </CardTitle>
+                      <p className="text-sm text-gray-600">What you're looking for in a caregiver - select your preferences</p>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="bg-blue-50 p-4 rounded-lg">
+                        <h4 className="font-semibold text-blue-900 mb-3">Safety & Verification Preferences</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="mustHaveWWCC"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-medium">Working with Children Check (WWCC) preferred</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="mustHaveReferences"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-medium">References from previous families preferred</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="mustBeNonSmoker"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-medium">Non-smoker preferred</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="policeCheckRequired"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-medium">Police check preferred</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+
+                        </div>
+                      </div>
+
+                      <div className="bg-green-50 p-4 rounded-lg">
+                        <h4 className="font-semibold text-green-900 mb-3">Health & Safety Certifications</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="mustHaveFirstAid"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">First Aid certification preferred</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="mustHavePaediatricCPR"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Paediatric CPR certification preferred</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="bg-purple-50 p-4 rounded-lg">
+                        <h4 className="font-semibold text-purple-900 mb-3">Driving & Transportation</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="mustHaveDriversLicense"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Valid driver's license required</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="mustHaveDriversLicense"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Valid Australian driver's license required</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="mustHaveOwnCar"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Must have own reliable car</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="weHaveACarYouCanUse"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">We have a car you can use</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="bg-orange-50 p-4 rounded-lg">
+                        <h4 className="font-semibold text-orange-900 mb-3">Age Group Experience</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="experienceWithNewborns"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Newborn experience (0-3 months)</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="experienceWithInfants"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Infant experience (3-12 months)</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="experienceWithToddlers"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Toddler experience preferred</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="experienceWithSchoolAge"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">School-age children experience</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="bg-pink-50 p-4 rounded-lg">
+                        <h4 className="font-semibold text-pink-900 mb-3">Specialized Care Experience</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="maternityNurseExperience"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Maternity nurse experience</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="nightNannyExperience"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Night nanny experience</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="sleepTrainingExperience"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Sleep training expertise</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="evidenceBasedCare"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Evidence-based newborn care</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <h4 className="font-semibold text-gray-900 mb-3">Age & Personal Requirements</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="minimumAge"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Minimum Age Requirement</FormLabel>
+                                <Select onValueChange={field.onChange} value={field.value} disabled={!isEditing}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select minimum age" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="18">18+ years</SelectItem>
+                                    <SelectItem value="21">21+ years</SelectItem>
+                                    <SelectItem value="25">25+ years (preferred)</SelectItem>
+                                    <SelectItem value="30">30+ years</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Position Details Section */}
+                {activeSection === "position" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Clock className="h-5 w-5 mr-2" />
+                        Position Details
+                      </CardTitle>
+                      <p className="text-sm text-gray-600">Hours, schedule, and position type requirements</p>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="positionType"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Position Type</FormLabel>
+                              <Select onValueChange={field.onChange} value={field.value} disabled={!isEditing}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select position type" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="casual">Casual/As needed</SelectItem>
+                                  <SelectItem value="part-time">Part-time regular</SelectItem>
+                                  <SelectItem value="permanent">Permanent position</SelectItem>
+                                  <SelectItem value="after-school">After school only</SelectItem>
+                                  <SelectItem value="emergency">Emergency/backup</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <FormField
+                          control={form.control}
+                          name="startDate"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Preferred Start Date</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  {...field} 
+                                  type="date" 
+                                  disabled={!isEditing} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="preferredStartTime"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Start Time</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  {...field} 
+                                  type="time" 
+                                  placeholder="3:00 PM"
+                                  disabled={!isEditing} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <FormField
+                          control={form.control}
+                          name="preferredEndTime"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>End Time</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  {...field} 
+                                  type="time" 
+                                  placeholder="6:00 PM"
+                                  disabled={!isEditing} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <FormField
+                          control={form.control}
+                          name="hoursPerDay"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Hours per Day</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  {...field} 
+                                  placeholder="3-4 hours"
+                                  disabled={!isEditing} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      
+                      <FormField
+                        control={form.control}
+                        name="daysPerWeek"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-base font-semibold">Days Required</FormLabel>
+                            <div className="grid grid-cols-4 gap-3">
+                              {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
+                                <div key={day} className="flex items-center space-x-2">
+                                  <Checkbox
+                                    id={day}
+                                    checked={field.value?.includes(day)}
+                                    onCheckedChange={(checked) => {
+                                      if (checked) {
+                                        field.onChange([...field.value, day]);
+                                      } else {
+                                        field.onChange(field.value?.filter((v) => v !== day));
+                                      }
+                                    }}
+                                    disabled={!isEditing}
+                                  />
+                                  <label htmlFor={day} className="text-sm">{day}</label>
+                                </div>
+                              ))}
+                            </div>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Responsibilities Section */}
+                {activeSection === "responsibilities" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Star className="h-5 w-5 mr-2" />
+                        Care Responsibilities
+                      </CardTitle>
+                      <p className="text-sm text-gray-600">Tasks and duties expected from the caregiver</p>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="bg-blue-50 p-4 rounded-lg">
+                        <h4 className="font-semibold text-blue-900 mb-3">Child Care & Supervision</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="childSupervision"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">General child supervision</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="playAndEngagement"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Playing and engaging with children</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="bathTimeHelp"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Help with shower and bath time</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="bedtimeRoutine"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Bedtime routine (PJs, storytime)</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="homeworkHelp"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Homework help and supervision</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="bg-green-50 p-4 rounded-lg">
+                        <h4 className="font-semibold text-green-900 mb-3">Transportation & Activities</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="schoolPickupDropoff"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">School pickup and drop-off</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="afterSchoolActivities"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">After-school activities transport</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="bg-yellow-50 p-4 rounded-lg">
+                        <h4 className="font-semibold text-yellow-900 mb-3">Meals & Kitchen</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="mealPreparation"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Meal preparation and cooking</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="lunchboxPrep"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Pack lunchboxes for next day</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="bg-purple-50 p-4 rounded-lg">
+                        <h4 className="font-semibold text-purple-900 mb-3">Household Tasks</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormField
+                            control={form.control}
+                            name="lightHousework"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Basic tidying and kitchen cleanup</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="laundryFolding"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-3">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    disabled={!isEditing}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm">Hang washing and fold laundry</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Health & Allergies */}
+                {activeSection === "health" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Heart className="h-5 w-5 mr-2" />
+                        Health & Allergies
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <FormField
+                        control={form.control}
+                        name="foodAllergies"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-base font-semibold">Allergies</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                {...field}
+                                value={Array.isArray(field.value) ? field.value.join("; ") : field.value || ""}
+                                onChange={(e) => field.onChange(e.target.value)}
+                                disabled={!isEditing}
+                                placeholder="List any food allergies, environmental allergies, or other allergies here..."
+                                rows={3}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <Separator />
+                      
+                      <FormField
+                        control={form.control}
+                        name="dietaryRestrictions"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-base font-semibold">Dietary Restrictions</FormLabel>
+                            <div className="grid grid-cols-3 gap-3">
+                              {dietaryOptions.map((diet) => (
+                                <div key={diet} className="flex items-center space-x-2">
+                                  <Checkbox
+                                    id={diet}
+                                    checked={field.value?.includes(diet)}
+                                    onCheckedChange={(checked) => {
+                                      if (checked) {
+                                        field.onChange([...field.value, diet]);
+                                      } else {
+                                        field.onChange(field.value?.filter((v) => v !== diet));
+                                      }
+                                    }}
+                                    disabled={!isEditing}
+                                  />
+                                  <label htmlFor={diet} className="text-sm">{diet}</label>
+                                </div>
+                              ))}
+                            </div>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="medicationRequirements"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Medication Requirements</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                {...field} 
+                                disabled={!isEditing}
+                                placeholder="List any medications your children take and administration instructions..."
+                                rows={3}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Caregiver Preferences */}
+                {activeSection === "caregiver" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Star className="h-5 w-5 mr-2" />
+                        Caregiver Preferences
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="grid grid-cols-2 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="preferredCaregiverGender"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Preferred Gender</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value} disabled={!isEditing}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select preference" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="no-preference">No Preference</SelectItem>
+                                  <SelectItem value="female">Female</SelectItem>
+                                  <SelectItem value="male">Male</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="caregiverExperienceLevel"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Experience Level Required</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value} disabled={!isEditing}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select level" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="entry-level">Entry Level (1-2 years)</SelectItem>
+                                  <SelectItem value="experienced">Experienced (3-5 years)</SelectItem>
+                                  <SelectItem value="expert">Expert (5+ years)</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <FormField
+                        control={form.control}
+                        name="languagePreferences"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Language Preferences</FormLabel>
+                            <div className="grid grid-cols-4 gap-3">
+                              {languageOptions.map((language) => (
+                                <div key={language} className="flex items-center space-x-2">
+                                  <Checkbox
+                                    id={language}
+                                    checked={field.value?.includes(language)}
+                                    onCheckedChange={(checked) => {
+                                      if (checked) {
+                                        field.onChange([...field.value, language]);
+                                      } else {
+                                        field.onChange(field.value?.filter((v) => v !== language));
+                                      }
+                                    }}
+                                    disabled={!isEditing}
+                                  />
+                                  <label htmlFor={language} className="text-sm">{language}</label>
+                                </div>
+                              ))}
+                            </div>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="specialSkillsRequired"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Special Skills Required</FormLabel>
+                            <div className="grid grid-cols-3 gap-3">
+                              {specialSkillsOptions.map((skill) => (
+                                <div key={skill} className="flex items-center space-x-2">
+                                  <Checkbox
+                                    id={skill}
+                                    checked={field.value?.includes(skill)}
+                                    onCheckedChange={(checked) => {
+                                      if (checked) {
+                                        field.onChange([...field.value, skill]);
+                                      } else {
+                                        field.onChange(field.value?.filter((v) => v !== skill));
+                                      }
+                                    }}
+                                    disabled={!isEditing}
+                                  />
+                                  <label htmlFor={skill} className="text-sm">{skill}</label>
+                                </div>
+                              ))}
+                            </div>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Household Rules */}
+                {activeSection === "household" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Home className="h-5 w-5 mr-2" />
+                        Household Rules & Environment
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="grid grid-cols-2 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="smokingPolicy"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Smoking Policy</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value} disabled={!isEditing}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select policy" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="no-smoking">No Smoking</SelectItem>
+                                  <SelectItem value="outdoor-only">Outdoor Only</SelectItem>
+                                  <SelectItem value="smoking-ok">Smoking OK</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="screenTimePolicy"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Screen Time Policy</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value} disabled={!isEditing}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select policy" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="no-screens">No Screens</SelectItem>
+                                  <SelectItem value="limited">Limited (1-2 hours)</SelectItem>
+                                  <SelectItem value="moderate">Moderate (2-4 hours)</SelectItem>
+                                  <SelectItem value="flexible">Flexible</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <FormField
+                        control={form.control}
+                        name="disciplineStyle"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Discipline Style</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value} disabled={!isEditing}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select style" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="gentle">Gentle Guidance</SelectItem>
+                                <SelectItem value="firm-but-fair">Firm but Fair</SelectItem>
+                                <SelectItem value="permissive">Permissive</SelectItem>
+                                <SelectItem value="structured">Structured</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="petsInHome"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Pets in Home</FormLabel>
+                            <div className="grid grid-cols-4 gap-3">
+                              {petOptions.map((pet) => (
+                                <div key={pet} className="flex items-center space-x-2">
+                                  <Checkbox
+                                    id={pet}
+                                    checked={field.value?.includes(pet)}
+                                    onCheckedChange={(checked) => {
+                                      if (checked) {
+                                        field.onChange([...field.value, pet]);
+                                      } else {
+                                        field.onChange(field.value?.filter((v) => v !== pet));
+                                      }
+                                    }}
+                                    disabled={!isEditing}
+                                  />
+                                  <label htmlFor={pet} className="text-sm">{pet}</label>
+                                </div>
+                              ))}
+                            </div>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="outdoorActivities"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                                disabled={!isEditing}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel>
+                                Outdoor Activities Encouraged
+                              </FormLabel>
+                              <p className="text-sm text-gray-600">
+                                We encourage outdoor play and activities
+                              </p>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Safety & Emergency */}
+                {activeSection === "safety" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Shield className="h-5 w-5 mr-2" />
+                        Safety & Emergency Information
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="grid grid-cols-3 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="emergencyContactName"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Emergency Contact Name</FormLabel>
+                              <FormControl>
+                                <Input {...field} disabled={!isEditing} placeholder="Full name" />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="emergencyContactPhone"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Emergency Contact Phone</FormLabel>
+                              <FormControl>
+                                <Input {...field} disabled={!isEditing} placeholder="0412 345 678" />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="emergencyContactRelation"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Relationship</FormLabel>
+                              <FormControl>
+                                <Input {...field} disabled={!isEditing} placeholder="e.g., Grandmother" />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <div className="space-y-4">
+                        <FormField
+                          control={form.control}
+                          name="backgroundCheckRequired"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                  disabled={!isEditing}
+                                />
+                              </FormControl>
+                              <div className="space-y-1 leading-none">
+                                <FormLabel>
+                                  Background Check Required
+                                </FormLabel>
+                                <p className="text-sm text-gray-600">
+                                  Require caregivers to have a current background check
+                                </p>
+                              </div>
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="referencesRequired"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                  disabled={!isEditing}
+                                />
+                              </FormControl>
+                              <div className="space-y-1 leading-none">
+                                <FormLabel>
+                                  References Required
+                                </FormLabel>
+                                <p className="text-sm text-gray-600">
+                                  Require caregivers to provide references from previous families
+                                </p>
+                              </div>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <FormField
+                        control={form.control}
+                        name="specialInstructions"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Special Instructions</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                {...field} 
+                                disabled={!isEditing}
+                                placeholder="Any additional information caregivers should know about your family, children, or home..."
+                                rows={4}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Personality Questions */}
+                {activeSection === "personality" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Heart className="h-5 w-5 mr-2 text-pink-500" />
+                        Personal Touch Questions
+                      </CardTitle>
+                      <p className="text-sm text-gray-600">Help caregivers connect with your family by sharing what makes you special</p>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <FormField
+                        control={form.control}
+                        name="myLoveLanguage"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2 text-base font-medium">
+                              <Heart className="h-4 w-4 text-pink-500" />
+                              My love language is...
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea
+                                {...field}
+                                placeholder="acts of service, quality time, words of affirmation..."
+                                className="min-h-[80px] resize-none"
+                                disabled={!isEditing}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="littleAboutMe"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2 text-base font-medium">
+                              <User className="h-4 w-4 text-blue-500" />
+                              A little about me...
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea
+                                {...field}
+                                placeholder="Tell us what makes you unique!"
+                                className="min-h-[80px] resize-none"
+                                disabled={!isEditing}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="imProudOf"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2 text-base font-medium">
+                              <Star className="h-4 w-4 text-yellow-500" />
+                              I'm proud of...
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea
+                                {...field}
+                                placeholder="Share something you're proud of accomplishing"
+                                className="min-h-[80px] resize-none"
+                                disabled={!isEditing}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="myFamilyIsSpecialBecause"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2 text-base font-medium">
+                              <Users className="h-4 w-4 text-purple-500" />
+                              My family is special because...
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea
+                                {...field}
+                                placeholder="What makes your family unique and wonderful?"
+                                className="min-h-[80px] resize-none"
+                                disabled={!isEditing}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="onePerfectDay"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2 text-base font-medium">
+                              <Heart className="h-4 w-4 text-pink-500" />
+                              One perfect day with my family would be...
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea
+                                {...field}
+                                placeholder="Describe your ideal family day"
+                                className="min-h-[80px] resize-none"
+                                disabled={!isEditing}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </CardContent>
+                  </Card>
+                )}
+              </form>
+            </Form>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -34,8 +34,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import MultiPhotoUpload from "@/components/multi-photo-upload";
-import AvailabilityCalendar from "@/components/availability-calendar";
 
 const caregiverRegistrationSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
@@ -50,13 +48,6 @@ const caregiverRegistrationSchema = z.object({
   bio: z.string().min(50, "Bio must be at least 50 characters"),
   experience: z.number().min(0, "Experience cannot be negative"),
   hourlyRate: z.number().min(15, "Hourly rate must be at least $15"),
-  profilePhotos: z.array(z.string()).min(3, "At least 3 professional photos required"),
-  photoGuidanceAccepted: z.boolean().refine(val => val === true, "You must accept the photo guidelines"),
-  instantBookingEnabled: z.boolean().default(false),
-  availabilityCalendar: z.record(z.object({
-    available: z.boolean(),
-    rate: z.number().optional()
-  })).default({}),
   services: z.array(z.string()).min(1, "Select at least one service"),
   ageGroups: z.array(z.string()).min(1, "Select at least one age group"),
   availability: z.object({
@@ -105,10 +96,6 @@ export default function CaregiverRegistration() {
       bio: "",
       experience: 0,
       hourlyRate: 25,
-      profilePhotos: [],
-      photoGuidanceAccepted: false,
-      instantBookingEnabled: false,
-      availabilityCalendar: {},
       services: [],
       ageGroups: [],
       availability: {
@@ -158,7 +145,7 @@ export default function CaregiverRegistration() {
         title: "Registration Submitted!",
         description: "Your caregiver profile is under review. You'll be notified within 2-3 business days.",
       });
-      setStep(7);
+      setStep(5);
     },
     onError: (error: any) => {
       toast({
@@ -218,7 +205,7 @@ export default function CaregiverRegistration() {
     }
   };
 
-  const progress = (step / 6) * 100;
+  const progress = (step / 4) * 100;
 
   const renderStep = () => {
     switch (step) {
@@ -582,29 +569,6 @@ export default function CaregiverRegistration() {
 
       case 4:
         return (
-          <MultiPhotoUpload
-            photos={form.watch("profilePhotos")}
-            onPhotosChange={(photos) => form.setValue("profilePhotos", photos)}
-            guidanceAccepted={form.watch("photoGuidanceAccepted")}
-            onGuidanceAccept={(accepted) => form.setValue("photoGuidanceAccepted", accepted)}
-            minPhotos={3}
-            maxPhotos={8}
-          />
-        );
-
-      case 5:
-        return (
-          <AvailabilityCalendar
-            availability={form.watch("availabilityCalendar")}
-            onAvailabilityChange={(availability) => form.setValue("availabilityCalendar", availability)}
-            baseRate={form.watch("hourlyRate")}
-            instantBookingEnabled={form.watch("instantBookingEnabled")}
-            onInstantBookingChange={(enabled) => form.setValue("instantBookingEnabled", enabled)}
-          />
-        );
-
-      case 6:
-        return (
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -721,7 +685,7 @@ export default function CaregiverRegistration() {
           </Card>
         );
 
-      case 7:
+      case 5:
         return (
           <Card>
             <CardContent className="text-center py-12">
@@ -772,10 +736,6 @@ export default function CaregiverRegistration() {
         const availability = form.watch("availability");
         return daysOfWeek.some(day => availability[day as keyof typeof availability].available);
       case 4:
-        return form.watch("profilePhotos").length >= 3 && form.watch("photoGuidanceAccepted");
-      case 5:
-        return true; // Availability calendar is optional
-      case 6:
         return form.watch("emergencyName") && 
                form.watch("emergencyPhone") && 
                form.watch("emergencyRelation") &&
@@ -798,10 +758,10 @@ export default function CaregiverRegistration() {
           <p className="text-gray-600 mt-2">Join thousands of caregivers helping families across Australia</p>
         </div>
 
-        {step < 7 && (
+        {step < 5 && (
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-700">Step {step} of 6</span>
+              <span className="text-sm font-medium text-gray-700">Step {step} of 4</span>
               <span className="text-sm text-gray-500">{Math.round(progress)}% complete</span>
             </div>
             <Progress value={progress} className="h-2" />
@@ -810,7 +770,7 @@ export default function CaregiverRegistration() {
 
         {renderStep()}
 
-        {step > 1 && step < 7 && (
+        {step > 1 && step < 5 && (
           <div className="flex justify-between mt-8">
             <Button
               variant="outline"
@@ -821,12 +781,12 @@ export default function CaregiverRegistration() {
             </Button>
 
             <Button
-              onClick={() => step === 6 ? handleSubmit() : setStep(step + 1)}
-              disabled={!canProceed() || (step === 6 && registrationMutation.isPending)}
+              onClick={() => step === 4 ? handleSubmit() : setStep(step + 1)}
+              disabled={!canProceed() || (step === 4 && registrationMutation.isPending)}
               style={{ backgroundColor: '#FF6B35' }}
               className="text-white"
             >
-              {step === 6 ? (
+              {step === 4 ? (
                 registrationMutation.isPending ? 'Submitting...' : 'Submit Application'
               ) : (
                 <>

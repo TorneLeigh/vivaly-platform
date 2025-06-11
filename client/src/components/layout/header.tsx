@@ -18,16 +18,45 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 export default function Header() {
   const [location] = useLocation();
+  const { isAuthenticated, isLoading, user } = useAuth();
+  const { toast } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user, isAuthenticated, logoutMutation } = useAuth();
+  
+
   
   // Determine view mode based on current route
-  const viewMode = location.includes('/nanny') || location.includes('/caregiver') || location.includes('/provider') ? 'provider' : 'seeker';
+  const isProviderRoute = location.includes('/provider-dashboard') || location.includes('/childcare-dashboard') || 
+                         location.includes('/become-nanny') || location.includes('/become-childcare-provider');
+  const viewMode = isProviderRoute ? 'provider' : 'seeker';
+
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      return await apiRequest("POST", "/api/auth/logout", {});
+    },
+    onSuccess: () => {
+      toast({
+        title: "Logged out",
+        description: "You have been logged out successfully.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      window.location.href = '/';
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Logout failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
 
   const handleLogout = () => {
     logoutMutation.mutate();
@@ -53,60 +82,57 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Center Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
-            <Link href="/find-care" className="text-gray-700 hover:text-coral font-medium">
+            <Link href="/find-care" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
               Day Care
             </Link>
-            <Link href="/services" className="text-gray-700 hover:text-coral font-medium">
+            <Link href="/services" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
               Services
             </Link>
-            <Link href="/gift-cards" className="text-gray-700 hover:text-coral font-medium">
+            <Link href="/gift-cards" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
               Gift Cards
             </Link>
           </div>
 
-          {/* Desktop Auth Section */}
-          <div className="hidden lg:flex items-center space-x-4">
-            {!isAuthenticated ? (
+          {/* Desktop Right Side */}
+          <div className="hidden lg:flex items-center space-x-2">
+            {!isAuthenticated && !isLoading ? (
               <>
-                <div className="flex items-center space-x-2">
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    onClick={() => window.location.href = '/become-caregiver'}
-                  >
-                    Switch to Caregiver
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    onClick={() => window.location.href = '/become-service-provider'}
-                  >
+                {viewMode === 'seeker' ? (
+                  <Button className="bg-black hover:bg-gray-800 text-white font-medium" onClick={() => window.location.href = '/become-caregiver'}>
                     Switch to Service Provider
                   </Button>
-                </div>
-                
-                <div className="border-l h-6 border-gray-300"></div>
-                
-                <div className="flex items-center space-x-4">
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    onClick={() => window.location.href = '/auth'}
-                  >
+                ) : (
+                  <Button variant="ghost" className="font-medium" onClick={() => window.location.href = '/search'}>
+                    Search
+                  </Button>
+                )}
+                <div className="flex items-center border border-gray-300 rounded-full p-1 ml-4">
+                  <Button variant="ghost" size="sm" className="rounded-full px-4 text-black hover:bg-pink-100 hover:text-gray-700" onClick={() => window.location.href = '/auth'}>
                     Log in
                   </Button>
-                  <Button 
-                    size="sm"
-                    onClick={() => window.location.href = '/signup'}
-                  >
+                  <Button size="sm" className="rounded-full bg-coral hover:bg-pink-100 px-4 font-medium" style={{ color: '#000000' }} onClick={() => window.location.href = '/signup'}>
                     Sign up
                   </Button>
                 </div>
               </>
-            ) : (
+            ) : isAuthenticated ? (
               <div className="flex items-center space-x-4">
+                {viewMode === 'seeker' ? (
+                  <Button variant="ghost" size="sm" className="flex items-center gap-2" onClick={() => window.location.href = '/search'}>
+                    <Search className="h-4 w-4" />
+                    Search
+                  </Button>
+                ) : (
+                  <Button variant="ghost" size="sm" onClick={() => window.location.href = '/find-care'}>
+                    Switch to Seeker
+                  </Button>
+                )}
+                <Button variant="ghost" size="sm" onClick={() => window.location.href = '/messages'}>
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  Messages
+                </Button>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="sm" className="relative rounded-full p-2">
@@ -117,35 +143,12 @@ export default function Header() {
                     <DropdownMenuItem onClick={() => window.location.href = '/profile'}>
                       Profile
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => window.location.href = '/profile-preview'}>
-                      View My Profile
-                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => window.location.href = '/account-settings'}>
                       Account Settings
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => window.location.href = '/messages'}>
                       Messages
                     </DropdownMenuItem>
-                    <div className="border-t my-1"></div>
-                    {viewMode === 'seeker' ? (
-                      <>
-                        <div className="bg-black text-white rounded-md p-2 my-1">
-                          <DropdownMenuItem onClick={() => window.location.href = '/provider-dashboard'} className="bg-transparent text-white hover:bg-gray-800 hover:text-white focus:bg-transparent focus:text-white">
-                            Switch to Service Provider
-                          </DropdownMenuItem>
-                        </div>
-                        <div className="bg-black text-white rounded-md p-2 my-1">
-                          <DropdownMenuItem onClick={() => window.location.href = '/become-caregiver'} className="bg-transparent text-white hover:bg-gray-800 hover:text-white focus:bg-transparent focus:text-white">
-                            Switch to Caregiver
-                          </DropdownMenuItem>
-                        </div>
-                      </>
-                    ) : (
-                      <DropdownMenuItem onClick={() => window.location.href = '/find-care'}>
-                        Switch to Parent Mode
-                      </DropdownMenuItem>
-                    )}
-                    <div className="border-t my-1"></div>
                     <DropdownMenuItem onClick={() => window.location.href = '/help'}>
                       Help
                     </DropdownMenuItem>
@@ -155,10 +158,12 @@ export default function Header() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
-            )}
+            ) : null}
           </div>
 
-          {/* Mobile Menu */}
+
+
+          {/* Mobile/Tablet Menu Button - Airbnb style */}
           <div className="lg:hidden">
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
@@ -235,66 +240,58 @@ export default function Header() {
                       </div>
                     ) : (
                       <div className="p-6 space-y-4">
-                        <div className="space-y-3">
+                        {viewMode === 'seeker' ? (
                           <Button
                             variant="ghost"
                             className="w-full justify-start text-left font-medium flex items-center gap-2"
-                            onClick={() => { window.location.href = '/profile'; setMobileMenuOpen(false); }}
+                            onClick={() => { window.location.href = '/search'; setMobileMenuOpen(false); }}
                           >
-                            <User className="h-4 w-4" />
-                            Profile
+                            <Search className="h-4 w-4" />
+                            Search
                           </Button>
-                          <Button
-                            variant="ghost"
-                            className="w-full justify-start text-left font-medium flex items-center gap-2"
-                            onClick={() => { window.location.href = '/messages'; setMobileMenuOpen(false); }}
-                          >
-                            <MessageCircle className="h-4 w-4" />
-                            Messages
-                          </Button>
-                        </div>
-
-                        <div className="border-t pt-4 space-y-3">
-                          {viewMode === 'seeker' ? (
-                            <>
-                              <Button
-                                className="w-full bg-black hover:bg-gray-800 text-white font-medium"
-                                onClick={() => { window.location.href = '/provider-dashboard'; setMobileMenuOpen(false); }}
-                              >
-                                Switch to Service Provider
-                              </Button>
-                              <Button
-                                className="w-full bg-coral hover:bg-coral/90 text-white font-medium"
-                                onClick={() => { window.location.href = '/become-caregiver'; setMobileMenuOpen(false); }}
-                              >
-                                Switch to Caregiver
-                              </Button>
-                            </>
-                          ) : (
-                            <Button
-                              className="w-full bg-black hover:bg-gray-800 text-white font-medium"
-                              onClick={() => { window.location.href = '/find-care'; setMobileMenuOpen(false); }}
-                            >
-                              Switch to Parent Mode
-                            </Button>
-                          )}
-                        </div>
-
-                        <div className="border-t pt-4 space-y-3">
+                        ) : (
                           <Button
                             variant="ghost"
                             className="w-full justify-start text-left font-medium"
-                            onClick={() => { window.location.href = '/help'; setMobileMenuOpen(false); }}
+                            onClick={() => { window.location.href = '/find-care'; setMobileMenuOpen(false); }}
                           >
-                            Help
+                            Switch to Seeker
                           </Button>
+                        )}
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start text-left font-medium flex items-center gap-2"
+                          onClick={() => { window.location.href = '/messages'; setMobileMenuOpen(false); }}
+                        >
+                          <MessageCircle className="h-4 w-4" />
+                          Messages
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start text-left font-medium"
+                          onClick={() => { window.location.href = '/profile'; setMobileMenuOpen(false); }}
+                        >
+                          Profile
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start text-left font-medium"
+                          onClick={() => { window.location.href = '/account-settings'; setMobileMenuOpen(false); }}
+                        >
+                          Account Settings
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start text-left font-medium"
+                          onClick={() => { window.location.href = '/help'; setMobileMenuOpen(false); }}
+                        >
+                          Help
+                        </Button>
+                        <div className="border-t pt-4">
                           <Button
                             variant="ghost"
-                            className="w-full justify-start text-left font-medium text-red-600"
-                            onClick={() => { 
-                              logoutMutation.mutate();
-                              setMobileMenuOpen(false);
-                            }}
+                            className="w-full justify-start text-left font-medium text-red-600 hover:text-red-700"
+                            onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
                           >
                             Sign out
                           </Button>

@@ -4,7 +4,6 @@ import {
   bookings,
   reviews,
   messages,
-  parentProfiles,
   type User,
   type InsertUser,
   type Nanny,
@@ -15,8 +14,6 @@ import {
   type InsertReview,
   type Message,
   type InsertMessage,
-  type ParentProfile,
-  type InsertParentProfile,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, or, desc, sql, gte, lte } from "drizzle-orm";

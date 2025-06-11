@@ -195,11 +195,6 @@ export const nannies = pgTable("nannies", {
   services: json("services").$type<string[]>().default([]),
   certificates: json("certificates").$type<string[]>().default([]),
   availability: json("availability").$type<Record<string, boolean>>().default({}),
-  profilePhotos: json("profile_photos").$type<string[]>().default([]),
-  instantBookingEnabled: boolean("instant_booking_enabled").default(false),
-  advanceBookingDays: integer("advance_booking_days").default(30),
-  availabilityCalendar: json("availability_calendar").$type<Record<string, { available: boolean; rate?: number }>>().default({}),
-  photoGuidanceAccepted: boolean("photo_guidance_accepted").default(false),
   isVerified: boolean("is_verified").default(false),
   rating: decimal("rating", { precision: 3, scale: 2 }).default("0"),
   // Family Day Care specific fields
