@@ -349,7 +349,7 @@ export default function Home() {
               Our Care Services
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Professional, trusted care for every stage of life
+              Book verified, reliable care for your whole household.
             </p>
           </div>
 
