@@ -1,239 +1,131 @@
 import { Link } from 'wouter';
-import { Heart, Baby, Moon, Users, BookOpen, Stethoscope } from 'lucide-react';
+import { Heart, Baby, BookOpen, Stethoscope, ChevronRight, Home } from 'lucide-react';
 
 export default function PrenatalServices() {
-  const birthEducationServices = [
+  const prenatalServices = [
     {
-      title: "Newborn Care",
-      description: "Sleep guidance, swaddling & feeding techniques",
-      icon: <Baby className="w-6 h-6" />
+      title: "Doula Support",
+      description: "Certified doulas to guide you emotionally and physically during pregnancy and labor.",
+      icon: <Heart className="w-12 h-12 text-pink-500" />,
+      link: "/book/doula",
+      buttonText: "Book Now"
     },
     {
-      title: "Overnight Newborn Support",
-      description: "Night doulas for the fourth trimester - help during those crucial early weeks",
-      icon: <Moon className="w-6 h-6" />
+      title: "Prenatal Classes",
+      description: "Join small group or one-on-one prenatal education sessions tailored to your needs.",
+      icon: <BookOpen className="w-12 h-12 text-blue-500" />,
+      link: "/book/classes",
+      buttonText: "Learn More"
     },
     {
-      title: "Drop-in Care",
-      description: "Flexible childcare when you need it - gym visits, appointments, errands",
-      icon: <Users className="w-6 h-6" />
-    },
-    {
-      title: "Labor Support",
-      description: "Comfort techniques and birth preparation",
-      icon: <Heart className="w-6 h-6" />
-    },
-    {
-      title: "Birth Coaching",
-      description: "Personalized birthing guidance and support",
-      icon: <BookOpen className="w-6 h-6" />
-    },
-    {
-      title: "Breastfeeding Latch",
-      description: "Proper breastfeeding techniques and positioning",
-      icon: <Heart className="w-6 h-6" />
-    },
-    {
-      title: "Newborn Bonding",
-      description: "Building connection with your newborn",
-      icon: <Baby className="w-6 h-6" />
-    },
-    {
-      title: "Breastfeeding Support",
-      description: "Comprehensive lactation consultation",
-      icon: <Heart className="w-6 h-6" />
-    },
-    {
-      title: "Birth Ball Techniques",
-      description: "Exercise and comfort during pregnancy",
-      icon: <Users className="w-6 h-6" />
-    },
-    {
-      title: "Pregnancy Massage",
-      description: "Prenatal massage and wellness support",
-      icon: <Heart className="w-6 h-6" />
-    }
-  ];
-
-  const doulaServices = [
-    {
-      title: "Birth Doula Support",
-      description: "Continuous labor and delivery support",
-      icon: <Heart className="w-6 h-6" />
-    },
-    {
-      title: "Postpartum Doula Care",
-      description: "Recovery and newborn adjustment support",
-      icon: <Baby className="w-6 h-6" />
-    },
-    {
-      title: "Emotional Support",
-      description: "Mental health and emotional guidance",
-      icon: <Heart className="w-6 h-6" />
-    },
-    {
-      title: "Breastfeeding Guidance",
-      description: "Lactation support and positioning help",
-      icon: <Heart className="w-6 h-6" />
-    },
-    {
-      title: "Birth Plan Preparation",
-      description: "Creating your personalized birth plan",
-      icon: <BookOpen className="w-6 h-6" />
-    }
-  ];
-
-  const midwifeServices = [
-    {
-      title: "Postnatal Care",
-      description: "Recovery and newborn support",
-      icon: <Baby className="w-6 h-6" />
+      title: "Midwife Services",
+      description: "Professional midwifery care from prenatal to postnatal support with personalized attention.",
+      icon: <Stethoscope className="w-12 h-12 text-green-500" />,
+      link: "/book/midwife",
+      buttonText: "Book Now"
     },
     {
       title: "Newborn Care",
-      description: "Specialized care for newborns",
-      icon: <Baby className="w-6 h-6" />
+      description: "Expert guidance on sleep, feeding, swaddling and bonding with your newborn.",
+      icon: <Baby className="w-12 h-12 text-purple-500" />,
+      link: "/book/newborn-care",
+      buttonText: "Learn More"
     },
     {
-      title: "Breastfeeding Support",
-      description: "Expert lactation consultation",
-      icon: <Heart className="w-6 h-6" />
+      title: "Lactation Support",
+      description: "Comprehensive breastfeeding support and lactation consultation from certified specialists.",
+      icon: <Heart className="w-12 h-12 text-rose-500" />,
+      link: "/book/lactation",
+      buttonText: "Book Now"
     },
     {
-      title: "Birth Education",
-      description: "Comprehensive birth preparation classes",
-      icon: <BookOpen className="w-6 h-6" />
-    },
-    {
-      title: "Parenting Classes",
-      description: "Baby care and parenting education",
-      icon: <Users className="w-6 h-6" />
-    },
-    {
-      title: "Sleep Support",
-      description: "Newborn sleep guidance and support",
-      icon: <Moon className="w-6 h-6" />
+      title: "Postpartum Care",
+      description: "Recovery support and guidance through the fourth trimester with experienced caregivers.",
+      icon: <Baby className="w-12 h-12 text-indigo-500" />,
+      link: "/book/postpartum",
+      buttonText: "Learn More"
     }
   ];
-
-  const ServiceCard = ({ title, description, icon }: { title: string; description: string; icon: React.ReactNode }) => (
-    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
-      <div className="flex items-start gap-4">
-        <div className="text-pink-600 mt-1">
-          {icon}
-        </div>
-        <div>
-          <h3 className="font-semibold text-gray-900 mb-2">{title}</h3>
-          <p className="text-gray-600 text-sm leading-relaxed">{description}</p>
-        </div>
-      </div>
-    </div>
-  );
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-pink-50 to-purple-50 py-16">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Pre & Post Natal Services
+      {/* Breadcrumb */}
+      <section className="bg-white py-4 border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center space-x-2 text-sm text-gray-600">
+            <Link href="/" className="flex items-center hover:text-gray-900 transition-colors">
+              <Home className="w-4 h-4 mr-1" />
+              Home
+            </Link>
+            <ChevronRight className="w-4 h-4" />
+            <span className="text-gray-900 font-medium">Prenatal Services</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <section className="py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              Support for Every Stage of Pregnancy
             </h1>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Comprehensive support for your pregnancy journey and early parenthood. From birth preparation to postpartum care, our experienced professionals are here to guide you every step of the way.
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Comprehensive prenatal and postnatal care services to support you and your growing family throughout your journey.
             </p>
           </div>
-        </div>
-      </div>
 
-      {/* Birth Education Classes Section */}
-      <div className="py-16">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 mb-4">
-              <BookOpen className="w-8 h-8 text-pink-600" />
-              <h2 className="text-3xl font-bold text-gray-900">Birth Education Classes</h2>
-            </div>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Prepare for your birth journey with comprehensive education and hands-on support
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {birthEducationServices.map((service, index) => (
-              <ServiceCard key={index} {...service} />
+          {/* Services Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {prenatalServices.map((service, index) => (
+              <div 
+                key={index}
+                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
+              >
+                <div className="p-8">
+                  <div className="flex items-center justify-center mb-6">
+                    {service.icon}
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">
+                    {service.title}
+                  </h3>
+                  
+                  <p className="text-gray-600 mb-6 text-center leading-relaxed">
+                    {service.description}
+                  </p>
+                  
+                  <div className="text-center">
+                    <Link href={service.link}>
+                      <button className="bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center mx-auto">
+                        {service.buttonText}
+                        <ChevronRight className="w-4 h-4 ml-2" />
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
-        </div>
-      </div>
 
-      {/* Doula Services Section */}
-      <div className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 mb-4">
-              <Heart className="w-8 h-8 text-pink-600" />
-              <h2 className="text-3xl font-bold text-gray-900">Doula Services</h2>
+          {/* CTA Section */}
+          <div className="mt-16 text-center">
+            <div className="bg-gradient-to-r from-pink-50 to-blue-50 rounded-2xl p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Need Help Choosing the Right Service?
+              </h2>
+              <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                Our care coordinators are here to help you find the perfect prenatal or postnatal support for your unique needs.
+              </p>
+              <Link href="/contact">
+                <button className="bg-black text-white px-8 py-4 rounded-full font-medium hover:bg-gray-800 transition-colors duration-200">
+                  Get Personalized Guidance
+                </button>
+              </Link>
             </div>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Comprehensive birth and postpartum doula support for your journey
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {doulaServices.map((service, index) => (
-              <ServiceCard key={index} {...service} />
-            ))}
           </div>
         </div>
-      </div>
-
-      {/* Midwife Services Section */}
-      <div className="py-16">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 mb-4">
-              <Stethoscope className="w-8 h-8 text-pink-600" />
-              <h2 className="text-3xl font-bold text-gray-900">Midwife Services</h2>
-            </div>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Professional midwifery care from prenatal to postnatal support
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {midwifeServices.map((service, index) => (
-              <ServiceCard key={index} {...service} />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* CTA Section */}
-      <div className="py-16 bg-gradient-to-r from-pink-600 to-purple-600">
-        <div className="max-w-4xl mx-auto text-center px-4">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Ready to Start Your Journey?
-          </h2>
-          <p className="text-pink-100 text-lg mb-8">
-            Connect with experienced professionals who understand your unique needs and provide personalized care every step of the way.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              href="/signup" 
-              className="bg-white text-pink-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors no-underline"
-            >
-              Find Care Providers
-            </Link>
-            <Link 
-              href="/how-it-works" 
-              className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-pink-600 transition-colors no-underline"
-            >
-              Learn More
-            </Link>
-          </div>
-        </div>
-      </div>
+      </section>
     </div>
   );
 }
