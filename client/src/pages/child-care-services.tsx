@@ -96,19 +96,14 @@ export default function ChildCareServices() {
                 key={index}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
               >
-                {/* Service Image with Icon Overlay */}
-                <div className="h-48 overflow-hidden bg-gray-100 relative">
+                {/* Service Image */}
+                <div className="h-48 overflow-hidden bg-gray-100">
                   <OptimizedImage 
                     src={service.image} 
                     alt={service.title}
                     className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                     style={{ aspectRatio: '16/9' }}
                   />
-                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-full p-2">
-                    {index < 2 ? <ChildCareIcon className="w-8 h-8" /> : 
-                     index < 4 ? <BabysittingIcon className="w-8 h-8" /> : 
-                     <NannyIcon className="w-8 h-8" />}
-                  </div>
                 </div>
                 
                 <div className="p-6">
