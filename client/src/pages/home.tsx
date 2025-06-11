@@ -1,339 +1,586 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import NannyCard from "@/components/nanny-card";
 import AirbnbSearch from "@/components/airbnb-search-new";
-import AIRecommendations from "@/components/ai-recommendations";
+import FloatingActionButton from "@/components/floating-action-button";
+import ServiceCarousel from "@/components/service-carousel";
 import { 
-  Baby,
+  User, 
+  Users, 
+  Puzzle, 
+  Clock, 
   Heart,
-  Calendar,
-  PawPrint,
-  Users,
-  Clock,
   Shield,
-  Star,
-  MapPin,
-  ArrowRight,
+  IdCard,
+  MessageCircle,
+  ShieldCheck,
+  Plus,
   Search,
-  Sparkles,
-  CheckCircle,
-  Award,
-  Phone,
-  MessageCircle
+  Sun,
+  Coffee,
+  TreePine,
+  Palette,
+  Music,
+  BookOpen,
+  Utensils,
+  Baby,
+  Dog,
+  PawPrint
 } from "lucide-react";
-
-// Import service images
-import childcareImage from "@assets/f116334957ff9c74101be0e0c41edcda_1749267005194.jpg";
-import elderlyImage from "@assets/c18480e234907faffa31784936ac8816_1749267000694.jpg";
-import eventsImage from "@assets/ad23d9f10c69e3bfc73ffe82a1bac618_1749267219539.jpg";
-import petcareImage from "@assets/969c7a3eeacf469a3a4c50a32a9b3d57.jpg";
+import type { Nanny, User as UserType } from "@shared/schema";
+import petSittingImage from "@assets/b3a7dde99de0043cc2a382fe7c16f0fc.jpg";
+import petSittingServiceImage from "@assets/969c7a3eeacf469a3a4c50a32a9b3d57.jpg";
+import pregnancyImage from "@assets/f116334957ff9c74101be0e0c41edcda_1749267005194.jpg";
+import postnatalImage from "@assets/c18480e234907faffa31784936ac8816_1749267000694.jpg";
+import overnightCareImage from "@assets/02a899c095b5a44d96492e700bf8fd0c_1749275818681.jpg";
+import breastfeedingImage from "@assets/31d064b6874d9bd38e6f664bff0e8352_1749267180596.jpg";
+import birthingImage from "@assets/f087158c54b76ecf0250c6866d218c92_1749267022177.jpg";
+import groupCareImage from "@assets/ad23d9f10c69e3bfc73ffe82a1bac618_1749267219539.jpg";
 import doulaImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749359311276.jpg";
-import overnightImage from "@assets/02a899c095b5a44d96492e700bf8fd0c_1749275818681.jpg";
 
-const mainServices = [
+// Service category colors
+const serviceColors = [
+  "bg-gradient-to-br from-blue-100 to-blue-200",
+  "bg-gradient-to-br from-green-100 to-green-200", 
+  "bg-gradient-to-br from-purple-100 to-purple-200",
+  "bg-gradient-to-br from-orange-100 to-orange-200",
+  "bg-gradient-to-br from-pink-100 to-pink-200",
+  "bg-gradient-to-br from-indigo-100 to-indigo-200",
+  "bg-gradient-to-br from-teal-100 to-teal-200",
+  "bg-gradient-to-br from-red-100 to-red-200"
+];
+
+// Activity colors
+const activityColors = [
+  "bg-gradient-to-br from-emerald-100 to-emerald-200",
+  "bg-gradient-to-br from-cyan-100 to-cyan-200",
+  "bg-gradient-to-br from-yellow-100 to-yellow-200",
+  "bg-gradient-to-br from-rose-100 to-rose-200",
+  "bg-gradient-to-br from-violet-100 to-violet-200",
+  "bg-gradient-to-br from-amber-100 to-amber-200"
+];
+
+const serviceCategories = [
   {
-    id: 'childcare',
-    title: 'Childcare',
-    description: 'Professional childcare including nannies, babysitters, and doula services',
-    image: childcareImage,
-    icon: Baby,
-    color: 'from-blue-500 to-cyan-500',
-    bgColor: 'bg-blue-50',
-    services: [
-      'Live-in Nannies',
-      'Part-time Babysitters', 
-      'Newborn Care Specialists',
-      'Birth Doulas',
-      'Postpartum Doulas',
-      'Night Nannies'
-    ],
-    route: '/search?category=childcare'
+    title: "1-on-1 care", 
+    description: "Personalized one-on-one care",
+    image: "/images/childcare.jpg",
+    serviceType: "1-on-1 care"
   },
   {
-    id: 'elderly',
-    title: 'Elderly Care',
-    description: 'Compassionate aged care and companion services for seniors',
-    image: elderlyImage,
-    icon: Heart,
-    color: 'from-rose-500 to-pink-500',
-    bgColor: 'bg-rose-50',
-    services: [
-      'Personal Care Assistants',
-      'Companion Care',
-      'Meal Preparation',
-      'Medication Reminders',
-      'Transportation',
-      'Respite Care'
-    ],
-    route: '/search?category=elderly'
+    title: "1-2 hours group care",
+    description: "Short-term group childcare sessions", 
+    image: groupCareImage,
+    serviceType: "1-2 hours group care"
   },
   {
-    id: 'events',
-    title: 'Events & Social',
-    description: 'Special event childcare and social occasion support',
-    image: eventsImage,
-    icon: Calendar,
-    color: 'from-purple-500 to-indigo-500',
-    bgColor: 'bg-purple-50',
-    services: [
-      'Wedding Childcare',
-      'Party Babysitting',
-      'Corporate Events',
-      'Holiday Care',
-      'Special Occasions',
-      'Group Activities'
-    ],
-    route: '/search?category=events'
+    title: "Childcare",
+    description: "Licensed home-based care (max 7 children)",
+    image: "/images/daycare.jpg",
+    serviceType: "Childcare"
   },
   {
-    id: 'petcare',
-    title: 'Pet Care',
-    description: 'Trusted pet sitting and dog walking services',
-    image: petcareImage,
-    icon: PawPrint,
-    color: 'from-green-500 to-emerald-500',
-    bgColor: 'bg-green-50',
-    services: [
-      'Pet Sitting',
-      'Dog Walking',
-      'Overnight Pet Care',
-      'Pet Transportation',
-      'Grooming Assistance',
-      'Pet Taxi Services'
-    ],
-    route: '/search?category=pets'
+    title: "Drop and dash",
+    description: "Quick drop-off childcare",
+    image: "/images/babysitter.jpg",
+    serviceType: "Drop and dash"
+  },
+  {
+    title: "Breastfeeding support",
+    description: "Expert breastfeeding guidance",
+    image: breastfeedingImage,
+    serviceType: "Breastfeeding support"
+  },
+  {
+    title: "Birth education",
+    description: "Childbirth preparation classes",
+    image: doulaImage,
+    serviceType: "Birth education"
+  },
+  {
+    title: "Newborn support",
+    description: "Sleep guidance, swaddling & feeding techniques",
+    image: "/images/newborn.jpg",
+    serviceType: "Newborn support"
+  },
+  {
+    title: "Overnight newborn support",
+    description: "Night doulas for the fourth trimester",
+    image: overnightCareImage,
+    serviceType: "Overnight newborn support"
+  },
+  {
+    title: "Drop-in care",
+    description: "Flexible care when you need it - gym, appointments, errands",
+    image: "/images/dropin.jpg", 
+    serviceType: "Drop-in care"
+  },
+  {
+    title: "Pregnancy assistance",
+    description: "Support during pregnancy",
+    image: pregnancyImage,
+    serviceType: "Pregnancy assistance"
+  },
+  {
+    title: "Postnatal care",
+    description: "Care after childbirth",
+    image: postnatalImage,
+    serviceType: "Postnatal care"
+  },
+  {
+    title: "Doula services",
+    description: "Birth and emotional support",
+    image: pregnancyImage,
+    serviceType: "Doula services"
+  },
+  {
+    title: "Pet sitting",
+    description: "Professional pet care",
+    image: petSittingServiceImage,
+    serviceType: "Pet sitting"
+  },
+  {
+    title: "Elderly care",
+    description: "Senior care services",
+    image: "/images/elderly.jpg",
+    serviceType: "Elderly care"
+  },
+  {
+    title: "Elderly companionship",
+    description: "Social companionship for seniors",
+    image: "/images/companionship.jpg",
+    serviceType: "Elderly companionship"
   }
 ];
 
-const features = [
+const popularActivities = [
+  {
+    title: "Park Playdates",
+    description: "Meet other families at local parks",
+    icon: TreePine,
+    color: activityColors[0],
+    serviceType: "Park Playdates"
+  },
+  {
+    title: "Coffee Catch-ups",
+    description: "Parent meetups at local cafes", 
+    icon: Coffee,
+    color: activityColors[1],
+    serviceType: "Coffee Catch-ups"
+  },
+  {
+    title: "Art & Craft",
+    description: "Creative sessions for kids and parents",
+    icon: Palette,
+    color: activityColors[2],
+    serviceType: "Art & Craft"
+  },
+  {
+    title: "New Parent Groups",
+    description: "Support groups for new mothers",
+    icon: Users,
+    color: activityColors[3],
+    serviceType: "New Parent Groups"
+  },
+  {
+    title: "Nature Exploration",
+    description: "Outdoor discovery with children",
+    icon: Sun,
+    color: activityColors[4],
+    serviceType: "Nature Exploration"
+  },
+  {
+    title: "Elderly Care Social",
+    description: "Companionship and care activities",
+    icon: Heart,
+    color: activityColors[5],
+    serviceType: "Elderly Care Social"
+  }
+];
+
+const trustFeatures = [
   {
     icon: Shield,
-    title: 'Verified Caregivers',
-    description: 'All caregivers undergo comprehensive background checks and verification'
+    title: "Background Checks",
+    description: "All caregivers complete background verification",
+    bgColor: "bg-gray-100",
+    iconColor: "text-gray-700"
   },
   {
-    icon: Star,
-    title: 'Quality Assured',
-    description: 'Rated and reviewed by families across Australia'
+    icon: ShieldCheck,
+    title: "Certified",
+    description: "All providers are certified professionals",
+    bgColor: "bg-gray-100",
+    iconColor: "text-gray-700"
   },
   {
-    icon: Clock,
-    title: '24/7 Support',
-    description: 'Round-the-clock customer support and emergency assistance'
-  },
-  {
-    icon: Award,
-    title: 'Premium Service',
-    description: 'Australia\'s most trusted care marketplace since 2024'
+    icon: IdCard,
+    title: "Identity Verified",
+    description: "Profile photos and IDs are verified",
+    bgColor: "bg-gray-100",
+    iconColor: "text-gray-700"
   }
-];
-
-const stats = [
-  { number: '50,000+', label: 'Families Served' },
-  { number: '10,000+', label: 'Verified Caregivers' },
-  { number: '500,000+', label: 'Hours of Care' },
-  { number: '4.9★', label: 'Average Rating' }
 ];
 
 export default function Home() {
-  const [location] = useLocation();
+  const { data: featuredNannies, isLoading } = useQuery({
+    queryKey: ["/api/nannies/featured"],
+  });
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-50 via-white to-indigo-50 pt-20 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              Australia's Most Trusted
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent block">
-                Care Marketplace
-              </span>
-            </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Connect with verified caregivers for childcare, elderly care, events, and pet services. 
-              Safe, reliable, and available when you need it most.
-            </p>
-            
-            {/* Quick Search */}
-            <div className="max-w-2xl mx-auto mb-12">
-              <AirbnbSearch />
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
-              {stats.map((stat, index) => (
-                <div key={index} className="text-center">
-                  <div className="text-3xl font-bold text-blue-600">{stat.number}</div>
-                  <div className="text-gray-600">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Main Services */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Our Care Services
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Professional, verified caregivers for every stage of life
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {mainServices.map((service, index) => (
-              <Card key={service.id} className="group hover:shadow-xl transition-all duration-300 overflow-hidden border-0 bg-white">
-                <div className="relative">
-                  <div className={`absolute inset-0 bg-gradient-to-r ${service.color} opacity-10`} />
-                  <img 
-                    src={service.image} 
-                    alt={service.title}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <div className={`p-3 rounded-full bg-white shadow-lg`}>
-                      <service.icon className={`h-6 w-6 text-blue-600`} />
-                    </div>
-                  </div>
-                </div>
-                
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-2xl font-bold text-gray-900">{service.title}</h3>
-                    <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-200" />
-                  </div>
-                  
-                  <p className="text-gray-600 mb-4">{service.description}</p>
-                  
-                  <div className="grid grid-cols-2 gap-2 mb-6">
-                    {service.services.map((item, idx) => (
-                      <div key={idx} className="flex items-center text-sm text-gray-700">
-                        <CheckCircle className="h-3 w-3 text-green-500 mr-2 flex-shrink-0" />
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <Link href={service.route}>
-                    <Button className={`w-full bg-gradient-to-r ${service.color} hover:opacity-90 text-white`}>
-                      Find {service.title} Providers
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* AI Recommendations Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Sparkles className="h-8 w-8 text-blue-600" />
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-                AI-Powered Care Matching
-              </h2>
-            </div>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Get personalized care recommendations powered by ChatGPT
-            </p>
-          </div>
-          
-          <AIRecommendations />
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Why Choose VIVALY?
-            </h2>
-            <p className="text-xl text-gray-600">
-              The most comprehensive care platform in Australia
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <Card key={index} className="text-center p-6 hover:shadow-lg transition-shadow border-0 bg-white">
-                <CardContent className="p-0">
-                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <feature.icon className="h-8 w-8 text-blue-600" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                  <p className="text-gray-600">{feature.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-indigo-600">
+      {/* Hero Section - Airbnb Style */}
+      <section className="bg-white relative min-h-[45vh] flex items-center pt-8 md:pt-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Ready to Find Your Perfect Caregiver?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8">
-            Join thousands of Australian families who trust VIVALY for their care needs
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-tight mb-2">
+            Book trusted care in minutes
+          </h1>
+          <p className="text-lg sm:text-xl text-coral font-medium mb-3 italic">
+            Because it takes a village
+          </p>
+          <p className="text-sm sm:text-lg md:text-xl text-gray-600 mb-6 max-w-2xl mx-auto">
+            Instant booking • Verified caregivers • Available today
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/search">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3">
-                <Search className="h-5 w-5 mr-2" />
-                Find Care Now
-              </Button>
-            </Link>
-            <Link href="/become-caregiver">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3">
-                <Users className="h-5 w-5 mr-2" />
-                Become a Caregiver
-              </Button>
-            </Link>
-            <Link href="/ai-chat">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3">
-                <MessageCircle className="h-5 w-5 mr-2" />
-                Chat with AI
-              </Button>
-            </Link>
-          </div>
-
-          <div className="mt-12 flex items-center justify-center gap-8 text-blue-100">
-            <div className="flex items-center gap-2">
-              <Phone className="h-5 w-5" />
-              <span>1800 VIVALY</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <MessageCircle className="h-5 w-5" />
-              <span>24/7 Support</span>
+          {/* Airbnb-style Search Bar - Fixed positioning to prevent movement */}
+          <div className="relative z-10">
+            <div className="max-w-4xl mx-auto mb-12 px-4">
+              <AirbnbSearch 
+                onSearch={(filters) => {
+                  const params = new URLSearchParams();
+                  if (filters.location) params.set("location", filters.location);
+                  if (filters.date) params.set("date", filters.date);
+                  if (filters.careFor) params.set("careFor", filters.careFor);
+                  if (filters.serviceType) params.set("serviceType", filters.serviceType);
+                  
+                  const searchUrl = `/find-care${params.toString() ? `?${params.toString()}` : ""}`;
+                  window.location.href = searchUrl;
+                }}
+                className="w-full"
+              />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Emergency Contact Bar */}
-      <div className="bg-red-600 text-white py-3">
+      {/* Service Categories */}
+      <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center gap-4 text-sm">
-            <Phone className="h-4 w-4" />
-            <span className="font-semibold">Emergency Care Hotline: 1800 CARE NOW</span>
-            <span>•</span>
-            <span>Available 24/7 for urgent care needs</span>
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Services
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Whatever you need, we have trusted caregivers ready to help
+            </p>
           </div>
+          
+          <ServiceCarousel>
+            {serviceCategories.map((category, index) => (
+              <div 
+                key={index}
+                className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                onClick={() => {
+                  window.location.href = '/services';
+                }}
+              >
+                <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                  <img 
+                    src={category.image} 
+                    alt={category.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    onError={(e) => {
+                      console.error('Failed to load image:', category.image);
+                      console.error('Image path attempted:', e.currentTarget.src);
+                      // Fallback to a light background if image fails
+                      e.currentTarget.style.display = 'none';
+                      if (e.currentTarget.parentElement) {
+                        e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
+                        e.currentTarget.parentElement.innerHTML = `
+                          <div class="flex items-center justify-center h-full">
+                            <span class="text-gray-400 text-xs">${category.title}</span>
+                          </div>
+                        `;
+                      }
+                    }}
+                    onLoad={(e) => {
+                      console.log('Successfully loaded image:', category.image);
+                    }}
+                  />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 text-sm mb-1">{category.title}</h3>
+                  <p className="text-xs text-gray-600">{category.description}</p>
+                </div>
+              </div>
+            ))}
+          </ServiceCarousel>
         </div>
+      </section>
+
+      {/* Services in Popular Areas */}
+      <section className="py-6 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Events and Social</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Connect with other families through organized activities and social gatherings
+            </p>
+          </div>
+          
+          <ServiceCarousel>
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                 onClick={() => window.location.href = '/services'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src="/images/social1.jpg" 
+                  alt="Park Playdates"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Park Playdates</h3>
+              <p className="text-xs text-gray-600">Meet other families at local parks</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                 onClick={() => window.location.href = '/services'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src="/images/social2.jpg" 
+                  alt="Coffee Catch-ups"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Coffee Catch-ups</h3>
+              <p className="text-xs text-gray-600">Parent meetups at local cafes</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                 onClick={() => window.location.href = '/services'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src="/images/social3.jpg" 
+                  alt="Art & Craft"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Art & Craft</h3>
+              <p className="text-xs text-gray-600">Creative sessions for kids and parents</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                 onClick={() => window.location.href = '/services'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src="/images/social4.jpg" 
+                  alt="New Parent Groups"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">New Parent Groups</h3>
+              <p className="text-xs text-gray-600">Support groups for new mothers</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                 onClick={() => window.location.href = '/services'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src="/images/social5.jpg" 
+                  alt="Nature Exploration"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Nature Exploration</h3>
+              <p className="text-xs text-gray-600">Outdoor discovery with children</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                 onClick={() => window.location.href = '/services'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src="/images/social6.jpg" 
+                  alt="Elderly Care Social"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Elderly Care Social</h3>
+              <p className="text-xs text-gray-600">Companionship and care activities</p>
+            </div>
+          </ServiceCarousel>
+        </div>
+      </section>
+
+      {/* Pet Care Section */}
+      <section className="py-6 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Pet Care Services</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Your furry family members deserve the best care too. Find trusted pet sitters, dog walkers, and animal care specialists.
+            </p>
+          </div>
+          
+          <ServiceCarousel>
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                 onClick={() => window.location.href = '/search?serviceType=Pet Sitting'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src={petSittingImage} 
+                  alt="Pet Sitting"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Pet Sitting</h3>
+              <p className="text-xs text-gray-600">In-home pet care</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                 onClick={() => window.location.href = '/search?serviceType=Dog Walking'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src={petSittingServiceImage} 
+                  alt="Dog Walking"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Dog Walking</h3>
+              <p className="text-xs text-gray-600">Daily exercise and care</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                 onClick={() => window.location.href = '/search?serviceType=Pet Grooming'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src={petSittingImage} 
+                  alt="Pet Grooming"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Pet Grooming</h3>
+              <p className="text-xs text-gray-600">Professional grooming</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                 onClick={() => window.location.href = '/search?serviceType=Pet Training'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src={petSittingServiceImage} 
+                  alt="Pet Training"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Pet Training</h3>
+              <p className="text-xs text-gray-600">Behavior and obedience</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                 onClick={() => window.location.href = '/search?serviceType=Pet Veterinary'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src={petSittingImage} 
+                  alt="Veterinary Care"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Veterinary Care</h3>
+              <p className="text-xs text-gray-600">Health checkups and treatment</p>
+            </div>
+            
+            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
+                 onClick={() => window.location.href = '/search?serviceType=Pet Boarding'}>
+              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
+                <img 
+                  src={petSittingServiceImage} 
+                  alt="Pet Boarding"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">Pet Boarding</h3>
+              <p className="text-xs text-gray-600">Overnight pet care</p>
+            </div>
+          </ServiceCarousel>
+        </div>
+      </section>
+
+      {/* Featured Nannies */}
+      <section className="py-8 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Care in Bondi</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Verified home-based caregivers providing safe, regulated childcare in family environments
+            </p>
+          </div>
+          
+          <ServiceCarousel>
+            {(() => {
+              if (isLoading) {
+                return Array.from({ length: 8 }).map((_, i) => (
+                  <div key={i} className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48">
+                    <div className="bg-white rounded-2xl shadow-sm animate-pulse overflow-hidden">
+                      <div className="w-full h-48 bg-gray-200"></div>
+                      <div className="p-4">
+                        <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                        <div className="h-3 bg-gray-200 rounded w-2/3 mb-2"></div>
+                        <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                      </div>
+                    </div>
+                  </div>
+                ));
+              } else if (featuredNannies && Array.isArray(featuredNannies) && featuredNannies.length > 0) {
+                return featuredNannies.slice(0, 8).map((nanny: Nanny & { user: UserType }) => (
+                  <div key={nanny.id} className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48">
+                    <NannyCard nanny={nanny} />
+                  </div>
+                ));
+              } else {
+                return [
+                  <div key="no-data" className="text-center py-8 w-full">
+                    <p className="text-gray-500">No caregivers available today.</p>
+                  </div>
+                ];
+              }
+            })()}
+          </ServiceCarousel>
+        </div>
+      </section>
+
+      {/* Enhanced Trust Features */}
+      <section className="py-12 bg-gradient-to-br from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-warm-gray mb-4">Safety and trust first</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Every caregiver on CareConnect goes through our comprehensive verification process
+            </p>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-8 lg:gap-12">
+            {trustFeatures.map((feature, index) => {
+              const IconComponent = feature.icon;
+              return (
+                <div key={index} className="group text-center transform transition-all duration-300 hover:-translate-y-2">
+                  <div className="bg-white rounded-xl p-3 sm:p-6 md:p-8 shadow-lg group-hover:shadow-2xl transition-shadow duration-300 border border-gray-100">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 mx-auto mb-3 sm:mb-4 md:mb-6 bg-gray-100 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:bg-orange-50 transition-colors duration-300">
+                      <IconComponent className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-gray-700 group-hover:text-orange-600 transition-colors duration-300" />
+                    </div>
+                    <h3 className="text-sm sm:text-lg md:text-xl font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4 group-hover:text-orange-600 transition-colors duration-300">{feature.title}</h3>
+                    <p className="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed">{feature.description}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+
+        </div>
+      </section>
+
+
+      {/* Floating Action Button - Hidden on mobile */}
+      <div className="hidden lg:block">
+        <FloatingActionButton />
       </div>
     </div>
   );
