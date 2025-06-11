@@ -40,36 +40,6 @@ export default function NewHeader() {
         <div className="hidden md:flex items-center gap-5">
           <RoleToggle />
           
-          {/* Dropdown Menu */}
-          <div className="relative">
-            <button 
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex items-center gap-1 text-black font-medium py-2 hover:text-gray-600 transition-colors"
-            >
-              <Menu size={20} />
-              <ChevronDown size={16} />
-            </button>
-            
-            {dropdownOpen && (
-              <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                <Link 
-                  href="/gift-card" 
-                  className="block px-4 py-3 text-black hover:bg-gray-50 no-underline border-b border-gray-100"
-                  onClick={() => setDropdownOpen(false)}
-                >
-                  Gift Card
-                </Link>
-                <Link 
-                  href="/help" 
-                  className="block px-4 py-3 text-black hover:bg-gray-50 no-underline"
-                  onClick={() => setDropdownOpen(false)}
-                >
-                  Help
-                </Link>
-              </div>
-            )}
-          </div>
-          
           {!isAuthenticated && !isLoading ? (
             <>
               <div className="flex gap-4">
@@ -98,6 +68,36 @@ export default function NewHeader() {
               </Button>
             </div>
           ) : null}
+          
+          {/* Dropdown Menu - Far Right */}
+          <div className="relative">
+            <button 
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="flex items-center gap-1 text-black font-medium py-2 hover:text-gray-600 transition-colors"
+            >
+              <Menu size={20} />
+              <ChevronDown size={16} />
+            </button>
+            
+            {dropdownOpen && (
+              <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                <Link 
+                  href="/gift-card" 
+                  className="block px-4 py-3 text-black hover:bg-gray-50 no-underline border-b border-gray-100"
+                  onClick={() => setDropdownOpen(false)}
+                >
+                  Gift Card
+                </Link>
+                <Link 
+                  href="/help" 
+                  className="block px-4 py-3 text-black hover:bg-gray-50 no-underline"
+                  onClick={() => setDropdownOpen(false)}
+                >
+                  Help
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
         
         <div className="md:hidden flex flex-col cursor-pointer" onClick={toggleMobileMenu}>
