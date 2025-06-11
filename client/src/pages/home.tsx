@@ -484,42 +484,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trust & Safety */}
-      <section className="py-20 bg-gray-50">
-        <div className="container max-w-6xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Trust & Safety Measures</h2>
-            <p className="text-xl text-gray-600">Your family's safety is our priority</p>
-          </div>
 
-          {/* Trust Grid */}
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-colors duration-300 text-2xl">
-                🛡️
-              </div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-2">Background Checks</h4>
-              <p className="text-gray-600 text-sm">All caregivers undergo comprehensive background verification.</p>
-            </div>
-            
-            <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-colors duration-300 text-2xl">
-                📄
-              </div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-2">Certified Professionals</h4>
-              <p className="text-gray-600 text-sm">Providers possess relevant certifications and training.</p>
-            </div>
-            
-            <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-colors duration-300 text-2xl">
-                🪪
-              </div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-2">Identity Verification</h4>
-              <p className="text-gray-600 text-sm">Profile photos and IDs are verified for authenticity.</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Floating Action Button - Hidden on mobile */}
       <div className="hidden lg:block">
