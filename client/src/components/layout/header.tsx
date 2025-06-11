@@ -240,61 +240,83 @@ export default function Header() {
                       </div>
                     ) : (
                       <div className="p-6 space-y-4">
-                        {viewMode === 'seeker' ? (
+                        {/* User Type Switching - Available for authenticated users */}
+                        <div className="space-y-3 mb-6">
+                          {viewMode === 'seeker' ? (
+                            <>
+                              <Button 
+                                onClick={() => { window.location.href = '/become-caregiver'; setMobileMenuOpen(false); }}
+                                className="w-full bg-black hover:bg-gray-800 text-white font-medium"
+                              >
+                                Switch to Caregiver
+                              </Button>
+                              <Button 
+                                onClick={() => { window.location.href = '/services'; setMobileMenuOpen(false); }}
+                                className="w-full bg-black hover:bg-gray-800 text-white font-medium"
+                              >
+                                Switch to Services
+                              </Button>
+                            </>
+                          ) : (
+                            <Button
+                              variant="ghost"
+                              className="w-full justify-start text-left font-medium"
+                              onClick={() => { window.location.href = '/find-care'; setMobileMenuOpen(false); }}
+                            >
+                              Switch to Seeker
+                            </Button>
+                          )}
+                        </div>
+
+                        <div className="border-t pt-4 space-y-3">
+                          {viewMode === 'seeker' && (
+                            <Button
+                              variant="ghost"
+                              className="w-full justify-start text-left font-medium flex items-center gap-2 text-gray-900 hover:text-gray-900 hover:bg-gray-100"
+                              onClick={() => { window.location.href = '/search'; setMobileMenuOpen(false); }}
+                            >
+                              <Search className="h-4 w-4" />
+                              Search
+                            </Button>
+                          )}
                           <Button
                             variant="ghost"
-                            className="w-full justify-start text-left font-medium flex items-center gap-2"
-                            onClick={() => { window.location.href = '/search'; setMobileMenuOpen(false); }}
+                            className="w-full justify-start text-left font-medium flex items-center gap-2 text-gray-900 hover:text-gray-900 hover:bg-gray-100"
+                            onClick={() => { window.location.href = '/messages'; setMobileMenuOpen(false); }}
                           >
-                            <Search className="h-4 w-4" />
-                            Search
+                            <MessageCircle className="h-4 w-4" />
+                            Messages
                           </Button>
-                        ) : (
                           <Button
                             variant="ghost"
-                            className="w-full justify-start text-left font-medium"
-                            onClick={() => { window.location.href = '/find-care'; setMobileMenuOpen(false); }}
+                            className="w-full justify-start text-left font-medium text-gray-900 hover:text-gray-900 hover:bg-gray-100"
+                            onClick={() => { window.location.href = '/profile'; setMobileMenuOpen(false); }}
                           >
-                            Switch to Seeker
+                            View Profile
                           </Button>
-                        )}
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start text-left font-medium flex items-center gap-2"
-                          onClick={() => { window.location.href = '/messages'; setMobileMenuOpen(false); }}
-                        >
-                          <MessageCircle className="h-4 w-4" />
-                          Messages
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start text-left font-medium"
-                          onClick={() => { window.location.href = '/profile'; setMobileMenuOpen(false); }}
-                        >
-                          Profile
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start text-left font-medium"
-                          onClick={() => { window.location.href = '/account-settings'; setMobileMenuOpen(false); }}
-                        >
-                          Account Settings
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start text-left font-medium"
-                          onClick={() => { window.location.href = '/help'; setMobileMenuOpen(false); }}
-                        >
-                          Help
-                        </Button>
-                        <div className="border-t pt-4">
                           <Button
                             variant="ghost"
-                            className="w-full justify-start text-left font-medium text-red-600 hover:text-red-700"
-                            onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
+                            className="w-full justify-start text-left font-medium text-gray-900 hover:text-gray-900 hover:bg-gray-100"
+                            onClick={() => { window.location.href = '/account-settings'; setMobileMenuOpen(false); }}
                           >
-                            Sign out
+                            Account Settings
                           </Button>
+                          <Button
+                            variant="ghost"
+                            className="w-full justify-start text-left font-medium text-gray-900 hover:text-gray-900 hover:bg-gray-100"
+                            onClick={() => { window.location.href = '/help'; setMobileMenuOpen(false); }}
+                          >
+                            Help
+                          </Button>
+                          <div className="border-t pt-4">
+                            <Button
+                              variant="ghost"
+                              className="w-full justify-start text-left font-medium text-red-600 hover:text-red-700 hover:bg-red-50"
+                              onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
+                            >
+                              Sign out
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     )}
