@@ -5,6 +5,7 @@ import NannyCard from "@/components/nanny-card";
 import AirbnbSearch from "@/components/airbnb-search-new";
 import FloatingActionButton from "@/components/floating-action-button";
 import ServiceCarousel from "@/components/service-carousel";
+import AIRecommendations from "@/components/ai-recommendations";
 import { 
   User, 
   Users, 
@@ -264,15 +265,122 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Service Categories */}
+      {/* AI Recommendations Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AIRecommendations />
+        </div>
+      </section>
+
+      {/* Main Service Categories */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Services
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Our Care Services
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Whatever you need, we have trusted caregivers ready to help
+              Professional, trusted care for every stage of life
+            </p>
+          </div>
+
+          {/* Three Main Categories */}
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            {/* CHILDCARE */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-64">
+                <img 
+                  src="/images/childcare.jpg" 
+                  alt="Childcare Services"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-2xl font-bold mb-2 flex items-center">
+                    <Baby className="mr-2" size={24} />
+                    CHILDCARE
+                  </h3>
+                  <p className="text-sm opacity-90">Professional child care services</p>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  From babysitting to full-time nanny services, find qualified caregivers for your children
+                </p>
+                <Link href="/child-care-services">
+                  <Button className="w-full bg-coral hover:bg-coral/90 text-white">
+                    Explore Childcare
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            {/* PETS */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-64">
+                <img 
+                  src={petSittingServiceImage} 
+                  alt="Pet Care Services"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-2xl font-bold mb-2 flex items-center">
+                    <PawPrint className="mr-2" size={24} />
+                    PETS
+                  </h3>
+                  <p className="text-sm opacity-90">Loving pet care services</p>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  Trusted pet sitters and dog walkers to keep your furry friends happy and healthy
+                </p>
+                <Link href="/pet-care-services">
+                  <Button className="w-full bg-coral hover:bg-coral/90 text-white">
+                    Explore Pet Care
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            {/* ELDERLY CARE */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-64">
+                <img 
+                  src="/images/elderly.jpg" 
+                  alt="Elderly Care Services"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-2xl font-bold mb-2 flex items-center">
+                    <Heart className="mr-2" size={24} />
+                    ELDERLY CARE
+                  </h3>
+                  <p className="text-sm opacity-90">Compassionate senior care</p>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  Professional elderly care and companionship services for your loved ones
+                </p>
+                <Link href="/aged-care-services">
+                  <Button className="w-full bg-coral hover:bg-coral/90 text-white">
+                    Explore Elderly Care
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+          
+          {/* All Services Carousel */}
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              All Available Services
+            </h3>
+            <p className="text-lg text-gray-600">
+              Browse our complete range of care services
             </p>
           </div>
           
@@ -319,232 +427,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services in Popular Areas */}
-      <section className="py-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Events and Social</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Connect with other families through organized activities and social gatherings
-            </p>
-          </div>
-          
-          <ServiceCarousel>
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/services'}>
-              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                <img 
-                  src="/images/social1.jpg" 
-                  alt="Park Playdates"
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 text-sm mb-1">Park Playdates</h3>
-              <p className="text-xs text-gray-600">Meet other families at local parks</p>
-            </div>
-            
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/services'}>
-              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                <img 
-                  src="/images/social2.jpg" 
-                  alt="Coffee Catch-ups"
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 text-sm mb-1">Coffee Catch-ups</h3>
-              <p className="text-xs text-gray-600">Parent meetups at local cafes</p>
-            </div>
-            
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/services'}>
-              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                <img 
-                  src="/images/social3.jpg" 
-                  alt="Art & Craft"
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 text-sm mb-1">Art & Craft</h3>
-              <p className="text-xs text-gray-600">Creative sessions for kids and parents</p>
-            </div>
-            
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/services'}>
-              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                <img 
-                  src="/images/social4.jpg" 
-                  alt="New Parent Groups"
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 text-sm mb-1">New Parent Groups</h3>
-              <p className="text-xs text-gray-600">Support groups for new mothers</p>
-            </div>
-            
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/services'}>
-              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                <img 
-                  src="/images/social5.jpg" 
-                  alt="Nature Exploration"
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 text-sm mb-1">Nature Exploration</h3>
-              <p className="text-xs text-gray-600">Outdoor discovery with children</p>
-            </div>
-            
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/services'}>
-              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                <img 
-                  src="/images/social6.jpg" 
-                  alt="Elderly Care Social"
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 text-sm mb-1">Elderly Care Social</h3>
-              <p className="text-xs text-gray-600">Companionship and care activities</p>
-            </div>
-          </ServiceCarousel>
-        </div>
-      </section>
 
-      {/* Pet Care Section */}
-      <section className="py-6 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Pet Care Services</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Your furry family members deserve the best care too. Find trusted pet sitters, dog walkers, and animal care specialists.
-            </p>
-          </div>
-          
-          <ServiceCarousel>
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/search?serviceType=Pet Sitting'}>
-              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                <img 
-                  src={petSittingImage} 
-                  alt="Pet Sitting"
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 text-sm mb-1">Pet Sitting</h3>
-              <p className="text-xs text-gray-600">In-home pet care</p>
-            </div>
-            
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/search?serviceType=Dog Walking'}>
-              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                <img 
-                  src={petSittingServiceImage} 
-                  alt="Dog Walking"
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 text-sm mb-1">Dog Walking</h3>
-              <p className="text-xs text-gray-600">Daily exercise and care</p>
-            </div>
-            
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/search?serviceType=Pet Grooming'}>
-              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                <img 
-                  src={petSittingImage} 
-                  alt="Pet Grooming"
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 text-sm mb-1">Pet Grooming</h3>
-              <p className="text-xs text-gray-600">Professional grooming</p>
-            </div>
-            
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/search?serviceType=Pet Training'}>
-              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                <img 
-                  src={petSittingServiceImage} 
-                  alt="Pet Training"
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 text-sm mb-1">Pet Training</h3>
-              <p className="text-xs text-gray-600">Behavior and obedience</p>
-            </div>
-            
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/search?serviceType=Pet Veterinary'}>
-              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                <img 
-                  src={petSittingImage} 
-                  alt="Veterinary Care"
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 text-sm mb-1">Veterinary Care</h3>
-              <p className="text-xs text-gray-600">Health checkups and treatment</p>
-            </div>
-            
-            <div className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                 onClick={() => window.location.href = '/search?serviceType=Pet Boarding'}>
-              <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                <img 
-                  src={petSittingServiceImage} 
-                  alt="Pet Boarding"
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-              <h3 className="font-semibold text-gray-900 text-sm mb-1">Pet Boarding</h3>
-              <p className="text-xs text-gray-600">Overnight pet care</p>
-            </div>
-          </ServiceCarousel>
-        </div>
-      </section>
-
-      {/* Featured Nannies */}
-      <section className="py-8 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Care in Bondi</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Verified home-based caregivers providing safe, regulated childcare in family environments
-            </p>
-          </div>
-          
-          <ServiceCarousel>
-            {(() => {
-              if (isLoading) {
-                return Array.from({ length: 8 }).map((_, i) => (
-                  <div key={i} className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48">
-                    <div className="bg-white rounded-2xl shadow-sm animate-pulse overflow-hidden">
-                      <div className="w-full h-48 bg-gray-200"></div>
-                      <div className="p-4">
-                        <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                        <div className="h-3 bg-gray-200 rounded w-2/3 mb-2"></div>
-                        <div className="h-3 bg-gray-200 rounded w-1/2"></div>
-                      </div>
-                    </div>
-                  </div>
-                ));
-              } else if (featuredNannies && Array.isArray(featuredNannies) && featuredNannies.length > 0) {
-                return featuredNannies.slice(0, 8).map((nanny: Nanny & { user: UserType }) => (
-                  <div key={nanny.id} className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48">
-                    <NannyCard nanny={nanny} />
-                  </div>
-                ));
-              } else {
-                return [
-                  <div key="no-data" className="text-center py-8 w-full">
-                    <p className="text-gray-500">No caregivers available today.</p>
-                  </div>
-                ];
-              }
-            })()}
-          </ServiceCarousel>
-        </div>
-      </section>
 
       {/* Enhanced Trust Features */}
       <section className="py-12 bg-gradient-to-br from-gray-50 to-white">
