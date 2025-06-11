@@ -2,10 +2,9 @@ import { useLocation } from "wouter";
 
 interface RoleToggleProps {
   className?: string;
-  variant?: 'default' | 'vivaly';
 }
 
-export default function RoleToggle({ className = "", variant = 'default' }: RoleToggleProps) {
+export default function RoleToggle({ className = "" }: RoleToggleProps) {
   const [location, setLocation] = useLocation();
   
   // Determine current role based on route
@@ -24,29 +23,6 @@ export default function RoleToggle({ className = "", variant = 'default' }: Role
       setLocation('/');
     }
   };
-
-  if (variant === 'vivaly') {
-    return (
-      <div className={`vivaly-role-toggle ${className}`}>
-        <span className={`font-medium ${currentRole === 'seeker' ? 'text-gray-900' : 'text-gray-500'}`}>
-          Parent
-        </span>
-        
-        <label className="vivaly-switch">
-          <input
-            type="checkbox"
-            checked={currentRole === 'provider'}
-            onChange={handleToggle}
-          />
-          <span className="vivaly-slider"></span>
-        </label>
-        
-        <span className={`font-medium ${currentRole === 'provider' ? 'text-gray-900' : 'text-gray-500'}`}>
-          Caregiver
-        </span>
-      </div>
-    );
-  }
 
   return (
     <div className={`flex items-center gap-3 text-sm ${className}`}>

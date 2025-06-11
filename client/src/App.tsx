@@ -68,7 +68,6 @@ import Help from "@/pages/help";
 import CoSupport from "@/pages/co-support";
 import EmergencyInformation from "@/pages/emergency-information";
 import CaregiverRegistrationSimple from "@/pages/caregiver-registration-simple";
-import StyleDemo from "@/pages/style-demo";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -154,7 +153,6 @@ function Router() {
           <Route path="/help" component={Help} />
           <Route path="/emergency-information" component={EmergencyInformation} />
           <Route path="/quick-start" component={QuickStart} />
-          <Route path="/style-demo" component={StyleDemo} />
 
           {/* Provider-only routes */}
           <Route path="/provider-dashboard" component={ProviderDashboard} />
