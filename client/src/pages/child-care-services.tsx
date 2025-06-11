@@ -1,111 +1,109 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { 
-  Baby, 
-  Shield, 
-  Clock, 
-  Users, 
-  Star, 
-  MapPin, 
-  Search,
-  CheckCircle,
-  Heart,
-  BookOpen,
-  Home,
-  ArrowRight
-} from "lucide-react";
-import { Link } from "wouter";
-import AIRecommendations from "@/components/ai-recommendations";
+import { Link } from 'wouter';
+import { ChevronRight, Home, Baby, Users, BookOpen } from 'lucide-react';
 
 export default function ChildCareServices() {
-  const [location, setLocation] = useState("");
-  const [ageGroup, setAgeGroup] = useState("");
-
-  const serviceTypes = [
+  const childCareServices = [
     {
       title: "Infant Care",
       description: "Professional caregivers providing attentive and nurturing care for your infants.",
-      icon: <Baby className="h-15 w-15" />,
-      ctaText: "Book Now",
-      ctaLink: "/book/infant-care"
+      icon: <Baby className="w-16 h-16 text-blue-600" />,
+      link: "/book/infant-care",
+      buttonText: "Book Now"
     },
     {
-      title: "Toddler Programs",
+      title: "Toddler Programs", 
       description: "Engaging activities designed to support the development of toddlers in a safe environment.",
-      icon: <Users className="h-15 w-15" />,
-      ctaText: "Learn More",
-      ctaLink: "/book/toddler-programs"
+      icon: <Users className="w-16 h-16 text-green-600" />,
+      link: "/book/toddler-programs",
+      buttonText: "Learn More"
     },
     {
       title: "Preschool Education",
       description: "Structured learning experiences to prepare preschoolers for their educational journey.",
-      icon: <BookOpen className="h-15 w-15" />,
-      ctaText: "Enroll Now",
-      ctaLink: "/book/preschool-education"
+      icon: <BookOpen className="w-16 h-16 text-purple-600" />,
+      link: "/book/preschool-education",
+      buttonText: "Enroll Now"
     }
   ];
 
-  const verificationFeatures = [
-    { icon: <Shield className="h-5 w-5" />, text: "Working with Children Check verified" },
-    { icon: <CheckCircle className="h-5 w-5" />, text: "Police background checks completed" },
-    { icon: <Star className="h-5 w-5" />, text: "References from other families" },
-    { icon: <Users className="h-5 w-5" />, text: "First aid and CPR certified" }
-  ];
-
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50">
       {/* Breadcrumb */}
-      <div className="bg-gray-50 dark:bg-gray-800 py-4">
+      <section className="bg-white py-4 border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-sm text-gray-600 dark:text-gray-300">
-            <Link href="/" className="hover:text-gray-900 dark:hover:text-white">
+          <div className="flex items-center space-x-2 text-sm text-gray-600">
+            <Link href="/" className="flex items-center hover:text-gray-900 transition-colors">
+              <Home className="w-4 h-4 mr-1" />
               Home
             </Link>
-            <span className="mx-2">›</span>
-            <span>Child Care Services</span>
+            <ChevronRight className="w-4 h-4" />
+            <span className="text-gray-900 font-medium">Child Care Services</span>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Services Section */}
-      <div className="bg-gray-50 dark:bg-gray-900 py-12">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl font-normal text-gray-900 dark:text-white mb-8">
+      {/* Main Content */}
+      <section className="py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">
               Reliable and Caring Child Care Services
-            </h2>
+            </h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Professional caregivers providing safe, nurturing, and educational experiences for children of all ages.
+            </p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {serviceTypes.map((service, index) => (
-              <Card key={index} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 hover:transform hover:-translate-y-2 transition-all duration-200 shadow-sm hover:shadow-lg">
-                <CardContent className="text-center p-0">
-                  <div className="w-15 h-15 mx-auto mb-4 text-gray-900 dark:text-white">
+
+          {/* Services Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {childCareServices.map((service, index) => (
+              <div 
+                key={index}
+                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
+              >
+                <div className="p-8">
+                  <div className="flex justify-center mb-6">
                     {service.icon}
                   </div>
-                  <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-2">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">
                     {service.title}
                   </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                  
+                  <p className="text-gray-600 mb-6 text-center leading-relaxed">
                     {service.description}
                   </p>
-                  <Link href={service.ctaLink}>
-                    <Button className="bg-black hover:bg-gray-800 text-white px-5 py-2 rounded-lg font-semibold transition-colors duration-200">
-                      {service.ctaText}
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
+                  
+                  <div className="text-center">
+                    <Link href={service.link}>
+                      <button className="bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center mx-auto">
+                        {service.buttonText}
+                        <ChevronRight className="w-4 h-4 ml-2" />
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
+
+          {/* CTA Section */}
+          <div className="mt-16 text-center">
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Need Help Finding the Right Care?
+              </h2>
+              <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                Our care coordinators are here to help you find the perfect childcare solution for your family's unique needs.
+              </p>
+              <Link href="/contact">
+                <button className="bg-black text-white px-8 py-4 rounded-full font-medium hover:bg-gray-800 transition-colors duration-200">
+                  Get Personalized Guidance
+                </button>
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
-
-
+      </section>
     </div>
   );
 }
