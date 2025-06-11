@@ -8,28 +8,7 @@ import dogTrainingImage from "@assets/04d9009db67d6c328f97e3b626b6d305_174918301
 import dogWalkingGroupImage from "@assets/1f385011ff2b05a03672385eb150b795_1749183011871.jpg";
 import dogJoggingImage from "@assets/d886544ac5e3fae6b42acf55429e1aaa_1749183011871.jpg";
 import cityDogWalkImage from "@assets/32b2abcfc1fddbe1118ee928059ce66b_1749183011871.jpg";
-import newbornCareImage from "@assets/b1bc54b815bb1f418342a8203ae3e8e3_1749182535016.jpg";
-import newbornWithToyImage from "@assets/2d55b12ae13df50f6fbabfa2be240f07_1749182535016.jpg";
-import motherBabyBondingImage from "@assets/e3806ba7e7119fb379b95ce4d570e105_1749182535016.jpg";
-import motherHoldingBabyImage from "@assets/f01acbf088d9ff9aa3b69419fa01ff03_1749182535016.jpg";
-import birthEducationClassImage from "@assets/5c1756efeffe31b87ae42255a1e625b5_1749182535016.jpg";
-import parentingClassImage from "@assets/300ce6a6e339c054c341d15ef56cabbb_1749182535016.jpg";
-import babyFeetImage from "@assets/9717a7e59d32ac45c39a7f027a3230af_1749182897295.jpg";
-import laborSupportImage from "@assets/f087158c54b76ecf0250c6866d218c92_1749182897295.jpg";
-import birthCoachingImage from "@assets/8da0e0735821d20e3f8cb769e40a4c98_1749182897295.jpg";
-import breastfeedingLatchImage from "@assets/c18480e234907faffa31784936ac8816_1749182897295.jpg";
-import newbornHandsImage from "@assets/79c40dcc41bd092f6f03b26fd4cf94d8_1749182897295.jpg";
-import breastpadsImage from "@assets/d81ff6e441430a5c581dc3a72149844e_1749182897295.jpg";
-import birthBallImage from "@assets/f116334957ff9c74101be0e0c41edcda_1749182897295.jpg";
-import pregnancyMassageImage from "@assets/eba1794568e9061d6c6e016750154ee7_1749182897295.jpg";
-import doulaImage1 from "@assets/71f27a774a4b4ecaa46e30332bf23131_1749360121452.jpg";
-import doulaImage2 from "@assets/2211c4a4f0b5f624766fb6ce4c54de99_1749360121452.jpg";
-import doulaImage3 from "@assets/702b767994f2c076bab98adb9368662e_1749360121452.jpg";
-import doulaImage4 from "@assets/43d1ada7714ec38aef8a9c6639cf3182_1749360121452.jpg";
-import doulaImage5 from "@assets/2c4a91a9b547f50bb709e6399c12a2a0_1749360121452.jpg";
-import doulaImage6 from "@assets/6a343ff11de7689d7a8361bbc05075a5_1749360121452.jpg";
-import doulaImage7 from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749360121452.jpg";
-import doulaImage8 from "@assets/79c40dcc41bd092f6f03b26fd4cf94d8_1749360121452.jpg";
+
 
 interface Nanny {
   id: number;
@@ -208,10 +187,6 @@ export default function Services() {
     if (selectedCategory === "all") return true;
     
     switch (selectedCategory) {
-      case "midwife":
-        return sectionType === "midwife" || sectionType === "birth-education";
-      case "doula":
-        return sectionType === "doula";
       case "pet":
         return sectionType === "pet";
       case "elderly":
@@ -247,16 +222,6 @@ export default function Services() {
                 All Services
               </button>
               <button
-                onClick={() => setSelectedCategory("midwife")}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
-                  selectedCategory === "midwife"
-                    ? "bg-black text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                Midwife Services
-              </button>
-              <button
                 onClick={() => setSelectedCategory("pet")}
                 className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
                   selectedCategory === "pet"
@@ -265,16 +230,6 @@ export default function Services() {
                 }`}
               >
                 Pet Care
-              </button>
-              <button
-                onClick={() => setSelectedCategory("doula")}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
-                  selectedCategory === "doula"
-                    ? "bg-black text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                Doula Services
               </button>
               <button
                 onClick={() => setSelectedCategory("elderly")}
@@ -291,173 +246,11 @@ export default function Services() {
         </div>
       </section>
 
-      {/* Birth Education Classes */}
-      {shouldShowSection("birth-education") && (
-        <section className="py-6 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-6">
-              <h2 className="text-3xl font-bold text-gray-900 mb-3">
-                Birth Education Classes
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Comprehensive childbirth preparation and education programs
-              </p>
-            </div>
-            
-            <ServiceCarousel>
-              {birthEducationClasses.map((classType, index) => (
-                <div 
-                  key={index}
-                  className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                  onClick={() => {
-                    const searchParams = new URLSearchParams({
-                      serviceType: classType.serviceType,
-                      location: 'Sydney, NSW'
-                    });
-                    window.location.href = `/search?${searchParams.toString()}`;
-                  }}
-                >
-                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                    <img 
-                      src={classType.image} 
-                      alt={classType.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                        if (e.currentTarget.parentElement) {
-                          e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
-                          e.currentTarget.parentElement.innerHTML = `
-                            <div class="flex items-center justify-center h-full">
-                              <span class="text-gray-400 text-xs">${classType.title}</span>
-                            </div>
-                          `;
-                        }
-                      }}
-                    />
-                  </div>
-                  
-                  <div className="text-center">
-                    <h3 className="font-semibold text-gray-900 text-sm mb-1">{classType.title}</h3>
-                    <p className="text-xs text-gray-600">{classType.description}</p>
-                  </div>
-                </div>
-              ))}
-            </ServiceCarousel>
-          </div>
-        </section>
-      )}
 
-      {/* Doula Services */}
-      {shouldShowSection("doula") && (
-        <section className="py-6 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-6">
-              <h2 className="text-3xl font-bold text-gray-900 mb-3">
-                Doula Services
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Comprehensive birth and postpartum doula support for your journey
-              </p>
-            </div>
-            
-            <ServiceCarousel>
-              {doulaServices.map((service, index) => (
-                <div 
-                  key={index}
-                  className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                  onClick={() => {
-                    const searchParams = new URLSearchParams({
-                      serviceType: service.serviceType,
-                      location: 'Sydney, NSW'
-                    });
-                    window.location.href = `/search?${searchParams.toString()}`;
-                  }}
-                >
-                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                    <img 
-                      src={service.image} 
-                      alt={service.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                        if (e.currentTarget.parentElement) {
-                          e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
-                          e.currentTarget.parentElement.innerHTML = `
-                            <div class="flex items-center justify-center h-full">
-                              <span class="text-gray-400 text-xs">${service.title}</span>
-                            </div>
-                          `;
-                        }
-                      }}
-                    />
-                  </div>
-                  
-                  <div className="text-center">
-                    <h3 className="font-semibold text-gray-900 text-sm mb-1">{service.title}</h3>
-                    <p className="text-xs text-gray-600">{service.description}</p>
-                  </div>
-                </div>
-              ))}
-            </ServiceCarousel>
-          </div>
-        </section>
-      )}
 
-      {/* Midwife Services */}
-      {shouldShowSection("midwife") && (
-        <section className="py-6 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-6">
-              <h2 className="text-3xl font-bold text-gray-900 mb-3">
-                Midwife Services
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Professional midwifery care from prenatal to postnatal support
-              </p>
-            </div>
-            
-            <ServiceCarousel>
-              {midwifeServices.map((service, index) => (
-                <div 
-                  key={index}
-                  className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                  onClick={() => {
-                    const searchParams = new URLSearchParams({
-                      serviceType: service.serviceType,
-                      location: 'Sydney, NSW'
-                    });
-                    window.location.href = `/search?${searchParams.toString()}`;
-                  }}
-                >
-                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                    <img 
-                      src={service.image} 
-                      alt={service.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                        if (e.currentTarget.parentElement) {
-                          e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
-                          e.currentTarget.parentElement.innerHTML = `
-                            <div class="flex items-center justify-center h-full">
-                              <span class="text-gray-400 text-xs">${service.title}</span>
-                            </div>
-                          `;
-                        }
-                      }}
-                    />
-                  </div>
-                  
-                  <div className="text-center">
-                    <h3 className="font-semibold text-gray-900 text-sm mb-1">{service.title}</h3>
-                    <p className="text-xs text-gray-600">{service.description}</p>
-                  </div>
-                </div>
-              ))}
-            </ServiceCarousel>
-          </div>
-        </section>
-      )}
+
+
+
 
       {/* Pet Sitting Services */}
       {shouldShowSection("pet") && (
