@@ -345,16 +345,26 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getFeaturedNannies(): Promise<(Nanny & { user: User })[]> {
-    const results = await db
-      .select()
-      .from(nannies)
-      .innerJoin(users, eq(nannies.userId, users.id))
-      .limit(12);
+    try {
+      const results = await db
+        .select({
+          ...nannies,
+          user: users
+        })
+        .from(nannies)
+        .innerJoin(users, eq(nannies.userId, users.id))
+        .where(eq(nannies.isVerified, true))
+        .orderBy(sql`${nannies.rating} DESC NULLS LAST`)
+        .limit(12);
 
-    return results.map(row => ({
-      ...row.nannies,
-      user: row.users,
-    }));
+      return results.map(row => ({
+        ...row,
+        user: row.user,
+      }));
+    } catch (error) {
+      console.error('Error fetching featured nannies:', error);
+      throw new Error('Failed to fetch featured nannies');
+    }
   }
 
   // Bookings
