@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vivaly</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    /* Header styling */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #fff;
+      border-bottom: 1px solid #eee;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #000;
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #000;
+      font-weight: 500;
+      padding: 8px 0;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.3s;
+    }
+
+    nav a:hover {
+      border-color: #000;
+    }
+
+    .role-toggle {
+      display: flex;
+      gap: 10px;
+      margin-left: 20px;
+    }
+
+    .role-toggle button {
+      padding: 6px 12px;
+      border: 1px solid #000;
+      background-color: #fff;
+      color: #000;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .role-toggle button.active {
+      background-color: #000;
+      color: #fff;
+    }
+
+    .auth-links {
+      display: flex;
+      gap: 15px;
+      margin-left: 20px;
+    }
+
+    .auth-links a {
+      text-decoration: none;
+      color: #000;
+      font-weight: 500;
+    }
+
+    .cta-button {
+      margin-left: 20px;
+      padding: 8px 16px;
+      background-color: #000;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    /* Burger menu styles */
+    .burger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .burger div {
+      width: 25px;
+      height: 3px;
+      background-color: #000;
+      margin: 4px 0;
+    }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      background-color: #fff;
+      border: 1px solid #eee;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .mobile-menu a {
+      padding: 10px 0;
+      text-decoration: none;
+      color: #000;
+      border-bottom: 1px solid #eee;
+    }
+
+    .mobile-menu a:last-child {
+      border-bottom: none;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      nav,
+      .role-toggle,
+      .auth-links,
+      .cta-button {
+        display: none;
+      }
+
+      .burger {
+        display: flex;
+      }
+
+      .mobile-menu {
+        display: none;
+      }
+
+      .mobile-menu.active {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="#" class="logo">Vivaly</a>
+    <nav>
+      <a href="#">Childcare</a>
+      <a href="#">Pet Care</a>
+      <a href="#">Aged Care</a>
+    </nav>
+    <div class="role-toggle">
+      <button id="seeker" class="active">Parent / Seeker</button>
+      <button id="provider">Caregiver / Provider</button>
+    </div>
+    <div class="auth-links">
+      <a href="#">Log In</a>
+      <a href="#">Sign Up</a>
+    </div>
+    <button class="cta-button">Become a Carer</button>
+    <div class="burger" id="burger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#">Childcare</a>
+    <a href="#">Pet Care</a>
+    <a href="#">Aged Care</a>
+    <a href="#">Log In</a>
+    <a href="#">Sign Up</a>
+    <a href="#">Become a Carer</a>
+  </div>
+
+  <script>
+    // Role toggle functionality
+    const seekerBtn = document.getElementById('seeker');
+    const providerBtn = document.getElementById('provider');
+
+    seekerBtn.addEventListener('click', () => {
+      seekerBtn.classList.add('active');
+      providerBtn.classList.remove('active');
+      // Add your logic here for switching to 'Parent / Seeker'
+    });
+
+    providerBtn.addEventListener('click', () => {
+      providerBtn.classList.add('active');
+      seekerBtn.classList.remove('active');
+      // Add your logic here for switching to 'Caregiver / Provider'
+    });
+
+    // Burger menu functionality
+    const burger = document.getElementById('burger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    burger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+    });
+  </script>
+
+</body>
+</html>
