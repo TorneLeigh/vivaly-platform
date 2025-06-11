@@ -19,7 +19,8 @@ import {
   Eye,
   Home,
   Baby,
-  Heart
+  Heart,
+  Settings
 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -409,14 +410,124 @@ export default function ParentProfile() {
                 )}
               </div>
 
+              {/* Detailed Care Preferences */}
               <div>
-                <Label htmlFor="specialRequirements">Special Requirements</Label>
+                <Label className="mb-3 block">Preferred Care Schedule</Label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {["Morning", "Afternoon", "Evening", "Overnight", "Weekends", "School Hours", "Flexible", "Regular"].map((schedule) => (
+                    <div
+                      key={schedule}
+                      className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
+                    >
+                      <span className="text-sm font-medium">{schedule}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <Label className="mb-3 block">Care Activities Preferred</Label>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {["Educational Activities", "Outdoor Play", "Arts & Crafts", "Music", "Reading", "Sports", "Swimming", "Cooking", "Homework Help"].map((activity) => (
+                    <div
+                      key={activity}
+                      className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
+                    >
+                      <span className="text-sm font-medium">{activity}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <Label className="mb-3 block">Caregiver Qualifications Preferred</Label>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {["First Aid Certified", "CPR Certified", "Early Childhood Education", "Working with Children Check", "References Available", "Experience with Special Needs", "Driver's License", "Non-smoker", "Pet Friendly"].map((qualification) => (
+                    <div
+                      key={qualification}
+                      className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
+                    >
+                      <span className="text-sm font-medium">{qualification}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <Label className="mb-3 block">Budget Range</Label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {["$20-25/hour", "$25-30/hour", "$30-35/hour", "$35-40/hour", "$40+/hour", "Negotiable"].map((budget) => (
+                    <div
+                      key={budget}
+                      className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
+                    >
+                      <span className="text-sm font-medium">{budget}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <Label htmlFor="specialRequirements">Special Requirements & Additional Information</Label>
                 <Textarea
                   id="specialRequirements"
                   {...form.register("specialRequirements")}
-                  placeholder="Any special needs, allergies, or specific care requirements..."
-                  rows={3}
+                  placeholder="Any special needs, allergies, dietary requirements, behavioral considerations, house rules, or specific care instructions..."
+                  rows={4}
                 />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Additional Preferences */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Settings className="w-5 h-5" />
+                Care Preferences & Requirements
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div>
+                <Label className="mb-3 block">Preferred Communication Method</Label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {["Phone Call", "Text Message", "Email", "In-App Messaging"].map((method) => (
+                    <div
+                      key={method}
+                      className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
+                    >
+                      <span className="text-sm font-medium">{method}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <Label className="mb-3 block">Language Preferences</Label>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {["English", "Mandarin", "Cantonese", "Arabic", "Hindi", "Spanish", "Italian", "Greek", "Other"].map((language) => (
+                    <div
+                      key={language}
+                      className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
+                    >
+                      <span className="text-sm font-medium">{language}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <Label className="mb-3 block">Transportation Requirements</Label>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {["School Drop-off/Pick-up", "Activity Transport", "Medical Appointments", "Emergency Transport", "No Transport Needed"].map((transport) => (
+                    <div
+                      key={transport}
+                      className="p-3 border rounded-lg cursor-pointer transition-colors bg-white border-gray-200 hover:border-coral"
+                    >
+                      <span className="text-sm font-medium">{transport}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </CardContent>
           </Card>
