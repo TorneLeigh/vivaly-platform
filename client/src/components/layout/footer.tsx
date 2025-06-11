@@ -44,6 +44,7 @@ export default function Footer() {
               <li><Link href="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link></li>
               <li><Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
               <li><Link href="/refund-policy" className="hover:text-white transition-colors">Refund Policy</Link></li>
+              <li><Link href="/cancellation-policy" className="hover:text-white transition-colors">Cancellation Policy</Link></li>
               <li><Link href="/cookie-policy" className="hover:text-white transition-colors">Cookie Policy</Link></li>
               <li><Link href="/accessibility" className="hover:text-white transition-colors">Accessibility</Link></li>
             </ul>
