@@ -69,10 +69,97 @@ export class AIService {
         suggestions: response.suggestions || [],
         followUpQuestions: response.followUpQuestions || []
       };
-    } catch (error) {
+    } catch (error: any) {
       console.error('AI Service Error:', error);
-      throw new Error('Unable to process your request at the moment. Please try again.');
+      
+      // Always return demo recommendations when OpenAI API fails
+      console.log('OpenAI API error, falling back to demo recommendations');
+      return this.getDemoCareRecommendations(input);
     }
+  }
+
+  private getDemoCareRecommendations(input: CareRecommendationInput): AIResponse {
+    const { careType, location, childAge, budget, specialNeeds } = input;
+    
+    let message = `Based on your needs for ${careType} care in ${location}, here are my recommendations:\n\n`;
+    let suggestions: string[] = [];
+    let followUpQuestions: string[] = [];
+
+    if (careType === 'nanny') {
+      message += `For nanny services${childAge ? ` for your ${childAge}-year-old` : ''}, I recommend:\n\n`;
+      suggestions = [
+        "Look for nannies with WWCC and first aid certification",
+        "Consider experience with your child's age group",
+        "Check references from other families",
+        "Arrange a meet-and-greet before booking",
+        `Budget range: ${budget ? `$${budget}` : '$25-40'}/hour is typical in ${location}`
+      ];
+      
+      if (specialNeeds) {
+        suggestions.push(`Ensure the nanny has experience with ${specialNeeds}`);
+      }
+      
+      followUpQuestions = [
+        "What days and hours do you need care?",
+        "Do you prefer live-in or live-out arrangements?",
+        "Are there any specific activities you'd like included?",
+        "Do you need help with meal preparation or light housework?"
+      ];
+    } else if (careType === 'childcare') {
+      message += `For childcare center options${childAge ? ` for your ${childAge}-year-old` : ''}, I suggest:\n\n`;
+      suggestions = [
+        "Visit centers to assess facilities and staff",
+        "Check National Quality Standard ratings",
+        "Inquire about educator-to-child ratios",
+        "Ask about curriculum and learning programs",
+        "Consider location and operating hours"
+      ];
+      
+      followUpQuestions = [
+        "How many days per week do you need care?",
+        "What are your preferred drop-off and pick-up times?",
+        "Are there specific educational approaches you prefer?",
+        "Do you need holiday care services?"
+      ];
+    } else if (careType === 'elderly' || careType === 'aged care') {
+      message += `For aged care support in ${location}, I recommend:\n\n`;
+      suggestions = [
+        "Choose carers with aged care experience and training",
+        "Ensure they have current first aid and medication training",
+        "Look for compassionate, patient personalities",
+        "Consider both companionship and practical care needs",
+        "Check insurance and background verification"
+      ];
+      
+      followUpQuestions = [
+        "What level of care assistance is needed?",
+        "Are there any specific medical conditions to consider?",
+        "What are the preferred days and times for care?",
+        "Is transport to appointments needed?"
+      ];
+    } else {
+      suggestions = [
+        "Verify all carers have appropriate background checks",
+        "Read reviews from other families carefully",
+        "Arrange initial consultations before committing",
+        "Ensure clear communication about expectations",
+        "Confirm insurance coverage and emergency procedures"
+      ];
+      
+      followUpQuestions = [
+        "What specific care requirements do you have?",
+        "What is your preferred schedule?",
+        "Are there any special considerations I should know about?"
+      ];
+    }
+
+    message += `*Note: This is a demo response. Full AI features will be available once OpenAI billing is configured.*`;
+
+    return {
+      message,
+      suggestions,
+      followUpQuestions
+    };
   }
 
   async provideChatSupport(messages: ChatMessage[]): Promise<string> {

@@ -2089,7 +2089,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(recommendations);
     } catch (error) {
       console.error('AI Recommendations error:', error);
-      res.status(500).json({ message: 'Failed to get care recommendations' });
+      
+      // Provide a fallback response for API issues
+      const fallbackResponse = {
+        message: "I'd be happy to help you find the perfect care service for your needs. Based on your location and requirements, I recommend browsing our verified carers who have undergone comprehensive background checks.",
+        suggestions: [
+          "Look for carers with relevant certifications and experience",
+          "Check reviews and ratings from other families",
+          "Arrange a meet-and-greet before booking",
+          "Verify insurance and background check status"
+        ],
+        followUpQuestions: [
+          "What specific days and times do you need care?",
+          "Are there any special requirements or preferences?",
+          "What is your preferred budget range?"
+        ]
+      };
+      
+      res.json(fallbackResponse);
     }
   });
 
