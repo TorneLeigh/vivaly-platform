@@ -274,99 +274,149 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
               </div>
             </div>
 
-            {/* Mobile Layout - Only show when collapsed */}
-            {!isExpanded && (
-              <div className="md:hidden flex items-center space-x-3 flex-1" onClick={() => setIsExpanded(true)}>
-                <MapPin className="h-4 w-4 text-gray-500 flex-shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <div className="text-sm font-medium text-gray-900 truncate">
-                    {(() => {
-                      if (filters.location && filters.serviceType && selectedDate) {
-                        return `${filters.location} • ${filters.serviceType}`;
-                      } else if (filters.location) {
-                        return filters.location;
-                      } else if (filters.serviceType) {
-                        return filters.serviceType;
-                      } else {
-                        return "Where to?";
-                      }
-                    })()}
-                  </div>
-                  <div className="text-xs text-gray-500 truncate">
-                    {selectedDate ? format(selectedDate, "MMM d") : "When"} • {getCareForDisplay()}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Mobile Expanded Fields */}
-            {isExpanded && (
-              <div className="md:hidden mt-4 space-y-3">
-                {/* Mobile Where */}
+            {/* Mobile Layout */}
+            <div className="md:hidden flex-1">
+              {!isExpanded ? (
+                // Collapsed mobile search - Airbnb style
                 <div 
-                  className={cn(
-                    "flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-colors",
-                    activeField === 'where' ? "border-coral bg-coral/5" : "border-gray-200 hover:border-gray-300"
-                  )}
-                  onClick={() => handleFieldClick('where')}
+                  className="flex items-center space-x-3 cursor-pointer" 
+                  onClick={() => setIsExpanded(true)}
                 >
-                  <MapPin className="h-4 w-4 text-gray-500" />
-                  <div>
-                    <div className="text-xs font-medium text-gray-700">Where</div>
-                    <div className="text-sm text-gray-900">{filters.location || "Search destinations"}</div>
+                  <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                    <Search className="h-5 w-5 text-gray-600" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-sm font-semibold text-gray-900">
+                      {filters.location || "Where to?"}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      {selectedDate ? format(selectedDate, "MMM d") : "Any week"} • {getCareForDisplay()}
+                    </div>
                   </div>
                 </div>
+              ) : (
+                // Expanded mobile search - Clean card-style fields
+                <div className="space-y-2">
+                  {/* Close button */}
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900">Search</h3>
+                    <button 
+                      onClick={() => {
+                        setIsExpanded(false);
+                        setActiveField(null);
+                      }}
+                      className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"
+                    >
+                      <div className="w-4 h-0.5 bg-gray-600 transform rotate-45 absolute"></div>
+                      <div className="w-4 h-0.5 bg-gray-600 transform -rotate-45 absolute"></div>
+                    </button>
+                  </div>
 
-                {/* Mobile When */}
-                <div 
-                  className={cn(
-                    "flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-colors",
-                    activeField === 'when' ? "border-coral bg-coral/5" : "border-gray-200 hover:border-gray-300"
-                  )}
-                  onClick={() => handleFieldClick('when')}
-                >
-                  <CalendarIcon className="h-4 w-4 text-gray-500" />
-                  <div>
-                    <div className="text-xs font-medium text-gray-700">When</div>
-                    <div className="text-sm text-gray-900">{selectedDate ? format(selectedDate, "MMM d") : "Add dates"}</div>
+                  {/* Where field */}
+                  <div 
+                    className={cn(
+                      "p-4 border-2 rounded-xl cursor-pointer transition-all",
+                      activeField === 'where' 
+                        ? "border-coral bg-coral/5" 
+                        : "border-gray-200 bg-white hover:border-gray-300"
+                    )}
+                    onClick={() => handleFieldClick('where')}
+                  >
+                    <div className="flex items-center space-x-3">
+                      <MapPin className="h-5 w-5 text-gray-500" />
+                      <div className="flex-1">
+                        <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">WHERE</div>
+                        <div className="text-base font-medium text-gray-900 mt-0.5">
+                          {filters.location || "I'm flexible"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* When field */}
+                  <div 
+                    className={cn(
+                      "p-4 border-2 rounded-xl cursor-pointer transition-all",
+                      activeField === 'when' 
+                        ? "border-coral bg-coral/5" 
+                        : "border-gray-200 bg-white hover:border-gray-300"
+                    )}
+                    onClick={() => handleFieldClick('when')}
+                  >
+                    <div className="flex items-center space-x-3">
+                      <CalendarIcon className="h-5 w-5 text-gray-500" />
+                      <div className="flex-1">
+                        <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">WHEN</div>
+                        <div className="text-base font-medium text-gray-900 mt-0.5">
+                          {selectedDate ? format(selectedDate, "MMM d, yyyy") : "I'm flexible"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Who field */}
+                  <div 
+                    className={cn(
+                      "p-4 border-2 rounded-xl cursor-pointer transition-all",
+                      activeField === 'careFor' 
+                        ? "border-coral bg-coral/5" 
+                        : "border-gray-200 bg-white hover:border-gray-300"
+                    )}
+                    onClick={() => handleFieldClick('careFor')}
+                  >
+                    <div className="flex items-center space-x-3">
+                      <Users className="h-5 w-5 text-gray-500" />
+                      <div className="flex-1">
+                        <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">WHO</div>
+                        <div className="text-base font-medium text-gray-900 mt-0.5">
+                          {getCareForDisplay()}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Service field */}
+                  <div 
+                    className={cn(
+                      "p-4 border-2 rounded-xl cursor-pointer transition-all",
+                      activeField === 'service' 
+                        ? "border-coral bg-coral/5" 
+                        : "border-gray-200 bg-white hover:border-gray-300"
+                    )}
+                    onClick={() => handleFieldClick('service')}
+                  >
+                    <div className="flex items-center space-x-3">
+                      <div className="w-5 h-5 rounded bg-gray-100 flex items-center justify-center">
+                        <div className="w-2 h-2 bg-gray-500 rounded"></div>
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">SERVICE</div>
+                        <div className="text-base font-medium text-gray-900 mt-0.5">
+                          {filters.serviceType || "Any service"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Search button */}
+                  <div className="pt-4">
+                    <Button
+                      onClick={handleSearch}
+                      className="w-full h-12 rounded-xl text-white font-semibold"
+                      style={{ backgroundColor: '#FFBD59' }}
+                    >
+                      <Search className="h-5 w-5 mr-2" />
+                      Search
+                    </Button>
                   </div>
                 </div>
+              )}
+            </div>
 
-                {/* Mobile Care For */}
-                <div 
-                  className={cn(
-                    "flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-colors",
-                    activeField === 'careFor' ? "border-coral bg-coral/5" : "border-gray-200 hover:border-gray-300"
-                  )}
-                  onClick={() => handleFieldClick('careFor')}
-                >
-                  <Users className="h-4 w-4 text-gray-500" />
-                  <div>
-                    <div className="text-xs font-medium text-gray-700">Care for</div>
-                    <div className="text-sm text-gray-900">{getCareForDisplay()}</div>
-                  </div>
-                </div>
-
-                {/* Mobile Service */}
-                <div 
-                  className={cn(
-                    "flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-colors",
-                    activeField === 'service' ? "border-coral bg-coral/5" : "border-gray-200 hover:border-gray-300"
-                  )}
-                  onClick={() => handleFieldClick('service')}
-                >
-                  <div>
-                    <div className="text-xs font-medium text-gray-700">Service</div>
-                    <div className="text-sm text-gray-900">{filters.serviceType || "Select service"}</div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Search Button */}
+            {/* Search Button - Desktop only */}
             <Button
               onClick={handleSearch}
-              className="rounded-full p-3 ml-4 flex-shrink-0"
+              className="hidden md:flex rounded-full p-3 ml-4 flex-shrink-0"
               style={{ backgroundColor: '#FFBD59' }}
               size="sm"
             >
