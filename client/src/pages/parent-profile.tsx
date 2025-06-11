@@ -33,7 +33,8 @@ import {
   Home,
   Star,
   CheckCircle,
-  Footprints
+  Footprints,
+  Eye
 } from "lucide-react";
 
 const parentProfileSchema = z.object({
@@ -427,6 +428,7 @@ export default function ParentProfile() {
 
   const sections = [
     { id: "basic", label: "Basic Info", icon: User },
+    { id: "photos", label: "Photos", icon: Camera },
     { id: "family", label: "Family & Children", icon: Users },
     { id: "children", label: "Children Details", icon: Baby },
     { id: "health", label: "Health & Medical", icon: Heart },
@@ -464,10 +466,20 @@ export default function ParentProfile() {
             </div>
             <div className="flex items-center space-x-4">
               {!isEditing ? (
-                <Button onClick={() => setIsEditing(true)} className="bg-black hover:bg-gray-800 text-white">
-                  <Edit3 className="h-4 w-4 mr-2" />
-                  Edit Profile
-                </Button>
+                <div className="flex space-x-3">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => {/* TODO: Show profile preview modal */}}
+                    className="border-black text-black hover:bg-gray-50"
+                  >
+                    <Eye className="h-4 w-4 mr-2" />
+                    View Profile
+                  </Button>
+                  <Button onClick={() => setIsEditing(true)} className="bg-black hover:bg-gray-800 text-white">
+                    <Edit3 className="h-4 w-4 mr-2" />
+                    Edit Profile
+                  </Button>
+                </div>
               ) : (
                 <div className="flex space-x-2">
                   <Button 
@@ -615,6 +627,70 @@ export default function ParentProfile() {
                           </FormItem>
                         )}
                       />
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Photos Section */}
+                {activeSection === "photos" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Camera className="h-5 w-5 mr-2" />
+                        Photos
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <div className="flex items-start space-x-3">
+                          <AlertTriangle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                          <div>
+                            <h4 className="font-medium text-blue-900">Photo Guidelines</h4>
+                            <p className="text-blue-700 text-sm mt-1">
+                              For your family's safety and privacy, please do not include children's faces in any photos. 
+                              Focus on your home environment, outdoor spaces, and family activities without showing identifying features.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-4">
+                        <div>
+                          <h4 className="font-medium text-gray-900 mb-3">Profile Photo</h4>
+                          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                            <Camera className="h-12 w-12 text-gray-400 mx-auto mb-2" />
+                            <p className="text-gray-600">Upload a photo of yourself or your family</p>
+                            <p className="text-sm text-gray-500 mt-1">JPG, PNG up to 5MB</p>
+                            <Button variant="outline" className="mt-3" disabled={!isEditing}>
+                              Choose Photo
+                            </Button>
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-medium text-gray-900 mb-3">Home Environment</h4>
+                          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                            <Home className="h-12 w-12 text-gray-400 mx-auto mb-2" />
+                            <p className="text-gray-600">Show your living spaces, play areas, and outdoor areas</p>
+                            <p className="text-sm text-gray-500 mt-1">Help caregivers understand your home environment</p>
+                            <Button variant="outline" className="mt-3" disabled={!isEditing}>
+                              Add Photos
+                            </Button>
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-medium text-gray-900 mb-3">Family Activities</h4>
+                          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                            <Heart className="h-12 w-12 text-gray-400 mx-auto mb-2" />
+                            <p className="text-gray-600">Share photos of family activities and interests</p>
+                            <p className="text-sm text-gray-500 mt-1">Show what makes your family special (without children's faces)</p>
+                            <Button variant="outline" className="mt-3" disabled={!isEditing}>
+                              Add Photos
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
                     </CardContent>
                   </Card>
                 )}
