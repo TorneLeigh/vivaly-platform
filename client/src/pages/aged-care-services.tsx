@@ -1,35 +1,61 @@
 import { Link } from 'wouter';
-import { ChevronRight, Home, Heart, Coffee, Car, Stethoscope } from 'lucide-react';
+import { ChevronRight, Home } from 'lucide-react';
+import companionCareImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749278454511.jpg";
+import personalCareImage from "@assets/62016dc1fb72cd9a4d96847a6daf6c0e_1749278446432.jpg";
+import respiteCareImage from "@assets/79c40dcc41bd092f6f03b26fd4cf94d8_1749182897295.jpg";
+import transportErrandsImage from "@assets/f116334957ff9c74101be0e0c41edcda_1749182897295.jpg";
+import medicalSupportImage from "@assets/02a899c095b5a44d96492e700bf8fd0c_1749278450847.jpg";
+import housekeepingImage from "@assets/c18480e234907faffa31784936ac8816_1749267000694.jpg";
 
 export default function AgedCareServices() {
   const agedCareServices = [
     {
       title: "Companion Care",
-      description: "Social interaction and emotional support for elderly individuals in their daily lives.",
-      icon: <Coffee className="w-16 h-16 text-purple-600" />,
+      description: "Professional companionship services providing social interaction, conversation, activities, and emotional support to prevent isolation and enhance quality of life for elderly individuals.",
+      image: companionCareImage,
       link: "/book/companion-care",
-      buttonText: "Book Now"
+      buttonText: "Book Now",
+      features: ["Social conversation", "Activity planning", "Meal companionship", "Emotional support", "Reading & entertainment"]
     },
     {
       title: "Personal Care",
-      description: "Assistance with daily activities and personal hygiene with dignity and respect.",
-      icon: <Heart className="w-16 h-16 text-pink-600" />,
+      description: "Dignified assistance with activities of daily living including bathing, grooming, dressing, and mobility support from trained caregivers who respect individual preferences and privacy.",
+      image: personalCareImage,
       link: "/book/personal-care",
-      buttonText: "Learn More"
+      buttonText: "Learn More",
+      features: ["Bathing assistance", "Grooming & hygiene", "Dressing support", "Mobility assistance", "Medication reminders"]
     },
     {
       title: "Respite Care",
-      description: "Temporary relief for family caregivers while ensuring continuous quality care.",
-      icon: <Home className="w-16 h-16 text-blue-600" />,
+      description: "Temporary relief care allowing family caregivers to rest while ensuring loved ones receive quality supervision, companionship, and assistance with daily needs in a familiar environment.",
+      image: respiteCareImage,
       link: "/book/respite-care",
-      buttonText: "Book Now"
+      buttonText: "Book Now",
+      features: ["Short-term relief", "Overnight stays", "Weekend support", "Emergency coverage", "Routine maintenance"]
     },
     {
       title: "Transport & Errands",
-      description: "Safe transport to appointments and assistance with shopping and errands.",
-      icon: <Car className="w-16 h-16 text-green-600" />,
+      description: "Safe, reliable transportation and assistance with errands including medical appointments, grocery shopping, pharmacy visits, and social outings with experienced drivers.",
+      image: transportErrandsImage,
       link: "/book/transport-errands",
-      buttonText: "Learn More"
+      buttonText: "Learn More",
+      features: ["Medical appointments", "Grocery shopping", "Pharmacy visits", "Social outings", "Banking assistance"]
+    },
+    {
+      title: "Medical Support",
+      description: "Specialized care assistance including medication management, appointment coordination, health monitoring, and communication with healthcare providers for comprehensive health support.",
+      image: medicalSupportImage,
+      link: "/book/medical-support",
+      buttonText: "Book Now",
+      features: ["Medication management", "Appointment scheduling", "Health monitoring", "Provider communication", "Treatment follow-up"]
+    },
+    {
+      title: "Light Housekeeping",
+      description: "Home maintenance assistance including cleaning, laundry, meal preparation, and organization to help elderly individuals maintain a clean, safe, and comfortable living environment.",
+      image: housekeepingImage,
+      link: "/book/light-housekeeping",
+      buttonText: "Learn More",
+      features: ["Light cleaning", "Laundry assistance", "Meal preparation", "Home organization", "Safety checks"]
     }
   ];
 
@@ -62,27 +88,46 @@ export default function AgedCareServices() {
           </div>
 
           {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {agedCareServices.map((service, index) => (
               <div 
                 key={index}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
               >
-                <div className="p-8">
-                  <div className="flex justify-center mb-6">
-                    {service.icon}
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">
+                {/* Service Image */}
+                <div className="h-48 overflow-hidden">
+                  <img 
+                    src={service.image} 
+                    alt={service.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">
                     {service.title}
                   </h3>
                   
-                  <p className="text-gray-600 mb-6 text-center leading-relaxed">
+                  <p className="text-gray-600 mb-4 leading-relaxed text-sm">
                     {service.description}
                   </p>
                   
+                  {/* Features List */}
+                  <div className="mb-6">
+                    <h4 className="font-semibold text-gray-900 mb-2 text-sm">What's Included:</h4>
+                    <ul className="space-y-1">
+                      {service.features.map((feature, idx) => (
+                        <li key={idx} className="text-xs text-gray-600 flex items-center">
+                          <span className="w-1.5 h-1.5 bg-green-500 rounded-full mr-2"></span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
                   <div className="text-center">
                     <Link href={service.link}>
-                      <button className="bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center mx-auto">
+                      <button className="bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center mx-auto w-full">
                         {service.buttonText}
                         <ChevronRight className="w-4 h-4 ml-2" />
                       </button>

@@ -1,35 +1,61 @@
 import { Link } from 'wouter';
-import { ChevronRight, Home, Dog, Clock, Car, Heart } from 'lucide-react';
+import { ChevronRight, Home } from 'lucide-react';
+import dogWalkingImage from "@assets/c18480e234907faffa31784936ac8816_1749182897295.jpg";
+import petSittingImage from "@assets/8da0e0735821d20e3f8cb769e40a4c98_1749182897295.jpg";
+import dropInVisitsImage from "@assets/9717a7e59d32ac45c39a7f027a3230af_1749182897295.jpg";
+import petTransportImage from "@assets/d81ff6e441430a5c581dc3a72149844e_1749182897295.jpg";
+import petGroomingImage from "@assets/f087158c54b76ecf0250c6866d218c92_1749182897295.jpg";
+import overnightCareImage from "@assets/eba1794568e9061d6c6e016750154ee7_1749182897295.jpg";
 
 export default function PetCareServices() {
   const petCareServices = [
     {
       title: "Dog Walking",
-      description: "Regular walks to keep your dog healthy and happy with professional pet carers.",
-      icon: <Dog className="w-16 h-16 text-green-600" />,
+      description: "Professional dog walking services with experienced walkers who understand canine behavior, exercise needs, and safety protocols for all dog breeds and sizes.",
+      image: dogWalkingImage,
       link: "/book/dog-walking",
-      buttonText: "Book Now"
+      buttonText: "Book Now",
+      features: ["Daily exercise routines", "Behavioral monitoring", "GPS tracking updates", "Weather-appropriate gear", "Group or solo walks"]
     },
     {
       title: "Pet Sitting",
-      description: "In-home care while you're away for extended periods with trusted animal lovers.",
-      icon: <Home className="w-16 h-16 text-blue-600" />,
+      description: "Comprehensive in-home pet care while you're away, maintaining your pet's routine with feeding, playtime, companionship, and regular updates with photos.",
+      image: petSittingImage,
       link: "/book/pet-sitting",
-      buttonText: "Learn More"
+      buttonText: "Learn More",
+      features: ["Feeding & medication", "Playtime & exercise", "Companionship care", "Photo updates", "Home security checks"]
     },
     {
       title: "Drop-in Visits",
-      description: "Quick check-ins for feeding, letting out, and basic care when you're busy.",
-      icon: <Clock className="w-16 h-16 text-orange-600" />,
+      description: "Convenient 30-minute visits for busy pet parents, including feeding, bathroom breaks, medication administration, and quality time with your pets.",
+      image: dropInVisitsImage,
       link: "/book/drop-in-visits",
-      buttonText: "Book Now"
+      buttonText: "Book Now",
+      features: ["Feeding & fresh water", "Bathroom breaks", "Quick exercise", "Medication admin", "Love & attention"]
     },
     {
       title: "Pet Transport",
-      description: "Safe and secure transport to vet appointments, grooming, or boarding facilities.",
-      icon: <Car className="w-16 h-16 text-purple-600" />,
+      description: "Safe, reliable transportation for vet visits, grooming appointments, or daycare with secure pet carriers and experienced drivers who prioritize animal comfort.",
+      image: petTransportImage,
       link: "/book/pet-transport",
-      buttonText: "Learn More"
+      buttonText: "Learn More",
+      features: ["Vet appointments", "Grooming transport", "Secure carriers", "Climate control", "Door-to-door service"]
+    },
+    {
+      title: "Pet Grooming",
+      description: "Professional grooming services in the comfort of your home including bathing, brushing, nail trimming, and basic hygiene care for dogs and cats.",
+      image: petGroomingImage,
+      link: "/book/pet-grooming",
+      buttonText: "Book Now",
+      features: ["Bathing & drying", "Brushing & detangling", "Nail trimming", "Ear cleaning", "Basic hygiene care"]
+    },
+    {
+      title: "Overnight Care",
+      description: "Round-the-clock care in your home with overnight stays, ensuring your pets maintain their routines while receiving constant supervision and companionship.",
+      image: overnightCareImage,
+      link: "/book/overnight-care",
+      buttonText: "Learn More",
+      features: ["24-hour supervision", "Routine maintenance", "Emergency response", "Multiple pet care", "Home security"]
     }
   ];
 
@@ -62,27 +88,46 @@ export default function PetCareServices() {
           </div>
 
           {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {petCareServices.map((service, index) => (
               <div 
                 key={index}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
               >
-                <div className="p-8">
-                  <div className="flex justify-center mb-6">
-                    {service.icon}
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">
+                {/* Service Image */}
+                <div className="h-48 overflow-hidden">
+                  <img 
+                    src={service.image} 
+                    alt={service.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">
                     {service.title}
                   </h3>
                   
-                  <p className="text-gray-600 mb-6 text-center leading-relaxed">
+                  <p className="text-gray-600 mb-4 leading-relaxed text-sm">
                     {service.description}
                   </p>
                   
+                  {/* Features List */}
+                  <div className="mb-6">
+                    <h4 className="font-semibold text-gray-900 mb-2 text-sm">What's Included:</h4>
+                    <ul className="space-y-1">
+                      {service.features.map((feature, idx) => (
+                        <li key={idx} className="text-xs text-gray-600 flex items-center">
+                          <span className="w-1.5 h-1.5 bg-green-500 rounded-full mr-2"></span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
                   <div className="text-center">
                     <Link href={service.link}>
-                      <button className="bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center mx-auto">
+                      <button className="bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center mx-auto w-full">
                         {service.buttonText}
                         <ChevronRight className="w-4 h-4 ml-2" />
                       </button>
