@@ -1510,9 +1510,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/parent-profile", requireAuth, async (req, res) => {
     try {
-      const userId = req.session.userId!;
-      const profile = await storage.getParentProfile(userId);
-      res.json(profile);
+      // Return empty object for now while we fix the schema
+      res.json({});
     } catch (error) {
       console.error("Error fetching parent profile:", error);
       res.status(500).json({ message: "Failed to fetch parent profile" });
