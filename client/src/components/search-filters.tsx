@@ -69,15 +69,15 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
   ];
 
   return (
-    <div className={`bg-white rounded-xl border border-gray-100 transform translate-y-[-2px] ${className}`} style={{ boxShadow: '0 20px 40px -8px rgba(0, 0, 0, 0.2), 0 10px 20px -6px rgba(0, 0, 0, 0.15), 0 6px 12px -4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9)' }}>
-      <div className="p-2 md:p-4 space-y-2 md:space-y-3">
-        {/* Where and When - Mobile-first responsive layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-3">
-          {/* Location */}
-          <div>
-            <label className="text-xs font-medium text-gray-700 mb-1 block">Where</label>
+    <div className={`bg-white rounded-xl border border-gray-100 transform translate-y-[-2px] max-w-7xl mx-auto ${className}`} style={{ boxShadow: '0 20px 40px -8px rgba(0, 0, 0, 0.2), 0 10px 20px -6px rgba(0, 0, 0, 0.15), 0 6px 12px -4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9)' }}>
+      <div className="p-6 md:p-8 space-y-4 md:space-y-6">
+        {/* Main search bar - single row for wide layout */}
+        <div className="grid grid-cols-1 md:grid-cols-6 gap-4 md:gap-6">
+          {/* Location - Takes 2 columns */}
+          <div className="md:col-span-2">
+            <label className="text-sm font-medium text-gray-700 mb-2 block">Where</label>
             <Select value={location} onValueChange={setLocation}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-full h-12 text-base">
                 <SelectValue placeholder="Search Sydney areas" />
               </SelectTrigger>
               <SelectContent>
@@ -94,17 +94,17 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
             </Select>
           </div>
 
-          {/* Date */}
+          {/* Date - Takes 1 column */}
           <div>
-            <label className="text-xs font-medium text-gray-700 mb-1 block">When</label>
-            <div className="space-y-1">
-              <div className="flex gap-1">
+            <label className="text-sm font-medium text-gray-700 mb-2 block">When</label>
+            <div className="space-y-2">
+              <div className="flex gap-2">
                 <Button
                   type="button"
                   variant="outline"
                   size="sm"
                   onClick={() => setSelectedDate(new Date())}
-                  className="flex-1 text-xs px-2 py-1 h-8"
+                  className="flex-1 text-sm px-3 py-2 h-10"
                 >
                   Today
                 </Button>
@@ -117,7 +117,7 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
                     tomorrow.setDate(tomorrow.getDate() + 1);
                     setSelectedDate(tomorrow);
                   }}
-                  className="flex-1 text-xs px-2 py-1 h-8"
+                  className="flex-1 text-sm px-3 py-2 h-10"
                 >
                   Tomorrow
                 </Button>
@@ -127,11 +127,11 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
                   <Button
                     variant="outline"
                     className={cn(
-                      "w-full justify-start text-left font-normal h-8",
+                      "w-full justify-start text-left font-normal h-10 text-sm",
                       !selectedDate && "text-gray-500"
                     )}
                   >
-                    <CalendarIcon className="mr-2 h-3 w-3" />
+                    <CalendarIcon className="mr-2 h-4 w-4" />
                     {selectedDate ? formatDate(selectedDate) : "Choose date"}
                   </Button>
                 </PopoverTrigger>
@@ -147,16 +147,13 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
               </Popover>
             </div>
           </div>
-        </div>
 
-        {/* Time, Service, and Number of People - Mobile-optimized layout */}
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-1 md:gap-2">
-          {/* Time */}
+          {/* Time - Takes 1 column */}
           <div>
-            <label className="text-xs font-medium text-gray-700 mb-1 block">Time</label>
-            <div className="grid grid-cols-2 gap-1">
+            <label className="text-sm font-medium text-gray-700 mb-2 block">Time</label>
+            <div className="space-y-2">
               <Select value={startTime} onValueChange={setStartTime}>
-                <SelectTrigger className="h-8 text-xs">
+                <SelectTrigger className="h-10 text-sm">
                   <SelectValue placeholder="Start" />
                 </SelectTrigger>
                 <SelectContent>
@@ -168,7 +165,7 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
                 </SelectContent>
               </Select>
               <Select value={endTime} onValueChange={setEndTime}>
-                <SelectTrigger className="h-8 text-xs">
+                <SelectTrigger className="h-10 text-sm">
                   <SelectValue placeholder="End" />
                 </SelectTrigger>
                 <SelectContent>
@@ -182,12 +179,12 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
             </div>
           </div>
 
-          {/* Service Type */}
+          {/* Service Type - Takes 1 column */}
           <div>
-            <label className="text-xs font-medium text-gray-700 mb-1 block">Service</label>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">Service</label>
             <Select value={serviceType} onValueChange={setServiceType}>
-              <SelectTrigger className="h-8 text-xs">
-                <SelectValue placeholder="Any service" />
+              <SelectTrigger className="h-12 text-base">
+                <SelectValue placeholder="All Services" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="All Services">All Services</SelectItem>
@@ -200,11 +197,11 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
             </Select>
           </div>
 
-          {/* Number of People */}
-          <div>
-            <label className="text-xs font-medium text-gray-700 mb-1 block">Care for</label>
+          {/* Number of People and Search - Takes 1 column */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700 mb-2 block">Care for</label>
             <Select value={numberOfPeople} onValueChange={setNumberOfPeople}>
-              <SelectTrigger className="h-8 text-xs">
+              <SelectTrigger className="h-12 text-base">
                 <SelectValue placeholder="1 person" />
               </SelectTrigger>
               <SelectContent>
@@ -215,15 +212,14 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
                 <SelectItem value="5">5+ people</SelectItem>
               </SelectContent>
             </Select>
-          </div>
-          
-          {/* Search Icon */}
-          <div className="flex items-end">
+            
+            {/* Search Button */}
             <button 
               onClick={handleSearch}
-              className="w-8 h-8 bg-black hover:bg-gray-800 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center"
+              className="w-full h-12 bg-black hover:bg-gray-800 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 text-base"
             >
-              <Search className="w-4 h-4" />
+              <Search className="w-5 h-5" />
+              Search
             </button>
           </div>
         </div>
