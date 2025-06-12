@@ -327,7 +327,7 @@ export default function Home() {
               </div>
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
-                  Professional doulas and parenting classes to support new and expecting parents.
+                  Comprehensive prenatal and postnatal support including certified doulas, lactation consultants, newborn care specialists, parenting classes, postpartum recovery assistance, and mental health support for new and expecting parents.
                 </p>
                 <Link href="/prenatal-services">
                   <Button className="w-full bg-coral hover:bg-coral/90 text-white">
@@ -355,7 +355,7 @@ export default function Home() {
               </div>
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
-                  Trusted nannies and babysitters for your little ones.
+                  Flexible childcare solutions including 1-on-1 nannies, group childcare, babysitting services, after-school care, holiday programs, overnight care, and specialized support for children with additional needs.
                 </p>
                 <Link href="/child-care-services">
                   <Button className="w-full bg-coral hover:bg-coral/90 text-white">
@@ -383,7 +383,7 @@ export default function Home() {
               </div>
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
-                  Compassionate care for your elderly loved ones.
+                  Comprehensive aged care services including personal care assistance, companionship, meal preparation, medication management, mobility support, dementia care, respite care, and live-in care options for seniors.
                 </p>
                 <Link href="/aged-care-services">
                   <Button className="w-full bg-coral hover:bg-coral/90 text-white">
@@ -411,7 +411,7 @@ export default function Home() {
               </div>
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
-                  Reliable pet sitters and dog walkers.
+                  Complete pet care services including dog walking, pet sitting, overnight boarding, grooming, feeding assistance, exercise and playtime, veterinary transport, and specialized care for pets with medical needs or behavioral requirements.
                 </p>
                 <Link href="/pet-care-services">
                   <Button className="w-full bg-coral hover:bg-coral/90 text-white">
