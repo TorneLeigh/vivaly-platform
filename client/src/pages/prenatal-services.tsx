@@ -1,12 +1,15 @@
 import { Link } from 'wouter';
 import { ChevronRight, Home } from 'lucide-react';
 import OptimizedImage from '@/components/OptimizedImage';
-import doulaImage1 from "@assets/71f27a774a4b4ecaa46e30332bf23131_1749360121452.jpg";
-import birthEducationClassImage from "@assets/5c1756efeffe31b87ae42255a1e625b5_1749182535016.jpg";
-import motherHoldingBabyImage from "@assets/e3806ba7e7119fb379b95ce4d570e105_1749182535016.jpg";
-import newbornCareImage from "@assets/b1bc54b815bb1f418342a8203ae3e8e3_1749182535016.jpg";
-import breastfeedingLatchImage from "@assets/c18480e234907faffa31784936ac8816_1749182897295.jpg";
-import doulaImage5 from "@assets/2c4a91a9b547f50bb709e6399c12a2a0_1749360121452.jpg";
+import doulaImage1 from "@assets/71f27a774a4b4ecaa46e30332bf23131_1749704784255.jpg";
+import birthEducationClassImage from "@assets/300ce6a6e339c054c341d15ef56cabbb_1749704795108.jpg";
+import motherHoldingBabyImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749704784256.jpg";
+import newbornCareImage from "@assets/02a899c095b5a44d96492e700bf8fd0c_1749704784256.jpg";
+import breastfeedingLatchImage from "@assets/31d064b6874d9bd38e6f664bff0e8352_1749704784256.jpg";
+import doulaImage5 from "@assets/2c4a91a9b547f50bb709e6399c12a2a0_1749704784256.jpg";
+import prenatalSupportImage from "@assets/702b767994f2c076bab98adb9368662e_1749704784256.jpg";
+import postnatalSupportImage from "@assets/8da0e0735821d20e3f8cb769e40a4c98_1749704789409.jpg";
+import babyFeetImage from "@assets/9717a7e59d32ac45c39a7f027a3230af_1749704787744.jpg";
 
 export default function PrenatalServices() {
   const prenatalServices = [
@@ -39,6 +42,20 @@ export default function PrenatalServices() {
       buttonText: "Book Now"
     },
     {
+      title: "Breastfeeding Support",
+      description: "Professional lactation consultant services providing guidance, troubleshooting, and emotional support for successful breastfeeding journeys.",
+      image: breastfeedingLatchImage,
+      link: "/book/breastfeeding-support",
+      buttonText: "Book Now"
+    },
+    {
+      title: "Mothers Prenatal Support",
+      description: "Comprehensive emotional and practical support for expectant mothers throughout pregnancy with personalized care plans and guidance.",
+      image: prenatalSupportImage,
+      link: "/book/prenatal-support",
+      buttonText: "Get Support"
+    },
+    {
       title: "New Parent Groups",
       description: "Support groups for new mothers to connect, share experiences, and receive guidance from other parents and professionals.",
       image: doulaImage5,
@@ -46,11 +63,11 @@ export default function PrenatalServices() {
       buttonText: "Join Group"
     },
     {
-      title: "Coffee Catch-ups",
-      description: "Parent meetups at local cafes to connect with other families and build supportive community relationships.",
-      image: doulaImage5,
-      link: "/book/coffee-meetups",
-      buttonText: "Join Meetup"
+      title: "Postnatal Recovery",
+      description: "Specialized care and support during the postpartum period focusing on healing, adjustment, and new parent confidence.",
+      image: postnatalSupportImage,
+      link: "/book/postnatal-recovery",
+      buttonText: "Learn More"
     }
   ];
 
