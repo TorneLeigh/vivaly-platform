@@ -29,11 +29,11 @@ export default function ChildCareServices() {
     },
     {
       title: "Drop and Dash",
-      description: "Quick drop-off childcare service for busy parents who need immediate, reliable care for short periods.",
+      description: "Quick drop-off childcare service for busy parents who need immediate, reliable care for short periods. Quick and easy booking for gym visits, appointments or self-care.",
       image: preschoolEducationImage,
       link: "/book/drop-dash",
       buttonText: "Quick Book",
-      features: ["Immediate availability", "No advance booking", "Safe environment", "Trained staff", "Flexible duration"]
+      features: ["Immediate availability", "Perfect for gym visits", "Appointment flexibility", "Self-care time", "Safe environment"]
     },
     {
       title: "Park Playdates",
