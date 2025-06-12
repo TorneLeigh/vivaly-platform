@@ -18,7 +18,12 @@ export default function NewHeader() {
   return (
     <>
       <header className="relative flex justify-between items-center p-5 bg-white border-b border-gray-200 sticky top-0 z-50">
-        <Link href="/" className="text-2xl font-bold text-black no-underline">
+        <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-black no-underline">
+          <img 
+            src="@assets/LOGO UPLOAD VIVALY_1749697003124.jpeg" 
+            alt="Vivaly Logo" 
+            className="h-8 w-8 rounded-lg object-cover"
+          />
           Vivaly
         </Link>
         
@@ -100,16 +105,20 @@ export default function NewHeader() {
           </div>
         </div>
         
-        <div className="md:hidden flex flex-col cursor-pointer" onClick={toggleMobileMenu}>
-          <div className="w-6 h-0.5 bg-black my-1"></div>
-          <div className="w-6 h-0.5 bg-black my-1"></div>
-          <div className="w-6 h-0.5 bg-black my-1"></div>
-        </div>
+        <button 
+          className="md:hidden flex flex-col justify-center items-center w-10 h-10 cursor-pointer border border-gray-300 rounded bg-white hover:bg-gray-50" 
+          onClick={toggleMobileMenu}
+          aria-label="Toggle mobile menu"
+        >
+          <div className="w-5 h-0.5 bg-black mb-1"></div>
+          <div className="w-5 h-0.5 bg-black mb-1"></div>
+          <div className="w-5 h-0.5 bg-black"></div>
+        </button>
       </header>
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-50">
+        <div className="md:hidden fixed top-[73px] left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-40">
           <div className="px-5 py-2">
             <Link href="/prenatal-services" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
               Pre/Post Natal
