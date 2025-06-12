@@ -108,49 +108,50 @@ export default function NewHeader() {
       </header>
 
       {/* Mobile Menu */}
-      <div className={`md:hidden flex-col absolute top-15 right-5 bg-white border border-gray-200 p-2.5 shadow-lg ${mobileMenuOpen ? 'flex' : 'hidden'}`}>
-        <Link href="/child-care-services" className="py-2.5 text-black border-b border-gray-200 no-underline" onClick={() => setMobileMenuOpen(false)}>
-          Childcare
-        </Link>
-        <Link href="/pet-care-services" className="py-2.5 text-black border-b border-gray-200 no-underline" onClick={() => setMobileMenuOpen(false)}>
-          Pet Care
-        </Link>
-        <Link href="/aged-care-services" className="py-2.5 text-black border-b border-gray-200 no-underline" onClick={() => setMobileMenuOpen(false)}>
-          Aged Care
-        </Link>
-        <Link href="/prenatal-services" className="py-2.5 text-black border-b border-gray-200 no-underline" onClick={() => setMobileMenuOpen(false)}>
-          Pre/Post Natal
-        </Link>
-        <Link href="/gift-card" className="py-2.5 text-black border-b border-gray-200 no-underline" onClick={() => setMobileMenuOpen(false)}>
-          Gift Card
-        </Link>
-        <Link href="/help" className="py-2.5 text-black border-b border-gray-200 no-underline" onClick={() => setMobileMenuOpen(false)}>
-          Help
-        </Link>
-        
-        {!isAuthenticated && !isLoading ? (
-          <>
-            <Link href="/auth" className="py-2.5 text-black border-b border-gray-200 no-underline" onClick={() => setMobileMenuOpen(false)}>
-              Log In
-            </Link>
-            <Link href="/signup" className="py-2.5 text-black border-b border-gray-200 no-underline" onClick={() => setMobileMenuOpen(false)}>
-              Sign Up
-            </Link>
-
-          </>
-        ) : isAuthenticated ? (
-          <>
-            <Link href="/messages" className="py-2.5 text-black border-b border-gray-200 no-underline" onClick={() => setMobileMenuOpen(false)}>
-              Messages
-            </Link>
-            <Link href="/profile" className="py-2.5 text-black border-b border-gray-200 no-underline" onClick={() => setMobileMenuOpen(false)}>
-              Profile
-            </Link>
-            <Link href="/logout" className="py-2.5 text-black no-underline" onClick={() => setMobileMenuOpen(false)}>
-              Log Out
-            </Link>
-          </>
-        ) : null}
+      <div className={`md:hidden flex-col absolute top-full left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-50 ${mobileMenuOpen ? 'flex' : 'hidden'}`}>
+        <div className="px-5 py-2">
+          <Link href="/child-care-services" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+            Childcare
+          </Link>
+          <Link href="/pet-care-services" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+            Pet Care
+          </Link>
+          <Link href="/aged-care-services" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+            Aged Care
+          </Link>
+          <Link href="/prenatal-services" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+            Pre/Post Natal
+          </Link>
+          <Link href="/gift-card" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+            Gift Card
+          </Link>
+          <Link href="/help" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+            Help
+          </Link>
+          
+          {!isAuthenticated && !isLoading ? (
+            <>
+              <Link href="/auth" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+                Log In
+              </Link>
+              <Link href="/signup" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+                Sign Up
+              </Link>
+            </>
+          ) : isAuthenticated ? (
+            <>
+              <Link href="/messages" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+                Messages
+              </Link>
+              <Link href="/profile" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+                Profile
+              </Link>
+              <Link href="/logout" className="block py-3 text-black no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+                Log Out
+              </Link>
+            </>
+          ) : null}
+        </div>
       </div>
     </>
   );
