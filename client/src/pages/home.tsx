@@ -269,7 +269,7 @@ export default function Home() {
           {/* Trust Grid */}
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-colors duration-300 text-2xl">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-all duration-300 text-2xl transform group-hover:scale-110 group-hover:-translate-y-1 group-hover:rotate-3">
                 🛡️
               </div>
               <h4 className="text-lg font-semibold text-gray-900 mb-2">Background Checks</h4>
@@ -277,7 +277,7 @@ export default function Home() {
             </div>
             
             <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-colors duration-300 text-2xl">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-all duration-300 text-2xl transform group-hover:scale-110 group-hover:-translate-y-1 group-hover:-rotate-3">
                 📄
               </div>
               <h4 className="text-lg font-semibold text-gray-900 mb-2">Certified Professionals</h4>
@@ -285,7 +285,7 @@ export default function Home() {
             </div>
             
             <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-colors duration-300 text-2xl">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-all duration-300 text-2xl transform group-hover:scale-110 group-hover:-translate-y-1 group-hover:rotate-2">
                 🪪
               </div>
               <h4 className="text-lg font-semibold text-gray-900 mb-2">Identity Verification</h4>
