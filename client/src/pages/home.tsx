@@ -218,8 +218,8 @@ const trustFeatures = [
   },
   {
     icon: IdCard,
-    title: "Identity Verified",
-    description: "Profile photos and IDs are verified",
+    title: "Certified Helpers",
+    description: "All caregivers are certified professionals",
     bgColor: "bg-gray-100",
     iconColor: "text-gray-700"
   }
