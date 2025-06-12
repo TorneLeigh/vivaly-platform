@@ -326,9 +326,17 @@ export default function Home() {
                 </div>
               </div>
               <div className="p-6">
-                <p className="text-gray-600 mb-4">
-                  Specialized infant care for babies aged 0-12 months, certified doulas, lactation consultants, 1-on-1 personalized care, new parent support groups, coffee catch-ups with other parents, postpartum recovery assistance, and comprehensive mental health support for new and expecting families.
-                </p>
+                <div className="text-gray-600 mb-4 space-y-2">
+                  <div className="font-semibold text-gray-800 mb-2">Core Services:</div>
+                  <div className="text-sm leading-relaxed">
+                    • Specialized infant care (0-12 months)<br/>
+                    • Certified doulas & lactation consultants<br/>
+                    • 1-on-1 personalized care<br/>
+                    • New parent support groups<br/>
+                    • Coffee catch-ups with other parents<br/>
+                    • Postpartum recovery assistance
+                  </div>
+                </div>
                 <Link href="/prenatal-services">
                   <Button className="w-full bg-coral hover:bg-coral/90 text-white">
                     Explore Support
@@ -354,9 +362,17 @@ export default function Home() {
                 </div>
               </div>
               <div className="p-6">
-                <p className="text-gray-600 mb-4">
-                  1-on-1 personalized nannies, 1-2 hour group care sessions, drop and dash quick childcare, park playdates to meet other families, art & craft creative sessions, coffee catch-ups for parents, after-school care, holiday programs, and specialized support for children with additional needs.
-                </p>
+                <div className="text-gray-600 mb-4 space-y-2">
+                  <div className="font-semibold text-gray-800 mb-2">Flexible Options:</div>
+                  <div className="text-sm leading-relaxed">
+                    • 1-on-1 personalized nannies<br/>
+                    • 1-2 hour group care sessions<br/>
+                    • Drop and dash quick childcare<br/>
+                    • Park playdates & family meetups<br/>
+                    • Art & craft creative sessions<br/>
+                    • After-school & holiday programs
+                  </div>
+                </div>
                 <Link href="/child-care-services">
                   <Button className="w-full bg-coral hover:bg-coral/90 text-white">
                     Find Childcare
@@ -382,9 +398,17 @@ export default function Home() {
                 </div>
               </div>
               <div className="p-6">
-                <p className="text-gray-600 mb-4">
-                  Personal care assistance, companionship services, meal preparation, medication management, mobility support, dementia care, respite care, live-in care options, and elderly care social events with companionship activities organized by service providers.
-                </p>
+                <div className="text-gray-600 mb-4 space-y-2">
+                  <div className="font-semibold text-gray-800 mb-2">Comprehensive Care:</div>
+                  <div className="text-sm leading-relaxed">
+                    • Personal care & companionship<br/>
+                    • Meal preparation & medication management<br/>
+                    • Mobility support & dementia care<br/>
+                    • Respite care & live-in options<br/>
+                    • Elderly social events & activities<br/>
+                    • Professional companionship programs
+                  </div>
+                </div>
                 <Link href="/aged-care-services">
                   <Button className="w-full bg-coral hover:bg-coral/90 text-white">
                     Find Aged Care
@@ -410,9 +434,17 @@ export default function Home() {
                 </div>
               </div>
               <div className="p-6">
-                <p className="text-gray-600 mb-4">
-                  Complete pet care services including dog walking, pet sitting, overnight boarding, grooming, feeding assistance, exercise and playtime, veterinary transport, and specialized care for pets with medical needs or behavioral requirements.
-                </p>
+                <div className="text-gray-600 mb-4 space-y-2">
+                  <div className="font-semibold text-gray-800 mb-2">Complete Pet Care:</div>
+                  <div className="text-sm leading-relaxed">
+                    • Dog walking & pet sitting<br/>
+                    • Overnight boarding & grooming<br/>
+                    • Feeding assistance & exercise<br/>
+                    • Veterinary transport services<br/>
+                    • Specialized medical care<br/>
+                    • Behavioral support programs
+                  </div>
+                </div>
                 <Link href="/pet-care-services">
                   <Button className="w-full bg-coral hover:bg-coral/90 text-white">
                     Find Pet Care
