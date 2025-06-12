@@ -689,7 +689,7 @@ export default function CaregiverRegistration() {
         return (
           <Card>
             <CardContent className="text-center py-12">
-              <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+              <CheckCircle className="w-16 h-16 text-orange-500 mx-auto mb-4" />
               <h2 className="text-2xl font-bold text-gray-900 mb-2">Registration Complete!</h2>
               <p className="text-gray-600 mb-6">
                 Thank you for joining VIVALY as a caregiver. We're reviewing your application 

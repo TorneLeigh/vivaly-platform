@@ -267,13 +267,13 @@ export default function CaregiverRegistrationSimple() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-green-600" />
+                <CheckCircle className="w-5 h-5 text-orange-500" />
                 Registration Complete!
               </CardTitle>
             </CardHeader>
             <CardContent className="text-center space-y-4">
-              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                <CheckCircle className="w-10 h-10 text-green-600" />
+              <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto">
+                <CheckCircle className="w-10 h-10 text-orange-500" />
               </div>
               
               <div>

@@ -135,8 +135,8 @@ export default function Signup() {
       <div className="min-h-screen bg-gradient-to-b from-coral-light to-white flex items-center justify-center p-4">
         <Card className="w-full max-w-lg">
           <CardHeader className="text-center">
-            <div className="w-20 h-20 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
-              <CheckCircle className="h-12 w-12 text-green-600" />
+            <div className="w-20 h-20 mx-auto mb-4 bg-orange-100 rounded-full flex items-center justify-center">
+              <CheckCircle className="h-12 w-12 text-orange-500" />
             </div>
             <CardTitle className="text-2xl font-bold text-warm-gray">Welcome to VIVALY!</CardTitle>
           </CardHeader>

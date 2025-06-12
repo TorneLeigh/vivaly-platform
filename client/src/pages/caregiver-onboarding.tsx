@@ -783,7 +783,7 @@ export default function CaregiverOnboarding() {
 
             <div className="bg-green-50 border border-green-200 rounded-lg p-6">
               <div className="flex items-start">
-                <CheckCircle className="w-6 h-6 text-green-600 mr-3 mt-1" />
+                <CheckCircle className="w-6 h-6 text-orange-500 mr-3 mt-1" />
                 <div>
                   <h3 className="font-semibold text-green-900 mb-2">Almost Done!</h3>
                   <p className="text-green-800 text-sm">
