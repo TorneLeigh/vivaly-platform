@@ -14,7 +14,7 @@ export default function ChildCareServices() {
     {
       title: "1-on-1 Care",
       description: "Personalized one-on-one childcare with dedicated attention tailored to your child's specific needs and development stage.",
-      image: infantCareImage,
+      image: toddlerProgramImage,
       link: "/book/one-on-one-care",
       buttonText: "Book Now",
       features: ["Individual attention", "Customized activities", "Flexible scheduling", "Developmental focus", "Parent communication"]
@@ -46,7 +46,7 @@ export default function ChildCareServices() {
     {
       title: "Art & Craft Sessions",
       description: "Creative sessions for kids and parents to explore artistic expression, develop fine motor skills, and bond through shared activities.",
-      image: babysittingImage,
+      image: afterSchoolCareImage,
       link: "/book/art-craft",
       buttonText: "Join Session",
       features: ["Creative expression", "Parent-child bonding", "Skill development", "All materials provided", "Age-appropriate projects"]
@@ -54,7 +54,7 @@ export default function ChildCareServices() {
     {
       title: "Coffee Catch-ups",
       description: "Parent meetups at local cafes where children can play while parents connect and build supportive community relationships.",
-      image: nannyCareImage,
+      image: preschoolEducationImage,
       link: "/book/coffee-meetups",
       buttonText: "Join Meetup",
       features: ["Parent networking", "Child-friendly venues", "Community support", "Regular meetups", "Relaxed atmosphere"]

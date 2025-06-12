@@ -48,7 +48,7 @@ export default function PrenatalServices() {
     {
       title: "Coffee Catch-ups",
       description: "Parent meetups at local cafes to connect with other families and build supportive community relationships.",
-      image: breastfeedingLatchImage,
+      image: doulaImage5,
       link: "/book/coffee-meetups",
       buttonText: "Join Meetup"
     }
