@@ -458,56 +458,140 @@ export default function Home() {
       </section>
 
       {/* How It Works */}
-      <section className="py-16 bg-gray-100">
-        <div className="container max-w-6xl mx-auto px-4">
+      <section className="py-20 bg-white">
+        <div className="container max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
-            <p className="text-xl text-gray-600">Simple steps to find quality care</p>
+            <h2 className="text-5xl font-bold text-gray-900 mb-4">It's easy to find quality care</h2>
+            <p className="text-xl text-gray-600">Simple steps to get started</p>
           </div>
           
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="text-center group relative transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 bg-white rounded-lg p-6 shadow-sm hover:shadow-lg">
-              <div className="absolute -top-4 -left-4 w-8 h-8 bg-coral text-white rounded-full flex items-center justify-center font-bold text-sm">
-                1
+          {/* Mobile Mockups Section */}
+          <div className="grid md:grid-cols-3 gap-12 items-center mb-20">
+            {/* Step 1 - Browse */}
+            <div className="text-center">
+              <div className="relative mb-8">
+                <div className="w-64 h-[520px] mx-auto bg-black rounded-[3rem] p-2 shadow-2xl">
+                  <div className="w-full h-full bg-white rounded-[2.5rem] overflow-hidden relative">
+                    {/* Phone UI Header */}
+                    <div className="absolute top-0 left-0 right-0 h-12 bg-white z-10">
+                      <div className="flex justify-center items-center h-full">
+                        <div className="w-32 h-6 bg-black rounded-full"></div>
+                      </div>
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="pt-16 px-6 h-full bg-gray-50">
+                      <div className="text-left mb-4">
+                        <h3 className="text-lg font-bold text-gray-900">Find Care Near You</h3>
+                      </div>
+                      
+                      {/* Search Interface */}
+                      <div className="bg-white rounded-lg p-4 mb-4 shadow-sm">
+                        <div className="text-sm text-gray-600 mb-2">Location</div>
+                        <div className="text-gray-900 font-medium">Sydney, NSW</div>
+                      </div>
+                      
+                      <div className="bg-white rounded-lg p-4 mb-4 shadow-sm">
+                        <div className="text-sm text-gray-600 mb-2">Care Type</div>
+                        <div className="text-gray-900 font-medium">Childcare</div>
+                      </div>
+                      
+                      <div className="bg-coral text-white rounded-lg p-3 text-center font-medium">
+                        Search Caregivers
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300 text-2xl">
-                🧭
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Browse Carers</h3>
-              <p className="text-gray-600 text-sm">Enter your location and care category to view available carers. Instant booking and available today.</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Tell us what you need</h3>
+              <p className="text-gray-600">Enter your location and care requirements to see available caregivers</p>
             </div>
-            
-            <div className="text-center group relative transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 bg-white rounded-lg p-6 shadow-sm hover:shadow-lg">
-              <div className="absolute -top-4 -left-4 w-8 h-8 bg-coral text-white rounded-full flex items-center justify-center font-bold text-sm">
-                2
+
+            {/* Step 2 - Browse Profiles */}
+            <div className="text-center">
+              <div className="relative mb-8">
+                <div className="w-64 h-[520px] mx-auto bg-black rounded-[3rem] p-2 shadow-2xl">
+                  <div className="w-full h-full bg-white rounded-[2.5rem] overflow-hidden relative">
+                    {/* Phone UI Header */}
+                    <div className="absolute top-0 left-0 right-0 h-12 bg-white z-10">
+                      <div className="flex justify-center items-center h-full">
+                        <div className="w-32 h-6 bg-black rounded-full"></div>
+                      </div>
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="pt-16 px-6 h-full bg-gray-50">
+                      <div className="text-left mb-4">
+                        <h3 className="text-lg font-bold text-gray-900">Available Caregivers</h3>
+                      </div>
+                      
+                      {/* Caregiver Cards */}
+                      <div className="space-y-3">
+                        <div className="bg-white rounded-lg p-4 shadow-sm">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
+                            <div className="flex-1">
+                              <div className="text-sm font-bold text-gray-900">Sarah M.</div>
+                              <div className="text-xs text-gray-600">⭐⭐⭐⭐⭐ 4.9 (127 reviews)</div>
+                              <div className="text-xs text-coral font-medium">$35/hour</div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="bg-white rounded-lg p-4 shadow-sm">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
+                            <div className="flex-1">
+                              <div className="text-sm font-bold text-gray-900">Emma L.</div>
+                              <div className="text-xs text-gray-600">⭐⭐⭐⭐⭐ 4.8 (89 reviews)</div>
+                              <div className="text-xs text-coral font-medium">$40/hour</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300 text-2xl">
-                🔍
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Check Profiles</h3>
-              <p className="text-gray-600 text-sm">Review qualifications, experience, and user reviews.</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Browse verified caregivers</h3>
+              <p className="text-gray-600">View profiles, reviews, and availability from background-checked caregivers</p>
             </div>
-            
-            <div className="text-center group relative transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 bg-white rounded-lg p-6 shadow-sm hover:shadow-lg">
-              <div className="absolute -top-4 -left-4 w-8 h-8 bg-coral text-white rounded-full flex items-center justify-center font-bold text-sm">
-                3
+
+            {/* Step 3 - Book & Connect */}
+            <div className="text-center">
+              <div className="relative mb-8">
+                <div className="w-64 h-[520px] mx-auto bg-black rounded-[3rem] p-2 shadow-2xl">
+                  <div className="w-full h-full bg-white rounded-[2.5rem] overflow-hidden relative">
+                    {/* Phone UI Header */}
+                    <div className="absolute top-0 left-0 right-0 h-12 bg-white z-10">
+                      <div className="flex justify-center items-center h-full">
+                        <div className="w-32 h-6 bg-black rounded-full"></div>
+                      </div>
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="pt-16 px-6 h-full bg-gray-50">
+                      <div className="text-center mb-6">
+                        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <div className="text-2xl">✓</div>
+                        </div>
+                        <h3 className="text-lg font-bold text-gray-900">Booking Confirmed!</h3>
+                        <p className="text-sm text-gray-600 mt-2">Sarah will arrive on<br/>Monday at 9:00 AM</p>
+                      </div>
+                      
+                      <div className="bg-white rounded-lg p-4 mb-4 shadow-sm">
+                        <div className="text-sm font-medium text-gray-900 mb-2">Quick Actions</div>
+                        <div className="space-y-2">
+                          <button className="w-full bg-coral text-white py-2 rounded-lg text-sm">Message Sarah</button>
+                          <button className="w-full border border-gray-300 text-gray-700 py-2 rounded-lg text-sm">View Details</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300 text-2xl">
-                🔒
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Book Securely</h3>
-              <p className="text-gray-600 text-sm">Utilize the platform's secure payment system.</p>
-            </div>
-            
-            <div className="text-center group relative transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 bg-white rounded-lg p-6 shadow-sm hover:shadow-lg">
-              <div className="absolute -top-4 -left-4 w-8 h-8 bg-coral text-white rounded-full flex items-center justify-center font-bold text-sm">
-                4
-              </div>
-              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300 text-2xl">
-                💬
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Post-Care Review</h3>
-              <p className="text-gray-600 text-sm">Leave feedback and rebook as needed.</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Book with confidence</h3>
+              <p className="text-gray-600">Secure booking and payment with instant confirmation and support</p>
             </div>
           </div>
         </div>
