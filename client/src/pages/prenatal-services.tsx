@@ -11,6 +11,20 @@ import doulaImage5 from "@assets/2c4a91a9b547f50bb709e6399c12a2a0_1749360121452.
 export default function PrenatalServices() {
   const prenatalServices = [
     {
+      title: "Doula Support",
+      description: "Certified doulas to guide you emotionally and physically during pregnancy, labor, and postpartum recovery with personalized care.",
+      image: doulaImage1,
+      link: "/book/doula",
+      buttonText: "Book Now"
+    },
+    {
+      title: "Prenatal Classes",
+      description: "Comprehensive birth education classes covering labor preparation, breathing techniques, pain management, and newborn care essentials.",
+      image: birthEducationClassImage,
+      link: "/book/classes",
+      buttonText: "Learn More"
+    },
+    {
       title: "Infant Care",
       description: "Specialized care for babies aged 0-12 months with certified caregivers trained in infant development, feeding schedules, sleep routines, and safety protocols.",
       image: newbornCareImage,
@@ -20,37 +34,23 @@ export default function PrenatalServices() {
     {
       title: "1-on-1 Care",
       description: "Personalized one-on-one support tailored to your specific needs during pregnancy and postpartum recovery.",
-      image: doulaImage1,
+      image: motherHoldingBabyImage,
       link: "/book/one-on-one",
       buttonText: "Book Now"
     },
     {
       title: "New Parent Groups",
       description: "Support groups for new mothers to connect, share experiences, and receive guidance from other parents and professionals.",
-      image: birthEducationClassImage,
+      image: doulaImage5,
       link: "/book/parent-groups",
       buttonText: "Join Group"
     },
     {
       title: "Coffee Catch-ups",
       description: "Parent meetups at local cafes to connect with other families and build supportive community relationships.",
-      image: motherHoldingBabyImage,
+      image: breastfeedingLatchImage,
       link: "/book/coffee-meetups",
       buttonText: "Join Meetup"
-    },
-    {
-      title: "Lactation Support",
-      description: "Comprehensive breastfeeding support and lactation consultation from certified specialists.",
-      image: breastfeedingLatchImage,
-      link: "/book/lactation",
-      buttonText: "Book Now"
-    },
-    {
-      title: "Postpartum Care",
-      description: "Recovery support and guidance through the fourth trimester with experienced caregivers.",
-      image: doulaImage5,
-      link: "/book/postpartum",
-      buttonText: "Learn More"
     }
   ];
 
