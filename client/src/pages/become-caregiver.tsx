@@ -520,8 +520,8 @@ export default function CaregiverRegistration() {
                         onCheckedChange={(checked) => form.setValue("hasFirstAid", !!checked)}
                       />
                       <Label htmlFor="hasFirstAid" className="flex-1">
-                        <div className="font-medium">First Aid & CPR Certification</div>
-                        <div className="text-sm text-gray-600">Essential for child safety and emergencies</div>
+                        <div className="font-medium">First Aid & CPR Certification (optional but beneficial)</div>
+                        <div className="text-sm text-gray-600">Enhances your profile and provides extra safety assurance</div>
                       </Label>
                     </div>
                     
@@ -693,7 +693,7 @@ export default function CaregiverRegistration() {
               <h2 className="text-2xl font-bold text-gray-900 mb-2">Registration Complete!</h2>
               <p className="text-gray-600 mb-6">
                 Thank you for joining VIVALY as a caregiver. We're reviewing your application 
-                and will notify you within 2-3 business days.
+                and will notify you within 1-2 business days.
               </p>
               
               <div className="space-y-3">

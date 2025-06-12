@@ -1557,34 +1557,65 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Caregiver registration route
-  app.post("/api/caregivers/register", authenticateToken, async (req: any, res) => {
+  app.post("/api/caregivers/register", async (req: any, res) => {
     try {
       const registrationData = req.body;
       
+      // Check if user already exists
+      const existingUser = await storage.getUserByEmail(registrationData.email);
+      let userId;
+      
+      if (existingUser) {
+        userId = existingUser.id;
+      } else {
+        // Create new user account
+        const hashedPassword = await bcrypt.hash("temppassword123", 10);
+        const newUserId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        
+        const newUser = {
+          id: newUserId,
+          email: registrationData.email,
+          password: hashedPassword,
+          firstName: registrationData.firstName,
+          lastName: registrationData.lastName,
+          phone: registrationData.phone || null,
+          profileImageUrl: null,
+          isNanny: true,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        };
+
+        const user = await storage.createUserSimple(newUser);
+        userId = user.id;
+        
+        // Store user ID in session
+        req.session.userId = user.id;
+      }
+      
       // Create caregiver profile
       const nannyData = insertNannySchema.parse({
-        userId: req.user.userId,
+        userId: userId,
         bio: registrationData.bio,
         experience: registrationData.experience,
         hourlyRate: registrationData.hourlyRate.toString(),
         location: `${registrationData.suburb}, ${registrationData.state}`,
         suburb: registrationData.suburb,
         services: registrationData.services,
-        hasWwcc: registrationData.hasWWCC,
-        hasFirstAid: registrationData.hasFirstAid,
-        hasPoliceCheck: registrationData.hasPoliceCheck,
+        hasWwcc: registrationData.hasWWCC || false,
+        hasFirstAid: registrationData.hasFirstAid || false,
+        hasPoliceCheck: registrationData.hasPoliceCheck || false,
         isVerified: false, // Pending verification
       });
       
       const nanny = await storage.createNanny(nannyData);
       
       // Send welcome email
-      const user = await storage.getUser(req.user.userId);
+      const user = await storage.getUser(userId);
       if (user) {
-        await sendNannyWelcomeSequence(user.email, user.firstName);
+        await sendCaregiverWelcomeSequence(user.email, user.firstName);
       }
       
-      res.json({ success: true, caregiverId: nanny.id });
+      res.json({ success: true, caregiverId: nanny.id, userId: userId });
     } catch (error) {
       console.error("Caregiver registration error:", error);
       res.status(500).json({ message: "Failed to register caregiver" });

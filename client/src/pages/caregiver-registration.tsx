@@ -149,7 +149,7 @@ export default function CaregiverRegistration() {
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       toast({
         title: "Registration Submitted!",
-        description: "Your caregiver profile is under review. You'll be notified within 2-3 business days.",
+        description: "Your caregiver profile is under review. You'll be notified within 1-2 business days.",
       });
       setStep(5); // Success step
     },
@@ -659,7 +659,7 @@ export default function CaregiverRegistration() {
                     {...form.register("hasFirstAid")}
                   />
                   <Label htmlFor="hasFirstAid" className="font-medium">
-                    I have a Current First Aid Certificate
+                    I have a Current First Aid Certificate (optional but beneficial)
                   </Label>
                 </div>
                 
@@ -799,7 +799,7 @@ export default function CaregiverRegistration() {
               <h2 className="text-2xl font-bold text-gray-900 mb-2">Registration Complete!</h2>
               <p className="text-gray-600 mb-6">
                 Thank you for joining VIVALY as a caregiver. We're reviewing your application 
-                and will notify you within 2-3 business days.
+                and will notify you within 1-2 business days.
               </p>
               
               <div className="space-y-3">
