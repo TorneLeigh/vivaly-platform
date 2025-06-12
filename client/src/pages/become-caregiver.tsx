@@ -31,10 +31,7 @@ export default function BecomeCaregiver() {
               and grow your care career.
             </p>
             
-            <div className="inline-flex items-center gap-2 bg-gray-100 text-gray-800 px-4 py-2 rounded-full text-sm font-medium">
-              <Heart className="w-4 h-4 text-coral" />
-              Created by a Mom, for caring communities
-            </div>
+
           </div>
 
           {/* Benefits Section */}
@@ -114,7 +111,7 @@ export default function BecomeCaregiver() {
                   <Heart className="w-8 h-8 text-coral" />
                 </div>
                 <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  Get 1:1 support from experienced hosts at any time
+                  Get support
                 </h3>
                 <p className="text-gray-600">
                   Quickly message guests and get support when you need it
@@ -209,37 +206,14 @@ export default function BecomeCaregiver() {
             </div>
           </div>
 
-          {/* Process Preview */}
+          {/* Already have account */}
           <div className="mt-12 text-center">
-            <h3 className="text-2xl font-bold text-gray-900 mb-8">Simple Registration Process</h3>
-            
-            <div className="grid md:grid-cols-6 gap-4">
-              {[
-                { icon: Users, title: "Personal Info", desc: "Basic details & location" },
-                { icon: Heart, title: "About You", desc: "Your story & approach" },
-                { icon: Award, title: "Experience", desc: "Skills & services" },
-                { icon: Calendar, title: "Availability", desc: "Schedule & rates" },
-                { icon: Globe, title: "Languages", desc: "Transport & travel" },
-                { icon: Shield, title: "Verification", desc: "Background checks" }
-              ].map((step, index) => (
-                <div key={index} className="text-center">
-                  <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <step.icon className="w-6 h-6 text-orange-600" />
-                  </div>
-                  <h4 className="font-medium text-sm mb-1">{step.title}</h4>
-                  <p className="text-xs text-gray-500">{step.desc}</p>
-                </div>
-              ))}
-            </div>
-            
-            <div className="mt-8">
-              <p className="text-gray-600">
-                Already have an account?{" "}
-                <Link href="/login" className="text-orange-600 hover:text-orange-700 font-medium">
-                  Sign in here
-                </Link>
-              </p>
-            </div>
+            <p className="text-gray-600">
+              Already have an account?{" "}
+              <Link href="/login" className="text-orange-600 hover:text-orange-700 font-medium">
+                Sign in here
+              </Link>
+            </p>
           </div>
         </div>
       </div>

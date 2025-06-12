@@ -19,10 +19,7 @@ export default function Signup() {
               Choose how you'd like to provide care services and connect with families in your community
             </p>
             
-            <div className="inline-flex items-center gap-2 bg-gray-100 text-gray-800 px-4 py-2 rounded-full text-sm font-medium">
-              <Heart className="w-4 h-4 text-coral" />
-              Created by a Mom, for caring communities
-            </div>
+
           </div>
 
           {/* Registration Options */}
