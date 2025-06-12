@@ -5,9 +5,9 @@ import OptimizedImage from '../components/OptimizedImage';
 import companionCareImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749278454511.jpg";
 import personalCareImage from "@assets/62016dc1fb72cd9a4d96847a6daf6c0e_1749278446432.jpg";
 import respiteCareImage from "@assets/79c40dcc41bd092f6f03b26fd4cf94d8_1749182897295.jpg";
-import transportErrandsImage from "@assets/f116334957ff9c74101be0e0c41edcda_1749182897295.jpg";
+import transportErrandsImage from "@assets/02a899c095b5a44d96492e700bf8fd0c_1749278450847.jpg";
 import medicalSupportImage from "@assets/02a899c095b5a44d96492e700bf8fd0c_1749278450847.jpg";
-import housekeepingImage from "@assets/c18480e234907faffa31784936ac8816_1749267000694.jpg";
+import housekeepingImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749278454511.jpg";
 
 export default function AgedCareServices() {
   const agedCareServices = [

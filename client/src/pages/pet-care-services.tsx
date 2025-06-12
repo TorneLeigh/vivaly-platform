@@ -2,7 +2,7 @@ import { Link } from 'wouter';
 import { ChevronRight, Home } from 'lucide-react';
 import { PetCareIcon } from '../components/ServiceIcons';
 import OptimizedImage from '../components/OptimizedImage';
-import dogWalkingImage from "@assets/c18480e234907faffa31784936ac8816_1749182897295.jpg";
+import dogWalkingImage from "@assets/969c7a3eeacf469a3a4c50a32a9b3d57.jpg";
 import petSittingImage from "@assets/8da0e0735821d20e3f8cb769e40a4c98_1749182897295.jpg";
 import dropInVisitsImage from "@assets/9717a7e59d32ac45c39a7f027a3230af_1749182897295.jpg";
 import petTransportImage from "@assets/d81ff6e441430a5c581dc3a72149844e_1749182897295.jpg";
