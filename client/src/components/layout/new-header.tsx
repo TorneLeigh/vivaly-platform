@@ -17,7 +17,7 @@ export default function NewHeader() {
 
   return (
     <>
-      <header className="flex justify-between items-center p-5 bg-white border-b border-gray-200 sticky top-0 z-50">
+      <header className="relative flex justify-between items-center p-5 bg-white border-b border-gray-200 sticky top-0 z-50">
         <Link href="/" className="text-2xl font-bold text-black no-underline">
           Vivaly
         </Link>
@@ -108,51 +108,53 @@ export default function NewHeader() {
       </header>
 
       {/* Mobile Menu */}
-      <div className={`md:hidden flex-col absolute top-full left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-50 ${mobileMenuOpen ? 'flex' : 'hidden'}`}>
-        <div className="px-5 py-2">
-          <Link href="/child-care-services" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-            Childcare
-          </Link>
-          <Link href="/pet-care-services" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-            Pet Care
-          </Link>
-          <Link href="/aged-care-services" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-            Aged Care
-          </Link>
-          <Link href="/prenatal-services" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-            Pre/Post Natal
-          </Link>
-          <Link href="/gift-card" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-            Gift Card
-          </Link>
-          <Link href="/help" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-            Help
-          </Link>
-          
-          {!isAuthenticated && !isLoading ? (
-            <>
-              <Link href="/auth" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-                Log In
-              </Link>
-              <Link href="/signup" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-                Sign Up
-              </Link>
-            </>
-          ) : isAuthenticated ? (
-            <>
-              <Link href="/messages" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-                Messages
-              </Link>
-              <Link href="/profile" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-                Profile
-              </Link>
-              <Link href="/logout" className="block py-3 text-black no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-                Log Out
-              </Link>
-            </>
-          ) : null}
+      {mobileMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-50">
+          <div className="px-5 py-2">
+            <Link href="/prenatal-services" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+              Pre/Post Natal
+            </Link>
+            <Link href="/child-care-services" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+              Childcare
+            </Link>
+            <Link href="/aged-care-services" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+              Aged Care
+            </Link>
+            <Link href="/pet-care-services" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+              Pet Care
+            </Link>
+            <Link href="/gift-card" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+              Gift Card
+            </Link>
+            <Link href="/help" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+              Help
+            </Link>
+            
+            {!isAuthenticated && !isLoading ? (
+              <>
+                <Link href="/auth" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+                  Log In
+                </Link>
+                <Link href="/signup" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+                  Sign Up
+                </Link>
+              </>
+            ) : isAuthenticated ? (
+              <>
+                <Link href="/messages" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+                  Messages
+                </Link>
+                <Link href="/profile" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+                  Profile
+                </Link>
+                <Link href="/logout" className="block py-3 text-black no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+                  Log Out
+                </Link>
+              </>
+            ) : null}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
