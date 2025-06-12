@@ -16,7 +16,7 @@ import { Link } from "wouter";
 
 export default function BecomeCaregiver() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
+    <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
@@ -30,18 +30,18 @@ export default function BecomeCaregiver() {
               and grow your care career.
             </p>
             
-            <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium">
-              <Heart className="w-4 h-4" />
+            <div className="inline-flex items-center gap-2 bg-gray-100 text-gray-800 px-4 py-2 rounded-full text-sm font-medium">
+              <Heart className="w-4 h-4 text-coral" />
               Created by a Mom, for caring communities
             </div>
           </div>
 
           {/* Benefits Section */}
           <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <Card className="text-center border-orange-200">
+            <Card className="text-center border-gray-200 hover:border-gray-300 transition-colors">
               <CardContent className="p-6">
-                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <DollarSign className="w-8 h-8 text-orange-600" />
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <DollarSign className="w-8 h-8 text-gray-700" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2">Set Your Own Rates</h3>
                 <p className="text-gray-600 text-sm">
@@ -50,10 +50,10 @@ export default function BecomeCaregiver() {
               </CardContent>
             </Card>
 
-            <Card className="text-center border-orange-200">
+            <Card className="text-center border-gray-200 hover:border-gray-300 transition-colors">
               <CardContent className="p-6">
-                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Calendar className="w-8 h-8 text-orange-600" />
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Calendar className="w-8 h-8 text-gray-700" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2">Flexible Schedule</h3>
                 <p className="text-gray-600 text-sm">
@@ -62,10 +62,10 @@ export default function BecomeCaregiver() {
               </CardContent>
             </Card>
 
-            <Card className="text-center border-orange-200">
+            <Card className="text-center border-gray-200 hover:border-gray-300 transition-colors">
               <CardContent className="p-6">
-                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Shield className="w-8 h-8 text-orange-600" />
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Shield className="w-8 h-8 text-gray-700" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2">Trusted Platform</h3>
                 <p className="text-gray-600 text-sm">
@@ -158,11 +158,11 @@ export default function BecomeCaregiver() {
             
             <div className="grid md:grid-cols-2 gap-8">
               {/* Individual Caregiver */}
-              <Card className="border-2 border-gray-200 hover:border-orange-300 transition-colors cursor-pointer group">
+              <Card className="border-2 border-gray-200 hover:border-gray-300 transition-colors cursor-pointer group">
                 <CardContent className="p-8">
                   <div className="text-center">
-                    <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-200 transition-colors">
-                      <Heart className="w-10 h-10 text-orange-600" />
+                    <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-gray-200 transition-colors">
+                      <Heart className="w-10 h-10 text-coral" />
                     </div>
                     
                     <h3 className="text-2xl font-bold text-gray-900 mb-4">
@@ -187,7 +187,7 @@ export default function BecomeCaregiver() {
                     </div>
 
                     <Link href="/enhanced-caregiver-registration">
-                      <Button className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3">
+                      <Button className="w-full bg-black hover:bg-gray-800 text-white py-3">
                         Register as Individual Caregiver
                       </Button>
                     </Link>
@@ -196,11 +196,11 @@ export default function BecomeCaregiver() {
               </Card>
 
               {/* Service Provider */}
-              <Card className="border-2 border-gray-200 hover:border-orange-300 transition-colors cursor-pointer group">
+              <Card className="border-2 border-gray-200 hover:border-gray-300 transition-colors cursor-pointer group">
                 <CardContent className="p-8">
                   <div className="text-center">
-                    <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-200 transition-colors">
-                      <Users className="w-10 h-10 text-orange-600" />
+                    <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-gray-200 transition-colors">
+                      <Users className="w-10 h-10 text-gray-700" />
                     </div>
                     
                     <h3 className="text-2xl font-bold text-gray-900 mb-4">
