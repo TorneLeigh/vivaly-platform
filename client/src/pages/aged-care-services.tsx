@@ -2,12 +2,13 @@ import { Link } from 'wouter';
 import { ChevronRight, Home } from 'lucide-react';
 import { AgedCareIcon, CompanionshipIcon } from '../components/ServiceIcons';
 import OptimizedImage from '../components/OptimizedImage';
-import companionCareImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749278454511.jpg";
-import personalCareImage from "@assets/62016dc1fb72cd9a4d96847a6daf6c0e_1749278446432.jpg";
-import respiteCareImage from "@assets/62016dc1fb72cd9a4d96847a6daf6c0e_1749278446432.jpg";
-import transportErrandsImage from "@assets/02a899c095b5a44d96492e700bf8fd0c_1749278450847.jpg";
-import medicalSupportImage from "@assets/02a899c095b5a44d96492e700bf8fd0c_1749278450847.jpg";
-import housekeepingImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749278454511.jpg";
+import companionCareImage from "@assets/e84b82177ddf914b2846c3f2490fa10a_1749704143559.jpg";
+import personalCareImage from "@assets/4cc0a7574cdc29223b8258323d959476_1749704162733.jpg";
+import respiteCareImage from "@assets/3cac5e050bdabc4fff29304ef9af2d1e_1749704239514.jpg";
+import transportErrandsImage from "@assets/7111567ee33e7fbd156e36bd454e1ed4_1749704162733.jpg";
+import medicalSupportImage from "@assets/3762ad3936751689a7cd687f78482609_1749704239514.jpg";
+import housekeepingImage from "@assets/1479ae8eb70d8fd487ceda250ec4dd79_1749704239514.jpg";
+import elderlySocialImage from "@assets/f2918dba9993260327d6b33966a5b786_1749704143559.jpg";
 
 export default function AgedCareServices() {
   const agedCareServices = [
@@ -62,7 +63,7 @@ export default function AgedCareServices() {
     {
       title: "Elderly Care Social",
       description: "Companionship and care through organized social events, group activities, and community engagement programs run by experienced service providers to enhance social connections and wellbeing.",
-      image: companionCareImage,
+      image: elderlySocialImage,
       link: "/book/elderly-social",
       buttonText: "Join Events",
       features: ["Group activities", "Social events", "Community engagement", "Peer connections", "Professional facilitation"]
