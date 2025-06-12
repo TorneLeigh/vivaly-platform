@@ -236,7 +236,7 @@ export default function Home() {
       <section className="bg-white relative min-h-[45vh] flex items-center pt-8 md:pt-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-tight mb-2">
-            All Your Care, Covered
+            Created by a Mom
           </h1>
           <p className="text-lg sm:text-xl text-coral font-medium mb-6 italic">
             Book trusted care in minutes
