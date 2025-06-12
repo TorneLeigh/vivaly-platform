@@ -225,7 +225,7 @@ export default function BecomeCaregiver() {
                     </div>
 
                     <Link href="/service-provider-registration">
-                      <Button className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3">
+                      <Button className="w-full bg-black hover:bg-gray-800 text-white py-3">
                         Register as Service Provider
                       </Button>
                     </Link>

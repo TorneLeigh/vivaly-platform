@@ -7,7 +7,7 @@ import { Link } from "wouter";
 
 export default function Signup() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
+    <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
@@ -19,8 +19,8 @@ export default function Signup() {
               Choose how you'd like to provide care services and connect with families in your community
             </p>
             
-            <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium">
-              <Heart className="w-4 h-4" />
+            <div className="inline-flex items-center gap-2 bg-gray-100 text-gray-800 px-4 py-2 rounded-full text-sm font-medium">
+              <Heart className="w-4 h-4 text-coral" />
               Created by a Mom, for caring communities
             </div>
           </div>
@@ -28,11 +28,11 @@ export default function Signup() {
           {/* Registration Options */}
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             {/* Individual Caregiver */}
-            <Card className="border-2 border-gray-200 hover:border-orange-300 transition-colors cursor-pointer group">
+            <Card className="border-2 border-gray-200 hover:border-gray-300 transition-colors cursor-pointer group">
               <CardContent className="p-8">
                 <div className="text-center">
-                  <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-200 transition-colors">
-                    <Heart className="w-10 h-10 text-orange-600" />
+                  <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-gray-200 transition-colors">
+                    <Heart className="w-10 h-10 text-coral" />
                   </div>
                   
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">
@@ -57,7 +57,7 @@ export default function Signup() {
                   </div>
 
                   <Link href="/enhanced-caregiver-registration">
-                    <Button className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3">
+                    <Button className="w-full bg-black hover:bg-gray-800 text-white py-3">
                       Register as Individual Caregiver
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
@@ -67,11 +67,11 @@ export default function Signup() {
             </Card>
 
             {/* Service Provider */}
-            <Card className="border-2 border-gray-200 hover:border-orange-300 transition-colors cursor-pointer group">
+            <Card className="border-2 border-gray-200 hover:border-gray-300 transition-colors cursor-pointer group">
               <CardContent className="p-8">
                 <div className="text-center">
-                  <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-200 transition-colors">
-                    <Users className="w-10 h-10 text-orange-600" />
+                  <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-gray-200 transition-colors">
+                    <Users className="w-10 h-10 text-gray-700" />
                   </div>
                   
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">
@@ -96,7 +96,7 @@ export default function Signup() {
                   </div>
 
                   <Link href="/service-provider-registration">
-                    <Button className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3">
+                    <Button className="w-full bg-black hover:bg-gray-800 text-white py-3">
                       Register as Service Provider
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
