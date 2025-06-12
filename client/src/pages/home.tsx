@@ -338,7 +338,7 @@ export default function Home() {
                   </div>
                 </div>
                 <Link href="/prenatal-services">
-                  <Button className="w-full bg-coral hover:bg-coral/90 text-white">
+                  <Button className="w-full bg-black hover:bg-gray-800 text-white">
                     Explore Support
                   </Button>
                 </Link>
@@ -374,7 +374,7 @@ export default function Home() {
                   </div>
                 </div>
                 <Link href="/child-care-services">
-                  <Button className="w-full bg-coral hover:bg-coral/90 text-white">
+                  <Button className="w-full bg-black hover:bg-gray-800 text-white">
                     Find Childcare
                   </Button>
                 </Link>
@@ -410,7 +410,7 @@ export default function Home() {
                   </div>
                 </div>
                 <Link href="/aged-care-services">
-                  <Button className="w-full bg-coral hover:bg-coral/90 text-white">
+                  <Button className="w-full bg-black hover:bg-gray-800 text-white">
                     Find Aged Care
                   </Button>
                 </Link>
@@ -446,7 +446,7 @@ export default function Home() {
                   </div>
                 </div>
                 <Link href="/pet-care-services">
-                  <Button className="w-full bg-coral hover:bg-coral/90 text-white">
+                  <Button className="w-full bg-black hover:bg-gray-800 text-white">
                     Find Pet Care
                   </Button>
                 </Link>
