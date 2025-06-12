@@ -239,7 +239,7 @@ export default function Home() {
             Created by a Mom
           </h1>
           <p className="text-lg sm:text-xl text-coral font-medium mb-6 italic">
-            Book trusted care in minutes
+            Because it takes a village
           </p>
           
           {/* Airbnb-style Search Bar - Fixed positioning to prevent movement */}
