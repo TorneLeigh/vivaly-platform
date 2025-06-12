@@ -1,0 +1,67 @@
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const Stripe = require('stripe');
+const stripe = Stripe('sk_test_YOUR_SECRET_KEY'); // Replace with your Stripe key
+
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+
+let users = [];
+let caregivers = [];
+let bookings = [];
+
+app.post('/signup', (req, res) => {
+  const { type, name, email } = req.body;
+  if (!type || !name || !email) return res.status(400).json({ error: 'Missing fields' });
+  const id = users.length + 1;
+  users.push({ id, type, name, email, availability: [], bookings: [] });
+  if (type === 'caregiver') caregivers.push({ id, name, email, availability: [], bookings: [] });
+  res.json({ success: true, userId: id });
+});
+
+app.post('/caregiver/:id/availability', (req, res) => {
+  const id = parseInt(req.params.id);
+  const caregiver = caregivers.find(c => c.id === id);
+  if (!caregiver) return res.status(404).json({ error: 'Not found' });
+  caregiver.availability = req.body.availability;
+  res.json({ success: true });
+});
+
+app.get('/caregivers', (req, res) => {
+  const { date } = req.query;
+  let filtered = caregivers;
+  if (date) filtered = caregivers.filter(c => c.availability.includes(date));
+  res.json(filtered);
+});
+
+app.post('/bookings', (req, res) => {
+  const { parentId, caregiverId, date } = req.body;
+  if (!parentId || !caregiverId || !date) return res.status(400).json({ error: 'Missing fields' });
+  const bookingId = bookings.length + 1;
+  bookings.push({ bookingId, parentId, caregiverId, date, status: 'pending' });
+  const parent = users.find(u => u.id === parentId && u.type === 'parent');
+  if (parent) parent.bookings.push(bookingId);
+  const caregiver = caregivers.find(c => c.id === caregiverId);
+  if (caregiver) caregiver.bookings.push(bookingId);
+  res.json({ success: true, bookingId });
+});
+
+app.post('/message', (req, res) => {
+  const { fromId, toId, message } = req.body;
+  console.log(`Message from ${fromId} to ${toId}: ${message}`);
+  res.json({ success: true });
+});
+
+app.post('/create-payment-intent', async (req, res) => {
+  const { amount } = req.body;
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({ amount, currency: 'aud' });
+    res.json({ clientSecret: paymentIntent.client_secret });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.listen(3001, () => console.log('Server running on port 3001'));
