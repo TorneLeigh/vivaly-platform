@@ -310,7 +310,7 @@ export default function Home() {
           {/* Four Main Categories */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {/* PRE & POSTNATAL SUPPORT */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 h-full flex flex-col">
               <div className="relative h-64">
                 <img 
                   src={pregnancyImage} 
@@ -325,8 +325,8 @@ export default function Home() {
                   </h3>
                 </div>
               </div>
-              <div className="p-6">
-                <div className="text-gray-600 mb-4 space-y-2">
+              <div className="p-6 flex-1 flex flex-col">
+                <div className="text-gray-600 mb-4 space-y-2 flex-1">
                   <div className="font-semibold text-gray-800 mb-2">Core Services:</div>
                   <div className="text-sm leading-relaxed">
                     • Specialized infant care (0-12 months)<br/>
@@ -346,7 +346,7 @@ export default function Home() {
             </div>
 
             {/* CHILDCARE */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 h-full flex flex-col">
               <div className="relative h-64">
                 <img 
                   src="/images/childcare.jpg" 
@@ -361,8 +361,8 @@ export default function Home() {
                   </h3>
                 </div>
               </div>
-              <div className="p-6">
-                <div className="text-gray-600 mb-4 space-y-2">
+              <div className="p-6 flex-1 flex flex-col">
+                <div className="text-gray-600 mb-4 space-y-2 flex-1">
                   <div className="font-semibold text-gray-800 mb-2">Flexible Options:</div>
                   <div className="text-sm leading-relaxed">
                     • 1-on-1 personalized nannies<br/>
@@ -382,7 +382,7 @@ export default function Home() {
             </div>
 
             {/* AGED CARE */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 h-full flex flex-col">
               <div className="relative h-64">
                 <img 
                   src="/images/elderly.jpg" 
@@ -397,8 +397,8 @@ export default function Home() {
                   </h3>
                 </div>
               </div>
-              <div className="p-6">
-                <div className="text-gray-600 mb-4 space-y-2">
+              <div className="p-6 flex-1 flex flex-col">
+                <div className="text-gray-600 mb-4 space-y-2 flex-1">
                   <div className="font-semibold text-gray-800 mb-2">Comprehensive Care:</div>
                   <div className="text-sm leading-relaxed">
                     • Personal care & companionship<br/>
@@ -418,7 +418,7 @@ export default function Home() {
             </div>
 
             {/* PET CARE */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 h-full flex flex-col">
               <div className="relative h-64">
                 <img 
                   src={petSittingServiceImage} 
@@ -433,8 +433,8 @@ export default function Home() {
                   </h3>
                 </div>
               </div>
-              <div className="p-6">
-                <div className="text-gray-600 mb-4 space-y-2">
+              <div className="p-6 flex-1 flex flex-col">
+                <div className="text-gray-600 mb-4 space-y-2 flex-1">
                   <div className="font-semibold text-gray-800 mb-2">Complete Pet Care:</div>
                   <div className="text-sm leading-relaxed">
                     • Dog walking & pet sitting<br/>
