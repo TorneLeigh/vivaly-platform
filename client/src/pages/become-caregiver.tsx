@@ -149,28 +149,91 @@ export default function BecomeCaregiver() {
             </CardContent>
           </Card>
 
-          {/* Call to Action */}
-          <Card className="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
-            <CardContent className="p-8 text-center">
-              <h2 className="text-3xl font-bold mb-4">Ready to Start Your Care Journey?</h2>
-              <p className="text-xl mb-8 opacity-90">
-                Join thousands of caregivers who are making a difference in families' lives
-              </p>
-              
-              <div className="space-y-4">
-                <Link href="/enhanced-caregiver-registration">
-                  <Button size="lg" className="bg-white text-orange-600 hover:bg-orange-50 text-lg px-8 py-4">
-                    Start Your Registration
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </Button>
-                </Link>
-                
-                <p className="text-sm opacity-75">
-                  Registration takes about 10-15 minutes • Free to join
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+          {/* Registration Options */}
+          <div className="mb-12">
+            <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">Choose Your Registration Path</h2>
+            <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
+              Select the option that best describes how you'd like to provide care services
+            </p>
+            
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Individual Caregiver */}
+              <Card className="border-2 border-gray-200 hover:border-orange-300 transition-colors cursor-pointer group">
+                <CardContent className="p-8">
+                  <div className="text-center">
+                    <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-200 transition-colors">
+                      <Heart className="w-10 h-10 text-orange-600" />
+                    </div>
+                    
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                      Individual Caregiver
+                    </h3>
+                    
+                    <p className="text-gray-600 mb-6 leading-relaxed">
+                      Provide direct, personal care services. Perfect for babysitters, 
+                      nannies, aged care assistants, pet sitters, and support workers 
+                      offering one-on-one care.
+                    </p>
+
+                    <div className="space-y-2 text-sm text-gray-500 mb-8">
+                      <div className="flex items-center justify-center gap-2">
+                        <Heart className="w-4 h-4" />
+                        <span>Child care, pet care, aged care support</span>
+                      </div>
+                      <div className="flex items-center justify-center gap-2">
+                        <Users className="w-4 h-4" />
+                        <span>Personal, in-home services</span>
+                      </div>
+                    </div>
+
+                    <Link href="/enhanced-caregiver-registration">
+                      <Button className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3">
+                        Register as Individual Caregiver
+                      </Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Service Provider */}
+              <Card className="border-2 border-gray-200 hover:border-orange-300 transition-colors cursor-pointer group">
+                <CardContent className="p-8">
+                  <div className="text-center">
+                    <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-200 transition-colors">
+                      <Users className="w-10 h-10 text-orange-600" />
+                    </div>
+                    
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                      Service Provider
+                    </h3>
+                    
+                    <p className="text-gray-600 mb-6 leading-relaxed">
+                      Offer structured programs and services. Ideal for daycare centers, 
+                      learning programs, activity classes, training workshops, and 
+                      organized care services.
+                    </p>
+
+                    <div className="space-y-2 text-sm text-gray-500 mb-8">
+                      <div className="flex items-center justify-center gap-2">
+                        <Calendar className="w-4 h-4" />
+                        <span>Classes, programs, workshops</span>
+                      </div>
+                      <div className="flex items-center justify-center gap-2">
+                        <Users className="w-4 h-4" />
+                        <span>Daycare centers, group services</span>
+                      </div>
+                    </div>
+
+                    <Link href="/service-provider-registration">
+                      <Button className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3">
+                        Register as Service Provider
+                      </Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
 
           {/* Process Preview */}
           <div className="mt-12 text-center">
