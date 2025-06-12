@@ -20,7 +20,7 @@ export default function NewHeader() {
       <header className="relative flex justify-between items-center p-5 bg-white border-b border-gray-200 sticky top-0 z-50">
         <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-black no-underline">
           <img 
-            src="@assets/LOGO UPLOAD VIVALY_1749697003124.jpeg" 
+            src="/attached_assets/LOGO UPLOAD VIVALY_1749697003124.jpeg" 
             alt="Vivaly Logo" 
             className="h-8 w-8 rounded-lg object-cover"
           />
@@ -140,14 +140,14 @@ export default function NewHeader() {
             </Link>
             
             {!isAuthenticated && !isLoading ? (
-              <>
-                <Link href="/auth" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+              <div className="pt-4 pb-2">
+                <Link href="/auth" className="block mb-3 px-4 py-3 bg-black text-white text-center rounded-lg no-underline font-medium hover:bg-gray-800 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                   Log In
                 </Link>
-                <Link href="/signup" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+                <Link href="/signup" className="block px-4 py-3 bg-black text-white text-center rounded-lg no-underline font-medium hover:bg-gray-800 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                   Sign Up
                 </Link>
-              </>
+              </div>
             ) : isAuthenticated ? (
               <>
                 <Link href="/messages" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
