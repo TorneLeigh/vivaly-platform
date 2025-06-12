@@ -206,15 +206,159 @@ export default function BecomeCaregiver() {
             </div>
           </div>
 
-          {/* Already have account */}
-          <div className="mt-12 text-center">
-            <p className="text-gray-600">
-              Already have an account?{" "}
-              <Link href="/login" className="text-orange-600 hover:text-orange-700 font-medium">
-                Sign in here
-              </Link>
-            </p>
-          </div>
+          {/* How It Works - Airbnb Style */}
+          <section className="py-20 bg-white">
+            <div className="container max-w-7xl mx-auto px-4">
+              <div className="text-center mb-16">
+                <h2 className="text-5xl font-bold text-gray-900 mb-4">The easy process</h2>
+                <p className="text-xl text-gray-600">Simple steps to join our community</p>
+              </div>
+              
+              {/* Mobile Mockups Section */}
+              <div className="grid md:grid-cols-3 gap-12 items-center mb-20">
+                {/* Step 1 - Create Profile */}
+                <div className="text-center">
+                  <div className="relative mb-8 overflow-hidden">
+                    <div className="w-64 h-[400px] mx-auto bg-black rounded-t-[3rem] p-2 shadow-2xl">
+                      <div className="w-full h-full bg-white rounded-t-[2.5rem] overflow-hidden relative">
+                        {/* Phone UI Header */}
+                        <div className="absolute top-0 left-0 right-0 h-12 bg-white z-10">
+                          <div className="flex justify-center items-center h-full">
+                            <div className="w-32 h-6 bg-black rounded-full"></div>
+                          </div>
+                        </div>
+                        
+                        {/* Content */}
+                        <div className="pt-16 px-6 h-full bg-gray-50">
+                          <div className="text-left mb-4">
+                            <h3 className="text-lg font-bold text-gray-900">Create Your Profile</h3>
+                          </div>
+                          
+                          {/* Profile Form */}
+                          <div className="space-y-3">
+                            <div className="bg-white rounded-lg p-4 shadow-sm">
+                              <div className="text-sm text-gray-600 mb-2">About You</div>
+                              <div className="text-gray-900 font-medium">Tell families about your experience...</div>
+                            </div>
+                            
+                            <div className="bg-white rounded-lg p-4 shadow-sm">
+                              <div className="text-sm text-gray-600 mb-2">Services</div>
+                              <div className="flex flex-wrap gap-1">
+                                <span className="text-xs bg-coral text-white px-2 py-1 rounded">Childcare</span>
+                                <span className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded">Pet Care</span>
+                              </div>
+                            </div>
+                            
+                            <div className="bg-coral text-white rounded-lg p-3 text-center font-medium">
+                              Save Profile
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Create your profile</h3>
+                  <p className="text-gray-600">Build a profile that showcases your experience and personality</p>
+                </div>
+
+                {/* Step 2 - Set Availability */}
+                <div className="text-center">
+                  <div className="relative mb-8 overflow-hidden">
+                    <div className="w-64 h-[400px] mx-auto bg-black rounded-t-[3rem] p-2 shadow-2xl">
+                      <div className="w-full h-full bg-white rounded-t-[2.5rem] overflow-hidden relative">
+                        {/* Phone UI Header */}
+                        <div className="absolute top-0 left-0 right-0 h-12 bg-white z-10">
+                          <div className="flex justify-center items-center h-full">
+                            <div className="w-32 h-6 bg-black rounded-full"></div>
+                          </div>
+                        </div>
+                        
+                        {/* Content */}
+                        <div className="pt-16 px-6 h-full bg-gray-50">
+                          <div className="text-left mb-4">
+                            <h3 className="text-lg font-bold text-gray-900">Your Calendar</h3>
+                          </div>
+                          
+                          {/* Calendar View */}
+                          <div className="bg-white rounded-lg p-4 shadow-sm mb-4">
+                            <div className="grid grid-cols-7 gap-1 text-xs">
+                              <div className="text-center font-medium text-gray-600">M</div>
+                              <div className="text-center font-medium text-gray-600">T</div>
+                              <div className="text-center font-medium text-gray-600">W</div>
+                              <div className="text-center font-medium text-gray-600">T</div>
+                              <div className="text-center font-medium text-gray-600">F</div>
+                              <div className="text-center font-medium text-gray-600">S</div>
+                              <div className="text-center font-medium text-gray-600">S</div>
+                              
+                              <div className="text-center p-1 bg-coral text-white rounded text-xs">15</div>
+                              <div className="text-center p-1 text-gray-400 text-xs">16</div>
+                              <div className="text-center p-1 bg-coral text-white rounded text-xs">17</div>
+                              <div className="text-center p-1 text-gray-400 text-xs">18</div>
+                              <div className="text-center p-1 bg-coral text-white rounded text-xs">19</div>
+                              <div className="text-center p-1 text-gray-400 text-xs">20</div>
+                              <div className="text-center p-1 text-gray-400 text-xs">21</div>
+                            </div>
+                          </div>
+                          
+                          <div className="bg-white rounded-lg p-3 shadow-sm">
+                            <div className="text-sm text-gray-600 mb-1">Hourly Rate</div>
+                            <div className="text-lg font-bold text-gray-900">$35/hour</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Set your schedule</h3>
+                  <p className="text-gray-600">Choose when you're available and set your own rates</p>
+                </div>
+
+                {/* Step 3 - Start Earning */}
+                <div className="text-center">
+                  <div className="relative mb-8 overflow-hidden">
+                    <div className="w-64 h-[400px] mx-auto bg-black rounded-t-[3rem] p-2 shadow-2xl">
+                      <div className="w-full h-full bg-white rounded-t-[2.5rem] overflow-hidden relative">
+                        {/* Phone UI Header */}
+                        <div className="absolute top-0 left-0 right-0 h-12 bg-white z-10">
+                          <div className="flex justify-center items-center h-full">
+                            <div className="w-32 h-6 bg-black rounded-full"></div>
+                          </div>
+                        </div>
+                        
+                        {/* Content */}
+                        <div className="pt-16 px-6 h-full bg-gray-50">
+                          <div className="text-center mb-6">
+                            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                              <div className="text-2xl">💰</div>
+                            </div>
+                            <h3 className="text-lg font-bold text-gray-900">New Booking!</h3>
+                            <p className="text-sm text-gray-600 mt-2">You have a new request<br/>from the Johnson family</p>
+                          </div>
+                          
+                          <div className="bg-white rounded-lg p-4 mb-4 shadow-sm">
+                            <div className="text-sm font-medium text-gray-900 mb-2">Booking Details</div>
+                            <div className="space-y-1 text-xs text-gray-600">
+                              <div>Monday, 9:00 AM - 3:00 PM</div>
+                              <div>2 children (ages 3, 5)</div>
+                              <div className="font-medium text-coral">$210 total</div>
+                            </div>
+                          </div>
+                          
+                          <div className="space-y-2">
+                            <button className="w-full bg-coral text-white py-2 rounded-lg text-sm">Accept Booking</button>
+                            <button className="w-full border border-gray-300 text-gray-700 py-2 rounded-lg text-sm">View Profile</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Start earning</h3>
+                  <p className="text-gray-600">Receive booking requests and build lasting relationships with families</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+
         </div>
       </div>
     </div>
