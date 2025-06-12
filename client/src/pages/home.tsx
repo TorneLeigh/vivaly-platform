@@ -458,57 +458,73 @@ export default function Home() {
       </section>
 
       {/* How It Works */}
-      <section className="py-16 bg-gray-100">
+      <section className="py-20 bg-white">
         <div className="container max-w-6xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
-            <p className="text-xl text-gray-600">Simple steps to find quality care</p>
+            <h2 className="text-5xl font-bold text-gray-900 mb-6">The easy process</h2>
           </div>
           
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="text-center group relative transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 bg-white rounded-lg p-6 shadow-sm hover:shadow-lg">
-              <div className="absolute -top-4 -left-4 w-8 h-8 bg-coral text-white rounded-full flex items-center justify-center font-bold text-sm">
-                1
+          <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+            {/* Browse Carers */}
+            <div className="flex items-start space-x-6">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <Search className="w-8 h-8 text-coral" />
+                </div>
               </div>
-              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300 text-2xl">
-                🧭
+              <div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Find trusted carers</h3>
+                <p className="text-gray-600 leading-relaxed">Browse verified caregivers in your area and read reviews from other families</p>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Browse Carers</h3>
-              <p className="text-gray-600 text-sm">Enter your location and care category to view available carers. Instant booking and available today.</p>
             </div>
-            
-            <div className="text-center group relative transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 bg-white rounded-lg p-6 shadow-sm hover:shadow-lg">
-              <div className="absolute -top-4 -left-4 w-8 h-8 bg-coral text-white rounded-full flex items-center justify-center font-bold text-sm">
-                2
+
+            {/* Check Profiles */}
+            <div className="flex items-start space-x-6">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <ShieldCheck className="w-8 h-8 text-coral" />
+                </div>
               </div>
-              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300 text-2xl">
-                🔍
+              <div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Get quality care</h3>
+                <p className="text-gray-600 leading-relaxed">All caregivers are background checked and certified for your peace of mind</p>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Check Profiles</h3>
-              <p className="text-gray-600 text-sm">Review qualifications, experience, and user reviews.</p>
             </div>
-            
-            <div className="text-center group relative transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 bg-white rounded-lg p-6 shadow-sm hover:shadow-lg">
-              <div className="absolute -top-4 -left-4 w-8 h-8 bg-coral text-white rounded-full flex items-center justify-center font-bold text-sm">
-                3
+
+            {/* Book Securely */}
+            <div className="flex items-start space-x-6">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <Shield className="w-8 h-8 text-coral" />
+                </div>
               </div>
-              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300 text-2xl">
-                🔒
+              <div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Book with confidence</h3>
+                <p className="text-gray-600 leading-relaxed">Secure payments and insurance coverage protect every booking you make</p>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Book Securely</h3>
-              <p className="text-gray-600 text-sm">Utilize the platform's secure payment system.</p>
             </div>
-            
-            <div className="text-center group relative transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 bg-white rounded-lg p-6 shadow-sm hover:shadow-lg">
-              <div className="absolute -top-4 -left-4 w-8 h-8 bg-coral text-white rounded-full flex items-center justify-center font-bold text-sm">
-                4
+
+            {/* Post-Care Review */}
+            <div className="flex items-start space-x-6">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <MessageCircle className="w-8 h-8 text-coral" />
+                </div>
               </div>
-              <div className="w-16 h-16 mx-auto mb-4 bg-coral/10 rounded-full flex items-center justify-center group-hover:bg-coral/20 transition-colors duration-300 text-2xl">
-                💬
+              <div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Stay connected</h3>
+                <p className="text-gray-600 leading-relaxed">Message caregivers directly and build lasting relationships with your family's favorites</p>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Post-Care Review</h3>
-              <p className="text-gray-600 text-sm">Leave feedback and rebook as needed.</p>
             </div>
+          </div>
+
+          {/* CTA Button */}
+          <div className="text-center mt-12">
+            <Link href="/signup">
+              <Button className="bg-black hover:bg-gray-800 text-white px-8 py-3 rounded-lg text-lg font-medium">
+                Find a carer
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
