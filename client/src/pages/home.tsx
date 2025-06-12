@@ -327,7 +327,7 @@ export default function Home() {
               </div>
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
-                  Comprehensive prenatal and postnatal support including certified doulas, lactation consultants, newborn care specialists, parenting classes, postpartum recovery assistance, and mental health support for new and expecting parents.
+                  Specialized infant care for babies aged 0-12 months, certified doulas, lactation consultants, 1-on-1 personalized care, new parent support groups, coffee catch-ups with other parents, postpartum recovery assistance, and comprehensive mental health support for new and expecting families.
                 </p>
                 <Link href="/prenatal-services">
                   <Button className="w-full bg-coral hover:bg-coral/90 text-white">
@@ -355,7 +355,7 @@ export default function Home() {
               </div>
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
-                  Flexible childcare solutions including 1-on-1 nannies, group childcare, babysitting services, after-school care, holiday programs, overnight care, and specialized support for children with additional needs.
+                  1-on-1 personalized nannies, 1-2 hour group care sessions, drop and dash quick childcare, park playdates to meet other families, art & craft creative sessions, coffee catch-ups for parents, after-school care, holiday programs, and specialized support for children with additional needs.
                 </p>
                 <Link href="/child-care-services">
                   <Button className="w-full bg-coral hover:bg-coral/90 text-white">
@@ -383,7 +383,7 @@ export default function Home() {
               </div>
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
-                  Comprehensive aged care services including personal care assistance, companionship, meal preparation, medication management, mobility support, dementia care, respite care, and live-in care options for seniors.
+                  Personal care assistance, companionship services, meal preparation, medication management, mobility support, dementia care, respite care, live-in care options, and elderly care social events with companionship activities organized by service providers.
                 </p>
                 <Link href="/aged-care-services">
                   <Button className="w-full bg-coral hover:bg-coral/90 text-white">
