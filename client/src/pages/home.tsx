@@ -458,73 +458,83 @@ export default function Home() {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 bg-white">
-        <div className="container max-w-6xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold text-gray-900 mb-6">The easy process</h2>
+      <section className="py-12 bg-white">
+        <div className="container max-w-4xl mx-auto px-4">
+          <div className="text-center mb-10">
+            <h2 className="text-4xl font-bold text-gray-900 mb-3">The easy process</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Top-to-bottom support, included every time you book care on Vivaly.
+            </p>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
-            {/* Browse Carers */}
-            <div className="flex items-start space-x-6">
-              <div className="flex-shrink-0">
-                <div className="w-12 h-12 flex items-center justify-center">
-                  <Search className="w-8 h-8 text-coral" />
+          <div className="space-y-1 max-w-2xl mx-auto">
+            {/* Find trusted carers */}
+            <div className="border-b border-gray-200">
+              <div className="flex items-center justify-between py-4">
+                <h3 className="text-lg font-medium text-gray-900">Find trusted carers</h3>
+                <div className="flex-shrink-0 ml-4">
+                  <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                    <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
                 </div>
               </div>
-              <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Find trusted carers</h3>
-                <p className="text-gray-600 leading-relaxed">Browse verified caregivers in your area and read reviews from other families</p>
+              <div className="pb-3 text-sm text-gray-600">
+                Browse verified caregivers in your area and read reviews from other families
               </div>
             </div>
 
-            {/* Check Profiles */}
-            <div className="flex items-start space-x-6">
-              <div className="flex-shrink-0">
-                <div className="w-12 h-12 flex items-center justify-center">
-                  <ShieldCheck className="w-8 h-8 text-coral" />
+            {/* Get quality care */}
+            <div className="border-b border-gray-200">
+              <div className="flex items-center justify-between py-4">
+                <h3 className="text-lg font-medium text-gray-900">Get quality care</h3>
+                <div className="flex-shrink-0 ml-4">
+                  <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                    <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
                 </div>
               </div>
-              <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Get quality care</h3>
-                <p className="text-gray-600 leading-relaxed">All caregivers are background checked and certified for your peace of mind</p>
+              <div className="pb-3 text-sm text-gray-600">
+                All caregivers are background checked and certified for your peace of mind
               </div>
             </div>
 
-            {/* Book Securely */}
-            <div className="flex items-start space-x-6">
-              <div className="flex-shrink-0">
-                <div className="w-12 h-12 flex items-center justify-center">
-                  <Shield className="w-8 h-8 text-coral" />
+            {/* Book with confidence */}
+            <div className="border-b border-gray-200">
+              <div className="flex items-center justify-between py-4">
+                <h3 className="text-lg font-medium text-gray-900">Book with confidence</h3>
+                <div className="flex-shrink-0 ml-4">
+                  <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                    <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
                 </div>
               </div>
-              <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Book with confidence</h3>
-                <p className="text-gray-600 leading-relaxed">Secure payments and insurance coverage protect every booking you make</p>
+              <div className="pb-3 text-sm text-gray-600">
+                Secure payments and insurance coverage protect every booking you make
               </div>
             </div>
 
-            {/* Post-Care Review */}
-            <div className="flex items-start space-x-6">
-              <div className="flex-shrink-0">
-                <div className="w-12 h-12 flex items-center justify-center">
-                  <MessageCircle className="w-8 h-8 text-coral" />
+            {/* Stay connected */}
+            <div className="border-b border-gray-200">
+              <div className="flex items-center justify-between py-4">
+                <h3 className="text-lg font-medium text-gray-900">Stay connected</h3>
+                <div className="flex-shrink-0 ml-4">
+                  <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                    <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
                 </div>
               </div>
-              <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Stay connected</h3>
-                <p className="text-gray-600 leading-relaxed">Message caregivers directly and build lasting relationships with your family's favorites</p>
+              <div className="pb-3 text-sm text-gray-600">
+                Message caregivers directly and build lasting relationships with your family's favorites
               </div>
             </div>
-          </div>
-
-          {/* CTA Button */}
-          <div className="text-center mt-12">
-            <Link href="/signup">
-              <Button className="bg-black hover:bg-gray-800 text-white px-8 py-3 rounded-lg text-lg font-medium">
-                Find a carer
-              </Button>
-            </Link>
           </div>
         </div>
       </section>
