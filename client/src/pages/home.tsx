@@ -310,12 +310,12 @@ export default function Home() {
           {/* Four Main Categories */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {/* CHILDCARE */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group">
-              <div className="relative h-64 overflow-hidden">
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+              <div className="relative h-64">
                 <img 
                   src="/images/childcare.jpg" 
                   alt="Childcare Services"
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute bottom-4 left-4 text-white">
@@ -338,12 +338,12 @@ export default function Home() {
             </div>
 
             {/* PETS */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group">
-              <div className="relative h-64 overflow-hidden">
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+              <div className="relative h-64">
                 <img 
                   src={petSittingServiceImage} 
                   alt="Pet Care Services"
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute bottom-4 left-4 text-white">
@@ -366,12 +366,12 @@ export default function Home() {
             </div>
 
             {/* ELDERLY CARE */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group">
-              <div className="relative h-64 overflow-hidden">
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+              <div className="relative h-64">
                 <img 
                   src="/images/elderly.jpg" 
                   alt="Elderly Care Services"
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute bottom-4 left-4 text-white">
@@ -394,12 +394,12 @@ export default function Home() {
             </div>
 
             {/* PRE & POSTNATAL SUPPORT */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group">
-              <div className="relative h-64 overflow-hidden">
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+              <div className="relative h-64">
                 <img 
                   src={pregnancyImage} 
                   alt="Pre & Postnatal Support"
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute bottom-4 left-4 text-white">
