@@ -51,7 +51,7 @@ export default function RegistrationTypeSelection() {
                     </div>
                   </div>
 
-                  <Link href="/caregiver-registration">
+                  <Link href="/enhanced-caregiver-registration">
                     <Button className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3">
                       Register as Individual Caregiver
                     </Button>
