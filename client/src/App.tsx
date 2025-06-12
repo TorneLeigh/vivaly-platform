@@ -73,6 +73,7 @@ import CoSupport from "@/pages/co-support";
 import EmergencyInformation from "@/pages/emergency-information";
 import CaregiverRegistrationSimple from "@/pages/caregiver-registration-simple";
 import NotFound from "@/pages/not-found";
+import About from "@/pages/about";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -147,6 +148,7 @@ function Router() {
           <Route path="/pet-care" component={PetCare} />
           <Route path="/childcare" component={Childcare} />
           <Route path="/how-it-works" component={HowItWorks} />
+          <Route path="/about" component={About} />
           <Route path="/faqs" component={FAQs} />
           <Route path="/booking-confirmed" component={BookingConfirmation} />
           <Route path="/booking-confirmation" component={BookingConfirmation} />

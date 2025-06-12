@@ -94,6 +94,13 @@ export default function NewHeader() {
                   Gift Card
                 </Link>
                 <Link 
+                  href="/about" 
+                  className="block px-4 py-3 text-black hover:bg-gray-50 no-underline border-b border-gray-100"
+                  onClick={() => setDropdownOpen(false)}
+                >
+                  About
+                </Link>
+                <Link 
                   href="/help" 
                   className="block px-4 py-3 text-black hover:bg-gray-50 no-underline"
                   onClick={() => setDropdownOpen(false)}
