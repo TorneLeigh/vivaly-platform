@@ -42,10 +42,17 @@ const caregiverRegistrationSchema = z.object({
   state: z.string().min(2, "State is required"),
   postcode: z.string().min(4, "Valid postcode required"),
   
+  // About Me / Bio
+  bio: z.string().min(200, "Bio must be between 200-400 words").max(2000, "Bio must be under 400 words"),
+  personalApproach: z.string().min(50, "Please describe your personal approach to care"),
+  whyThisWork: z.string().min(50, "Please tell us why you chose this work"),
+  
   // Experience & Services
-  bio: z.string().min(50, "Bio must be at least 50 characters"),
-  experience: z.number().min(0, "Experience cannot be negative"),
+  yearsExperience: z.number().min(0, "Experience cannot be negative"),
   hourlyRate: z.number().min(15, "Hourly rate must be at least $15"),
+  overnightRate: z.number().optional(),
+  willingToNegotiate: z.boolean(),
+  packageDeals: z.boolean(),
   services: z.array(z.string()).min(1, "Select at least one service"),
   ageGroups: z.array(z.string()).min(1, "Select at least one age group"),
   
@@ -59,6 +66,17 @@ const caregiverRegistrationSchema = z.object({
     saturday: z.object({ available: z.boolean(), start: z.string(), end: z.string() }),
     sunday: z.object({ available: z.boolean(), start: z.string(), end: z.string() }),
   }),
+  emergencyBookings: z.boolean(),
+  lastMinuteBookings: z.boolean(),
+  
+  // Languages
+  languages: z.array(z.string()).min(1, "Select at least one language"),
+  otherLanguage: z.string().optional(),
+  
+  // Transport & Travel
+  hasOwnCar: z.boolean(),
+  publicTransportOnly: z.boolean(),
+  travelRange: z.number().min(1, "Please specify travel range in km"),
   
   // Certifications
   hasWWCC: z.boolean(),
@@ -68,6 +86,8 @@ const caregiverRegistrationSchema = z.object({
   firstAidExpiry: z.string().optional(),
   hasPoliceCheck: z.boolean(),
   policeCheckDate: z.string().optional(),
+  hasCOVIDVaccine: z.boolean(),
+  relevantDiplomas: z.array(z.string()),
   
   // Emergency Contact
   emergencyName: z.string().min(2, "Emergency contact name required"),
@@ -100,8 +120,13 @@ export default function CaregiverRegistration() {
       state: "",
       postcode: "",
       bio: "",
-      experience: 0,
+      personalApproach: "",
+      whyThisWork: "",
+      yearsExperience: 0,
       hourlyRate: 25,
+      overnightRate: undefined,
+      willingToNegotiate: false,
+      packageDeals: false,
       services: [],
       ageGroups: [],
       availability: {
@@ -113,6 +138,13 @@ export default function CaregiverRegistration() {
         saturday: { available: false, start: "09:00", end: "17:00" },
         sunday: { available: false, start: "09:00", end: "17:00" },
       },
+      emergencyBookings: false,
+      lastMinuteBookings: false,
+      languages: [],
+      otherLanguage: "",
+      hasOwnCar: false,
+      publicTransportOnly: false,
+      travelRange: 10,
       hasWWCC: false,
       wwccNumber: "",
       wwccExpiry: "",
@@ -120,6 +152,8 @@ export default function CaregiverRegistration() {
       firstAidExpiry: "",
       hasPoliceCheck: false,
       policeCheckDate: "",
+      hasCOVIDVaccine: false,
+      relevantDiplomas: [],
       emergencyName: "",
       emergencyPhone: "",
       emergencyRelation: "",
@@ -437,17 +471,17 @@ export default function CaregiverRegistration() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="experience">Years of Experience *</Label>
+                  <Label htmlFor="yearsExperience">Years of Experience *</Label>
                   <Input
-                    id="experience"
+                    id="yearsExperience"
                     type="number"
                     min="0"
-                    {...form.register("experience", { valueAsNumber: true })}
+                    {...form.register("yearsExperience", { valueAsNumber: true })}
                     placeholder="0"
                   />
-                  {form.formState.errors.experience && (
+                  {form.formState.errors.yearsExperience && (
                     <p className="text-sm text-red-600 mt-1">
-                      {form.formState.errors.experience.message}
+                      {form.formState.errors.yearsExperience.message}
                     </p>
                   )}
                 </div>

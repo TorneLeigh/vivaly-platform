@@ -72,6 +72,9 @@ import Help from "@/pages/help";
 import CoSupport from "@/pages/co-support";
 import EmergencyInformation from "@/pages/emergency-information";
 import CaregiverRegistrationSimple from "@/pages/caregiver-registration-simple";
+import CaregiverRegistration from "@/pages/caregiver-registration";
+import RegistrationTypeSelection from "@/pages/registration-type-selection";
+import ServiceProviderRegistration from "@/pages/service-provider-registration";
 import NotFound from "@/pages/not-found";
 import About from "@/pages/about";
 
@@ -110,7 +113,9 @@ function Router() {
           <Route path="/become-service-provider" component={ServiceProviderChoice} />
           <Route path="/signup-parent" component={FindCareSignup} />
           <Route path="/signup-caregiver" component={BecomeCaregiver} />
-          <Route path="/caregiver-registration" component={CaregiverRegistrationSimple} />
+          <Route path="/registration-type-selection" component={RegistrationTypeSelection} />
+          <Route path="/caregiver-registration" component={CaregiverRegistration} />
+          <Route path="/service-provider-registration" component={ServiceProviderRegistration} />
           <Route path="/signup" component={Signup} />
           <Route path="/co-support" component={CoSupport} />
           <Route path="/provider-selection" component={ProviderSelection} />
