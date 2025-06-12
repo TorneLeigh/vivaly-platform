@@ -2,12 +2,12 @@ import { Link } from 'wouter';
 import { ChevronRight, Home } from 'lucide-react';
 import { ChildCareIcon, NannyIcon, BabysittingIcon } from '../components/ServiceIcons';
 import OptimizedImage from '../components/OptimizedImage';
-import infantCareImage from "@assets/b1bc54b815bb1f418342a8203ae3e8e3_1749182535016.jpg";
-import toddlerProgramImage from "@assets/32b2abcfc1fddbe1118ee928059ce66b_1749183011871.jpg";
-import preschoolEducationImage from "@assets/5c1756efeffe31b87ae42255a1e625b5_1749182535016.jpg";
-import afterSchoolCareImage from "@assets/994aad74ac4664d9bd56815d3fda5f88_1749183011870.jpg";
-import babysittingImage from "@assets/e3806ba7e7119fb379b95ce4d570e105_1749182535016.jpg";
-import nannyCareImage from "@assets/f01acbf088d9ff9aa3b69419fa01ff03_1749182535016.jpg";
+import infantCareImage from "@assets/5204c0c48d0dc2e1af450973bc115d18_1749703983977.jpg";
+import toddlerProgramImage from "@assets/988a042ea7f506d78efe22b6305455a5_1749703983977.jpg";
+import preschoolEducationImage from "@assets/540c7ede798b410d249591160f8b4b9f_1749703983977.jpg";
+import afterSchoolCareImage from "@assets/20fcca984f823e55d0f52349c0cccfeb_1749703983977.jpg";
+import babysittingImage from "@assets/774b96f629bd098da386885d9025876d_1749703983977.jpg";
+import nannyCareImage from "@assets/a4f0736b1ec779769d49614140142c82_1749703983977.jpg";
 
 export default function ChildCareServices() {
   const childCareServices = [
@@ -22,7 +22,7 @@ export default function ChildCareServices() {
     {
       title: "1-2 Hour Group Care", 
       description: "Short-term group childcare sessions perfect for quick errands, appointments, or brief social interactions with other children.",
-      image: toddlerProgramImage,
+      image: nannyCareImage,
       link: "/book/group-care",
       buttonText: "Book Now",
       features: ["Flexible timing", "Social interaction", "Supervised play", "Age-appropriate groups", "Convenient booking"]
@@ -46,7 +46,7 @@ export default function ChildCareServices() {
     {
       title: "Art & Craft Sessions",
       description: "Creative sessions for kids and parents to explore artistic expression, develop fine motor skills, and bond through shared activities.",
-      image: afterSchoolCareImage,
+      image: babysittingImage,
       link: "/book/art-craft",
       buttonText: "Join Session",
       features: ["Creative expression", "Parent-child bonding", "Skill development", "All materials provided", "Age-appropriate projects"]
@@ -54,7 +54,7 @@ export default function ChildCareServices() {
     {
       title: "Coffee Catch-ups",
       description: "Parent meetups at local cafes where children can play while parents connect and build supportive community relationships.",
-      image: preschoolEducationImage,
+      image: infantCareImage,
       link: "/book/coffee-meetups",
       buttonText: "Join Meetup",
       features: ["Parent networking", "Child-friendly venues", "Community support", "Regular meetups", "Relaxed atmosphere"]
