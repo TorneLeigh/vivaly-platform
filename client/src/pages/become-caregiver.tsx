@@ -10,7 +10,8 @@ import {
   ArrowRight,
   CheckCircle,
   Globe,
-  Clock
+  Clock,
+  MessageSquare
 } from "lucide-react";
 import { Link } from "wouter";
 
@@ -75,79 +76,52 @@ export default function BecomeCaregiver() {
             </Card>
           </div>
 
-          {/* What We Offer */}
-          <Card className="mb-12">
-            <CardHeader>
-              <CardTitle className="text-2xl text-center">What VIVALY Offers You</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-medium">Comprehensive Profile</h4>
-                      <p className="text-sm text-gray-600">
-                        Showcase your experience, certifications, and personal approach to care
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-medium">Direct Family Connections</h4>
-                      <p className="text-sm text-gray-600">
-                        Connect directly with families in your area who need your services
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-medium">Secure Payments</h4>
-                      <p className="text-sm text-gray-600">
-                        Get paid safely and on time through our secure payment system
-                      </p>
-                    </div>
-                  </div>
+          {/* Caregiver Tools */}
+          <div className="mb-12 max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                All the tools you need to be a caregiver, all in one place.
+              </h2>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Calendar className="w-8 h-8 text-gray-700" />
                 </div>
-                
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-medium">Professional Support</h4>
-                      <p className="text-sm text-gray-600">
-                        Access resources, training, and ongoing support for your care career
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-medium">Insurance Coverage</h4>
-                      <p className="text-sm text-gray-600">
-                        Protection and peace of mind while you provide care services
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-medium">Community Network</h4>
-                      <p className="text-sm text-gray-600">
-                        Join a supportive community of caregivers sharing experiences and tips
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  Create your profile in just a few steps
+                </h3>
+                <p className="text-gray-600">
+                  Go at your own pace and make changes whenever
+                </p>
               </div>
-            </CardContent>
-          </Card>
+              
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <MessageSquare className="w-8 h-8 text-gray-700" />
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  Your calendar and messages
+                </h3>
+                <p className="text-gray-600">
+                  Manage bookings and communicate with families easily
+                </p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Heart className="w-8 h-8 text-coral" />
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  Get 1:1 support from experienced hosts at any time
+                </h3>
+                <p className="text-gray-600">
+                  Quickly message guests and get support when you need it
+                </p>
+              </div>
+            </div>
+          </div>
 
           {/* Registration Options */}
           <div className="mb-12">
