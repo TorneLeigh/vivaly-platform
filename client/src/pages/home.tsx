@@ -219,7 +219,7 @@ const trustFeatures = [
   {
     icon: IdCard,
     title: "Certified Helpers",
-    description: "All caregivers are certified professionals",
+    description: "IDs are verified for authenticity",
     bgColor: "bg-gray-100",
     iconColor: "text-gray-700"
   }
@@ -238,11 +238,8 @@ export default function Home() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-tight mb-2">
             All Your Care, Covered
           </h1>
-          <p className="text-lg sm:text-xl text-coral font-medium mb-3 italic">
+          <p className="text-lg sm:text-xl text-coral font-medium mb-6 italic">
             Book trusted care in minutes
-          </p>
-          <p className="text-sm sm:text-lg md:text-xl text-gray-600 mb-6 max-w-2xl mx-auto">
-            Instant booking • Verified caregivers • Available today
           </p>
           
           {/* Airbnb-style Search Bar - Fixed positioning to prevent movement */}
@@ -445,7 +442,7 @@ export default function Home() {
                 🧭
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Browse Carers</h3>
-              <p className="text-gray-600 text-sm">Enter your location and care category to view available carers.</p>
+              <p className="text-gray-600 text-sm">Enter your location and care category to view available carers. Instant booking and available today.</p>
             </div>
             
             <div className="text-center group relative">
