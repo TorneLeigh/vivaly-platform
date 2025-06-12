@@ -426,7 +426,7 @@ export default function Home() {
       </section>
 
       {/* How It Works */}
-      <section className="py-10 bg-white">
+      <section className="py-16 bg-gray-100">
         <div className="container max-w-6xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
@@ -434,7 +434,7 @@ export default function Home() {
           </div>
           
           <div className="grid md:grid-cols-4 gap-8">
-            <div className="text-center group relative">
+            <div className="text-center group relative transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 bg-white rounded-lg p-6 shadow-sm hover:shadow-lg">
               <div className="absolute -top-4 -left-4 w-8 h-8 bg-coral text-white rounded-full flex items-center justify-center font-bold text-sm">
                 1
               </div>
@@ -445,7 +445,7 @@ export default function Home() {
               <p className="text-gray-600 text-sm">Enter your location and care category to view available carers. Instant booking and available today.</p>
             </div>
             
-            <div className="text-center group relative">
+            <div className="text-center group relative transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 bg-white rounded-lg p-6 shadow-sm hover:shadow-lg">
               <div className="absolute -top-4 -left-4 w-8 h-8 bg-coral text-white rounded-full flex items-center justify-center font-bold text-sm">
                 2
               </div>
@@ -456,7 +456,7 @@ export default function Home() {
               <p className="text-gray-600 text-sm">Review qualifications, experience, and user reviews.</p>
             </div>
             
-            <div className="text-center group relative">
+            <div className="text-center group relative transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 bg-white rounded-lg p-6 shadow-sm hover:shadow-lg">
               <div className="absolute -top-4 -left-4 w-8 h-8 bg-coral text-white rounded-full flex items-center justify-center font-bold text-sm">
                 3
               </div>
@@ -467,7 +467,7 @@ export default function Home() {
               <p className="text-gray-600 text-sm">Utilize the platform's secure payment system.</p>
             </div>
             
-            <div className="text-center group relative">
+            <div className="text-center group relative transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 bg-white rounded-lg p-6 shadow-sm hover:shadow-lg">
               <div className="absolute -top-4 -left-4 w-8 h-8 bg-coral text-white rounded-full flex items-center justify-center font-bold text-sm">
                 4
               </div>
