@@ -11,32 +11,32 @@ import doulaImage5 from "@assets/2c4a91a9b547f50bb709e6399c12a2a0_1749360121452.
 export default function PrenatalServices() {
   const prenatalServices = [
     {
-      title: "Doula Support",
-      description: "Certified doulas to guide you emotionally and physically during pregnancy and labor.",
-      image: doulaImage1,
-      link: "/book/doula",
-      buttonText: "Book Now"
-    },
-    {
-      title: "Prenatal Classes",
-      description: "Join small group or one-on-one prenatal education sessions tailored to your needs.",
-      image: birthEducationClassImage,
-      link: "/book/classes",
-      buttonText: "Learn More"
-    },
-    {
-      title: "Midwife Services",
-      description: "Professional midwifery care from prenatal to postnatal support with personalized attention.",
-      image: motherHoldingBabyImage,
-      link: "/book/midwife",
-      buttonText: "Book Now"
-    },
-    {
-      title: "Newborn Care",
-      description: "Expert guidance on sleep, feeding, swaddling and bonding with your newborn.",
+      title: "Infant Care",
+      description: "Specialized care for babies aged 0-12 months with certified caregivers trained in infant development, feeding schedules, sleep routines, and safety protocols.",
       image: newbornCareImage,
-      link: "/book/newborn-care",
-      buttonText: "Learn More"
+      link: "/book/infant-care",
+      buttonText: "Book Now"
+    },
+    {
+      title: "1-on-1 Care",
+      description: "Personalized one-on-one support tailored to your specific needs during pregnancy and postpartum recovery.",
+      image: doulaImage1,
+      link: "/book/one-on-one",
+      buttonText: "Book Now"
+    },
+    {
+      title: "New Parent Groups",
+      description: "Support groups for new mothers to connect, share experiences, and receive guidance from other parents and professionals.",
+      image: birthEducationClassImage,
+      link: "/book/parent-groups",
+      buttonText: "Join Group"
+    },
+    {
+      title: "Coffee Catch-ups",
+      description: "Parent meetups at local cafes to connect with other families and build supportive community relationships.",
+      image: motherHoldingBabyImage,
+      link: "/book/coffee-meetups",
+      buttonText: "Join Meetup"
     },
     {
       title: "Lactation Support",

@@ -58,6 +58,14 @@ export default function AgedCareServices() {
       link: "/book/light-housekeeping",
       buttonText: "Learn More",
       features: ["Light cleaning", "Laundry assistance", "Meal preparation", "Home organization", "Safety checks"]
+    },
+    {
+      title: "Elderly Care Social",
+      description: "Companionship and care through organized social events, group activities, and community engagement programs run by experienced service providers to enhance social connections and wellbeing.",
+      image: companionCareImage,
+      link: "/book/elderly-social",
+      buttonText: "Join Events",
+      features: ["Group activities", "Social events", "Community engagement", "Peer connections", "Professional facilitation"]
     }
   ];
 

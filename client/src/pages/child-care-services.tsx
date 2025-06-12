@@ -12,52 +12,52 @@ import nannyCareImage from "@assets/f01acbf088d9ff9aa3b69419fa01ff03_17491825350
 export default function ChildCareServices() {
   const childCareServices = [
     {
-      title: "Infant Care",
-      description: "Specialized care for babies aged 0-12 months with certified caregivers trained in infant development, feeding schedules, sleep routines, and safety protocols.",
+      title: "1-on-1 Care",
+      description: "Personalized one-on-one childcare with dedicated attention tailored to your child's specific needs and development stage.",
       image: infantCareImage,
-      link: "/book/infant-care",
+      link: "/book/one-on-one-care",
       buttonText: "Book Now",
-      features: ["Bottle feeding & burping", "Diaper changing & hygiene", "Sleep schedule management", "Developmental activities", "Safety monitoring"]
+      features: ["Individual attention", "Customized activities", "Flexible scheduling", "Developmental focus", "Parent communication"]
     },
     {
-      title: "Toddler Programs", 
-      description: "Interactive learning and play programs for children aged 1-3 years, focusing on motor skills, language development, and social interaction in a nurturing environment.",
+      title: "1-2 Hour Group Care", 
+      description: "Short-term group childcare sessions perfect for quick errands, appointments, or brief social interactions with other children.",
       image: toddlerProgramImage,
-      link: "/book/toddler-programs",
-      buttonText: "Learn More",
-      features: ["Potty training support", "Language development", "Creative play activities", "Social skills building", "Meal time assistance"]
+      link: "/book/group-care",
+      buttonText: "Book Now",
+      features: ["Flexible timing", "Social interaction", "Supervised play", "Age-appropriate groups", "Convenient booking"]
     },
     {
-      title: "Preschool Education",
-      description: "Structured early learning programs for ages 3-5 that prepare children for kindergarten through educational activities, social skills, and cognitive development.",
+      title: "Drop and Dash",
+      description: "Quick drop-off childcare service for busy parents who need immediate, reliable care for short periods.",
       image: preschoolEducationImage,
-      link: "/book/preschool-education",
-      buttonText: "Enroll Now",
-      features: ["Pre-literacy activities", "Number recognition", "Art & creativity", "Social interaction", "School readiness prep"]
+      link: "/book/drop-dash",
+      buttonText: "Quick Book",
+      features: ["Immediate availability", "No advance booking", "Safe environment", "Trained staff", "Flexible duration"]
     },
     {
-      title: "After School Care",
-      description: "Safe, supervised care for school-age children with homework assistance, recreational activities, healthy snacks, and transportation options available.",
+      title: "Park Playdates",
+      description: "Meet other families at local parks while children enjoy supervised outdoor activities and social interaction.",
       image: afterSchoolCareImage,
-      link: "/book/after-school-care",
-      buttonText: "Book Now",
-      features: ["Homework supervision", "Physical activities", "Healthy snacks", "Transportation", "Educational games"]
+      link: "/book/park-playdates",
+      buttonText: "Join Playdate",
+      features: ["Outdoor activities", "Family connections", "Fresh air & exercise", "Social skills", "Community building"]
     },
     {
-      title: "Babysitting Services",
-      description: "Flexible, occasional care for date nights, events, or emergencies with background-checked sitters who provide engaging activities and maintain routines.",
+      title: "Art & Craft Sessions",
+      description: "Creative sessions for kids and parents to explore artistic expression, develop fine motor skills, and bond through shared activities.",
       image: babysittingImage,
-      link: "/book/babysitting",
-      buttonText: "Book Now",
-      features: ["Evening & weekend care", "Activity planning", "Bedtime routines", "Emergency protocols", "Photo updates"]
+      link: "/book/art-craft",
+      buttonText: "Join Session",
+      features: ["Creative expression", "Parent-child bonding", "Skill development", "All materials provided", "Age-appropriate projects"]
     },
     {
-      title: "Nanny Services",
-      description: "Long-term, personalized in-home care with dedicated nannies who become part of your family, providing consistent care, educational support, and household assistance.",
+      title: "Coffee Catch-ups",
+      description: "Parent meetups at local cafes where children can play while parents connect and build supportive community relationships.",
       image: nannyCareImage,
-      link: "/book/nanny-services",
-      buttonText: "Learn More",
-      features: ["Full-time or part-time", "Educational activities", "Light housekeeping", "Meal preparation", "Transportation"]
+      link: "/book/coffee-meetups",
+      buttonText: "Join Meetup",
+      features: ["Parent networking", "Child-friendly venues", "Community support", "Regular meetups", "Relaxed atmosphere"]
     }
   ];
 
