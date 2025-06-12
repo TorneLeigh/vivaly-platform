@@ -349,7 +349,7 @@ export default function Home() {
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 h-full flex flex-col">
               <div className="relative h-64">
                 <img 
-                  src="/images/childcare.jpg" 
+                  src={groupCareImage} 
                   alt="Childcare Services"
                   className="w-full h-full object-cover"
                 />
@@ -385,7 +385,7 @@ export default function Home() {
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 h-full flex flex-col">
               <div className="relative h-64">
                 <img 
-                  src="/images/elderly.jpg" 
+                  src={overnightCareImage} 
                   alt="Aged Care Services"
                   className="w-full h-full object-cover"
                 />
