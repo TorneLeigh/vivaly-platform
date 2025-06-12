@@ -2,12 +2,12 @@ import { Link } from 'wouter';
 import { ChevronRight, Home } from 'lucide-react';
 import { PetCareIcon } from '../components/ServiceIcons';
 import OptimizedImage from '../components/OptimizedImage';
-import dogWalkingImage from "@assets/969c7a3eeacf469a3a4c50a32a9b3d57.jpg";
-import petSittingImage from "@assets/8da0e0735821d20e3f8cb769e40a4c98_1749182897295.jpg";
-import dropInVisitsImage from "@assets/9717a7e59d32ac45c39a7f027a3230af_1749182897295.jpg";
-import petTransportImage from "@assets/d81ff6e441430a5c581dc3a72149844e_1749182897295.jpg";
-import petGroomingImage from "@assets/f087158c54b76ecf0250c6866d218c92_1749182897295.jpg";
-import overnightCareImage from "@assets/eba1794568e9061d6c6e016750154ee7_1749182897295.jpg";
+import dogWalkingImage from "@assets/1f385011ff2b05a03672385eb150b795_1749703897571.jpg";
+import petSittingImage from "@assets/969c7a3eeacf469a3a4c50a32a9b3d57_1749703897571.jpg";
+import dropInVisitsImage from "@assets/04d9009db67d6c328f97e3b626b6d305_1749703897571.jpg";
+import petTransportImage from "@assets/32b2abcfc1fddbe1118ee928059ce66b_1749703897571.jpg";
+import petGroomingImage from "@assets/95a5c30f3c346c2e25ba5b2307b0fa6c_1749703897571.jpg";
+import overnightCareImage from "@assets/994aad74ac4664d9bd56815d3fda5f88_1749703897571.jpg";
 
 export default function PetCareServices() {
   const petCareServices = [
