@@ -143,7 +143,7 @@ export default function CaregiverRegistration() {
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       toast({
         title: "Registration Submitted!",
-        description: "Your caregiver profile is under review. You'll be notified within 2-3 business days.",
+        description: "Your caregiver profile is under review. You'll be notified within 1-2 business days.",
       });
       setStep(5);
     },
