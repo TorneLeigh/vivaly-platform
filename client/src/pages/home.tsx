@@ -146,7 +146,7 @@ export default function Home() {
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
               <span className="font-medium text-gray-900">Created by a mom</span> for moms seeking<br />
-              trusted childcare and early support
+              trusted safe childcare
             </p>
           </div>
 
@@ -162,7 +162,7 @@ export default function Home() {
                 🪪
               </div>
               <h4 className="text-lg font-semibold text-gray-900 mb-2">Identity Verified</h4>
-              <p className="text-gray-600 text-sm">Choose confidently with clear visibility of each caregiver's credentials and documents.</p>
+              <p className="text-gray-600 text-sm">Your family's safety is our mission. Choose confidently with clear visibility of each caregiver's credentials and documents.</p>
             </div>
             
             <div className="text-center group">
