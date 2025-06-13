@@ -54,6 +54,13 @@ const caregiverImages = [
   doulaImage
 ];
 
+// Sydney location data for caregivers
+const sydneyLocations = [
+  "Bondi Beach", "Surry Hills", "Newtown", "Manly", "Paddington", 
+  "Darlinghurst", "Balmain", "Leichhardt", "Rozelle", "Potts Point",
+  "Double Bay", "Woollahra", "Randwick", "Coogee", "Marrickville"
+];
+
 // Service category colors
 const serviceColors = [
   "bg-gradient-to-br from-blue-100 to-blue-200",
@@ -458,60 +465,56 @@ export default function Home() {
           </div>
 
           {/* Featured Caregivers Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
             {isLoading ? (
               // Loading skeleton
-              Array.from({ length: 3 }).map((_, index) => (
-                <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden">
-                  <div className="h-48 bg-gray-200 animate-pulse"></div>
-                  <div className="p-5">
-                    <div className="h-4 bg-gray-200 rounded animate-pulse mb-3"></div>
+              Array.from({ length: 4 }).map((_, index) => (
+                <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden">
+                  <div className="h-32 bg-gray-200 animate-pulse"></div>
+                  <div className="p-3">
                     <div className="h-3 bg-gray-200 rounded animate-pulse mb-2"></div>
-                    <div className="h-3 bg-gray-200 rounded animate-pulse mb-4"></div>
-                    <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
+                    <div className="h-2 bg-gray-200 rounded animate-pulse mb-2"></div>
+                    <div className="h-6 bg-gray-200 rounded animate-pulse"></div>
                   </div>
                 </div>
               ))
             ) : featuredNannies && Array.isArray(featuredNannies) ? (
               featuredNannies.map((nanny: any, index: number) => (
-                <div key={nanny.id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                  <div className="relative h-48">
+                <div key={nanny.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                  <div className="relative h-32">
                     <img 
                       src={caregiverImages[index % caregiverImages.length]} 
                       alt="Caregiver Profile"
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute top-4 right-4">
+                    <div className="absolute top-2 right-2">
                       <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
-                        Available Now
+                        Available
                       </span>
                     </div>
                   </div>
-                  <div className="p-5">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-lg font-bold text-gray-900">
-                        Caregiver
+                  <div className="p-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-sm font-bold text-gray-900">
+                        Sarah M.
                       </h3>
                       <div className="flex items-center">
-                        <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                        <span className="text-sm font-medium text-gray-700 ml-1">
-                          {nanny.rating || "5.0"}
+                        <Star className="h-3 w-3 text-yellow-400 fill-current" />
+                        <span className="text-xs font-medium text-gray-700 ml-1">
+                          {nanny.rating || "4.9"}
                         </span>
                       </div>
                     </div>
-                    <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                      {nanny.bio || "Experienced caregiver ready to help your family with quality childcare services."}
-                    </p>
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-sm text-gray-500">
-                        📍 {nanny.location || nanny.suburb || "Melbourne"}
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs text-gray-500">
+                        📍 {sydneyLocations[index % sydneyLocations.length]}
                       </span>
-                      <span className="text-lg font-bold text-black">
-                        ${nanny.hourlyRate || "35"}/hr
+                      <span className="text-sm font-bold text-black">
+                        ${nanny.hourlyRate || "38"}/hr
                       </span>
                     </div>
                     <Link href={`/nanny/${nanny.id}`}>
-                      <Button className="w-full bg-coral hover:bg-coral/90 text-white">
+                      <Button className="w-full bg-coral hover:bg-coral/90 text-white text-xs py-2">
                         View Profile
                       </Button>
                     </Link>

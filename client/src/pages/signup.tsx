@@ -38,7 +38,7 @@ export default function Signup() {
                   Find trusted childcare, drop & dash services, and postpartum support for your family
                 </p>
                 <Link href="/parent-profile-creator">
-                  <Button className="w-full bg-coral hover:bg-coral/90 text-white">
+                  <Button className="w-full bg-black hover:bg-gray-800 text-white">
                     Get Started as Parent
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
