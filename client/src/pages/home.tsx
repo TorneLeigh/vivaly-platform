@@ -136,24 +136,7 @@ const serviceCategories = [
     image: pregnancyImage,
     serviceType: "Doula services"
   },
-  {
-    title: "Pet sitting",
-    description: "Professional pet care",
-    image: petSittingServiceImage,
-    serviceType: "Pet sitting"
-  },
-  {
-    title: "Elderly care",
-    description: "Senior care services",
-    image: "/images/elderly.jpg",
-    serviceType: "Elderly care"
-  },
-  {
-    title: "Elderly companionship",
-    description: "Social companionship for seniors",
-    image: "/images/companionship.jpg",
-    serviceType: "Elderly companionship"
-  }
+
 ];
 
 const popularActivities = [
@@ -192,13 +175,7 @@ const popularActivities = [
     color: activityColors[4],
     serviceType: "Nature Exploration"
   },
-  {
-    title: "Elderly Care Social",
-    description: "Companionship and care activities",
-    icon: Heart,
-    color: activityColors[5],
-    serviceType: "Elderly Care Social"
-  }
+
 ];
 
 const trustFeatures = [
@@ -307,8 +284,8 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Four Main Categories */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          {/* Two Main Categories */}
+          <div className="grid md:grid-cols-2 gap-8 mb-16">
             {/* PRE & POSTNATAL SUPPORT */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 h-full flex flex-col">
               <div className="relative h-64">
@@ -381,77 +358,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* AGED CARE */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 h-full flex flex-col">
-              <div className="relative h-64">
-                <img 
-                  src={overnightCareImage} 
-                  alt="Aged Care Services"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold mb-2 flex items-center">
-                    <Heart className="mr-2" size={24} />
-                    Aged Care
-                  </h3>
-                </div>
-              </div>
-              <div className="p-6 flex-1 flex flex-col">
-                <div className="text-gray-600 mb-4 space-y-2 flex-1">
-                  <div className="font-semibold text-gray-800 mb-2">Comprehensive Care:</div>
-                  <div className="text-sm leading-relaxed">
-                    • Personal care & companionship<br/>
-                    • Meal preparation & medication management<br/>
-                    • Mobility support & dementia care<br/>
-                    • Respite care & live-in options<br/>
-                    • Elderly social events & activities<br/>
-                    • Professional companionship programs
-                  </div>
-                </div>
-                <Link href="/aged-care-services">
-                  <Button className="w-full bg-black hover:bg-gray-800 text-white">
-                    Find Aged Care
-                  </Button>
-                </Link>
-              </div>
-            </div>
 
-            {/* PET CARE */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 h-full flex flex-col">
-              <div className="relative h-64">
-                <img 
-                  src={petSittingServiceImage} 
-                  alt="Pet Care Services"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold mb-2 flex items-center">
-                    <PawPrint className="mr-2" size={24} />
-                    Pet Care
-                  </h3>
-                </div>
-              </div>
-              <div className="p-6 flex-1 flex flex-col">
-                <div className="text-gray-600 mb-4 space-y-2 flex-1">
-                  <div className="font-semibold text-gray-800 mb-2">Complete Pet Care:</div>
-                  <div className="text-sm leading-relaxed">
-                    • Dog walking & pet sitting<br/>
-                    • Overnight boarding & grooming<br/>
-                    • Feeding assistance & exercise<br/>
-                    • Veterinary transport services<br/>
-                    • Specialized medical care<br/>
-                    • Behavioral support programs
-                  </div>
-                </div>
-                <Link href="/pet-care-services">
-                  <Button className="w-full bg-black hover:bg-gray-800 text-white">
-                    Find Pet Care
-                  </Button>
-                </Link>
-              </div>
-            </div>
 
           </div>
         </div>
