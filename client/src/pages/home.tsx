@@ -53,15 +53,24 @@ import birthingImage from "@assets/f087158c54b76ecf0250c6866d218c92_174926702217
 import groupCareImage from "@assets/ad23d9f10c69e3bfc73ffe82a1bac618_1749267219539.jpg";
 import doulaImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749359311276.jpg";
 
-// Caregiver images for the available today section
+// Professional caregiver profile photos
+import caregiverProfile1 from "@assets/26ed375d170ab838b7e7494d6f4fb99e.jpg";
+import caregiverProfile2 from "@assets/32b2abcfc1fddbe1118ee928059ce66b_1749183011871.jpg";
+import caregiverProfile3 from "@assets/994aad74ac4664d9bd56815d3fda5f88_1749183011870.jpg";
+import caregiverProfile4 from "@assets/1f385011ff2b05a03672385eb150b795_1749183011871.jpg";
+import caregiverProfile5 from "@assets/95a5c30f3c346c2e25ba5b2307b0fa6c.jpg";
+import caregiverProfile6 from "@assets/969c7a3eeacf469a3a4c50a32a9b3d57.jpg";
+import caregiverProfile7 from "@assets/ec0e2fb5695d2d9c4957099d43655520.jpg";
+
+// Professional caregiver profile photos for the available today section
 const caregiverImages = [
-  pregnancyImage,
-  postnatalImage,
-  overnightCareImage,
-  breastfeedingImage,
-  birthingImage,
-  groupCareImage,
-  doulaImage
+  caregiverProfile1,
+  caregiverProfile2,
+  caregiverProfile3,
+  caregiverProfile4,
+  caregiverProfile5,
+  caregiverProfile6,
+  caregiverProfile7
 ];
 
 // Sydney location data for caregivers
@@ -97,8 +106,8 @@ export default function Home() {
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 pt-8">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-              Find your family's perfect childcare match in{" "}
-              <span className="text-coral">Sydney</span>
+              Its easy to find care 
+              to find care, all in one app
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
               <span className="font-medium text-gray-900">Created by a Mom</span> for moms seeking trusted childcare, postnatal care and early childhood support
