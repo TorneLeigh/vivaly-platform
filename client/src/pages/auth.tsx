@@ -39,13 +39,19 @@ const signupSchema = z.object({
   path: ["confirmPassword"],
 });
 
+const forgotPasswordSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+});
+
 type LoginForm = z.infer<typeof loginSchema>;
 type SignupForm = z.infer<typeof signupSchema>;
+type ForgotPasswordForm = z.infer<typeof forgotPasswordSchema>;
 
 export default function Auth() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [, navigate] = useLocation();
@@ -69,6 +75,13 @@ export default function Auth() {
       confirmPassword: "",
       userType: "parent" as const,
       agreeToTerms: false,
+    },
+  });
+
+  const forgotPasswordForm = useForm<ForgotPasswordForm>({
+    resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: {
+      email: "",
     },
   });
 
@@ -128,12 +141,36 @@ export default function Auth() {
     },
   });
 
+  const forgotPasswordMutation = useMutation({
+    mutationFn: async (data: ForgotPasswordForm) => {
+      return await apiRequest("POST", "/api/auth/forgot-password", data);
+    },
+    onSuccess: () => {
+      toast({
+        title: "Reset Email Sent",
+        description: "If an account with this email exists, a reset link has been sent.",
+      });
+      setShowForgotPassword(false);
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Reset Failed",
+        description: error.message || "Failed to send reset email. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
   const handleLogin = (data: LoginForm) => {
     loginMutation.mutate(data);
   };
 
   const handleSignup = (data: SignupForm) => {
     signupMutation.mutate(data);
+  };
+
+  const handleForgotPassword = (data: ForgotPasswordForm) => {
+    forgotPasswordMutation.mutate(data);
   };
 
   return (
