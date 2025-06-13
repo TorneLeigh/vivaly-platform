@@ -127,8 +127,8 @@ export default function Home() {
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6 max-w-2xl mx-auto">
               Finding care, faster than your baby can lose a sock.
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              <span className="font-medium text-gray-900">Created by a mom</span> for moms seeking trusted childcare, postnatal care or early childhood support
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              <span className="font-medium text-gray-900">Created by a mom</span> for moms seeking trusted childcare and early support
             </p>
           </div>
 
