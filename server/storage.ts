@@ -62,6 +62,7 @@ export interface IStorage {
   getMessage(id: number): Promise<Message | undefined>;
   createMessage(message: InsertMessage): Promise<Message>;
   getMessagesBetweenUsers(userId1: string, userId2: string): Promise<(Message & { sender: User, receiver: User })[]>;
+  getMessagesByUser(userId: string): Promise<(Message & { sender: User, receiver: User })[]>;
   getConversations(userId: string): Promise<{ user: User, lastMessage: Message, unreadCount: number }[]>;
 
   // Childcare Providers

@@ -59,14 +59,21 @@ const MessagingPage = () => {
   const [showReplyForm, setShowReplyForm] = useState<{[key: number]: boolean}>({});
 
   // Fetch messages for inbox
-  const { data: messages = [], isLoading, refetch } = useQuery({
+  const { data: messagesData, isLoading, error, refetch } = useQuery({
     queryKey: ['/api/getMessages', inboxUserId],
     queryFn: async () => {
       const response = await fetch(`/api/getMessages/${inboxUserId}`);
-      return response.json();
+      if (!response.ok) {
+        throw new Error('Failed to fetch messages');
+      }
+      const data = await response.json();
+      return Array.isArray(data) ? data : [];
     },
     enabled: !!inboxUserId && activeTab === 'inbox'
   });
+
+  // Ensure messages is always an array
+  const messages = Array.isArray(messagesData) ? messagesData : [];
 
   // Send message mutation
   const sendMessageMutation = useMutation({
