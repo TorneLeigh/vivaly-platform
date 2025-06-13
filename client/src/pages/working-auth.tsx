@@ -3,9 +3,12 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/queryClient";
 import { useLocation } from "wouter";
+import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 
 interface LoginForm {
   email: string;
@@ -21,14 +24,23 @@ interface SignupForm {
   phone?: string;
 }
 
+interface ForgotPasswordForm {
+  email: string;
+}
+
 export default function WorkingAuth() {
   const [isSignup, setIsSignup] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showSignupPassword, setShowSignupPassword] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [isForgotPasswordLoading, setIsForgotPasswordLoading] = useState(false);
   const { toast } = useToast();
   const [, navigate] = useLocation();
 
   const { register: loginRegister, handleSubmit: handleLoginSubmit, formState: { errors: loginErrors } } = useForm<LoginForm>();
   const { register: signupRegister, handleSubmit: handleSignupSubmit, formState: { errors: signupErrors } } = useForm<SignupForm>();
+  const { register: forgotPasswordRegister, handleSubmit: handleForgotPasswordSubmit, formState: { errors: forgotPasswordErrors } } = useForm<ForgotPasswordForm>();
 
   const handleLogin = async (data: LoginForm) => {
     setIsLoading(true);
@@ -101,6 +113,37 @@ export default function WorkingAuth() {
     }
   };
 
+  const handleForgotPassword = async (data: ForgotPasswordForm) => {
+    setIsForgotPasswordLoading(true);
+    try {
+      const response = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to send reset email');
+      }
+
+      toast({
+        title: "Reset Email Sent",
+        description: "If an account with this email exists, a reset link has been sent.",
+      });
+      setShowForgotPassword(false);
+    } catch (error: any) {
+      toast({
+        title: "Reset Failed",
+        description: error.message || "Failed to send reset email. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsForgotPasswordLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md">
@@ -164,17 +207,28 @@ export default function WorkingAuth() {
               
               <div>
                 <label className="text-sm font-medium">Password</label>
-                <Input 
-                  type="password" 
-                  {...signupRegister("password", { 
-                    required: "Password is required",
-                    minLength: {
-                      value: 6,
-                      message: "Password must be at least 6 characters"
-                    }
-                  })}
-                  placeholder="Create a password" 
-                />
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Input 
+                    type={showSignupPassword ? "text" : "password"}
+                    className="pl-10 pr-10"
+                    {...signupRegister("password", { 
+                      required: "Password is required",
+                      minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters"
+                      }
+                    })}
+                    placeholder="Create a password" 
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                    onClick={() => setShowSignupPassword(!showSignupPassword)}
+                  >
+                    {showSignupPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
                 {signupErrors.password && <p className="text-sm text-red-600">{signupErrors.password.message}</p>}
               </div>
 
@@ -216,14 +270,45 @@ export default function WorkingAuth() {
               
               <div>
                 <label className="text-sm font-medium">Password</label>
-                <Input 
-                  type="password" 
-                  {...loginRegister("password", { 
-                    required: "Password is required"
-                  })}
-                  placeholder="Enter your password" 
-                />
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Input 
+                    type={showPassword ? "text" : "password"}
+                    className="pl-10 pr-10"
+                    {...loginRegister("password", { 
+                      required: "Password is required"
+                    })}
+                    placeholder="Enter your password" 
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
                 {loginErrors.password && <p className="text-sm text-red-600">{loginErrors.password.message}</p>}
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <input 
+                    type="checkbox" 
+                    id="remember" 
+                    className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                  />
+                  <label htmlFor="remember" className="ml-2 text-sm text-gray-600">
+                    Remember me
+                  </label>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowForgotPassword(true)}
+                  className="text-sm text-orange-600 hover:text-orange-500 font-medium"
+                >
+                  Forgot password?
+                </button>
               </div>
               
               <Button 
@@ -250,6 +335,64 @@ export default function WorkingAuth() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Forgot Password Modal */}
+      <Dialog open={showForgotPassword} onOpenChange={setShowForgotPassword}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Reset Your Password</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleForgotPasswordSubmit(handleForgotPassword)} className="space-y-4">
+            <div>
+              <Label htmlFor="forgot-email">Email address</Label>
+              <div className="relative mt-1">
+                <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <Input
+                  id="forgot-email"
+                  type="email"
+                  placeholder="Enter your email address"
+                  className="pl-10"
+                  {...forgotPasswordRegister("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "Please enter a valid email address"
+                    }
+                  })}
+                />
+              </div>
+              {forgotPasswordErrors.email && (
+                <p className="text-sm text-red-600 mt-1">
+                  {forgotPasswordErrors.email.message}
+                </p>
+              )}
+            </div>
+            
+            <div className="text-sm text-gray-600">
+              Enter your email address and we'll send you a link to reset your password.
+            </div>
+
+            <div className="flex gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                className="flex-1"
+                onClick={() => setShowForgotPassword(false)}
+                disabled={isForgotPasswordLoading}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                className="flex-1 bg-orange-600 hover:bg-orange-700 text-white"
+                disabled={isForgotPasswordLoading}
+              >
+                {isForgotPasswordLoading ? "Sending..." : "Send Reset Link"}
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
