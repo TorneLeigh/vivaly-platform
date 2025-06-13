@@ -200,7 +200,7 @@ export default function Home() {
               Your New Mum Backup Crew
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Book verified, reliable care for your whole household.
+              Whether you need sleep, a fitness class, a shower, or just a moment to breathe — we've got your back. Book reliable, verified care for your mini-mes
             </p>
           </div>
 
