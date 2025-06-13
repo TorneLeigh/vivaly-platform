@@ -83,6 +83,7 @@ import Welcome from "@/pages/welcome";
 import CaregiverSignup from "@/pages/caregiver-signup";
 import ParentProfileComplete from "@/pages/parent-profile-complete";
 import ParentDirectory from "@/pages/parent-directory";
+import JobBoard from "@/pages/job-board";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -139,6 +140,7 @@ function Router() {
           <Route path="/parent-profile" component={ParentProfile} />
           <Route path="/parent-profile-complete" component={ParentProfileComplete} />
           <Route path="/parent-directory" component={ParentDirectory} />
+          <Route path="/job-board" component={JobBoard} />
           <Route path="/caregiver-profile" component={CaregiverProfile} />
           <Route path="/basic-profile" component={PersonalityProfile} />
           <Route path="/account-settings" component={AccountSettings} />
