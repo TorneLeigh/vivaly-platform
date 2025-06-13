@@ -138,27 +138,43 @@ export class MemStorage implements IStorage {
     this.currentMessageId = 1;
     
     this.seedData();
-    this.initializeTestUser();
+    this.initializeTestUsers();
   }
 
-  private initializeTestUser() {
-    // Create a test user with a known password for testing
-    // In a real app, this would be properly hashed
-    const testUser: User = {
-      id: 'test_user_vivaly',
-      email: 'test@vivaly.com',
-      password: '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // "password"
-      firstName: 'Test',
-      lastName: 'User',
-      phone: '+61400000000',
-      profileImageUrl: null,
-      isNanny: false,
-      allowCaregiverMessages: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+  private initializeTestUsers() {
+    // Create test users with pre-hashed passwords (password123)
+    const testUsers = [
+      {
+        id: 'test_parent_1',
+        email: 'parent@test.com',
+        password: '$2b$10$ksX3VGzAdw.aWSPddWmJWefPVjJYPsHFBebHiCRtNyuhj6/4JpgjK', // password123
+        firstName: 'Sarah',
+        lastName: 'Johnson',
+        phone: '+61400000001',
+        isNanny: false,
+        allowCaregiverMessages: true,
+      },
+      {
+        id: 'test_caregiver_1',
+        email: 'caregiver@test.com',
+        password: '$2b$10$ksX3VGzAdw.aWSPddWmJWefPVjJYPsHFBebHiCRtNyuhj6/4JpgjK', // password123
+        firstName: 'Emma',
+        lastName: 'Wilson',
+        phone: '+61400000002',
+        isNanny: true,
+        allowCaregiverMessages: false,
+      }
+    ];
     
-    this.users.set(testUser.id, testUser);
+    testUsers.forEach(userData => {
+      const user: User = {
+        ...userData,
+        profileImageUrl: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      this.users.set(user.id, user);
+    });
   }
 
 
