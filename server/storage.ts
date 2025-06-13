@@ -806,7 +806,7 @@ export class MemStorage implements IStorage {
       const results: (Nanny & { user: User })[] = [];
       
       for (const nanny of nannies) {
-        const user = this.users.get(nanny.userId);
+        const user = this.users.get(nanny.userId.toString());
         if (user) {
           results.push({
             ...nanny,
@@ -815,6 +815,7 @@ export class MemStorage implements IStorage {
         }
       }
 
+      // If no nannies found, return empty array (frontend will handle gracefully)
       return results;
     } catch (error) {
       console.error('Error in getFeaturedNannies:', error);

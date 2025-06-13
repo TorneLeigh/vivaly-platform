@@ -482,8 +482,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/nannies/featured", async (req, res) => {
     try {
       const nannies = await storage.getFeaturedNannies();
+      console.log('Featured nannies count:', nannies.length);
       res.json(nannies);
     } catch (error) {
+      console.error('Featured nannies error:', error);
       res.status(500).json({ message: "Failed to fetch featured nannies" });
     }
   });
