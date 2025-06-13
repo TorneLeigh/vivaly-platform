@@ -53,18 +53,30 @@ import birthingImage from "@assets/f087158c54b76ecf0250c6866d218c92_174926702217
 import groupCareImage from "@assets/ad23d9f10c69e3bfc73ffe82a1bac618_1749267219539.jpg";
 import doulaImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749359311276.jpg";
 
-// Individual women's professional portrait SVGs
+// Individual women's portrait photos - individual faces only
+import caregiverPortrait1 from "@assets/2df543a46e343b349dce96a9b74e7bf3.jpg";
+import caregiverPortrait2 from "@assets/854be3a55da7cc24c19d02cd9ed2eb70.jpg";
+import caregiverPortrait3 from "@assets/de1126eedd477730852d8c5558d5228f.jpg";
+
+// Individual women's professional portrait SVGs as fallback
 const createCaregiverPortrait = (name: string, hairColor: string, skinTone: string) => {
   return `data:image/svg+xml,${encodeURIComponent(`
-    <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <rect width="100" height="100" fill="#f8f9fa"/>
-      <circle cx="50" cy="35" r="18" fill="${skinTone}"/>
-      <path d="M32 28 Q50 20 68 28 Q68 18 50 15 Q32 18 32 28" fill="${hairColor}"/>
-      <circle cx="45" cy="32" r="1.5" fill="#2c3e50"/>
-      <circle cx="55" cy="32" r="1.5" fill="#2c3e50"/>
-      <path d="M47 38 Q50 40 53 38" stroke="#2c3e50" stroke-width="1" fill="none"/>
-      <rect x="35" y="50" width="30" height="40" fill="#e74c3c" rx="3"/>
-      <text x="50" y="80" text-anchor="middle" font-family="Arial" font-size="8" fill="white">${name}</text>
+    <svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="faceGrad" cx="0.5" cy="0.3" r="0.7">
+          <stop offset="0%" style="stop-color:${skinTone};stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#d4a574;stop-opacity:1" />
+        </radialGradient>
+      </defs>
+      <rect width="120" height="120" fill="#f0f8ff"/>
+      <circle cx="60" cy="45" r="22" fill="url(#faceGrad)"/>
+      <path d="M38 38 Q60 28 82 38 Q82 26 60 22 Q38 26 38 38" fill="${hairColor}"/>
+      <circle cx="53" cy="42" r="2" fill="#2c3e50"/>
+      <circle cx="67" cy="42" r="2" fill="#2c3e50"/>
+      <ellipse cx="60" cy="48" rx="1" ry="2" fill="#8b4513"/>
+      <path d="M55 52 Q60 55 65 52" stroke="#8b4513" stroke-width="1.5" fill="none"/>
+      <rect x="40" y="65" width="40" height="45" fill="#3498db" rx="4"/>
+      <text x="60" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white" font-weight="bold">${name}</text>
     </svg>
   `)}`
 };
@@ -72,11 +84,11 @@ const createCaregiverPortrait = (name: string, hairColor: string, skinTone: stri
 // Professional caregiver portraits for the available today section
 const caregiverImages = [
   createCaregiverPortrait("Sarah", "#8B4513", "#FDBCB4"),
-  createCaregiverPortrait("Emma", "#FFD700", "#F5DEB3"),
+  createCaregiverPortrait("Emma", "#DAA520", "#F5DEB3"),
   createCaregiverPortrait("Lisa", "#A0522D", "#DEB887"),
-  createCaregiverPortrait("Anna", "#000000", "#8D5524"),
-  createCaregiverPortrait("Kate", "#FF6347", "#FDBCB4"),
-  createCaregiverPortrait("Mia", "#4B0082", "#F5DEB3"),
+  createCaregiverPortrait("Anna", "#2F4F4F", "#8D5524"),
+  createCaregiverPortrait("Kate", "#CD853F", "#FDBCB4"),
+  createCaregiverPortrait("Mia", "#8B008B", "#F5DEB3"),
   createCaregiverPortrait("Zoe", "#8B4513", "#DEB887")
 ];
 
@@ -112,7 +124,7 @@ export default function Home() {
       <section className="bg-white pb-8 pt-20">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 pt-8">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6 max-w-4xl mx-auto">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6 max-w-2xl mx-auto">
               Finding care, faster than your baby can lose a sock.
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
