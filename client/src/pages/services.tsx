@@ -52,83 +52,7 @@ interface Experience {
 
 
 
-const petSittingServices = [
-  {
-    title: "Dog Playtime",
-    description: "Interactive play and companionship for pets",
-    image: dogPlaytimeImage,
-    serviceType: "Pet sitting"
-  },
-  {
-    title: "Dog Training",
-    description: "Professional training and behavior coaching",
-    image: dogTrainingImage,
-    serviceType: "Pet sitting"
-  },
-  {
-    title: "Group Dog Walking",
-    description: "Socialized walks with multiple dogs",
-    image: dogWalkingGroupImage,
-    serviceType: "Pet sitting"
-  },
-  {
-    title: "Active Dog Jogging",
-    description: "High-energy exercise and fitness",
-    image: dogJoggingImage,
-    serviceType: "Pet sitting"
-  },
-  {
-    title: "Urban Dog Walking",
-    description: "City walks and outdoor adventures",
-    image: cityDogWalkImage,
-    serviceType: "Pet sitting"
-  },
-  {
-    title: "Pet Sitting",
-    description: "In-home care and companionship",
-    image: petSittingServiceImage,
-    serviceType: "Pet sitting"
-  }
-];
 
-const elderlyCareServices = [
-  {
-    title: "Companionship Care",
-    description: "Social interaction and emotional support",
-    image: "/images/elderly.jpg",
-    serviceType: "Elderly care"
-  },
-  {
-    title: "Personal Care Assistance",
-    description: "Help with daily activities and hygiene",
-    image: "/images/companionship.jpg",
-    serviceType: "Elderly care"
-  },
-  {
-    title: "Medication Management",
-    description: "Assistance with medication schedules",
-    image: "/images/elderly.jpg",
-    serviceType: "Elderly care"
-  },
-  {
-    title: "Meal Preparation",
-    description: "Nutritious meal planning and cooking",
-    image: "/images/companionship.jpg",
-    serviceType: "Elderly care"
-  },
-  {
-    title: "Transportation Services",
-    description: "Safe transport to appointments and activities",
-    image: "/images/elderly.jpg",
-    serviceType: "Elderly care"
-  },
-  {
-    title: "Household Support",
-    description: "Light cleaning and home maintenance",
-    image: "/images/companionship.jpg",
-    serviceType: "Elderly care"
-  }
-];
 
 const socialEvents = [
   {
@@ -161,12 +85,7 @@ const socialEvents = [
     image: "/images/social5.jpg",
     serviceType: "Nature Exploration"
   },
-  {
-    title: "Elderly Care Social",
-    description: "Companionship and care activities",
-    image: "/images/social6.jpg",
-    serviceType: "Elderly Care Social"
-  }
+
 ];
 
 export default function Services() {
@@ -210,7 +129,7 @@ export default function Services() {
             </p>
             
             {/* Service Category Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
               <Link href="/prenatal-services">
                 <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer border border-pink-100">
                   <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -230,26 +149,6 @@ export default function Services() {
                   <p className="text-sm text-gray-600">Nannies, babysitting, and after-school care</p>
                 </div>
               </Link>
-              
-              <Link href="/aged-care">
-                <div className="bg-gradient-to-br from-purple-50 to-violet-50 rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer border border-purple-100">
-                  <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl">👴</span>
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Aged Care</h3>
-                  <p className="text-sm text-gray-600">Companionship and personal care services</p>
-                </div>
-              </Link>
-              
-              <Link href="/pet-care">
-                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer border border-green-100">
-                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl">🐕</span>
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Pet Care</h3>
-                  <p className="text-sm text-gray-600">Dog walking, pet sitting, and grooming</p>
-                </div>
-              </Link>
             </div>
           </div>
         </div>
@@ -261,117 +160,7 @@ export default function Services() {
 
 
 
-      {/* Pet Sitting Services */}
-      {shouldShowSection("pet") && (
-        <section className="py-6 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-6">
-              <h2 className="text-3xl font-bold text-gray-900 mb-3">
-                Pet Sitting Services
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Professional pet care services for your beloved companions
-              </p>
-            </div>
-            
-            <ServiceCarousel>
-              {petSittingServices.map((service, index) => (
-                <div 
-                  key={index}
-                  className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                  onClick={() => {
-                    const searchParams = new URLSearchParams({
-                      serviceType: service.serviceType,
-                      location: 'Sydney, NSW'
-                    });
-                    window.location.href = `/search?${searchParams.toString()}`;
-                  }}
-                >
-                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                    <img 
-                      src={service.image} 
-                      alt={service.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                        if (e.currentTarget.parentElement) {
-                          e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
-                          e.currentTarget.parentElement.innerHTML = `
-                            <div class="flex items-center justify-center h-full">
-                              <span class="text-gray-400 text-xs">${service.title}</span>
-                            </div>
-                          `;
-                        }
-                      }}
-                    />
-                  </div>
-                  
-                  <div className="text-center">
-                    <h3 className="font-semibold text-gray-900 text-sm mb-1">{service.title}</h3>
-                    <p className="text-xs text-gray-600">{service.description}</p>
-                  </div>
-                </div>
-              ))}
-            </ServiceCarousel>
-          </div>
-        </section>
-      )}
 
-      {/* Elderly Care Services */}
-      {shouldShowSection("elderly") && (
-        <section className="py-6 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-6">
-              <h2 className="text-3xl font-bold text-gray-900 mb-3">
-                Elderly Care Services
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Compassionate care and support services for seniors
-              </p>
-            </div>
-            
-            <ServiceCarousel>
-              {elderlyCareServices.map((service, index) => (
-                <div 
-                  key={index}
-                  className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-48"
-                  onClick={() => {
-                    const searchParams = new URLSearchParams({
-                      serviceType: service.serviceType,
-                      location: 'Sydney, NSW'
-                    });
-                    window.location.href = `/search?${searchParams.toString()}`;
-                  }}
-                >
-                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-3">
-                    <img 
-                      src={service.image} 
-                      alt={service.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                        if (e.currentTarget.parentElement) {
-                          e.currentTarget.parentElement.style.backgroundColor = '#f9fafb';
-                          e.currentTarget.parentElement.innerHTML = `
-                            <div class="flex items-center justify-center h-full">
-                              <span class="text-gray-400 text-xs">${service.title}</span>
-                            </div>
-                          `;
-                        }
-                      }}
-                    />
-                  </div>
-                  
-                  <div className="text-center">
-                    <h3 className="font-semibold text-gray-900 text-sm mb-1">{service.title}</h3>
-                    <p className="text-xs text-gray-600">{service.description}</p>
-                  </div>
-                </div>
-              ))}
-            </ServiceCarousel>
-          </div>
-        </section>
-      )}
 
       {/* Featured Caregivers */}
       {shouldShowSection("all") && (
