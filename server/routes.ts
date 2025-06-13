@@ -10,8 +10,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth routes
   app.post('/api/register', async (req, res) => {
     try {
+      console.log("Registration body:", req.body);
+
       // Validate request body using Zod schema
-      const userData = insertUserSchema.parse(req.body);
+      const validationResult = insertUserSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        console.log("Validation failed:", validationResult.error.errors);
+        return res.status(400).json({ 
+          message: "Invalid input", 
+          details: validationResult.error.errors 
+        });
+      }
+
+      const userData = validationResult.data;
       
       // Check if user already exists
       const existingUser = await storage.getUserByEmail(userData.email);
@@ -47,15 +58,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       console.error("Registration error:", error);
-      
-      // Handle Zod validation errors
-      if (error.name === 'ZodError') {
-        return res.status(400).json({ 
-          message: "Invalid input data",
-          errors: error.errors.map(err => `${err.path.join('.')}: ${err.message}`)
-        });
-      }
-      
       res.status(500).json({ message: "Account creation failed. Please try again." });
     }
   });

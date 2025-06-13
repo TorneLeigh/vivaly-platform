@@ -408,7 +408,14 @@ export const childcareEnrollments = pgTable("childcare_enrollments", {
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
   createdAt: true,
+  updatedAt: true,
 }).extend({
+  email: z.string().email("Please enter a valid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  phone: z.string().optional(),
+  isNanny: z.boolean().optional(),
   isCaregiver: z.boolean().optional(),
   agreeToTerms: z.boolean().optional(),
   confirmPassword: z.string().optional(),
