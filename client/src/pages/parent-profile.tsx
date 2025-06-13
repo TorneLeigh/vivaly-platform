@@ -82,37 +82,7 @@ const parentProfileSchema = z.object({
   emergencyContact2Name: z.string().optional(),
   emergencyContact2Phone: z.string().optional(),
   emergencyContact2Relation: z.string().optional(),
-  
-  // Elderly Care Information
-  elderlyInHome: z.boolean().default(false),
-  elderlyName: z.string().optional(),
-  elderlyAge: z.number().optional(),
-  elderlyRelationship: z.string().optional(),
-  elderlyMedicalConditions: z.array(z.string()).default([]),
-  elderlyMedicationSchedule: z.string().optional(),
-  elderlyMobilityNeeds: z.string().optional(),
-  elderlyCarePreferences: z.string().optional(),
-  elderlyDoctorInfo: z.string().optional(),
-  elderlyDietaryNeeds: z.string().optional(),
-  elderlyPersonalityNotes: z.string().optional(),
-  elderlyPreferredActivities: z.array(z.string()).default([]),
-  elderlyEmergencyInfo: z.string().optional(),
-  
-  // Pet Care Information
-  petsInHome: z.array(z.string()),
-  petNames: z.array(z.string()).default([]),
-  petTypes: z.array(z.string()).default([]),
-  petBreeds: z.array(z.string()).default([]),
-  petAges: z.array(z.string()).default([]),
-  petPersonalities: z.array(z.string()).default([]),
-  petMedicalNeeds: z.array(z.string()).default([]),
-  petFeedingSchedule: z.string().optional(),
-  petWalkingRequirements: z.string().optional(),
-  petGroomingNeeds: z.string().optional(),
-  vetContactInfo: z.string().optional(),
-  petEmergencyInfo: z.string().optional(),
-  petBehavioralNotes: z.string().optional(),
-  petPreferredTreats: z.array(z.string()).default([]),
+
   
   // Caregiver Requirements & Preferences
   minimumAge: z.string().default("18"),
@@ -308,35 +278,7 @@ export default function ParentProfile() {
       emergencyContact2Name: "",
       emergencyContact2Phone: "",
       emergencyContact2Relation: "",
-      // Elderly Care Information
-      elderlyInHome: false,
-      elderlyName: "",
-      elderlyAge: undefined,
-      elderlyRelationship: "",
-      elderlyMedicalConditions: [],
-      elderlyMedicationSchedule: "",
-      elderlyMobilityNeeds: "",
-      elderlyCarePreferences: "",
-      elderlyDoctorInfo: "",
-      elderlyDietaryNeeds: "",
-      elderlyPersonalityNotes: "",
-      elderlyPreferredActivities: [],
-      elderlyEmergencyInfo: "",
-      // Pet Care Information
-      petsInHome: [],
-      petNames: [],
-      petTypes: [],
-      petBreeds: [],
-      petAges: [],
-      petPersonalities: [],
-      petMedicalNeeds: [],
-      petFeedingSchedule: "",
-      petWalkingRequirements: "",
-      petGroomingNeeds: "",
-      vetContactInfo: "",
-      petEmergencyInfo: "",
-      petBehavioralNotes: "",
-      petPreferredTreats: [],
+
       // Caregiver Requirements & Preferences
       minimumAge: "18",
       preferredCaregiverGender: "no-preference",
@@ -432,8 +374,6 @@ export default function ParentProfile() {
     { id: "family", label: "Family & Children", icon: Users },
     { id: "children", label: "Children Details", icon: Baby },
     { id: "health", label: "Health & Medical", icon: Heart },
-    { id: "elderly", label: "Elderly Care", icon: User },
-    { id: "pets", label: "Pet Care", icon: Footprints },
     { id: "requirements", label: "Essential Requirements", icon: CheckCircle },
     { id: "position", label: "Position Details", icon: Clock },
     { id: "responsibilities", label: "Responsibilities", icon: Star },
@@ -961,145 +901,7 @@ export default function ParentProfile() {
                   </Card>
                 )}
 
-                {/* Elderly Care Section */}
-                {activeSection === "elderly" && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center">
-                        <User className="h-5 w-5 mr-2" />
-                        Elderly Care Information
-                      </CardTitle>
-                      <p className="text-sm text-gray-600">Information about elderly family members who may need care</p>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                      <FormField
-                        control={form.control}
-                        name="elderlyInHome"
-                        render={({ field }) => (
-                          <FormItem className="flex items-center space-x-3">
-                            <FormControl>
-                              <Checkbox
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                                disabled={!isEditing}
-                              />
-                            </FormControl>
-                            <FormLabel className="text-sm">We have elderly family members who may need care</FormLabel>
-                          </FormItem>
-                        )}
-                      />
-                      
-                      {form.watch("elderlyInHome") && (
-                        <>
-                          <div className="grid grid-cols-3 gap-4">
-                            <FormField
-                              control={form.control}
-                              name="elderlyName"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Name</FormLabel>
-                                  <FormControl>
-                                    <Input {...field} placeholder="Grandma Rose" disabled={!isEditing} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            <FormField
-                              control={form.control}
-                              name="elderlyAge"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Age</FormLabel>
-                                  <FormControl>
-                                    <Input 
-                                      {...field} 
-                                      type="number"
-                                      value={field.value || ""}
-                                      onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
-                                      placeholder="75" 
-                                      disabled={!isEditing} 
-                                    />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            <FormField
-                              control={form.control}
-                              name="elderlyRelationship"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Relationship</FormLabel>
-                                  <FormControl>
-                                    <Input {...field} placeholder="Grandmother" disabled={!isEditing} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          </div>
-                          
-                          <FormField
-                            control={form.control}
-                            name="elderlyMedicalConditions"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Medical Conditions</FormLabel>
-                                <FormControl>
-                                  <Textarea 
-                                    {...field} 
-                                    value={field.value?.join("; ") || ""} 
-                                    onChange={(e) => field.onChange(e.target.value.split("; ").filter(c => c.trim()))}
-                                    placeholder="Diabetes; Arthritis; High blood pressure" 
-                                    disabled={!isEditing} 
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          
-                          <FormField
-                            control={form.control}
-                            name="elderlyMobilityNeeds"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Mobility & Physical Needs</FormLabel>
-                                <FormControl>
-                                  <Textarea 
-                                    {...field} 
-                                    placeholder="Uses walker; Needs help with stairs; Independent" 
-                                    disabled={!isEditing} 
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          
-                          <FormField
-                            control={form.control}
-                            name="elderlyCarePreferences"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Care Preferences & Daily Routine</FormLabel>
-                                <FormControl>
-                                  <Textarea 
-                                    {...field} 
-                                    placeholder="Enjoys gardening; Prefers quiet activities; Likes afternoon tea at 3pm" 
-                                    disabled={!isEditing} 
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        </>
-                      )}
-                    </CardContent>
-                  </Card>
-                )}
+
 
                 {/* Pet Care Section */}
                 {activeSection === "pets" && (
