@@ -107,9 +107,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
 
-  app.get('/api/auth/user', requireAuth, async (req, res) => {
+  app.get('/api/auth/user', async (req, res) => {
     try {
       const userId = req.session.userId;
+      
+      if (!userId) {
+        return res.status(401).json({ message: "Authentication required" });
+      }
+      
       const user = await storage.getUser(userId);
       
       if (!user) {

@@ -74,8 +74,7 @@ export default function Auth() {
 
   const loginMutation = useMutation({
     mutationFn: async (data: LoginForm) => {
-      const response = await apiRequest("POST", "/api/login", data);
-      return response.json();
+      return await apiRequest("POST", "/api/login", data);
     },
     onSuccess: async (user: any) => {
       // Clear all existing query cache to force fresh data
@@ -109,8 +108,7 @@ export default function Auth() {
         ...data,
         isNanny: data.userType === "caregiver"
       };
-      const response = await apiRequest("POST", "/api/register", registrationData);
-      return response.json();
+      return await apiRequest("POST", "/api/register", registrationData);
     },
     onSuccess: (user: any) => {
       queryClient.setQueryData(["/api/auth/user"], user);
