@@ -212,10 +212,10 @@ export default function Home() {
       {/* Hero Section - Airbnb Style */}
       <section className="bg-white relative min-h-[45vh] flex items-center pt-8 md:pt-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-tight mb-2">
-            Created by a Mom
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-black leading-tight mb-3">
+            CREATED BY A MOM
           </h1>
-          <p className="text-lg sm:text-xl text-coral font-medium mb-6 italic">
+          <p className="text-xl sm:text-2xl lg:text-3xl text-coral font-medium mb-6 italic">
             Because it takes a village
           </p>
           
@@ -241,10 +241,10 @@ export default function Home() {
       </section>
 
       {/* Trust Section */}
-      <section className="py-16 bg-white">
+      <section className="py-8 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Trust Grid */}
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-6">
             <div className="text-center group">
               <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-all duration-300 text-2xl transform group-hover:scale-110 group-hover:-translate-y-1 group-hover:rotate-3">
                 🛡️
@@ -439,7 +439,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="pb-2 sm:pb-3 text-xs sm:text-sm text-gray-600">
-                Secure chat between you and caregivers to build lasting relationships with your family's favorites
+                Quickly message caregivers and get support
               </div>
             </div>
           </div>
