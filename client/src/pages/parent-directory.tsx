@@ -19,8 +19,8 @@ interface ParentProfile {
   childrenNames: string[] | null;
   littleAboutMe: string | null;
   myLoveLanguage: string | null;
-  whatMakesMe: string | null;
-  mySuperpowerIs: string | null;
+  imProudOf: string | null;
+  onePerfectDay: string | null;
 }
 
 interface ParentUser {
