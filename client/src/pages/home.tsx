@@ -131,11 +131,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Referral Banner */}
-      <ReferralBanner 
-        feeWaiverCount={0} 
-        onRegisterClick={handleReferralClick}
-        referralLink=""
-      />
+      <ReferralBanner />
       
       {/* Hero Section - Airbnb Style */}
       <section className="bg-white pb-8 pt-20">
