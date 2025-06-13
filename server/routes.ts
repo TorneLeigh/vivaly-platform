@@ -76,7 +76,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Registration endpoint
   app.post('/api/register', async (req, res) => {
     try {
-      const { email, password, firstName, lastName, phone } = req.body;
+      const { email, password, firstName, lastName, phone, isNanny } = req.body;
       
       // Check if user already exists
       const existingUser = await storage.getUserByEmail(email);
@@ -94,16 +94,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         firstName,
         lastName,
         phone,
-        isNanny: false
+        isNanny: isNanny || false,
+        allowCaregiverMessages: false
       });
 
       // Set session
       (req.session as any).userId = user.id;
 
-      // Send welcome email
+      // Send welcome email based on account type
       try {
         if (user.email && user.firstName) {
-          await sendParentWelcomeSequence(user.email, user.firstName);
+          if (isNanny) {
+            await sendCaregiverWelcomeSequence(user.email, user.firstName);
+          } else {
+            await sendParentWelcomeSequence(user.email, user.firstName);
+          }
         }
       } catch (emailError) {
         console.error('Welcome email failed:', emailError);

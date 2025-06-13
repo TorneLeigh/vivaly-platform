@@ -220,6 +220,19 @@ export default function Auth() {
                   >
                     {loginMutation.isPending ? "Signing in..." : "Sign In"}
                   </Button>
+
+                  <div className="mt-4 text-center">
+                    <p className="text-sm text-gray-600">
+                      Don't have an account?{" "}
+                      <button
+                        type="button"
+                        onClick={() => navigate("/register")}
+                        className="font-medium text-orange-600 hover:text-orange-500"
+                      >
+                        Create one here
+                      </button>
+                    </p>
+                  </div>
                 </form>
               </TabsContent>
 
