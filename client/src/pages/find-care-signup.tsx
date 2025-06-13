@@ -18,7 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { z } from "zod";
 import { Mail, User, Phone, Lock, Clock, Shield, Heart, CheckCircle } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 
 const parentSignupSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
@@ -38,6 +38,7 @@ export default function FindCareSignup() {
   const [step, setStep] = useState(1);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [, setLocation] = useLocation();
 
   const form = useForm<ParentSignupForm>({
     resolver: zodResolver(parentSignupSchema),

@@ -34,7 +34,7 @@ export default function Welcome() {
           </Button>
           
           <Button 
-            onClick={() => setLocation("/parent-profile")}
+            onClick={() => setLocation("/parent-profile-complete")}
             variant="outline"
             className="w-full py-3"
           >

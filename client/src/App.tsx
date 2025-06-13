@@ -80,6 +80,7 @@ import NotFound from "@/pages/not-found";
 import About from "@/pages/about";
 import Welcome from "@/pages/welcome";
 import CaregiverSignup from "@/pages/caregiver-signup";
+import ParentProfileComplete from "@/pages/parent-profile-complete";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -115,7 +116,8 @@ function Router() {
           <Route path="/become-seeker" component={BecomeSeeker} />
           <Route path="/become-service-provider" component={ServiceProviderChoice} />
           <Route path="/signup-parent" component={FindCareSignup} />
-          <Route path="/signup-caregiver" component={BecomeCaregiver} />
+          <Route path="/signup-caregiver" component={CaregiverSignup} />
+          <Route path="/welcome" component={Welcome} />
           <Route path="/registration-type-selection" component={RegistrationTypeSelection} />
           <Route path="/caregiver-registration" component={CaregiverRegistration} />
           <Route path="/enhanced-caregiver-registration" component={EnhancedCaregiverRegistration} />
@@ -133,6 +135,7 @@ function Router() {
           <Route path="/sign-in" component={Auth} />
           <Route path="/profile" component={ParentProfile} />
           <Route path="/parent-profile" component={ParentProfile} />
+          <Route path="/parent-profile-complete" component={ParentProfileComplete} />
           <Route path="/caregiver-profile" component={CaregiverProfile} />
           <Route path="/basic-profile" component={PersonalityProfile} />
           <Route path="/account-settings" component={AccountSettings} />
