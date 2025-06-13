@@ -13,95 +13,65 @@ export default function Signup() {
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Join VIVALY
+              JOIN VIVALY
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
-              Choose how you'd like to provide care services and connect with families in your community
+              Choose how you'd like to be part of our childcare community
             </p>
-            
-
           </div>
 
-          {/* Registration Options */}
+          {/* Role Selection Boxes */}
           <div className="grid md:grid-cols-2 gap-8 mb-12">
-            {/* Individual Caregiver */}
-            <Card className="border-2 border-gray-200 hover:border-gray-300 transition-colors cursor-pointer group">
-              <CardContent className="p-8">
-                <div className="text-center">
-                  <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-gray-200 transition-colors">
-                    <Heart className="w-10 h-10 text-coral" />
-                  </div>
-                  
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                    Individual Caregiver
-                  </h3>
-                  
-                  <p className="text-gray-600 mb-6 leading-relaxed">
-                    Provide direct, personal care services. Perfect for babysitters, 
-                    nannies, aged care assistants, pet sitters, and support workers 
-                    offering one-on-one care.
-                  </p>
-
-                  <div className="space-y-2 text-sm text-gray-500 mb-8">
-                    <div className="flex items-center justify-center gap-2">
-                      <Heart className="w-4 h-4" />
-                      <span>Child care, pet care, aged care support</span>
-                    </div>
-                    <div className="flex items-center justify-center gap-2">
-                      <Users className="w-4 h-4" />
-                      <span>Personal, in-home services</span>
-                    </div>
-                  </div>
-
-                  <Link href="/enhanced-caregiver-registration">
-                    <Button className="w-full bg-black hover:bg-gray-800 text-white py-3">
-                      Register as Individual Caregiver
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </Button>
-                  </Link>
+            {/* Parent/Seeker Option */}
+            <Card className="border-2 border-gray-200 hover:border-coral hover:shadow-lg transition-all duration-300 cursor-pointer">
+              <CardContent className="p-8 text-center">
+                <div className="w-20 h-20 mx-auto mb-6 bg-blue-100 rounded-full flex items-center justify-center">
+                  <Users className="h-10 w-10 text-blue-600" />
                 </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  Seeking Help
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  As a parent looking for services
+                </p>
+                <p className="text-sm text-gray-500 mb-6">
+                  Find trusted childcare, drop & dash services, and postpartum support for your family
+                </p>
+                <Link href="/simple-login?type=parent">
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                    Get Started as Parent
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
 
-            {/* Service Provider */}
-            <Card className="border-2 border-gray-200 hover:border-gray-300 transition-colors cursor-pointer group">
-              <CardContent className="p-8">
-                <div className="text-center">
-                  <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-gray-200 transition-colors">
-                    <Users className="w-10 h-10 text-gray-700" />
-                  </div>
-                  
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                    Service Provider
-                  </h3>
-                  
-                  <p className="text-gray-600 mb-6 leading-relaxed">
-                    Offer structured programs and services. Ideal for daycare centers, 
-                    learning programs, activity classes, training workshops, and 
-                    organized care services.
-                  </p>
-
-                  <div className="space-y-2 text-sm text-gray-500 mb-8">
-                    <div className="flex items-center justify-center gap-2">
-                      <Calendar className="w-4 h-4" />
-                      <span>Classes, programs, workshops</span>
-                    </div>
-                    <div className="flex items-center justify-center gap-2">
-                      <Users className="w-4 h-4" />
-                      <span>Daycare centers, group services</span>
-                    </div>
-                  </div>
-
-                  <Link href="/service-provider-registration">
-                    <Button className="w-full bg-black hover:bg-gray-800 text-white py-3">
-                      Register as Service Provider
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </Button>
-                  </Link>
+            {/* Caregiver Option */}
+            <Card className="border-2 border-gray-200 hover:border-coral hover:shadow-lg transition-all duration-300 cursor-pointer">
+              <CardContent className="p-8 text-center">
+                <div className="w-20 h-20 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center">
+                  <Heart className="h-10 w-10 text-green-600" />
                 </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  Caregiver
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  Babysitters and nannies offering different types of support
+                </p>
+                <p className="text-sm text-gray-500 mb-6">
+                  Provide 1-on-1 childcare, drop & dash services, group care, or postpartum support
+                </p>
+                <Link href="/simple-login?type=caregiver">
+                  <Button className="w-full bg-green-600 hover:bg-green-700 text-white">
+                    Get Started as Caregiver
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </div>
+
+
 
           {/* Already have account */}
           <div className="text-center">

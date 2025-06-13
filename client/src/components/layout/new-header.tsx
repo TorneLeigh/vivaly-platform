@@ -1,7 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { RoleToggle } from "@/components/role-toggle";
+
 import { useAuth } from "@/hooks/useAuth";
 import { ChevronDown, Menu } from "lucide-react";
 
@@ -37,7 +37,6 @@ export default function NewHeader() {
         </nav>
         
         <div className="hidden md:flex items-center gap-5">
-          <RoleToggle />
           
           {!isAuthenticated && !isLoading ? (
             <>

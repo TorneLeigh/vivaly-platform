@@ -28,7 +28,11 @@ type LoginFormData = z.infer<typeof loginSchema>;
 type SignupFormData = z.infer<typeof signupSchema>;
 
 export default function SimpleLogin() {
-  const [isSignup, setIsSignup] = useState(false);
+  // Get user type from URL parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const userType = urlParams.get('type'); // 'parent' or 'caregiver'
+  
+  const [isSignup, setIsSignup] = useState(!!userType); // Auto-set to signup if user type is provided
   const [, navigate] = useLocation();
   const { toast } = useToast();
 
@@ -113,7 +117,9 @@ export default function SimpleLogin() {
             </CardTitle>
             <CardDescription>
               {isSignup 
-                ? "Join VIVALY to find trusted care services" 
+                ? userType === 'caregiver'
+                  ? "Join VIVALY as a caregiver to offer childcare services"
+                  : "Join VIVALY to find trusted childcare services"
                 : "Sign in to your VIVALY account"
               }
             </CardDescription>
