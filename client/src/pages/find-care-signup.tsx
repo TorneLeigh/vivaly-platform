@@ -133,7 +133,7 @@ export default function FindCareSignup() {
         <div className="container mx-auto px-4 py-6">
           <div className="text-center">
             <h1 className="text-3xl font-bold text-warm-gray mb-2">Find Care in Minutes</h1>
-            <p className="text-warm-gray-light text-lg">Join thousands of families who trust VIVALY for their childcare needs</p>
+            <p className="text-warm-gray-light text-lg">Connect with trusted caregivers in your area</p>
           </div>
         </div>
         {/* Progress bar */}
@@ -197,7 +197,7 @@ export default function FindCareSignup() {
                       <FormItem>
                         <FormLabel className="flex items-center gap-2">
                           <Mail className="h-4 w-4" />
-                          Email Address
+                          Email Address <span className="text-red-500">*</span>
                         </FormLabel>
                         <FormControl>
                           <Input 
@@ -220,7 +220,7 @@ export default function FindCareSignup() {
                       <FormItem>
                         <FormLabel className="flex items-center gap-2">
                           <Phone className="h-4 w-4" />
-                          Phone Number
+                          Phone Number <span className="text-red-500">*</span>
                         </FormLabel>
                         <FormControl>
                           <Input 
@@ -339,7 +339,7 @@ export default function FindCareSignup() {
           <div className="text-center p-6 bg-white rounded-lg shadow-sm">
             <Heart className="h-12 w-12 text-coral mx-auto mb-4" />
             <h3 className="font-semibold text-warm-gray mb-2">Peace of Mind</h3>
-            <p className="text-sm text-warm-gray-light">Insurance covered with 24/7 support</p>
+            <p className="text-sm text-warm-gray-light">Instant bookings</p>
           </div>
         </div>
 
