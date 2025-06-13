@@ -76,16 +76,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Registration endpoint
   app.post('/api/register', async (req, res) => {
     try {
+      console.log('Registration attempt:', { email: req.body.email, isNanny: req.body.isNanny });
+      
       const { email, password, firstName, lastName, phone, isNanny } = req.body;
+      
+      // Validate required fields
+      if (!email || !password || !firstName || !lastName) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
       
       // Check if user already exists
       const existingUser = await storage.getUserByEmail(email);
       if (existingUser) {
+        console.log('User already exists:', email);
         return res.status(400).json({ message: "User already exists with this email" });
       }
 
       // Hash password
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await bcrypt.hash(password, 12);
+      console.log('Password hashed successfully');
 
       // Create user
       const user = await storage.createUser({
@@ -93,31 +102,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
         password: hashedPassword,
         firstName,
         lastName,
-        phone,
+        phone: phone || '',
         isNanny: isNanny || false,
         allowCaregiverMessages: false
       });
 
+      console.log('User created:', { id: user.id, email: user.email, isNanny: user.isNanny });
+
       // Set session
       (req.session as any).userId = user.id;
+      console.log('Session set for user:', user.id);
 
-      // Send welcome email based on account type
-      try {
+      // Save session explicitly
+      req.session.save((err) => {
+        if (err) {
+          console.error('Session save error during registration:', err);
+          return res.status(500).json({ message: "Registration failed - session error" });
+        }
+
+        // Send welcome email based on account type (don't block registration)
         if (user.email && user.firstName) {
-          if (isNanny) {
-            await sendCaregiverWelcomeSequence(user.email, user.firstName);
-          } else {
-            await sendParentWelcomeSequence(user.email, user.firstName);
+          try {
+            if (isNanny) {
+              sendCaregiverWelcomeSequence(user.email, user.firstName).catch(console.error);
+            } else {
+              sendParentWelcomeSequence(user.email, user.firstName).catch(console.error);
+            }
+          } catch (emailError) {
+            console.error('Welcome email failed:', emailError);
           }
         }
-      } catch (emailError) {
-        console.error('Welcome email failed:', emailError);
-        // Don't fail registration if email fails
-      }
 
-      // Return user without password
-      const { password: _, ...userWithoutPassword } = user;
-      res.status(201).json(userWithoutPassword);
+        // Return user without password
+        const { password: _, ...userWithoutPassword } = user;
+        console.log('Registration successful for:', email);
+        res.status(201).json(userWithoutPassword);
+      });
     } catch (error) {
       console.error("Registration error:", error);
       res.status(500).json({ message: "Registration failed" });
@@ -130,12 +150,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { email, password } = req.body;
       console.log('Login attempt:', { email, passwordLength: password?.length });
 
+      // Validate required fields
+      if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required" });
+      }
+
       // Find user by email
       const user = await storage.getUserByEmail(email);
       console.log('User found:', user ? { id: user.id, email: user.email, hasPassword: !!user.password } : 'null');
       
-      if (!user || !user.password) {
-        console.log('Login failed: User not found or no password');
+      if (!user) {
+        console.log('Login failed: User not found');
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+
+      if (!user.password) {
+        console.log('Login failed: No password hash found');
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
@@ -150,6 +180,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Set session
       (req.session as any).userId = user.id;
+      console.log('Session set for user:', user.id);
       
       // Save session explicitly
       req.session.save((err) => {
@@ -158,6 +189,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           return res.status(500).json({ message: "Login failed - session error" });
         }
         
+        console.log('Login successful for:', email);
         // Return user without password
         const { password: _, ...userWithoutPassword } = user;
         res.json(userWithoutPassword);
@@ -180,185 +212,151 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
 
-  // JWT Authentication system
-  const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
-
-  const generateToken = (userId: string) => {
-    return jwt.sign({ userId }, JWT_SECRET, { expiresIn: "7d" });
-  };
-
-  const authenticateToken = (req: any, res: any, next: any) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-
-    if (!token) {
-      return res.sendStatus(401);
-    }
-
-    jwt.verify(token, JWT_SECRET, (err: any, user: any) => {
-      if (err) return res.sendStatus(403);
-      req.user = user;
-      next();
-    });
-  };
-
-  // Enhanced authentication routes
-  app.post("/api/auth/signup", async (req, res) => {
+  // Check current user endpoint
+  app.get('/api/user', requireAuth, async (req, res) => {
     try {
-      const userData = insertUserSchema.parse(req.body);
-      
-      // Check if user already exists
-      const existingUser = await storage.getUserByEmail(userData.email);
-      if (existingUser) {
-        return res.status(400).json({ message: "User already exists" });
-      }
-
-      // Hash password
-      const hashedPassword = await bcrypt.hash(userData.password, 10);
-      
-      // Create user
-      const user = await storage.createUser({
-        email: userData.email,
-        password: hashedPassword,
-        firstName: userData.firstName,
-        lastName: userData.lastName,
-        phone: userData.phone || null,
-        profileImage: null,
-        isNanny: userData.isCaregiver || false,
-      });
-
-      // Generate token
-      const token = generateToken(user.id.toString());
-
-      // Store user ID in session
-      req.session.userId = user.id;
-
-      // Send appropriate welcome email based on user type
-      try {
-        const userName = `${userData.firstName || ''} ${userData.lastName || ''}`.trim() || 'there';
-        
-        if (userData.isCaregiver) {
-          // Send caregiver welcome email
-          await sendCaregiverWelcomeSequence(userData.email, userName, {
-            applicationId: Math.floor(Math.random() * 90000) + 10000, // Generate random application ID
-            nextSteps: [
-              'Background verification and WWCC check',
-              'Review of your qualifications and experience', 
-              'Phone interview with our team',
-              'Profile setup and onboarding'
-            ]
-          });
-        } else {
-          // Send parent welcome email
-          await sendParentWelcomeSequence(userData.email, userName);
-        }
-      } catch (emailError) {
-        console.error('Welcome email error:', emailError);
-        // Don't fail registration if email fails
-      }
-
-      // Remove password from response
-      const { password, ...userWithoutPassword } = user;
-
-      res.json({ user: userWithoutPassword, token });
-    } catch (error) {
-      console.error("Signup error:", error);
-      res.status(500).json({ message: "Failed to create account" });
-    }
-  });
-
-  app.post('/api/auth/login', async (req, res) => {
-    try {
-      const { email, password } = req.body;
-    
-      if (!email || !password) {
-        return res.status(400).json({ message: "Email and password required" });
-      }
-
-      // Find user by email
-      const user = await storage.getUserByEmail(email);
+      const userId = (req.session as any).userId;
+      const user = await storage.getUser(userId);
       
       if (!user) {
-        return res.status(401).json({ message: "Invalid credentials" });
+        return res.status(404).json({ message: "User not found" });
       }
 
-      // Verify password hash
-      const isValidPassword = await bcrypt.compare(password, user.password);
-      if (!isValidPassword) {
-        return res.status(401).json({ message: "Invalid credentials" });
-      }
-
-      // Generate JWT token
-      const token = generateToken(user.id.toString());
-      
-      // Store user ID in session for backward compatibility
-      req.session.userId = user.id;
-      
       // Remove password from response
       const { password: _, ...userWithoutPassword } = user;
-      
-      res.json({ user: userWithoutPassword, token });
+      res.json(userWithoutPassword);
     } catch (error) {
-      console.error("Login error:", error);
-      res.status(500).json({ message: "Login error" });
+      console.error("Get user error:", error);
+      res.status(500).json({ message: "Failed to get user" });
     }
   });
 
-  // Simple authentication routes that work correctly
-  app.post('/api/auth/simple-login', async (req, res) => {
+  // Working registration endpoint for signup
+  app.post('/api/signup', async (req, res) => {
     try {
-      const { email, password } = req.body;
-    
-      if (!email || !password) {
-        return res.status(400).json({ message: "Email and password required" });
-      }
-
-      // Find user by email
-      const user = await storage.getUserByEmail(email);
+      console.log('Signup attempt:', { email: req.body.email, isNanny: req.body.isNanny });
       
-      if (!user || !user.password) {
-        return res.status(401).json({ message: "Invalid credentials" });
-      }
-
-      // Verify password hash
-      const isValidPassword = await bcrypt.compare(password, user.password);
+      const { email, password, firstName, lastName, phone, isNanny } = req.body;
       
-      if (!isValidPassword) {
-        return res.status(401).json({ message: "Invalid credentials" });
-      }
-
-      // Store user ID in session
-      req.session.userId = user.id;
-      
-      // Remove password from response
-      const { password: _, ...userWithoutPassword } = user;
-      
-      res.json({ user: userWithoutPassword, success: true });
-    } catch (error) {
-      console.error("Simple login error:", error);
-      res.status(500).json({ message: "Login error" });
-    }
-  });
-
-  app.post('/api/auth/simple-signup', async (req, res) => {
-    try {
-      const { email, password, firstName, lastName, phone } = req.body;
-      
+      // Validate required fields
       if (!email || !password || !firstName || !lastName) {
-        return res.status(400).json({ message: "Email, password, first name, and last name are required" });
+        return res.status(400).json({ message: "Missing required fields" });
       }
-
+      
       // Check if user already exists
       const existingUser = await storage.getUserByEmail(email);
       if (existingUser) {
-        return res.status(400).json({ message: "User already exists" });
+        console.log('User already exists:', email);
+        return res.status(400).json({ message: "User already exists with this email" });
       }
 
       // Hash password
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await bcrypt.hash(password, 12);
+      console.log('Password hashed successfully');
+
+      // Create user
+      const user = await storage.createUser({
+        email,
+        password: hashedPassword,
+        firstName,
+        lastName,
+        phone: phone || '',
+        isNanny: isNanny || false,
+        allowCaregiverMessages: false
+      });
+
+      console.log('User created:', { id: user.id, email: user.email, isNanny: user.isNanny });
+
+      // Set session
+      (req.session as any).userId = user.id;
+      console.log('Session set for user:', user.id);
+
+      // Save session explicitly
+      req.session.save((err) => {
+        if (err) {
+          console.error('Session save error during registration:', err);
+          return res.status(500).json({ message: "Registration failed - session error" });
+        }
+
+        // Send welcome email based on account type (don't block registration)
+        if (user.email && user.firstName) {
+          try {
+            if (isNanny) {
+              sendCaregiverWelcomeSequence(user.email, user.firstName).catch(console.error);
+            } else {
+              sendParentWelcomeSequence(user.email, user.firstName).catch(console.error);
+            }
+          } catch (emailError) {
+            console.error('Welcome email failed:', emailError);
+          }
+        }
+
+        // Return user without password
+        const { password: _, ...userWithoutPassword } = user;
+        console.log('Registration successful for:', email);
+        res.status(201).json(userWithoutPassword);
+      });
+    } catch (error) {
+      console.error("Registration error:", error);
+      res.status(500).json({ message: "Registration failed" });
+    }
+  });
+
+  // Working signin endpoint
+  app.post('/api/signin', async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      console.log('Login attempt:', { email, passwordLength: password?.length });
+
+      // Validate required fields
+      if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required" });
+      }
+
+      // Find user by email
+      const user = await storage.getUserByEmail(email);
+      console.log('User found:', user ? { id: user.id, email: user.email, hasPassword: !!user.password } : 'null');
       
-      // Create user with a simple string ID
-      const userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      if (!user) {
+        console.log('Login failed: User not found');
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+
+      if (!user.password) {
+        console.log('Login failed: No password hash found');
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+
+      // Check password
+      const validPassword = await bcrypt.compare(password, user.password);
+      console.log('Password valid:', validPassword);
+      
+      if (!validPassword) {
+        console.log('Login failed: Invalid password');
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+
+      // Set session
+      (req.session as any).userId = user.id;
+      console.log('Session set for user:', user.id);
+      
+      // Save session explicitly
+      req.session.save((err) => {
+        if (err) {
+          console.error('Session save error:', err);
+          return res.status(500).json({ message: "Login failed - session error" });
+        }
+        
+        console.log('Login successful for:', email);
+        // Return user without password
+        const { password: _, ...userWithoutPassword } = user;
+        res.json(userWithoutPassword);
+      });
+    } catch (error) {
+      console.error("Login error:", error);
+      res.status(500).json({ message: "Login failed" });
+    }
+  });
       
       const newUser = {
         id: userId,
