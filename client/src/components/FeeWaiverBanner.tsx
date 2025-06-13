@@ -18,7 +18,7 @@ const FeeWaiverBanner = () => {
         <div className="flex items-center gap-3">
           <Gift className="h-5 w-5" />
           <span className="font-medium">
-            🎉 Limited Time: Waive your $39 membership fee! Join now and save - only 127 spots left!
+            🎁 Invite family and friends to join the Vivaly community and get up to 3 fee-free bookings!
           </span>
         </div>
         <div className="flex items-center gap-2">
@@ -28,7 +28,7 @@ const FeeWaiverBanner = () => {
             className="text-purple-600 border-white hover:bg-white hover:text-purple-600"
             onClick={handleReferralClick}
           >
-            Learn More
+            LOG IN
           </Button>
           <button
             onClick={() => setIsVisible(false)}
