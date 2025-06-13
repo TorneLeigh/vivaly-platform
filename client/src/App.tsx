@@ -21,6 +21,7 @@ import WorkingLogin from "@/pages/working-login";
 import WorkingAuth from "@/pages/working-auth";
 import LoginDirect from "@/pages/login-direct";
 import Auth from "@/pages/auth";
+import ResetPassword from "@/pages/reset-password";
 import ProviderVerification from "@/pages/provider-verification";
 import GiftCards from "@/pages/gift-cards";
 import GiftCardCheckout from "@/pages/gift-card-checkout";
@@ -140,6 +141,7 @@ function Router() {
           <Route path="/working-login" component={WorkingLogin} />
           <Route path="/working-auth" component={WorkingAuth} />
           <Route path="/auth" component={WorkingAuth} />
+          <Route path="/reset-password" component={ResetPassword} />
           <Route path="/signin" component={WorkingAuth} />
           <Route path="/sign-in" component={WorkingAuth} />
           <Route path="/profile" component={ParentProfile} />

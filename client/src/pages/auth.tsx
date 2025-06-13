@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { Eye, EyeOff, Mail, Lock, User, Phone } from "lucide-react";
@@ -251,6 +252,7 @@ export default function Auth() {
                     <button
                       type="button"
                       className="text-sm text-orange-600 hover:text-orange-500"
+                      onClick={() => setShowForgotPassword(true)}
                     >
                       Forgot password?
                     </button>
@@ -552,6 +554,58 @@ export default function Auth() {
           </div>
         </div>
       </div>
+
+      {/* Forgot Password Modal */}
+      <Dialog open={showForgotPassword} onOpenChange={setShowForgotPassword}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Reset Your Password</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={forgotPasswordForm.handleSubmit(handleForgotPassword)} className="space-y-4">
+            <div>
+              <Label htmlFor="forgot-email">Email address</Label>
+              <div className="relative mt-1">
+                <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <Input
+                  id="forgot-email"
+                  type="email"
+                  placeholder="Enter your email address"
+                  className="pl-10"
+                  {...forgotPasswordForm.register("email")}
+                />
+              </div>
+              {forgotPasswordForm.formState.errors.email && (
+                <p className="text-sm text-red-600 mt-1">
+                  {forgotPasswordForm.formState.errors.email.message}
+                </p>
+              )}
+            </div>
+            
+            <div className="text-sm text-gray-600">
+              Enter your email address and we'll send you a link to reset your password.
+            </div>
+
+            <div className="flex gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                className="flex-1"
+                onClick={() => setShowForgotPassword(false)}
+                disabled={forgotPasswordMutation.isPending}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                className="flex-1 bg-orange-600 hover:bg-orange-700 text-white"
+                disabled={forgotPasswordMutation.isPending}
+              >
+                {forgotPasswordMutation.isPending ? "Sending..." : "Send Reset Link"}
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
