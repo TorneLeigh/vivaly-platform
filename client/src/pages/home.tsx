@@ -53,24 +53,24 @@ import birthingImage from "@assets/f087158c54b76ecf0250c6866d218c92_174926702217
 import groupCareImage from "@assets/ad23d9f10c69e3bfc73ffe82a1bac618_1749267219539.jpg";
 import doulaImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749359311276.jpg";
 
-// Professional caregiver profile photos
-import caregiverProfile1 from "@assets/26ed375d170ab838b7e7494d6f4fb99e.jpg";
-import caregiverProfile2 from "@assets/32b2abcfc1fddbe1118ee928059ce66b_1749183011871.jpg";
-import caregiverProfile3 from "@assets/994aad74ac4664d9bd56815d3fda5f88_1749183011870.jpg";
-import caregiverProfile4 from "@assets/1f385011ff2b05a03672385eb150b795_1749183011871.jpg";
-import caregiverProfile5 from "@assets/95a5c30f3c346c2e25ba5b2307b0fa6c.jpg";
-import caregiverProfile6 from "@assets/969c7a3eeacf469a3a4c50a32a9b3d57.jpg";
-import caregiverProfile7 from "@assets/ec0e2fb5695d2d9c4957099d43655520.jpg";
+// Professional caregiver face photos
+import caregiverFace1 from "@assets/854be3a55da7cc24c19d02cd9ed2eb70.jpg";
+import caregiverFace2 from "@assets/58268e04ad7e7126279d8950565a0cd6.jpg";
+import caregiverFace3 from "@assets/057e7c1da9c30e1c3fac8f35d8a08807.jpg";
+import caregiverFace4 from "@assets/873088fb26b5424de0b598117a93c19f.jpg";
+import caregiverFace5 from "@assets/0322f50abf3a7fc6d8def12b41336e6a.jpg";
+import caregiverFace6 from "@assets/46c0702d1b48d35f894a0fe16f437b43.jpg";
+import caregiverFace7 from "@assets/793a2a82f337ec12518b35b4b0886681.jpg";
 
-// Professional caregiver profile photos for the available today section
+// Professional caregiver face photos for the available today section
 const caregiverImages = [
-  caregiverProfile1,
-  caregiverProfile2,
-  caregiverProfile3,
-  caregiverProfile4,
-  caregiverProfile5,
-  caregiverProfile6,
-  caregiverProfile7
+  caregiverFace1,
+  caregiverFace2,
+  caregiverFace3,
+  caregiverFace4,
+  caregiverFace5,
+  caregiverFace6,
+  caregiverFace7
 ];
 
 // Sydney location data for caregivers
@@ -105,7 +105,7 @@ export default function Home() {
       <section className="bg-white pb-8 pt-20">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 pt-8">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6 max-w-4xl mx-auto">
               Finding care, faster than your baby can lose a sock.
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
