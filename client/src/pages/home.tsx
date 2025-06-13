@@ -439,7 +439,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="pb-2 sm:pb-3 text-xs sm:text-sm text-gray-600">
-                Message caregivers directly and build lasting relationships with your family's favorites
+                Secure chat between you and caregivers to build lasting relationships with your family's favorites
               </div>
             </div>
           </div>
