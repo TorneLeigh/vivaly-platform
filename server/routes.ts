@@ -266,6 +266,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Additional job board routes
+  app.get('/api/getJobs', async (req, res) => {
+    try {
+      const jobs = await storage.getJobs();
+      res.json(jobs);
+    } catch (error) {
+      console.error("Get jobs error:", error);
+      res.status(500).json({ message: "Failed to get jobs" });
+    }
+  });
+
+  app.post('/api/applyToJob', requireAuth, async (req, res) => {
+    try {
+      const caregiverId = req.session.userId;
+      const { jobId, caregiverProfile } = req.body;
+
+      if (!jobId) {
+        return res.status(400).json({ message: "Job ID is required" });
+      }
+
+      const job = await storage.getJob(jobId);
+      if (!job) {
+        return res.status(404).json({ message: "Job not found" });
+      }
+
+      const application = await storage.createApplication({
+        jobId,
+        caregiverId,
+        caregiverProfile: caregiverProfile || null
+      });
+
+      res.json({ message: "Application sent!", application });
+    } catch (error) {
+      console.error("Apply to job error:", error);
+      res.status(500).json({ message: "Failed to apply to job" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
