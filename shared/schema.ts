@@ -22,6 +22,7 @@ export const users = pgTable("users", {
   phone: text("phone"),
   password: text("password"), // For backwards compatibility with existing accounts
   isNanny: boolean("is_nanny").default(false),
+  allowCaregiverMessages: boolean("allow_caregiver_messages").default(false),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

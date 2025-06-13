@@ -89,6 +89,9 @@ export interface IStorage {
   getParentProfile(userId: string): Promise<ParentProfile | undefined>;
   createOrUpdateParentProfile(profile: InsertParentProfile): Promise<ParentProfile>;
 
+  // Parent Directory for Caregivers
+  getParentsOpenToMessages(location?: string, suburb?: string): Promise<(User & { profile?: ParentProfile })[]>;
+
   // Admin Dashboard Methods
   getAllBookings(): Promise<Booking[]>;
   getAllUsers(): Promise<User[]>;
@@ -149,6 +152,7 @@ export class MemStorage implements IStorage {
       phone: '+61400000000',
       profileImageUrl: null,
       isNanny: false,
+      allowCaregiverMessages: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -513,6 +517,7 @@ export class MemStorage implements IStorage {
         phone: null,
         password: null,
         isNanny: false,
+        allowCaregiverMessages: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -1002,6 +1007,7 @@ export class MemStorage implements IStorage {
         phone: null,
         password: null,
         isNanny: false,
+        allowCaregiverMessages: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -1090,6 +1096,39 @@ export class MemStorage implements IStorage {
         parent: parent || {} as User
       };
     });
+  }
+
+  async getParentsOpenToMessages(location?: string, suburb?: string): Promise<(User & { profile?: ParentProfile })[]> {
+    // Get all users who are not nannies and allow caregiver messages
+    const parents = Array.from(this.users.values()).filter(user => 
+      !user.isNanny && user.allowCaregiverMessages
+    );
+
+    // Get parent profiles for additional filtering and information
+    const parentsWithProfiles = await Promise.all(
+      parents.map(async (parent) => {
+        const profile = await this.getParentProfile(parent.id);
+        return { ...parent, profile };
+      })
+    );
+
+    // Apply location/suburb filters if provided
+    let filteredParents = parentsWithProfiles;
+    
+    if (suburb) {
+      filteredParents = filteredParents.filter(parent => 
+        parent.profile?.suburb?.toLowerCase().includes(suburb.toLowerCase())
+      );
+    }
+    
+    if (location && !suburb) {
+      filteredParents = filteredParents.filter(parent => 
+        parent.profile?.suburb?.toLowerCase().includes(location.toLowerCase()) ||
+        parent.profile?.address?.toLowerCase().includes(location.toLowerCase())
+      );
+    }
+
+    return filteredParents;
   }
 }
 

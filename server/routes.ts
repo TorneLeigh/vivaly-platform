@@ -1144,6 +1144,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ success: false, message: "Receiver not found" });
       }
 
+      // Check if receiver allows caregiver messages (only for non-nanny senders)
+      const sender = await storage.getUser(senderId);
+      if (sender && sender.isNanny && !receiver.allowCaregiverMessages) {
+        return res.status(403).json({ success: false, message: "This parent has not opted in to receive messages from caregivers" });
+      }
+
       const messageData = {
         senderId,
         receiverId,
@@ -1155,6 +1161,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Send message error:", error);
       res.status(500).json({ success: false, message: "Failed to send message" });
+    }
+  });
+
+  // Get parents open to caregiver messages (parent directory for caregivers)
+  app.get("/api/parents", async (req, res) => {
+    try {
+      const { location, suburb } = req.query;
+      const parents = await storage.getParentsOpenToMessages(location as string, suburb as string);
+      res.json(parents);
+    } catch (error) {
+      console.error("Get parents error:", error);
+      res.status(500).json({ message: "Failed to fetch parents" });
     }
   });
 
