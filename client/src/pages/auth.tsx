@@ -67,6 +67,7 @@ export default function Auth() {
       phone: "",
       password: "",
       confirmPassword: "",
+      userType: "parent" as const,
       agreeToTerms: false,
     },
   });
@@ -104,7 +105,11 @@ export default function Auth() {
 
   const signupMutation = useMutation({
     mutationFn: async (data: SignupForm) => {
-      const response = await apiRequest("POST", "/api/register", data);
+      const registrationData = {
+        ...data,
+        isNanny: data.userType === "caregiver"
+      };
+      const response = await apiRequest("POST", "/api/register", registrationData);
       return response.json();
     },
     onSuccess: (user: any) => {
@@ -336,6 +341,41 @@ export default function Auth() {
                     {signupForm.formState.errors.phone && (
                       <p className="text-sm text-red-600 mt-1">
                         {signupForm.formState.errors.phone.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <Label htmlFor="userType">I am a</Label>
+                    <div className="mt-1 space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="radio"
+                          id="parent"
+                          value="parent"
+                          {...signupForm.register("userType")}
+                          className="h-4 w-4 text-orange-600 border-gray-300 focus:ring-orange-500"
+                        />
+                        <Label htmlFor="parent" className="text-sm font-normal">
+                          Parent looking for childcare
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="radio"
+                          id="caregiver"
+                          value="caregiver"
+                          {...signupForm.register("userType")}
+                          className="h-4 w-4 text-orange-600 border-gray-300 focus:ring-orange-500"
+                        />
+                        <Label htmlFor="caregiver" className="text-sm font-normal">
+                          Caregiver offering services
+                        </Label>
+                      </div>
+                    </div>
+                    {signupForm.formState.errors.userType && (
+                      <p className="text-sm text-red-600 mt-1">
+                        {signupForm.formState.errors.userType.message}
                       </p>
                     )}
                   </div>
