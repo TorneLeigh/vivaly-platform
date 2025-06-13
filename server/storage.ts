@@ -1329,5 +1329,7 @@ export class MemStorage implements IStorage {
   }
 }
 
-// Use memory storage for messaging functionality
-export const storage = new MemStorage();
+import { DatabaseStorage } from './database-storage';
+
+// Use database storage
+export const storage = new DatabaseStorage();
