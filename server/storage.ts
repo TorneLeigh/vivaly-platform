@@ -330,15 +330,10 @@ export class MemStorage implements IStorage {
     const certificateOptions = [
       [CERTIFICATE_TYPES[0], CERTIFICATE_TYPES[1], CERTIFICATE_TYPES[5]], // Basic childcare
       [CERTIFICATE_TYPES[2], CERTIFICATE_TYPES[3]], // Education focused
-      [CERTIFICATE_TYPES[11], CERTIFICATE_TYPES[12]], // Midwife certs
-      [CERTIFICATE_TYPES[13], CERTIFICATE_TYPES[14]], // Doula training
+      [CERTIFICATE_TYPES[6], CERTIFICATE_TYPES[7]], // Midwife certs
+      [CERTIFICATE_TYPES[8], CERTIFICATE_TYPES[9]], // Doula training
       [CERTIFICATE_TYPES[0], CERTIFICATE_TYPES[4]], // Montessori
       [CERTIFICATE_TYPES[1], CERTIFICATE_TYPES[2]], // CPR + Cert III
-      [CERTIFICATE_TYPES[15], CERTIFICATE_TYPES[16]], // Aged care
-      [CERTIFICATE_TYPES[17], CERTIFICATE_TYPES[0]], // Companion care
-      [CERTIFICATE_TYPES[6], CERTIFICATE_TYPES[7]], // Pet care basic
-      [CERTIFICATE_TYPES[8], CERTIFICATE_TYPES[9]], // Dog training + vet assistant
-      [CERTIFICATE_TYPES[10], CERTIFICATE_TYPES[7]], // Animal behavior + pet first aid
     ];
 
     for (let i = 0; i < sampleUsers.length; i++) {

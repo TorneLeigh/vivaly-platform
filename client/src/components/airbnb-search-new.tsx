@@ -59,13 +59,11 @@ const SERVICE_TYPES = [
   "Breastfeeding support",
   "Pregnancy assistance",
   "1-2 hours group care",
-  "Drop and dash",
-  "Elderly Care",
-  "Pet Care"
+  "Drop and dash"
 ];
 
 interface CareOption {
-  type: 'babies' | 'kids' | 'pets' | 'elderly';
+  type: 'babies' | 'kids';
   label: string;
   count: number;
 }
@@ -79,9 +77,7 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
   
   const [careOptions, setCareOptions] = useState<CareOption[]>([
     { type: 'babies', label: 'Babies', count: 0 },
-    { type: 'kids', label: 'Kids', count: 0 },
-    { type: 'pets', label: 'Pets', count: 0 },
-    { type: 'elderly', label: 'Elderly', count: 0 }
+    { type: 'kids', label: 'Kids', count: 0 }
   ]);
 
   const [filters, setFilters] = useState<SearchFilters>({
@@ -503,8 +499,6 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
                         <div className="text-xs text-gray-500 mt-1">
                           {option.type === 'babies' && 'Ages 0-2'}
                           {option.type === 'kids' && 'Ages 3-12'}
-                          {option.type === 'pets' && 'Dogs, cats, etc.'}
-                          {option.type === 'elderly' && 'Senior care'}
                         </div>
                       </div>
                       <div className="flex items-center space-x-3">
