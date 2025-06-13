@@ -26,6 +26,17 @@ export interface IStorage {
   // Message operations
   getMessages(userId: string): Promise<Message[]>;
   createMessage(message: InsertMessage): Promise<Message>;
+  
+  // Job operations
+  createJob(job: InsertJob): Promise<Job>;
+  getJobs(): Promise<Job[]>;
+  getJobsByParent(parentId: string): Promise<Job[]>;
+  getJob(jobId: string): Promise<Job | undefined>;
+  
+  // Application operations
+  createApplication(application: InsertApplication): Promise<Application>;
+  getApplicationsByJob(jobId: string): Promise<Application[]>;
+  getApplicationsByCaregiver(caregiverId: string): Promise<Application[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -81,6 +92,57 @@ export class DatabaseStorage implements IStorage {
       .values(messageData)
       .returning();
     return message;
+  }
+
+  // Job operations
+  async createJob(jobData: InsertJob): Promise<Job> {
+    const [job] = await db
+      .insert(jobs)
+      .values(jobData)
+      .returning();
+    return job;
+  }
+
+  async getJobs(): Promise<Job[]> {
+    return await db.select().from(jobs).orderBy(jobs.createdAt);
+  }
+
+  async getJobsByParent(parentId: string): Promise<Job[]> {
+    return await db
+      .select()
+      .from(jobs)
+      .where(eq(jobs.parentId, parentId))
+      .orderBy(jobs.createdAt);
+  }
+
+  async getJob(jobId: string): Promise<Job | undefined> {
+    const [job] = await db.select().from(jobs).where(eq(jobs.id, jobId));
+    return job;
+  }
+
+  // Application operations
+  async createApplication(applicationData: InsertApplication): Promise<Application> {
+    const [application] = await db
+      .insert(applications)
+      .values(applicationData)
+      .returning();
+    return application;
+  }
+
+  async getApplicationsByJob(jobId: string): Promise<Application[]> {
+    return await db
+      .select()
+      .from(applications)
+      .where(eq(applications.jobId, jobId))
+      .orderBy(applications.appliedAt);
+  }
+
+  async getApplicationsByCaregiver(caregiverId: string): Promise<Application[]> {
+    return await db
+      .select()
+      .from(applications)
+      .where(eq(applications.caregiverId, caregiverId))
+      .orderBy(applications.appliedAt);
   }
 }
 

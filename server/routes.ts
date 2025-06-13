@@ -2,7 +2,8 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import bcrypt from "bcryptjs";
-import { insertUserSchema, type InsertUser } from "@shared/schema";
+import { randomUUID } from "crypto";
+import { insertUserSchema, insertJobSchema, insertApplicationSchema, type InsertUser } from "@shared/schema";
 import { requireAuth } from "./auth-middleware";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -166,6 +167,102 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Get users error:", error);
       res.status(500).json({ message: "Failed to get users" });
+    }
+  });
+
+  // Job posting routes
+  app.post('/api/postJob', requireAuth, async (req, res) => {
+    try {
+      const { startDate, numChildren, rate, hoursPerWeek, description } = req.body;
+      const parentId = req.session.userId;
+
+      if (!startDate || !numChildren || !rate || !hoursPerWeek || !description) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      const jobId = randomUUID();
+      
+      const job = await storage.createJob({
+        id: jobId,
+        parentId,
+        startDate,
+        numChildren: parseInt(numChildren),
+        rate: parseFloat(rate),
+        hoursPerWeek: parseInt(hoursPerWeek),
+        description
+      });
+
+      res.json({ message: "Job posted!", job });
+    } catch (error) {
+      console.error("Post job error:", error);
+      res.status(500).json({ message: "Failed to post job" });
+    }
+  });
+
+  app.get('/api/jobs', requireAuth, async (req, res) => {
+    try {
+      const jobs = await storage.getJobs();
+      res.json(jobs);
+    } catch (error) {
+      console.error("Get jobs error:", error);
+      res.status(500).json({ message: "Failed to get jobs" });
+    }
+  });
+
+  app.get('/api/jobs/my', requireAuth, async (req, res) => {
+    try {
+      const parentId = req.session.userId;
+      const jobs = await storage.getJobsByParent(parentId);
+      res.json(jobs);
+    } catch (error) {
+      console.error("Get my jobs error:", error);
+      res.status(500).json({ message: "Failed to get jobs" });
+    }
+  });
+
+  app.post('/api/jobs/:jobId/apply', requireAuth, async (req, res) => {
+    try {
+      const { jobId } = req.params;
+      const { caregiverProfile } = req.body;
+      const caregiverId = req.session.userId;
+
+      const job = await storage.getJob(jobId);
+      if (!job) {
+        return res.status(404).json({ message: "Job not found" });
+      }
+
+      const application = await storage.createApplication({
+        jobId,
+        caregiverId,
+        caregiverProfile: caregiverProfile || null
+      });
+
+      res.json({ message: "Application submitted!", application });
+    } catch (error) {
+      console.error("Apply to job error:", error);
+      res.status(500).json({ message: "Failed to apply to job" });
+    }
+  });
+
+  app.get('/api/jobs/:jobId/applications', requireAuth, async (req, res) => {
+    try {
+      const { jobId } = req.params;
+      const applications = await storage.getApplicationsByJob(jobId);
+      res.json(applications);
+    } catch (error) {
+      console.error("Get job applications error:", error);
+      res.status(500).json({ message: "Failed to get applications" });
+    }
+  });
+
+  app.get('/api/applications/my', requireAuth, async (req, res) => {
+    try {
+      const caregiverId = req.session.userId;
+      const applications = await storage.getApplicationsByCaregiver(caregiverId);
+      res.json(applications);
+    } catch (error) {
+      console.error("Get my applications error:", error);
+      res.status(500).json({ message: "Failed to get applications" });
     }
   });
 
