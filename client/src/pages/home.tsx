@@ -101,7 +101,7 @@ export default function Home() {
               <span className="text-coral">Sydney</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              <span className="font-medium text-gray-900">Created by a Mom</span> for Australian families seeking trusted childcare, postnatal care and early childhood support
+              <span className="font-medium text-gray-900">Created by a Mom</span> for moms seeking trusted childcare, postnatal care and early childhood support
             </p>
           </div>
 
@@ -326,7 +326,7 @@ export default function Home() {
       </section>
 
       {/* Caregivers Available Today */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-8 bg-gray-50">
         <div className="container max-w-6xl mx-auto px-4">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
@@ -604,31 +604,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer CTA */}
-      <section className="py-12 bg-coral">
-        <div className="container max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Ready to find your perfect caregiver?
-          </h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Join thousands of Australian families who trust Vivaly for their childcare needs.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/signup">
-              <Button className="bg-white text-coral hover:bg-gray-100 px-8 py-3 text-lg font-semibold">
-                Get Started as Parent
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-            <Link href="/signup">
-              <Button className="bg-black hover:bg-gray-800 text-white px-8 py-3 text-lg font-semibold">
-                Become a Caregiver
-                <Heart className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+
     </div>
   );
 }
