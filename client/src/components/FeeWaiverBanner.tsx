@@ -46,7 +46,7 @@ export default function ReferralBanner({
         {!hasWaivers && (
           <button
             onClick={onRegisterClick}
-            className="px-4 py-2 bg-red-700 text-white text-sm font-bold rounded-md hover:bg-red-800 transition-colors whitespace-nowrap"
+            className="px-4 py-2 bg-black text-white text-sm font-bold rounded-md hover:bg-gray-800 transition-colors whitespace-nowrap"
           >
             LOG IN TO INVITE FRIENDS
           </button>
