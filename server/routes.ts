@@ -1163,10 +1163,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { userId } = req.params;
       const messages = await storage.getMessagesByUser(userId);
-      res.json(messages);
+      // Ensure we always return an array
+      res.json(Array.isArray(messages) ? messages : []);
     } catch (error) {
       console.error("Get messages error:", error);
-      res.status(500).json({ message: "Failed to fetch messages" });
+      res.status(500).json([]);
     }
   });
 
