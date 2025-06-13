@@ -8,6 +8,7 @@ import FloatingActionButton from "@/components/floating-action-button";
 import ServiceCarousel from "@/components/service-carousel";
 import AIRecommendations from "@/components/ai-recommendations";
 import { RoleToggle } from "@/components/role-toggle";
+import FeeWaiverBanner from "@/components/FeeWaiverBanner";
 import { 
   User, 
   Users, 
@@ -104,6 +105,10 @@ export default function Home() {
     queryKey: ["/api/nannies/featured"],
   });
 
+  const { data: user } = useQuery<UserType>({
+    queryKey: ["/api/auth/user"],
+  });
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollLeft = () => {
@@ -120,6 +125,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Fee Waiver Banner */}
+      <FeeWaiverBanner feeWaiverCount={3} />
+      
       {/* Hero Section - Airbnb Style */}
       <section className="bg-white pb-8 pt-20">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -128,7 +136,8 @@ export default function Home() {
               Finding care, faster than your baby can lose a sock.
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              <span className="font-medium text-gray-900">Created by a mom</span> for moms seeking trusted childcare and early support
+              <span className="font-medium text-gray-900">Created by a mom</span> for moms seeking<br />
+              trusted childcare and early support
             </p>
           </div>
 
@@ -141,10 +150,10 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto text-center">
             <div className="text-center group">
               <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-all duration-300 text-2xl transform group-hover:scale-110 group-hover:-translate-y-1 group-hover:rotate-2">
-                🙋‍♀️
+                🪪
               </div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-2">Optional Police Checks</h4>
-              <p className="text-gray-600 text-sm">Some caregivers choose to upload a National Police Clearance — look for the badge on their profile if available.</p>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">Identity Verified</h4>
+              <p className="text-gray-600 text-sm">Choose confidently with clear visibility of each caregiver's credentials and documents.</p>
             </div>
             
             <div className="text-center group">
@@ -165,10 +174,10 @@ export default function Home() {
 
             <div className="text-center group">
               <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-all duration-300 text-2xl transform group-hover:scale-110 group-hover:-translate-y-1 group-hover:rotate-2">
-                🪪
+                🙋‍♀️
               </div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-2">Identity Verified</h4>
-              <p className="text-gray-600 text-sm">Choose confidently with clear visibility of each caregiver's credentials and documents.</p>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">Optional Police Checks</h4>
+              <p className="text-gray-600 text-sm">Some caregivers choose to upload a National Police Clearance — look for the badge on their profile if available.</p>
             </div>
           </div>
         </div>
