@@ -428,7 +428,7 @@ export default function Home() {
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               All the tools you need<br />
-              to find care, all in one app
+              to find care, easily.
             </h2>
           </div>
           
@@ -613,6 +613,14 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Bottom CTA Section */}
+      <section className="py-16 bg-white">
+        <div className="container max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            Finding care, that's easier than changing a nappy
+          </h2>
+        </div>
+      </section>
 
     </div>
   );
