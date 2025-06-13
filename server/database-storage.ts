@@ -473,7 +473,37 @@ export class DatabaseStorage implements IStorage {
     }));
   }
 
-  async getConversations(userId: number): Promise<{ user: User, lastMessage: Message, unreadCount: number }[]> {
+  async getMessagesByUser(userId: string): Promise<(Message & { sender: User, receiver: User })[]> {
+    const userMessages = await db
+      .select()
+      .from(messages)
+      .where(
+        or(
+          eq(messages.senderId, userId),
+          eq(messages.receiverId, userId)
+        )
+      )
+      .orderBy(desc(messages.createdAt));
+
+    const results: (Message & { sender: User, receiver: User })[] = [];
+    
+    for (const message of userMessages) {
+      const [sender] = await db.select().from(users).where(eq(users.id, message.senderId));
+      const [receiver] = await db.select().from(users).where(eq(users.id, message.receiverId));
+      
+      if (sender && receiver) {
+        results.push({
+          ...message,
+          sender,
+          receiver,
+        });
+      }
+    }
+
+    return results;
+  }
+
+  async getConversations(userId: string): Promise<{ user: User, lastMessage: Message, unreadCount: number }[]> {
     // This is a simplified implementation
     // In production, you'd want to optimize this with proper SQL joins
     const userMessages = await db
@@ -482,7 +512,7 @@ export class DatabaseStorage implements IStorage {
       .where(or(eq(messages.senderId, userId), eq(messages.receiverId, userId)))
       .orderBy(desc(messages.createdAt));
 
-    const conversations = new Map<number, { user: User, lastMessage: Message, unreadCount: number }>();
+    const conversations = new Map<string, { user: User, lastMessage: Message, unreadCount: number }>();
     
     for (const message of userMessages) {
       const otherUserId = message.senderId === userId ? message.receiverId : message.senderId;
