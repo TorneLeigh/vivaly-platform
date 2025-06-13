@@ -413,7 +413,7 @@ export default function Home() {
                   <div className="p-3">
                     <div className="flex items-center justify-between mb-2">
                       <h3 className="text-sm font-bold text-gray-900">
-                        Sarah M.
+                        {nanny.user?.firstName} {nanny.user?.lastName}
                       </h3>
                       <div className="flex items-center">
                         <Star className="h-3 w-3 text-yellow-400 fill-current" />
@@ -421,6 +421,11 @@ export default function Home() {
                           {nanny.rating || "4.9"}
                         </span>
                       </div>
+                    </div>
+                    <div className="mb-2">
+                      <p className="text-xs text-gray-600 line-clamp-2">
+                        {nanny.bio ? nanny.bio.split('|')[0].trim() : "Experienced caregiver"}
+                      </p>
                     </div>
                     <div className="flex items-center justify-between mb-3">
                       <span className="text-xs text-gray-500">
