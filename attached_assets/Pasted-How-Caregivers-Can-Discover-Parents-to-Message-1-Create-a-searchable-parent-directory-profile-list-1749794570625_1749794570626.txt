@@ -1,0 +1,83 @@
+How Caregivers Can Discover Parents to Message
+
+1. Create a searchable parent directory/profile list
+Parents who have signed up and set allowCaregiverMessages = true show up in a “Family Profiles” list or search results.
+Caregivers can browse or search this directory by location, care needs, availability, etc.
+2. Show key details in the parent profile cards
+First name, suburb/location, care needs, availability, and a “Message” button.
+You can show if the parent allows messaging (allowCaregiverMessages).
+3. Click “Message” opens message form
+Caregiver clicks a parent’s profile or “Message” button, which opens a messaging form prefilled with receiverId = that parent.
+When the caregiver sends a message, the backend validates allowCaregiverMessages and stores/sends the message.
+How to Implement in Code (Concept)
+
+Backend:
+Add an endpoint to fetch parents open to messaging:
+
+app.get("/parents", async (req, res) => {
+  const users = (await db.get("users")) || [];
+  // Filter only parents who allow messaging
+  const parents = users.filter(user => user.allowCaregiverMessages);
+  res.json(parents);
+});
+Frontend (Caregiver View):
+Fetch and show parents:
+
+async function loadParents() {
+  const res = await fetch("http://localhost:3000/parents");
+  const parents = await res.json();
+  const container = document.getElementById("parentList");
+  container.innerHTML = parents.map(p => `
+    <div class="parent-card">
+      <h3>${p.name}</h3>
+      <p>Location: ${p.location || "Unknown"}</p>
+      <button onclick="startMessage('${p.id}', '${p.name}')">Message</button>
+    </div>
+  `).join('');
+}
+
+function startMessage(parentId, parentName) {
+  // Show a message form with parentId prefilled
+  document.getElementById("messageTo").textContent = parentName;
+  document.getElementById("receiverIdInput").value = parentId;
+  document.getElementById("messageForm").style.display = "block";
+}
+Your Caregiver UI Example:
+<div id="parentList"></div>
+
+<div id="messageForm" style="display:none;">
+  <h4>Message to <span id="messageTo"></span></h4>
+  <input type="hidden" id="receiverIdInput" />
+  <textarea id="messageContent" placeholder="Write your message..."></textarea>
+  <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+  loadParents();
+
+  async function sendMessage() {
+    const receiverId = document.getElementById("receiverIdInput").value;
+    const content = document.getElementById("messageContent").value;
+    const senderId = "caregiver456"; // current logged-in caregiver
+
+    const res = await fetch("http://localhost:3000/sendMessage", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ senderId, receiverId, content }),
+    });
+
+    if (res.ok) {
+      alert("Message sent!");
+      document.getElementById("messageForm").style.display = "none";
+      document.getElementById("messageContent").value = "";
+    } else {
+      alert("Failed to send message");
+    }
+  }
+</script>
+Summary
+
+Parents who want messages opt in (allowCaregiverMessages = true)
+Caregivers browse/search this opt-in list
+Caregivers message directly from parent profiles
+Backend enforces permission on sending
