@@ -56,7 +56,7 @@ export default function WorkingAuth() {
     } catch (error: any) {
       toast({
         title: "Login failed",
-        description: error.message,
+        description: error.message || "Please check your email and password",
         variant: "destructive",
       });
     } finally {
@@ -218,7 +218,9 @@ export default function WorkingAuth() {
                 <label className="text-sm font-medium">Password</label>
                 <Input 
                   type="password" 
-                  {...loginRegister("password", { required: "Password is required" })}
+                  {...loginRegister("password", { 
+                    required: "Password is required"
+                  })}
                   placeholder="Enter your password" 
                 />
                 {loginErrors.password && <p className="text-sm text-red-600">{loginErrors.password.message}</p>}
