@@ -118,9 +118,22 @@ export class MemStorage implements IStorage {
   private currentChildcareEnrollmentId = 1;
 
   constructor() {
+    // Clear existing data
+    this.users.clear();
+    this.nannies.clear();
+    this.bookings.clear();
+    this.reviews.clear();
+    this.messages.clear();
+    
+    // Reset counters
+    this.currentUserId = 1;
+    this.currentNannyId = 1;
+    this.currentBookingId = 1;
+    this.currentReviewId = 1;
+    this.currentMessageId = 1;
+    
     this.seedData();
     this.initializeTestUser();
-    this.updateExistingCaregivers();
   }
 
   private initializeTestUser() {
@@ -142,55 +155,7 @@ export class MemStorage implements IStorage {
     this.users.set(testUser.id, testUser);
   }
 
-  private updateExistingCaregivers() {
-    // Update existing caregivers with varied data
-    const updates = [
-      {
-        userId: 1,
-        name: { firstName: "Sarah", lastName: "Matthews" },
-        bio: `💬 "Loves working with newborns." | Specialized infant care provider with 5+ years experience in sleep training and feeding schedules.`,
-        rating: "4.9",
-        hourlyRate: "42",
-        reviewCount: 47
-      },
-      {
-        userId: 2,
-        name: { firstName: "Emma", lastName: "Kennedy" },
-        bio: `🕒 "Available for short notice bookings." | Flexible schedule with expertise in toddler activities and developmental play.`,
-        rating: "4.7",
-        hourlyRate: "35",
-        reviewCount: 23
-      },
-      {
-        userId: 3,
-        name: { firstName: "Lisa", lastName: "Thompson" },
-        bio: `🎨 "Creative play specialist." | Art therapy background with focus on sensory development and creative expression.`,
-        rating: "4.8",
-        hourlyRate: "38",
-        reviewCount: 31
-      }
-    ];
 
-    updates.forEach(update => {
-      // Update user name
-      const user = this.users.get(update.userId);
-      if (user) {
-        user.firstName = update.name.firstName;
-        user.lastName = update.name.lastName;
-        this.users.set(update.userId, user);
-      }
-
-      // Update nanny data
-      const nanny = Array.from(this.nannies.values()).find(n => n.userId === update.userId);
-      if (nanny) {
-        nanny.bio = update.bio;
-        nanny.rating = update.rating;
-        nanny.hourlyRate = update.hourlyRate;
-        nanny.reviewCount = update.reviewCount;
-        this.nannies.set(nanny.id, nanny);
-      }
-    });
-  }
 
   private seedChildcareProviders() {
     // Create users for childcare providers
