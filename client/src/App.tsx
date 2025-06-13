@@ -85,6 +85,8 @@ import CaregiverSignup from "@/pages/caregiver-signup";
 import ParentProfileComplete from "@/pages/parent-profile-complete";
 import ParentDirectory from "@/pages/parent-directory";
 import JobBoard from "@/pages/job-board";
+import PostJob from "@/pages/post-job";
+import BrowseJobs from "@/pages/browse-jobs";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -143,6 +145,8 @@ function Router() {
           <Route path="/parent-profile-complete" component={ParentProfileComplete} />
           <Route path="/parent-directory" component={ParentDirectory} />
           <Route path="/job-board" component={JobBoard} />
+          <Route path="/post-job" component={PostJob} />
+          <Route path="/browse-jobs" component={BrowseJobs} />
           <Route path="/caregiver-profile" component={CaregiverProfile} />
           <Route path="/basic-profile" component={PersonalityProfile} />
           <Route path="/account-settings" component={AccountSettings} />
