@@ -56,6 +56,9 @@ export default function NewHeader() {
                   Caregiver
                 </button>
               </div>
+              <Link href="/job-board" className="text-black font-medium no-underline">
+                Job Board
+              </Link>
               <Link href="/messages" className="text-black font-medium no-underline">
                 Messages
               </Link>

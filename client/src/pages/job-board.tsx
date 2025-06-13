@@ -103,36 +103,9 @@ export default function JobBoard() {
     );
   }
 
-  // Check if user is a caregiver/nanny
-  if (!user.isNanny) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Card className="w-full max-w-md">
-          <CardContent className="text-center py-12">
-            <AlertTriangle className="h-12 w-12 text-amber-500 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              Caregiver Access Only
-            </h3>
-            <p className="text-gray-500 mb-6">
-              The job board is only available to registered caregivers. Parents can post jobs through their dashboard.
-            </p>
-            <div className="space-y-3">
-              <Link href="/become-caregiver">
-                <Button className="w-full bg-purple-600 hover:bg-purple-700">
-                  Become a Caregiver
-                </Button>
-              </Link>
-              <Link href="/">
-                <Button variant="outline" className="w-full">
-                  Back to Home
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  // Show different views based on user role
+  const isCaregiver = user.isNanny;
+  const isParent = !user.isNanny;
   
   // Job posting form state
   const [jobForm, setJobForm] = useState({
@@ -305,19 +278,29 @@ export default function JobBoard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as any)} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
+          <TabsList className={`grid w-full ${isParent ? 'grid-cols-2' : 'grid-cols-3'} mb-8`}>
             <TabsTrigger value="browse" className="flex items-center gap-2">
               <Search className="h-4 w-4" />
               Browse Jobs
             </TabsTrigger>
-            <TabsTrigger value="post" className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              Post Job
-            </TabsTrigger>
-            <TabsTrigger value="applications" className="flex items-center gap-2">
-              <Send className="h-4 w-4" />
-              My Applications
-            </TabsTrigger>
+            {isParent && (
+              <TabsTrigger value="post" className="flex items-center gap-2">
+                <Plus className="h-4 w-4" />
+                Post Job
+              </TabsTrigger>
+            )}
+            {isCaregiver && (
+              <>
+                <TabsTrigger value="post" className="flex items-center gap-2">
+                  <Plus className="h-4 w-4" />
+                  Post Job
+                </TabsTrigger>
+                <TabsTrigger value="applications" className="flex items-center gap-2">
+                  <Send className="h-4 w-4" />
+                  My Applications
+                </TabsTrigger>
+              </>
+            )}
           </TabsList>
 
           {/* Browse Jobs Tab */}
