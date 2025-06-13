@@ -144,7 +144,7 @@ export default function Home() {
                 🪪
               </div>
               <h4 className="text-lg font-semibold text-gray-900 mb-2">Identity Verified</h4>
-              <p className="text-gray-600 text-sm">We verify profile photos and government-issued ID to ensure authenticity.</p>
+              <p className="text-gray-600 text-sm">Choose confidently with clear visibility of each caregiver's credentials and documents.</p>
             </div>
             
             <div className="text-left group">
