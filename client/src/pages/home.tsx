@@ -306,12 +306,12 @@ export default function Home() {
                 <div className="text-gray-600 mb-4 space-y-2 flex-1">
                   <div className="font-semibold text-gray-800 mb-2">Core Services:</div>
                   <div className="text-sm leading-relaxed">
+                    • Pre & Post Natal support<br/>
                     • Specialized infant care (0-12 months)<br/>
                     • Certified doulas & lactation consultants<br/>
-                    • 1-on-1 personalized care<br/>
+                    • Postpartum recovery assistance<br/>
                     • New parent support groups<br/>
-                    • Coffee catch-ups with other parents<br/>
-                    • Postpartum recovery assistance
+                    • Coffee catch-ups with other parents
                   </div>
                 </div>
                 <Link href="/prenatal-services">
@@ -342,11 +342,11 @@ export default function Home() {
                 <div className="text-gray-600 mb-4 space-y-2 flex-1">
                   <div className="font-semibold text-gray-800 mb-2">Flexible Options:</div>
                   <div className="text-sm leading-relaxed">
-                    • 1-on-1 personalized nannies<br/>
-                    • 1-2 hour group care sessions<br/>
-                    • Drop and dash quick childcare<br/>
+                    • 1-on-1 Care - personalized childcare<br/>
+                    • Drop and Dash - quick childcare service<br/>
+                    • 2-3 Hour Group Care sessions<br/>
+                    • Infant Care (0-12 months)<br/>
                     • Park playdates & family meetups<br/>
-                    • Art & craft creative sessions<br/>
                     • After-school & holiday programs
                   </div>
                 </div>
