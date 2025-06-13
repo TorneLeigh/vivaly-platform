@@ -1,49 +1,62 @@
-import { Button } from "@/components/ui/button";
-import { X, Gift } from "lucide-react";
-import { useState } from "react";
+import React from "react";
 
-interface FeeWaiverBannerProps {
+interface ReferralBannerProps {
   feeWaiverCount?: number;
+  onRegisterClick?: () => void;
+  referralLink?: string;
 }
 
-export default function FeeWaiverBanner({ feeWaiverCount = 0 }: FeeWaiverBannerProps) {
-  const [isVisible, setIsVisible] = useState(true);
-
-  if (!isVisible || feeWaiverCount <= 0) {
-    return null;
-  }
+export default function ReferralBanner({ 
+  feeWaiverCount = 0, 
+  onRegisterClick,
+  referralLink 
+}: ReferralBannerProps) {
+  const hasWaivers = feeWaiverCount && feeWaiverCount > 0;
 
   return (
-    <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-4 relative">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Gift className="h-5 w-5" />
-          <div className="flex-1">
-            <span className="font-medium">
-              Great news! You have {feeWaiverCount} free booking{feeWaiverCount > 1 ? 's' : ''} available
-            </span>
-            <span className="ml-2 text-purple-100">
-              Book now and save on platform fees
-            </span>
-          </div>
-        </div>
-        
-        <div className="flex items-center gap-3">
-          <Button 
-            variant="secondary" 
-            size="sm" 
-            className="bg-white text-purple-600 hover:bg-gray-100"
-          >
-            Find Care Now
-          </Button>
+    <div
+      style={{
+        backgroundColor: hasWaivers ? "#d4edda" : "#cce5ff",
+        color: hasWaivers ? "#155724" : "#004085",
+        padding: "15px 25px",
+        borderRadius: "8px",
+        maxWidth: "700px",
+        margin: "20px auto",
+        textAlign: "center",
+        fontWeight: "600",
+        fontSize: "1.15rem",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+      }}
+    >
+      {hasWaivers ? (
+        <>
+          🎉 Great news! You have{" "}
+          <strong>{feeWaiverCount}</strong> free booking
+          {feeWaiverCount > 1 ? "s" : ""} available. Book now and save on platform fees!
+        </>
+      ) : (
+        <>
+          🎁 Invite family and friends to join the Vivaly community and get{" "}
+          <strong>up to 3 fee-free bookings!</strong>
+          <br />
           <button
-            onClick={() => setIsVisible(false)}
-            className="text-white hover:text-gray-200 transition-colors"
+            onClick={onRegisterClick}
+            style={{
+              marginTop: "12px",
+              padding: "10px 20px",
+              backgroundColor: "#004085",
+              color: "#fff",
+              border: "none",
+              borderRadius: "6px",
+              cursor: "pointer",
+              fontWeight: "700",
+              fontSize: "1rem",
+            }}
           >
-            <X className="h-4 w-4" />
+            {referralLink ? "Share Your Referral Link" : "Join Referral Program"}
           </button>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 }
