@@ -96,16 +96,23 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getFeaturedNannies(): Promise<(Nanny & { user: User })[]> {
-    const result = await db
-      .select()
-      .from(nannies)
-      .innerJoin(users, eq(nannies.userId, users.id))
-      .limit(6);
+    // Get nannies first
+    const nannyList = await db.select().from(nannies).limit(6);
     
-    return result.map(row => ({
-      ...row.nannies,
-      user: row.users,
-    }));
+    // Then get the users for those nannies
+    const results: (Nanny & { user: User })[] = [];
+    
+    for (const nanny of nannyList) {
+      const [user] = await db.select().from(users).where(eq(users.id, nanny.userId.toString()));
+      if (user) {
+        results.push({
+          ...nanny,
+          user,
+        });
+      }
+    }
+    
+    return results;
   }
 
   async getNanny(id: number): Promise<Nanny | undefined> {
