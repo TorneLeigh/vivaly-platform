@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import { randomUUID } from "crypto";
 import { insertUserSchema, insertJobSchema, insertApplicationSchema, type InsertUser } from "@shared/schema";
 import { requireAuth } from "./auth-middleware";
+import { sendPasswordResetEmail } from "./email-service";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth routes
@@ -105,6 +106,77 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       res.json({ message: "Logged out successfully" });
     });
+  });
+
+  // Password reset request
+  app.post('/api/auth/forgot-password', async (req, res) => {
+    try {
+      const { email } = req.body;
+
+      if (!email) {
+        return res.status(400).json({ message: "Email is required" });
+      }
+
+      const user = await storage.getUserByEmail(email);
+      
+      // Always return success to prevent email enumeration
+      if (!user) {
+        return res.json({ message: "If an account with this email exists, a reset link has been sent." });
+      }
+
+      // Generate reset token
+      const resetToken = randomUUID();
+      const resetTokenExpires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+      // Store reset token in database
+      await storage.updateUserResetToken(user.id, resetToken, resetTokenExpires);
+
+      // Send reset email
+      const emailSent = await sendPasswordResetEmail(email, resetToken);
+      
+      if (!emailSent) {
+        console.error("Failed to send password reset email to:", email);
+        return res.status(500).json({ message: "Failed to send reset email" });
+      }
+
+      res.json({ message: "If an account with this email exists, a reset link has been sent." });
+    } catch (error) {
+      console.error("Password reset request error:", error);
+      res.status(500).json({ message: "Failed to process password reset request" });
+    }
+  });
+
+  // Password reset confirmation
+  app.post('/api/auth/reset-password', async (req, res) => {
+    try {
+      const { token, newPassword } = req.body;
+
+      if (!token || !newPassword) {
+        return res.status(400).json({ message: "Token and new password are required" });
+      }
+
+      if (newPassword.length < 8) {
+        return res.status(400).json({ message: "Password must be at least 8 characters long" });
+      }
+
+      const user = await storage.getUserByResetToken(token);
+      
+      if (!user || !user.resetTokenExpires || new Date() > user.resetTokenExpires) {
+        return res.status(400).json({ message: "Invalid or expired reset token" });
+      }
+
+      // Hash new password
+      const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+      // Update password and clear reset token
+      await storage.updateUserPassword(user.id, hashedPassword);
+      await storage.clearUserResetToken(user.id);
+
+      res.json({ message: "Password has been reset successfully" });
+    } catch (error) {
+      console.error("Password reset error:", error);
+      res.status(500).json({ message: "Failed to reset password" });
+    }
   });
 
   app.get('/api/auth/user', async (req, res) => {
