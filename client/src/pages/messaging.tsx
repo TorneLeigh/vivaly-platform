@@ -67,12 +67,19 @@ const MessagingPage = () => {
         throw new Error('Failed to fetch messages');
       }
       const data = await response.json();
-      return Array.isArray(data) ? data : [];
+      // Ensure we always return an array
+      if (Array.isArray(data)) {
+        return data;
+      } else if (data && typeof data === 'object' && Array.isArray(data.messages)) {
+        return data.messages;
+      } else {
+        return [];
+      }
     },
     enabled: !!inboxUserId && activeTab === 'inbox'
   });
 
-  // Ensure messages is always an array
+  // Ensure messages is always an array with additional safety check
   const messages = Array.isArray(messagesData) ? messagesData : [];
 
   // Send message mutation
