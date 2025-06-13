@@ -28,6 +28,9 @@ const signupSchema = z.object({
     .min(8, "Password must be at least 8 characters")
     .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "Password must contain at least one uppercase letter, one lowercase letter, and one number"),
   confirmPassword: z.string(),
+  userType: z.enum(["parent", "caregiver"], {
+    required_error: "Please select your account type",
+  }),
   agreeToTerms: z.boolean().refine((val) => val === true, {
     message: "You must agree to the terms and conditions",
   }),
@@ -221,12 +224,39 @@ export default function Auth() {
                     {loginMutation.isPending ? "Signing in..." : "Sign In"}
                   </Button>
 
+                  <div className="flex gap-2 mt-4">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="flex-1 border-orange-200 text-orange-600 hover:bg-orange-50"
+                      onClick={() => {
+                        loginForm.setValue("email", "parent@test.com");
+                        loginForm.setValue("password", "password");
+                      }}
+                      disabled={loginMutation.isPending}
+                    >
+                      Try as Parent
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="flex-1 border-orange-200 text-orange-600 hover:bg-orange-50"
+                      onClick={() => {
+                        loginForm.setValue("email", "caregiver@test.com");
+                        loginForm.setValue("password", "password");
+                      }}
+                      disabled={loginMutation.isPending}
+                    >
+                      Try as Caregiver
+                    </Button>
+                  </div>
+
                   <div className="mt-4 text-center">
                     <p className="text-sm text-gray-600">
                       Don't have an account?{" "}
                       <button
                         type="button"
-                        onClick={() => navigate("/register")}
+                        onClick={() => setActiveTab("signup")}
                         className="font-medium text-orange-600 hover:text-orange-500"
                       >
                         Create one here
