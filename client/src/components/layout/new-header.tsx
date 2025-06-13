@@ -31,12 +31,6 @@ export default function NewHeader() {
           <Link href="/child-care-services" className="text-black font-medium py-2 border-b-2 border-transparent hover:border-black transition-colors no-underline">
             Childcare
           </Link>
-          <Link href="/pet-care-services" className="text-black font-medium py-2 border-b-2 border-transparent hover:border-black transition-colors no-underline">
-            Pet Care
-          </Link>
-          <Link href="/aged-care-services" className="text-black font-medium py-2 border-b-2 border-transparent hover:border-black transition-colors no-underline">
-            Aged Care
-          </Link>
           <Link href="/prenatal-services" className="text-black font-medium py-2 border-b-2 border-transparent hover:border-black transition-colors no-underline">
             Pre/Post Natal
           </Link>
@@ -132,12 +126,6 @@ export default function NewHeader() {
             </Link>
             <Link href="/child-care-services" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
               Childcare
-            </Link>
-            <Link href="/aged-care-services" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-              Aged Care
-            </Link>
-            <Link href="/pet-care-services" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-              Pet Care
             </Link>
             <Link href="/gift-card" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
               Gift Card
