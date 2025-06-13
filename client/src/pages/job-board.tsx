@@ -30,6 +30,7 @@ import type { User } from "@shared/schema";
 interface Job {
   id: string;
   parentId: string;
+  title?: string;
   startDate: string;
   numChildren: number;
   rate: string;
@@ -38,6 +39,7 @@ interface Job {
   location?: string;
   suburb?: string;
   timestamp?: string;
+  createdAt?: string;
   status?: string;
 }
 
@@ -109,6 +111,7 @@ export default function JobBoard() {
   
   // Job posting form state
   const [jobForm, setJobForm] = useState({
+    title: '',
     startDate: '',
     numChildren: 1,
     rate: '',
@@ -352,53 +355,54 @@ export default function JobBoard() {
                 </CardContent>
               </Card>
             ) : (
-              <div className="grid gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredJobs.map((job: Job) => (
-                  <Card key={job.id} className="hover:shadow-lg transition-shadow">
+                  <Card key={job.id} className="hover:shadow-lg transition-shadow h-fit">
                     <CardContent className="p-6">
-                      <div className="flex justify-between items-start mb-4">
-                        <div className="flex-1">
-                          <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                            Care for {job.numChildren} child{job.numChildren > 1 ? 'ren' : ''}
-                          </h3>
-                          <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-3">
-                            <div className="flex items-center gap-1">
-                              <Calendar className="h-4 w-4" />
-                              Starts: {new Date(job.startDate).toLocaleDateString()}
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <DollarSign className="h-4 w-4" />
-                              {job.rate}
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Clock className="h-4 w-4" />
-                              {job.hoursPerWeek} hours/week
-                            </div>
-                            {job.location && (
-                              <div className="flex items-center gap-1">
-                                <MapPin className="h-4 w-4" />
-                                {job.location}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                        <Badge variant="secondary">
+                      <div className="flex justify-between items-start mb-3">
+                        <Badge variant="secondary" className="text-xs">
                           Active
                         </Badge>
                       </div>
                       
-                      <p className="text-gray-700 mb-4 line-clamp-3">
+                      <div className="mb-4">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+                          {job.title || `Care for ${job.numChildren} child${job.numChildren > 1 ? 'ren' : ''}`}
+                        </h3>
+                        
+                        <div className="flex items-center gap-1 text-sm text-gray-600 mb-3">
+                          <MapPin className="h-4 w-4 flex-shrink-0" />
+                          <span className="truncate">{job.location || 'Sydney, NSW'}</span>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 gap-2 text-sm text-gray-600 mb-3">
+                          <div className="flex items-center gap-1">
+                            <Calendar className="h-4 w-4 flex-shrink-0" />
+                            <span>Starts: {new Date(job.startDate).toLocaleDateString()}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <DollarSign className="h-4 w-4 flex-shrink-0" />
+                            <span>${job.rate}/hour</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Clock className="h-4 w-4 flex-shrink-0" />
+                            <span>{job.hoursPerWeek} hours/week</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <p className="text-gray-700 text-sm mb-4 line-clamp-3">
                         {job.description}
                       </p>
                       
-                      <div className="flex justify-between items-center">
+                      <div className="space-y-3">
                         <div className="text-xs text-gray-500">
-                          Posted: {job.timestamp ? new Date(job.timestamp).toLocaleDateString() : 'Recently'}
+                          Posted: {job.createdAt ? new Date(job.createdAt).toLocaleDateString() : 'Recently'}
                         </div>
                         <Button 
                           onClick={() => handleApplyToJob(job.id)}
                           disabled={applyToJobMutation.isPending}
-                          className="bg-purple-600 hover:bg-purple-700"
+                          className="w-full bg-purple-600 hover:bg-purple-700 text-sm"
                         >
                           {applyToJobMutation.isPending ? 'Applying...' : 'I\'m Interested'}
                         </Button>
@@ -421,6 +425,18 @@ export default function JobBoard() {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleJobSubmit} className="space-y-6">
+                  <div className="mb-6">
+                    <Label htmlFor="title">Job Title *</Label>
+                    <Input
+                      id="title"
+                      placeholder="e.g. Experienced Nanny for 2 Toddlers"
+                      value={jobForm.title}
+                      onChange={(e) => setJobForm({...jobForm, title: e.target.value})}
+                      className="mt-1"
+                      required
+                    />
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <Label htmlFor="startDate">Start Date *</Label>
