@@ -651,6 +651,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Referral Banner */}
+      <ReferralBanner />
+
     </div>
   );
 }
