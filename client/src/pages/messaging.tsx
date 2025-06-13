@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -92,8 +92,16 @@ const MessagingPage = () => {
     staleTime: 30000 // 30 seconds
   });
 
-  // Triple safety check for messages array
-  const messages = (messagesData && Array.isArray(messagesData)) ? messagesData : [];
+  // Triple safety check for messages array with runtime validation
+  const messages = React.useMemo(() => {
+    if (!messagesData) return [];
+    if (Array.isArray(messagesData)) return messagesData;
+    if (typeof messagesData === 'object' && Array.isArray(messagesData.messages)) {
+      return messagesData.messages;
+    }
+    console.warn('Invalid messages data format:', messagesData);
+    return [];
+  }, [messagesData]);
 
   // Send message mutation
   const sendMessageMutation = useMutation({
