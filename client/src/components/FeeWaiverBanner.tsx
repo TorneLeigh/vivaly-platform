@@ -42,4 +42,5 @@ const FeeWaiverBanner = () => {
   );
 };
 
+export { FeeWaiverBanner };
 export default FeeWaiverBanner;

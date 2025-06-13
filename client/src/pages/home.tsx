@@ -8,7 +8,7 @@ import FloatingActionButton from "@/components/floating-action-button";
 import ServiceCarousel from "@/components/service-carousel";
 import AIRecommendations from "@/components/ai-recommendations";
 import { RoleToggle } from "@/components/role-toggle";
-import ReferralBanner from "@/components/FeeWaiverBanner";
+import { FeeWaiverBanner } from "@/components/FeeWaiverBanner";
 import { 
   User, 
   Users, 
@@ -131,7 +131,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Referral Banner */}
-      <ReferralBanner />
+      <FeeWaiverBanner />
       
       {/* Hero Section - Airbnb Style */}
       <section className="bg-white pb-8 pt-20">
