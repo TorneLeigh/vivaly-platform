@@ -13,6 +13,7 @@ import BookingFlow from "@/pages/booking-flow";
 import SearchResults from "@/pages/search-results";
 import BecomeNanny from "@/pages/become-nanny";
 import Messages from "@/pages/messages";
+import MessagingPage from "@/pages/messaging";
 import Login from "@/pages/login";
 import SimpleLogin from "@/pages/simple-login";
 import WorkingLogin from "@/pages/working-login";
@@ -185,6 +186,7 @@ function Router() {
 
           {/* Authenticated user routes */}
           <Route path="/messages" component={Messages} />
+          <Route path="/messaging" component={MessagingPage} />
           
           <Route component={NotFound} />
         </Switch>

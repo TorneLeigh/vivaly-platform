@@ -715,6 +715,18 @@ export class MemStorage implements IStorage {
     }));
   }
 
+  async getMessagesByUser(userId: string): Promise<(Message & { sender: User, receiver: User })[]> {
+    const userMessages = Array.from(this.messages.values())
+      .filter(message => message.senderId === userId || message.receiverId === userId)
+      .sort((a, b) => b.createdAt!.getTime() - a.createdAt!.getTime());
+
+    return userMessages.map(message => ({
+      ...message,
+      sender: this.users.get(message.senderId)!,
+      receiver: this.users.get(message.receiverId)!
+    }));
+  }
+
   async getConversations(userId: string): Promise<{ user: User, lastMessage: Message, unreadCount: number }[]> {
     const userMessages = Array.from(this.messages.values())
       .filter(message => message.senderId === userId || message.receiverId === userId);
