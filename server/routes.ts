@@ -10,43 +10,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth routes
   app.post('/api/register', async (req, res) => {
     try {
-      console.log("Registration request body:", req.body);
+      // Validate request body using Zod schema
+      const userData = insertUserSchema.parse(req.body);
       
-      const { email, password, firstName, lastName, isNanny, phone } = req.body;
-
-      if (!email || !password || !firstName || !lastName) {
-        return res.status(400).json({ message: "Missing required fields" });
-      }
-
-      // Validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        return res.status(400).json({ message: "Invalid email format" });
-      }
-
       // Check if user already exists
-      const existingUser = await storage.getUserByEmail(email);
+      const existingUser = await storage.getUserByEmail(userData.email);
       if (existingUser) {
         return res.status(400).json({ message: "User already exists" });
       }
 
       // Hash password
-      const hashedPassword = await bcrypt.hash(password, 12);
+      const hashedPassword = await bcrypt.hash(userData.password, 12);
 
-      // Create new user with simple data structure
-      const userData = {
-        email: email.toLowerCase().trim(),
+      // Create new user with validated data
+      const cleanUserData = {
+        email: userData.email.toLowerCase().trim(),
         password: hashedPassword,
-        firstName: firstName.trim(),
-        lastName: lastName.trim(),
-        phone: phone || null,
-        isNanny: Boolean(isNanny),
+        firstName: userData.firstName.trim(),
+        lastName: userData.lastName.trim(),
+        phone: userData.phone || null,
+        isNanny: userData.isNanny || false,
         allowCaregiverMessages: true
       };
 
-      console.log("Creating user with data:", { ...userData, password: "[HIDDEN]" });
-
-      const user = await storage.createUser(userData);
+      const user = await storage.createUser(cleanUserData);
 
       // Store user ID in session
       req.session.userId = user.id;
@@ -60,7 +47,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       console.error("Registration error:", error);
-      console.error("Error details:", error.message);
+      
+      // Handle Zod validation errors
+      if (error.name === 'ZodError') {
+        return res.status(400).json({ 
+          message: "Invalid input data",
+          errors: error.errors.map(err => `${err.path.join('.')}: ${err.message}`)
+        });
+      }
+      
       res.status(500).json({ message: "Account creation failed. Please try again." });
     }
   });
