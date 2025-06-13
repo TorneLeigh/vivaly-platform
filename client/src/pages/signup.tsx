@@ -37,7 +37,7 @@ export default function Signup() {
                 <p className="text-sm text-gray-500 mb-6">
                   Find trusted childcare, drop & dash services, and postpartum support for your family
                 </p>
-                <Link href="/parent-profile-creator">
+                <Link href="/signup-parent">
                   <Button className="w-full bg-black hover:bg-gray-800 text-white">
                     Get Started as Parent
                     <ArrowRight className="ml-2 h-4 w-4" />
@@ -61,7 +61,7 @@ export default function Signup() {
                 <p className="text-sm text-gray-500 mb-6">
                   Provide 1-on-1 childcare, drop & dash services, group care, or postpartum support
                 </p>
-                <Link href="/caregiver-profile-creator">
+                <Link href="/signup-caregiver">
                   <Button className="w-full bg-black hover:bg-gray-800 text-white">
                     Get Started as Caregiver
                     <ArrowRight className="ml-2 h-4 w-4" />
