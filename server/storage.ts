@@ -111,6 +111,7 @@ export class MemStorage implements IStorage {
   private messages: Map<number, Message> = new Map();
   private childcareProviders: Map<number, ChildcareProvider> = new Map();
   private childcareEnrollments: Map<number, ChildcareEnrollment> = new Map();
+  private parentProfiles: Map<number, ParentProfile> = new Map();
   
   private currentUserId = 1;
   private currentNannyId = 1;
@@ -333,6 +334,9 @@ export class MemStorage implements IStorage {
       { email: "jessica.l@email.com", password: "password", firstName: "Jessica", lastName: "Lopez", phone: "0489012345", isNanny: true },
       { email: "amy.r@email.com", password: "password", firstName: "Amy", lastName: "Robinson", phone: "0490123456", isNanny: true },
       { email: "parent@email.com", password: "password", firstName: "Jane", lastName: "Smith", phone: "0456789012", isNanny: false },
+      { email: "sarah.parent@email.com", password: "password", firstName: "Sarah", lastName: "Johnson", phone: "0467890134", isNanny: false, allowCaregiverMessages: true },
+      { email: "emma.parent@email.com", password: "password", firstName: "Emma", lastName: "Brown", phone: "0478901245", isNanny: false, allowCaregiverMessages: true },
+      { email: "lisa.parent@email.com", password: "password", firstName: "Lisa", lastName: "Williams", phone: "0489012356", isNanny: false, allowCaregiverMessages: true },
     ];
 
     const serviceOptions = [
@@ -361,12 +365,15 @@ export class MemStorage implements IStorage {
       const userData = sampleUsers[i];
       const user: User = { 
         ...userData, 
-        id: this.currentUserId++, 
-        profileImage: "", 
+        id: this.currentUserId.toString(), 
+        profileImageUrl: null, 
         createdAt: new Date(),
+        updatedAt: new Date(),
         phone: userData.phone || null,
-        isNanny: userData.isNanny || false
+        isNanny: userData.isNanny || false,
+        allowCaregiverMessages: userData.allowCaregiverMessages || false
       };
+      this.currentUserId++;
       this.users.set(user.id, user);
 
       if (user.isNanny) {
@@ -465,9 +472,193 @@ export class MemStorage implements IStorage {
         ...bookingData,
         id: this.currentBookingId++,
         createdAt: new Date(),
+        startDate: null,
+        bookingType: null,
+        endDate: null,
+        childAge: null,
+        isRecurring: null
       };
       this.bookings.set(booking.id, booking);
     }
+
+    // Create sample parent profiles for users who allow caregiver messages
+    this.createSampleParentProfiles();
+  }
+
+  private createSampleParentProfiles() {
+    const parentProfiles = [
+      {
+        userId: "10", // Sarah Johnson
+        suburb: "Bondi",
+        address: "15 Campbell Parade, Bondi Beach",
+        familySize: "4",
+        numberOfChildren: "2",
+        childrenAges: ["3", "6"],
+        childrenNames: ["Emma", "Noah"],
+        littleAboutMe: "We're an active family who loves spending time at the beach and exploring Sydney's parks. I work part-time as a teacher and my partner is in finance. We value kindness, creativity, and outdoor adventures.",
+        myLoveLanguage: "Quality Time",
+        whatMakesMe: "I believe in raising confident, empathetic children who aren't afraid to try new things.",
+        mySuperpowerIs: "Finding the perfect balance between structure and fun in our daily routine",
+        imProudOf: "How well our children adapt to new situations and their natural curiosity about the world",
+        onePerfectDay: "Would start with a family breakfast, beach time with the kids, afternoon at a local park, and end with story time before bed"
+      },
+      {
+        userId: "11", // Emma Brown
+        suburb: "Paddington",
+        address: "22 Oxford Street, Paddington",
+        familySize: "3",
+        numberOfChildren: "1",
+        childrenAges: ["18 months"],
+        childrenNames: ["Lily"],
+        littleAboutMe: "First-time mum navigating the wonderful chaos of toddlerhood! I'm a graphic designer who works from home, so I understand the challenges of balancing work and childcare.",
+        myLoveLanguage: "Acts of Service",
+        whatMakesMe: "I'm passionate about early childhood development and creating a nurturing environment where my daughter can thrive.",
+        mySuperpowerIs: "Staying calm during toddler meltdowns and finding creative solutions to everyday challenges",
+        imProudOf: "My daughter's emerging personality and her love for books and music",
+        onePerfectDay: "Would include a morning walk through Centennial Park, some creative play time, and peaceful afternoon naps"
+      },
+      {
+        userId: "12", // Lisa Williams
+        suburb: "Manly",
+        address: "8 The Corso, Manly",
+        familySize: "5",
+        numberOfChildren: "3",
+        childrenAges: ["2", "5", "8"],
+        childrenNames: ["Sophie", "Jack", "Olivia"],
+        littleAboutMe: "Busy mum of three who thrives on organized chaos! I work as a nurse and value caregivers who understand that every child is unique and has different needs.",
+        myLoveLanguage: "Words of Affirmation",
+        whatMakesMe: "I believe in fostering independence while providing a secure, loving foundation for each of my children.",
+        mySuperpowerIs: "Juggling multiple schedules while ensuring each child feels heard and valued",
+        imProudOf: "How my children look out for each other and their growing sense of responsibility",
+        onePerfectDay: "Would involve beach time, individual one-on-one moments with each child, and a family movie night"
+      }
+    ];
+
+    parentProfiles.forEach((profileData, index) => {
+      const profile: ParentProfile = {
+        id: index + 1,
+        userId: profileData.userId,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        suburb: profileData.suburb,
+        address: profileData.address,
+        familySize: profileData.familySize,
+        numberOfChildren: profileData.numberOfChildren,
+        childrenAges: profileData.childrenAges,
+        childrenNames: profileData.childrenNames,
+        littleAboutMe: profileData.littleAboutMe,
+        myLoveLanguage: profileData.myLoveLanguage,
+        whatMakesMe: profileData.whatMakesMe,
+        mySuperpowerIs: profileData.mySuperpowerIs,
+        imProudOf: profileData.imProudOf,
+        onePerfectDay: profileData.onePerfectDay,
+        // Additional fields with null values for now
+        startDate: null,
+        childrenGenders: null,
+        medicalConditions: null,
+        allergies: null,
+        dietaryRequirements: null,
+        emergencyContact: null,
+        emergencyContactPhone: null,
+        preferredCommunication: null,
+        additionalNotes: null,
+        availability: null,
+        preferredCareType: null,
+        budgetRange: null,
+        experienceLevel: null,
+        specialRequests: null,
+        householdRules: null,
+        petInformation: null,
+        transportationNeeds: null,
+        languagesSpoken: null,
+        culturalConsiderations: null,
+        educationalGoals: null,
+        disciplineApproach: null,
+        screenTimePolicy: null,
+        outdoorActivities: null,
+        indoorActivities: null,
+        mealPreparation: null,
+        napSchedule: null,
+        bedtimeRoutine: null,
+        parentingStyle: null,
+        importantValues: null,
+        dealBreakers: null,
+        idealCaregiver: null,
+        previousExperiences: null,
+        references: null,
+        backgroundCheckConsent: null,
+        flexibilityLevel: null,
+        noticePeriod: null,
+        cancellationPolicy: null,
+        paymentPreference: null,
+        additionalServices: null,
+        holidayArrangements: null,
+        communicationFrequency: null,
+        feedbackStyle: null,
+        conflictResolution: null,
+        growthMindset: null,
+        learningStyle: null,
+        socialDevelopment: null,
+        emotionalSupport: null,
+        creativityEncouragement: null,
+        physicalActivity: null,
+        healthAndWellness: null,
+        communityInvolvement: null,
+        environmentalValues: null,
+        technologyUse: null,
+        workLifeBalance: null,
+        stressManagement: null,
+        celebrationTraditions: null,
+        seasonalActivities: null,
+        weatherContingencies: null,
+        safetyProtocols: null,
+        firstAidRequirements: null,
+        medicationManagement: null,
+        developmentalMilestones: null,
+        educationalResources: null,
+        communityResources: null,
+        supportNetwork: null,
+        futureGoals: null,
+        longTermVision: null,
+        personalGrowth: null,
+        familyTraditions: null,
+        culturalHeritage: null,
+        languageDevelopment: null,
+        musicalInterests: null,
+        artisticPursuits: null,
+        sportsAndRecreation: null,
+        natureConnection: null,
+        serviceToOthers: null,
+        characterBuilding: null,
+        lifeSkills: null,
+        problemSolving: null,
+        criticalThinking: null,
+        empathyDevelopment: null,
+        resilienceBuilding: null,
+        confidenceBooster: null,
+        independenceTraining: null,
+        teamworkSkills: null,
+        leadershipQualities: null,
+        communicationSkills: null,
+        timeManagement: null,
+        organizationalSkills: null,
+        financialLiteracy: null,
+        digitalCitizenship: null,
+        globalAwareness: null,
+        environmentalStewardship: null,
+        socialJustice: null,
+        diversityAppreciation: null,
+        inclusivityPractice: null,
+        mindfulnessPractice: null,
+        gratitudeCultivation: null,
+        optimismFostering: null,
+        adventureSpirit: null,
+        curiosityNurturing: null,
+        wonderfullyWeird: null,
+        myFamilyIsSpecialBecause: null
+      };
+      this.parentProfiles.set(profile.id, profile);
+    });
   }
 
   // Users
