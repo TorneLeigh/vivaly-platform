@@ -12,6 +12,7 @@ import { Eye, EyeOff, Mail, Lock, User, Phone } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useLocation } from "wouter";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -44,6 +45,7 @@ export default function Auth() {
   const [activeTab, setActiveTab] = useState("login");
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [, navigate] = useLocation();
 
   const loginForm = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
@@ -71,22 +73,21 @@ export default function Auth() {
       const response = await apiRequest("POST", "/api/login", data);
       return response.json();
     },
-    onSuccess: (user: any) => {
+    onSuccess: async (user: any) => {
       // Set the user data in the query cache
       queryClient.setQueryData(["/api/auth/user"], user);
       
-      // Invalidate the auth query to ensure fresh data
-      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      // Invalidate and refetch the auth query immediately
+      await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
       
       toast({
         title: "Welcome back!",
         description: "You have successfully logged in.",
       });
       
-      // Use setTimeout to ensure the query cache is updated before navigation
-      setTimeout(() => {
-        window.location.href = user.isNanny ? "/nanny-dashboard" : "/";
-      }, 100);
+      // Navigate using router instead of window.location.href
+      navigate(user.isNanny ? "/nanny-dashboard" : "/");
     },
     onError: (error: any) => {
       toast({
