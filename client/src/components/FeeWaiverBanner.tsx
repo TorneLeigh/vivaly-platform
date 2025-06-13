@@ -1,38 +1,42 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { X, Gift } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-const FeeWaiverBanner = () => {
+export default function FeeWaiverBanner() {
   const [isVisible, setIsVisible] = useState(true);
 
   if (!isVisible) return null;
 
-  const handleReferralClick = () => {
-    console.log("Referral program clicked");
-    // Add referral program logic here
-  };
-
   return (
-    <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-4 relative">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Gift className="h-5 w-5" />
-          <span className="font-medium">
-            🎁 Invite family and friends to join the Vivaly community and get up to 3 fee-free bookings!
-          </span>
+    <div className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white py-3 px-4 relative">
+      <div className="container max-w-7xl mx-auto flex items-center justify-between">
+        <div className="flex items-center space-x-3">
+          <Gift className="h-5 w-5 text-emerald-100" />
+          <div className="flex-1">
+            <p className="text-sm font-medium">
+              <span className="font-bold">Limited Time:</span> No platform fees for your first booking! 
+              <span className="ml-2 text-emerald-100">Save up to $50</span>
+            </p>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
+        
+        <div className="flex items-center space-x-4">
+          <Button 
+            variant="outline" 
             size="sm"
-            className="text-purple-600 border-white hover:bg-white hover:text-purple-600"
-            onClick={handleReferralClick}
+            className="bg-white text-emerald-600 border-white hover:bg-emerald-50 hover:text-emerald-700 text-xs px-3 py-1"
+            onClick={() => {
+              // Navigate to booking or show referral info
+              console.log("Referral program clicked");
+            }}
           >
-            LOG IN
+            Learn More
           </Button>
+          
           <button
             onClick={() => setIsVisible(false)}
-            className="text-white hover:text-gray-200 p-1"
+            className="text-emerald-100 hover:text-white transition-colors p-1"
+            aria-label="Close banner"
           >
             <X className="h-4 w-4" />
           </button>
@@ -40,6 +44,4 @@ const FeeWaiverBanner = () => {
       </div>
     </div>
   );
-};
-
-export default FeeWaiverBanner;
+}
