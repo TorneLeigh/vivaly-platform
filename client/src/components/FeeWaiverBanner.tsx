@@ -15,48 +15,43 @@ export default function ReferralBanner({
 
   return (
     <div
+      className="w-full"
       style={{
         backgroundColor: hasWaivers ? "#d4edda" : "#cce5ff",
         color: hasWaivers ? "#155724" : "#004085",
-        padding: "15px 25px",
-        borderRadius: "8px",
-        maxWidth: "700px",
-        margin: "20px auto",
-        textAlign: "center",
-        fontWeight: "600",
-        fontSize: "1.15rem",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+        padding: "8px 16px",
+        position: "relative",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 10,
       }}
     >
-      {hasWaivers ? (
-        <>
-          🎉 Great news! You have{" "}
-          <strong>{feeWaiverCount}</strong> free booking
-          {feeWaiverCount > 1 ? "s" : ""} available. Book now and save on platform fees!
-        </>
-      ) : (
-        <>
-          🎁 Invite family and friends to join the Vivaly community and get{" "}
-          <strong>up to 3 fee-free bookings!</strong>
-          <br />
+      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+        <div className="flex-1">
+          {hasWaivers ? (
+            <span className="font-semibold text-sm sm:text-base">
+              🎉 Great news! You have{" "}
+              <strong>{feeWaiverCount}</strong> free booking
+              {feeWaiverCount > 1 ? "s" : ""} available. Book now and save on platform fees!
+            </span>
+          ) : (
+            <span className="font-semibold text-sm sm:text-base">
+              🎁 Invite family and friends to join the Vivaly community and get{" "}
+              <strong>up to 3 fee-free bookings!</strong>
+            </span>
+          )}
+        </div>
+        
+        {!hasWaivers && (
           <button
             onClick={onRegisterClick}
-            style={{
-              marginTop: "12px",
-              padding: "10px 20px",
-              backgroundColor: "#004085",
-              color: "#fff",
-              border: "none",
-              borderRadius: "6px",
-              cursor: "pointer",
-              fontWeight: "700",
-              fontSize: "1rem",
-            }}
+            className="px-4 py-2 bg-blue-800 text-white text-sm font-bold rounded-md hover:bg-blue-900 transition-colors whitespace-nowrap"
           >
-            {referralLink ? "Share Your Referral Link" : "Join Referral Program"}
+            LOG IN TO INVITE FRIENDS
           </button>
-        </>
-      )}
+        )}
+      </div>
     </div>
   );
 }
