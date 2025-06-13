@@ -53,24 +53,31 @@ import birthingImage from "@assets/f087158c54b76ecf0250c6866d218c92_174926702217
 import groupCareImage from "@assets/ad23d9f10c69e3bfc73ffe82a1bac618_1749267219539.jpg";
 import doulaImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749359311276.jpg";
 
-// Professional caregiver face photos
-import caregiverFace1 from "@assets/854be3a55da7cc24c19d02cd9ed2eb70.jpg";
-import caregiverFace2 from "@assets/58268e04ad7e7126279d8950565a0cd6.jpg";
-import caregiverFace3 from "@assets/057e7c1da9c30e1c3fac8f35d8a08807.jpg";
-import caregiverFace4 from "@assets/873088fb26b5424de0b598117a93c19f.jpg";
-import caregiverFace5 from "@assets/0322f50abf3a7fc6d8def12b41336e6a.jpg";
-import caregiverFace6 from "@assets/46c0702d1b48d35f894a0fe16f437b43.jpg";
-import caregiverFace7 from "@assets/793a2a82f337ec12518b35b4b0886681.jpg";
+// Individual women's professional portrait SVGs
+const createCaregiverPortrait = (name: string, hairColor: string, skinTone: string) => {
+  return `data:image/svg+xml,${encodeURIComponent(`
+    <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" fill="#f8f9fa"/>
+      <circle cx="50" cy="35" r="18" fill="${skinTone}"/>
+      <path d="M32 28 Q50 20 68 28 Q68 18 50 15 Q32 18 32 28" fill="${hairColor}"/>
+      <circle cx="45" cy="32" r="1.5" fill="#2c3e50"/>
+      <circle cx="55" cy="32" r="1.5" fill="#2c3e50"/>
+      <path d="M47 38 Q50 40 53 38" stroke="#2c3e50" stroke-width="1" fill="none"/>
+      <rect x="35" y="50" width="30" height="40" fill="#e74c3c" rx="3"/>
+      <text x="50" y="80" text-anchor="middle" font-family="Arial" font-size="8" fill="white">${name}</text>
+    </svg>
+  `)}`
+};
 
-// Professional caregiver face photos for the available today section
+// Professional caregiver portraits for the available today section
 const caregiverImages = [
-  caregiverFace1,
-  caregiverFace2,
-  caregiverFace3,
-  caregiverFace4,
-  caregiverFace5,
-  caregiverFace6,
-  caregiverFace7
+  createCaregiverPortrait("Sarah", "#8B4513", "#FDBCB4"),
+  createCaregiverPortrait("Emma", "#FFD700", "#F5DEB3"),
+  createCaregiverPortrait("Lisa", "#A0522D", "#DEB887"),
+  createCaregiverPortrait("Anna", "#000000", "#8D5524"),
+  createCaregiverPortrait("Kate", "#FF6347", "#FDBCB4"),
+  createCaregiverPortrait("Mia", "#4B0082", "#F5DEB3"),
+  createCaregiverPortrait("Zoe", "#8B4513", "#DEB887")
 ];
 
 // Sydney location data for caregivers
