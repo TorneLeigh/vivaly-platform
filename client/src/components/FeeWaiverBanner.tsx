@@ -1,57 +1,45 @@
-import React from "react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { X, Gift } from "lucide-react";
 
-interface ReferralBannerProps {
-  feeWaiverCount?: number;
-  onRegisterClick?: () => void;
-  referralLink?: string;
-}
+const FeeWaiverBanner = () => {
+  const [isVisible, setIsVisible] = useState(true);
 
-export default function ReferralBanner({ 
-  feeWaiverCount = 0, 
-  onRegisterClick,
-  referralLink 
-}: ReferralBannerProps) {
-  const hasWaivers = feeWaiverCount && feeWaiverCount > 0;
+  if (!isVisible) return null;
+
+  const handleReferralClick = () => {
+    console.log("Referral program clicked");
+    // Add referral program logic here
+  };
 
   return (
-    <div
-      className="w-full"
-      style={{
-        backgroundColor: hasWaivers ? "#d4edda" : "#FFA07A",
-        color: hasWaivers ? "#155724" : "#FFFFFF",
-        padding: "8px 16px",
-        position: "relative",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 10,
-      }}
-    >
-      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-        <div className="flex-1">
-          {hasWaivers ? (
-            <span className="font-semibold text-sm sm:text-base">
-              🎉 Great news! You have{" "}
-              <strong>{feeWaiverCount}</strong> free booking
-              {feeWaiverCount > 1 ? "s" : ""} available. Book now and save on platform fees!
-            </span>
-          ) : (
-            <span className="font-semibold text-sm sm:text-base">
-              🎁 Invite family and friends to join the Vivaly community and get{" "}
-              <strong>up to 3 fee-free bookings!</strong>
-            </span>
-          )}
+    <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-4 relative">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <Gift className="h-5 w-5" />
+          <span className="font-medium">
+            Special Offer: Get your first month free when you refer a friend to Vivaly!
+          </span>
         </div>
-        
-        {!hasWaivers && (
-          <button
-            onClick={onRegisterClick}
-            className="px-4 py-2 bg-black text-white text-sm font-bold rounded-md hover:bg-gray-800 transition-colors whitespace-nowrap"
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="text-purple-600 border-white hover:bg-white hover:text-purple-600"
+            onClick={handleReferralClick}
           >
-            LOG IN TO INVITE FRIENDS
+            Learn More
+          </Button>
+          <button
+            onClick={() => setIsVisible(false)}
+            className="text-white hover:text-gray-200 p-1"
+          >
+            <X className="h-4 w-4" />
           </button>
-        )}
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default FeeWaiverBanner;

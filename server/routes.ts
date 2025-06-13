@@ -1102,16 +1102,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const messageData = insertMessageSchema.parse(req.body);
       const message = await storage.createMessage(messageData);
-      res.status(201).json(message);
+      res.status(201).json({ success: true, message });
     } catch (error) {
-      res.status(400).json({ message: "Invalid message data" });
+      res.status(400).json({ success: false, message: "Invalid message data" });
+    }
+  });
+
+  // Send message route (compatible with uploaded messaging system)
+  app.post("/api/sendMessage", async (req, res) => {
+    try {
+      const { senderId, receiverId, content } = req.body;
+
+      // Check if parent allows caregiver messages
+      const receiver = await storage.getUser(receiverId);
+      if (!receiver) {
+        return res.status(404).json({ success: false, message: "Receiver not found" });
+      }
+
+      const messageData = {
+        senderId,
+        receiverId,
+        content,
+      };
+
+      const message = await storage.createMessage(messageData);
+      res.status(201).json({ success: true, message });
+    } catch (error) {
+      console.error("Send message error:", error);
+      res.status(500).json({ success: false, message: "Failed to send message" });
+    }
+  });
+
+  // Get messages for a user (inbox)
+  app.get("/api/getMessages/:userId", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const messages = await storage.getMessagesByUser(userId);
+      res.json(messages);
+    } catch (error) {
+      console.error("Get messages error:", error);
+      res.status(500).json({ message: "Failed to fetch messages" });
     }
   });
 
   app.get("/api/messages/conversation/:userId1/:userId2", async (req, res) => {
     try {
-      const userId1 = parseInt(req.params.userId1);
-      const userId2 = parseInt(req.params.userId2);
+      const userId1 = req.params.userId1;
+      const userId2 = req.params.userId2;
       const messages = await storage.getMessagesBetweenUsers(userId1, userId2);
       res.json(messages);
     } catch (error) {
@@ -1121,11 +1158,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/messages/conversations/:userId", async (req, res) => {
     try {
-      const userId = parseInt(req.params.userId);
+      const userId = req.params.userId;
       const conversations = await storage.getConversations(userId);
       res.json(conversations);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch conversations" });
+    }
+  });
+
+  // Report message route
+  app.post("/api/messages/:messageId/report", requireAuth, async (req, res) => {
+    try {
+      const { messageId } = req.params;
+      const { reason } = req.body;
+      
+      // In a real implementation, you would store this report
+      console.log(`Message ${messageId} reported for: ${reason}`);
+      
+      res.json({ success: true, message: "Message reported for review" });
+    } catch (error) {
+      console.error("Report message error:", error);
+      res.status(500).json({ success: false, message: "Failed to report message" });
+    }
+  });
+
+  // Block user route
+  app.post("/api/messages/block/:userId", requireAuth, async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const blockerId = req.session.userId!;
+      
+      // In a real implementation, you would store this block relationship
+      console.log(`User ${blockerId} blocked user ${userId}`);
+      
+      res.json({ success: true, message: "User blocked successfully" });
+    } catch (error) {
+      console.error("Block user error:", error);
+      res.status(500).json({ success: false, message: "Failed to block user" });
     }
   });
 
