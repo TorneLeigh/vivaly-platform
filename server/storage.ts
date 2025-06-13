@@ -35,9 +35,18 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createUser(userData: InsertUser): Promise<User> {
+    // Generate a unique ID for the user
+    const userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    
+    // Create the user data with required fields, excluding extra form fields
+    const { isCaregiver, agreeToTerms, confirmPassword, ...userDbData } = userData;
+    
     const [user] = await db
       .insert(users)
-      .values(userData)
+      .values({
+        ...userDbData,
+        id: userId
+      })
       .returning();
     return user;
   }
@@ -63,10 +72,7 @@ export class DatabaseStorage implements IStorage {
   async createMessage(messageData: InsertMessage): Promise<Message> {
     const [message] = await db
       .insert(messages)
-      .values({
-        ...messageData,
-        createdAt: new Date(),
-      })
+      .values(messageData)
       .returning();
     return message;
   }

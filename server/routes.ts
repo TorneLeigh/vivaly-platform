@@ -96,7 +96,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
 
-  app.get('/api/auth/user', authMiddleware, async (req, res) => {
+  app.get('/api/auth/user', requireAuth, async (req, res) => {
     try {
       const userId = req.session.userId;
       const user = await storage.getUser(userId);
@@ -119,7 +119,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Messages routes
-  app.get('/api/messages', authMiddleware, async (req, res) => {
+  app.get('/api/messages', requireAuth, async (req, res) => {
     try {
       const userId = req.session.userId;
       const messages = await storage.getMessages(userId);
@@ -130,7 +130,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/messages', authMiddleware, async (req, res) => {
+  app.post('/api/messages', requireAuth, async (req, res) => {
     try {
       const { receiverId, content } = req.body;
       const senderId = req.session.userId;
@@ -153,7 +153,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Users routes
-  app.get('/api/users', authMiddleware, async (req, res) => {
+  app.get('/api/users', requireAuth, async (req, res) => {
     try {
       const users = await storage.getUsers();
       res.json(users.map(user => ({
