@@ -62,25 +62,38 @@ const MessagingPage = () => {
   const { data: messagesData, isLoading, error, refetch } = useQuery({
     queryKey: ['/api/getMessages', inboxUserId],
     queryFn: async () => {
-      const response = await fetch(`/api/getMessages/${inboxUserId}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch messages');
-      }
-      const data = await response.json();
-      // Ensure we always return an array
-      if (Array.isArray(data)) {
-        return data;
-      } else if (data && typeof data === 'object' && Array.isArray(data.messages)) {
-        return data.messages;
-      } else {
+      try {
+        const response = await fetch(`/api/getMessages/${inboxUserId}`);
+        if (!response.ok) {
+          console.error('Failed to fetch messages:', response.status, response.statusText);
+          return [];
+        }
+        const data = await response.json();
+        console.log('Messages data received:', data);
+        
+        // Robust data validation
+        if (Array.isArray(data)) {
+          return data;
+        } else if (data && typeof data === 'object' && Array.isArray(data.messages)) {
+          return data.messages;
+        } else if (data && typeof data === 'object' && data.success === false) {
+          console.warn('API returned error:', data.message);
+          return [];
+        } else {
+          console.warn('Unexpected data format:', data);
+          return [];
+        }
+      } catch (error) {
+        console.error('Error fetching messages:', error);
         return [];
       }
     },
-    enabled: !!inboxUserId && activeTab === 'inbox'
+    enabled: !!inboxUserId && activeTab === 'inbox',
+    staleTime: 30000 // 30 seconds
   });
 
-  // Ensure messages is always an array with additional safety check
-  const messages = Array.isArray(messagesData) ? messagesData : [];
+  // Triple safety check for messages array
+  const messages = (messagesData && Array.isArray(messagesData)) ? messagesData : [];
 
   // Send message mutation
   const sendMessageMutation = useMutation({
