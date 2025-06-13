@@ -2,12 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import ServiceCarousel from "@/components/service-carousel";
-import petSittingServiceImage from "@assets/969c7a3eeacf469a3a4c50a32a9b3d57.jpg";
-import dogPlaytimeImage from "@assets/994aad74ac4664d9bd56815d3fda5f88_1749183011870.jpg";
-import dogTrainingImage from "@assets/04d9009db67d6c328f97e3b626b6d305_1749183011871.jpg";
-import dogWalkingGroupImage from "@assets/1f385011ff2b05a03672385eb150b795_1749183011871.jpg";
-import dogJoggingImage from "@assets/d886544ac5e3fae6b42acf55429e1aaa_1749183011871.jpg";
-import cityDogWalkImage from "@assets/32b2abcfc1fddbe1118ee928059ce66b_1749183011871.jpg";
+
 
 
 interface Nanny {
@@ -103,16 +98,7 @@ export default function Services() {
 
   // Filter function to determine which sections to show
   const shouldShowSection = (sectionType: string) => {
-    if (selectedCategory === "all") return true;
-    
-    switch (selectedCategory) {
-      case "pet":
-        return sectionType === "pet";
-      case "elderly":
-        return sectionType === "elderly";
-      default:
-        return true;
-    }
+    return sectionType === "all";
   };
 
   return (

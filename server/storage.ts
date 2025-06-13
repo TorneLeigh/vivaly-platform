@@ -325,9 +325,6 @@ export class MemStorage implements IStorage {
       [SERVICE_TYPES[1], SERVICE_TYPES[3]], // Group services
       [SERVICE_TYPES[9]], // Pregnancy assistance
       [SERVICE_TYPES[10]], // Postnatal care
-      [SERVICE_TYPES[11]], // Pet sitting
-      [SERVICE_TYPES[12]], // Elderly care
-      [SERVICE_TYPES[13]], // Elderly companionship
     ];
 
     const certificateOptions = [
