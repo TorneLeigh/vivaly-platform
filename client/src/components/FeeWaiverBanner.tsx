@@ -17,8 +17,8 @@ export default function ReferralBanner({
     <div
       className="w-full"
       style={{
-        backgroundColor: hasWaivers ? "#d4edda" : "#cce5ff",
-        color: hasWaivers ? "#155724" : "#004085",
+        backgroundColor: hasWaivers ? "#d4edda" : "#FFA07A",
+        color: hasWaivers ? "#155724" : "#8B0000",
         padding: "8px 16px",
         position: "relative",
         top: 0,
@@ -46,7 +46,7 @@ export default function ReferralBanner({
         {!hasWaivers && (
           <button
             onClick={onRegisterClick}
-            className="px-4 py-2 bg-blue-800 text-white text-sm font-bold rounded-md hover:bg-blue-900 transition-colors whitespace-nowrap"
+            className="px-4 py-2 bg-red-700 text-white text-sm font-bold rounded-md hover:bg-red-800 transition-colors whitespace-nowrap"
           >
             LOG IN TO INVITE FRIENDS
           </button>
