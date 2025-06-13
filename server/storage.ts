@@ -1,10 +1,16 @@
 import {
   users,
   messages,
+  jobs,
+  applications,
   type User,
   type InsertUser,
   type Message,
   type InsertMessage,
+  type Job,
+  type InsertJob,
+  type Application,
+  type InsertApplication,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, or, and } from "drizzle-orm";

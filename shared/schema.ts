@@ -272,6 +272,27 @@ export const messages = pgTable("messages", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const jobs = pgTable("jobs", {
+  id: varchar("id").primaryKey().notNull(),
+  parentId: varchar("parent_id").notNull(),
+  startDate: varchar("start_date").notNull(),
+  numChildren: integer("num_children").notNull(),
+  rate: decimal("rate", { precision: 10, scale: 2 }).notNull(),
+  hoursPerWeek: integer("hours_per_week").notNull(),
+  description: text("description").notNull(),
+  status: varchar("status").default("active"), // active, filled, expired
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const applications = pgTable("applications", {
+  id: serial("id").primaryKey(),
+  jobId: varchar("job_id").notNull(),
+  caregiverId: varchar("caregiver_id").notNull(),
+  caregiverProfile: text("caregiver_profile"), // URL or text profile
+  status: varchar("status").default("pending"), // pending, accepted, rejected
+  appliedAt: timestamp("applied_at").defaultNow(),
+});
+
 export const experiences = pgTable("experiences", {
   id: serial("id").primaryKey(),
   caregiverId: integer("caregiver_id").notNull(),
@@ -415,6 +436,15 @@ export const insertMessageSchema = createInsertSchema(messages).omit({
   isBlocked: true,
 });
 
+export const insertJobSchema = createInsertSchema(jobs).omit({
+  createdAt: true,
+});
+
+export const insertApplicationSchema = createInsertSchema(applications).omit({
+  id: true,
+  appliedAt: true,
+});
+
 export const insertExperienceSchema = createInsertSchema(experiences).omit({
   id: true,
   rating: true,
@@ -460,6 +490,12 @@ export type InsertReview = z.infer<typeof insertReviewSchema>;
 
 export type Message = typeof messages.$inferSelect;
 export type InsertMessage = z.infer<typeof insertMessageSchema>;
+
+export type Job = typeof jobs.$inferSelect;
+export type InsertJob = z.infer<typeof insertJobSchema>;
+
+export type Application = typeof applications.$inferSelect;
+export type InsertApplication = z.infer<typeof insertApplicationSchema>;
 
 export type Experience = typeof experiences.$inferSelect;
 export type InsertExperience = z.infer<typeof insertExperienceSchema>;
