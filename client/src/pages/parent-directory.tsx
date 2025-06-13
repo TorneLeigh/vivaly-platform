@@ -227,10 +227,18 @@ export default function ParentDirectory() {
                       </div>
                     )}
 
-                    {parent.profile.mySuperpowerIs && (
+                    {parent.profile.imProudOf && (
                       <div className="flex items-center text-gray-700">
                         <span className="text-sm">
-                          <strong>Superpower:</strong> {parent.profile.mySuperpowerIs}
+                          <strong>Proud of:</strong> {parent.profile.imProudOf}
+                        </span>
+                      </div>
+                    )}
+
+                    {parent.profile.onePerfectDay && (
+                      <div className="flex items-center text-gray-700">
+                        <span className="text-sm">
+                          <strong>Perfect day:</strong> {parent.profile.onePerfectDay}
                         </span>
                       </div>
                     )}

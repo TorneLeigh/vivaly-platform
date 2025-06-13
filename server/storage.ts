@@ -508,6 +508,7 @@ export class MemStorage implements IStorage {
         numberOfChildren: "1",
         childrenAges: ["18 months"],
         childrenNames: ["Lily"],
+        childrenGenders: ["Female"],
         littleAboutMe: "First-time mum navigating the wonderful chaos of toddlerhood! I'm a graphic designer who works from home, so I understand the challenges of balancing work and childcare.",
         myLoveLanguage: "Acts of Service",
         imProudOf: "My daughter's emerging personality and her love for books and music",
@@ -521,6 +522,7 @@ export class MemStorage implements IStorage {
         numberOfChildren: "3",
         childrenAges: ["2", "5", "8"],
         childrenNames: ["Sophie", "Jack", "Olivia"],
+        childrenGenders: ["Female", "Male", "Female"],
         littleAboutMe: "Busy mum of three who thrives on organized chaos! I work as a nurse and value caregivers who understand that every child is unique and has different needs.",
         myLoveLanguage: "Words of Affirmation",
         imProudOf: "How my children look out for each other and their growing sense of responsibility",
@@ -540,6 +542,7 @@ export class MemStorage implements IStorage {
         numberOfChildren: profileData.numberOfChildren,
         childrenAges: profileData.childrenAges,
         childrenNames: profileData.childrenNames,
+        childrenGenders: null, // Required field from schema
         littleAboutMe: profileData.littleAboutMe,
         myLoveLanguage: profileData.myLoveLanguage,
         imProudOf: profileData.imProudOf,
