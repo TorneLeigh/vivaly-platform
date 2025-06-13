@@ -10,10 +10,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth routes
   app.post('/api/register', async (req, res) => {
     try {
+      console.log("Registration request body:", req.body);
+      
       const { email, password, firstName, lastName, isNanny, phone } = req.body;
 
       if (!email || !password || !firstName || !lastName) {
         return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({ message: "Invalid email format" });
       }
 
       // Check if user already exists
@@ -25,16 +33,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Hash password
       const hashedPassword = await bcrypt.hash(password, 12);
 
-      // Create new user
-      const user = await storage.createUser({
-        email,
+      // Create new user with simple data structure
+      const userData = {
+        email: email.toLowerCase().trim(),
         password: hashedPassword,
-        firstName,
-        lastName,
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
         phone: phone || null,
-        isNanny: isNanny || false,
+        isNanny: Boolean(isNanny),
         allowCaregiverMessages: true
-      });
+      };
+
+      console.log("Creating user with data:", { ...userData, password: "[HIDDEN]" });
+
+      const user = await storage.createUser(userData);
 
       // Store user ID in session
       req.session.userId = user.id;
@@ -48,7 +60,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       console.error("Registration error:", error);
-      res.status(500).json({ message: "Registration failed" });
+      console.error("Error details:", error.message);
+      res.status(500).json({ message: "Account creation failed. Please try again." });
     }
   });
 

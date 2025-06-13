@@ -52,18 +52,29 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createUser(userData: InsertUser): Promise<User> {
-    // Generate a unique ID for the user
-    const userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    // Generate a simple unique ID for the user
+    const userId = `user_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
     
-    // Create the user data with required fields, excluding extra form fields
-    const { isCaregiver, agreeToTerms, confirmPassword, ...userDbData } = userData;
+    // Create clean user data, excluding form-only fields
+    const cleanUserData = {
+      id: userId,
+      email: userData.email,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      phone: userData.phone || null,
+      password: userData.password,
+      isNanny: userData.isNanny || false,
+      allowCaregiverMessages: userData.allowCaregiverMessages || true,
+      profileImageUrl: null,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    
+    console.log("Inserting user with clean data:", { ...cleanUserData, password: "[HIDDEN]" });
     
     const [user] = await db
       .insert(users)
-      .values({
-        ...userDbData,
-        id: userId
-      })
+      .values(cleanUserData)
       .returning();
     return user;
   }
