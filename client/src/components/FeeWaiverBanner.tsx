@@ -18,7 +18,7 @@ const FeeWaiverBanner = () => {
         <div className="flex items-center gap-3">
           <Gift className="h-5 w-5" />
           <span className="font-medium">
-            Special Offer: Get your first month free when you refer a friend to Vivaly!
+            🎉 Limited Time: Waive your $39 membership fee! Join now and save - only 127 spots left!
           </span>
         </div>
         <div className="flex items-center gap-2">
