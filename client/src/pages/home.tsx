@@ -106,8 +106,7 @@ export default function Home() {
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 pt-8">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-              Its easy to find care 
-              to find care, all in one app
+              Finding care, faster than your baby can lose a sock.
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
               <span className="font-medium text-gray-900">Created by a Mom</span> for moms seeking trusted childcare, postnatal care and early childhood support
@@ -610,15 +609,6 @@ export default function Home() {
               </p>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Bottom CTA Section */}
-      <section className="py-16 bg-white">
-        <div className="container max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Finding care, that's easier than changing a nappy
-          </h2>
         </div>
       </section>
 
