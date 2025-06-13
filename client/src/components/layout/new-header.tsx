@@ -28,12 +28,7 @@ export default function NewHeader() {
         </Link>
         
         <nav className="hidden md:flex gap-5">
-          <Link href="/child-care-services" className="text-black font-medium py-2 border-b-2 border-transparent hover:border-black transition-colors no-underline">
-            Childcare
-          </Link>
-          <Link href="/prenatal-services" className="text-black font-medium py-2 border-b-2 border-transparent hover:border-black transition-colors no-underline">
-            Pre/Post Natal
-          </Link>
+          {/* Navigation items hidden as requested */}
         </nav>
         
         <div className="hidden md:flex items-center gap-5">
@@ -120,12 +115,7 @@ export default function NewHeader() {
       {mobileMenuOpen && (
         <div className="md:hidden fixed top-[73px] left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-40">
           <div className="px-5 py-2">
-            <Link href="/prenatal-services" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-              Pre/Post Natal
-            </Link>
-            <Link href="/child-care-services" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-              Childcare
-            </Link>
+
             <Link href="/gift-card" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
               Gift Card
             </Link>
