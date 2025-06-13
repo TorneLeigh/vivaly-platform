@@ -1,5 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import session from "express-session";
+import connectPg from "connect-pg-simple";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import "./types";
@@ -17,17 +18,25 @@ app.use('/images', express.static('public/images'));
 // Serve public static files (including logo)
 app.use(express.static('public'));
 
-// Session configuration
+// Session configuration with PostgreSQL store
+const PgSession = connectPg(session);
+const pgStore = new PgSession({
+  conString: process.env.DATABASE_URL,
+  tableName: 'sessions',
+  createTableIfMissing: false
+});
+
 app.use(session({
   secret: process.env.SESSION_SECRET || 'dev-secret-change-in-production',
+  store: pgStore,
   resave: false,
   saveUninitialized: false,
-  name: 'vivaly.sid', // Custom session name
+  name: 'vivaly.sid',
   cookie: {
-    secure: false, // Set to true in production with HTTPS
+    secure: false,
     httpOnly: true,
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-    sameSite: 'lax' // Allow cross-site requests for better compatibility
+    sameSite: 'lax'
   }
 }));
 
