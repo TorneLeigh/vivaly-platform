@@ -78,6 +78,8 @@ import RegistrationTypeSelection from "@/pages/registration-type-selection";
 import ServiceProviderRegistration from "@/pages/service-provider-registration";
 import NotFound from "@/pages/not-found";
 import About from "@/pages/about";
+import Welcome from "@/pages/welcome";
+import CaregiverSignup from "@/pages/caregiver-signup";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();

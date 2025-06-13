@@ -69,7 +69,7 @@ export default function FindCareSignup() {
         title: "Account Created Successfully!",
         description: "Welcome to VIVALY! You can now start finding care for your family.",
       });
-      setStep(3); // Success step
+      setLocation("/welcome"); // Redirect to welcome page
     },
     onError: (error: any) => {
       toast({
