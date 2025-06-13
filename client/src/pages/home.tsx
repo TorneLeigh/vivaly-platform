@@ -141,12 +141,12 @@ export default function Home() {
       <section className="bg-white pb-8 pt-20">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 pt-8">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6 max-w-3xl mx-auto">
-              Your New Mum Backup Crew
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6 max-w-2xl mx-auto">
+              Finding care, faster than your baby can lose a sock.
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Whether you need sleep, a shower, or just a moment to breathe — we've got your back.<br />
-              Book reliable, verified care for your whole household.
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              <span className="font-medium text-gray-900">Created by a mom</span> for moms seeking<br />
+              trusted safe childcare
             </p>
           </div>
 
@@ -378,7 +378,7 @@ export default function Home() {
               Caregivers Available Today
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Flexible Scheduling: Book care when you need it, even at short notice.
+              Connect with verified caregivers ready to help your family right now
             </p>
           </div>
 
