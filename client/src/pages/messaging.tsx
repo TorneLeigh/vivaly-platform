@@ -55,6 +55,8 @@ const MessagingPage = () => {
   const [receiverId, setReceiverId] = useState('parent456');
   const [inboxUserId, setInboxUserId] = useState('parent456');
   const [notification, setNotification] = useState<string | null>(null);
+  const [replyForms, setReplyForms] = useState<{[key: number]: string}>({});
+  const [showReplyForm, setShowReplyForm] = useState<{[key: number]: boolean}>({});
 
   // Fetch messages for inbox
   const { data: messages = [], isLoading, refetch } = useQuery({
@@ -133,10 +135,64 @@ const MessagingPage = () => {
   };
 
   const handleReplyTo = (originalMessage: Message) => {
-    setSenderId(originalMessage.receiverId);
-    setReceiverId(originalMessage.senderId);
-    setActiveTab('compose');
-    setMessageContent('[Reply] ');
+    const messageId = originalMessage.id;
+    setShowReplyForm(prev => ({
+      ...prev,
+      [messageId]: !prev[messageId]
+    }));
+    if (!showReplyForm[messageId]) {
+      setReplyForms(prev => ({
+        ...prev,
+        [messageId]: ''
+      }));
+    }
+  };
+
+  const handleQuickReply = async (originalMessage: Message) => {
+    const messageId = originalMessage.id;
+    const replyContent = replyForms[messageId];
+    
+    if (!replyContent?.trim()) return;
+
+    try {
+      const response = await fetch('/api/sendMessage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          senderId: inboxUserId,
+          receiverId: originalMessage.senderId,
+          content: replyContent
+        }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Reply Sent",
+          description: "Your reply has been delivered.",
+        });
+        
+        // Clear the reply form
+        setReplyForms(prev => ({
+          ...prev,
+          [messageId]: ''
+        }));
+        setShowReplyForm(prev => ({
+          ...prev,
+          [messageId]: false
+        }));
+        
+        // Refresh messages
+        refetch();
+      }
+    } catch (error) {
+      toast({
+        title: "Failed to Send Reply",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleReportMessage = (messageId: number) => {
@@ -382,6 +438,40 @@ const MessagingPage = () => {
                           Report
                         </Button>
                       </div>
+                      
+                      {/* Inline Reply Form */}
+                      {showReplyForm[message.id] && (
+                        <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                          <Label htmlFor={`reply-${message.id}`} className="text-sm font-medium">
+                            Quick Reply
+                          </Label>
+                          <div className="flex gap-2 mt-2">
+                            <Input
+                              id={`reply-${message.id}`}
+                              value={replyForms[message.id] || ''}
+                              onChange={(e) => setReplyForms(prev => ({
+                                ...prev,
+                                [message.id]: e.target.value
+                              }))}
+                              placeholder="Type your reply..."
+                              className="flex-1"
+                              onKeyPress={(e) => {
+                                if (e.key === 'Enter') {
+                                  e.preventDefault();
+                                  handleQuickReply(message);
+                                }
+                              }}
+                            />
+                            <Button
+                              size="sm"
+                              onClick={() => handleQuickReply(message)}
+                              disabled={!replyForms[message.id]?.trim()}
+                            >
+                              <Send className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 ))
