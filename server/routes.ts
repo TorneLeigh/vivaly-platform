@@ -7,7 +7,7 @@ import { requireAuth } from "./auth-middleware";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth routes
-  app.post('/api/auth/signup', async (req, res) => {
+  app.post('/api/register', async (req, res) => {
     try {
       const { email, password, firstName, lastName, isNanny, phone } = req.body;
 
