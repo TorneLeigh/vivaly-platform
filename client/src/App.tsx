@@ -18,6 +18,7 @@ import Login from "@/pages/login";
 import Register from "@/pages/register";
 import SimpleLogin from "@/pages/simple-login";
 import WorkingLogin from "@/pages/working-login";
+import WorkingAuth from "@/pages/working-auth";
 import LoginDirect from "@/pages/login-direct";
 import Auth from "@/pages/auth";
 import ProviderVerification from "@/pages/provider-verification";
@@ -134,12 +135,13 @@ function Router() {
           <Route path="/become-childcare-provider" component={BecomeChildcareProvider} />
           <Route path="/find-care" component={FindCare} />
           <Route path="/childcare-enroll/:id" component={ChildcareEnroll} />
-          <Route path="/login" component={Auth} />
-          <Route path="/register" component={Register} />
+          <Route path="/login" component={WorkingAuth} />
+          <Route path="/register" component={WorkingAuth} />
           <Route path="/working-login" component={WorkingLogin} />
-          <Route path="/auth" component={Auth} />
-          <Route path="/signin" component={Auth} />
-          <Route path="/sign-in" component={Auth} />
+          <Route path="/working-auth" component={WorkingAuth} />
+          <Route path="/auth" component={WorkingAuth} />
+          <Route path="/signin" component={WorkingAuth} />
+          <Route path="/sign-in" component={WorkingAuth} />
           <Route path="/profile" component={ParentProfile} />
           <Route path="/parent-profile" component={ParentProfile} />
           <Route path="/parent-profile-complete" component={ParentProfileComplete} />
