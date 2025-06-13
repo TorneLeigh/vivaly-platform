@@ -169,6 +169,7 @@ export default function JobBoard() {
           description: "Your job listing is now live and visible to caregivers.",
         });
         setJobForm({
+          title: '',
           startDate: '',
           numChildren: 1,
           rate: '',

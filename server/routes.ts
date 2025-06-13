@@ -183,10 +183,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Job posting routes
   app.post('/api/postJob', requireAuth, async (req, res) => {
     try {
-      const { startDate, numChildren, rate, hoursPerWeek, description } = req.body;
+      const { title, startDate, numChildren, rate, hoursPerWeek, description, location, suburb } = req.body;
       const parentId = req.session.userId;
 
-      if (!startDate || !numChildren || !rate || !hoursPerWeek || !description) {
+      if (!title || !startDate || !numChildren || !rate || !hoursPerWeek || !description) {
         return res.status(400).json({ message: "Missing required fields" });
       }
 
@@ -195,17 +195,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const job = await storage.createJob({
         id: jobId,
         parentId,
+        title,
         startDate,
         numChildren: parseInt(numChildren),
         rate: parseFloat(rate),
         hoursPerWeek: parseInt(hoursPerWeek),
-        description
+        description,
+        location: location || null,
+        suburb: suburb || null
       });
 
-      res.json({ message: "Job posted!", job });
+      res.json({ success: true, message: "Job posted!", job });
     } catch (error) {
       console.error("Post job error:", error);
-      res.status(500).json({ message: "Failed to post job" });
+      res.status(500).json({ success: false, message: "Failed to post job" });
     }
   });
 
