@@ -28,7 +28,9 @@ import {
   Utensils,
   Baby,
   Dog,
-  PawPrint
+  PawPrint,
+  Star,
+  ArrowRight
 } from "lucide-react";
 import type { Nanny, User as UserType } from "@shared/schema";
 import petSittingImage from "@assets/b3a7dde99de0043cc2a382fe7c16f0fc.jpg";
@@ -40,6 +42,17 @@ import breastfeedingImage from "@assets/31d064b6874d9bd38e6f664bff0e8352_1749267
 import birthingImage from "@assets/f087158c54b76ecf0250c6866d218c92_1749267022177.jpg";
 import groupCareImage from "@assets/ad23d9f10c69e3bfc73ffe82a1bac618_1749267219539.jpg";
 import doulaImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749359311276.jpg";
+
+// Caregiver images for the available today section
+const caregiverImages = [
+  pregnancyImage,
+  postnatalImage,
+  overnightCareImage,
+  breastfeedingImage,
+  birthingImage,
+  groupCareImage,
+  doulaImage
+];
 
 // Service category colors
 const serviceColors = [
@@ -203,7 +216,7 @@ const trustFeatures = [
 ];
 
 export default function Home() {
-  const { data: featuredNannies, isLoading } = useQuery({
+  const { data: featuredNannies, isLoading } = useQuery<Nanny[]>({
     queryKey: ["/api/nannies/featured"],
   });
 
@@ -213,7 +226,7 @@ export default function Home() {
       <section className="bg-white relative min-h-[45vh] flex items-center pt-8 md:pt-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-black leading-tight mb-3">
-            CREATED BY A MOM
+            Created by a Mom
           </h1>
           <p className="text-xl sm:text-2xl lg:text-3xl text-coral font-medium mb-6 italic">
             Because it takes a village
@@ -428,6 +441,100 @@ export default function Home() {
 
 
 
+          </div>
+        </div>
+      </section>
+
+      {/* Caregivers Available Today */}
+      <section className="py-12 bg-gray-50">
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+              Caregivers Available Today
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Connect with verified caregivers ready to help your family right now
+            </p>
+          </div>
+
+          {/* Featured Caregivers Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {isLoading ? (
+              // Loading skeleton
+              Array.from({ length: 3 }).map((_, index) => (
+                <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                  <div className="h-48 bg-gray-200 animate-pulse"></div>
+                  <div className="p-5">
+                    <div className="h-4 bg-gray-200 rounded animate-pulse mb-3"></div>
+                    <div className="h-3 bg-gray-200 rounded animate-pulse mb-2"></div>
+                    <div className="h-3 bg-gray-200 rounded animate-pulse mb-4"></div>
+                    <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
+                  </div>
+                </div>
+              ))
+            ) : featuredNannies && Array.isArray(featuredNannies) ? (
+              featuredNannies.map((nanny: any, index: number) => (
+                <div key={nanny.id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                  <div className="relative h-48">
+                    <img 
+                      src={caregiverImages[index % caregiverImages.length]} 
+                      alt="Caregiver Profile"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute top-4 right-4">
+                      <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                        Available Now
+                      </span>
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-lg font-bold text-gray-900">
+                        Caregiver
+                      </h3>
+                      <div className="flex items-center">
+                        <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                        <span className="text-sm font-medium text-gray-700 ml-1">
+                          {nanny.rating || "5.0"}
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                      {nanny.bio || "Experienced caregiver ready to help your family with quality childcare services."}
+                    </p>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-sm text-gray-500">
+                        📍 {nanny.location || nanny.suburb || "Melbourne"}
+                      </span>
+                      <span className="text-lg font-bold text-black">
+                        ${nanny.hourlyRate || "35"}/hr
+                      </span>
+                    </div>
+                    <Link href={`/nanny/${nanny.id}`}>
+                      <Button className="w-full bg-coral hover:bg-coral/90 text-white">
+                        View Profile
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              ))
+            ) : (
+              // Empty state
+              <div className="col-span-full text-center py-12">
+                <p className="text-gray-500 text-lg">No caregivers available at the moment</p>
+                <p className="text-gray-400 text-sm mt-2">Check back soon for new caregivers</p>
+              </div>
+            )}
+          </div>
+
+          {/* See All Caregivers Button */}
+          <div className="text-center">
+            <Link href="/find-care">
+              <Button className="bg-black hover:bg-gray-800 text-white px-8 py-3 text-lg">
+                See All Available Caregivers
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

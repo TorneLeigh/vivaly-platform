@@ -47,6 +47,15 @@ export default function NewHeader() {
             </>
           ) : isAuthenticated ? (
             <div className="flex items-center gap-4">
+              {/* Parent/Caregiver Toggles */}
+              <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+                <button className="px-3 py-1 text-sm font-medium rounded-md bg-white text-black shadow-sm">
+                  Parent
+                </button>
+                <button className="px-3 py-1 text-sm font-medium rounded-md text-gray-600 hover:bg-white hover:text-black transition-colors">
+                  Caregiver
+                </button>
+              </div>
               <Link href="/messages" className="text-black font-medium no-underline">
                 Messages
               </Link>
