@@ -325,7 +325,7 @@ export default function FindCareSignup() {
         </Form>
 
         {/* Benefits Section */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="text-center p-6 bg-white rounded-lg shadow-sm">
             <Clock className="h-12 w-12 text-coral mx-auto mb-4" />
             <h3 className="font-semibold text-warm-gray mb-2">Book in Minutes</h3>
@@ -335,11 +335,6 @@ export default function FindCareSignup() {
             <Shield className="h-12 w-12 text-coral mx-auto mb-4" />
             <h3 className="font-semibold text-warm-gray mb-2">Verified Caregivers</h3>
             <p className="text-sm text-warm-gray-light">All caregivers are background checked and verified</p>
-          </div>
-          <div className="text-center p-6 bg-white rounded-lg shadow-sm">
-            <Heart className="h-12 w-12 text-coral mx-auto mb-4" />
-            <h3 className="font-semibold text-warm-gray mb-2">Peace of Mind</h3>
-            <p className="text-sm text-warm-gray-light">Instant bookings</p>
           </div>
         </div>
 
