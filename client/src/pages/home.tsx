@@ -378,7 +378,7 @@ export default function Home() {
               Caregivers Available Today
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Connect with verified caregivers ready to help your family right now
+              Flexible Scheduling: Book care when you need it, even at short notice.
             </p>
           </div>
 
