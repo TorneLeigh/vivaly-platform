@@ -18,7 +18,7 @@ export default function ReferralBanner({
       className="w-full"
       style={{
         backgroundColor: hasWaivers ? "#d4edda" : "#FFA07A",
-        color: hasWaivers ? "#155724" : "#8B0000",
+        color: hasWaivers ? "#155724" : "#FFE4B5",
         padding: "8px 16px",
         position: "relative",
         top: 0,
