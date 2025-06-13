@@ -357,20 +357,35 @@ export class MemStorage implements IStorage {
         }
         const certSet = certificateOptions[i % certificateOptions.length];
         
+        // Varied descriptions and specialties for each caregiver
+        const bioOptions = [
+          `💬 "Loves working with newborns." | Specialized infant care provider with 5+ years experience in sleep training and feeding schedules.`,
+          `🕒 "Available for short notice bookings." | Flexible schedule with expertise in toddler activities and developmental play.`,
+          `🎨 "Creative play specialist." | Art therapy background with focus on sensory development and creative expression.`,
+          `🏃‍♀️ "Outdoor adventure enthusiast." | Active lifestyle coach for children, specializing in nature-based learning.`,
+          `📚 "Early learning advocate." | Former preschool teacher with literacy and numeracy development expertise.`,
+          `🍎 "Nutrition and wellness focused." | Holistic approach to childcare with meal planning and healthy habits focus.`,
+          `🎵 "Music and movement expert." | Music therapy background with focus on cognitive development through rhythm.`,
+          `🌟 "Special needs experience." | Trained in inclusive care with patience and specialized techniques for diverse needs.`
+        ];
+        
+        const ratingOptions = ["4.7", "4.8", "4.9", "5.0", "4.6", "4.9", "4.8", "4.7"];
+        const hourlyRates = ["35", "42", "38", "45", "32", "40", "36", "44"];
+        
         const nannyData: Nanny = {
           id: this.currentNannyId++,
           userId: user.id,
-          bio: `Experienced childcare provider with a passion for nurturing children's development.`,
-          experience: Math.floor(Math.random() * 8) + 2,
-          hourlyRate: (Math.floor(Math.random() * 15) + 20).toString(),
+          bio: bioOptions[i % bioOptions.length],
+          experience: [3, 5, 4, 7, 2, 6, 4, 8][i % 8],
+          hourlyRate: hourlyRates[i % hourlyRates.length],
           location: "Sydney, NSW",
           suburb: ["Inner Sydney", "Eastern Suburbs", "Northern Beaches", "North Shore", "Western Sydney", "Southern Sydney", "Southwest Sydney", "Northwest Sydney"][i % 8],
           services: serviceSet,
           certificates: certSet,
           availability: {},
           isVerified: true,
-          rating: (4.5 + Math.random() * 0.5).toFixed(1),
-          reviewCount: Math.floor(Math.random() * 50) + 10,
+          rating: ratingOptions[i % ratingOptions.length],
+          reviewCount: [23, 47, 31, 52, 18, 39, 28, 61][i % 8],
         };
         this.nannies.set(nannyData.id, nannyData);
       }
