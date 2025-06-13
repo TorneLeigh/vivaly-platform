@@ -63,7 +63,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.error('Logout error:', err);
         return res.status(500).json({ message: "Logout failed" });
       }
-      res.clearCookie('connect.sid'); // Clear the session cookie
+      res.clearCookie('vivaly.sid'); // Clear the session cookie with correct name
       res.json({ message: "Logged out successfully" });
     });
   });

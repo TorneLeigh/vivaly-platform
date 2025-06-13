@@ -72,12 +72,21 @@ export default function Auth() {
       return response.json();
     },
     onSuccess: (user: any) => {
+      // Set the user data in the query cache
       queryClient.setQueryData(["/api/auth/user"], user);
+      
+      // Invalidate the auth query to ensure fresh data
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      
       toast({
         title: "Welcome back!",
         description: "You have successfully logged in.",
       });
-      window.location.href = user.isNanny ? "/nanny-dashboard" : "/";
+      
+      // Use setTimeout to ensure the query cache is updated before navigation
+      setTimeout(() => {
+        window.location.href = user.isNanny ? "/nanny-dashboard" : "/";
+      }, 100);
     },
     onError: (error: any) => {
       toast({
