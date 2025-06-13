@@ -413,39 +413,192 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="py-8 sm:py-12 bg-white">
-        <div className="container max-w-4xl mx-auto px-4">
-          <div className="text-center mb-8 sm:mb-10">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 sm:mb-3">The easy process</h2>
-            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-2">
-              Top-to-bottom support, included every time you book care on Vivaly.
-            </p>
+      {/* How It Works - Phone Mockup Style */}
+      <section className="py-16 bg-gray-50 overflow-hidden">
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              All the tools you need<br />
+              to find care, all in one app
+            </h2>
           </div>
           
-          <div className="space-y-1 max-w-2xl mx-auto">
-            <div className="bg-gray-50 rounded-xl p-4 sm:p-6 text-center">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-coral rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                <span className="text-white font-bold text-sm sm:text-base">1</span>
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {/* Phone 1 - Search & Book */}
+            <div className="text-center">
+              <div className="relative mx-auto mb-6 w-64 h-80 bg-white rounded-3xl shadow-2xl border-8 border-gray-900 overflow-hidden">
+                {/* Phone Header */}
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-gray-900 rounded-b-2xl"></div>
+                <div className="absolute top-2 left-1/2 transform -translate-x-1/2 flex items-center space-x-1">
+                  <div className="w-1 h-1 bg-gray-700 rounded-full"></div>
+                  <div className="w-12 h-3 bg-gray-700 rounded-full"></div>
+                  <div className="w-1 h-1 bg-gray-700 rounded-full"></div>
+                </div>
+                
+                {/* Screen Content */}
+                <div className="pt-8 px-4 h-full bg-white">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xs font-medium">9:41</span>
+                    <div className="flex items-center space-x-1">
+                      <div className="w-4 h-2 border border-gray-400 rounded-sm"></div>
+                      <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+                      <div className="w-4 h-2 bg-gray-400 rounded-sm"></div>
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-lg font-bold mb-4">Find Care</h3>
+                  
+                  <div className="space-y-3">
+                    <div className="bg-gray-100 rounded-lg p-3">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-4 h-4 bg-coral rounded"></div>
+                        <span className="text-sm">Sydney, NSW</span>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-gray-100 rounded-lg p-3">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-4 h-4 bg-gray-400 rounded"></div>
+                        <span className="text-sm">Today, 2:00 PM</span>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-gray-100 rounded-lg p-3">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-4 h-4 bg-gray-400 rounded"></div>
+                        <span className="text-sm">Infant Care</span>
+                      </div>
+                    </div>
+                    
+                    <button className="w-full bg-black text-white py-3 rounded-lg text-sm font-medium">
+                      Search Caregivers
+                    </button>
+                  </div>
+                </div>
+                
+                {/* Bottom cut-off gradient */}
+                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-gray-100 to-transparent"></div>
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Search & Book</h3>
-              <p className="text-gray-600 text-sm sm:text-base">Find the perfect caregiver for your needs and book instantly.</p>
+              
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Search & Book</h3>
+              <p className="text-gray-600 text-sm max-w-xs mx-auto">
+                Find the perfect caregiver for your needs and book instantly
+              </p>
             </div>
-            
-            <div className="bg-gray-50 rounded-xl p-4 sm:p-6 text-center">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-coral rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                <span className="text-white font-bold text-sm sm:text-base">2</span>
+
+            {/* Phone 2 - Meet Your Caregiver */}
+            <div className="text-center">
+              <div className="relative mx-auto mb-6 w-64 h-80 bg-white rounded-3xl shadow-2xl border-8 border-gray-900 overflow-hidden">
+                {/* Phone Header */}
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-gray-900 rounded-b-2xl"></div>
+                <div className="absolute top-2 left-1/2 transform -translate-x-1/2 flex items-center space-x-1">
+                  <div className="w-1 h-1 bg-gray-700 rounded-full"></div>
+                  <div className="w-12 h-3 bg-gray-700 rounded-full"></div>
+                  <div className="w-1 h-1 bg-gray-700 rounded-full"></div>
+                </div>
+                
+                {/* Screen Content */}
+                <div className="pt-8 px-4 h-full bg-white">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xs font-medium">9:41</span>
+                    <div className="flex items-center space-x-1">
+                      <div className="w-4 h-2 border border-gray-400 rounded-sm"></div>
+                      <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+                      <div className="w-4 h-2 bg-gray-400 rounded-sm"></div>
+                    </div>
+                  </div>
+                  
+                  <div className="text-center mb-4">
+                    <div className="w-16 h-16 bg-coral rounded-full mx-auto mb-3 flex items-center justify-center">
+                      <div className="w-12 h-12 bg-white rounded-full"></div>
+                    </div>
+                    <h3 className="font-bold text-lg">Sarah M.</h3>
+                    <p className="text-sm text-gray-600">Infant Care Specialist</p>
+                    <div className="flex items-center justify-center mt-1">
+                      <div className="flex text-yellow-400">
+                        ★★★★★
+                      </div>
+                      <span className="text-xs text-gray-600 ml-1">4.9 (127)</span>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <button className="w-full bg-coral text-white py-2 rounded-lg text-sm font-medium">
+                      Message Sarah
+                    </button>
+                    <button className="w-full bg-gray-100 text-gray-700 py-2 rounded-lg text-sm font-medium">
+                      View Profile
+                    </button>
+                  </div>
+                </div>
+                
+                {/* Bottom cut-off gradient */}
+                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-gray-100 to-transparent"></div>
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Meet Your Caregiver</h3>
-              <p className="text-gray-600 text-sm sm:text-base">Connect before your booking to ensure a perfect match.</p>
+              
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Meet Your Caregiver</h3>
+              <p className="text-gray-600 text-sm max-w-xs mx-auto">
+                Connect before your booking to ensure a perfect match
+              </p>
             </div>
-            
-            <div className="bg-gray-50 rounded-xl p-4 sm:p-6 text-center">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-coral rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                <span className="text-white font-bold text-sm sm:text-base">3</span>
+
+            {/* Phone 3 - Enjoy Peace of Mind */}
+            <div className="text-center">
+              <div className="relative mx-auto mb-6 w-64 h-80 bg-white rounded-3xl shadow-2xl border-8 border-gray-900 overflow-hidden">
+                {/* Phone Header */}
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-gray-900 rounded-b-2xl"></div>
+                <div className="absolute top-2 left-1/2 transform -translate-x-1/2 flex items-center space-x-1">
+                  <div className="w-1 h-1 bg-gray-700 rounded-full"></div>
+                  <div className="w-12 h-3 bg-gray-700 rounded-full"></div>
+                  <div className="w-1 h-1 bg-gray-700 rounded-full"></div>
+                </div>
+                
+                {/* Screen Content */}
+                <div className="pt-8 px-4 h-full bg-white">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xs font-medium">9:41</span>
+                    <div className="flex items-center space-x-1">
+                      <div className="w-4 h-2 border border-gray-400 rounded-sm"></div>
+                      <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+                      <div className="w-4 h-2 bg-gray-400 rounded-sm"></div>
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-lg font-bold mb-4">Active Booking</h3>
+                  
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                      <span className="text-sm font-medium text-green-800">Live Session</span>
+                    </div>
+                    <p className="text-xs text-green-700">Sarah is currently caring for Emma</p>
+                    <p className="text-xs text-green-600 mt-1">Started: 2:00 PM • Duration: 2h 15m</p>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">Location tracking</span>
+                      <span className="text-green-600 font-medium">✓ Active</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">Emergency contacts</span>
+                      <span className="text-green-600 font-medium">✓ Notified</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">Background check</span>
+                      <span className="text-green-600 font-medium">✓ Verified</span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Bottom cut-off gradient */}
+                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-gray-100 to-transparent"></div>
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Enjoy Peace of Mind</h3>
-              <p className="text-gray-600 text-sm sm:text-base">Relax knowing your family is in trusted, qualified hands.</p>
+              
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Enjoy Peace of Mind</h3>
+              <p className="text-gray-600 text-sm max-w-xs mx-auto">
+                Relax knowing your family is in trusted, qualified hands
+              </p>
             </div>
           </div>
         </div>
