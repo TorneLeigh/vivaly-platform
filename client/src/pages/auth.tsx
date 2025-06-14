@@ -91,21 +91,21 @@ export default function Auth() {
       return await apiRequest("POST", "/api/login", data);
     },
     onSuccess: async (user: any) => {
-      // Clear all existing query cache to force fresh data
-      queryClient.clear();
-      
-      // Set the user data in the query cache
+      // Set the user data in the query cache first
       queryClient.setQueryData(["/api/auth/user"], user);
+      
+      // Invalidate and refetch to ensure fresh data
+      await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       
       toast({
         title: "Welcome back!",
         description: "You have successfully logged in.",
       });
       
-      // Small delay to ensure cache is updated, then navigate
+      // Navigate after ensuring cache is updated
       setTimeout(() => {
-        navigate(user.isNanny ? "/nanny-dashboard" : "/");
-      }, 100);
+        window.location.href = "/";
+      }, 200);
     },
     onError: (error: any) => {
       toast({
