@@ -63,8 +63,13 @@ export default function WorkingAuth() {
         description: "You have been logged in successfully.",
       });
       
-      // Force refresh the page to ensure authentication state updates
-      window.location.href = "/";
+      // Invalidate auth queries to force refresh
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      
+      // Navigate to home page
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 500);
     } catch (error: any) {
       toast({
         title: "Login failed",
