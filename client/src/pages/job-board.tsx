@@ -430,12 +430,18 @@ export default function JobBoard() {
                     <Label htmlFor="title">Job Title *</Label>
                     <Input
                       id="title"
-                      placeholder="e.g. Experienced Nanny for 2 Toddlers"
+                      placeholder="e.g. Morning Childcare for 3-year-old, Part-time Nanny for Weekends, Afterschool Care Needed"
                       value={jobForm.title}
                       onChange={(e) => setJobForm({...jobForm, title: e.target.value})}
                       className="mt-1"
                       required
                     />
+                    <div className="mt-2 text-xs text-gray-500 space-y-1">
+                      <p>Write a title that clearly describes what type of care you need</p>
+                      <div className="text-gray-400">
+                        <strong>Examples:</strong> "Reliable Babysitter for Date Nights", "Live-in Au Pair for Large Family", "Occasional Care for Toddler"
+                      </div>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

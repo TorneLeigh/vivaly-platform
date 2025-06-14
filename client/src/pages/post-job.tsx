@@ -117,13 +117,18 @@ export default function PostJob() {
                 <Input
                   id="title"
                   type="text"
-                  placeholder="e.g. Experienced Nanny Needed for 2 Toddlers"
+                  placeholder="e.g. After School Care for 8-year-old, Weekend Babysitter Needed, Full-time Nanny for Twins"
                   value={formData.title}
                   onChange={(e) => handleInputChange('title', e.target.value)}
                   className="w-full"
                   required
                 />
-                <p className="text-xs text-gray-500">Write a clear, descriptive heading for what you're looking for</p>
+                <div className="text-xs text-gray-500 space-y-1">
+                  <p>Create a title that describes exactly what you need</p>
+                  <div className="text-gray-400">
+                    <strong>Good examples:</strong> "Gentle Nanny for Newborn", "Active Babysitter for School Holidays", "Patient Caregiver for Special Needs Child"
+                  </div>
+                </div>
               </div>
 
               {/* Start Date */}
