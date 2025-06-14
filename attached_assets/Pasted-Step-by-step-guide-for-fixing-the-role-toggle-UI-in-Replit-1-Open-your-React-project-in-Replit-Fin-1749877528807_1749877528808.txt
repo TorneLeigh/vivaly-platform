@@ -1,0 +1,85 @@
+Step-by-step guide for fixing the role toggle UI in Replit
+
+1. Open your React project in Replit
+Find the file where your role switching happens in React.
+Usually, this is somewhere in a file like:
+
+src/hooks/useAuth.tsx (your Auth context hook)
+or src/components/RoleToggle.tsx (the toggle button component)
+2. Find where your role switch API call happens
+Look for this part of the code (or something similar):
+
+const switchRole = async (role: string) => {
+  if (role === user?.activeRole) return;
+  await switchRoleMutation.mutateAsync(role);
+};
+This switchRoleMutation calls /api/auth/switch-role.
+
+3. Check the onSuccess callback of your switchRoleMutation
+Make sure the mutation updates the React Query cache like this (you probably already have this):
+
+const switchRoleMutation = useMutation({
+  mutationFn: async (role: string) => {
+    const response = await apiRequest('/api/auth/switch-role', {
+      method: 'POST',
+      body: JSON.stringify({ role }),
+    });
+    return response;
+  },
+  onSuccess: (data) => {
+    queryClient.setQueryData(['/api/auth/user'], (oldData: User | undefined) => {
+      if (oldData) {
+        return {
+          ...oldData,
+          activeRole: data.activeRole,
+        };
+      }
+      return oldData;
+    });
+
+    queryClient.invalidateQueries({ queryKey: ['/api/auth/user'] });
+
+    toast({
+      title: "Role switched",
+      description: `Now viewing as ${data.activeRole}`,
+    });
+  },
+  onError: (error: any) => {
+    toast({
+      title: "Error switching role",
+      description: error.message || "Failed to switch role",
+      variant: "destructive",
+    });
+  },
+});
+4. Check your UI components use activeRole from the React Query cache / Auth context
+In components that show role-dependent UI (like RoleToggle or the main dashboard), verify you use the activeRole from your useAuth() hook like this:
+
+const { activeRole, switchRole, roles } = useAuth();
+Then the UI should change based on activeRole.
+
+5. Test it in the browser preview in Replit
+Log in as a multi-role user (parent and caregiver)
+Use the toggle to switch roles
+Look for the toast message "Now viewing as caregiver" or similar
+See if UI updates (e.g., dashboard changes, role label changes)
+6. Debugging tip: Add console.log
+To confirm things are working, add logs inside your onSuccess:
+
+onSuccess: (data) => {
+  console.log("Role switched, updating cache:", data);
+  ...
+}
+And inside your component rendering:
+
+console.log("Current activeRole:", activeRole);
+Open the browser console in the Replit preview to see these logs.
+
+If you want, send me the code for your RoleToggle component or your useAuth hook from Replit — I can review it and tell you exactly what to fix.
+
+Summary:
+
+Backend role switch works
+Frontend needs to update React Query cache with new activeRole
+React components need to consume updated activeRole and re-render
+Use console logs in Replit browser preview console for debugging

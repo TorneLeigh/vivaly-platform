@@ -29,10 +29,7 @@ export default function RoleAuthDemo() {
   // Login mutation
   const loginMutation = useMutation({
     mutationFn: async (data: LoginForm) => {
-      const response = await apiRequest('/api/login', {
-        method: 'POST',
-        body: JSON.stringify(data),
-      });
+      const response = await apiRequest('POST', '/api/login', data);
       return response;
     },
     onSuccess: () => {

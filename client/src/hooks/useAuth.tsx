@@ -42,10 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const switchRoleMutation = useMutation({
     mutationFn: async (role: string) => {
       console.log("switchRole mutation called with role:", role);
-      const response = await apiRequest('/api/auth/switch-role', {
-        method: 'POST',
-        body: JSON.stringify({ role }),
-      });
+      const response = await apiRequest('POST', '/api/auth/switch-role', { role });
       console.log("switchRole API response:", response);
       return response;
     },
@@ -91,9 +88,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Logout mutation
   const logoutMutation = useMutation({
     mutationFn: async () => {
-      await apiRequest('/api/auth/logout', {
-        method: 'POST',
-      });
+      await apiRequest('POST', '/api/auth/logout');
     },
     onSuccess: () => {
       queryClient.clear();
