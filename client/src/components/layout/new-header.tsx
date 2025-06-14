@@ -19,14 +19,14 @@ export default function NewHeader() {
 
   // Debug mobile menu authentication state
   useEffect(() => {
-    if (mobileMenuOpen) {
-      console.log("MOBILE MENU DEBUG:");
-      console.log("isAuthenticated:", isAuthenticated);
-      console.log("user:", user);
-      console.log("roles:", roles);
-      console.log("activeRole:", activeRole);
-    }
-  }, [mobileMenuOpen, isAuthenticated, user, roles, activeRole]);
+    console.log("NEW HEADER AUTH STATE:");
+    console.log("isAuthenticated:", isAuthenticated);
+    console.log("isLoading:", isLoading);
+    console.log("user:", user);
+    console.log("roles:", roles);
+    console.log("activeRole:", activeRole);
+    console.log("mobileMenuOpen:", mobileMenuOpen);
+  }, [isAuthenticated, isLoading, user, roles, activeRole, mobileMenuOpen]);
 
   return (
     <>
@@ -159,114 +159,114 @@ export default function NewHeader() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed top-[73px] left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-[9999]">
-          <div className="bg-white px-4 py-4 border-t border-gray-200 space-y-2">
-            <div className="bg-yellow-100 p-2 text-xs mb-2">
-              DEBUG: isAuth={String(isAuthenticated)}, user={user ? 'yes' : 'no'}, role={activeRole}
-            </div>
-            {isAuthenticated && user ? (
-              <>
-                {/* Dashboard */}
-                <Link
-                  href="/dashboard"
-                  className="block py-2 text-black border-b border-gray-100 font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Dashboard
-                </Link>
-
-                {/* Job Board (Parent) */}
-                {activeRole === "parent" && (
-                  <Link
-                    href="/job-board"
-                    className="block py-2 text-black border-b border-gray-100 font-medium"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Job Board
-                  </Link>
-                )}
-
-                {/* Find Jobs (Caregiver) */}
-                {activeRole === "caregiver" && (
-                  <Link
-                    href="/find-jobs"
-                    className="block py-2 text-black border-b border-gray-100 font-medium"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Find Jobs
-                  </Link>
-                )}
-
-                {/* Messages */}
-                <Link
-                  href="/messages"
-                  className="block py-2 text-black border-b border-gray-100 font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Messages
-                </Link>
-
-                {/* Profile */}
-                <Link
-                  href="/profile"
-                  className="block py-2 text-black border-b border-gray-100 font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Profile
-                </Link>
-
-                {/* Role Switch */}
-                {roles.length > 1 && (
-                  <div className="mt-4">
-                    <p className="text-sm font-semibold mb-1">Switch Role</p>
-                    {roles.map((role) => (
-                      <button
-                        key={role}
-                        onClick={() => switchRole(role)}
-                        disabled={role === activeRole}
-                        className={`block w-full text-left py-2 px-3 rounded-md text-sm ${
-                          role === activeRole
-                            ? "bg-gray-200 text-black font-semibold"
-                            : "text-gray-700 hover:bg-gray-100"
-                        }`}
-                      >
-                        {role.charAt(0).toUpperCase() + role.slice(1)}
-                      </button>
-                    ))}
-                  </div>
-                )}
-
-                {/* Log Out */}
-                <button
-                  onClick={async () => {
-                    setMobileMenuOpen(false);
-                    try {
-                      await fetch('/api/auth/logout', {
-                        method: 'POST',
-                        credentials: 'include'
-                      });
-                      window.location.href = '/';
-                    } catch (error) {
-                      console.error('Logout failed:', error);
-                      window.location.href = '/';
-                    }
-                  }}
-                  className="block py-2 text-black font-medium"
-                >
-                  Log Out
-                </button>
-              </>
-            ) : (
-              <>
-                <Link href="/auth" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)}>
-                  Log In
-                </Link>
-                <Link href="/signup" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)}>
-                  Sign Up
-                </Link>
-              </>
-            )}
+        <div className="md:hidden z-50 bg-white px-4 py-4 border-t border-gray-200 space-y-2">
+          {/* Debug Info */}
+          <div className="bg-yellow-100 p-2 text-xs border rounded mb-3">
+            <div>Auth: {String(isAuthenticated)}</div>
+            <div>Loading: {String(isLoading)}</div>
+            <div>User: {user ? `${user.firstName} ${user.lastName}` : 'null'}</div>
+            <div>Role: {activeRole || 'none'}</div>
+            <div>Roles: {roles ? roles.join(', ') : 'none'}</div>
           </div>
+          
+          {isAuthenticated && user ? (
+            <>
+              <Link
+                href="/dashboard"
+                className="block py-2 text-black border-b border-gray-100 font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Dashboard
+              </Link>
+
+              {activeRole === "parent" && (
+                <Link
+                  href="/job-board"
+                  className="block py-2 text-black border-b border-gray-100 font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Job Board
+                </Link>
+              )}
+
+              {activeRole === "caregiver" && (
+                <Link
+                  href="/find-jobs"
+                  className="block py-2 text-black border-b border-gray-100 font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Find Jobs
+                </Link>
+              )}
+
+              <Link
+                href="/messages"
+                className="block py-2 text-black border-b border-gray-100 font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Messages
+              </Link>
+
+              <Link
+                href="/profile"
+                className="block py-2 text-black border-b border-gray-100 font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Profile
+              </Link>
+
+              {roles.length > 1 && (
+                <div className="mt-4">
+                  <p className="text-sm font-semibold mb-1">Switch Role</p>
+                  {roles.map((role) => (
+                    <button
+                      key={role}
+                      onClick={() => {
+                        switchRole(role);
+                        setMobileMenuOpen(false);
+                      }}
+                      disabled={role === activeRole}
+                      className={`block w-full text-left py-2 px-3 rounded-md text-sm ${
+                        role === activeRole
+                          ? "bg-gray-200 text-black font-semibold"
+                          : "text-gray-700 hover:bg-gray-100"
+                      }`}
+                    >
+                      {role.charAt(0).toUpperCase() + role.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              <button
+                onClick={async () => {
+                  setMobileMenuOpen(false);
+                  try {
+                    await fetch('/api/auth/logout', {
+                      method: 'POST',
+                      credentials: 'include'
+                    });
+                    window.location.href = '/';
+                  } catch (error) {
+                    console.error('Logout failed:', error);
+                    window.location.href = '/';
+                  }
+                }}
+                className="block py-2 text-black font-medium"
+              >
+                Log Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/auth" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)}>
+                Log In
+              </Link>
+              <Link href="/signup" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)}>
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       )}
     </>
