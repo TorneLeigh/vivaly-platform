@@ -889,7 +889,7 @@ export default function CaregiverRegistration() {
       }
     } else if (step === 2) {
       const requiredFields = ["bio", "yearsExperience", "hourlyRate"] as const;
-      const isValid = await form.trigger(requiredFields);
+      const isValid = await form.trigger(requiredFields as any);
       
       const hasServices = form.watch("services")?.length > 0;
       const hasAgeGroups = form.watch("ageGroups")?.length > 0;
@@ -915,7 +915,7 @@ export default function CaregiverRegistration() {
       }
     } else if (step === 4) {
       const requiredFields = ["emergencyName", "emergencyPhone", "emergencyRelation"] as const;
-      const isValid = await form.trigger(requiredFields);
+      const isValid = await form.trigger(requiredFields as any);
       const hasAgreements = form.watch("agreeToTerms") && form.watch("agreeToBackgroundCheck");
 
       if (!isValid || !hasAgreements) {

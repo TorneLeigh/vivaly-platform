@@ -274,7 +274,7 @@ export default function EnhancedCaregiverRegistration() {
         "postcode",
       ];
 
-      const isValid = await form.trigger(requiredFields);
+      const isValid = await form.trigger(requiredFields as any);
 
       if (!isValid) {
         toast({
@@ -286,7 +286,7 @@ export default function EnhancedCaregiverRegistration() {
       }
     } else if (step === 2) {
       const requiredFields = ["bio", "personalApproach", "whyThisWork"];
-      const isValid = await form.trigger(requiredFields);
+      const isValid = await form.trigger(requiredFields as any);
       
       const bioLength = form.watch("bio")?.length >= 200;
 
@@ -300,7 +300,7 @@ export default function EnhancedCaregiverRegistration() {
       }
     } else if (step === 3) {
       const requiredFields = ["yearsExperience"];
-      const isValid = await form.trigger(requiredFields);
+      const isValid = await form.trigger(requiredFields as any);
       const hasServices = form.watch("services")?.length > 0;
       const hasAgeGroups = form.watch("ageGroups")?.length > 0;
 

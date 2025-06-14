@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +11,7 @@ interface ReferralBannerProps {
 
 export const ReferralBanner = ({ onClose }: ReferralBannerProps) => {
   const [isMinimized, setIsMinimized] = useState(false);
+  const [, setLocation] = useLocation();
 
   if (isMinimized) {
     return (
@@ -68,8 +70,7 @@ export const ReferralBanner = ({ onClose }: ReferralBannerProps) => {
           <Button 
             className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
             onClick={() => {
-              console.log("Referral program clicked");
-              // Here you would typically open a referral modal or navigate to referral page
+              setLocation("/parent-signup");
             }}
           >
             Start Referring
