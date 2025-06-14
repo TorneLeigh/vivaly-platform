@@ -36,6 +36,8 @@ import {
   Footprints,
   Eye
 } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const parentProfileSchema = z.object({
   // Basic Information
@@ -234,6 +236,7 @@ const petOptions = [
 export default function ParentProfile() {
   const [isEditing, setIsEditing] = useState(false);
   const [activeSection, setActiveSection] = useState("basic");
+  const [showProfilePreview, setShowProfilePreview] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -407,14 +410,169 @@ export default function ParentProfile() {
             <div className="flex items-center space-x-4">
               {!isEditing ? (
                 <div className="flex space-x-3">
-                  <Button 
-                    variant="outline" 
-                    onClick={() => {/* TODO: Show profile preview modal */}}
-                    className="border-black text-black hover:bg-gray-50"
-                  >
-                    <Eye className="h-4 w-4 mr-2" />
-                    View Profile
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button 
+                        variant="outline" 
+                        className="border-black text-black hover:bg-gray-50"
+                      >
+                        <Eye className="h-4 w-4 mr-2" />
+                        View Profile
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+                      <DialogHeader>
+                        <DialogTitle>Your Profile - Caregiver View</DialogTitle>
+                      </DialogHeader>
+                      
+                      {/* Profile Preview Content */}
+                      <div className="space-y-6">
+                        {/* Header Section */}
+                        <div className="flex items-start gap-6 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg">
+                          <Avatar className="w-24 h-24">
+                            <AvatarImage src="" alt={`${tempUser.firstName} ${tempUser.lastName}`} />
+                            <AvatarFallback className="text-2xl bg-blue-100">
+                              {tempUser.firstName.charAt(0)}{tempUser.lastName.charAt(0)}
+                            </AvatarFallback>
+                          </Avatar>
+                          
+                          <div className="flex-1">
+                            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                              {tempUser.firstName} {tempUser.lastName}
+                            </h2>
+                            <div className="flex items-center text-gray-600 mb-2">
+                              <MapPin className="w-4 h-4 mr-2" />
+                              <span>Sydney, NSW</span>
+                            </div>
+                            <div className="flex items-center text-gray-600">
+                              <Users className="w-4 h-4 mr-2" />
+                              <span>Family of 3-4 members</span>
+                            </div>
+                          </div>
+                          
+                          <div className="text-right">
+                            <div className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium mb-2">
+                              Verified Parent
+                            </div>
+                            <div className="text-2xl font-bold text-gray-900">$25-35/hr</div>
+                            <div className="text-sm text-gray-600">Competitive Rate</div>
+                          </div>
+                        </div>
+
+                        {/* Key Information */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <Card>
+                            <CardHeader>
+                              <CardTitle className="flex items-center gap-2">
+                                <Baby className="w-5 h-5" />
+                                Children & Family
+                              </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <div className="space-y-3">
+                                <div>
+                                  <h4 className="font-medium text-gray-900">2 Children</h4>
+                                  <p className="text-sm text-gray-600">Ages 3 and 7</p>
+                                </div>
+                                <div>
+                                  <h4 className="font-medium text-gray-900">Schedule</h4>
+                                  <p className="text-sm text-gray-600">Monday-Friday, 8:00 AM - 6:00 PM</p>
+                                </div>
+                                <div>
+                                  <h4 className="font-medium text-gray-900">Start Date</h4>
+                                  <p className="text-sm text-gray-600">Flexible - within 2 weeks</p>
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+
+                          <Card>
+                            <CardHeader>
+                              <CardTitle className="flex items-center gap-2">
+                                <Heart className="w-5 h-5" />
+                                What We're Looking For
+                              </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <div className="space-y-2">
+                                <Badge variant="outline">Early Childhood Education</Badge>
+                                <Badge variant="outline">First Aid Certified</Badge>
+                                <Badge variant="outline">Swimming</Badge>
+                                <Badge variant="outline">Homework Help</Badge>
+                                <Badge variant="outline">Meal Preparation</Badge>
+                                <Badge variant="outline">Light Housekeeping</Badge>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </div>
+
+                        {/* About Section */}
+                        <Card>
+                          <CardHeader>
+                            <CardTitle>About Our Family</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <p className="text-gray-700 leading-relaxed">
+                              We are a warm, loving family looking for a dedicated caregiver to join our household. 
+                              Our children are energetic and curious, and we value education, creativity, and outdoor activities. 
+                              We're seeking someone who shares our values and can provide a safe, nurturing environment 
+                              while we're at work.
+                            </p>
+                          </CardContent>
+                        </Card>
+
+                        {/* Requirements */}
+                        <Card>
+                          <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                              <CheckCircle className="w-5 h-5" />
+                              Requirements
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div>
+                                <h4 className="font-medium text-gray-900 mb-2">Essential</h4>
+                                <ul className="space-y-1 text-sm text-gray-600">
+                                  <li>• Working with Children Check</li>
+                                  <li>• Current First Aid Certificate</li>
+                                  <li>• 3+ years childcare experience</li>
+                                  <li>• Reliable transport</li>
+                                  <li>• English fluency</li>
+                                </ul>
+                              </div>
+                              <div>
+                                <h4 className="font-medium text-gray-900 mb-2">Preferred</h4>
+                                <ul className="space-y-1 text-sm text-gray-600">
+                                  <li>• Early Childhood Education qualification</li>
+                                  <li>• Swimming instructor certification</li>
+                                  <li>• Non-smoker</li>
+                                  <li>• Comfortable with pets (we have a dog)</li>
+                                </ul>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+
+                        {/* Contact Information */}
+                        <Card>
+                          <CardHeader>
+                            <CardTitle>Contact Information</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="flex items-center justify-between">
+                              <div className="text-sm text-gray-600">
+                                Complete your profile to unlock messaging with families
+                              </div>
+                              <Button className="bg-purple-600 hover:bg-purple-700">
+                                Send Message
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                   <Button onClick={() => setIsEditing(true)} className="bg-black hover:bg-gray-800 text-white">
                     <Edit3 className="h-4 w-4 mr-2" />
                     Edit Profile
