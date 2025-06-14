@@ -11,12 +11,6 @@ export default function NewHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  // Debug authentication state
-  console.log("Header - isAuthenticated:", isAuthenticated);
-  console.log("Header - isLoading:", isLoading);
-  console.log("Header - user:", user);
-  console.log("Header - roles:", roles);
-
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
@@ -217,19 +211,9 @@ export default function NewHeader() {
                 )}
                 
                 {/* Mobile Navigation Links */}
-                <Link href="/dashboard" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-                  Dashboard
+                <Link href={activeRole === 'parent' ? "/dashboard" : "/job-board"} className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+                  {activeRole === 'parent' ? 'Dashboard' : 'Job Board'}
                 </Link>
-                {activeRole === 'parent' && (
-                  <Link href="/job-board" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-                    Job Board
-                  </Link>
-                )}
-                {activeRole === 'caregiver' && (
-                  <Link href="/find-jobs" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-                    Find Jobs
-                  </Link>
-                )}
                 <Link href="/messages" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
                   Messages
                 </Link>
