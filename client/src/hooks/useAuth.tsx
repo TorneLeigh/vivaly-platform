@@ -95,7 +95,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
 
   const switchRole = async (role: string) => {
-    if (role === user?.activeRole) return;
+    if (role === (user as User)?.activeRole) return;
     await switchRoleMutation.mutateAsync(role);
   };
 
