@@ -41,8 +41,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     refetchOnWindowFocus: true,
   });
 
-
-
   // Role switching mutation
   const switchRoleMutation = useMutation({
     mutationFn: async (role: string) => {
