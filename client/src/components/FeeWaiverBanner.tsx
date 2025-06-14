@@ -7,9 +7,8 @@ const FeeWaiverBanner = () => {
 
   if (!isVisible) return null;
 
-  const handleReferralClick = () => {
-    console.log("Referral program clicked");
-    // Add referral program logic here
+  const handleLoginClick = () => {
+    window.location.href = '/auth';
   };
 
   return (
@@ -26,7 +25,7 @@ const FeeWaiverBanner = () => {
             variant="outline"
             size="sm"
             className="text-purple-600 border-white hover:bg-white hover:text-purple-600"
-            onClick={handleReferralClick}
+            onClick={handleLoginClick}
           >
             LOG IN
           </Button>
