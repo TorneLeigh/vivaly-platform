@@ -24,12 +24,12 @@ import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { RoleToggle } from "@/components/role-toggle";
+import RoleToggle from "@/components/RoleToggle";
 
 
 export default function Header() {
   const [location] = useLocation();
-  const { isAuthenticated, isLoading, user } = useAuth();
+  const { isAuthenticated, isLoading, user, roles, activeRole, switchRole } = useAuth();
   const { toast } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
@@ -108,7 +108,13 @@ export default function Header() {
             </nav>
             
             {/* Role Toggle */}
-            <RoleToggle />
+            {isAuthenticated && roles.length > 1 && (
+              <RoleToggle 
+                roles={roles}
+                activeRole={activeRole}
+                onSwitch={switchRole}
+              />
+            )}
             
             {!isAuthenticated && !isLoading ? (
               <>
@@ -196,12 +202,18 @@ export default function Header() {
                     <div className="border-t mx-6"></div>
 
                     {/* Role Toggle for Mobile */}
-                    <div className="p-6">
-                      <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Browse as:</label>
-                        <RoleToggle />
+                    {isAuthenticated && roles.length > 1 && (
+                      <div className="p-6">
+                        <div className="mb-4">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Switch Role:</label>
+                          <RoleToggle 
+                            roles={roles}
+                            activeRole={activeRole}
+                            onSwitch={switchRole}
+                          />
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     <div className="border-t mx-6"></div>
 

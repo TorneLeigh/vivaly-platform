@@ -21,7 +21,12 @@ export default function RoleToggle({ roles, activeRole, onSwitch, disabled = fal
           key={role}
           variant="ghost"
           size="sm"
-          onClick={() => onSwitch(role)}
+          onClick={() => {
+            console.log("RoleToggle button clicked - switching to role:", role);
+            console.log("Current activeRole:", activeRole);
+            console.log("Button disabled:", disabled || role === activeRole);
+            onSwitch(role);
+          }}
           disabled={disabled || role === activeRole}
           className={`rounded-md px-3 py-1 text-sm transition-all ${
             role === activeRole 
