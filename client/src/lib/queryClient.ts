@@ -58,9 +58,9 @@ export const queryClient = new QueryClient({
     queries: {
       queryFn: getQueryFn({ on401: "returnNull" }),
       refetchInterval: false,
-      refetchOnWindowFocus: false,
-      staleTime: 0, // Allow refetching for auth queries
-      retry: false,
+      refetchOnWindowFocus: true,
+      staleTime: 0, // Always check for fresh data
+      retry: 1,
     },
     mutations: {
       retry: false,

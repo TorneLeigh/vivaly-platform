@@ -35,8 +35,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { data: user, isLoading, error } = useQuery({
     queryKey: ['/api/auth/user'],
     enabled: true,
-    retry: false,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 1,
+    staleTime: 0, // Always check for fresh auth data
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   });
 
   // Debug user data changes

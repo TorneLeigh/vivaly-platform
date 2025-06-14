@@ -94,15 +94,16 @@ export default function Auth() {
       // Set the user data in the query cache
       queryClient.setQueryData(["/api/auth/user"], user);
       
+      // Force a refetch to ensure the auth endpoint is called again
+      await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
+      
       toast({
         title: "Welcome back!",
         description: "You have successfully logged in.",
       });
       
-      // Small delay to ensure state updates, then navigate
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 100);
+      // Navigate to dashboard immediately
+      navigate("/dashboard");
     },
     onError: (error: any) => {
       toast({
