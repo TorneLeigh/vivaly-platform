@@ -27,7 +27,7 @@ import { useState } from "react";
 import RoleToggle from "@/components/RoleToggle";
 
 
-export default function Header() {
+export default function HeaderOLD_DISABLED() {
   const [location] = useLocation();
   const { isAuthenticated, isLoading, user, roles, activeRole, switchRole } = useAuth();
   const { toast } = useToast();

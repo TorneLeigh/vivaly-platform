@@ -38,6 +38,7 @@ export default function NewHeader() {
             className="h-8 w-8 rounded-lg object-cover"
           />
           Vivaly
+          <span className="text-xs bg-green-500 text-white px-2 py-1 rounded">NEW</span>
         </Link>
         
         <nav className="hidden md:flex gap-5">

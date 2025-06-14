@@ -23,7 +23,7 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 
-export default function Header() {
+export default function HeaderOLD_DISABLED() {
   const [location] = useLocation();
   const { isAuthenticated, isLoading, isProvider, user } = useAuth();
   const { toast } = useToast();
