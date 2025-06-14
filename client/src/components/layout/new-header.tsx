@@ -154,72 +154,77 @@ export default function NewHeader() {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden fixed top-[73px] left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-40">
-          <div className="px-5 py-2">
-            {!isAuthenticated && !isLoading && (
-              <Link href="/about" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-                About Us
-              </Link>
-            )}
-            
-            <Link href="/gift-card" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-              Gift Card
-            </Link>
-            <Link href="/help" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-              Help
-            </Link>
-            
-            {!isAuthenticated && !isLoading ? (
-              <div className="pt-4 pb-2">
-                <Link href="/auth" className="block mb-3 px-4 py-3 bg-black text-white text-center rounded-lg no-underline font-medium hover:bg-gray-800 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                  Log In
-                </Link>
-                <Link href="/signup" className="block px-4 py-3 bg-black text-white text-center rounded-lg no-underline font-medium hover:bg-gray-800 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                  Sign Up
-                </Link>
-              </div>
-            ) : isAuthenticated ? (
+          <div className="bg-white px-4 py-4 border-t border-gray-200 space-y-2">
+            {/* If logged in */}
+            {isAuthenticated && user ? (
               <>
-                {/* Mobile Role Toggle */}
-                {roles.length > 1 && (
-                  <div className="py-3 border-b border-gray-200">
-                    <p className="text-sm text-gray-600 mb-2">Switch Role:</p>
-                    <div 
-                      className="flex gap-2"
-                      role="group"
-                      aria-label="Switch role"
-                    >
-                      {roles.map((role) => (
-                        <button 
-                          key={role}
-                          onClick={() => {
-                            switchRole(role);
-                            setMobileMenuOpen(false);
-                          }}
-                          disabled={isSwitchingRole || role === activeRole}
-                          aria-pressed={role === activeRole}
-                          className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors disabled:opacity-50 ${
-                            role === activeRole
-                              ? 'bg-black text-white' 
-                              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                          }`}
-                        >
-                          {isSwitchingRole && role !== activeRole ? 'Switching...' : role === 'parent' ? 'Parent' : 'Caregiver'}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                
-                {/* Mobile Navigation Links */}
-                <Link href={activeRole === 'parent' ? "/dashboard" : "/job-board"} className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
-                  {activeRole === 'parent' ? 'Dashboard' : 'Job Board'}
+                {/* Dashboard link */}
+                <Link
+                  href="/dashboard"
+                  className="block py-2 text-black border-b border-gray-100 font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Dashboard
                 </Link>
-                <Link href="/messages" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+
+                {/* Role-specific links */}
+                {activeRole === "parent" && (
+                  <Link
+                    href="/job-board"
+                    className="block py-2 text-black border-b border-gray-100 font-medium"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Job Board
+                  </Link>
+                )}
+
+                {activeRole === "caregiver" && (
+                  <Link
+                    href="/find-jobs"
+                    className="block py-2 text-black border-b border-gray-100 font-medium"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Find Jobs
+                  </Link>
+                )}
+
+                <Link
+                  href="/messages"
+                  className="block py-2 text-black border-b border-gray-100 font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
                   Messages
                 </Link>
-                <Link href="/profile" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+
+                <Link
+                  href="/profile"
+                  className="block py-2 text-black border-b border-gray-100 font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
                   Profile
                 </Link>
+
+                {/* Role switcher if user has both roles */}
+                {roles.length > 1 && (
+                  <div className="mt-4">
+                    <p className="text-sm font-semibold mb-1">Switch Role</p>
+                    {roles.map((role) => (
+                      <button
+                        key={role}
+                        onClick={() => switchRole(role)}
+                        disabled={role === activeRole || isSwitchingRole}
+                        className={`block w-full text-left py-2 px-3 rounded-md text-sm ${
+                          role === activeRole
+                            ? "bg-gray-200 text-black font-semibold"
+                            : "text-gray-700 hover:bg-gray-100"
+                        }`}
+                      >
+                        {role.charAt(0).toUpperCase() + role.slice(1)}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
                 <button 
                   onClick={async () => {
                     setMobileMenuOpen(false);
@@ -234,12 +239,22 @@ export default function NewHeader() {
                       window.location.href = '/';
                     }
                   }}
-                  className="block w-full text-left py-3 text-black no-underline font-medium bg-transparent border-none cursor-pointer"
+                  className="block w-full text-left py-2 text-black font-medium bg-transparent border-none cursor-pointer border-b border-gray-100"
                 >
                   Log Out
                 </button>
               </>
-            ) : null}
+            ) : (
+              // If NOT logged in, show login/signup
+              <>
+                <Link href="/auth" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)}>
+                  Log In
+                </Link>
+                <Link href="/signup" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)}>
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}

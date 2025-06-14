@@ -1,0 +1,91 @@
+✂️ STEP 1: Find the mobileMenuOpen JSX
+
+It likely looks like this:
+
+{mobileMenuOpen && (
+  <div className="mobile-menu">
+    ...
+  </div>
+)}
+
+✅ STEP 2: Replace it with this working version:
+
+{mobileMenuOpen && (
+  <div className="bg-white px-4 py-4 border-t border-gray-200 space-y-2">
+
+    {/* If logged in */}
+    {isAuthenticated && user ? (
+      <>
+        {/* Dashboard link */}
+        <Link
+          href="/dashboard"
+          className="block py-2 text-black border-b border-gray-100 font-medium"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          Dashboard
+        </Link>
+
+        {/* Role-specific links */}
+        {activeRole === "parent" && (
+          <Link
+            href="/job-board"
+            className="block py-2 text-black border-b border-gray-100 font-medium"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Job Board
+          </Link>
+        )}
+
+        {activeRole === "caregiver" && (
+          <Link
+            href="/find-jobs"
+            className="block py-2 text-black border-b border-gray-100 font-medium"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Find Jobs
+          </Link>
+        )}
+
+        {/* Role switcher if user has both roles */}
+        {roles.length > 1 && (
+          <div className="mt-4">
+            <p className="text-sm font-semibold mb-1">Switch Role</p>
+            {roles.map((role) => (
+              <button
+                key={role}
+                onClick={() => switchRole(role)}
+                disabled={role === activeRole || isSwitchingRole}
+                className={`block w-full text-left py-2 px-3 rounded-md text-sm ${
+                  role === activeRole
+                    ? "bg-gray-200 text-black font-semibold"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                {role.charAt(0).toUpperCase() + role.slice(1)}
+              </button>
+            ))}
+          </div>
+        )}
+      </>
+    ) : (
+      // If NOT logged in, show login/signup
+      <>
+        <Link href="/login" className="block py-2 text-black font-medium">
+          Log In
+        </Link>
+        <Link href="/signup" className="block py-2 text-black font-medium">
+          Sign Up
+        </Link>
+      </>
+    )}
+  </div>
+)}
+
+🧪 STEP 3: Test It
+
+	1.	In Replit, paste that inside your NewHeader.tsx where the mobile menu is rendered.
+	2.	Save + refresh
+	3.	Open in mobile preview or on phone
+	4.	Log in and open the menu
+
+You should now see exactly the same links as desktop, with correct role-based visibility.
