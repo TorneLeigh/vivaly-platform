@@ -1,0 +1,148 @@
+🔍 The app is still rendering the old mobile menu, and not the updated, authenticated one.
+
+Even though Replit said it updated the mobile menu, it didn’t remove or override the old dropdown block, so the app is still using the wrong UI.
+
+✅ Let’s Finally Fix It — Manually and Cleanly
+
+Here’s exactly what you need to do in Replit:
+
+🔧 STEP 1 — Open NewHeader.tsx
+
+Go to your Replit files and open this:
+
+client/src/components/NewHeader.tsx
+
+🧹 STEP 2 — Find and DELETE this old mobile menu block:
+
+Look for this exact section (or something very similar):
+
+{mobileMenuOpen && (
+  <div>
+    <Link href="/gift-card">Gift Card</Link>
+    <Link href="/help">Help</Link>
+    <Link href="/messages">Messages</Link>
+    <Link href="/profile">Profile</Link>
+    <button>Log Out</button>
+  </div>
+)}
+
+🧨 Delete that entire block.
+
+✅ STEP 3 — Paste in the correct working mobile menu
+
+Immediately after deleting the old block, paste this instead:
+
+useEffect(() => {
+  if (mobileMenuOpen) {
+    console.log("MOBILE MENU DEBUG:");
+    console.log("isAuthenticated:", isAuthenticated);
+    console.log("user:", user);
+    console.log("roles:", roles);
+    console.log("activeRole:", activeRole);
+  }
+}, [mobileMenuOpen]);
+
+...
+
+{mobileMenuOpen && (
+  <div className="bg-white px-4 py-4 border-t border-gray-200 space-y-2 z-50">
+    {isAuthenticated && user ? (
+      <>
+        <Link
+          href="/dashboard"
+          className="block py-2 text-black border-b border-gray-100 font-medium"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          Dashboard
+        </Link>
+
+        {activeRole === "parent" && (
+          <Link
+            href="/job-board"
+            className="block py-2 text-black border-b border-gray-100 font-medium"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Job Board
+          </Link>
+        )}
+
+        {activeRole === "caregiver" && (
+          <Link
+            href="/find-jobs"
+            className="block py-2 text-black border-b border-gray-100 font-medium"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Find Jobs
+          </Link>
+        )}
+
+        <Link
+          href="/messages"
+          className="block py-2 text-black border-b border-gray-100 font-medium"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          Messages
+        </Link>
+
+        <Link
+          href="/profile"
+          className="block py-2 text-black border-b border-gray-100 font-medium"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          Profile
+        </Link>
+
+        {roles.length > 1 && (
+          <div className="mt-4">
+            <p className="text-sm font-semibold mb-1">Switch Role</p>
+            {roles.map((role) => (
+              <button
+                key={role}
+                onClick={() => switchRole(role)}
+                disabled={role === activeRole}
+                className={`block w-full text-left py-2 px-3 rounded-md text-sm ${
+                  role === activeRole
+                    ? "bg-gray-200 text-black font-semibold"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                {role.charAt(0).toUpperCase() + role.slice(1)}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <button
+          onClick={handleLogout}
+          className="block py-2 text-black font-medium"
+        >
+          Log Out
+        </button>
+      </>
+    ) : (
+      <>
+        <Link href="/login" className="block py-2 text-black font-medium">
+          Log In
+        </Link>
+        <Link href="/signup" className="block py-2 text-black font-medium">
+          Sign Up
+        </Link>
+      </>
+    )}
+  </div>
+)}
+
+✅ STEP 4 — Save, Refresh & Test
+
+	1.	Save the file
+	2.	Refresh your Replit preview or phone browser
+	3.	Log in
+	4.	Tap the hamburger menu
+
+You should now see:
+	•	Dashboard
+	•	Job Board or Find Jobs (based on role)
+	•	Role Switcher
+	•	Messages, Profile, Logout
+
+If you prefer, you can copy your full NewHeader.tsx and send it to me, and I’ll clean it up and give you the correct full version ready to paste.

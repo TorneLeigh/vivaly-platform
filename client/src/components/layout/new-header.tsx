@@ -113,7 +113,7 @@ export default function NewHeader() {
             </div>
           ) : null}
           
-          {/* Dropdown Menu - Far Right - Hidden on Mobile */}
+          {/* Desktop Menu Button - Hidden on Mobile */}
           <div className="relative hidden md:block">
             <button 
               onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -125,13 +125,6 @@ export default function NewHeader() {
             
             {dropdownOpen && (
               <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                <Link 
-                  href="/gift-card" 
-                  className="block px-4 py-3 text-black hover:bg-gray-50 no-underline border-b border-gray-100"
-                  onClick={() => setDropdownOpen(false)}
-                >
-                  Gift Card
-                </Link>
                 {!isAuthenticated && !isLoading && (
                   <Link 
                     href="/about" 
@@ -166,8 +159,11 @@ export default function NewHeader() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed top-[73px] left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-50">
+        <div className="md:hidden fixed top-[73px] left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-[9999]">
           <div className="bg-white px-4 py-4 border-t border-gray-200 space-y-2">
+            <div className="bg-yellow-100 p-2 text-xs mb-2">
+              DEBUG: isAuth={String(isAuthenticated)}, user={user ? 'yes' : 'no'}, role={activeRole}
+            </div>
             {isAuthenticated && user ? (
               <>
                 {/* Dashboard */}
