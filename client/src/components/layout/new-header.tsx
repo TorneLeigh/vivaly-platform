@@ -142,7 +142,12 @@ export default function NewHeader() {
       {mobileMenuOpen && (
         <div className="md:hidden fixed top-[73px] left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-40">
           <div className="px-5 py-2">
-
+            {!isAuthenticated && !isLoading && (
+              <Link href="/about" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+                About Us
+              </Link>
+            )}
+            
             <Link href="/gift-card" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
               Gift Card
             </Link>
@@ -167,9 +172,24 @@ export default function NewHeader() {
                 <Link href="/profile" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
                   Profile
                 </Link>
-                <Link href="/logout" className="block py-3 text-black no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
+                <button 
+                  onClick={async () => {
+                    setMobileMenuOpen(false);
+                    try {
+                      await fetch('/api/auth/logout', {
+                        method: 'POST',
+                        credentials: 'include'
+                      });
+                      window.location.href = '/';
+                    } catch (error) {
+                      console.error('Logout failed:', error);
+                      window.location.href = '/';
+                    }
+                  }}
+                  className="block w-full text-left py-3 text-black no-underline font-medium bg-transparent border-none cursor-pointer"
+                >
                   Log Out
-                </Link>
+                </button>
               </>
             ) : null}
           </div>
