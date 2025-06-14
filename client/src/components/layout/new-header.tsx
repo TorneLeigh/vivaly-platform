@@ -11,6 +11,14 @@ export default function NewHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  // Debug mobile authentication state
+  if (mobileMenuOpen) {
+    console.log("Mobile menu - isAuthenticated:", isAuthenticated);
+    console.log("Mobile menu - user:", user);
+    console.log("Mobile menu - roles:", roles);
+    console.log("Mobile menu - activeRole:", activeRole);
+  }
+
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
@@ -156,7 +164,7 @@ export default function NewHeader() {
         <div className="md:hidden fixed top-[73px] left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-40">
           <div className="bg-white px-4 py-4 border-t border-gray-200 space-y-2">
             {/* If logged in */}
-            {isAuthenticated && user ? (
+            {isAuthenticated ? (
               <>
                 {/* Dashboard link */}
                 <Link
