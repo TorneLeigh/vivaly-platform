@@ -28,11 +28,7 @@ export default function NewHeader() {
         </Link>
         
         <nav className="hidden md:flex gap-5">
-          {!isAuthenticated && !isLoading && (
-            <Link href="/about" className="text-black font-medium no-underline hover:text-orange-600">
-              About Us
-            </Link>
-          )}
+          {/* Navigation items */}
         </nav>
         
         <div className="hidden md:flex items-center gap-5">
@@ -108,13 +104,15 @@ export default function NewHeader() {
                 >
                   Gift Card
                 </Link>
-                <Link 
-                  href="/about" 
-                  className="block px-4 py-3 text-black hover:bg-gray-50 no-underline border-b border-gray-100"
-                  onClick={() => setDropdownOpen(false)}
-                >
-                  About
-                </Link>
+                {!isAuthenticated && !isLoading && (
+                  <Link 
+                    href="/about" 
+                    className="block px-4 py-3 text-black hover:bg-gray-50 no-underline border-b border-gray-100"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    About Us
+                  </Link>
+                )}
                 <Link 
                   href="/help" 
                   className="block px-4 py-3 text-black hover:bg-gray-50 no-underline"
