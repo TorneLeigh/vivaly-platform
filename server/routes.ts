@@ -65,7 +65,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/login', async (req, res) => {
     try {
-      const { email, password } = req.body;
+      const { email, password, role } = req.body;
 
       if (!email || !password) {
         return res.status(400).json({ message: "Email and password required" });
@@ -81,6 +81,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const isValidPassword = await bcrypt.compare(password, user.password);
       if (!isValidPassword) {
         return res.status(401).json({ message: "Invalid credentials" });
+      }
+
+      // Verify role if provided
+      if (role) {
+        const expectedRole = role === "caregiver" ? true : false;
+        if (user.isNanny !== expectedRole) {
+          return res.status(401).json({ message: "Invalid credentials or role mismatch" });
+        }
       }
 
       // Store user ID in session

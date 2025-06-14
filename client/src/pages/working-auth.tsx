@@ -35,6 +35,7 @@ export default function WorkingAuth() {
   const [showSignupPassword, setShowSignupPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [isForgotPasswordLoading, setIsForgotPasswordLoading] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<"parent" | "caregiver">("parent");
   const { toast } = useToast();
   const [, navigate] = useLocation();
 

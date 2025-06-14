@@ -53,6 +53,9 @@ export default function CaregiverSignup() {
     },
   });
 
+  // Watch form values for proper state updates
+  const watchedSuburb = form.watch("suburb");
+
   const signupMutation = useMutation({
     mutationFn: async (data: CaregiverSignupForm) => {
       const response = await apiRequest("POST", "/api/users", {
@@ -176,7 +179,7 @@ export default function CaregiverSignup() {
 
               <Button 
                 onClick={() => setStep(2)}
-                disabled={!form.getValues("suburb")}
+                disabled={!watchedSuburb}
                 className="w-full bg-black hover:bg-gray-800 text-white"
               >
                 Continue
