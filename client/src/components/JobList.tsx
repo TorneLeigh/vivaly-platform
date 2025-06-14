@@ -34,34 +34,38 @@ export default function JobList() {
   }, [toast]);
 
   const handleApply = async (jobId: string) => {
-    const caregiverProfile = "Experienced nanny with 5 years of childcare experience. Certified in first aid and CPR. Love working with toddlers and have excellent references.";
-    
     try {
       const res = await fetch('/api/applyToJob', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ jobId, caregiverProfile })
+        credentials: 'include',
+        body: JSON.stringify({ jobId })
       });
+      
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to apply to job');
+      }
       
       const data = await res.json();
       
-      if (res.ok) {
+      if (data.success) {
         toast({
-          title: "Success",
-          description: data.message || "Application submitted successfully!",
+          title: "Application Sent",
+          description: "Your profile was sent to the parent. They'll be in touch if interested.",
         });
       } else {
         toast({
           title: "Error",
-          description: data.message || "Failed to submit application",
+          description: data.message || "Failed to send application",
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error applying to job:', error);
       toast({
         title: "Error",
-        description: "Failed to submit application",
+        description: error.message || "Failed to send application",
         variant: "destructive",
       });
     }

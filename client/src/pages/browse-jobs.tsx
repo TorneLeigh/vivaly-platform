@@ -21,8 +21,7 @@ interface Job {
 }
 
 export default function BrowseJobs() {
-  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  const [caregiverProfile, setCaregiverProfile] = useState("");
+
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
