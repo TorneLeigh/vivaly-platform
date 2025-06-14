@@ -134,7 +134,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Get user to verify role access
-      const user = await storage.getUserById(userId);
+      const user = await storage.getUser(userId);
       if (!user) {
         return res.status(401).json({ message: "User not found" });
       }
