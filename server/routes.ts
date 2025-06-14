@@ -362,7 +362,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         title,
         startDate,
         numChildren: parseInt(numChildren),
-        rate: parseFloat(rate),
+        rate: rate.toString(),
         hoursPerWeek: parseInt(hoursPerWeek),
         description,
         location: location || null,
