@@ -69,6 +69,7 @@ export class DatabaseStorage implements IStorage {
       lastName: userData.lastName,
       phone: userData.phone || null,
       password: userData.password,
+      roles: userData.roles || ["parent"], // Include roles field
       isNanny: userData.isNanny || false,
       allowCaregiverMessages: userData.allowCaregiverMessages || true,
       profileImageUrl: null,
