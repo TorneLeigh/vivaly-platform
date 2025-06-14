@@ -1,0 +1,84 @@
+// server/index.ts (or your main Express app file)
+
+// 1. Import required packages
+import express from 'express';
+import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
+import csurf from 'csurf';
+import rateLimit from 'express-rate-limit';
+import * as Sentry from '@sentry/node';
+import session from 'express-session';
+import connectPg from 'connect-pg-simple';
+
+const app = express();
+
+// 2. Sentry initialization for error monitoring
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  tracesSampleRate: 1.0,
+});
+app.use(Sentry.Handlers.requestHandler());
+
+// 3. Security headers
+app.use(helmet());
+
+// 4. Body parsers and cookie parser (required for CSRF)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+// 5. CSRF protection
+app.use(csurf({
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+  }
+}));
+
+// 6. Rate limiting for auth endpoints
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,      // 15 minutes
+  max: 10,                       // limit each IP to 10 requests per window
+  message: 'Too many requests, please try again later.',
+});
+app.use('/api/login', authLimiter);
+app.use('/api/auth/switch-role', authLimiter);
+
+// 7. Session store (PostgreSQL)
+const PgSession = connectPg(session);
+app.use(session({
+  secret: process.env.SESSION_SECRET!,
+  store: new PgSession({
+    conString: process.env.DATABASE_URL!,
+    tableName: 'sessions',
+    createTableIfMissing: false,
+  }),
+  resave: false,
+  saveUninitialized: false,
+  name: 'vivaly.sid',
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    sameSite: 'lax',
+    maxAge: 7 * 24 * 60 * 60 * 1000,  // 7 days
+  },
+}));
+
+// 8. Health-check endpoint
+app.get('/healthz', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+
+// 9. Your existing routes go here
+//    e.g. app.use('/api/auth', authRoutes);
+//          app.use('/api/jobs', jobRoutes);
+
+// 10. Sentry error handler (must be after all routes)
+app.use(Sentry.Handlers.errorHandler());
+
+// 11. Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server listening on port ${PORT}`);
+});

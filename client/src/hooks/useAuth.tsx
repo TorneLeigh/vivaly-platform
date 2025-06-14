@@ -111,13 +111,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [isLoading]);
 
   const isAuthenticated = !!user && !error;
-  const roles = user?.roles || [];
-  const activeRole = user?.activeRole || '';
+  const roles = (user as User)?.roles || [];
+  const activeRole = (user as User)?.activeRole || '';
 
   return (
     <AuthContext.Provider
       value={{
-        user: user || null,
+        user: (user as User) || null,
         isAuthenticated,
         isLoading: !isInitialized,
         roles,
