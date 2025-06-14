@@ -90,6 +90,8 @@ import ParentDirectory from "@/pages/parent-directory";
 import JobBoard from "@/pages/job-board";
 import PostJob from "@/pages/post-job";
 import BrowseJobs from "@/pages/browse-jobs";
+import ParentDashboard from "@/pages/parent-dashboard";
+import CaregiverDashboard from "@/pages/caregiver-dashboard";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -202,6 +204,10 @@ function Router() {
           {/* Authenticated user routes */}
           <Route path="/messages" component={Messages} />
           <Route path="/messaging" component={MessagingPage} />
+          
+          {/* Role-based dashboards */}
+          <Route path="/parent-dashboard" component={ParentDashboard} />
+          <Route path="/caregiver-dashboard" component={CaregiverDashboard} />
           
           {/* Role-based authentication demo */}
           <Route path="/role-auth-demo" component={RoleAuthDemo} />

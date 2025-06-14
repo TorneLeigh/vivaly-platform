@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 
 export default function CaregiverDashboard() {
-  const { user, isAuthenticated, activeRole } = useAuth();
+  const { user, isAuthenticated, activeRole, roles, switchRole } = useAuth();
   const [, setLocation] = useLocation();
 
   if (!isAuthenticated) {
@@ -33,7 +33,11 @@ export default function CaregiverDashboard() {
           <CardContent className="text-center py-8">
             <h2 className="text-xl font-semibold mb-4">Access Restricted</h2>
             <p className="text-gray-600 mb-4">This page is only available for caregivers.</p>
-            <RoleToggle />
+            <RoleToggle 
+              roles={roles || []}
+              activeRole={activeRole || 'caregiver'}
+              onSwitch={switchRole}
+            />
           </CardContent>
         </Card>
       </div>
@@ -115,7 +119,11 @@ export default function CaregiverDashboard() {
             <Badge variant="outline" className="text-green-600 border-green-200">
               Caregiver Dashboard
             </Badge>
-            <RoleToggle />
+            <RoleToggle 
+              roles={roles || []}
+              activeRole={activeRole || 'caregiver'}
+              onSwitch={switchRole}
+            />
           </div>
         </div>
 
