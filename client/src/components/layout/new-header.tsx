@@ -11,17 +11,18 @@ export default function NewHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  // Debug mobile authentication state
-  if (mobileMenuOpen) {
-    console.log("Mobile menu - isAuthenticated:", isAuthenticated);
-    console.log("Mobile menu - user:", user);
-    console.log("Mobile menu - roles:", roles);
-    console.log("Mobile menu - activeRole:", activeRole);
-  }
-
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
+
+  // Debug mobile menu authentication state
+  if (mobileMenuOpen) {
+    console.log("MOBILE MENU DEBUG:");
+    console.log("isAuthenticated:", isAuthenticated);
+    console.log("user:", user);
+    console.log("roles:", roles);
+    console.log("activeRole:", activeRole);
+  }
 
   return (
     <>
@@ -163,10 +164,10 @@ export default function NewHeader() {
       {mobileMenuOpen && (
         <div className="md:hidden fixed top-[73px] left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-40">
           <div className="bg-white px-4 py-4 border-t border-gray-200 space-y-2">
-            {/* If logged in */}
-            {isAuthenticated ? (
+            {/* Logged in */}
+            {isAuthenticated && user ? (
               <>
-                {/* Dashboard link */}
+                {/* Dashboard */}
                 <Link
                   href="/dashboard"
                   className="block py-2 text-black border-b border-gray-100 font-medium"
@@ -175,7 +176,7 @@ export default function NewHeader() {
                   Dashboard
                 </Link>
 
-                {/* Role-specific links */}
+                {/* Job Board (Parent) */}
                 {activeRole === "parent" && (
                   <Link
                     href="/job-board"
@@ -186,6 +187,7 @@ export default function NewHeader() {
                   </Link>
                 )}
 
+                {/* Find Jobs (Caregiver) */}
                 {activeRole === "caregiver" && (
                   <Link
                     href="/find-jobs"
@@ -196,6 +198,7 @@ export default function NewHeader() {
                   </Link>
                 )}
 
+                {/* Messages */}
                 <Link
                   href="/messages"
                   className="block py-2 text-black border-b border-gray-100 font-medium"
@@ -204,6 +207,7 @@ export default function NewHeader() {
                   Messages
                 </Link>
 
+                {/* Profile */}
                 <Link
                   href="/profile"
                   className="block py-2 text-black border-b border-gray-100 font-medium"
@@ -212,7 +216,7 @@ export default function NewHeader() {
                   Profile
                 </Link>
 
-                {/* Role switcher if user has both roles */}
+                {/* Role Switcher */}
                 {roles.length > 1 && (
                   <div className="mt-4">
                     <p className="text-sm font-semibold mb-1">Switch Role</p>
@@ -220,7 +224,7 @@ export default function NewHeader() {
                       <button
                         key={role}
                         onClick={() => switchRole(role)}
-                        disabled={role === activeRole || isSwitchingRole}
+                        disabled={role === activeRole}
                         className={`block w-full text-left py-2 px-3 rounded-md text-sm ${
                           role === activeRole
                             ? "bg-gray-200 text-black font-semibold"
@@ -233,7 +237,8 @@ export default function NewHeader() {
                   </div>
                 )}
 
-                <button 
+                {/* Log Out */}
+                <button
                   onClick={async () => {
                     setMobileMenuOpen(false);
                     try {
@@ -247,13 +252,13 @@ export default function NewHeader() {
                       window.location.href = '/';
                     }
                   }}
-                  className="block w-full text-left py-2 text-black font-medium bg-transparent border-none cursor-pointer border-b border-gray-100"
+                  className="block py-2 text-black font-medium"
                 >
                   Log Out
                 </button>
               </>
             ) : (
-              // If NOT logged in, show login/signup
+              // Not logged in
               <>
                 <Link href="/auth" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)}>
                   Log In

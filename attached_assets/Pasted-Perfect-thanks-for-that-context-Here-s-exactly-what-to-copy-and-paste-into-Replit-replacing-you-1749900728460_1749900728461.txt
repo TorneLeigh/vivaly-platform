@@ -1,0 +1,135 @@
+Perfect — thanks for that context.
+
+Here’s exactly what to copy and paste into Replit, replacing your current mobile menu in NewHeader.tsx.
+
+✅ FINAL VERSION – COPY AND PASTE THIS
+
+This version includes:
+	•	Role-based navigation (Dashboard, Job Board, Find Jobs)
+	•	Role switcher
+	•	Messages, Profile, Logout
+	•	Debug logging to console
+
+{mobileMenuOpen && (
+  <div className="bg-white px-4 py-4 border-t border-gray-200 space-y-2">
+    {/* 🔍 Debugging: shows current auth values in console */}
+    {(() => {
+      console.log("MOBILE MENU DEBUG:");
+      console.log("isAuthenticated:", isAuthenticated);
+      console.log("user:", user);
+      console.log("roles:", roles);
+      console.log("activeRole:", activeRole);
+    })()}
+
+    {/* ✅ Logged in */}
+    {isAuthenticated && user ? (
+      <>
+        {/* Dashboard */}
+        <Link
+          href="/dashboard"
+          className="block py-2 text-black border-b border-gray-100 font-medium"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          Dashboard
+        </Link>
+
+        {/* Job Board (Parent) */}
+        {activeRole === "parent" && (
+          <Link
+            href="/job-board"
+            className="block py-2 text-black border-b border-gray-100 font-medium"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Job Board
+          </Link>
+        )}
+
+        {/* Find Jobs (Caregiver) */}
+        {activeRole === "caregiver" && (
+          <Link
+            href="/find-jobs"
+            className="block py-2 text-black border-b border-gray-100 font-medium"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Find Jobs
+          </Link>
+        )}
+
+        {/* Messages */}
+        <Link
+          href="/messages"
+          className="block py-2 text-black border-b border-gray-100 font-medium"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          Messages
+        </Link>
+
+        {/* Profile */}
+        <Link
+          href="/profile"
+          className="block py-2 text-black border-b border-gray-100 font-medium"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          Profile
+        </Link>
+
+        {/* 🔄 Role Switcher */}
+        {roles.length > 1 && (
+          <div className="mt-4">
+            <p className="text-sm font-semibold mb-1">Switch Role</p>
+            {roles.map((role) => (
+              <button
+                key={role}
+                onClick={() => switchRole(role)}
+                disabled={role === activeRole}
+                className={`block w-full text-left py-2 px-3 rounded-md text-sm ${
+                  role === activeRole
+                    ? "bg-gray-200 text-black font-semibold"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                {role.charAt(0).toUpperCase() + role.slice(1)}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Log Out */}
+        <button
+          onClick={handleLogout}
+          className="block py-2 text-black font-medium"
+        >
+          Log Out
+        </button>
+      </>
+    ) : (
+      // ❌ Not logged in
+      <>
+        <Link href="/login" className="block py-2 text-black font-medium">
+          Log In
+        </Link>
+        <Link href="/signup" className="block py-2 text-black font-medium">
+          Sign Up
+        </Link>
+      </>
+    )}
+  </div>
+)}
+
+✅ After pasting:
+
+	1.	Save the file
+	2.	Go to mobile view
+	3.	Log in
+	4.	Open the menu
+	5.	Open your browser DevTools → Console and check:
+
+MOBILE MENU DEBUG:
+isAuthenticated: true
+user: { ... }
+roles: ['parent', 'caregiver']
+activeRole: 'parent'
+
+
+
+If you see these logs and the right links appear, it’s working 🎉
