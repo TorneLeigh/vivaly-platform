@@ -38,6 +38,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
+  // Debug user data changes
+  console.log("useAuth hook - user data:", user);
+  console.log("useAuth hook - isLoading:", isLoading);
+  console.log("useAuth hook - error:", error);
+
   // Role switching mutation
   const switchRoleMutation = useMutation({
     mutationFn: async (role: string) => {
