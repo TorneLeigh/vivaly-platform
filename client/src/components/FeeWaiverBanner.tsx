@@ -18,7 +18,7 @@ const FeeWaiverBanner = () => {
         <div className="flex items-center gap-3">
           <Gift className="h-5 w-5" />
           <span className="font-medium">
-            🎁 Invite family and friends to join the Vivaly community and get up to 3 fee-free bookings!
+            Invite family and friends to join the Vivaly community and get 3 fee-free bookings!
           </span>
         </div>
         <div className="flex items-center gap-2">

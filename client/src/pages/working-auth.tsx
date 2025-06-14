@@ -63,13 +63,14 @@ export default function WorkingAuth() {
         description: "You have been logged in successfully.",
       });
       
-      // Invalidate auth queries to force refresh
+      // Set user data in query cache immediately
+      queryClient.setQueryData(["/api/auth/user"], result);
+      
+      // Invalidate to ensure fresh data
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       
       // Navigate to home page
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 500);
+      navigate("/");
     } catch (error: any) {
       toast({
         title: "Login failed",

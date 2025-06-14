@@ -28,7 +28,11 @@ export default function NewHeader() {
         </Link>
         
         <nav className="hidden md:flex gap-5">
-          {/* Navigation items hidden as requested */}
+          {!isAuthenticated && !isLoading && (
+            <Link href="/about" className="text-black font-medium no-underline hover:text-orange-600">
+              About Us
+            </Link>
+          )}
         </nav>
         
         <div className="hidden md:flex items-center gap-5">
@@ -66,7 +70,18 @@ export default function NewHeader() {
                 Profile
               </Link>
               <Button 
-                onClick={() => window.location.href = '/logout'}
+                onClick={async () => {
+                  try {
+                    await fetch('/api/auth/logout', {
+                      method: 'POST',
+                      credentials: 'include'
+                    });
+                    window.location.href = '/';
+                  } catch (error) {
+                    console.error('Logout failed:', error);
+                    window.location.href = '/';
+                  }
+                }}
                 className="px-4 py-2 bg-black text-white border-none rounded cursor-pointer font-medium hover:bg-gray-800"
               >
                 Log Out
