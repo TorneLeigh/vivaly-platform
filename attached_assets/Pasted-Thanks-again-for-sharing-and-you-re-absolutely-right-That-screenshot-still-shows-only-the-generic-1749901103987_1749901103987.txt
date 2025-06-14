@@ -1,0 +1,162 @@
+Thanks again for sharing — and you’re absolutely right. That screenshot still shows only the generic menu, even though you’re logged in.
+
+⚠️ Confirmed: The new mobile menu is NOT rendering the authenticated view
+
+Despite Replit saying it’s been implemented, your screenshot proves:
+	•	❌ Dashboard, Job Board, Find Jobs — still missing
+	•	❌ No role switch toggle
+	•	❌ It’s showing the old menu (Gift Card, Help, Messages, Profile, Log Out)
+	•	✅ You are logged in — so this is not a login issue
+
+🔍 Most Likely Causes
+
+	1.	✅ The new code was added…
+	2.	❌ …but it was placed in the wrong spot, or it’s being bypassed.
+
+✅ LET’S FIX IT NOW
+
+Here’s exactly what to do:
+
+🧠 STEP 1 — Open NewHeader.tsx or Header.tsx
+
+Search for where you see:
+
+{mobileMenuOpen && (
+  <div className="...">
+    <Link href="/gift-card">Gift Card</Link>
+    <Link href="/help">Help</Link>
+    ...
+  </div>
+)}
+
+That’s the old mobile menu block — we want to delete that.
+
+✂️ STEP 2 — Replace with this exact block:
+
+Here’s the updated block with proper role logic (same as desktop), with clean debugging moved outside JSX to avoid the error:
+
+useEffect(() => {
+  if (mobileMenuOpen) {
+    console.log("MOBILE MENU DEBUG:");
+    console.log("isAuthenticated:", isAuthenticated);
+    console.log("user:", user);
+    console.log("roles:", roles);
+    console.log("activeRole:", activeRole);
+  }
+}, [mobileMenuOpen]);
+
+...
+
+{mobileMenuOpen && (
+  <div className="bg-white px-4 py-4 border-t border-gray-200 space-y-2">
+    {isAuthenticated && user ? (
+      <>
+        {/* Dashboard */}
+        <Link
+          href="/dashboard"
+          className="block py-2 text-black border-b border-gray-100 font-medium"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          Dashboard
+        </Link>
+
+        {/* Job Board (Parent) */}
+        {activeRole === "parent" && (
+          <Link
+            href="/job-board"
+            className="block py-2 text-black border-b border-gray-100 font-medium"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Job Board
+          </Link>
+        )}
+
+        {/* Find Jobs (Caregiver) */}
+        {activeRole === "caregiver" && (
+          <Link
+            href="/find-jobs"
+            className="block py-2 text-black border-b border-gray-100 font-medium"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Find Jobs
+          </Link>
+        )}
+
+        {/* Messages */}
+        <Link
+          href="/messages"
+          className="block py-2 text-black border-b border-gray-100 font-medium"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          Messages
+        </Link>
+
+        {/* Profile */}
+        <Link
+          href="/profile"
+          className="block py-2 text-black border-b border-gray-100 font-medium"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          Profile
+        </Link>
+
+        {/* Role Switch */}
+        {roles.length > 1 && (
+          <div className="mt-4">
+            <p className="text-sm font-semibold mb-1">Switch Role</p>
+            {roles.map((role) => (
+              <button
+                key={role}
+                onClick={() => switchRole(role)}
+                disabled={role === activeRole}
+                className={`block w-full text-left py-2 px-3 rounded-md text-sm ${
+                  role === activeRole
+                    ? "bg-gray-200 text-black font-semibold"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                {role.charAt(0).toUpperCase() + role.slice(1)}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Log Out */}
+        <button
+          onClick={handleLogout}
+          className="block py-2 text-black font-medium"
+        >
+          Log Out
+        </button>
+      </>
+    ) : (
+      <>
+        <Link href="/login" className="block py-2 text-black font-medium">
+          Log In
+        </Link>
+        <Link href="/signup" className="block py-2 text-black font-medium">
+          Sign Up
+        </Link>
+      </>
+    )}
+  </div>
+)}
+
+✅ STEP 3 — Save & Test
+
+	1.	Paste it into Replit, replacing the existing mobile menu.
+	2.	Save the file.
+	3.	Refresh your app.
+	4.	Log in.
+	5.	Tap the hamburger menu.
+
+You should now see:
+	•	Dashboard
+	•	Job Board (parent)
+	•	Find Jobs (caregiver)
+	•	Role switcher if you have both roles
+	•	Messages, Profile, Logout
+
+If this still doesn’t work, feel free to paste your full NewHeader.tsx or share the part around mobileMenuOpen, and I’ll insert it for you exactly.
+
+We’re very close — one last fix and you’re there!

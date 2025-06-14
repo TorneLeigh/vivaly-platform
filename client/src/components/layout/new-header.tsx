@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { useAuth } from "@/hooks/useAuth";
 import { ChevronDown, Menu } from "lucide-react";
@@ -12,17 +12,21 @@ export default function NewHeader() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleMobileMenu = () => {
+    // Close dropdown when opening mobile menu
+    setDropdownOpen(false);
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
   // Debug mobile menu authentication state
-  if (mobileMenuOpen) {
-    console.log("MOBILE MENU DEBUG:");
-    console.log("isAuthenticated:", isAuthenticated);
-    console.log("user:", user);
-    console.log("roles:", roles);
-    console.log("activeRole:", activeRole);
-  }
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      console.log("MOBILE MENU DEBUG:");
+      console.log("isAuthenticated:", isAuthenticated);
+      console.log("user:", user);
+      console.log("roles:", roles);
+      console.log("activeRole:", activeRole);
+    }
+  }, [mobileMenuOpen, isAuthenticated, user, roles, activeRole]);
 
   return (
     <>
@@ -109,8 +113,8 @@ export default function NewHeader() {
             </div>
           ) : null}
           
-          {/* Dropdown Menu - Far Right */}
-          <div className="relative">
+          {/* Dropdown Menu - Far Right - Hidden on Mobile */}
+          <div className="relative hidden md:block">
             <button 
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="flex items-center gap-1 text-black font-medium py-2 hover:text-gray-600 transition-colors"
@@ -162,9 +166,8 @@ export default function NewHeader() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed top-[73px] left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-40">
+        <div className="md:hidden fixed top-[73px] left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-50">
           <div className="bg-white px-4 py-4 border-t border-gray-200 space-y-2">
-            {/* Logged in */}
             {isAuthenticated && user ? (
               <>
                 {/* Dashboard */}
@@ -216,7 +219,7 @@ export default function NewHeader() {
                   Profile
                 </Link>
 
-                {/* Role Switcher */}
+                {/* Role Switch */}
                 {roles.length > 1 && (
                   <div className="mt-4">
                     <p className="text-sm font-semibold mb-1">Switch Role</p>
@@ -258,7 +261,6 @@ export default function NewHeader() {
                 </button>
               </>
             ) : (
-              // Not logged in
               <>
                 <Link href="/auth" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)}>
                   Log In
