@@ -40,45 +40,53 @@ export default function BrowseJobs() {
   }, []);
 
   const applyMutation = useMutation({
-    mutationFn: async ({ jobId, caregiverProfile }: { jobId: string; caregiverProfile: string }) => {
+    mutationFn: async ({ jobId }: { jobId: string }) => {
       const res = await fetch('/api/applyToJob', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ jobId, caregiverProfile })
+        credentials: 'include',
+        body: JSON.stringify({ jobId })
       });
+      
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to apply to job');
+      }
+      
       return await res.json();
     },
     onSuccess: (data) => {
-      toast({
-        title: "Success",
-        description: data.message || "Application submitted successfully!",
-      });
-      setCaregiverProfile("");
-      setSelectedJob(null);
-      queryClient.invalidateQueries({ queryKey: ['/api/applications/my'] });
+      if (data.success) {
+        toast({
+          title: "Application Sent",
+          description: "Your profile was sent to the parent. They'll be in touch if interested.",
+        });
+        setSelectedJob(null);
+        queryClient.invalidateQueries({ queryKey: ['/api/applications/my'] });
+      } else {
+        toast({
+          title: "Error",
+          description: data.message || "Failed to send application",
+          variant: "destructive",
+        });
+      }
     },
-    onError: (error: Error) => {
+    onError: (error: any) => {
       toast({
         title: "Error",
-        description: error.message || "Failed to submit application",
+        description: error.message || "Failed to send application",
         variant: "destructive",
       });
     },
   });
 
   const handleApply = () => {
-    if (!selectedJob || !caregiverProfile.trim()) {
-      toast({
-        title: "Error",
-        description: "Please provide your caregiver profile",
-        variant: "destructive",
-      });
+    if (!selectedJob) {
       return;
     }
 
     applyMutation.mutate({
-      jobId: selectedJob.id,
-      caregiverProfile: caregiverProfile.trim()
+      jobId: selectedJob.id
     });
   };
 
@@ -172,63 +180,13 @@ export default function BrowseJobs() {
                     </p>
                   </div>
 
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button 
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                        onClick={() => setSelectedJob(job)}
-                      >
-                        Apply Now
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[500px]">
-                      <DialogHeader>
-                        <DialogTitle>Apply for Childcare Position</DialogTitle>
-                        <DialogDescription>
-                          Tell the parent about your experience and why you're a great fit for this role.
-                        </DialogDescription>
-                      </DialogHeader>
-                      
-                      <div className="space-y-4 py-4">
-                        <div className="bg-gray-50 p-4 rounded-lg">
-                          <h4 className="font-medium text-gray-900 mb-2">Job Details</h4>
-                          <div className="text-sm text-gray-600 space-y-1">
-                            <p><strong>Children:</strong> {selectedJob?.numChildren}</p>
-                            <p><strong>Rate:</strong> ${selectedJob?.rate}/hour</p>
-                            <p><strong>Hours:</strong> {selectedJob?.hoursPerWeek} hours/week</p>
-                            <p><strong>Start Date:</strong> {selectedJob && formatDate(selectedJob.startDate)}</p>
-                          </div>
-                        </div>
-
-                        <div className="space-y-2">
-                          <Label htmlFor="profile">Your Profile & Experience *</Label>
-                          <Textarea
-                            id="profile"
-                            placeholder="Tell the parent about your childcare experience, qualifications, special skills, and why you're interested in this position..."
-                            value={caregiverProfile}
-                            onChange={(e) => setCaregiverProfile(e.target.value)}
-                            className="min-h-[120px] resize-none"
-                            required
-                          />
-                        </div>
-                      </div>
-
-                      <div className="flex gap-3">
-                        <DialogTrigger asChild>
-                          <Button variant="outline" className="flex-1">
-                            Cancel
-                          </Button>
-                        </DialogTrigger>
-                        <Button 
-                          onClick={handleApply}
-                          disabled={applyMutation.isPending || !caregiverProfile.trim()}
-                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
-                        >
-                          {applyMutation.isPending ? "Submitting..." : "Submit Application"}
-                        </Button>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                  <Button 
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                    onClick={() => applyMutation.mutate({ jobId: job.id })}
+                    disabled={applyMutation.isPending}
+                  >
+                    {applyMutation.isPending ? 'Applying...' : 'I\'m Interested'}
+                  </Button>
                 </CardContent>
               </Card>
             ))}

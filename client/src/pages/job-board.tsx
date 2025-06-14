@@ -199,25 +199,28 @@ export default function JobBoard() {
 
   // Apply to job mutation
   const applyToJobMutation = useMutation({
-    mutationFn: async ({ jobId, message }: { jobId: string; message: string }) => {
+    mutationFn: async ({ jobId }: { jobId: string }) => {
       const response = await fetch('/api/applyToJob', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          caregiverId: 'caregiver456', // This would come from auth context
-          jobId,
-          message,
-        }),
+        credentials: 'include',
+        body: JSON.stringify({ jobId }),
       });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to apply to job');
+      }
+      
       return response.json();
     },
     onSuccess: (data) => {
       if (data.success) {
         toast({
           title: "Application Sent",
-          description: "Your application has been sent to the parent.",
+          description: "Your profile was sent to the parent. They'll be in touch if interested.",
         });
       } else {
         toast({
@@ -227,10 +230,10 @@ export default function JobBoard() {
         });
       }
     },
-    onError: () => {
+    onError: (error: any) => {
       toast({
         title: "Error",
-        description: "Failed to send application",
+        description: error.message || "Failed to send application",
         variant: "destructive",
       });
     }
@@ -250,10 +253,7 @@ export default function JobBoard() {
   };
 
   const handleApplyToJob = (jobId: string) => {
-    const message = prompt("Send a message to the parent:");
-    if (message) {
-      applyToJobMutation.mutate({ jobId, message });
-    }
+    applyToJobMutation.mutate({ jobId });
   };
 
   const filteredJobs = jobs.filter((job: Job) => {

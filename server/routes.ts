@@ -370,7 +370,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/applyToJob', requireAuth, async (req, res) => {
     try {
       const caregiverId = req.session.userId;
-      const { jobId, caregiverProfile } = req.body;
+      const { jobId } = req.body;
 
       if (!jobId) {
         return res.status(400).json({ message: "Job ID is required" });
@@ -381,13 +381,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Job not found" });
       }
 
+      const caregiver = await storage.getUser(caregiverId);
+      if (!caregiver) {
+        return res.status(404).json({ message: "Caregiver not found" });
+      }
+
+      // Create application
       const application = await storage.createApplication({
         jobId,
         caregiverId,
-        caregiverProfile: caregiverProfile || null
+        caregiverProfile: null
       });
 
-      res.json({ message: "Application sent!", application });
+      // Create automated message to parent
+      const message = await storage.createMessage({
+        fromUserId: caregiverId,
+        toUserId: job.parentId,
+        message: `Hi, I'm interested in your job post titled "${job.title || 'Childcare Position'}". Here's my profile.`,
+        jobId: jobId
+      });
+
+      res.json({ success: true, message: "Application sent!", application });
     } catch (error) {
       console.error("Apply to job error:", error);
       res.status(500).json({ message: "Failed to apply to job" });
