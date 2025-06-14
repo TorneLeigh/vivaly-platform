@@ -34,7 +34,7 @@ export const ReferralBanner = ({ onClose }: ReferralBannerProps) => {
               <Gift className="h-4 w-4 text-white" />
             </div>
             <h3 className="font-semibold text-gray-900 dark:text-white">
-              Refer & Earn
+              Refer & Save
             </h3>
           </div>
           <div className="flex gap-1">
@@ -61,24 +61,9 @@ export const ReferralBanner = ({ onClose }: ReferralBannerProps) => {
         </div>
 
         <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
-              <Star className="h-3 w-3 mr-1" />
-              $50 Credit
-            </Badge>
-            <span className="text-sm text-gray-600 dark:text-gray-400">
-              for each successful referral
-            </span>
-          </div>
-
           <p className="text-sm text-gray-700 dark:text-gray-300">
-            Know someone who needs quality childcare? Share Vivaly and earn credits when they book their first service.
+            Know someone who needs quality childcare? Share Vivaly and save when they book their first service.
           </p>
-
-          <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-            <Users className="h-3 w-3" />
-            <span>Join 2,000+ families earning rewards</span>
-          </div>
 
           <Button 
             className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
