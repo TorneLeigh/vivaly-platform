@@ -450,13 +450,7 @@ export default function ParentProfile() {
                             </div>
                           </div>
                           
-                          <div className="text-right">
-                            <div className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium mb-2">
-                              Verified Parent
-                            </div>
-                            <div className="text-2xl font-bold text-gray-900">$25-35/hr</div>
-                            <div className="text-sm text-gray-600">Competitive Rate</div>
-                          </div>
+
                         </div>
 
                         {/* Key Information */}
