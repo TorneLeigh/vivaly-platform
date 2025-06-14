@@ -362,7 +362,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
         title,
         startDate,
         numChildren: parseInt(numChildren),
-        rate: rate.toString(),
+        rate: rate,
+        hoursPerWeek: parseInt(hoursPerWeek),
+        description,
+        location: location || null,
+        suburb: suburb || null
+      });
+
+      res.json({ success: true, message: "Job posted!", job });
+    } catch (error) {
+      console.error("Post job error:", error);
+      res.status(500).json({ success: false, message: "Failed to post job" });
+    }
+  });
+
+  // RESTful job creation endpoint
+  app.post('/api/jobs', requireRole('parent'), async (req, res) => {
+    try {
+      const { title, startDate, numChildren, rate, hoursPerWeek, description, location, suburb } = req.body;
+      const parentId = req.session.userId;
+
+      if (!title || !startDate || !numChildren || !rate || !hoursPerWeek || !description) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      const jobId = randomUUID();
+      
+      const job = await storage.createJob({
+        id: jobId,
+        parentId,
+        title,
+        startDate,
+        numChildren: parseInt(numChildren),
+        rate: rate,
         hoursPerWeek: parseInt(hoursPerWeek),
         description,
         location: location || null,

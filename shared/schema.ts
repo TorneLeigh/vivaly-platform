@@ -278,11 +278,14 @@ export const messages = pgTable("messages", {
 export const jobs = pgTable("jobs", {
   id: varchar("id").primaryKey().notNull(),
   parentId: varchar("parent_id").notNull(),
+  title: varchar("title").notNull(),
   startDate: varchar("start_date").notNull(),
   numChildren: integer("num_children").notNull(),
-  rate: decimal("rate", { precision: 10, scale: 2 }).notNull(),
+  rate: varchar("rate").notNull(), // Store as string for flexibility (e.g., "$30/hr", "$600/week")
   hoursPerWeek: integer("hours_per_week").notNull(),
   description: text("description").notNull(),
+  location: varchar("location"),
+  suburb: varchar("suburb"),
   status: varchar("status").default("active"), // active, filled, expired
   createdAt: timestamp("created_at").defaultNow(),
 });
