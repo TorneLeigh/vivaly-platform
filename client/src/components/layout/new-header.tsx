@@ -7,7 +7,7 @@ import { ChevronDown, Menu } from "lucide-react";
 
 export default function NewHeader() {
   const [location] = useLocation();
-  const { isAuthenticated, isLoading, user } = useAuth();
+  const { isAuthenticated, isLoading, user, roles, activeRole, switchRole } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -48,14 +48,36 @@ export default function NewHeader() {
           ) : isAuthenticated ? (
             <div className="flex items-center gap-4">
               {/* Parent/Caregiver Toggles */}
-              <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
-                <button className="px-3 py-1 text-sm font-medium rounded-md bg-white text-black shadow-sm">
-                  Parent
-                </button>
-                <button className="px-3 py-1 text-sm font-medium rounded-md text-gray-600 hover:bg-white hover:text-black transition-colors">
-                  Caregiver
-                </button>
-              </div>
+              {roles.length > 1 && (
+                <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+                  <button 
+                    onClick={() => {
+                      console.log("NewHeader - Parent button clicked, switching to 'parent'");
+                      switchRole('parent');
+                    }}
+                    className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
+                      activeRole === 'parent' 
+                        ? 'bg-white text-black shadow-sm' 
+                        : 'text-gray-600 hover:bg-white hover:text-black'
+                    }`}
+                  >
+                    Parent
+                  </button>
+                  <button 
+                    onClick={() => {
+                      console.log("NewHeader - Caregiver button clicked, switching to 'caregiver'");
+                      switchRole('caregiver');
+                    }}
+                    className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
+                      activeRole === 'caregiver' 
+                        ? 'bg-white text-black shadow-sm' 
+                        : 'text-gray-600 hover:bg-white hover:text-black'
+                    }`}
+                  >
+                    Caregiver
+                  </button>
+                </div>
+              )}
               <Link href="/job-board" className="text-black font-medium no-underline">
                 Job Board
               </Link>
