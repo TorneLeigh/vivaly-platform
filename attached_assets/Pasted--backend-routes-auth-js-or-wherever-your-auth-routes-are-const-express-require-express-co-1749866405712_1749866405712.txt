@@ -1,0 +1,80 @@
+// backend/routes/auth.js (or wherever your auth routes are)
+
+const express = require('express');
+const router = express.Router();
+const User = require('../models/User'); // Your user model
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+// Secret for JWT - store safely in env vars
+const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_here';
+
+// Login route
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password, role } = req.body;
+    if (!email || !password || !role) {
+      return res.status(400).json({ message: 'Email, password, and role are required' });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) return res.status(401).json({ message: 'Invalid credentials' });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
+
+    // Check if user has the requested role
+    if (!user.roles || !user.roles.includes(role)) {
+      return res.status(403).json({ message: `User does not have role: ${role}` });
+    }
+
+    // Create JWT token with roles and activeRole
+    const payload = {
+      userId: user._id,
+      roles: user.roles,       // e.g. ['parent', 'caregiver']
+      activeRole: role,        // current active role
+    };
+
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1d' });
+
+    return res.json({ token, roles: user.roles, activeRole: role });
+  } catch (error) {
+    console.error('Login error:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Role switch route
+router.post('/switchRole', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ message: 'No token provided' });
+
+    const { role } = req.body;
+    if (!role) return res.status(400).json({ message: 'Role is required' });
+
+    // Verify and decode current token
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    // Check if user has requested role
+    if (!decoded.roles.includes(role)) {
+      return res.status(403).json({ message: `User does not have role: ${role}` });
+    }
+
+    // Issue new token with updated activeRole
+    const newPayload = {
+      userId: decoded.userId,
+      roles: decoded.roles,
+      activeRole: role,
+    };
+
+    const newToken = jwt.sign(newPayload, JWT_SECRET, { expiresIn: '1d' });
+
+    return res.json({ token: newToken, activeRole: role });
+  } catch (error) {
+    console.error('Switch role error:', error);
+    return res.status(401).json({ message: 'Invalid token or error' });
+  }
+});
+
+module.exports = router;
