@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'wouter';
-import { useAuth } from '@/hooks/useAuth';
+import { Link } from 'wouter';
+import { useAuth } from '@/hooks/useAuth'; // Adjust this path if needed
+import { useLocation } from 'wouter';
 
 export default function NewHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -27,13 +28,8 @@ export default function NewHeader() {
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="text-xl font-bold text-black flex items-center">
-          <img 
-            src="/attached_assets/LOGO UPLOAD VIVALY_1749697003124.jpeg" 
-            alt="Vivaly Logo" 
-            className="h-6 w-auto mr-2 rounded-lg object-cover"
-          />
+          <img src="/logo.svg" alt="Vivaly" className="h-6 w-auto mr-2" />
           Vivaly
-          <span className="text-xs bg-green-500 text-white px-2 py-1 rounded ml-2">NEW</span>
         </Link>
 
         {/* Mobile Menu Toggle */}
@@ -146,10 +142,10 @@ export default function NewHeader() {
             </>
           ) : (
             <>
-              <Link href="/auth" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)}>
+              <Link href="/auth" className="block py-2 text-black font-medium">
                 Log In
               </Link>
-              <Link href="/signup" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)}>
+              <Link href="/signup" className="block py-2 text-black font-medium">
                 Sign Up
               </Link>
             </>
