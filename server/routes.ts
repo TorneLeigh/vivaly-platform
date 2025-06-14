@@ -67,8 +67,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { email, password, role } = req.body;
 
-      if (!email || !password) {
-        return res.status(400).json({ message: "Email and password required" });
+      if (!email || !password || !role) {
+        return res.status(400).json({ message: "Email, password, and role are required" });
       }
 
       // Find user by email
@@ -83,22 +83,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
-      // Verify role if provided
-      if (role) {
-        const expectedRole = role === "caregiver" ? true : false;
-        if (user.isNanny !== expectedRole) {
-          return res.status(401).json({ message: "Invalid credentials or role mismatch" });
-        }
+      // Get user roles (default to parent if no roles set)
+      const userRoles = user.roles || ["parent"];
+      
+      // Check if user has the requested role
+      if (!userRoles.includes(role)) {
+        return res.status(403).json({ message: `User does not have role: ${role}` });
       }
 
-      // Store user ID in session
+      // Store user ID and active role in session
       req.session.userId = user.id;
+      req.session.activeRole = role;
 
       res.json({
         id: user.id,
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
+        roles: userRoles,
+        activeRole: role,
         isNanny: user.isNanny
       });
     } catch (error) {
@@ -114,6 +117,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       res.json({ message: "Logged out successfully" });
     });
+  });
+
+  // Role switching route
+  app.post('/api/auth/switch-role', async (req, res) => {
+    try {
+      const { role } = req.body;
+      const userId = req.session.userId;
+
+      if (!userId) {
+        return res.status(401).json({ message: "Authentication required" });
+      }
+
+      if (!role) {
+        return res.status(400).json({ message: "Role is required" });
+      }
+
+      // Get user to verify role access
+      const user = await storage.getUserById(userId);
+      if (!user) {
+        return res.status(401).json({ message: "User not found" });
+      }
+
+      const userRoles = user.roles || ["parent"];
+      
+      // Check if user has requested role
+      if (!userRoles.includes(role)) {
+        return res.status(403).json({ message: `User does not have role: ${role}` });
+      }
+
+      // Update active role in session
+      req.session.activeRole = role;
+
+      res.json({ 
+        activeRole: role,
+        roles: userRoles 
+      });
+    } catch (error) {
+      console.error("Switch role error:", error);
+      res.status(500).json({ message: "Failed to switch role" });
+    }
   });
 
   // Password reset request

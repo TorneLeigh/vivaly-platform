@@ -21,6 +21,7 @@ export const users = pgTable("users", {
   profileImageUrl: varchar("profile_image_url"),
   phone: text("phone"),
   password: text("password"), // For backwards compatibility with existing accounts
+  roles: json("roles").$type<string[]>().default(["parent"]), // Available roles for the user
   isNanny: boolean("is_nanny").default(false),
   allowCaregiverMessages: boolean("allow_caregiver_messages").default(false),
   resetToken: varchar("reset_token"),
