@@ -4,7 +4,7 @@ import { storage } from "./storage";
 import bcrypt from "bcryptjs";
 import { randomUUID } from "crypto";
 import { insertUserSchema, insertJobSchema, insertApplicationSchema, type InsertUser } from "@shared/schema";
-import { requireAuth } from "./auth-middleware";
+import { requireAuth, requireRole } from "./auth-middleware";
 import { sendPasswordResetEmail } from "./email-service";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -71,15 +71,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Email, password, and role are required" });
       }
 
+      // Normalize email input
+      const normalizedEmail = email.toLowerCase().trim();
+
       // Find user by email
-      const user = await storage.getUserByEmail(email);
+      const user = await storage.getUserByEmail(normalizedEmail);
       if (!user || !user.password) {
+        // Add small delay to slow brute-force attacks
+        await new Promise(resolve => setTimeout(resolve, 1000));
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
       // Verify password
       const isValidPassword = await bcrypt.compare(password, user.password);
       if (!isValidPassword) {
+        // Add small delay to slow brute-force attacks
+        await new Promise(resolve => setTimeout(resolve, 1000));
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
@@ -94,6 +101,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Store user ID and active role in session
       req.session.userId = user.id;
       req.session.activeRole = role;
+
+      // Ensure session persistence
+      await new Promise<void>((resolve, reject) => {
+        req.session.save((err) => {
+          if (err) reject(err);
+          else resolve();
+        });
+      });
+
+      // Audit log successful login
+      console.info(`User ${user.id} (${user.email}) logged in with role: ${role}`);
 
       res.json({
         id: user.id,
@@ -125,9 +143,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { role } = req.body;
       const userId = req.session.userId;
 
-      console.log("Switch role request - userId:", userId, "requested role:", role);
-      console.log("Current session activeRole:", req.session.activeRole);
-
       if (!userId) {
         return res.status(401).json({ message: "Authentication required" });
       }
@@ -143,7 +158,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const userRoles = user.roles || ["parent"];
-      console.log("User roles from database:", userRoles);
       
       // Check if user has requested role
       if (!userRoles.includes(role)) {
@@ -152,13 +166,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Update active role in session
       req.session.activeRole = role;
-      console.log("Updated session activeRole to:", req.session.activeRole);
+
+      // Ensure session persistence
+      await new Promise<void>((resolve, reject) => {
+        req.session.save((err) => {
+          if (err) reject(err);
+          else resolve();
+        });
+      });
+
+      // Audit log successful role switch
+      console.info(`User ${userId} (${user.email}) switched to role: ${role}`);
 
       const response = { 
         activeRole: role,
         roles: userRoles 
       };
-      console.log("Sending response:", response);
       
       res.json(response);
     } catch (error) {

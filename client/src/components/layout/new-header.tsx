@@ -7,7 +7,7 @@ import { ChevronDown, Menu } from "lucide-react";
 
 export default function NewHeader() {
   const [location] = useLocation();
-  const { isAuthenticated, isLoading, user, roles, activeRole, switchRole } = useAuth();
+  const { isAuthenticated, isLoading, user, roles, activeRole, switchRole, isSwitchingRole } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -49,33 +49,26 @@ export default function NewHeader() {
             <div className="flex items-center gap-4">
               {/* Parent/Caregiver Toggles */}
               {roles.length > 1 && (
-                <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
-                  <button 
-                    onClick={() => {
-                      console.log("NewHeader - Parent button clicked, switching to 'parent'");
-                      switchRole('parent');
-                    }}
-                    className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
-                      activeRole === 'parent' 
-                        ? 'bg-white text-black shadow-sm' 
-                        : 'text-gray-600 hover:bg-white hover:text-black'
-                    }`}
-                  >
-                    Parent
-                  </button>
-                  <button 
-                    onClick={() => {
-                      console.log("NewHeader - Caregiver button clicked, switching to 'caregiver'");
-                      switchRole('caregiver');
-                    }}
-                    className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
-                      activeRole === 'caregiver' 
-                        ? 'bg-white text-black shadow-sm' 
-                        : 'text-gray-600 hover:bg-white hover:text-black'
-                    }`}
-                  >
-                    Caregiver
-                  </button>
+                <div 
+                  className="flex items-center gap-2 bg-gray-100 rounded-lg p-1"
+                  role="group"
+                  aria-label="Switch role"
+                >
+                  {roles.map((role) => (
+                    <button 
+                      key={role}
+                      onClick={() => switchRole(role)}
+                      disabled={isSwitchingRole || role === activeRole}
+                      aria-pressed={role === activeRole}
+                      className={`px-3 py-1 text-sm font-medium rounded-md transition-colors disabled:opacity-50 ${
+                        role === activeRole
+                          ? 'bg-white text-black shadow-sm' 
+                          : 'text-gray-600 hover:bg-white hover:text-black'
+                      }`}
+                    >
+                      {isSwitchingRole && role !== activeRole ? 'Switching...' : role === 'parent' ? 'Parent' : 'Caregiver'}
+                    </button>
+                  ))}
                 </div>
               )}
               <Link href={activeRole === 'parent' ? "/dashboard" : "/job-board"} className="text-black font-medium no-underline">

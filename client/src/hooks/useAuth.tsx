@@ -20,6 +20,7 @@ interface AuthContextType {
   roles: string[];
   activeRole: string;
   switchRole: (role: string) => Promise<void>;
+  isSwitchingRole: boolean;
   logout: () => Promise<void>;
 }
 
@@ -46,34 +47,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Role switching mutation
   const switchRoleMutation = useMutation({
     mutationFn: async (role: string) => {
-      console.log("switchRole mutation called with role:", role);
       const response = await apiRequest('POST', '/api/auth/switch-role', { role });
-      console.log("switchRole API response:", response);
       return response;
     },
     onSuccess: (data) => {
-      console.log("switchRole onSuccess data:", data);
-      console.log("Expected activeRole:", data.activeRole);
-      
-      // Update the user query cache with new active role
+      // Invalidate first then patch the cache to avoid flicker
+      queryClient.invalidateQueries({ queryKey: ['/api/auth/user'] });
       queryClient.setQueryData(['/api/auth/user'], (oldData: User | undefined) => {
-        console.log("Updating cache - oldData:", oldData);
         if (oldData) {
-          const newData = {
+          return {
             ...oldData,
             activeRole: data.activeRole,
           };
-          console.log("Updating cache - newData:", newData);
-          return newData;
         }
         return oldData;
       });
-      
-      // Delay invalidation to avoid overwriting cache immediately
-      setTimeout(() => {
-        queryClient.invalidateQueries({ queryKey: ['/api/auth/user'] });
-        console.log("Invalidated user queries after role switch");
-      }, 100);
       
       toast({
         title: "Role switched",
@@ -81,10 +69,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
     },
     onError: (error: any) => {
-      console.error("switchRole error:", error);
       toast({
         title: "Error switching role",
-        description: error.message || "Failed to switch role",
+        description: error.message || "Couldn't switch—please try again.",
         variant: "destructive",
       });
     },
@@ -136,6 +123,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         roles,
         activeRole,
         switchRole,
+        isSwitchingRole: switchRoleMutation.isPending,
         logout,
       }}
     >
