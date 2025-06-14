@@ -241,10 +241,10 @@ export default function JobBoard() {
 
   const handleJobSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!jobForm.startDate || !jobForm.rate || !jobForm.description) {
+    if (!jobForm.title || !jobForm.startDate || !jobForm.rate || !jobForm.description) {
       toast({
         title: "Validation Error",
-        description: "Please fill in all required fields",
+        description: "Please fill in all required fields including job title",
         variant: "destructive",
       });
       return;

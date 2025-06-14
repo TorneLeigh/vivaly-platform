@@ -7,9 +7,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import { Calendar, Users, DollarSign, Clock, FileText } from "lucide-react";
+import { Calendar, Users, DollarSign, Clock, FileText, Briefcase } from "lucide-react";
 
 interface JobFormData {
+  title: string;
   startDate: string;
   numChildren: number;
   rate: string;
@@ -19,6 +20,7 @@ interface JobFormData {
 
 export default function PostJob() {
   const [formData, setFormData] = useState<JobFormData>({
+    title: '',
     startDate: '',
     numChildren: 1,
     rate: '',
@@ -52,6 +54,7 @@ export default function PostJob() {
       queryClient.invalidateQueries({ queryKey: ['/api/jobs'] });
       // Reset form
       setFormData({
+        title: '',
         startDate: '',
         numChildren: 1,
         rate: '',
@@ -71,7 +74,7 @@ export default function PostJob() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.startDate || !formData.rate || !formData.hoursPerWeek || !formData.description) {
+    if (!formData.title || !formData.startDate || !formData.rate || !formData.hoursPerWeek || !formData.description) {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
@@ -105,6 +108,24 @@ export default function PostJob() {
           
           <CardContent className="space-y-6">
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Job Title */}
+              <div className="space-y-2">
+                <Label htmlFor="title" className="text-sm font-medium flex items-center gap-2">
+                  <Briefcase className="w-4 h-4 text-blue-600" />
+                  Job Heading *
+                </Label>
+                <Input
+                  id="title"
+                  type="text"
+                  placeholder="e.g. Experienced Nanny Needed for 2 Toddlers"
+                  value={formData.title}
+                  onChange={(e) => handleInputChange('title', e.target.value)}
+                  className="w-full"
+                  required
+                />
+                <p className="text-xs text-gray-500">Write a clear, descriptive heading for what you're looking for</p>
+              </div>
+
               {/* Start Date */}
               <div className="space-y-2">
                 <Label htmlFor="startDate" className="text-sm font-medium flex items-center gap-2">
