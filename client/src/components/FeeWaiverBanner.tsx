@@ -17,12 +17,9 @@ const FeeWaiverBanner = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Gift className="h-5 w-5" />
-          <div>
-            <div className="font-bold text-lg mb-1">Refer & Earn</div>
-            <div className="text-sm">
-              Know someone who needs quality childcare or caregivers looking for work? Share Vivaly and save when they book their first service.
-            </div>
-          </div>
+          <span className="font-medium">
+            Invite family and friends to join the Vivaly community and get 3 fee-free bookings!
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <Button
