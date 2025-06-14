@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
+import { AuthProvider } from "@/hooks/useAuth";
 import NewHeader from "@/components/layout/new-header";
 import Footer from "@/components/layout/footer";
 import Home from "@/pages/home";
@@ -72,6 +73,7 @@ import Signup from "@/pages/signup";
 import Profile from "@/pages/profile";
 import ParentProfile from "@/pages/parent-profile";
 import AccountSettings from "@/pages/account-settings";
+import RoleAuthDemo from "@/pages/role-auth-demo";
 import Help from "@/pages/help";
 import CoSupport from "@/pages/co-support";
 import EmergencyInformation from "@/pages/emergency-information";
@@ -214,8 +216,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
-        <Router />
+        <AuthProvider>
+          <Toaster />
+          <Router />
+        </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );
