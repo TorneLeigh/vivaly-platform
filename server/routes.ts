@@ -344,8 +344,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Job posting routes
-  app.post('/api/postJob', requireAuth, async (req, res) => {
+  // Job posting routes (parent-only)
+  app.post('/api/postJob', requireRole('parent'), async (req, res) => {
     try {
       const { title, startDate, numChildren, rate, hoursPerWeek, description, location, suburb } = req.body;
       const parentId = req.session.userId;
@@ -397,7 +397,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/jobs/:jobId/apply', requireAuth, async (req, res) => {
+  app.post('/api/jobs/:jobId/apply', requireRole('caregiver'), async (req, res) => {
     try {
       const { jobId } = req.params;
       const { caregiverProfile } = req.body;

@@ -93,6 +93,8 @@ import PostJob from "@/pages/post-job";
 import BrowseJobs from "@/pages/browse-jobs";
 import ParentDashboard from "@/pages/parent-dashboard";
 import CaregiverDashboard from "@/pages/caregiver-dashboard";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import RoleRoute from "@/components/RoleRoute";
 
 function Router() {
   const { isAuthenticated, isLoading, activeRole } = useAuth();
@@ -151,18 +153,16 @@ function Router() {
           <Route path="/sign-in" component={WorkingAuth} />
           {/* Role-based dashboard */}
           <Route path="/dashboard">
-            {() => {
-              console.log("Dashboard route - activeRole:", activeRole);
-              return activeRole === 'parent' ? <ParentDashboard /> : <CaregiverDashboard />;
-            }}
+            <ProtectedRoute>
+              <RoleRoute parent={ParentDashboard} caregiver={CaregiverDashboard} />
+            </ProtectedRoute>
           </Route>
 
           {/* Role-based profile */}
           <Route path="/profile">
-            {() => {
-              console.log("Profile route - activeRole:", activeRole);
-              return activeRole === 'parent' ? <ParentProfile /> : <CaregiverProfile />;
-            }}
+            <ProtectedRoute>
+              <RoleRoute parent={ParentProfile} caregiver={CaregiverProfile} />
+            </ProtectedRoute>
           </Route>
 
           {/* Specific role routes */}
@@ -173,15 +173,9 @@ function Router() {
 
           {/* Role-based job functionality */}
           <Route path="/job-board">
-            {() => {
-              console.log("Job board route - activeRole:", activeRole);
-              if (activeRole === 'parent') {
-                return <PostJob />;
-              } else if (activeRole === 'caregiver') {
-                return <BrowseJobs />;
-              }
-              return <JobBoard />;
-            }}
+            <ProtectedRoute>
+              <RoleRoute parent={PostJob} caregiver={BrowseJobs} fallback={JobBoard} />
+            </ProtectedRoute>
           </Route>
 
           <Route path="/post-job" component={PostJob} />
@@ -233,8 +227,16 @@ function Router() {
           <Route path="/caregiver-onboarding" component={CaregiverOnboarding} />
 
           {/* Authenticated user routes */}
-          <Route path="/messages" component={Messages} />
-          <Route path="/messaging" component={MessagingPage} />
+          <Route path="/messages">
+            <ProtectedRoute>
+              <Messages />
+            </ProtectedRoute>
+          </Route>
+          <Route path="/messaging">
+            <ProtectedRoute>
+              <MessagingPage />
+            </ProtectedRoute>
+          </Route>
           
           {/* Role-based dashboards */}
           <Route path="/parent-dashboard" component={ParentDashboard} />

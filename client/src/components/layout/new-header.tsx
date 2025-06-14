@@ -179,6 +179,36 @@ export default function NewHeader() {
               </div>
             ) : isAuthenticated ? (
               <>
+                {/* Mobile Role Toggle */}
+                {roles.length > 1 && (
+                  <div className="py-3 border-b border-gray-200">
+                    <p className="text-sm text-gray-600 mb-2">Switch Role:</p>
+                    <div 
+                      className="flex gap-2"
+                      role="group"
+                      aria-label="Switch role"
+                    >
+                      {roles.map((role) => (
+                        <button 
+                          key={role}
+                          onClick={() => {
+                            switchRole(role);
+                            setMobileMenuOpen(false);
+                          }}
+                          disabled={isSwitchingRole || role === activeRole}
+                          aria-pressed={role === activeRole}
+                          className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors disabled:opacity-50 ${
+                            role === activeRole
+                              ? 'bg-black text-white' 
+                              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                        >
+                          {isSwitchingRole && role !== activeRole ? 'Switching...' : role === 'parent' ? 'Parent' : 'Caregiver'}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <Link href="/messages" className="block py-3 text-black border-b border-gray-200 no-underline font-medium" onClick={() => setMobileMenuOpen(false)}>
                   Messages
                 </Link>
