@@ -95,7 +95,7 @@ import ParentDashboard from "@/pages/parent-dashboard";
 import CaregiverDashboard from "@/pages/caregiver-dashboard";
 
 function Router() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, activeRole } = useAuth();
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -149,14 +149,43 @@ function Router() {
           <Route path="/reset-password" component={ResetPassword} />
           <Route path="/signin" component={WorkingAuth} />
           <Route path="/sign-in" component={WorkingAuth} />
-          <Route path="/profile" component={ParentProfile} />
+          {/* Role-based dashboard */}
+          <Route path="/dashboard">
+            {() => {
+              console.log("Dashboard route - activeRole:", activeRole);
+              return activeRole === 'parent' ? <ParentDashboard /> : <CaregiverDashboard />;
+            }}
+          </Route>
+
+          {/* Role-based profile */}
+          <Route path="/profile">
+            {() => {
+              console.log("Profile route - activeRole:", activeRole);
+              return activeRole === 'parent' ? <ParentProfile /> : <CaregiverProfile />;
+            }}
+          </Route>
+
+          {/* Specific role routes */}
           <Route path="/parent-profile" component={ParentProfile} />
           <Route path="/parent-profile-complete" component={ParentProfileComplete} />
           <Route path="/parent-directory" component={ParentDirectory} />
-          <Route path="/job-board" component={JobBoard} />
+          <Route path="/caregiver-profile" component={CaregiverProfile} />
+
+          {/* Role-based job functionality */}
+          <Route path="/job-board">
+            {() => {
+              console.log("Job board route - activeRole:", activeRole);
+              if (activeRole === 'parent') {
+                return <PostJob />;
+              } else if (activeRole === 'caregiver') {
+                return <BrowseJobs />;
+              }
+              return <JobBoard />;
+            }}
+          </Route>
+
           <Route path="/post-job" component={PostJob} />
           <Route path="/browse-jobs" component={BrowseJobs} />
-          <Route path="/caregiver-profile" component={CaregiverProfile} />
           <Route path="/basic-profile" component={PersonalityProfile} />
           <Route path="/account-settings" component={AccountSettings} />
           <Route path="/verification" component={ProviderVerification} />

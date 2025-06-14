@@ -78,8 +78,8 @@ export default function NewHeader() {
                   </button>
                 </div>
               )}
-              <Link href="/job-board" className="text-black font-medium no-underline">
-                Job Board
+              <Link href={activeRole === 'parent' ? "/dashboard" : "/job-board"} className="text-black font-medium no-underline">
+                {activeRole === 'parent' ? 'Dashboard' : 'Job Board'}
               </Link>
               <Link href="/messages" className="text-black font-medium no-underline">
                 Messages
