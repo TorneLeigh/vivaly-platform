@@ -23,7 +23,7 @@ const PgSession = connectPg(session);
 const pgStore = new PgSession({
   conString: process.env.DATABASE_URL,
   tableName: 'sessions',
-  createTableIfMissing: false
+  createTableIfMissing: true
 });
 
 app.use(session({
@@ -33,9 +33,9 @@ app.use(session({
   saveUninitialized: false,
   name: 'vivaly.sid',
   cookie: {
-    secure: false,
+    secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     sameSite: 'lax'
   }
 }));

@@ -1,0 +1,74 @@
+1. Backend Hardening
+Secure cookies in prod
+
+js
+Copy
+Edit
+cookie: {
+  secure: process.env.NODE_ENV === 'production',
+  httpOnly: true,
+  sameSite: 'lax',
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+}
+Ensure session persistence
+After you set req.session.userId or req.session.activeRole, call await new Promise(r => req.session.save(r)) before responding so no writes are lost under load.
+
+Prepare your sessions table
+Either run your migration ahead of time or set createTableIfMissing: true once so you never hit “table not found” in Prod.
+
+Normalize & throttle login
+Trim/lowercase incoming emails and add a small rate-limit or delay on invalid credentials to slow brute-force attacks.
+
+Add role-guard middleware
+Create a requireRole(role) middleware that checks req.session.activeRole and rejects with 403 on mismatches, then apply it to parent-only or caregiver-only routes.
+
+Audit logging
+Log every successful role switch (console.info(userId, 'switched to', role)) so you can trace issues in your logs.
+
+2. Frontend Refinements
+Switch mutation UX
+
+Disable both toggle buttons while switchRoleMutation.isLoading
+
+Show a tiny spinner or change button text to “Switching…” during the request
+
+Surface errors via onError (“Couldn’t switch—please try again.”)
+
+Cache update pattern
+In onSuccess, invalidate first then patch the cache (or use React-Query’s optimistic update helpers) to avoid flicker:
+
+ts
+Copy
+Edit
+onSuccess: data => {
+  queryClient.invalidateQueries(['/api/auth/user']);
+  queryClient.setQueryData(['/api/auth/user'], old => ({ ...old, activeRole: data.activeRole }));
+  toast(...);
+}
+Accessibility & future proofing
+
+Add aria-pressed to each toggle button and wrap them in a role="group" with aria-label="Switch role".
+
+Refactor to map over roles instead of hard-coding “parent” and “caregiver” so you can add new roles without touching the UI again.
+
+3. Routing Cleanup
+Centralize auth & role checks
+Implement two wrapper components:
+
+tsx
+Copy
+Edit
+function ProtectedRoute({ children }) { /* redirect to /login if no user */ }
+function RoleRoute({ parent, caregiver }) { /* render based on user.activeRole */ }
+Then in App.tsx:
+
+tsx
+Copy
+Edit
+<Route path="/dashboard" element={
+  <ProtectedRoute>
+    <RoleRoute parent={ParentDashboard} caregiver={CaregiverDashboard}/>
+  </ProtectedRoute>
+}/>
+Repeat for /job-board and any other role-specific paths—this keeps your routing clean and DRY.
+
