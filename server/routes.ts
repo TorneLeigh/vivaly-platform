@@ -138,35 +138,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get current user endpoint
-  app.get('/api/auth/user', async (req, res) => {
+  app.get('/api/auth/user', requireAuth, async (req, res) => {
     try {
-      const userId = req.session.userId;
-      const activeRole = req.session.activeRole;
-
-      if (!userId) {
-        return res.status(401).json({ message: "Not authenticated" });
-      }
-
-      const user = await storage.getUser(userId);
-      if (!user) {
-        return res.status(401).json({ message: "User not found" });
-      }
-
-      const userRoles = user.roles || ["parent"];
-      const currentActiveRole = activeRole || userRoles[0];
-
+      // `requireAuth` has already loaded the user onto req.user
+      const user = (req as any).user;
+      const activeRole = req.session.activeRole || user.roles?.[0] || 'parent';
+      
       res.json({
         id: user.id,
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        roles: userRoles,
-        activeRole: currentActiveRole,
-        isNanny: user.isNanny || false
+        roles: user.roles || ['parent'],
+        activeRole: activeRole,
+        isNanny: user.isNanny || false,
       });
-    } catch (error) {
-      console.error("Get user error:", error);
-      res.status(500).json({ message: "Failed to get user" });
+    } catch (err) {
+      console.error('Error in /api/auth/user:', err);
+      res.status(500).json({ message: 'Could not fetch user' });
     }
   });
 
