@@ -125,6 +125,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { role } = req.body;
       const userId = req.session.userId;
 
+      console.log("Switch role request - userId:", userId, "requested role:", role);
+      console.log("Current session activeRole:", req.session.activeRole);
+
       if (!userId) {
         return res.status(401).json({ message: "Authentication required" });
       }
@@ -140,6 +143,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const userRoles = user.roles || ["parent"];
+      console.log("User roles from database:", userRoles);
       
       // Check if user has requested role
       if (!userRoles.includes(role)) {
@@ -148,11 +152,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Update active role in session
       req.session.activeRole = role;
+      console.log("Updated session activeRole to:", req.session.activeRole);
 
-      res.json({ 
+      const response = { 
         activeRole: role,
         roles: userRoles 
-      });
+      };
+      console.log("Sending response:", response);
+      
+      res.json(response);
     } catch (error) {
       console.error("Switch role error:", error);
       res.status(500).json({ message: "Failed to switch role" });

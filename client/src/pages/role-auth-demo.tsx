@@ -66,12 +66,18 @@ export default function RoleAuthDemo() {
   };
 
   const handleSwitchRole = async (newRole: string) => {
+    console.log("handleSwitchRole called with:", newRole);
+    console.log("Current activeRole before switch:", activeRole);
     try {
       await switchRole(newRole);
+      console.log("switchRole completed successfully");
     } catch (error) {
       console.error('Role switch failed:', error);
     }
   };
+
+  // Log activeRole changes
+  console.log("RoleAuthDemo render - activeRole:", activeRole, "roles:", roles);
 
   const renderAuthenticatedView = () => {
     const roleContent = {

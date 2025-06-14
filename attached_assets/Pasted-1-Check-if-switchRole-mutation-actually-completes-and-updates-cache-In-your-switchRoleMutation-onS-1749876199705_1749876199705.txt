@@ -1,0 +1,63 @@
+1. Check if switchRole mutation actually completes and updates cache
+
+In your switchRoleMutation onSuccess, you correctly update the query cache with activeRole: data.activeRole.
+But check the shape of data returned from /api/auth/switch-role — is data.activeRole definitely present, or might it be nested?
+Fix:
+Add a console log in onSuccess to verify:
+
+onSuccess: (data) => {
+  console.log("switchRole onSuccess data:", data);
+  // rest of the code...
+}
+Make sure data.activeRole matches expected string "parent" or "caregiver" exactly.
+
+2. Confirm your /api/auth/user query returns the updated activeRole
+
+After switching, your cached /api/auth/user data needs to reflect the new activeRole.
+Sometimes invalidateQueries immediately triggers a refetch, but that refetch might not yet have updated data due to session or caching.
+Fix:
+Try removing or delaying invalidateQueries to avoid overwriting cache immediately:
+
+onSuccess: (data) => {
+  queryClient.setQueryData(['/api/auth/user'], (oldData) => ({
+    ...oldData,
+    activeRole: data.activeRole,
+  }));
+  // optionally remove or comment this line:
+  // queryClient.invalidateQueries({ queryKey: ['/api/auth/user'] });
+  toast({ ... });
+}
+Or add a short timeout before invalidation.
+
+3. Verify your UI subscribes properly to the activeRole from context
+
+The RoleToggle component receives activeRole prop from useAuth.
+Make sure the component re-renders when activeRole changes.
+Fix:
+Add a console.log inside RoleToggle to verify prop updates.
+Or in the parent component (like RoleAuthDemo), log activeRole to confirm it updates after role switch.
+4. Check for session persistence issues
+
+If the backend updates req.session.activeRole but the session cookie is lost or not sent on subsequent requests, the user context won't update.
+Confirm your client is sending cookies on all requests (including the role switch POST and user GET).
+Confirm session middleware is set with correct cookie options (e.g., sameSite, secure, httpOnly).
+5. (Optional) Add client-side UI feedback or forced refetch
+
+If immediate UI update is not working reliably, you can force refetch of user data after switch:
+
+onSuccess: (data) => {
+  queryClient.invalidateQueries(['/api/auth/user']);
+  toast({ title: "Role switched", description: `Now viewing as ${data.activeRole}` });
+}
+This will ensure fresh user info is loaded from backend.
+
+Summary
+
+Next steps for you:
+
+Add console logs inside switchRoleMutation.onSuccess and RoleToggle to confirm data flow.
+Verify backend returns { activeRole: string } correctly.
+Check session cookie persistence in browser devtools (Network tab).
+Temporarily simplify onSuccess to just invalidate queries and skip cache update.
+Confirm UI components rerender after activeRole changes.
+If you want, share your browser console logs during a toggle click and the network request/response payload from /api/auth/switch-role. That will help me pinpoint any mismatch or bug.
