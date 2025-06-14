@@ -1,0 +1,167 @@
+// ============================
+// 1. BACKEND HARDENING
+// ============================
+
+// server/index.ts
+import session from 'express-session';
+import connectPg from 'connect-pg-simple';
+
+const PgSession = connectPg(session);
+const pgStore = new PgSession({
+  conString: process.env.DATABASE_URL,
+  tableName: 'sessions',
+  createTableIfMissing: false,
+});
+
+app.use(session({
+  secret: process.env.SESSION_SECRET!,
+  store: pgStore,
+  resave: false,
+  saveUninitialized: false,
+  name: 'vivaly.sid',
+  cookie: {
+    secure: process.env.NODE_ENV === 'production', // <- secure in prod
+    httpOnly: true,
+    sameSite: 'lax',
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  },
+}));
+
+// ----------------------------
+// Login Route (server/routes.ts)
+// ----------------------------
+app.post('/api/login', async (req, res) => {
+  let { email, password, role } = req.body;
+  email = email.trim().toLowerCase();             // normalize email
+
+  // ... existing validation & bcrypt.compare ...
+  req.session.userId = user.id;
+  req.session.activeRole = role;
+  await new Promise(r => req.session.save(r));     // ensure session is persisted
+  console.info(`User ${user.id} logged in as ${role}`); // audit log
+
+  res.json({ /* user payload */ });
+});
+
+// ----------------------------
+// Switch-Role Route (server/routes.ts)
+// ----------------------------
+app.post('/api/auth/switch-role', async (req, res) => {
+  const { role } = req.body;
+  const userId = req.session.userId;
+  // ... fetch & verify user, roles ...
+  req.session.activeRole = role;
+  await new Promise(r => req.session.save(r));     // ensure session is persisted
+  console.info(`User ${userId} switched to ${role}`); // audit log
+
+  res.json({ activeRole: role, roles: userRoles });
+});
+
+// ----------------------------
+// requireRole Middleware (server/auth-middleware.ts)
+// ----------------------------
+export function requireRole(requiredRole: string) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const userRole = req.session.activeRole;
+    if (userRole !== requiredRole) {
+      return res.status(403).json({ message: `Forbidden: ${requiredRole} role required` });
+    }
+    next();
+  };
+}
+// Use like: app.post('/api/jobs', requireAuth, requireRole('parent'), postJobHandler);
+
+
+// ============================
+// 2. FRONTEND REFINEMENTS
+// ============================
+
+// client/src/hooks/useAuth.tsx
+const switchRoleMutation = useMutation({
+  mutationFn: (role: string) =>
+    apiRequest('POST', '/api/auth/switch-role', { role }),
+  onSuccess: (data) => {
+    queryClient.invalidateQueries(['/api/auth/user']);
+    queryClient.setQueryData(['/api/auth/user'], old =>
+      old ? { ...old, activeRole: data.activeRole } : old,
+    );
+    toast({ title: 'Role switched', description: `Now viewing as ${data.activeRole}` });
+  },
+  onError: () => {
+    toast({ title: 'Switch failed', description: 'Could not switch roles, please try again.' });
+  },
+});
+
+// client/src/components/layout/new-header.tsx
+{roles.length > 1 && (
+  <div role="group" aria-label="Switch role" className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+    {roles.map(r => (
+      <button
+        key={r}
+        onClick={() => switchRoleMutation.mutate(r)}
+        disabled={switchRoleMutation.isLoading}
+        aria-pressed={activeRole === r}
+        className={`
+          px-3 py-1 text-sm font-medium rounded-md transition-colors
+          ${activeRole === r ? 'bg-white text-black shadow-sm' : 'text-gray-600 hover:bg-white hover:text-black'}
+          ${switchRoleMutation.isLoading ? 'opacity-50 cursor-not-allowed' : ''}
+        `}
+      >
+        {switchRoleMutation.isLoading && activeRole !== r ? 'Switching…' : r.charAt(0).toUpperCase() + r.slice(1)}
+      </button>
+    ))}
+  </div>
+)}
+
+// ============================
+// 3. ROUTING CLEANUP
+// ============================
+
+// client/src/components/ProtectedRoute.tsx
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+
+export function ProtectedRoute({ children }: { children: JSX.Element }) {
+  const { user } = useAuth();
+  return user ? children : <Navigate to="/login" replace />;
+}
+
+// client/src/components/RoleRoute.tsx
+import { useAuth } from '../hooks/useAuth';
+
+export function RoleRoute({
+  parent: ParentComp,
+  caregiver: CareComp,
+}: {
+  parent: React.ComponentType;
+  caregiver: React.ComponentType;
+}) {
+  const { user } = useAuth();
+  return user.activeRole === 'parent' ? <ParentComp /> : <CareComp />;
+}
+
+// client/src/App.tsx
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { RoleRoute } from './components/RoleRoute';
+
+<Routes>
+  <Route
+    path="/dashboard"
+    element={
+      <ProtectedRoute>
+        <RoleRoute parent={ParentDashboard} caregiver={CaregiverDashboard} />
+      </ProtectedRoute>
+    }
+  />
+  <Route
+    path="/job-board"
+    element={
+      <ProtectedRoute>
+        <RoleRoute parent={PostJob} caregiver={BrowseJobs} />
+      </ProtectedRoute>
+    }
+  />
+  {/* other protected routes… */}
+  <Route path="*" element={<Navigate to="/dashboard" replace />} />
+</Routes>
