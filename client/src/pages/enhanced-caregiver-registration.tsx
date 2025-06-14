@@ -260,7 +260,69 @@ export default function EnhancedCaregiverRegistration() {
     "Other"
   ];
 
-  const nextStep = () => setStep(Math.min(step + 1, totalSteps));
+  const validateCurrentStep = async () => {
+    if (step === 1) {
+      const requiredFields = [
+        "firstName",
+        "lastName", 
+        "email",
+        "phone",
+        "dateOfBirth",
+        "address",
+        "suburb",
+        "state",
+        "postcode",
+      ];
+
+      const isValid = await form.trigger(requiredFields);
+
+      if (!isValid) {
+        toast({
+          title: "Please complete all required fields",
+          description: "Fill in all required information before continuing.",
+          variant: "destructive",
+        });
+        return false;
+      }
+    } else if (step === 2) {
+      const requiredFields = ["bio", "personalApproach", "whyThisWork"];
+      const isValid = await form.trigger(requiredFields);
+      
+      const bioLength = form.watch("bio")?.length >= 200;
+
+      if (!isValid || !bioLength) {
+        toast({
+          title: "Please complete all required fields",
+          description: "Fill in your bio (200+ characters) and approach descriptions.",
+          variant: "destructive",
+        });
+        return false;
+      }
+    } else if (step === 3) {
+      const requiredFields = ["yearsExperience"];
+      const isValid = await form.trigger(requiredFields);
+      const hasServices = form.watch("services")?.length > 0;
+      const hasAgeGroups = form.watch("ageGroups")?.length > 0;
+
+      if (!isValid || !hasServices || !hasAgeGroups) {
+        toast({
+          title: "Please complete all required fields",
+          description: "Fill in experience, select services, and age groups.",
+          variant: "destructive",
+        });
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  const nextStep = async () => {
+    if (await validateCurrentStep()) {
+      setStep((prev) => Math.min(prev + 1, totalSteps));
+    }
+  };
+  
   const prevStep = () => setStep(Math.max(step - 1, 1));
 
   const renderStepIndicator = () => (

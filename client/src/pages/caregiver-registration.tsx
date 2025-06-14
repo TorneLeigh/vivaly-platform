@@ -863,28 +863,77 @@ export default function CaregiverRegistration() {
     }
   };
 
-  const canProceed = () => {
-    switch (step) {
-      case 1:
-        return form.formState.isValid || 
-               (form.watch("firstName") && form.watch("lastName") && 
-                form.watch("email") && form.watch("phone") && 
-                form.watch("address") && form.watch("suburb") && 
-                form.watch("state") && form.watch("postcode"));
-      case 2:
-        return form.watch("bio")?.length >= 50 && 
-               form.watch("services")?.length > 0 && 
-               form.watch("ageGroups")?.length > 0;
-      case 3:
-        return daysOfWeek.some(day => form.watch(`availability.${day}.available`));
-      case 4:
-        return form.watch("emergencyName") && 
-               form.watch("emergencyPhone") && 
-               form.watch("emergencyRelation") &&
-               form.watch("agreeToTerms") && 
-               form.watch("agreeToBackgroundCheck");
-      default:
+  const validateCurrentStep = async () => {
+    if (step === 1) {
+      const requiredFields = [
+        "firstName",
+        "lastName", 
+        "email",
+        "phone",
+        "dateOfBirth",
+        "address",
+        "suburb",
+        "state",
+        "postcode",
+      ] as const;
+
+      const isValid = await form.trigger(requiredFields as any);
+
+      if (!isValid) {
+        toast({
+          title: "Please complete all required fields",
+          description: "Fill in all required information before continuing.",
+          variant: "destructive",
+        });
         return false;
+      }
+    } else if (step === 2) {
+      const requiredFields = ["bio", "yearsExperience", "hourlyRate"] as const;
+      const isValid = await form.trigger(requiredFields);
+      
+      const hasServices = form.watch("services")?.length > 0;
+      const hasAgeGroups = form.watch("ageGroups")?.length > 0;
+      const bioLength = form.watch("bio")?.length >= 50;
+
+      if (!isValid || !hasServices || !hasAgeGroups || !bioLength) {
+        toast({
+          title: "Please complete all required fields",
+          description: "Fill in your bio (50+ characters), select services, and age groups.",
+          variant: "destructive",
+        });
+        return false;
+      }
+    } else if (step === 3) {
+      const hasAvailability = daysOfWeek.some(day => form.watch(`availability.${day}.available` as any));
+      if (!hasAvailability) {
+        toast({
+          title: "Please set your availability",
+          description: "Select at least one day when you're available.",
+          variant: "destructive",
+        });
+        return false;
+      }
+    } else if (step === 4) {
+      const requiredFields = ["emergencyName", "emergencyPhone", "emergencyRelation"] as const;
+      const isValid = await form.trigger(requiredFields);
+      const hasAgreements = form.watch("agreeToTerms") && form.watch("agreeToBackgroundCheck");
+
+      if (!isValid || !hasAgreements) {
+        toast({
+          title: "Please complete all required fields",
+          description: "Fill in emergency contact details and agree to terms.",
+          variant: "destructive",
+        });
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  const nextStep = async () => {
+    if (await validateCurrentStep()) {
+      setStep((prev) => Math.min(prev + 1, 4));
     }
   };
 
@@ -924,8 +973,8 @@ export default function CaregiverRegistration() {
             </Button>
 
             <Button
-              onClick={() => step === 4 ? handleSubmit() : setStep(step + 1)}
-              disabled={!canProceed() || (step === 4 && registrationMutation.isPending)}
+              onClick={() => step === 4 ? handleSubmit() : nextStep()}
+              disabled={step === 4 && registrationMutation.isPending}
               style={{ backgroundColor: '#FF6B35' }}
               className="text-white"
             >
