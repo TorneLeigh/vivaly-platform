@@ -5,25 +5,20 @@ import { useAuth } from "@/hooks/useAuth";
 
 export default function NewHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { isAuthenticated, user, activeRole, logout } = useAuth();
+  const { isAuthenticated, user, activeRole } = useAuth();
   const [, navigate] = useLocation();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
 
-  const handleLogout = async () => {
-    await logout();
-    navigate('/');
-  };
-
   const renderLinks = () => {
     if (!isAuthenticated || !user) {
       return (
         <>
-          <Link href="/auth" className="text-gray-700 hover:text-black" onClick={closeMenu}>
+          <Link href="/working-auth" className="text-gray-700 hover:text-black">
             Log In
           </Link>
-          <Link href="/signup" className="text-gray-700 hover:text-black" onClick={closeMenu}>
+          <Link href="/signup" className="text-gray-700 hover:text-black">
             Sign Up
           </Link>
         </>
@@ -32,34 +27,30 @@ export default function NewHeader() {
 
     return (
       <>
-        <Link href="/dashboard" className="text-gray-700 hover:text-black" onClick={closeMenu}>
+        <Link href="/dashboard" className="text-gray-700 hover:text-black">
           Dashboard
         </Link>
         {activeRole === "parent" && (
-          <Link href="/post-job" className="text-gray-700 hover:text-black" onClick={closeMenu}>
+          <Link href="/post-job" className="text-gray-700 hover:text-black">
             Post a Job
           </Link>
         )}
         {activeRole === "caregiver" && (
-          <Link href="/find-jobs" className="text-gray-700 hover:text-black" onClick={closeMenu}>
+          <Link href="/find-jobs" className="text-gray-700 hover:text-black">
             Find Jobs
           </Link>
         )}
-        <Link href="/messages" className="text-gray-700 hover:text-black" onClick={closeMenu}>
+        <Link href="/messages" className="text-gray-700 hover:text-black">
           Messages
         </Link>
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center text-sm font-medium">
-            {user.firstName[0]}{user.lastName[0]}
-          </div>
+        <Link href="/profile" className="flex items-center space-x-2">
+          <img
+            src="/default-avatar.png"
+            alt="Avatar"
+            className="w-8 h-8 rounded-full"
+          />
           <span className="text-sm font-medium">{user.firstName}</span>
-          <button 
-            onClick={() => { handleLogout(); closeMenu(); }}
-            className="text-sm text-gray-600 hover:text-black ml-2"
-          >
-            Logout
-          </button>
-        </div>
+        </Link>
       </>
     );
   };
@@ -87,9 +78,7 @@ export default function NewHeader() {
       {/* Mobile Dropdown */}
       {menuOpen && (
         <div className="md:hidden bg-white border-t px-4 py-3 space-y-3 shadow-md">
-          <div className="flex flex-col space-y-3">
-            {renderLinks()}
-          </div>
+          {renderLinks()}
         </div>
       )}
     </header>
