@@ -1,0 +1,63 @@
+import { sendEmail } from './lib/sendEmail'; // add at the top
+
+app.post('/api/register', async (req, res) => {
+  try {
+    const insertUserSchema = z.object({
+      firstName: z.string(),
+      lastName: z.string(),
+      email: z.string().email(),
+      password: z.string(),
+      phone: z.string().optional(),
+      isNanny: z.boolean().optional(),
+      suburb: z.string().optional()
+    });
+
+    const validationResult = insertUserSchema.safeParse(req.body);
+    if (!validationResult.success) {
+      return res.status(400).json({
+        message: "Invalid input",
+        details: validationResult.error.errors,
+      });
+    }
+
+    const userData = validationResult.data;
+    const existingUser = await storage.getUserByEmail(userData.email);
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(userData.password, 12);
+
+    const cleanUserData = {
+      email: userData.email.toLowerCase().trim(),
+      password: hashedPassword,
+      firstName: userData.firstName.trim(),
+      lastName: userData.lastName.trim(),
+      phone: userData.phone?.trim() || undefined,
+      isNanny: userData.isNanny || false,
+      suburb: userData.suburb?.trim() || null,
+      allowCaregiverMessages: true,
+    };
+
+    const user = await storage.createUser(cleanUserData);
+    req.session.userId = user.id;
+
+    // ✅ Send admin alert
+    await sendEmail(
+      'info@tornevelk.com',
+      'New Caregiver Signup on VIVALY',
+      `<strong>${user.firstName} ${user.lastName}</strong> signed up as a caregiver.<br>Email: ${user.email}<br>Phone: ${user.phone || 'N/A'}<br>Suburb: ${user.suburb || 'N/A'}`
+    );
+
+    res.json({
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      isNanny: user.isNanny,
+    });
+  } catch (error) {
+    console.error("Registration error:", error);
+    res.status(500).json({ message: "Account creation failed. Please try again." });
+  }
+});

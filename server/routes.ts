@@ -7,6 +7,7 @@ import { z } from "zod";
 import { insertUserSchema, insertJobSchema, insertApplicationSchema, type InsertUser } from "@shared/schema";
 import { requireAuth, requireRole } from "./auth-middleware";
 import { sendPasswordResetEmail } from "./email-service";
+import { sendEmail } from "./lib/sendEmail";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth routes
@@ -46,6 +47,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const user = await storage.createUser(cleanUserData);
 
       req.session.userId = user.id;
+
+      // Send admin notification email for new caregiver signup
+      try {
+        await sendEmail(
+          'info@tornevelk.com',
+          'New Caregiver Signup on VIVALY',
+          `<strong>${user.firstName} ${user.lastName}</strong> signed up as a caregiver.<br>Email: ${user.email}<br>Phone: ${user.phone || 'N/A'}`
+        );
+      } catch (emailError) {
+        console.warn("Failed to send admin notification email:", emailError);
+      }
 
       res.json({
         id: user.id,
@@ -209,21 +221,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Password reset request
-  app.post('/api/auth/forgot-password', async (req, res) => {
+  // Password reset request with Resend
+  app.post('/api/reset-password', async (req, res) => {
     try {
       const { email } = req.body;
+      if (!email) return res.status(400).json({ message: "Email is required" });
 
-      if (!email) {
-        return res.status(400).json({ message: "Email is required" });
-      }
-
-      const user = await storage.getUserByEmail(email);
-      
-      // Always return success to prevent email enumeration
-      if (!user) {
-        return res.json({ message: "If an account with this email exists, a reset link has been sent." });
-      }
+      const user = await storage.getUserByEmail(email.toLowerCase());
+      if (!user) return res.status(404).json({ message: "No user found with that email" });
 
       // Generate reset token
       const resetToken = randomUUID();
@@ -232,18 +237,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Store reset token in database
       await storage.updateUserResetToken(user.id, resetToken, resetTokenExpires);
 
-      // Send reset email
-      const emailSent = await sendPasswordResetEmail(email, resetToken);
-      
-      if (!emailSent) {
-        console.error("Failed to send password reset email to:", email);
-        return res.status(500).json({ message: "Failed to send reset email" });
-      }
+      // Create reset link
+      const resetLink = `https://vivaly.com.au/reset?token=${resetToken}`;
 
-      res.json({ message: "If an account with this email exists, a reset link has been sent." });
-    } catch (error) {
-      console.error("Password reset request error:", error);
-      res.status(500).json({ message: "Failed to process password reset request" });
+      await sendEmail(
+        email,
+        'Reset your VIVALY password',
+        `<p>Hi ${user.firstName},</p>
+        <p>You requested to reset your password for your VIVALY account.</p>
+        <p>Click the link below to reset your password:</p>
+        <p><a href="${resetLink}" style="color: #000; text-decoration: underline;">${resetLink}</a></p>
+        <p>This link will expire in 1 hour.</p>
+        <p>If you didn't request this, please ignore this email.</p>
+        <p>Best regards,<br>The VIVALY Team</p>`
+      );
+
+      res.json({ message: "Password reset email sent" });
+    } catch (err) {
+      console.error("Reset error:", err);
+      res.status(500).json({ message: "Failed to send reset email" });
     }
   });
 

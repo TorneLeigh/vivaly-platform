@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
-import { useAuth } from '@/hooks/useAuth'; // Adjust this path if needed
+import { useAuth } from '@/hooks/useAuth';
 import { useLocation } from 'wouter';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 
 export default function NewHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
