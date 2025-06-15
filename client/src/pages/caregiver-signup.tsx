@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { z } from "zod";
+import { queryClient } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -71,11 +72,18 @@ export default function CaregiverSignup() {
       });
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
         title: "Account Created Successfully!",
         description: "Welcome to VIVALY! You can now start connecting with families.",
       });
+      
+      // Set user data in query cache
+      import('@/lib/queryClient').then(({ queryClient }) => {
+        queryClient.setQueryData(["/api/auth/user"], data);
+        queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      });
+      
       setStep(5); // Success step
     },
     onError: async (error: any) => {

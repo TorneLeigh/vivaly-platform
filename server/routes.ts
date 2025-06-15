@@ -34,6 +34,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const hashedPassword = await bcrypt.hash(userData.password, 12);
 
+      // Determine user roles based on isNanny flag
+      const userRoles = userData.isNanny ? ["caregiver"] : ["parent"];
+      
       const cleanUserData = {
         email: userData.email.toLowerCase().trim(),
         password: hashedPassword,
@@ -41,12 +44,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         lastName: userData.lastName.trim(),
         phone: userData.phone,
         isNanny: userData.isNanny || false,
+        roles: userRoles,
         allowCaregiverMessages: true,
       };
 
       const user = await storage.createUser(cleanUserData);
 
       req.session.userId = user.id;
+      req.session.activeRole = userRoles[0]; // Set default active role
 
       // Send admin notification email for new caregiver signup
       try {
@@ -65,11 +70,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.warn("Failed to send admin notification email:", emailError);
       }
 
+      // Ensure session persistence
+      await new Promise<void>((resolve, reject) => {
+        req.session.save((err) => {
+          if (err) reject(err);
+          else resolve();
+        });
+      });
+
       res.json({
         id: user.id,
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
+        roles: userRoles,
+        activeRole: userRoles[0],
         isNanny: user.isNanny,
       });
     } catch (error) {

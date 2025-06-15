@@ -95,7 +95,7 @@ export default function WorkingAuth() {
         credentials: 'include',
         body: JSON.stringify({
           ...data,
-          isNanny: data.isNanny || false,
+          isNanny: selectedRole === "caregiver",
         }),
       });
 
