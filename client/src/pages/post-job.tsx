@@ -94,9 +94,9 @@ export default function PostJob() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-2xl mx-auto">
-        <Card className="shadow-xl border-0">
+        <Card className="shadow-lg border border-gray-200">
           <CardHeader className="text-center pb-8">
             <CardTitle className="text-3xl font-bold text-gray-900">
               Post a Childcare Job
@@ -111,7 +111,7 @@ export default function PostJob() {
               {/* Job Title */}
               <div className="space-y-2">
                 <Label htmlFor="title" className="text-sm font-medium flex items-center gap-2">
-                  <Briefcase className="w-4 h-4 text-blue-600" />
+                  <Briefcase className="w-4 h-4 text-gray-600" />
                   Job Heading *
                 </Label>
                 <Input
@@ -134,7 +134,7 @@ export default function PostJob() {
               {/* Start Date */}
               <div className="space-y-2">
                 <Label htmlFor="startDate" className="text-sm font-medium flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-blue-600" />
+                  <Calendar className="w-4 h-4 text-gray-600" />
                   Start Date *
                 </Label>
                 <Input
@@ -150,7 +150,7 @@ export default function PostJob() {
               {/* Number of Children */}
               <div className="space-y-2">
                 <Label htmlFor="numChildren" className="text-sm font-medium flex items-center gap-2">
-                  <Users className="w-4 h-4 text-blue-600" />
+                  <Users className="w-4 h-4 text-gray-600" />
                   Number of Children *
                 </Label>
                 <Input
@@ -168,7 +168,7 @@ export default function PostJob() {
               {/* Hourly Rate */}
               <div className="space-y-2">
                 <Label htmlFor="rate" className="text-sm font-medium flex items-center gap-2">
-                  <DollarSign className="w-4 h-4 text-blue-600" />
+                  <DollarSign className="w-4 h-4 text-gray-600" />
                   Hourly Rate (AUD) *
                 </Label>
                 <Input

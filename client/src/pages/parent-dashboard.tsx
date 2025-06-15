@@ -48,28 +48,28 @@ export default function ParentDashboard() {
       description: "Browse and book trusted childcare providers",
       icon: Search,
       action: () => setLocation('/search'),
-      color: "bg-blue-50 hover:bg-blue-100 border-blue-200"
+      color: "bg-white hover:bg-gray-50 border-gray-200"
     },
     {
       title: "My Bookings",
       description: "View and manage your upcoming appointments",
       icon: Calendar,
       action: () => setLocation('/bookings'),
-      color: "bg-green-50 hover:bg-green-100 border-green-200"
+      color: "bg-white hover:bg-gray-50 border-gray-200"
     },
     {
       title: "Messages",
       description: "Chat with your caregivers",
       icon: MessageSquare,
       action: () => setLocation('/messages'),
-      color: "bg-purple-50 hover:bg-purple-100 border-purple-200"
+      color: "bg-white hover:bg-gray-50 border-gray-200"
     },
     {
       title: "Post a Job",
       description: "Create a job posting for caregivers",
       icon: Users,
       action: () => setLocation('/post-job'),
-      color: "bg-orange-50 hover:bg-orange-100 border-orange-200"
+      color: "bg-white hover:bg-gray-50 border-gray-200"
     }
   ];
 
@@ -87,7 +87,7 @@ export default function ParentDashboard() {
             </p>
           </div>
           <div className="flex items-center gap-4">
-            <Badge variant="outline" className="text-blue-600 border-blue-200">
+            <Badge variant="outline" className="text-gray-700 border-gray-300">
               Parent Dashboard
             </Badge>
             <RoleToggle 
@@ -167,7 +167,7 @@ export default function ParentDashboard() {
         </div>
 
         {/* Getting Started */}
-        <Card className="mt-8 bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+        <Card className="mt-8 bg-gray-50 border-gray-200">
           <CardContent className="p-8">
             <div className="flex items-center justify-between">
               <div>
@@ -177,11 +177,14 @@ export default function ParentDashboard() {
                 <p className="text-gray-600 mb-4">
                   Add your family details to get better caregiver matches
                 </p>
-                <Button onClick={() => setLocation('/parent-profile')}>
+                <Button 
+                  onClick={() => setLocation('/parent-profile')}
+                  className="bg-black hover:bg-gray-800 text-white"
+                >
                   Complete Profile
                 </Button>
               </div>
-              <Users className="w-16 h-16 text-blue-400 opacity-50" />
+              <Users className="w-16 h-16 text-gray-400 opacity-50" />
             </div>
           </CardContent>
         </Card>
