@@ -55,6 +55,12 @@ export default function CaregiverSignup() {
 
   // Watch form values for proper state updates
   const watchedSuburb = form.watch("suburb");
+  const watchedFirstName = form.watch("firstName");
+  const watchedLastName = form.watch("lastName");
+  const watchedEmail = form.watch("email");
+  const watchedPhone = form.watch("phone");
+  const watchedPassword = form.watch("password");
+  const watchedConfirmPassword = form.watch("confirmPassword");
 
   const signupMutation = useMutation({
     mutationFn: async (data: CaregiverSignupForm) => {
@@ -264,7 +270,7 @@ export default function CaregiverSignup() {
                 </Button>
                 <Button 
                   onClick={() => setStep(3)}
-                  disabled={!form.getValues("firstName") || !form.getValues("lastName") || !form.getValues("email") || !form.getValues("phone")}
+                  disabled={!watchedFirstName || !watchedLastName || !watchedEmail || !watchedPhone}
                   className="flex-1 bg-black hover:bg-gray-800 text-white"
                 >
                   Continue
@@ -322,7 +328,7 @@ export default function CaregiverSignup() {
                 </Button>
                 <Button 
                   onClick={() => setStep(4)}
-                  disabled={!form.getValues("password") || !form.getValues("confirmPassword")}
+                  disabled={!watchedPassword || !watchedConfirmPassword}
                   className="flex-1 bg-black hover:bg-gray-800 text-white"
                 >
                   Continue
