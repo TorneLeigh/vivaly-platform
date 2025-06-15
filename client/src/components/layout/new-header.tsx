@@ -42,7 +42,7 @@ export default function NewHeader() {
         )}
         {activeRole === "caregiver" && (
           <Link href="/job-board" className="block py-2 text-gray-700 hover:text-black">
-            Job Board
+            Find Jobs
           </Link>
         )}
         <Link href="/messages" className="block py-2 text-gray-700 hover:text-black">
@@ -92,22 +92,20 @@ export default function NewHeader() {
 
           {/* Desktop nav (optional) */}
           <nav className="hidden md:flex space-x-6 items-center">
-            {isAuthenticated ? (
+            {isAuthenticated && user ? (
               <>
-                <Link href="/dashboard" className="text-gray-700 hover:text-black">Dashboard</Link>
-                {activeRole === "parent" && (
-                  <Link href="/post-job" className="text-gray-700 hover:text-black">Post Job</Link>
+                <Link href="/dashboard" className="text-gray-700 hover:text-black font-medium transition-colors">Dashboard</Link>
+
+                {activeRole === 'parent' && (
+                  <Link href="/post-job" className="text-gray-700 hover:text-black font-medium transition-colors">Post Job</Link>
                 )}
-                {activeRole === "caregiver" && (
-                  <Link href="/job-board" className="text-gray-700 hover:text-black">Job Board</Link>
+
+                {activeRole === 'caregiver' && (
+                  <Link href="/job-board" className="text-gray-700 hover:text-black font-medium transition-colors">Find Jobs</Link>
                 )}
-                <Link href="/messages" className="text-gray-700 hover:text-black">Messages</Link>
-                <button
-                  onClick={handleLogout}
-                  className="text-gray-700 hover:text-red-600"
-                >
-                  Log Out
-                </button>
+
+                <Link href="/messages" className="text-gray-700 hover:text-black font-medium transition-colors">Messages</Link>
+                <Link href="/profile" className="text-gray-700 hover:text-black font-medium transition-colors">Profile</Link>
               </>
             ) : (
               <>
