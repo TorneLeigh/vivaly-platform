@@ -61,28 +61,37 @@ export default function CaregiverSignup() {
 
   const signupMutation = useMutation({
     mutationFn: async (data: CaregiverSignupForm) => {
-      const response = await apiRequest("POST", "/api/register", {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        phone: data.phone,
-        password: data.password,
-        isNanny: true,
-        suburb: data.suburb,
-      });
-      return response;
+      try {
+        const response = await apiRequest("POST", "/api/register", {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          phone: data.phone,
+          password: data.password,
+          isNanny: true,
+          suburb: data.suburb,
+        });
+        return response;
+      } catch (error) {
+        console.error("API request failed:", error);
+        throw error;
+      }
     },
     onSuccess: (data) => {
-      toast({
-        title: "Account Created Successfully!",
-        description: "Welcome to VIVALY! You can now start connecting with families.",
-      });
-      
-      // Set user data in query cache
-      queryClient.setQueryData(["/api/auth/user"], data);
-      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
-      
-      setStep(5); // Success step
+      try {
+        // Set user data in query cache
+        queryClient.setQueryData(["/api/auth/user"], data);
+        queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+        
+        toast({
+          title: "Account Created Successfully!",
+          description: "Welcome to VIVALY! You can now start connecting with families.",
+        });
+        
+        setStep(5); // Success step
+      } catch (error) {
+        console.error("Success handler error:", error);
+      }
     },
     onError: (error: any) => {
       console.error("Signup error:", error);
