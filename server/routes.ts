@@ -13,28 +13,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       console.log("Registration body:", req.body);
 
-      // Validate request body using Zod schema
-      const validationResult = insertUserSchema.safeParse(req.body);
+      const caregiverSignupSchema = z.object({
+        firstName: z.string(),
+        lastName: z.string(),
+        email: z.string().email(),
+        phone: z.string().optional(),
+        password: z.string(),
+        isNanny: z.boolean().optional(),
+        suburb: z.string().optional()
+      });
+
+      const validationResult = caregiverSignupSchema.safeParse(req.body);
       if (!validationResult.success) {
         console.log("Validation failed:", validationResult.error.errors);
-        return res.status(400).json({ 
-          message: "Invalid input", 
-          details: validationResult.error.errors 
+        return res.status(400).json({
+          message: "Invalid input",
+          details: validationResult.error.errors,
         });
       }
 
       const userData = validationResult.data;
-      
-      // Check if user already exists
+
       const existingUser = await storage.getUserByEmail(userData.email);
       if (existingUser) {
         return res.status(400).json({ message: "User already exists" });
       }
 
-      // Hash password
       const hashedPassword = await bcrypt.hash(userData.password, 12);
 
-      // Create new user with validated data
       const cleanUserData = {
         email: userData.email.toLowerCase().trim(),
         password: hashedPassword,
@@ -42,20 +48,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         lastName: userData.lastName.trim(),
         phone: userData.phone || null,
         isNanny: userData.isNanny || false,
-        allowCaregiverMessages: true
+        suburb: userData.suburb || null,
+        allowCaregiverMessages: true,
       };
 
       const user = await storage.createUser(cleanUserData);
 
-      // Store user ID in session
       req.session.userId = user.id;
 
-      res.json({ 
+      res.json({
         id: user.id,
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        isNanny: user.isNanny
+        isNanny: user.isNanny,
       });
     } catch (error) {
       console.error("Registration error:", error);

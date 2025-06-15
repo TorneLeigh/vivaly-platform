@@ -1,0 +1,141 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useLocation } from "wouter";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
+
+const caregiverSignupSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email("Please enter a valid email"),
+  phone: z.string().min(10, "Please enter a valid phone number"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+  confirmPassword: z.string(),
+  suburb: z.string().min(1, "Primary service area is required"),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
+
+type CaregiverSignupForm = z.infer<typeof caregiverSignupSchema>;
+
+export default function CaregiverSignup() {
+  const [step, setStep] = useState(1);
+  const [, setLocation] = useLocation();
+  const { toast } = useToast();
+
+  const form = useForm<CaregiverSignupForm>({
+    resolver: zodResolver(caregiverSignupSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      password: "",
+      confirmPassword: "",
+      suburb: "",
+    },
+  });
+
+  const watchedSuburb = form.watch("suburb");
+  const watchedPassword = form.watch("password");
+  const watchedConfirmPassword = form.watch("confirmPassword");
+
+  const signupMutation = useMutation({
+    mutationFn: async (data: CaregiverSignupForm) => {
+      const response = await apiRequest("POST", "/api/register", {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phone: data.phone,
+        password: data.password,
+        isNanny: true,
+        suburb: data.suburb,
+      });
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Account Created Successfully!",
+        description: "Welcome to VIVALY! You can now start connecting with families.",
+      });
+      setStep(5);
+    },
+    onError: async (error: any) => {
+      const errorMessage =
+        error?.message || error?.response?.data?.message || "Please try again later.";
+      toast({
+        title: "Account Creation Failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const onSubmit = (data: CaregiverSignupForm) => {
+    signupMutation.mutate(data);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-12 px-4">
+      <div className="max-w-2xl mx-auto">
+        {step === 2 && (() => {
+          const firstName = form.watch("firstName");
+          const lastName = form.watch("lastName");
+          const email = form.watch("email");
+          const phone = form.watch("phone");
+
+          const allFilled = firstName && lastName && email && phone;
+
+          return (
+            <Card>
+              <CardHeader>
+                <CardTitle>Personal Information</CardTitle>
+                <p className="text-gray-600">Tell us about yourself</p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="firstName">First Name</Label>
+                    <Input id="firstName" {...form.register("firstName")} />
+                  </div>
+                  <div>
+                    <Label htmlFor="lastName">Last Name</Label>
+                    <Input id="lastName" {...form.register("lastName")} />
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="email">Email Address</Label>
+                  <Input id="email" type="email" {...form.register("email")} />
+                </div>
+                <div>
+                  <Label htmlFor="phone">Phone Number</Label>
+                  <Input id="phone" {...form.register("phone")} />
+                </div>
+                <div className="flex gap-4">
+                  <Button onClick={() => setStep(1)} variant="outline" className="flex-1">
+                    Back
+                  </Button>
+                  <Button
+                    onClick={() => setStep(3)}
+                    disabled={!allFilled}
+                    className="flex-1 bg-black hover:bg-gray-800 text-white"
+                  >
+                    Continue
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })()}
+      </div>
+    </div>
+  );
+}
