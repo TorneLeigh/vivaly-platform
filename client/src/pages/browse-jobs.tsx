@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { Calendar, Users, DollarSign, Clock, MapPin, Briefcase } from "lucide-react";
+import { apiRequest } from "@/lib/queryClient";
 
 interface Job {
   id: string;
@@ -24,35 +25,16 @@ export default function BrowseJobs() {
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
 
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    fetch('/api/getJobs')
-      .then(res => res.json())
-      .then((data: Job[]) => {
-        setJobs(data);
-        setIsLoading(false);
-      })
-      .catch(() => setIsLoading(false));
-  }, []);
+  const { data: jobs = [], isLoading } = useQuery({
+    queryKey: ['/api/getJobs'],
+    queryFn: () => apiRequest('GET', '/api/getJobs')
+  });
 
   const applyMutation = useMutation({
     mutationFn: async ({ jobId }: { jobId: string }) => {
-      const res = await fetch('/api/applyToJob', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ jobId })
-      });
-      
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || 'Failed to apply to job');
-      }
-      
-      return await res.json();
+      return await apiRequest('POST', '/api/applyToJob', { jobId });
     },
     onSuccess: (data) => {
       if (data.success) {

@@ -41,8 +41,8 @@ export default function NewHeader() {
           </Link>
         )}
         {activeRole === "caregiver" && (
-          <Link href="/find-jobs" className="block py-2 text-gray-700 hover:text-black">
-            Find Jobs
+          <Link href="/job-board" className="block py-2 text-gray-700 hover:text-black">
+            Job Board
           </Link>
         )}
         <Link href="/messages" className="block py-2 text-gray-700 hover:text-black">
@@ -99,7 +99,7 @@ export default function NewHeader() {
                   <Link href="/post-job" className="text-gray-700 hover:text-black">Post Job</Link>
                 )}
                 {activeRole === "caregiver" && (
-                  <Link href="/find-jobs" className="text-gray-700 hover:text-black">Find Jobs</Link>
+                  <Link href="/job-board" className="text-gray-700 hover:text-black">Job Board</Link>
                 )}
                 <Link href="/messages" className="text-gray-700 hover:text-black">Messages</Link>
                 <button
