@@ -79,10 +79,8 @@ export default function CaregiverSignup() {
       });
       
       // Set user data in query cache
-      import('@/lib/queryClient').then(({ queryClient }) => {
-        queryClient.setQueryData(["/api/auth/user"], data);
-        queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
-      });
+      queryClient.setQueryData(["/api/auth/user"], data);
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       
       setStep(5); // Success step
     },
@@ -127,13 +125,13 @@ export default function CaregiverSignup() {
             
             <div className="space-y-3">
               <Button 
-                onClick={() => setLocation("/")}
+                onClick={() => setLocation("/dashboard")}
                 className="w-full bg-black hover:bg-gray-800 text-white"
               >
-                Explore VIVALY
+                Go to Dashboard
               </Button>
               <Button 
-                onClick={() => setLocation("/caregiver-profile")}
+                onClick={() => setLocation("/profile")}
                 variant="outline"
                 className="w-full"
               >
