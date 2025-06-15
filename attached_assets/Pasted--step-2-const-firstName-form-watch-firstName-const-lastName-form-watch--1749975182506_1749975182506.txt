@@ -1,0 +1,86 @@
+{step === 2 && (() => {
+  const firstName = form.watch("firstName");
+  const lastName = form.watch("lastName");
+  const email = form.watch("email");
+  const phone = form.watch("phone");
+
+  const allFilled = firstName && lastName && email && phone;
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Personal Information</CardTitle>
+        <p className="text-gray-600">Tell us about yourself</p>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="firstName">First Name</Label>
+            <Input
+              id="firstName"
+              {...form.register("firstName")}
+              placeholder="Your first name"
+            />
+            {form.formState.errors.firstName && (
+              <p className="text-sm text-red-600 mt-1">
+                {form.formState.errors.firstName.message}
+              </p>
+            )}
+          </div>
+          <div>
+            <Label htmlFor="lastName">Last Name</Label>
+            <Input
+              id="lastName"
+              {...form.register("lastName")}
+              placeholder="Your last name"
+            />
+            {form.formState.errors.lastName && (
+              <p className="text-sm text-red-600 mt-1">
+                {form.formState.errors.lastName.message}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div>
+          <Label htmlFor="email">Email Address</Label>
+          <Input
+            id="email"
+            type="email"
+            {...form.register("email")}
+            placeholder="your.email@example.com"
+          />
+          {form.formState.errors.email && (
+            <p className="text-sm text-red-600 mt-1">
+              {form.formState.errors.email.message}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <Label htmlFor="phone">Phone Number</Label>
+          <Input
+            id="phone"
+            {...form.register("phone")}
+            placeholder="04XXXXXXXX"
+          />
+          {form.formState.errors.phone && (
+            <p className="text-sm text-red-600 mt-1">
+              {form.formState.errors.phone.message}
+            </p>
+          )}
+        </div>
+
+        <div className="pt-4 text-right">
+          <Button
+            type="button"
+            onClick={() => setStep(3)}
+            disabled={!allFilled}
+          >
+            Continue
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+})()}

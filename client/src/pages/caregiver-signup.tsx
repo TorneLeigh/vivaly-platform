@@ -55,10 +55,6 @@ export default function CaregiverSignup() {
 
   // Watch form values for proper state updates
   const watchedSuburb = form.watch("suburb");
-  const watchedFirstName = form.watch("firstName");
-  const watchedLastName = form.watch("lastName");
-  const watchedEmail = form.watch("email");
-  const watchedPhone = form.watch("phone");
   const watchedPassword = form.watch("password");
   const watchedConfirmPassword = form.watch("confirmPassword");
 
@@ -195,90 +191,99 @@ export default function CaregiverSignup() {
         )}
 
         {/* Step 2: Personal Information */}
-        {step === 2 && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Personal Information</CardTitle>
-              <p className="text-gray-600">Tell us about yourself</p>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+        {step === 2 && (() => {
+          const firstName = form.watch("firstName");
+          const lastName = form.watch("lastName");
+          const email = form.watch("email");
+          const phone = form.watch("phone");
+
+          const allFilled = firstName && lastName && email && phone;
+
+          return (
+            <Card>
+              <CardHeader>
+                <CardTitle>Personal Information</CardTitle>
+                <p className="text-gray-600">Tell us about yourself</p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="firstName">First Name</Label>
+                    <Input
+                      id="firstName"
+                      {...form.register("firstName")}
+                      placeholder="Your first name"
+                    />
+                    {form.formState.errors.firstName && (
+                      <p className="text-sm text-red-600 mt-1">
+                        {form.formState.errors.firstName.message}
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <Label htmlFor="lastName">Last Name</Label>
+                    <Input
+                      id="lastName"
+                      {...form.register("lastName")}
+                      placeholder="Your last name"
+                    />
+                    {form.formState.errors.lastName && (
+                      <p className="text-sm text-red-600 mt-1">
+                        {form.formState.errors.lastName.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                
                 <div>
-                  <Label htmlFor="firstName">First Name</Label>
+                  <Label htmlFor="email">Email Address</Label>
                   <Input
-                    id="firstName"
-                    {...form.register("firstName")}
-                    placeholder="Your first name"
+                    id="email"
+                    type="email"
+                    {...form.register("email")}
+                    placeholder="your.email@example.com"
                   />
-                  {form.formState.errors.firstName && (
+                  {form.formState.errors.email && (
                     <p className="text-sm text-red-600 mt-1">
-                      {form.formState.errors.firstName.message}
+                      {form.formState.errors.email.message}
                     </p>
                   )}
                 </div>
+
                 <div>
-                  <Label htmlFor="lastName">Last Name</Label>
+                  <Label htmlFor="phone">Phone Number</Label>
                   <Input
-                    id="lastName"
-                    {...form.register("lastName")}
-                    placeholder="Your last name"
+                    id="phone"
+                    {...form.register("phone")}
+                    placeholder="0412 345 678"
                   />
-                  {form.formState.errors.lastName && (
+                  {form.formState.errors.phone && (
                     <p className="text-sm text-red-600 mt-1">
-                      {form.formState.errors.lastName.message}
+                      {form.formState.errors.phone.message}
                     </p>
                   )}
                 </div>
-              </div>
-              
-              <div>
-                <Label htmlFor="email">Email Address</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  {...form.register("email")}
-                  placeholder="your.email@example.com"
-                />
-                {form.formState.errors.email && (
-                  <p className="text-sm text-red-600 mt-1">
-                    {form.formState.errors.email.message}
-                  </p>
-                )}
-              </div>
 
-              <div>
-                <Label htmlFor="phone">Phone Number</Label>
-                <Input
-                  id="phone"
-                  {...form.register("phone")}
-                  placeholder="0412 345 678"
-                />
-                {form.formState.errors.phone && (
-                  <p className="text-sm text-red-600 mt-1">
-                    {form.formState.errors.phone.message}
-                  </p>
-                )}
-              </div>
-
-              <div className="flex gap-4">
-                <Button 
-                  onClick={() => setStep(1)}
-                  variant="outline"
-                  className="flex-1"
-                >
-                  Back
-                </Button>
-                <Button 
-                  onClick={() => setStep(3)}
-                  disabled={!watchedFirstName || !watchedLastName || !watchedEmail || !watchedPhone}
-                  className="flex-1 bg-black hover:bg-gray-800 text-white"
-                >
-                  Continue
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+                <div className="flex gap-4">
+                  <Button 
+                    onClick={() => setStep(1)}
+                    variant="outline"
+                    className="flex-1"
+                  >
+                    Back
+                  </Button>
+                  <Button 
+                    onClick={() => setStep(3)}
+                    disabled={!allFilled}
+                    className="flex-1 bg-black hover:bg-gray-800 text-white"
+                  >
+                    Continue
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })()}
 
         {/* Step 3: Password Setup */}
         {step === 3 && (
