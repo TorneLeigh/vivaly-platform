@@ -90,7 +90,7 @@ export default function NewHeader() {
             {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
 
-          {/* Desktop nav (optional) */}
+          {/* Desktop nav */}
           <nav className="hidden md:flex space-x-6 items-center">
             {isAuthenticated && user ? (
               <>
