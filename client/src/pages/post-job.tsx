@@ -187,7 +187,7 @@ export default function PostJob() {
               {/* Hours per Week */}
               <div className="space-y-2">
                 <Label htmlFor="hoursPerWeek" className="text-sm font-medium flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-blue-600" />
+                  <Clock className="w-4 h-4 text-gray-600" />
                   Hours per Week *
                 </Label>
                 <Input
@@ -206,7 +206,7 @@ export default function PostJob() {
               {/* Description */}
               <div className="space-y-2">
                 <Label htmlFor="description" className="text-sm font-medium flex items-center gap-2">
-                  <FileText className="w-4 h-4 text-blue-600" />
+                  <FileText className="w-4 h-4 text-gray-600" />
                   Job Description *
                 </Label>
                 <Textarea
