@@ -616,12 +616,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         caregiverProfile: null
       });
 
-      // Create automated message to parent
+      // Create automated message to parent with caregiver profile
+      const profileMessage = `Hi, I'm interested in your job post titled "${job.title || 'Childcare Position'}".
+
+Here's my profile:
+👋 ${caregiver.firstName} ${caregiver.lastName}
+📧 ${caregiver.email}
+📱 ${caregiver.phone || 'Phone not provided'}
+
+I'd love to discuss this opportunity with you. Please feel free to reach out!`;
+
       const message = await storage.createMessage({
-        fromUserId: caregiverId,
-        toUserId: job.parentId,
-        message: `Hi, I'm interested in your job post titled "${job.title || 'Childcare Position'}". Here's my profile.`,
-        jobId: jobId
+        content: profileMessage,
+        senderId: caregiverId,
+        receiverId: job.parentId
       });
 
       res.json({ success: true, message: "Application sent!", application });

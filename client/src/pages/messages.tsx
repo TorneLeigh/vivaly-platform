@@ -73,9 +73,9 @@ export default function Messages() {
   );
 
   return (
-    <div className="h-screen bg-white flex">
+    <div className="h-screen bg-white flex flex-col md:flex-row">
       {/* Conversations Sidebar */}
-      <div className="w-80 border-r border-gray-200 flex flex-col">
+      <div className={`${selectedConversation ? 'hidden md:flex' : 'flex'} w-full md:w-80 border-r border-gray-200 flex-col`}>
         {/* Header */}
         <div className="p-4 border-b border-gray-200">
           <h1 className="text-xl font-semibold text-gray-900">Messages</h1>
@@ -147,13 +147,21 @@ export default function Messages() {
       </div>
 
       {/* Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div className={`${selectedConversation ? 'flex' : 'hidden md:flex'} flex-1 flex-col`}>
         {selectedConversation ? (
           <>
             {/* Chat Header */}
             <div className="p-4 border-b border-gray-200 bg-white">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="md:hidden mr-2"
+                    onClick={() => setSelectedConversation(null)}
+                  >
+                    ←
+                  </Button>
                   <Avatar className="h-10 w-10">
                     <AvatarImage src={selectedConversation.profileImageUrl || undefined} />
                     <AvatarFallback>
