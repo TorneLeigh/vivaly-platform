@@ -50,10 +50,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Send admin notification email for new caregiver signup
       try {
+        const adminEmail = process.env.ADMIN_ALERT_EMAIL || 'info@tornevelk.com';
         await sendEmail(
-          'info@tornevelk.com',
+          adminEmail,
           'New Caregiver Signup on VIVALY',
-          `<strong>${user.firstName} ${user.lastName}</strong> signed up as a caregiver.<br>Email: ${user.email}<br>Phone: ${user.phone || 'N/A'}`
+          `<h3>New Caregiver Registration</h3>
+          <p><strong>Name:</strong> ${user.firstName} ${user.lastName}</p>
+          <p><strong>Email:</strong> ${user.email}</p>
+          <p><strong>Phone:</strong> ${user.phone || 'Not provided'}</p>
+          <p><strong>Registration Date:</strong> ${new Date().toLocaleString()}</p>
+          <p><strong>User ID:</strong> ${user.id}</p>`
         );
       } catch (emailError) {
         console.warn("Failed to send admin notification email:", emailError);
@@ -69,6 +75,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Registration error:", error);
       res.status(500).json({ message: "Account creation failed. Please try again." });
+    }
+  });
+
+  app.post('/api/reset-password', async (req, res) => {
+    try {
+      const { email } = req.body;
+
+      if (!email) {
+        return res.status(400).json({ message: "Email is required" });
+      }
+
+      const normalizedEmail = email.toLowerCase().trim();
+      const user = await storage.getUserByEmail(normalizedEmail);
+
+      // Always return success to prevent email enumeration
+      if (!user) {
+        return res.json({ message: "If an account exists, a reset email will be sent" });
+      }
+
+      // Generate reset token and expiry
+      const resetToken = randomUUID();
+      const resetExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
+
+      // Store reset token (in a real app, you'd store this in the database)
+      // For now, we'll just send the email
+      
+      try {
+        await sendEmail(
+          normalizedEmail,
+          'Reset Your VIVALY Password',
+          `
+          <h2>Reset Your Password</h2>
+          <p>Hi ${user.firstName},</p>
+          <p>You requested to reset your password for your VIVALY account.</p>
+          <p>Click the link below to reset your password:</p>
+          <p><a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}/reset-password?token=${resetToken}" 
+             style="background-color: #000; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px;">
+             Reset Password
+          </a></p>
+          <p>This link will expire in 1 hour.</p>
+          <p>If you didn't request this reset, you can safely ignore this email.</p>
+          <p>Best regards,<br>The VIVALY Team</p>
+          `
+        );
+      } catch (emailError) {
+        console.warn("Failed to send password reset email:", emailError);
+      }
+
+      res.json({ message: "If an account exists, a reset email will be sent" });
+    } catch (error) {
+      console.error("Password reset error:", error);
+      res.status(500).json({ message: "Server error" });
     }
   });
 

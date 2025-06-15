@@ -341,8 +341,8 @@ export default function WorkingAuth() {
                 </div>
                 <button
                   type="button"
-                  onClick={() => setShowForgotPassword(true)}
-                  className="text-sm text-orange-600 hover:text-orange-500 font-medium"
+                  onClick={() => navigate('/forgot-password')}
+                  className="text-sm text-black hover:text-gray-700 font-medium"
                 >
                   Forgot password?
                 </button>
