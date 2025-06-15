@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Gift, Star, Users, X } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 interface ReferralBannerProps {
   onClose?: () => void;
@@ -12,6 +13,10 @@ interface ReferralBannerProps {
 export const ReferralBanner = ({ onClose }: ReferralBannerProps) => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [, setLocation] = useLocation();
+  const { isAuthenticated } = useAuth();
+
+  // Hide banner completely if user is logged in
+  if (isAuthenticated) return null;
 
   if (isMinimized) {
     return (

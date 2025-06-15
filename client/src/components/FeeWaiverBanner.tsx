@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { X, Gift } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 const FeeWaiverBanner = () => {
   const [isVisible, setIsVisible] = useState(true);
+  const { isAuthenticated } = useAuth();
 
-  if (!isVisible) return null;
+  // Hide banner if user is logged in or manually dismissed
+  if (!isVisible || isAuthenticated) return null;
 
   const handleLoginClick = () => {
     window.location.href = '/auth';
