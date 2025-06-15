@@ -32,24 +32,19 @@ export default function NewHeader() {
 
     return (
       <>
-        <Link href="/dashboard" className="block py-2 text-gray-700 hover:text-black">
-          Dashboard
+        <Link href="/job-board" className="block py-2 text-gray-700 hover:text-black">
+          Job Board
         </Link>
         {activeRole === "parent" && (
           <Link href="/post-job" className="block py-2 text-gray-700 hover:text-black">
-            Post a Job
+            Post Job
           </Link>
         )}
-        {activeRole === "caregiver" && (
-          <Link href="/job-board" className="block py-2 text-gray-700 hover:text-black">
-            Find Jobs
-          </Link>
-        )}
-        <Link href="/messages" className="block py-2 text-gray-700 hover:text-black">
-          Messages
-        </Link>
         <Link href="/profile" className="block py-2 text-gray-700 hover:text-black">
           Profile
+        </Link>
+        <Link href="/messages" className="block py-2 text-gray-700 hover:text-black">
+          Messages
         </Link>
         <button
           onClick={handleLogout}
@@ -94,18 +89,14 @@ export default function NewHeader() {
           <nav className="hidden md:flex space-x-6 items-center">
             {isAuthenticated && user ? (
               <>
-                <Link href="/dashboard" className="text-gray-700 hover:text-black font-medium transition-colors">Dashboard</Link>
+                <Link href="/job-board" className="text-gray-700 hover:text-black font-medium transition-colors">Job Board</Link>
 
                 {activeRole === 'parent' && (
                   <Link href="/post-job" className="text-gray-700 hover:text-black font-medium transition-colors">Post Job</Link>
                 )}
 
-                {activeRole === 'caregiver' && (
-                  <Link href="/job-board" className="text-gray-700 hover:text-black font-medium transition-colors">Find Jobs</Link>
-                )}
-
-                <Link href="/messages" className="text-gray-700 hover:text-black font-medium transition-colors">Messages</Link>
                 <Link href="/profile" className="text-gray-700 hover:text-black font-medium transition-colors">Profile</Link>
+                <Link href="/messages" className="text-gray-700 hover:text-black font-medium transition-colors">Messages</Link>
                 <button
                   onClick={handleLogout}
                   className="text-gray-700 hover:text-red-600 font-medium transition-colors"
