@@ -70,7 +70,7 @@ export default function CaregiverSignup() {
         isNanny: true,
         suburb: data.suburb,
       });
-      return response.json();
+      return response;
     },
     onSuccess: (data) => {
       toast({
@@ -86,12 +86,23 @@ export default function CaregiverSignup() {
     },
     onError: (error: any) => {
       console.error("Signup error:", error);
+      
+      // Extract meaningful error message
       let errorMessage = "Please try again later.";
       
-      if (error?.message) {
-        errorMessage = error.message;
-      } else if (error?.response?.data?.message) {
-        errorMessage = error.response.data.message;
+      if (typeof error === 'string') {
+        errorMessage = error;
+      } else if (error?.message) {
+        // Handle API errors that come as "400: User already exists"
+        if (error.message.includes("User already exists")) {
+          errorMessage = "An account with this email already exists. Please try logging in instead.";
+        } else if (error.message.includes("400:") || error.message.includes("500:")) {
+          // Extract just the error message part after the status code
+          const parts = error.message.split(": ");
+          errorMessage = parts.length > 1 ? parts.slice(1).join(": ") : error.message;
+        } else {
+          errorMessage = error.message;
+        }
       }
       
       toast({
