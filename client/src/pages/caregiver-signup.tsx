@@ -60,13 +60,13 @@ export default function CaregiverSignup() {
 
   const signupMutation = useMutation({
     mutationFn: async (data: CaregiverSignupForm) => {
-      const response = await apiRequest("POST", "/api/users", {
+      const response = await apiRequest("POST", "/api/register", {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
         phone: data.phone,
         password: data.password,
-        userType: "caregiver",
+        isNanny: true,
         suburb: data.suburb,
       });
       return response.json();
@@ -78,10 +78,12 @@ export default function CaregiverSignup() {
       });
       setStep(5); // Success step
     },
-    onError: (error: any) => {
+    onError: async (error: any) => {
+      const errorMessage =
+        error?.message || error?.response?.data?.message || "Please try again later.";
       toast({
         title: "Account Creation Failed",
-        description: error.message || "Please try again later.",
+        description: errorMessage,
         variant: "destructive",
       });
     },

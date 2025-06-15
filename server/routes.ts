@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import bcrypt from "bcryptjs";
 import { randomUUID } from "crypto";
+import { z } from "zod";
 import { insertUserSchema, insertJobSchema, insertApplicationSchema, type InsertUser } from "@shared/schema";
 import { requireAuth, requireRole } from "./auth-middleware";
 import { sendPasswordResetEmail } from "./email-service";
@@ -13,17 +14,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       console.log("Registration body:", req.body);
 
-      const caregiverSignupSchema = z.object({
-        firstName: z.string(),
-        lastName: z.string(),
-        email: z.string().email(),
-        phone: z.string().optional(),
-        password: z.string(),
-        isNanny: z.boolean().optional(),
-        suburb: z.string().optional()
-      });
-
-      const validationResult = caregiverSignupSchema.safeParse(req.body);
+      // Validate request body using the shared insertUserSchema
+      const validationResult = insertUserSchema.safeParse(req.body);
       if (!validationResult.success) {
         console.log("Validation failed:", validationResult.error.errors);
         return res.status(400).json({
@@ -46,9 +38,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         password: hashedPassword,
         firstName: userData.firstName.trim(),
         lastName: userData.lastName.trim(),
-        phone: userData.phone || null,
+        phone: userData.phone,
         isNanny: userData.isNanny || false,
-        suburb: userData.suburb || null,
         allowCaregiverMessages: true,
       };
 
