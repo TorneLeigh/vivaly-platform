@@ -19,58 +19,58 @@
 }
 
 :root {
-  --background: 0 0% 100%;
-  --foreground: 240 10% 3.9%;
-  --muted: 210 11% 98%; /* #F5F7FA */
-  --muted-foreground: 25 5.3% 44.7%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 240 10% 3.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 240 10% 3.9%;
-  --border: 20 5.9% 90%;
-  --input: 20 5.9% 90%;
-  --primary: 0 0% 9%; /* #171717 - Near Black */
-  --primary-foreground: 0 0% 98%; /* #FAFAFA - Off White */
-  --secondary: 0 0% 96%; /* #F5F5F5 - Light Gray */
-  --secondary-foreground: 0 0% 9%; /* #171717 - Near Black */
-  --accent: 0 0% 15%; /* #262626 - Dark Gray */
-  --accent-foreground: 0 0% 98%; /* #FAFAFA - Off White */
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 60 9.1% 97.8%;
-  --ring: 0 0% 9%; /* #171717 - Near Black */
+  --background: 0 0% 100%; /* Pure White */
+  --foreground: 0 0% 0%; /* Pure Black */
+  --muted: 0 0% 96%; /* Light Gray */
+  --muted-foreground: 0 0% 40%; /* Medium Gray */
+  --popover: 0 0% 100%; /* Pure White */
+  --popover-foreground: 0 0% 0%; /* Pure Black */
+  --card: 0 0% 100%; /* Pure White */
+  --card-foreground: 0 0% 0%; /* Pure Black */
+  --border: 0 0% 90%; /* Light Gray Border */
+  --input: 0 0% 90%; /* Light Gray Input */
+  --primary: 0 0% 0%; /* Pure Black */
+  --primary-foreground: 0 0% 100%; /* Pure White */
+  --secondary: 0 0% 96%; /* Light Gray */
+  --secondary-foreground: 0 0% 0%; /* Pure Black */
+  --accent: 0 0% 15%; /* Dark Gray */
+  --accent-foreground: 0 0% 100%; /* Pure White */
+  --destructive: 0 84.2% 60.2%; /* Red for errors */
+  --destructive-foreground: 0 0% 100%; /* Pure White */
+  --ring: 0 0% 0%; /* Pure Black */
   --radius: 0.5rem;
-  --trust-blue: 0 0% 20%; /* #333333 - Medium Gray */
-  --soft-green: 0 0% 25%; /* #404040 - Lighter Gray */
-  --warm-gray: 0 0% 28%; /* #484848 */
-  --light-gray: 0 0% 97%; /* #F7F7F7 */
-  --coral: 14 91% 60%; /* #FF6B35 - Coral */
+  --trust-blue: 0 0% 20%; /* Dark Gray */
+  --soft-green: 0 0% 25%; /* Medium Gray */
+  --warm-gray: 0 0% 30%; /* Warm Gray */
+  --light-gray: 0 0% 97%; /* Very Light Gray */
+  --coral: 0 0% 0%; /* Black instead of coral */
 }
 
 .dark {
-  --background: 240 10% 3.9%;
-  --foreground: 0 0% 98%;
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
-  --popover: 240 10% 3.9%;
-  --popover-foreground: 0 0% 98%;
-  --card: 240 10% 3.9%;
-  --card-foreground: 0 0% 98%;
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-  --primary: 0 0% 98%; /* #FAFAFA - Off White */
-  --primary-foreground: 0 0% 9%; /* #171717 - Near Black */
-  --secondary: 0 0% 15%; /* #262626 - Dark Gray */
-  --secondary-foreground: 0 0% 98%; /* #FAFAFA - Off White */
-  --accent: 0 0% 85%; /* #D9D9D9 - Light Gray */
-  --accent-foreground: 0 0% 9%; /* #171717 - Near Black */
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 98%;
-  --ring: 0 0% 98%; /* #FAFAFA - Off White */
-  --trust-blue: 0 0% 80%; /* #CCCCCC - Light Gray */
-  --soft-green: 0 0% 75%; /* #BFBFBF - Medium Light Gray */
-  --warm-gray: 0 0% 90%;
-  --light-gray: 240 3.7% 15.9%;
-  --coral: 14 91% 60%; /* #FF6B35 - Coral */
+  --background: 0 0% 0%; /* Pure Black */
+  --foreground: 0 0% 100%; /* Pure White */
+  --muted: 0 0% 15%; /* Dark Gray */
+  --muted-foreground: 0 0% 60%; /* Medium Gray */
+  --popover: 0 0% 0%; /* Pure Black */
+  --popover-foreground: 0 0% 100%; /* Pure White */
+  --card: 0 0% 0%; /* Pure Black */
+  --card-foreground: 0 0% 100%; /* Pure White */
+  --border: 0 0% 20%; /* Dark Border */
+  --input: 0 0% 20%; /* Dark Input */
+  --primary: 0 0% 100%; /* Pure White */
+  --primary-foreground: 0 0% 0%; /* Pure Black */
+  --secondary: 0 0% 15%; /* Dark Gray */
+  --secondary-foreground: 0 0% 100%; /* Pure White */
+  --accent: 0 0% 85%; /* Light Gray */
+  --accent-foreground: 0 0% 0%; /* Pure Black */
+  --destructive: 0 62.8% 30.6%; /* Red for errors */
+  --destructive-foreground: 0 0% 100%; /* Pure White */
+  --ring: 0 0% 100%; /* Pure White */
+  --trust-blue: 0 0% 80%; /* Light Gray */
+  --soft-green: 0 0% 75%; /* Medium Light Gray */
+  --warm-gray: 0 0% 90%; /* Light Gray */
+  --light-gray: 0 0% 15%; /* Dark Gray */
+  --coral: 0 0% 100%; /* White instead of coral */
 }
 
 @layer base {

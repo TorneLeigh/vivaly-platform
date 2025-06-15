@@ -268,7 +268,7 @@ export default function Auth() {
                     <Button
                       type="button"
                       variant="outline"
-                      className="flex-1 border-orange-200 text-orange-600 hover:bg-orange-50"
+                      className="flex-1 border-gray-300 text-gray-700 hover:bg-gray-50"
                       onClick={() => {
                         loginForm.setValue("email", "parent@test.com");
                         loginForm.setValue("password", "password");
@@ -280,7 +280,7 @@ export default function Auth() {
                     <Button
                       type="button"
                       variant="outline"
-                      className="flex-1 border-orange-200 text-orange-600 hover:bg-orange-50"
+                      className="flex-1 border-gray-300 text-gray-700 hover:bg-gray-50"
                       onClick={() => {
                         loginForm.setValue("email", "caregiver@test.com");
                         loginForm.setValue("password", "password");
@@ -545,7 +545,7 @@ export default function Auth() {
             </p>
             <a 
               href="/become-caregiver" 
-              className="text-sm text-orange-600 hover:text-orange-500 font-medium"
+              className="text-sm text-gray-700 hover:text-black font-medium"
             >
               Switch to Service Provider Signup
             </a>

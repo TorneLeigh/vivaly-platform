@@ -530,7 +530,7 @@ export default function JobBoard() {
                   <Button 
                     type="submit" 
                     disabled={postJobMutation.isPending}
-                    className="w-full bg-coral hover:bg-coral/90 text-white py-3 rounded-lg font-semibold transition-colors"
+                    className="w-full bg-black hover:bg-gray-800 text-white py-3 rounded-lg font-semibold transition-colors"
                   >
                     {postJobMutation.isPending ? 'Posting Job...' : 'Post Job'}
                   </Button>
