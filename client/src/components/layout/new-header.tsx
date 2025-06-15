@@ -52,16 +52,44 @@ export default function NewHeader() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
-          <Link href="/messages" className="text-gray-700 hover:text-black font-medium transition-colors">Messages</Link>
-          <Link href="/profile" className="text-gray-700 hover:text-black font-medium transition-colors">Profile</Link>
-          {isAuthenticated ? (
-            <button onClick={handleLogout} className="text-gray-700 hover:text-black font-medium transition-colors">Log Out</button>
-          ) : (
+          {isAuthenticated && (
             <>
-              <Link href="/auth" className="text-gray-700 hover:text-black font-medium transition-colors">Log In</Link>
-              <Link href="/signup" className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg font-medium transition-colors">Sign Up</Link>
+              <Link href="/messages" className="text-gray-700 hover:text-black font-medium transition-colors">Messages</Link>
+              <Link href="/dashboard" className="text-gray-700 hover:text-black font-medium transition-colors">Dashboard</Link>
             </>
           )}
+          
+          <div className="flex items-center gap-4">
+            {isAuthenticated && user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback className="bg-black text-white text-sm">
+                        {user.firstName[0]}{user.lastName[0]}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <DropdownMenuItem onClick={() => navigate("/profile")}>
+                    My Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+                    Dashboard
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleLogout}>
+                    Log Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <Link href="/auth" className="text-gray-700 hover:text-black font-medium transition-colors">Log In</Link>
+                <Link href="/signup" className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg font-medium transition-colors">Sign Up</Link>
+              </>
+            )}
+          </div>
         </nav>
       </div>
 
