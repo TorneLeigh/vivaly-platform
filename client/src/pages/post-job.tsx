@@ -222,7 +222,7 @@ export default function PostJob() {
               {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full py-3 text-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white"
+                className="w-full py-3 text-lg font-semibold bg-coral hover:bg-coral/90 text-white rounded-lg transition-colors"
                 disabled={postJobMutation.isPending}
               >
                 {postJobMutation.isPending ? "Posting Job..." : "Post Job"}

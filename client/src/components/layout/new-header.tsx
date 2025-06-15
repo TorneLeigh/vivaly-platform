@@ -24,35 +24,39 @@ export default function NewHeader() {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <header className="bg-white border-b border-gray-100 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="text-xl font-bold text-black flex items-center">
-          <img src="/logo.svg" alt="Vivaly" className="h-6 w-auto mr-2" />
+        <Link href="/" className="text-xl font-bold text-gray-900 flex items-center">
+          <img 
+            src="/attached_assets/LOGO UPLOAD VIVALY_1749697003124.jpeg" 
+            alt="Vivaly Logo" 
+            className="h-8 w-8 mr-3 rounded-lg object-cover"
+          />
           Vivaly
         </Link>
 
         {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden"
+          className="md:hidden p-2 rounded-lg hover:bg-gray-50 transition-colors"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle Menu"
         >
-          <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="h-6 w-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
-          <Link href="/messages" className="text-black font-medium">Messages</Link>
-          <Link href="/profile" className="text-black font-medium">Profile</Link>
+          <Link href="/messages" className="text-gray-700 hover:text-black font-medium transition-colors">Messages</Link>
+          <Link href="/profile" className="text-gray-700 hover:text-black font-medium transition-colors">Profile</Link>
           {isAuthenticated ? (
-            <button onClick={handleLogout} className="text-black font-medium">Log Out</button>
+            <button onClick={handleLogout} className="text-gray-700 hover:text-black font-medium transition-colors">Log Out</button>
           ) : (
             <>
-              <Link href="/auth" className="text-black font-medium">Log In</Link>
-              <Link href="/signup" className="text-black font-medium">Sign Up</Link>
+              <Link href="/auth" className="text-gray-700 hover:text-black font-medium transition-colors">Log In</Link>
+              <Link href="/signup" className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg font-medium transition-colors">Sign Up</Link>
             </>
           )}
         </nav>
@@ -60,12 +64,12 @@ export default function NewHeader() {
 
       {/* Mobile Navigation Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden z-50 bg-white px-4 py-4 border-t border-gray-200 space-y-2">
+        <div className="md:hidden z-50 bg-white px-4 py-4 border-t border-gray-100 shadow-lg">
           {isAuthenticated && user ? (
-            <>
+            <div className="space-y-1">
               <Link
                 href="/dashboard"
-                className="block py-2 text-black border-b border-gray-100 font-medium"
+                className="flex items-center py-3 px-4 text-gray-700 hover:bg-black hover:text-white rounded-lg font-medium transition-all duration-200"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Dashboard
@@ -74,7 +78,7 @@ export default function NewHeader() {
               {activeRole === "parent" && (
                 <Link
                   href="/job-board"
-                  className="block py-2 text-black border-b border-gray-100 font-medium"
+                  className="flex items-center py-3 px-4 text-gray-700 hover:bg-black hover:text-white rounded-lg font-medium transition-all duration-200"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Job Board
@@ -84,7 +88,7 @@ export default function NewHeader() {
               {activeRole === "caregiver" && (
                 <Link
                   href="/find-jobs"
-                  className="block py-2 text-black border-b border-gray-100 font-medium"
+                  className="flex items-center py-3 px-4 text-gray-700 hover:bg-black hover:text-white rounded-lg font-medium transition-all duration-200"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Find Jobs
@@ -93,7 +97,7 @@ export default function NewHeader() {
 
               <Link
                 href="/messages"
-                className="block py-2 text-black border-b border-gray-100 font-medium"
+                className="flex items-center py-3 px-4 text-gray-700 hover:bg-black hover:text-white rounded-lg font-medium transition-all duration-200"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Messages
@@ -101,54 +105,66 @@ export default function NewHeader() {
 
               <Link
                 href="/profile"
-                className="block py-2 text-black border-b border-gray-100 font-medium"
+                className="flex items-center py-3 px-4 text-gray-700 hover:bg-black hover:text-white rounded-lg font-medium transition-all duration-200"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Profile
               </Link>
 
               {roles.length > 1 && (
-                <div className="mt-4">
-                  <p className="text-sm font-semibold mb-1">Switch Role</p>
-                  {roles.map((role) => (
-                    <button
-                      key={role}
-                      onClick={() => {
-                        switchRole(role);
-                        setMobileMenuOpen(false);
-                      }}
-                      disabled={role === activeRole}
-                      className={`block w-full text-left py-2 px-3 rounded-md text-sm ${
-                        role === activeRole
-                          ? "bg-gray-200 text-black font-semibold"
-                          : "text-gray-700 hover:bg-gray-100"
-                      }`}
-                    >
-                      {role.charAt(0).toUpperCase() + role.slice(1)}
-                    </button>
-                  ))}
+                <div className="mt-6 pt-4 border-t border-gray-100">
+                  <p className="text-sm font-semibold text-gray-600 mb-3 px-4">Switch Role</p>
+                  <div className="space-y-1">
+                    {roles.map((role) => (
+                      <button
+                        key={role}
+                        onClick={() => {
+                          switchRole(role);
+                          setMobileMenuOpen(false);
+                        }}
+                        disabled={role === activeRole}
+                        className={`block w-full text-left py-2 px-4 rounded-lg text-sm font-medium transition-all duration-200 ${
+                          role === activeRole
+                            ? "bg-black text-white"
+                            : "text-gray-600 hover:bg-gray-100"
+                        }`}
+                      >
+                        {role.charAt(0).toUpperCase() + role.slice(1)}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
 
-              <button
-                onClick={() => {
-                  handleLogout();
-                  setMobileMenuOpen(false);
-                }}
-                className="block py-2 text-black font-medium"
-              >
-                Log Out
-              </button>
-            </>
+              <div className="mt-6 pt-4 border-t border-gray-100">
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center w-full py-3 px-4 text-gray-600 hover:bg-gray-100 rounded-lg font-medium transition-all duration-200"
+                >
+                  Log Out
+                </button>
+              </div>
+            </div>
           ) : (
-            <>
-              <Link href="/auth" className="block py-2 text-black font-medium">
+            <div className="space-y-1">
+              <Link 
+                href="/auth" 
+                className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-100 rounded-lg font-medium transition-all duration-200"
+                onClick={() => setMobileMenuOpen(false)}
+              >
                 Log In
               </Link>
-              <Link href="/signup" className="block py-2 text-black font-medium">
+              <Link 
+                href="/signup" 
+                className="flex items-center py-3 px-4 bg-black text-white hover:bg-gray-800 rounded-lg font-medium transition-all duration-200"
+                onClick={() => setMobileMenuOpen(false)}
+              >
                 Sign Up
               </Link>
-            </>
+            </div>
           )}
         </div>
       )}
