@@ -84,9 +84,16 @@ export default function CaregiverSignup() {
       
       setStep(5); // Success step
     },
-    onError: async (error: any) => {
-      const errorMessage =
-        error?.message || error?.response?.data?.message || "Please try again later.";
+    onError: (error: any) => {
+      console.error("Signup error:", error);
+      let errorMessage = "Please try again later.";
+      
+      if (error?.message) {
+        errorMessage = error.message;
+      } else if (error?.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+      
       toast({
         title: "Account Creation Failed",
         description: errorMessage,
