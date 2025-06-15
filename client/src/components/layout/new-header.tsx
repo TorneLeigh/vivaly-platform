@@ -32,9 +32,11 @@ export default function NewHeader() {
 
     return (
       <>
-        <Link href="/job-board" className="block py-2 text-gray-700 hover:text-black">
-          Job Board
-        </Link>
+        {activeRole === "caregiver" && (
+          <Link href="/job-board" className="block py-2 text-gray-700 hover:text-black">
+            Job Board
+          </Link>
+        )}
         {activeRole === "parent" && (
           <Link href="/post-job" className="block py-2 text-gray-700 hover:text-black">
             Post Job
@@ -89,7 +91,9 @@ export default function NewHeader() {
           <nav className="hidden md:flex space-x-6 items-center">
             {isAuthenticated && user ? (
               <>
-                <Link href="/job-board" className="text-gray-700 hover:text-black font-medium transition-colors">Job Board</Link>
+                {activeRole === 'caregiver' && (
+                  <Link href="/job-board" className="text-gray-700 hover:text-black font-medium transition-colors">Job Board</Link>
+                )}
 
                 {activeRole === 'parent' && (
                   <Link href="/post-job" className="text-gray-700 hover:text-black font-medium transition-colors">Post Job</Link>

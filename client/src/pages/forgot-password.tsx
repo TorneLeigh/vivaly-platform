@@ -31,10 +31,9 @@ export default function ForgotPassword() {
 
   const resetMutation = useMutation({
     mutationFn: async (data: ForgotPasswordForm) => {
-      const response = await apiRequest("POST", "/api/reset-password", {
+      return await apiRequest("POST", "/api/reset-password", {
         email: data.email,
       });
-      return response.json();
     },
     onSuccess: () => {
       setIsSubmitted(true);
@@ -44,9 +43,24 @@ export default function ForgotPassword() {
       });
     },
     onError: (error: any) => {
+      let errorMessage = "Failed to send reset email. Please try again.";
+      
+      if (typeof error === 'string') {
+        errorMessage = error;
+      } else if (error?.message) {
+        if (error.message.includes("404:") || error.message.includes("No user found")) {
+          errorMessage = "No account found with that email address.";
+        } else if (error.message.includes("400:") || error.message.includes("500:")) {
+          const parts = error.message.split(": ");
+          errorMessage = parts.length > 1 ? parts.slice(1).join(": ") : error.message;
+        } else {
+          errorMessage = error.message;
+        }
+      }
+      
       toast({
         title: "Error",
-        description: error.message || "Failed to send reset email. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     },
