@@ -1,0 +1,96 @@
+// client/src/pages/parent-profile.tsx
+
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { BasicInfoForm } from "@/components/ParentProfileTabs/BasicInfoForm";
+import { PhotosSection } from "@/components/ParentProfileTabs/PhotosSection";
+import { FamilyChildrenForm } from "@/components/ParentProfileTabs/FamilyChildrenForm";
+import { ChildrenDetailsForm } from "@/components/ParentProfileTabs/ChildrenDetailsForm";
+import { HealthMedicalForm } from "@/components/ParentProfileTabs/HealthMedicalForm";
+import { ElderlyCareForm } from "@/components/ParentProfileTabs/ElderlyCareForm";
+import { PetCareForm } from "@/components/ParentProfileTabs/PetCareForm";
+import { RequirementsForm } from "@/components/ParentProfileTabs/RequirementsForm";
+import { PositionDetailsForm } from "@/components/ParentProfileTabs/PositionDetailsForm";
+import { ResponsibilitiesForm } from "@/components/ParentProfileTabs/ResponsibilitiesForm";
+import { CaregiverPreferencesForm } from "@/components/ParentProfileTabs/CaregiverPreferencesForm";
+import { HouseholdRulesForm } from "@/components/ParentProfileTabs/HouseholdRulesForm";
+import { SafetyEmergencyForm } from "@/components/ParentProfileTabs/SafetyEmergencyForm";
+import { PersonalTouchForm } from "@/components/ParentProfileTabs/PersonalTouchForm";
+
+export default function ParentProfilePage() {
+  const [activeTab, setActiveTab] = useState("basic-info");
+
+  return (
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-2">Parent Profile</h1>
+      <p className="text-gray-600 mb-6">Complete your profile to find the perfect caregiver</p>
+
+      <div className="flex gap-6">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="flex flex-col w-56 space-y-1 text-left border-r pr-4">
+            <TabsTrigger value="basic-info">👤 Basic Info</TabsTrigger>
+            <TabsTrigger value="photos">📷 Photos</TabsTrigger>
+            <TabsTrigger value="family-children">👨‍👩‍👧 Family & Children</TabsTrigger>
+            <TabsTrigger value="children-details">🧒 Children Details</TabsTrigger>
+            <TabsTrigger value="health-medical">❤️ Health & Medical</TabsTrigger>
+            <TabsTrigger value="elderly-care">👵 Elderly Care</TabsTrigger>
+            <TabsTrigger value="pet-care">🐶 Pet Care</TabsTrigger>
+            <TabsTrigger value="requirements">✅ Requirements</TabsTrigger>
+            <TabsTrigger value="position-details">📝 Position Details</TabsTrigger>
+            <TabsTrigger value="responsibilities">⭐ Responsibilities</TabsTrigger>
+            <TabsTrigger value="caregiver-preferences">🌟 Caregiver Preferences</TabsTrigger>
+            <TabsTrigger value="household-rules">🏡 Household Rules</TabsTrigger>
+            <TabsTrigger value="safety-emergency">🛡️ Safety & Emergency</TabsTrigger>
+            <TabsTrigger value="personal-touch">💬 Personal Touch</TabsTrigger>
+          </TabsList>
+
+          <div className="flex-1 pl-6">
+            <TabsContent value="basic-info">
+              <BasicInfoForm />
+            </TabsContent>
+            <TabsContent value="photos">
+              <PhotosSection />
+            </TabsContent>
+            <TabsContent value="family-children">
+              <FamilyChildrenForm />
+            </TabsContent>
+            <TabsContent value="children-details">
+              <ChildrenDetailsForm />
+            </TabsContent>
+            <TabsContent value="health-medical">
+              <HealthMedicalForm />
+            </TabsContent>
+            <TabsContent value="elderly-care">
+              <ElderlyCareForm />
+            </TabsContent>
+            <TabsContent value="pet-care">
+              <PetCareForm />
+            </TabsContent>
+            <TabsContent value="requirements">
+              <RequirementsForm />
+            </TabsContent>
+            <TabsContent value="position-details">
+              <PositionDetailsForm />
+            </TabsContent>
+            <TabsContent value="responsibilities">
+              <ResponsibilitiesForm />
+            </TabsContent>
+            <TabsContent value="caregiver-preferences">
+              <CaregiverPreferencesForm />
+            </TabsContent>
+            <TabsContent value="household-rules">
+              <HouseholdRulesForm />
+            </TabsContent>
+            <TabsContent value="safety-emergency">
+              <SafetyEmergencyForm />
+            </TabsContent>
+            <TabsContent value="personal-touch">
+              <PersonalTouchForm />
+            </TabsContent>
+          </div>
+        </Tabs>
+      </div>
+    </div>
+  );
+}

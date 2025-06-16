@@ -250,6 +250,77 @@ export default function ParentProfile() {
     </div>
   );
 
+  const renderPhotos = () => (
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-semibold mb-4">Profile Photos</h3>
+        <p className="text-gray-600 mb-4">Add photos to help caregivers get to know your family</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
+            <div className="text-center">
+              <Camera className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+              <p className="text-sm text-gray-500">Add Photo</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderFamilyChildren = () => (
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-semibold mb-4">Family & Children</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-2">
+            <Label>Number of Children</Label>
+            <Input placeholder="2" />
+          </div>
+          <div className="space-y-2">
+            <Label>Family Type</Label>
+            <Input placeholder="Nuclear family" />
+          </div>
+          <div className="space-y-2">
+            <Label>Languages Spoken</Label>
+            <Input placeholder="English, Spanish" />
+          </div>
+          <div className="space-y-2">
+            <Label>Pets</Label>
+            <Input placeholder="1 dog, 2 cats" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderChildrenDetails = () => (
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-semibold mb-4">Children Details</h3>
+        <div className="space-y-4">
+          <div className="p-4 border rounded-lg">
+            <h4 className="font-medium mb-3">Child 1</h4>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label>Name</Label>
+                <Input placeholder="Emma" />
+              </div>
+              <div className="space-y-2">
+                <Label>Age</Label>
+                <Input placeholder="5" />
+              </div>
+              <div className="space-y-2">
+                <Label>Grade</Label>
+                <Input placeholder="Kindergarten" />
+              </div>
+            </div>
+          </div>
+          <Button variant="outline">Add Another Child</Button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
