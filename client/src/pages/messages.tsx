@@ -232,7 +232,7 @@ export default function Messages() {
 
                 {/* Messages */}
                 <CardContent className="flex-1 p-4 max-h-[400px] overflow-y-auto">
-                  <div className="space-y-2">
+                  <div className="flex flex-col space-y-2">
                     {messages.map((msg: any) => (
                       <div
                         key={msg.id}
@@ -243,7 +243,9 @@ export default function Messages() {
                         }`}
                       >
                         {msg.content || msg.text}
-                        <div className="text-xs text-gray-500 mt-1">
+                        <div className={`text-xs mt-1 ${
+                          msg.senderId === user?.id ? "text-gray-300" : "text-gray-500"
+                        }`}>
                           {new Date(msg.createdAt || msg.timestamp).toLocaleDateString("en-AU", {
                             day: "2-digit",
                             month: "short",
