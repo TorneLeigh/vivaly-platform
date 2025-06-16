@@ -38,6 +38,7 @@ export interface IStorage {
   getJobs(): Promise<any[]>;
   getJobsByParent(parentId: string): Promise<Job[]>;
   getJob(jobId: string): Promise<Job | undefined>;
+  deleteJob(jobId: string): Promise<void>;
   
   // Application operations
   createApplication(application: InsertApplication): Promise<Application>;
@@ -197,6 +198,10 @@ export class DatabaseStorage implements IStorage {
   async getJob(jobId: string): Promise<Job | undefined> {
     const [job] = await db.select().from(jobs).where(eq(jobs.id, jobId));
     return job;
+  }
+
+  async deleteJob(jobId: string): Promise<void> {
+    await db.delete(jobs).where(eq(jobs.id, jobId));
   }
 
   // Application operations

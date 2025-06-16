@@ -439,13 +439,44 @@ export default function JobBoard() {
                         <div className="text-xs text-gray-500">
                           Posted: {job.createdAt ? new Date(job.createdAt).toLocaleDateString() : 'Recently'}
                         </div>
-                        <Button 
-                          onClick={() => handleApplyToJob(job.id)}
-                          disabled={applyToJobMutation.isPending}
-                          className="w-full bg-purple-600 hover:bg-purple-700 text-sm"
-                        >
-                          {applyToJobMutation.isPending ? 'Applying...' : 'I\'m Interested'}
-                        </Button>
+                        
+                        {/* Show edit/delete buttons for jobs posted by current user */}
+                        {job.parentId === user?.id ? (
+                          <div className="space-y-2">
+                            <Badge variant="outline" className="text-xs text-blue-600 border-blue-200">
+                              Posted by you
+                            </Badge>
+                            <div className="flex gap-2">
+                              <Button 
+                                onClick={() => setLocation(`/edit-job/${job.id}`)}
+                                variant="outline"
+                                size="sm"
+                                className="flex-1"
+                              >
+                                <Edit className="h-4 w-4 mr-1" />
+                                Edit
+                              </Button>
+                              <Button 
+                                onClick={() => handleDeleteJob(job.id)}
+                                variant="destructive"
+                                size="sm"
+                                className="flex-1"
+                                disabled={deleteJobMutation.isPending}
+                              >
+                                <Trash2 className="h-4 w-4 mr-1" />
+                                {deleteJobMutation.isPending ? 'Deleting...' : 'Delete'}
+                              </Button>
+                            </div>
+                          </div>
+                        ) : (
+                          <Button 
+                            onClick={() => handleApplyToJob(job.id)}
+                            disabled={applyToJobMutation.isPending}
+                            className="w-full bg-purple-600 hover:bg-purple-700 text-sm"
+                          >
+                            {applyToJobMutation.isPending ? 'Applying...' : 'I\'m Interested'}
+                          </Button>
+                        )}
                       </div>
                     </CardContent>
                   </Card>

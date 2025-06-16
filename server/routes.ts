@@ -593,6 +593,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Delete job endpoint
+  app.delete('/api/jobs/:jobId', requireAuth, async (req, res) => {
+    try {
+      const { jobId } = req.params;
+      const userId = req.session.userId;
+
+      const job = await storage.getJob(jobId);
+      if (!job) {
+        return res.status(404).json({ message: "Job not found" });
+      }
+
+      // Only allow parent who posted the job to delete it
+      if (job.parentId !== userId) {
+        return res.status(403).json({ message: "Not authorized to delete this job" });
+      }
+
+      await storage.deleteJob(jobId);
+      res.json({ message: "Job deleted successfully" });
+    } catch (error) {
+      console.error("Delete job error:", error);
+      res.status(500).json({ message: "Failed to delete job" });
+    }
+  });
+
   app.get('/api/jobs/:jobId/applications', requireAuth, async (req, res) => {
     try {
       const { jobId } = req.params;
