@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
+import { useLocation } from "wouter";
 import { Calendar, Users, DollarSign, Clock, FileText, Briefcase } from "lucide-react";
 
 interface JobFormData {
@@ -30,6 +31,7 @@ export default function PostJob() {
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [, setLocation] = useLocation();
 
   const postJobMutation = useMutation({
     mutationFn: async (data: JobFormData) => {
@@ -52,15 +54,9 @@ export default function PostJob() {
         description: data.message || "Job posted successfully!",
       });
       queryClient.invalidateQueries({ queryKey: ['/api/jobs'] });
-      // Reset form
-      setFormData({
-        title: '',
-        startDate: '',
-        numChildren: 1,
-        rate: '',
-        hoursPerWeek: '',
-        description: ''
-      });
+      queryClient.invalidateQueries({ queryKey: ['/api/getJobs'] });
+      // Redirect to job board
+      setLocation("/job-board");
     },
     onError: (error: Error) => {
       toast({

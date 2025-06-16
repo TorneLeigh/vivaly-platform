@@ -22,7 +22,9 @@ import {
   Search,
   Plus,
   Shield,
-  AlertTriangle
+  AlertTriangle,
+  Edit,
+  Trash2
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { User } from "@shared/schema";
@@ -238,6 +240,43 @@ export default function JobBoard() {
       });
     }
   });
+
+  // Delete job mutation
+  const deleteJobMutation = useMutation({
+    mutationFn: async (jobId: string) => {
+      const response = await fetch(`/api/jobs/${jobId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete job');
+      }
+      
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Job Deleted",
+        description: "Your job posting has been removed successfully.",
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/getJobs'] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to delete job",
+        variant: "destructive",
+      });
+    }
+  });
+
+  const handleDeleteJob = (jobId: string) => {
+    if (confirm("Are you sure you want to delete this job posting?")) {
+      deleteJobMutation.mutate(jobId);
+    }
+  };
 
   const handleJobSubmit = (e: React.FormEvent) => {
     e.preventDefault();

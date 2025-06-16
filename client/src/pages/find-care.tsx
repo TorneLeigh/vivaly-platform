@@ -102,7 +102,7 @@ export default function FindCare() {
         <section className="mb-12">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Licensed Childcare Centers
+              Certified Care
             </h2>
             <Badge variant="outline" className="text-sm">
               {filteredChildcare.length} available
