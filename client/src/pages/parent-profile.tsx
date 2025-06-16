@@ -543,6 +543,14 @@ export default function ParentProfile() {
                       <Label>Rate</Label>
                       <Input placeholder="$25/hour" />
                     </div>
+                    <div className="space-y-2">
+                      <Label>Position Type</Label>
+                      <Input placeholder="Regular schedule / Flexible short notice help" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Availability Needed</Label>
+                      <Input placeholder="Last minute coverage, emergency care, date nights" />
+                    </div>
                   </div>
                 </div>
               )}
