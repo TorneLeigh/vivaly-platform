@@ -593,6 +593,62 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get single job endpoint
+  app.get('/api/jobs/:jobId', requireAuth, async (req, res) => {
+    try {
+      const { jobId } = req.params;
+      const job = await storage.getJob(jobId);
+      
+      if (!job) {
+        return res.status(404).json({ message: "Job not found" });
+      }
+
+      res.json(job);
+    } catch (error) {
+      console.error("Get job error:", error);
+      res.status(500).json({ message: "Failed to get job" });
+    }
+  });
+
+  // Update job endpoint
+  app.put('/api/jobs/:jobId', requireAuth, async (req, res) => {
+    try {
+      const { jobId } = req.params;
+      const userId = req.session.userId;
+      const { title, startDate, numChildren, rate, hoursPerWeek, description, location, suburb } = req.body;
+
+      const job = await storage.getJob(jobId);
+      if (!job) {
+        return res.status(404).json({ message: "Job not found" });
+      }
+
+      // Only allow parent who posted the job to update it
+      if (job.parentId !== userId) {
+        return res.status(403).json({ message: "Not authorized to update this job" });
+      }
+
+      if (!title || !startDate || !numChildren || !rate || !hoursPerWeek || !description) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      const updatedJob = await storage.updateJob(jobId, {
+        title,
+        startDate,
+        numChildren,
+        rate,
+        hoursPerWeek,
+        description,
+        location: location || null,
+        suburb: suburb || null
+      });
+
+      res.json(updatedJob);
+    } catch (error) {
+      console.error("Update job error:", error);
+      res.status(500).json({ message: "Failed to update job" });
+    }
+  });
+
   // Delete job endpoint
   app.delete('/api/jobs/:jobId', requireAuth, async (req, res) => {
     try {
