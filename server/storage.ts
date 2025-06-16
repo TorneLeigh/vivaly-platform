@@ -29,6 +29,9 @@ export interface IStorage {
   updateUserPassword(userId: string, hashedPassword: string): Promise<void>;
   clearUserResetToken(userId: string): Promise<void>;
   
+  // Role management operations
+  updateUserRoles(userId: string, roles: string[]): Promise<User>;
+  
   // Message operations
   getMessages(userId: string): Promise<Message[]>;
   createMessage(message: InsertMessage): Promise<Message>;
@@ -126,6 +129,18 @@ export class DatabaseStorage implements IStorage {
         resetTokenExpires: null
       })
       .where(eq(users.id, userId));
+  }
+
+  async updateUserRoles(userId: string, roles: string[]): Promise<User> {
+    const [updatedUser] = await db
+      .update(users)
+      .set({ 
+        roles: roles,
+        updatedAt: new Date()
+      })
+      .where(eq(users.id, userId))
+      .returning();
+    return updatedUser;
   }
 
   // Message operations

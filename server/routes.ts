@@ -64,8 +64,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userData = validationResult.data;
 
       const existingUser = await storage.getUserByEmail(userData.email);
+      
       if (existingUser) {
-        return res.status(400).json({ message: "User already exists" });
+        // Determine the role being requested
+        const requestedRole = userData.isNanny ? "caregiver" : "parent";
+        
+        // Check if user already has this role
+        const existingRoles = existingUser.roles || ["parent"];
+        const hasRole = existingRoles.includes(requestedRole);
+        
+        if (hasRole) {
+          return res.status(400).json({ 
+            message: `You already have a ${requestedRole} account.` 
+          });
+        }
+        
+        // Add new role to existing user
+        const updatedRoles = existingRoles.includes(requestedRole) 
+          ? existingRoles 
+          : [...existingRoles, requestedRole];
+        const updatedUser = await storage.updateUserRoles(existingUser.id, updatedRoles);
+        
+        // Set session for the user
+        req.session.userId = existingUser.id;
+        req.session.activeRole = requestedRole;
+        
+        // Ensure session persistence
+        await new Promise<void>((resolve, reject) => {
+          req.session.save((err) => {
+            if (err) reject(err);
+            else resolve();
+          });
+        });
+        
+        return res.json({
+          message: `Added ${requestedRole} role to your account.`,
+          id: existingUser.id,
+          email: existingUser.email,
+          firstName: existingUser.firstName,
+          lastName: existingUser.lastName,
+          roles: updatedRoles,
+          activeRole: requestedRole,
+          isNanny: existingUser.isNanny || requestedRole === "caregiver"
+        });
       }
 
       const hashedPassword = await bcrypt.hash(userData.password, 12);
@@ -336,8 +377,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { email } = req.body;
       if (!email) return res.status(400).json({ message: "Email is required" });
 
-      const user = await storage.getUserByEmail(email.toLowerCase());
-      if (!user) return res.status(404).json({ message: "No user found with that email" });
+      const normalizedEmail = email.toLowerCase().trim();
+      const user = await storage.getUserByEmail(normalizedEmail);
+      
+      // Always return success to prevent email enumeration attacks
+      if (!user) {
+        return res.json({ message: "If an account exists, a reset email will be sent" });
+      }
 
       // Generate reset token
       const resetToken = randomUUID();
@@ -346,25 +392,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Store reset token in database
       await storage.updateUserResetToken(user.id, resetToken, resetTokenExpires);
 
-      // Create reset link
-      const resetLink = `https://vivaly.com.au/reset?token=${resetToken}`;
+      // Create reset link - use current domain
+      const baseUrl = process.env.NODE_ENV === 'production' ? 'https://vivaly.com.au' : `${req.protocol}://${req.get('host')}`;
+      const resetLink = `${baseUrl}/reset-password?token=${resetToken}`;
 
-      await sendEmail(
-        email,
-        'Reset your VIVALY password',
-        `<p>Hi ${user.firstName},</p>
-        <p>You requested to reset your password for your VIVALY account.</p>
-        <p>Click the link below to reset your password:</p>
-        <p><a href="${resetLink}" style="color: #000; text-decoration: underline;">${resetLink}</a></p>
-        <p>This link will expire in 1 hour.</p>
-        <p>If you didn't request this, please ignore this email.</p>
-        <p>Best regards,<br>The VIVALY Team</p>`
-      );
-
-      res.json({ message: "Password reset email sent" });
-    } catch (err) {
-      console.error("Reset error:", err);
-      res.status(500).json({ message: "Failed to send reset email" });
+      try {
+        await sendEmail(
+          normalizedEmail,
+          'Reset your VIVALY password',
+          `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #000;">Reset your VIVALY password</h2>
+            <p>Hi ${user.firstName},</p>
+            <p>You requested to reset your password for your VIVALY account.</p>
+            <p>Click the button below to reset your password:</p>
+            <div style="text-align: center; margin: 30px 0;">
+              <a href="${resetLink}" style="background-color: #000; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">Reset Password</a>
+            </div>
+            <p>Or copy and paste this link into your browser:</p>
+            <p><a href="${resetLink}" style="color: #000; text-decoration: underline;">${resetLink}</a></p>
+            <p><strong>This link will expire in 1 hour.</strong></p>
+            <p>If you didn't request this password reset, please ignore this email.</p>
+            <p>Best regards,<br>The VIVALY Team</p>
+          </div>`
+        );
+        
+        console.log(`Password reset email sent to: ${normalizedEmail}`);
+        res.json({ message: "If an account exists, a reset email will be sent" });
+      } catch (emailError) {
+        console.error("Email sending failed:", emailError);
+        // Don't reveal email sending failure to prevent enumeration
+        res.json({ message: "If an account exists, a reset email will be sent" });
+      }
+    } catch (error) {
+      console.error("Reset password error:", error);
+      res.status(500).json({ message: "Failed to process reset request" });
     }
   });
 
