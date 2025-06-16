@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import RoleToggle from '@/components/RoleToggle';
+import ReferralPopup from '@/components/ReferralPopup';
 import { useLocation } from 'wouter';
 import { 
   Users, 
@@ -189,6 +190,14 @@ export default function ParentDashboard() {
           </CardContent>
         </Card>
       </div>
+      
+      {/* Referral Popup */}
+      {user && (
+        <ReferralPopup 
+          userRole="parent" 
+          userName={user.firstName || 'User'} 
+        />
+      )}
     </div>
   );
 }

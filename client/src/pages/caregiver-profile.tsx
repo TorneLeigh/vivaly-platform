@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { useAuth } from "@/hooks/useAuth";
 import { calculateCompletion } from "@/lib/profileCompletion";
+import ReferralPopup from "@/components/ReferralPopup";
 import { 
   User, 
   Mail, 
@@ -2057,6 +2058,14 @@ export default function CaregiverProfile() {
           </div>
         </div>
       </div>
+      
+      {/* Referral Popup */}
+      {user && (
+        <ReferralPopup 
+          userRole="caregiver" 
+          userName={user.firstName || 'User'} 
+        />
+      )}
     </div>
   );
 }

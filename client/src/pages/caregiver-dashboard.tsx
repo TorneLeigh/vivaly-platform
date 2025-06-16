@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import RoleToggle from '@/components/RoleToggle';
+import ReferralPopup from '@/components/ReferralPopup';
 import { useLocation } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
@@ -317,6 +318,14 @@ export default function CaregiverDashboard() {
           </CardContent>
         </Card>
       </div>
+      
+      {/* Referral Popup */}
+      {user && (
+        <ReferralPopup 
+          userRole="caregiver" 
+          userName={user.firstName || 'User'} 
+        />
+      )}
     </div>
   );
 }

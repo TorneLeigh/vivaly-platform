@@ -698,6 +698,14 @@ export default function ParentProfile() {
           </Card>
         </div>
       </div>
+      
+      {/* Referral Popup */}
+      {user && (
+        <ReferralPopup 
+          userRole="parent" 
+          userName={user.firstName || 'User'} 
+        />
+      )}
     </div>
   );
 }
