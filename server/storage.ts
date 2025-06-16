@@ -35,7 +35,7 @@ export interface IStorage {
   
   // Job operations
   createJob(job: InsertJob): Promise<Job>;
-  getJobs(): Promise<Job[]>;
+  getJobs(): Promise<any[]>;
   getJobsByParent(parentId: string): Promise<Job[]>;
   getJob(jobId: string): Promise<Job | undefined>;
   
@@ -157,7 +157,7 @@ export class DatabaseStorage implements IStorage {
     return job;
   }
 
-  async getJobs(): Promise<Job[]> {
+  async getJobs(): Promise<any[]> {
     const jobsWithParents = await db
       .select({
         id: jobs.id,
@@ -176,7 +176,7 @@ export class DatabaseStorage implements IStorage {
           firstName: users.firstName,
           lastName: users.lastName,
           profilePhoto: users.profileImageUrl,
-          suburb: jobs.suburb // Use suburb from job posting
+          suburb: jobs.suburb
         }
       })
       .from(jobs)
