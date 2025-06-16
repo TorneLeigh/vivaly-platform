@@ -24,7 +24,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const upload = multer({ dest: "uploads/" });
 
   // Serve uploaded files statically
-  app.use("/uploads", express.static("uploads"));
+  const staticMiddleware = express.static("uploads");
+  app.use("/uploads", staticMiddleware);
 
   // Video upload endpoint
   app.post("/api/upload-intro-video", requireAuth, upload.single("video"), async (req, res) => {

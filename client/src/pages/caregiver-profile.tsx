@@ -54,6 +54,7 @@ const caregiverProfileSchema = z.object({
   
   // Professional Bio
   bio: z.string().min(50, "Bio must be at least 50 characters"),
+  introVideo: z.string().optional(),
   yearsOfExperience: z.string().default("1-2"),
   hourlyRate: z.string().optional(),
   availability: z.array(z.string()).default([]),
@@ -164,6 +165,7 @@ const languageOptions = [
 export default function CaregiverProfile() {
   const [activeSection, setActiveSection] = useState("basic");
   const [isEditing, setIsEditing] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -284,6 +286,53 @@ export default function CaregiverProfile() {
     updateProfileMutation.mutate(data);
   };
 
+  const handleVideoUpload = async (file: File) => {
+    if (!file) return;
+    
+    if (file.size > 60 * 1024 * 1024) { // 60MB limit
+      toast({
+        title: "File Too Large",
+        description: "Video must be under 60MB",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("video", file);
+
+    try {
+      const response = await fetch("/api/upload-intro-video", {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Upload failed");
+      }
+
+      const result = await response.json();
+      
+      // Update the form with the video URL
+      form.setValue("introVideo", result.url);
+      
+      toast({
+        title: "Success",
+        description: "Intro video uploaded successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Upload Error",
+        description: "Failed to upload video. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const sections = [
     { id: "basic", label: "Basic Info", icon: User },
     { id: "qualifications", label: "Qualifications", icon: Award },
@@ -300,15 +349,33 @@ export default function CaregiverProfile() {
   // Temporarily bypass auth for demo
   const tempUser = user || { firstName: "Demo", lastName: "Caregiver", email: "caregiver@example.com" };
 
+  // Calculate profile completion
+  const currentProfile = form.getValues();
+  const completionPercentage = calculateCompletion(currentProfile, 'caregiver');
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
-            <div>
+            <div className="flex-1">
               <h1 className="text-3xl font-bold text-gray-900">Caregiver Profile</h1>
               <p className="text-gray-600 mt-1">Showcase your experience and connect with families</p>
+              
+              {/* Profile Completion */}
+              <div className="mt-4 max-w-md">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-gray-700">Profile Completion</span>
+                  <span className="text-sm font-medium text-gray-900">{completionPercentage}%</span>
+                </div>
+                <Progress value={completionPercentage} className="h-2" />
+                {completionPercentage < 100 && (
+                  <p className="text-xs text-gray-500 mt-1">
+                    Complete your profile to attract more families
+                  </p>
+                )}
+              </div>
             </div>
             <div className="flex items-center space-x-4">
               {isEditing ? (
