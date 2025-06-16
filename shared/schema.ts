@@ -186,6 +186,8 @@ export const nannies = pgTable("nannies", {
   hourlyRate: decimal("hourly_rate", { precision: 10, scale: 2 }),
   location: text("location").notNull(),
   suburb: text("suburb").notNull(),
+  introVideo: text("intro_video"), // URL to intro video
+  profilePhoto: text("profile_photo"), // URL to profile photo
   // Document verification fields
   hasPhotoId: boolean("has_photo_id").default(false),
   hasWwcc: boolean("has_wwcc").default(false),

@@ -1,4 +1,5 @@
 import type { Express } from "express";
+import express from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import bcrypt from "bcryptjs";
@@ -8,8 +9,42 @@ import { insertUserSchema, insertJobSchema, insertApplicationSchema, type Insert
 import { requireAuth, requireRole } from "./auth-middleware";
 import { sendPasswordResetEmail } from "./email-service";
 import { sendEmail } from "./lib/sendEmail";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Create uploads directory if it doesn't exist
+  const uploadsDir = path.join(process.cwd(), 'uploads');
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+  }
+
+  // Configure multer for file uploads
+  const upload = multer({ dest: "uploads/" });
+
+  // Serve uploaded files statically
+  app.use("/uploads", express.static("uploads"));
+
+  // Video upload endpoint
+  app.post("/api/upload-intro-video", requireAuth, upload.single("video"), async (req, res) => {
+    try {
+      const file = req.file;
+      if (!file) return res.status(400).json({ message: "No video uploaded" });
+
+      const ext = path.extname(file.originalname);
+      const newPath = path.join("uploads", `${file.filename}${ext}`);
+      fs.renameSync(file.path, newPath);
+
+      const videoUrl = `/uploads/${file.filename}${ext}`;
+
+      return res.json({ url: videoUrl });
+    } catch (error) {
+      console.error("Video upload error:", error);
+      res.status(500).json({ message: "Failed to upload video" });
+    }
+  });
+
   // Auth routes
   app.post('/api/register', async (req, res) => {
     try {
