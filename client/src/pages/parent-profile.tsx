@@ -1,97 +1,115 @@
-import { useState, useEffect } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useLocation } from "wouter";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { useEffect, useState } from "react";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
+import { useLocation } from "wouter";
 import { 
   User, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Calendar, 
-  DollarSign, 
-  Clock, 
-  Users,
-  Edit,
-  Trash2,
-  Plus,
-  Briefcase,
-  Camera,
-  Play
+  Camera, 
+  Users, 
+  Baby, 
+  Heart, 
+  UserCheck, 
+  PawPrint, 
+  CheckCircle, 
+  FileText, 
+  Star,
+  Home,
+  Shield,
+  MessageCircle,
+  Eye,
+  Edit
 } from "lucide-react";
-import { apiRequest } from "@/lib/queryClient";
-import { useAuth } from "@/hooks/useAuth";
-
-interface Job {
-  id: string;
-  parentId: string;
-  title?: string;
-  startDate: string;
-  numChildren: number;
-  rate: string;
-  hoursPerWeek: number;
-  description: string;
-  location?: string;
-  suburb?: string;
-  status?: string;
-  createdAt?: string;
-}
 
 export default function ParentProfile() {
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
   const { user } = useAuth();
+  const { toast } = useToast();
   const [, setLocation] = useLocation();
+  const [activeSection, setActiveSection] = useState("basic-info");
+  const [videoUploading, setVideoUploading] = useState(false);
 
-  // Calculate profile completion percentage
-  const calculateProfileCompletion = () => {
-    if (!user) return 0;
-    let completedFields = 0;
-    const totalFields = 4;
-    
-    if (user.firstName) completedFields++;
-    if (user.lastName) completedFields++;
-    if (user.email) completedFields++;
-    if ((user as any).phone) completedFields++;
-    
-    return Math.round((completedFields / totalFields) * 100);
-  };
-
-  // Fetch user's active job posts
-  const { data: myJobs = [], isLoading: jobsLoading } = useQuery({
+  // Fetch user's jobs
+  const { data: jobs = [] } = useQuery({
     queryKey: ['/api/jobs/my'],
     queryFn: () => apiRequest('GET', '/api/jobs/my'),
     enabled: !!user
   });
 
-  // Delete job mutation
-  const deleteJobMutation = useMutation({
-    mutationFn: async (jobId: string) => {
-      return apiRequest('DELETE', `/api/jobs/${jobId}`);
-    },
-    onSuccess: () => {
-      toast({
-        title: "Success",
-        description: "Job deleted successfully",
-      });
-      queryClient.invalidateQueries({ queryKey: ['/api/jobs/my'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/getJobs'] });
-    },
-    onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to delete job",
-        variant: "destructive",
-      });
-    },
-  });
+  const sidebarItems = [
+    { id: "basic-info", label: "Basic Info", icon: User, active: true },
+    { id: "photos", label: "Photos", icon: Camera },
+    { id: "family-children", label: "Family & Children", icon: Users },
+    { id: "children-details", label: "Children Details", icon: Baby },
+    { id: "health-medical", label: "Health & Medical", icon: Heart },
+    { id: "elderly-care", label: "Elderly Care", icon: UserCheck },
+    { id: "pet-care", label: "Pet Care", icon: PawPrint },
+    { id: "essential-requirements", label: "Essential Requirements", icon: CheckCircle },
+    { id: "position-details", label: "Position Details", icon: FileText },
+    { id: "responsibilities", label: "Responsibilities", icon: Star },
+    { id: "caregiver-preferences", label: "Caregiver Preferences", icon: Star },
+    { id: "household-rules", label: "Household Rules", icon: Home },
+    { id: "safety-emergency", label: "Safety & Emergency", icon: Shield },
+    { id: "personal-touch", label: "Personal Touch", icon: MessageCircle }
+  ];
 
-  const handleDeleteJob = (jobId: string) => {
-    if (confirm("Are you sure you want to delete this job?")) {
-      deleteJobMutation.mutate(jobId);
+  const calculateCompletion = () => {
+    if (!user) return 0;
+    const fields = [
+      user.firstName,
+      user.lastName, 
+      user.email,
+      (user as any).phone,
+      // Add other profile fields as they're completed
+    ];
+    const filled = fields.filter(f => f && f.toString().trim());
+    return Math.round((filled.length / fields.length) * 100);
+  };
+
+  const handleVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 60 * 1024 * 1024) {
+      toast({ 
+        title: "Video too large", 
+        description: "Must be under 60MB", 
+        variant: "destructive" 
+      });
+      return;
+    }
+
+    setVideoUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("video", file);
+
+      const response = await fetch("/api/upload-intro-video", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        toast({ 
+          title: "Success",
+          description: "Video uploaded successfully!" 
+        });
+      } else {
+        throw new Error("Upload failed");
+      }
+    } catch (error) {
+      toast({ 
+        title: "Upload failed", 
+        description: "Please try again",
+        variant: "destructive" 
+      });
+    } finally {
+      setVideoUploading(false);
     }
   };
 
@@ -112,206 +130,201 @@ export default function ParentProfile() {
     );
   }
 
-  return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Profile Header */}
-        <Card className="mb-8">
-          <CardHeader>
-            <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
-                <User className="h-8 w-8 text-gray-500" />
-              </div>
-              <div className="flex-1">
-                <CardTitle className="text-2xl">
-                  {user.firstName} {user.lastName}
-                </CardTitle>
-                <CardDescription className="flex items-center gap-2 mt-1">
-                  <Mail className="h-4 w-4" />
-                  {user.email}
-                </CardDescription>
-                <div className="mt-3">
-                  <div className="flex items-center justify-between text-sm text-gray-600 mb-1">
-                    <span>Profile Completion</span>
-                    <span>{calculateProfileCompletion()}%</span>
-                  </div>
-                  <Progress value={calculateProfileCompletion()} className="w-full" />
-                </div>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              {/* Contact Information */}
-              <div className="space-y-3">
-                <h3 className="font-semibold text-gray-900">Contact Information</h3>
-                <div className="flex items-center gap-2 text-gray-600">
-                  <Mail className="h-4 w-4" />
-                  <span>{user.email}</span>
-                </div>
-                {(user as any).phone && (
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <Phone className="h-4 w-4" />
-                    <span>{(user as any).phone}</span>
-                  </div>
-                )}
-              </div>
-              
-              {/* Account Details */}
-              <div className="space-y-3">
-                <h3 className="font-semibold text-gray-900">Account Details</h3>
-                <div className="flex items-center gap-2">
-                  <Badge variant="secondary">Parent Account</Badge>
-                  {user.roles?.includes("caregiver") && (
-                    <Badge variant="outline">Dual Role</Badge>
-                  )}
-                </div>
-                <div className="text-sm text-gray-600">
-                  Active Jobs: {myJobs.length}
-                </div>
-              </div>
-            </div>
+  const renderBasicInfo = () => (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <Label htmlFor="firstName">First Name</Label>
+          <Input
+            id="firstName"
+            value={user.firstName || ""}
+            placeholder="torne"
+            readOnly
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="lastName">Last Name</Label>
+          <Input
+            id="lastName"
+            value={user.lastName || ""}
+            placeholder="velk"
+            readOnly
+          />
+        </div>
+      </div>
 
-            {/* Intro Video Section */}
-            <div className="mt-6 p-6 bg-gray-50 rounded-lg">
-              <h3 className="text-lg font-semibold mb-4">Intro Video</h3>
-              <div className="flex items-center space-x-4">
-                <div className="w-32 h-20 bg-gray-200 rounded-lg flex items-center justify-center">
-                  <Play className="h-8 w-8 text-gray-500" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm text-gray-600 mb-2">
-                    Upload a short video introducing yourself and your family
-                  </p>
-                  <Button variant="outline" size="sm">
-                    <Camera className="h-4 w-4 mr-2" />
-                    Upload Video
-                  </Button>
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-between pt-4 border-t mt-6">
-              <div className="text-sm text-gray-500">
-                Member since {new Date().getFullYear()}
-              </div>
-              <Button variant="outline" onClick={() => setLocation("/account-settings")}>
-                <Edit className="h-4 w-4 mr-2" />
-                Edit Profile
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
+            value={user.email || ""}
+            placeholder="tornevelk1@gmail.com"
+            readOnly
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="phone">Phone Number</Label>
+          <Input
+            id="phone"
+            value={(user as any).phone || ""}
+            placeholder="0431553386"
+            readOnly
+          />
+        </div>
+      </div>
 
-        {/* Active Job Posts Section */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle className="flex items-center gap-2">
-                  <Briefcase className="h-5 w-5" />
-                  Your Active Job Posts
-                </CardTitle>
-                <CardDescription>
-                  Manage your childcare job listings
-                </CardDescription>
-              </div>
-              <Button onClick={() => setLocation("/post-job")}>
-                <Plus className="h-4 w-4 mr-2" />
-                Post New Job
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {jobsLoading ? (
-              <div className="text-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
-                <p className="mt-2 text-gray-500">Loading your jobs...</p>
-              </div>
-            ) : myJobs.length === 0 ? (
-              <div className="text-center py-8">
-                <Briefcase className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No active job posts</h3>
-                <p className="text-gray-500 mb-4">Start by creating your first job posting to find the perfect caregiver.</p>
-                <Button onClick={() => setLocation("/post-job")}>
-                  <Plus className="h-4 w-4 mr-2" />
-                  Post Your First Job
-                </Button>
-              </div>
-            ) : (
-              <div className="grid gap-4">
-                {myJobs.map((job: Job) => (
-                  <Card key={job.id} className="border border-gray-200">
-                    <CardContent className="pt-6">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-lg mb-2">{job.title}</h4>
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600">
-                            <div className="flex items-center gap-2">
-                              <Calendar className="h-4 w-4" />
-                              <span>{new Date(job.startDate).toLocaleDateString()}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <DollarSign className="h-4 w-4" />
-                              <span>${job.rate}/hour</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Clock className="h-4 w-4" />
-                              <span>{job.hoursPerWeek}h/week</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Users className="h-4 w-4" />
-                              <span>{job.numChildren} {job.numChildren === 1 ? 'child' : 'children'}</span>
-                            </div>
-                          </div>
-                          {job.suburb && (
-                            <div className="flex items-center gap-2 mt-2 text-sm text-gray-600">
-                              <MapPin className="h-4 w-4" />
-                              <span>{job.suburb}</span>
-                            </div>
-                          )}
-                          <p className="mt-3 text-gray-700 line-clamp-2">{job.description}</p>
-                        </div>
-                        <div className="flex items-center gap-2 ml-4">
-                          <Badge variant="outline" className="text-green-600 border-green-600">
-                            Active
-                          </Badge>
-                          <Badge variant="secondary">
-                            Posted by you
-                          </Badge>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between mt-4 pt-4 border-t">
-                        <div className="text-sm text-gray-500">
-                          Posted {job.createdAt ? new Date(job.createdAt).toLocaleDateString() : 'Recently'}
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            onClick={() => setLocation(`/edit-job/${job.id}`)}
-                          >
-                            <Edit className="h-4 w-4 mr-1" />
-                            Edit
-                          </Button>
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            onClick={() => handleDeleteJob(job.id)}
-                            disabled={deleteJobMutation.isPending}
-                          >
-                            <Trash2 className="h-4 w-4 mr-1" />
-                            Delete
-                          </Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+      <div className="space-y-2">
+        <Label htmlFor="homeAddress">Home Address</Label>
+        <Input
+          id="homeAddress"
+          placeholder="123 Main Street, Sydney NSW 2000"
+          readOnly
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="suburb">Suburb</Label>
+        <Input
+          id="suburb"
+          placeholder="Bondi Beach"
+          readOnly
+        />
+      </div>
+
+      {/* Profile Completion */}
+      <div className="mt-8 p-6 bg-gray-50 rounded-lg">
+        <div className="space-y-3">
+          <Label>Profile Completion</Label>
+          <Progress value={calculateCompletion()} className="w-full" />
+          <p className="text-sm text-gray-500">{calculateCompletion()}% complete</p>
+        </div>
+      </div>
+
+      {/* Intro Video Section */}
+      <div className="mt-6 p-6 bg-gray-50 rounded-lg">
+        <div className="space-y-4">
+          <Label>Intro Video</Label>
+          <p className="text-sm text-gray-500">
+            Upload a short 1-minute video about your family and what kind of caregiver you're looking for.
+          </p>
+          <div className="flex items-center gap-4">
+            <Input 
+              type="file" 
+              accept="video/mp4,video/quicktime,video/x-msvideo" 
+              onChange={handleVideoUpload}
+              disabled={videoUploading}
+            />
+            {videoUploading && (
+              <span className="text-sm text-gray-500">Uploading...</span>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
+      </div>
+
+      {/* Active Job Posts Section */}
+      <div className="mt-8 p-6 bg-white border rounded-lg">
+        <h3 className="text-lg font-semibold mb-4">Your Active Job Posts</h3>
+        {jobs.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="text-gray-500 mb-4">No jobs posted yet.</p>
+            <Button onClick={() => setLocation("/post-job")}>
+              Post Your First Job
+            </Button>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {jobs.map((job: any) => (
+              <div key={job.id} className="border p-4 rounded-lg">
+                <h4 className="font-semibold text-lg mb-2">{job.title}</h4>
+                <div className="text-sm text-gray-600 space-y-1">
+                  <p>Starts: {new Date(job.startDate).toLocaleDateString()}</p>
+                  <p>${job.rate}/hour — {job.hoursPerWeek} hours/week — {job.numChildren} child(ren)</p>
+                  <p className="mt-2">{job.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b px-6 py-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Parent Profile</h1>
+            <p className="text-gray-600 mt-1">Complete your profile to find the perfect caregiver</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button variant="outline">
+              <Eye className="h-4 w-4 mr-2" />
+              View Profile
+            </Button>
+            <Button>
+              <Edit className="h-4 w-4 mr-2" />
+              Edit Profile
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto flex">
+        {/* Sidebar Navigation */}
+        <div className="w-64 bg-white border-r min-h-screen">
+          <div className="p-6">
+            <nav className="space-y-1">
+              {sidebarItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = activeSection === item.id;
+                
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => setActiveSection(item.id)}
+                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors text-sm ${
+                      isActive 
+                        ? 'bg-black text-white' 
+                        : 'text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    <Icon className="h-4 w-4" />
+                    <span>{item.label}</span>
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 p-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <User className="h-5 w-5" />
+                <span>Basic Information</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {activeSection === "basic-info" && renderBasicInfo()}
+              {activeSection !== "basic-info" && (
+                <div className="text-center py-12">
+                  <div className="text-gray-400 mb-4">
+                    <FileText className="h-12 w-12 mx-auto" />
+                  </div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">Section Coming Soon</h3>
+                  <p className="text-gray-500">
+                    This section is under development. Please complete the Basic Information section first.
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

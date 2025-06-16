@@ -1,0 +1,167 @@
+import { useEffect, useState } from "react";
+import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useUser } from "@/hooks/use-user";
+import { apiRequest } from "@/lib/queryClient";
+import { toast } from "@/hooks/use-toast";
+
+export default function ParentProfile() {
+  const { user } = useUser();
+  const [profile, setProfile] = useState<any>(null);
+  const [videoUploading, setVideoUploading] = useState(false);
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+    fetchProfile();
+    fetchJobs();
+  }, []);
+
+  const fetchProfile = async () => {
+    const res = await fetch("/api/me");
+    const data = await res.json();
+    setProfile(data);
+  };
+
+  const fetchJobs = async () => {
+    const res = await fetch("/api/getJobs?userId=" + user?.id);
+    const data = await res.json();
+    setJobs(data);
+  };
+
+  const calculateCompletion = () => {
+    const fields = ["firstName", "lastName", "email", "phone", "suburb", "introVideo"];
+    const filled = fields.filter(f => profile?.[f]);
+    return Math.round((filled.length / fields.length) * 100);
+  };
+
+  const handleVideoUpload = async (e: any) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 60 * 1024 * 1024) {
+      toast({ title: "Video too large", description: "Must be under 1 minute", variant: "destructive" });
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("video", file);
+
+    setVideoUploading(true);
+    const res = await fetch("/api/upload-intro-video", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+    if (data.url) {
+      await apiRequest("PUT", "/api/profile", { introVideo: data.url });
+      toast({ title: "Video uploaded!" });
+      fetchProfile();
+    } else {
+      toast({ title: "Upload failed", variant: "destructive" });
+    }
+    setVideoUploading(false);
+  };
+
+  return (
+    <div className="flex gap-6 p-6">
+      {/* Sidebar */}
+      <div className="w-64 space-y-3 text-sm">
+        <div className="font-semibold">Parent Profile</div>
+        <p className="text-gray-500">Complete your profile to find the perfect caregiver</p>
+        <nav className="space-y-2">
+          <div>👤 Basic Info</div>
+          <div>📷 Photos</div>
+          <div>👨‍👩‍👧 Family & Children</div>
+          <div>🧒 Children Details</div>
+          <div>❤️ Health & Medical</div>
+          <div>👵 Elderly Care</div>
+          <div>🐶 Pet Care</div>
+          <div>✅ Requirements</div>
+          <div>📝 Position Details</div>
+          <div>⭐ Preferences</div>
+          <div>🏡 Household Rules</div>
+          <div>🛡️ Safety</div>
+          <div>💬 Personal Touch</div>
+        </nav>
+      </div>
+
+      {/* Main Profile Section */}
+      <div className="flex-1 space-y-8">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold">Basic Information</h1>
+            <p className="text-gray-500">Fill in your details to complete your profile</p>
+          </div>
+          <div>
+            <Button>Edit Profile</Button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label>First Name</Label>
+            <Input value={profile?.firstName || ""} readOnly />
+          </div>
+          <div>
+            <Label>Last Name</Label>
+            <Input value={profile?.lastName || ""} readOnly />
+          </div>
+          <div>
+            <Label>Email</Label>
+            <Input value={profile?.email || ""} readOnly />
+          </div>
+          <div>
+            <Label>Phone</Label>
+            <Input value={profile?.phone || ""} readOnly />
+          </div>
+          <div>
+            <Label>Suburb</Label>
+            <Input value={profile?.suburb || ""} readOnly />
+          </div>
+        </div>
+
+        {/* Profile Completion */}
+        <div>
+          <Label>Profile Completion</Label>
+          <Progress value={calculateCompletion()} />
+          <p className="text-sm text-gray-500">{calculateCompletion()}% complete</p>
+        </div>
+
+        {/* Intro Video */}
+        <div>
+          <Label>Intro Video</Label>
+          <p className="text-sm text-gray-500">
+            Upload a short 1-minute video about your family and what kind of caregiver you’re looking for.
+          </p>
+          <Input type="file" accept="video/mp4" onChange={handleVideoUpload} />
+          {videoUploading && <p>Uploading...</p>}
+          {profile?.introVideo && (
+            <video controls width="300" className="mt-2">
+              <source src={profile.introVideo} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          )}
+        </div>
+
+        {/* Active Job Posts */}
+        <div className="pt-6">
+          <h2 className="text-xl font-semibold mb-2">Your Active Job Posts</h2>
+          {jobs.length === 0 && <p className="text-gray-500">No jobs posted yet.</p>}
+          <div className="space-y-4">
+            {jobs.map((job) => (
+              <div key={job.id} className="border p-4 rounded">
+                <h3 className="font-bold">{job.title}</h3>
+                <p>Starts: {job.startDate}</p>
+                <p>${job.rate}/hour — {job.hours} hours/week — {job.children} child(ren)</p>
+                <p>{job.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
