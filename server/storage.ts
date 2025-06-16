@@ -3,6 +3,7 @@ import {
   messages,
   jobs,
   applications,
+  bookings,
   type User,
   type InsertUser,
   type Message,
@@ -38,6 +39,10 @@ export interface IStorage {
   getMessagesBetweenUsers(userId1: string, userId2: string): Promise<Message[]>;
   sendMessage(message: { senderId: string; receiverId: string; text: string; timestamp: Date }): Promise<Message>;
   getConversations(userId: string): Promise<any[]>;
+  
+  // Booking operations
+  getParentBookings(parentId: string): Promise<any[]>;
+  getCaregiverBookings(caregiverId: string): Promise<any[]>;
   
   // Job operations
   createJob(job: InsertJob): Promise<Job>;
@@ -324,6 +329,45 @@ export class DatabaseStorage implements IStorage {
     });
 
     return Array.from(conversationMap.values());
+  }
+
+  // Booking operations
+  async getParentBookings(parentId: string): Promise<any[]> {
+    // Query bookings table for this parent
+    return await db
+      .select({
+        id: bookings.id,
+        caregiverName: users.firstName,
+        caregiverLastName: users.lastName,
+        date: bookings.date,
+        startTime: bookings.startTime,
+        endTime: bookings.endTime,
+        status: bookings.status,
+        serviceType: bookings.serviceType
+      })
+      .from(bookings)
+      .leftJoin(users, eq(bookings.nannyId, users.id))
+      .where(eq(bookings.parentId, parseInt(parentId)))
+      .orderBy(bookings.date);
+  }
+
+  async getCaregiverBookings(caregiverId: string): Promise<any[]> {
+    // Query bookings table for this caregiver
+    return await db
+      .select({
+        id: bookings.id,
+        parentName: users.firstName,
+        parentLastName: users.lastName,
+        date: bookings.date,
+        startTime: bookings.startTime,
+        endTime: bookings.endTime,
+        status: bookings.status,
+        serviceType: bookings.serviceType
+      })
+      .from(bookings)
+      .leftJoin(users, eq(bookings.parentId, users.id))
+      .where(eq(bookings.nannyId, parseInt(caregiverId)))
+      .orderBy(bookings.date);
   }
 }
 

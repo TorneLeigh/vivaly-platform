@@ -874,6 +874,30 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
     }
   });
 
+  // Parent's bookings
+  app.get("/api/parent/bookings", requireAuth, async (req, res) => {
+    const parentId = req.session.userId;
+    try {
+      const bookings = await storage.getParentBookings(parentId as string);
+      res.json(bookings);
+    } catch (error) {
+      console.error("Get parent bookings error:", error);
+      res.status(500).json({ message: "Failed to fetch parent bookings" });
+    }
+  });
+
+  // Caregiver's bookings
+  app.get("/api/caregiver/bookings", requireAuth, async (req, res) => {
+    const caregiverId = req.session.userId;
+    try {
+      const bookings = await storage.getCaregiverBookings(caregiverId as string);
+      res.json(bookings);
+    } catch (error) {
+      console.error("Get caregiver bookings error:", error);
+      res.status(500).json({ message: "Failed to fetch caregiver bookings" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

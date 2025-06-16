@@ -1,0 +1,185 @@
+1. Install Calendar Package
+In your Replit shell, run:
+
+bash
+Copy
+Edit
+npm install react-calendar
+2. Backend: Add Bookings Endpoints
+File: server/routes.ts
+
+ts
+Copy
+Edit
+import { requireAuth } from "./auth-middleware";
+
+// Parent’s bookings
+app.get("/api/parent/bookings", requireAuth, async (req, res) => {
+  const parentId = req.session.userId;
+  const bookings = await storage.getParentBookings(parentId);
+  res.json(bookings);
+});
+
+// Caregiver’s bookings
+app.get("/api/caregiver/bookings", requireAuth, async (req, res) => {
+  const caregiverId = req.session.userId;
+  const bookings = await storage.getCaregiverBookings(caregiverId);
+  res.json(bookings);
+});
+If you don’t yet have these storage methods, add them in server/storage.ts (or wherever your storage logic lives):
+
+ts
+Copy
+Edit
+// Example using an in-memory array or Replit DB
+export async function getParentBookings(parentId: string) {
+  // Replace with real DB query:
+  return db.bookings.filter(b => b.parentId === parentId);
+}
+
+export async function getCaregiverBookings(caregiverId: string) {
+  // Replace with real DB query:
+  return db.bookings.filter(b => b.caregiverId === caregiverId);
+}
+3. Frontend Pages
+A. Parent Bookings
+Create client/src/pages/parent-bookings.tsx and paste:
+
+tsx
+Copy
+Edit
+import { useEffect, useState } from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+
+type Booking = {
+  id: string;
+  caregiverName: string;
+  date: string;   // ISO date string
+  time: string;   // e.g. "09:00 – 13:00"
+  status: string; // e.g. "Confirmed"
+};
+
+export default function ParentBookings() {
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [date, setDate] = useState(new Date());
+
+  useEffect(() => {
+    fetch("/api/parent/bookings")
+      .then(res => res.json())
+      .then(setBookings);
+  }, []);
+
+  const todays = bookings.filter(b => 
+    new Date(b.date).toDateString() === date.toDateString()
+  );
+
+  return (
+    <div className="p-6">
+      <h1 className="text-2xl font-semibold mb-4">Your Bookings</h1>
+      <div className="md:flex gap-6">
+        <div>
+          <Calendar onChange={setDate} value={date} />
+        </div>
+        <div className="flex-1">
+          <h2 className="text-xl font-semibold mb-2">
+            Bookings on {date.toDateString()}
+          </h2>
+          {todays.length === 0 ? (
+            <p>No bookings on this date.</p>
+          ) : (
+            todays.map(b => (
+              <div key={b.id} className="border p-4 rounded mb-4">
+                <p><strong>Caregiver:</strong> {b.caregiverName}</p>
+                <p><strong>Time:</strong> {b.time}</p>
+                <p><strong>Status:</strong> {b.status}</p>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+B. Caregiver Bookings
+Create client/src/pages/caregiver-bookings.tsx:
+
+tsx
+Copy
+Edit
+import { useEffect, useState } from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+
+type Booking = {
+  id: string;
+  parentName: string;
+  date: string;
+  time: string;
+  status: string;
+};
+
+export default function CaregiverBookings() {
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [date, setDate] = useState(new Date());
+
+  useEffect(() => {
+    fetch("/api/caregiver/bookings")
+      .then(res => res.json())
+      .then(setBookings);
+  }, []);
+
+  const todays = bookings.filter(b => 
+    new Date(b.date).toDateString() === date.toDateString()
+  );
+
+  return (
+    <div className="p-6">
+      <h1 className="text-2xl font-semibold mb-4">Your Bookings</h1>
+      <div className="md:flex gap-6">
+        <div>
+          <Calendar onChange={setDate} value={date} />
+        </div>
+        <div className="flex-1">
+          <h2 className="text-xl font-semibold mb-2">
+            Bookings on {date.toDateString()}
+          </h2>
+          {todays.length === 0 ? (
+            <p>No bookings on this date.</p>
+          ) : (
+            todays.map(b => (
+              <div key={b.id} className="border p-4 rounded mb-4">
+                <p><strong>Parent:</strong> {b.parentName}</p>
+                <p><strong>Time:</strong> {b.time}</p>
+                <p><strong>Status:</strong> {b.status}</p>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+4. Update Routing
+File: client/src/App.tsx (or wherever your routes live)
+
+tsx
+Copy
+Edit
+import ParentBookings from "@/pages/parent-bookings";
+import CaregiverBookings from "@/pages/caregiver-bookings";
+// … other imports …
+
+<Routes>
+  {/* … existing routes … */}
+  <Route path="/parent/bookings" element={<ParentBookings />} />
+  <Route path="/caregiver/bookings" element={<CaregiverBookings />} />
+</Routes>
+⏱ That’s it!
+
+Redeploy your Replit
+
+Visit /parent/bookings and /caregiver/bookings
+
+You’ll see a calendar + your confirmed bookings
+
