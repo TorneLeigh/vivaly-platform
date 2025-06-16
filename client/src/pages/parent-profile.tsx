@@ -24,8 +24,15 @@ import {
   Shield,
   MessageCircle,
   Eye,
-  Edit
+  Edit,
+  Briefcase,
+  Plus,
+  Calendar,
+  DollarSign,
+  Clock,
+  MapPin
 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 export default function ParentProfile() {
   const { user } = useAuth();
@@ -47,15 +54,8 @@ export default function ParentProfile() {
     { id: "family-children", label: "Family & Children", icon: Users },
     { id: "children-details", label: "Children Details", icon: Baby },
     { id: "health-medical", label: "Health & Medical", icon: Heart },
-    { id: "elderly-care", label: "Elderly Care", icon: UserCheck },
-    { id: "pet-care", label: "Pet Care", icon: PawPrint },
     { id: "essential-requirements", label: "Essential Requirements", icon: CheckCircle },
-    { id: "position-details", label: "Position Details", icon: FileText },
-    { id: "responsibilities", label: "Responsibilities", icon: Star },
-    { id: "caregiver-preferences", label: "Caregiver Preferences", icon: Star },
-    { id: "household-rules", label: "Household Rules", icon: Home },
-    { id: "safety-emergency", label: "Safety & Emergency", icon: Shield },
-    { id: "personal-touch", label: "Personal Touch", icon: MessageCircle }
+    { id: "position-details", label: "Position Details", icon: FileText }
   ];
 
   const calculateCompletion = () => {
@@ -195,15 +195,6 @@ export default function ParentProfile() {
         />
       </div>
 
-      {/* Profile Completion */}
-      <div className="mt-8 p-6 bg-gray-50 rounded-lg">
-        <div className="space-y-3">
-          <Label>Profile Completion</Label>
-          <Progress value={calculateCompletion()} className="w-full" />
-          <p className="text-sm text-gray-500">{calculateCompletion()}% complete</p>
-        </div>
-      </div>
-
       {/* Intro Video Section */}
       <div className="mt-6 p-6 bg-gray-50 rounded-lg">
         <div className="space-y-4">
@@ -223,32 +214,6 @@ export default function ParentProfile() {
             )}
           </div>
         </div>
-      </div>
-
-      {/* Active Job Posts Section */}
-      <div className="mt-8 p-6 bg-white border rounded-lg">
-        <h3 className="text-lg font-semibold mb-4">Your Active Job Posts</h3>
-        {jobs.length === 0 ? (
-          <div className="text-center py-8">
-            <p className="text-gray-500 mb-4">No jobs posted yet.</p>
-            <Button onClick={() => setLocation("/post-job")}>
-              Post Your First Job
-            </Button>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {jobs.map((job: any) => (
-              <div key={job.id} className="border p-4 rounded-lg">
-                <h4 className="font-semibold text-lg mb-2">{job.title}</h4>
-                <div className="text-sm text-gray-600 space-y-1">
-                  <p>Starts: {new Date(job.startDate).toLocaleDateString()}</p>
-                  <p>${job.rate}/hour — {job.hoursPerWeek} hours/week — {job.numChildren} child(ren)</p>
-                  <p className="mt-2">{job.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );
@@ -346,6 +311,121 @@ export default function ParentProfile() {
         </div>
       </div>
 
+      {/* Profile Completion & Job Posts - Top Section */}
+      <div className="max-w-7xl mx-auto px-6 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          {/* Profile Completion */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Profile Completion</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <Progress value={calculateCompletion()} className="w-full" />
+                <p className="text-sm text-gray-500">{calculateCompletion()}% complete</p>
+                <p className="text-sm text-gray-600">Complete your profile to attract the best caregivers</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Video Upload */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Intro Video</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <p className="text-sm text-gray-600">
+                  Upload a short video about your family (Max 60MB)
+                </p>
+                <Input 
+                  type="file" 
+                  accept="video/mp4,video/quicktime,video/x-msvideo" 
+                  onChange={handleVideoUpload}
+                  disabled={videoUploading}
+                />
+                {videoUploading && (
+                  <p className="text-sm text-gray-500">Uploading...</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Active Job Posts */}
+        <Card className="mb-6">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="flex items-center gap-2">
+                <Briefcase className="h-5 w-5" />
+                Your Active Job Posts
+              </CardTitle>
+              <Button onClick={() => setLocation("/post-job")}>
+                <Plus className="h-4 w-4 mr-2" />
+                Post New Job
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            {jobs.length === 0 ? (
+              <div className="text-center py-8">
+                <Briefcase className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2">No active job posts</h3>
+                <p className="text-gray-500 mb-4">Start by creating your first job posting to find the perfect caregiver.</p>
+                <Button onClick={() => setLocation("/post-job")}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Post Your First Job
+                </Button>
+              </div>
+            ) : (
+              <div className="grid gap-4">
+                {jobs.map((job: any) => (
+                  <Card key={job.id} className="border border-gray-200">
+                    <CardContent className="pt-6">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-lg mb-2">{job.title}</h4>
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600">
+                            <div className="flex items-center gap-2">
+                              <Calendar className="h-4 w-4" />
+                              <span>{new Date(job.startDate).toLocaleDateString()}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <DollarSign className="h-4 w-4" />
+                              <span>${job.rate}/hour</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Clock className="h-4 w-4" />
+                              <span>{job.hoursPerWeek}h/week</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Users className="h-4 w-4" />
+                              <span>{job.numChildren} {job.numChildren === 1 ? 'child' : 'children'}</span>
+                            </div>
+                          </div>
+                          {job.suburb && (
+                            <div className="flex items-center gap-2 mt-2 text-sm text-gray-600">
+                              <MapPin className="h-4 w-4" />
+                              <span>{job.suburb}</span>
+                            </div>
+                          )}
+                          <p className="mt-3 text-gray-700 line-clamp-2">{job.description}</p>
+                        </div>
+                        <div className="flex items-center gap-2 ml-4">
+                          <Badge variant="outline" className="text-green-600 border-green-600">
+                            Active
+                          </Badge>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
       <div className="max-w-7xl mx-auto flex">
         {/* Sidebar Navigation */}
         <div className="w-64 bg-white border-r min-h-screen">
@@ -419,36 +499,6 @@ export default function ParentProfile() {
                   </div>
                 </div>
               )}
-              {activeSection === "elderly-care" && (
-                <div className="space-y-6">
-                  <h3 className="text-lg font-semibold mb-4">Elderly Care Requirements</h3>
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label>Care Type Needed</Label>
-                      <Input placeholder="Companionship, Light housekeeping" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Special Requirements</Label>
-                      <Input placeholder="Mobility assistance, medication reminders" />
-                    </div>
-                  </div>
-                </div>
-              )}
-              {activeSection === "pet-care" && (
-                <div className="space-y-6">
-                  <h3 className="text-lg font-semibold mb-4">Pet Care</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label>Pet Types</Label>
-                      <Input placeholder="1 Dog, 2 Cats" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Care Requirements</Label>
-                      <Input placeholder="Feeding, walking, basic care" />
-                    </div>
-                  </div>
-                </div>
-              )}
               {activeSection === "essential-requirements" && (
                 <div className="space-y-6">
                   <h3 className="text-lg font-semibold mb-4">Essential Requirements</h3>
@@ -489,17 +539,6 @@ export default function ParentProfile() {
                       <Input placeholder="$25/hour" />
                     </div>
                   </div>
-                </div>
-              )}
-              {["responsibilities", "caregiver-preferences", "household-rules", "safety-emergency", "personal-touch"].includes(activeSection) && (
-                <div className="text-center py-12">
-                  <div className="text-gray-400 mb-4">
-                    <FileText className="h-12 w-12 mx-auto" />
-                  </div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">Section Coming Soon</h3>
-                  <p className="text-gray-500">
-                    This section is under development. Complete the other sections first.
-                  </p>
                 </div>
               )}
             </CardContent>
