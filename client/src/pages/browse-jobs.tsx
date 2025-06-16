@@ -1,211 +1,305 @@
-import { useState, useEffect } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { useToast } from "@/hooks/use-toast";
-import { Calendar, Users, DollarSign, Clock, MapPin, Briefcase } from "lucide-react";
-import { apiRequest } from "@/lib/queryClient";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
+import { MapPin, Clock, DollarSign, Users, Star, Filter, Search } from "lucide-react";
 
 interface Job {
   id: string;
-  parentId: string;
+  title: string;
+  parentName: string;
+  location: string;
+  suburb: string;
+  hourlyRate: number;
   startDate: string;
-  numChildren: number;
-  rate: string;
-  hoursPerWeek: number;
+  endDate: string;
   description: string;
-  status: string;
-  createdAt: string;
-  parentProfile?: {
-    firstName: string;
-    lastName: string;
-    profilePhoto?: string;
-    suburb?: string;
-  };
+  numberOfChildren: number;
+  childrenAges: string[];
+  positionType: string;
+  hoursPerWeek: number;
+  requirements: string[];
+  urgency: 'low' | 'medium' | 'high';
+  postedDate: string;
 }
 
 export default function BrowseJobs() {
+  const { user } = useAuth();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [locationFilter, setLocationFilter] = useState("");
+  const [positionTypeFilter, setPositionTypeFilter] = useState("");
+  const [sortBy, setSortBy] = useState("newest");
 
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
-  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-
-  const { data: jobs = [], isLoading } = useQuery({
-    queryKey: ['/api/getJobs'],
-    queryFn: () => apiRequest('GET', '/api/getJobs')
-  });
-
-  const applyMutation = useMutation({
-    mutationFn: async ({ jobId }: { jobId: string }) => {
-      return await apiRequest('POST', '/api/applyToJob', { jobId });
+  // Mock job data - in real implementation, this would come from API
+  const jobs: Job[] = [
+    {
+      id: '1',
+      title: 'Full-time Nanny for 2 Children',
+      parentName: 'Sarah Johnson',
+      location: 'Sydney CBD',
+      suburb: 'Pyrmont',
+      hourlyRate: 42,
+      startDate: '2025-07-01',
+      endDate: '2026-06-30',
+      description: 'Looking for an experienced, loving nanny to care for our 3-year-old and 6-year-old. Must be comfortable with school pickup/dropoff and light meal preparation.',
+      numberOfChildren: 2,
+      childrenAges: ['3', '6'],
+      positionType: 'recurring-help',
+      hoursPerWeek: 40,
+      requirements: ['WWCC', 'First Aid', 'References', 'Own transport'],
+      urgency: 'medium',
+      postedDate: '2025-06-15'
     },
-    onSuccess: (data) => {
-      if (data.success) {
-        toast({
-          title: "Application Sent",
-          description: "Your profile was sent to the parent. They'll be in touch if interested.",
-        });
-        setSelectedJob(null);
-        queryClient.invalidateQueries({ queryKey: ['/api/applications/my'] });
-      } else {
-        toast({
-          title: "Error",
-          description: data.message || "Failed to send application",
-          variant: "destructive",
-        });
-      }
+    {
+      id: '2',
+      title: 'After School Care - Twin Boys',
+      parentName: 'Mike Chen',
+      location: 'North Sydney',
+      suburb: 'Neutral Bay',
+      hourlyRate: 38,
+      startDate: '2025-06-20',
+      endDate: '2025-12-15',
+      description: 'Seeking reliable after-school care for energetic 8-year-old twins. School pickup at 3:30pm, homework supervision, and outdoor activities.',
+      numberOfChildren: 2,
+      childrenAges: ['8', '8'],
+      positionType: 'recurring-help',
+      hoursPerWeek: 20,
+      requirements: ['WWCC', 'Experience with school-age children'],
+      urgency: 'high',
+      postedDate: '2025-06-16'
     },
-    onError: (error: any) => {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to send application",
-        variant: "destructive",
-      });
+    {
+      id: '3',
+      title: 'Emergency Babysitter Needed',
+      parentName: 'Emma Williams',
+      location: 'Eastern Suburbs',
+      suburb: 'Bondi',
+      hourlyRate: 45,
+      startDate: '2025-06-17',
+      endDate: '2025-06-17',
+      description: 'Last-minute babysitting needed for tonight 6-10pm. One 4-year-old girl, very easy-going. Dinner provided.',
+      numberOfChildren: 1,
+      childrenAges: ['4'],
+      positionType: 'last-minute-notice',
+      hoursPerWeek: 4,
+      requirements: ['WWCC', 'Available tonight'],
+      urgency: 'high',
+      postedDate: '2025-06-16'
     },
-  });
-
-  const handleApply = () => {
-    if (!selectedJob) {
-      return;
+    {
+      id: '4',
+      title: 'Weekend Nanny - Newborn Care',
+      parentName: 'Jessica Brown',
+      location: 'Inner West',
+      suburb: 'Newtown',
+      hourlyRate: 50,
+      startDate: '2025-07-01',
+      endDate: '2025-09-30',
+      description: 'Experienced newborn specialist needed for weekend care. 8-week-old baby, parents need support while adjusting to parenthood.',
+      numberOfChildren: 1,
+      childrenAges: ['0'],
+      positionType: 'short-term',
+      hoursPerWeek: 16,
+      requirements: ['WWCC', 'Newborn experience', 'References'],
+      urgency: 'medium',
+      postedDate: '2025-06-14'
     }
+  ];
 
-    applyMutation.mutate({
-      jobId: selectedJob.id
-    });
+  const filteredJobs = jobs.filter(job => {
+    const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         job.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         job.location.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesLocation = !locationFilter || job.location.toLowerCase().includes(locationFilter.toLowerCase());
+    const matchesPositionType = !positionTypeFilter || job.positionType === positionTypeFilter;
+    
+    return matchesSearch && matchesLocation && matchesPositionType;
+  });
+
+  const sortedJobs = [...filteredJobs].sort((a, b) => {
+    switch (sortBy) {
+      case 'newest':
+        return new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime();
+      case 'highest-pay':
+        return b.hourlyRate - a.hourlyRate;
+      case 'urgent':
+        const urgencyOrder = { high: 3, medium: 2, low: 1 };
+        return urgencyOrder[b.urgency] - urgencyOrder[a.urgency];
+      default:
+        return 0;
+    }
+  });
+
+  const getUrgencyColor = (urgency: string) => {
+    switch (urgency) {
+      case 'high': return 'bg-red-100 text-red-800';
+      case 'medium': return 'bg-yellow-100 text-yellow-800';
+      case 'low': return 'bg-green-100 text-green-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-AU', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+  const getPositionTypeLabel = (type: string) => {
+    switch (type) {
+      case 'recurring-help': return 'Recurring help';
+      case 'short-term': return 'Short term';
+      case 'last-minute-notice': return 'Last minute notice';
+      default: return type;
+    }
   };
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="text-gray-600 mt-4">Loading available jobs...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            Available Childcare Jobs
-          </h1>
-          <p className="text-lg text-gray-600">
-            Find your next childcare opportunity
-          </p>
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Browse Jobs</h1>
+          <p className="text-gray-600">Find your next childcare opportunity</p>
         </div>
 
-        {jobs.length === 0 ? (
-          <Card className="text-center py-12">
-            <CardContent>
-              <Briefcase className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-700 mb-2">No jobs available</h3>
-              <p className="text-gray-500">Check back later for new opportunities</p>
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="grid gap-6 md:grid-cols-2">
-            {jobs.map((job: Job) => (
-              <Card key={job.id} className="shadow-lg border-0 hover:shadow-xl transition-shadow">
-                <CardHeader className="pb-4">
-                  <div className="flex items-start space-x-4">
-                    {/* Parent Profile Image */}
-                    <div className="flex-shrink-0">
-                      <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
-                        {job.parentProfile?.profilePhoto ? (
-                          <img 
-                            src={job.parentProfile.profilePhoto} 
-                            alt={`${job.parentProfile.firstName} ${job.parentProfile.lastName}`}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <span className="text-gray-500 font-medium text-sm">
-                            {job.parentProfile?.firstName?.[0] || 'P'}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    
+        {/* Filters */}
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Filter className="w-5 h-5" />
+              Filters & Search
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <Input
+                  placeholder="Search jobs..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+              
+              <Select value={locationFilter} onValueChange={setLocationFilter}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Location" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">All locations</SelectItem>
+                  <SelectItem value="sydney cbd">Sydney CBD</SelectItem>
+                  <SelectItem value="north sydney">North Sydney</SelectItem>
+                  <SelectItem value="eastern suburbs">Eastern Suburbs</SelectItem>
+                  <SelectItem value="inner west">Inner West</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Select value={positionTypeFilter} onValueChange={setPositionTypeFilter}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Position type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">All types</SelectItem>
+                  <SelectItem value="recurring-help">Recurring help</SelectItem>
+                  <SelectItem value="short-term">Short term</SelectItem>
+                  <SelectItem value="last-minute-notice">Last minute notice</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="newest">Newest first</SelectItem>
+                  <SelectItem value="highest-pay">Highest pay</SelectItem>
+                  <SelectItem value="urgent">Most urgent</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Job Results */}
+        <div className="space-y-4">
+          {sortedJobs.length === 0 ? (
+            <Card>
+              <CardContent className="text-center py-12">
+                <Search className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2">No jobs found</h3>
+                <p className="text-gray-600">Try adjusting your search filters</p>
+              </CardContent>
+            </Card>
+          ) : (
+            sortedJobs.map((job) => (
+              <Card key={job.id} className="hover:shadow-lg transition-shadow duration-200">
+                <CardContent className="p-6">
+                  <div className="flex justify-between items-start mb-4">
                     <div className="flex-1">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <CardTitle className="text-xl font-bold text-gray-900">
-                            Childcare Position
-                          </CardTitle>
-                          <div className="flex items-center space-x-4 mt-1">
-                            <CardDescription className="text-sm text-gray-500">
-                              Posted {formatDate(job.createdAt)}
-                            </CardDescription>
-                            {job.parentProfile?.suburb && (
-                              <div className="flex items-center text-sm text-gray-500">
-                                <MapPin className="w-3 h-3 mr-1" />
-                                {job.parentProfile.suburb}
-                              </div>
-                            )}
-                          </div>
+                      <div className="flex items-start justify-between mb-2">
+                        <h3 className="text-xl font-bold text-gray-900">{job.title}</h3>
+                        <Badge className={getUrgencyColor(job.urgency)}>
+                          {job.urgency} priority
+                        </Badge>
+                      </div>
+                      <p className="text-gray-600 mb-2">Posted by {job.parentName}</p>
+                      <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-4">
+                        <div className="flex items-center gap-1">
+                          <MapPin className="w-4 h-4" />
+                          {job.location}
                         </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-green-600">
-                            ${job.rate}/hr
-                          </div>
+                        <div className="flex items-center gap-1">
+                          <Clock className="w-4 h-4" />
+                          {job.hoursPerWeek} hrs/week
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <DollarSign className="w-4 h-4" />
+                          ${job.hourlyRate}/hour
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Users className="w-4 h-4" />
+                          {job.numberOfChildren} {job.numberOfChildren === 1 ? 'child' : 'children'} (ages {job.childrenAges.join(', ')})
                         </div>
                       </div>
                     </div>
                   </div>
-                </CardHeader>
-                
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <Calendar className="w-4 h-4 text-blue-600" />
-                      <span>Start: {formatDate(job.startDate)}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <Users className="w-4 h-4 text-blue-600" />
-                      <span>{job.numChildren} {job.numChildren === 1 ? 'child' : 'children'}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <Clock className="w-4 h-4 text-blue-600" />
-                      <span>{job.hoursPerWeek} hours/week</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <DollarSign className="w-4 h-4 text-blue-600" />
-                      <span>${(parseFloat(job.rate) * job.hoursPerWeek).toFixed(2)}/week</span>
+
+                  <div className="mb-4">
+                    <p className="text-gray-700 mb-3">{job.description}</p>
+                    
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      <Badge variant="outline">{getPositionTypeLabel(job.positionType)}</Badge>
+                      {job.requirements.map((req, index) => (
+                        <Badge key={index} variant="secondary">{req}</Badge>
+                      ))}
                     </div>
                   </div>
 
-                  <div className="border-t pt-4">
-                    <h4 className="font-medium text-gray-900 mb-2">Job Description</h4>
-                    <p className="text-sm text-gray-600 line-clamp-3">
-                      {job.description}
-                    </p>
+                  <div className="flex justify-between items-center">
+                    <div className="text-sm text-gray-500">
+                      Posted {new Date(job.postedDate).toLocaleDateString()}
+                    </div>
+                    <div className="flex gap-2">
+                      <Button variant="outline" size="sm">
+                        Save Job
+                      </Button>
+                      <Button size="sm" className="bg-black hover:bg-gray-800 text-white">
+                        Apply Now
+                      </Button>
+                    </div>
                   </div>
-
-                  <Button 
-                    className="w-full bg-black hover:bg-gray-800 text-white"
-                    onClick={() => applyMutation.mutate({ jobId: job.id })}
-                    disabled={applyMutation.isPending}
-                  >
-                    {applyMutation.isPending ? 'Applying...' : 'I\'m Interested'}
-                  </Button>
                 </CardContent>
               </Card>
-            ))}
+            ))
+          )}
+        </div>
+
+        {sortedJobs.length > 0 && (
+          <div className="mt-8 text-center">
+            <p className="text-gray-600 mb-4">
+              Showing {sortedJobs.length} of {jobs.length} jobs
+            </p>
+            <Button variant="outline">Load More Jobs</Button>
           </div>
         )}
       </div>

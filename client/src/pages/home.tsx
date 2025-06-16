@@ -473,11 +473,15 @@ export default function Home() {
                       <div className="flex items-center">
                         <Star className="h-3 w-3 text-yellow-400 fill-current" />
                         <span className="text-xs font-medium text-gray-700 ml-1">
-                          {nanny.rating || "4.9"}
+                          {nanny.averageRating || "4.9"}
                         </span>
                       </div>
                     </div>
                     <div className="mb-2">
+                      <div className="flex items-center justify-between text-xs text-gray-600 mb-1">
+                        <span>{nanny.yearsOfExperience || nanny.experience || 3} years exp.</span>
+                        <span>{nanny.reviewCount || 24} reviews</span>
+                      </div>
                       <p className="text-xs text-gray-600 line-clamp-2">
                         {nanny.bio ? nanny.bio.split('|')[0].trim() : "Experienced caregiver"}
                       </p>
