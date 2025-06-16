@@ -55,7 +55,12 @@ export default function ParentProfile() {
     { id: "children-details", label: "Children Details", icon: Baby },
     { id: "health-medical", label: "Health & Medical", icon: Heart },
     { id: "essential-requirements", label: "Essential Requirements", icon: CheckCircle },
-    { id: "position-details", label: "Position Details", icon: FileText }
+    { id: "position-details", label: "Position Details", icon: FileText },
+    { id: "responsibilities", label: "Responsibilities", icon: Star },
+    { id: "caregiver-preferences", label: "Caregiver Preferences", icon: Star },
+    { id: "household-rules", label: "Household Rules", icon: Home },
+    { id: "safety-emergency", label: "Safety & Emergency", icon: Shield },
+    { id: "personal-touch", label: "Personal Touch", icon: MessageCircle }
   ];
 
   const calculateCompletion = () => {
@@ -537,6 +542,145 @@ export default function ParentProfile() {
                     <div className="space-y-2">
                       <Label>Rate</Label>
                       <Input placeholder="$25/hour" />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {activeSection === "responsibilities" && (
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold mb-4">Responsibilities</h3>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Childcare Duties</Label>
+                      <Input placeholder="Pick up from school, prepare meals, bedtime routine" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Household Tasks</Label>
+                      <Input placeholder="Light housekeeping, children's laundry, meal prep" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Educational Support</Label>
+                      <Input placeholder="Homework help, reading practice, educational activities" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Transportation</Label>
+                      <Input placeholder="School pickup, activities, appointments" />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {activeSection === "caregiver-preferences" && (
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold mb-4">Caregiver Preferences</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label>Languages Required</Label>
+                      <Input placeholder="English, Spanish" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Car Required</Label>
+                      <Input placeholder="Yes, own reliable vehicle" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Swimming Ability</Label>
+                      <Input placeholder="Must be confident swimmer" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Age Preference</Label>
+                      <Input placeholder="25-45 years old" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Gender Preference</Label>
+                      <Input placeholder="No preference" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Smoking Policy</Label>
+                      <Input placeholder="Non-smoker only" />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {activeSection === "household-rules" && (
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold mb-4">Household Rules</h3>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Screen Time Rules</Label>
+                      <Input placeholder="1 hour on weekdays, 2 hours weekends" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Meal Guidelines</Label>
+                      <Input placeholder="Healthy snacks only, no sugary drinks" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Discipline Approach</Label>
+                      <Input placeholder="Positive reinforcement, time-outs if needed" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Bedtime Routine</Label>
+                      <Input placeholder="Bath, story, lights out by 8pm" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Visitors Policy</Label>
+                      <Input placeholder="No visitors without prior approval" />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {activeSection === "safety-emergency" && (
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold mb-4">Safety & Emergency</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label>Emergency Contact 1</Label>
+                      <Input placeholder="Parent: (555) 123-4567" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Emergency Contact 2</Label>
+                      <Input placeholder="Grandparent: (555) 987-6543" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Doctor</Label>
+                      <Input placeholder="Dr. Smith: (555) 246-8135" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Hospital</Label>
+                      <Input placeholder="City General Hospital" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Safety Equipment</Label>
+                      <Input placeholder="First aid kit, fire extinguisher locations" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Special Instructions</Label>
+                      <Input placeholder="Pool safety, gate codes, alarm system" />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {activeSection === "personal-touch" && (
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold mb-4">Personal Touch</h3>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Family Values</Label>
+                      <Input placeholder="Kindness, respect, honesty, hard work" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Communication Style</Label>
+                      <Input placeholder="Daily updates, weekly check-ins" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Activities We Love</Label>
+                      <Input placeholder="Outdoor play, reading, arts and crafts" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>What We're Looking For</Label>
+                      <Input placeholder="Someone who becomes part of our family" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Additional Notes</Label>
+                      <Input placeholder="Feel free to ask any questions!" />
                     </div>
                   </div>
                 </div>
