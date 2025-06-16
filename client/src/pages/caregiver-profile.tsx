@@ -38,7 +38,11 @@ import {
   CheckCircle,
   Award,
   BookOpen,
-  Car
+  Car,
+  Briefcase,
+  Calendar,
+  DollarSign,
+  Plus
 } from "lucide-react";
 
 const caregiverProfileSchema = z.object({
@@ -283,6 +287,13 @@ export default function CaregiverProfile() {
     },
   });
 
+  // Fetch caregiver's job applications
+  const { data: applications = [], isLoading: applicationsLoading } = useQuery({
+    queryKey: ['/api/applications/my'],
+    queryFn: () => apiRequest('GET', '/api/applications/my'),
+    enabled: !!user
+  });
+
   const onSubmit = (data: CaregiverProfileForm) => {
     updateProfileMutation.mutate(data);
   };
@@ -343,6 +354,7 @@ export default function CaregiverProfile() {
     { id: "skills", label: "Additional Skills", icon: CheckCircle },
     { id: "availability", label: "Availability", icon: Clock },
     { id: "references", label: "References", icon: Users },
+    { id: "applications", label: "Job Applications", icon: Briefcase },
     { id: "personal", label: "Personal Touch", icon: Heart },
     { id: "emergency", label: "Emergency Contact", icon: Shield },
   ];
@@ -1809,6 +1821,87 @@ export default function CaregiverProfile() {
                           </FormItem>
                         )}
                       />
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Job Applications Section */}
+                {activeSection === "applications" && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Briefcase className="h-5 w-5 mr-2" />
+                        My Job Applications
+                      </CardTitle>
+                      <p className="text-sm text-gray-600">Track your job applications and their status</p>
+                    </CardHeader>
+                    <CardContent>
+                      {applicationsLoading ? (
+                        <div className="flex justify-center py-8">
+                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+                        </div>
+                      ) : applications.length === 0 ? (
+                        <div className="text-center py-12">
+                          <Briefcase className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+                          <h3 className="text-lg font-medium text-gray-900 mb-2">No Applications Yet</h3>
+                          <p className="text-gray-500 mb-6">Start applying to jobs to see your applications here</p>
+                          <Button 
+                            onClick={() => window.location.href = '/browse-jobs'}
+                            className="bg-black hover:bg-gray-800"
+                          >
+                            <Plus className="h-4 w-4 mr-2" />
+                            Browse Jobs
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
+                          {applications.map((application: any) => (
+                            <div key={application.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                              <div className="flex justify-between items-start mb-3">
+                                <div>
+                                  <h4 className="font-semibold text-gray-900">Job Application</h4>
+                                  <p className="text-sm text-gray-600">
+                                    Applied: {new Date(application.appliedAt).toLocaleDateString()}
+                                  </p>
+                                </div>
+                                <Badge 
+                                  variant={
+                                    application.status === 'accepted' ? 'default' : 
+                                    application.status === 'rejected' ? 'destructive' : 
+                                    'secondary'
+                                  }
+                                  className={
+                                    application.status === 'accepted' ? 'bg-green-100 text-green-800' :
+                                    application.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                                    'bg-yellow-100 text-yellow-800'
+                                  }
+                                >
+                                  {application.status === 'pending' ? 'Pending' :
+                                   application.status === 'accepted' ? 'Accepted' :
+                                   application.status === 'rejected' ? 'Not Selected' : 
+                                   application.status}
+                                </Badge>
+                              </div>
+                              
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2 text-sm text-gray-600">
+                                  <Calendar className="h-4 w-4" />
+                                  <span>Job ID: {application.jobId}</span>
+                                </div>
+                                {application.status === 'pending' && (
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm"
+                                    onClick={() => window.location.href = '/browse-jobs'}
+                                  >
+                                    View Job
+                                  </Button>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 )}

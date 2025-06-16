@@ -834,6 +834,22 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
     }
   });
 
+  // Get caregiver's applications
+  app.get("/api/applications/my", async (req, res) => {
+    try {
+      const caregiverId = req.session?.user?.id;
+      if (!caregiverId) {
+        return res.status(401).json({ message: "Authentication required" });
+      }
+
+      const applications = await storage.getApplicationsByCaregiver(caregiverId);
+      res.json(applications);
+    } catch (error) {
+      console.error("Get applications error:", error);
+      res.status(500).json({ message: "Failed to fetch applications" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
