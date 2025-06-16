@@ -189,6 +189,64 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Authenticated User Dashboard Section */}
+      {user && (
+        <section className="py-8 bg-blue-50 border-t border-blue-100">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-white rounded-lg shadow-sm border p-6">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    Welcome back, {user.firstName}!
+                  </h3>
+                  <p className="text-gray-600">
+                    Current role: <span className="font-medium capitalize">{user.activeRole}</span>
+                  </p>
+                </div>
+                
+                <div className="flex flex-col sm:flex-row gap-3">
+                  {user.roles && user.roles.length > 1 && (
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm text-gray-700 font-medium">Switch role:</span>
+                      <RoleToggle 
+                        roles={user.roles}
+                        activeRole={user.activeRole}
+                        onSwitch={async (role) => {
+                          try {
+                            await fetch('/api/auth/switch-role', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              credentials: 'include',
+                              body: JSON.stringify({ role })
+                            });
+                            window.location.reload();
+                          } catch (error) {
+                            console.error('Role switch failed:', error);
+                          }
+                        }}
+                      />
+                    </div>
+                  )}
+                  
+                  <div className="flex gap-2">
+                    <Link href="/dashboard">
+                      <Button className="bg-black text-white hover:bg-gray-800">
+                        Go to Dashboard
+                      </Button>
+                    </Link>
+                    <Link href="/profile">
+                      <Button variant="outline">
+                        View Profile
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Main Service Categories - Horizontal Scroll */}
       <section className="py-6 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

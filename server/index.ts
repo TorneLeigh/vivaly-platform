@@ -86,12 +86,12 @@ app.use(session({
   saveUninitialized: false,
   name: 'vivaly.sid',
   cookie: {
-    secure: false, // Allow cookies over HTTP in development
+    secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    sameSite: 'lax',
-    domain: undefined // Let browser handle domain automatically
-  }
+    sameSite: 'lax'
+  },
+  rolling: true // Extend session on activity
 }));
 
 app.use((req, res, next) => {
