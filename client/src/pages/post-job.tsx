@@ -55,8 +55,8 @@ export default function PostJob() {
       });
       queryClient.invalidateQueries({ queryKey: ['/api/jobs'] });
       queryClient.invalidateQueries({ queryKey: ['/api/getJobs'] });
-      // Redirect to job board
-      setLocation("/job-board");
+      // Redirect to browse jobs to see the posted job
+      setLocation("/browse-jobs");
     },
     onError: (error: Error) => {
       toast({

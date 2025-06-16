@@ -104,15 +104,7 @@ export default function ParentProfile() {
           <CardHeader>
             <div className="flex items-center space-x-4">
               <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
-                {user.profileImageUrl ? (
-                  <img 
-                    src={user.profileImageUrl} 
-                    alt={`${user.firstName} ${user.lastName}`}
-                    className="w-full h-full object-cover rounded-full"
-                  />
-                ) : (
-                  <User className="h-8 w-8 text-gray-500" />
-                )}
+                <User className="h-8 w-8 text-gray-500" />
               </div>
               <div>
                 <CardTitle className="text-2xl">
@@ -126,9 +118,42 @@ export default function ParentProfile() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center justify-between">
-              <Badge variant="secondary">Parent Account</Badge>
-              <Button variant="outline" onClick={() => setLocation("/edit-profile")}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              {/* Contact Information */}
+              <div className="space-y-3">
+                <h3 className="font-semibold text-gray-900">Contact Information</h3>
+                <div className="flex items-center gap-2 text-gray-600">
+                  <Mail className="h-4 w-4" />
+                  <span>{user.email}</span>
+                </div>
+                {user.phone && (
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Phone className="h-4 w-4" />
+                    <span>{user.phone}</span>
+                  </div>
+                )}
+              </div>
+              
+              {/* Account Details */}
+              <div className="space-y-3">
+                <h3 className="font-semibold text-gray-900">Account Details</h3>
+                <div className="flex items-center gap-2">
+                  <Badge variant="secondary">Parent Account</Badge>
+                  {user.roles?.includes("caregiver") && (
+                    <Badge variant="outline">Dual Role</Badge>
+                  )}
+                </div>
+                <div className="text-sm text-gray-600">
+                  Active Jobs: {myJobs.length}
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-between pt-4 border-t">
+              <div className="text-sm text-gray-500">
+                Member since {new Date().getFullYear()}
+              </div>
+              <Button variant="outline" onClick={() => setLocation("/account-settings")}>
                 <Edit className="h-4 w-4 mr-2" />
                 Edit Profile
               </Button>
