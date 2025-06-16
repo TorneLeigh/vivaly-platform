@@ -96,6 +96,8 @@ import EditJob from "@/pages/edit-job";
 import BrowseJobs from "@/pages/browse-jobs";
 import ParentDashboard from "@/pages/parent-dashboard";
 import CaregiverDashboard from "@/pages/caregiver-dashboard";
+import ParentBookings from "@/pages/parent-bookings";
+import CaregiverBookings from "@/pages/caregiver-bookings";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import RoleRoute from "@/components/RoleRoute";
 
@@ -247,6 +249,22 @@ function Router() {
           {/* Role-based dashboards */}
           <Route path="/parent-dashboard" component={ParentDashboard} />
           <Route path="/caregiver-dashboard" component={CaregiverDashboard} />
+          
+          {/* Booking pages */}
+          <Route path="/parent/bookings">
+            <ProtectedRoute>
+              <RoleRoute allowedRoles={["parent"]}>
+                <ParentBookings />
+              </RoleRoute>
+            </ProtectedRoute>
+          </Route>
+          <Route path="/caregiver/bookings">
+            <ProtectedRoute>
+              <RoleRoute allowedRoles={["caregiver"]}>
+                <CaregiverBookings />
+              </RoleRoute>
+            </ProtectedRoute>
+          </Route>
           
           {/* Role-based authentication demo */}
           <Route path="/role-auth-demo" component={RoleAuthDemo} />
