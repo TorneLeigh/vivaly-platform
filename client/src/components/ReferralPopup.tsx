@@ -51,19 +51,12 @@ export default function ReferralPopup({ userRole, userName }: ReferralPopupProps
 
   if (!isVisible || isDismissed) return null;
 
-  const rewards = userRole === 'parent' 
-    ? {
-        title: "Refer Caregivers & Parents",
-        reward: "$25 credit",
-        description: "Get $25 credit when someone you refer books their first service",
-        actionText: "Share Your Link"
-      }
-    : {
-        title: "Refer Fellow Caregivers", 
-        reward: "$25 bonus",
-        description: "Earn $25 when a caregiver you refer completes their first job",
-        actionText: "Start Referring"
-      };
+  const rewards = {
+    title: "Invite Family & Friends",
+    reward: "3 fee-free bookings",
+    description: "Invite family and friends to join the Vivaly community and get 3 fee-free bookings!",
+    actionText: "Share Your Link"
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -102,9 +95,9 @@ export default function ReferralPopup({ userRole, userName }: ReferralPopupProps
             </div>
             <ul className="text-sm text-gray-600 space-y-1 text-left">
               <li>• Share your referral link</li>
-              <li>• Friend signs up using your link</li>
-              <li>• They complete their first {userRole === 'parent' ? 'booking' : 'job'}</li>
-              <li>• You both get rewarded!</li>
+              <li>• Friends & family sign up using your link</li>
+              <li>• They join the Vivaly community</li>
+              <li>• You get 3 fee-free bookings!</li>
             </ul>
           </div>
           
