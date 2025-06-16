@@ -275,6 +275,9 @@ export const messages = pgTable("messages", {
   senderId: varchar("sender_id").notNull(),
   receiverId: varchar("receiver_id").notNull(),
   content: text("content").notNull(),
+  text: text("text").notNull(), // Alternative field name for compatibility
+  timestamp: timestamp("timestamp").defaultNow(),
+  read: boolean("read").default(false),
   isBlocked: boolean("is_blocked").default(false),
   createdAt: timestamp("created_at").defaultNow(),
 });

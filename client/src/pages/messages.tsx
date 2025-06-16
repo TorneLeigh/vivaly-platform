@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 import { MessageSquare, Send, Search, Phone, Video, MoreVertical } from "lucide-react";
 
 interface Message {
@@ -30,75 +32,45 @@ interface Conversation {
 }
 
 export default function Messages() {
-  const { user, activeRole } = useAuth();
+  const { user } = useAuth();
   const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
   const [newMessage, setNewMessage] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const queryClient = useQueryClient();
 
-  // Mock conversations
-  const conversations: Conversation[] = [
-    {
-      id: '1',
-      participantId: 'parent1',
-      participantName: 'Sarah Johnson',
-      participantRole: 'parent',
-      lastMessage: 'Thanks for applying! When are you available for an interview?',
-      lastMessageTime: new Date(2025, 5, 16, 14, 30),
-      unreadCount: 2,
-      jobTitle: 'Full-time Nanny Position',
-      online: true
-    },
-    {
-      id: '2',
-      participantId: 'parent2',
-      participantName: 'Mike Chen',
-      participantRole: 'parent',
-      lastMessage: 'Perfect! See you tomorrow at 3:30pm for pickup.',
-      lastMessageTime: new Date(2025, 5, 16, 12, 15),
-      unreadCount: 0,
-      jobTitle: 'After School Care',
-      online: false
-    },
-    {
-      id: '3',
-      participantId: 'caregiver1',
-      participantName: 'Emma Wilson',
-      participantRole: 'caregiver',
-      lastMessage: 'I have 5+ years experience with toddlers and can start immediately.',
-      lastMessageTime: new Date(2025, 5, 15, 16, 45),
-      unreadCount: 1,
-      jobTitle: 'Weekend Babysitter',
-      online: true
-    }
-  ];
+  // Fetch conversations
+  const { data: conversations = [], isLoading: conversationsLoading } = useQuery({
+    queryKey: ['/api/conversations'],
+    enabled: !!user
+  });
 
-  // Mock messages for selected conversation
-  const messages: Message[] = selectedConversation ? [
-    {
-      id: '1',
-      senderId: selectedConversation === '1' ? 'parent1' : 'current-user',
-      senderName: selectedConversation === '1' ? 'Sarah Johnson' : 'You',
-      content: 'Hi! I saw your application for the nanny position. Your experience looks great!',
-      timestamp: new Date(2025, 5, 16, 10, 30),
-      read: true
-    },
-    {
-      id: '2',
-      senderId: 'current-user',
-      senderName: 'You',
-      content: 'Thank you! I\'d love to learn more about the position and your family.',
-      timestamp: new Date(2025, 5, 16, 11, 15),
-      read: true
-    },
-    {
-      id: '3',
-      senderId: selectedConversation === '1' ? 'parent1' : 'current-user',
-      senderName: selectedConversation === '1' ? 'Sarah Johnson' : 'You',
-      content: 'Thanks for applying! When are you available for an interview?',
-      timestamp: new Date(2025, 5, 16, 14, 30),
-      read: false
+  // Fetch messages for selected conversation
+  const { data: messages = [], isLoading: messagesLoading } = useQuery({
+    queryKey: ['/api/getMessages', selectedConversation],
+    enabled: !!selectedConversation && !!user,
+    queryFn: async () => {
+      const response = await fetch(`/api/getMessages?otherUserId=${selectedConversation}`, {
+        credentials: 'include'
+      });
+      if (!response.ok) throw new Error('Failed to fetch messages');
+      return response.json();
     }
-  ] : [];
+  });
+
+  // Send message mutation
+  const sendMessageMutation = useMutation({
+    mutationFn: async (messageData: { receiverId: string; text: string }) => {
+      return apiRequest('/api/sendMessage', {
+        method: 'POST',
+        body: JSON.stringify(messageData)
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/getMessages', selectedConversation] });
+      queryClient.invalidateQueries({ queryKey: ['/api/conversations'] });
+      setNewMessage("");
+    }
+  });
 
   const filteredConversations = conversations.filter(conv =>
     conv.participantName.toLowerCase().includes(searchTerm.toLowerCase()) ||

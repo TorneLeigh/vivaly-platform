@@ -820,6 +820,60 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
     }
   });
 
+  // Get messages between users
+  app.get("/api/getMessages", requireAuth, async (req, res) => {
+    const userId = req.session?.user?.id;
+    const otherUserId = req.query.otherUserId as string;
+
+    if (!otherUserId) {
+      return res.status(400).json({ message: "Missing otherUserId" });
+    }
+
+    try {
+      const messages = await storage.getMessagesBetweenUsers(userId!, otherUserId);
+      res.json(messages);
+    } catch (error) {
+      console.error("Get messages error:", error);
+      res.status(500).json({ message: "Failed to fetch messages" });
+    }
+  });
+
+  // Send message
+  app.post("/api/sendMessage", requireAuth, async (req, res) => {
+    const senderId = req.session?.user?.id;
+    const { receiverId, text } = req.body;
+
+    if (!receiverId || !text) {
+      return res.status(400).json({ message: "Missing receiverId or text" });
+    }
+
+    try {
+      const message = await storage.sendMessage({
+        senderId: senderId!,
+        receiverId,
+        text,
+        timestamp: new Date()
+      });
+      res.json({ success: true, message });
+    } catch (error) {
+      console.error("Send message error:", error);
+      res.status(500).json({ message: "Failed to send message" });
+    }
+  });
+
+  // Get conversations list
+  app.get("/api/conversations", requireAuth, async (req, res) => {
+    const userId = req.session?.user?.id;
+
+    try {
+      const conversations = await storage.getConversations(userId!);
+      res.json(conversations);
+    } catch (error) {
+      console.error("Get conversations error:", error);
+      res.status(500).json({ message: "Failed to fetch conversations" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

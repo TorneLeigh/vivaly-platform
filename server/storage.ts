@@ -35,6 +35,9 @@ export interface IStorage {
   // Message operations
   getMessages(userId: string): Promise<Message[]>;
   createMessage(message: InsertMessage): Promise<Message>;
+  getMessagesBetweenUsers(userId1: string, userId2: string): Promise<Message[]>;
+  sendMessage(message: { senderId: string; receiverId: string; text: string; timestamp: Date }): Promise<Message>;
+  getConversations(userId: string): Promise<any[]>;
   
   // Job operations
   createJob(job: InsertJob): Promise<Job>;
@@ -251,6 +254,76 @@ export class DatabaseStorage implements IStorage {
       .from(applications)
       .where(eq(applications.caregiverId, caregiverId))
       .orderBy(applications.appliedAt);
+  }
+
+  // Messaging operations
+  async getMessagesBetweenUsers(userId1: string, userId2: string): Promise<Message[]> {
+    return await db
+      .select()
+      .from(messages)
+      .where(
+        or(
+          and(eq(messages.senderId, userId1), eq(messages.receiverId, userId2)),
+          and(eq(messages.senderId, userId2), eq(messages.receiverId, userId1))
+        )
+      )
+      .orderBy(messages.createdAt);
+  }
+
+  async sendMessage(messageData: { senderId: string; receiverId: string; text: string; timestamp: Date }): Promise<Message> {
+    const [message] = await db
+      .insert(messages)
+      .values({
+        senderId: messageData.senderId,
+        receiverId: messageData.receiverId,
+        content: messageData.text,
+        isBlocked: false
+      })
+      .returning();
+    return message;
+  }
+
+  async getConversations(userId: string): Promise<any[]> {
+    // Get all unique conversation partners with their latest messages
+    const conversations = await db
+      .select({
+        partnerId: users.id,
+        partnerName: users.firstName,
+        partnerLastName: users.lastName,
+        lastMessage: messages.content,
+        lastMessageTime: messages.createdAt,
+        isBlocked: messages.isBlocked
+      })
+      .from(messages)
+      .leftJoin(users, or(
+        and(eq(messages.senderId, users.id), eq(messages.receiverId, userId)),
+        and(eq(messages.receiverId, users.id), eq(messages.senderId, userId))
+      ))
+      .where(or(eq(messages.senderId, userId), eq(messages.receiverId, userId)))
+      .orderBy(messages.createdAt);
+
+    // Group by partner and get latest message
+    const conversationMap = new Map();
+    
+    conversations.forEach(conv => {
+      if (conv.partnerId && conv.partnerId !== userId) {
+        const key = conv.partnerId;
+        if (!conversationMap.has(key) || 
+            (conv.lastMessageTime && conv.lastMessageTime > conversationMap.get(key).lastMessageTime)) {
+          conversationMap.set(key, {
+            id: conv.partnerId,
+            participantId: conv.partnerId,
+            participantName: `${conv.partnerName || ''} ${conv.partnerLastName || ''}`.trim(),
+            lastMessage: conv.lastMessage || '',
+            lastMessageTime: conv.lastMessageTime || new Date(),
+            unreadCount: 0,
+            online: Math.random() > 0.5
+          });
+        }
+      }
+    });
+
+    return Array.from(conversationMap.values());
   }
 }
 
