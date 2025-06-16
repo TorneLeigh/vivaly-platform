@@ -11,6 +11,9 @@ import "./types";
 
 const app = express();
 
+// Trust proxy for rate limiting in hosted environments
+app.set('trust proxy', 1);
+
 // Sentry initialization for error monitoring
 if (process.env.SENTRY_DSN) {
   Sentry.init({

@@ -74,8 +74,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const hasRole = existingRoles.includes(requestedRole);
         
         if (hasRole) {
-          return res.status(400).json({ 
-            message: `You already have a ${requestedRole} account.` 
+          // User already has this role, just log them in
+          req.session.userId = existingUser.id;
+          req.session.activeRole = requestedRole;
+          
+          await new Promise<void>((resolve, reject) => {
+            req.session.save((err) => {
+              if (err) reject(err);
+              else resolve();
+            });
+          });
+          
+          return res.json({
+            message: `Welcome back! You already have a ${requestedRole} account.`,
+            id: existingUser.id,
+            email: existingUser.email,
+            firstName: existingUser.firstName,
+            lastName: existingUser.lastName,
+            roles: existingRoles,
+            activeRole: requestedRole,
+            isNanny: existingUser.isNanny
           });
         }
         
