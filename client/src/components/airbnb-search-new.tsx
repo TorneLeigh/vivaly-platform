@@ -201,7 +201,7 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
                 <div className="flex items-center space-x-2">
                   <MapPin className="h-4 w-4 text-gray-500" />
                   <div>
-                    <div className="text-xs font-medium text-gray-700">Where</div>
+                    <div className="text-xs font-medium text-gray-700">WHERE</div>
                     <div className="text-sm text-gray-900 truncate">
                       {filters.location || "Search destinations"}
                     </div>
