@@ -19,6 +19,12 @@ interface Job {
   description: string;
   status: string;
   createdAt: string;
+  parentProfile?: {
+    firstName: string;
+    lastName: string;
+    profilePhoto?: string;
+    suburb?: string;
+  };
 }
 
 export default function BrowseJobs() {
@@ -117,18 +123,47 @@ export default function BrowseJobs() {
             {jobs.map((job: Job) => (
               <Card key={job.id} className="shadow-lg border-0 hover:shadow-xl transition-shadow">
                 <CardHeader className="pb-4">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <CardTitle className="text-xl font-bold text-gray-900">
-                        Childcare Position
-                      </CardTitle>
-                      <CardDescription className="text-sm text-gray-500 mt-1">
-                        Posted {formatDate(job.createdAt)}
-                      </CardDescription>
+                  <div className="flex items-start space-x-4">
+                    {/* Parent Profile Image */}
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                        {job.parentProfile?.profilePhoto ? (
+                          <img 
+                            src={job.parentProfile.profilePhoto} 
+                            alt={`${job.parentProfile.firstName} ${job.parentProfile.lastName}`}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <span className="text-gray-500 font-medium text-sm">
+                            {job.parentProfile?.firstName?.[0] || 'P'}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-bold text-green-600">
-                        ${job.rate}/hr
+                    
+                    <div className="flex-1">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <CardTitle className="text-xl font-bold text-gray-900">
+                            Childcare Position
+                          </CardTitle>
+                          <div className="flex items-center space-x-4 mt-1">
+                            <CardDescription className="text-sm text-gray-500">
+                              Posted {formatDate(job.createdAt)}
+                            </CardDescription>
+                            {job.parentProfile?.suburb && (
+                              <div className="flex items-center text-sm text-gray-500">
+                                <MapPin className="w-3 h-3 mr-1" />
+                                {job.parentProfile.suburb}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-2xl font-bold text-green-600">
+                            ${job.rate}/hr
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -162,7 +197,7 @@ export default function BrowseJobs() {
                   </div>
 
                   <Button 
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                    className="w-full bg-black hover:bg-gray-800 text-white"
                     onClick={() => applyMutation.mutate({ jobId: job.id })}
                     disabled={applyMutation.isPending}
                   >

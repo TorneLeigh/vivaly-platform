@@ -158,7 +158,32 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getJobs(): Promise<Job[]> {
-    return await db.select().from(jobs).orderBy(jobs.createdAt);
+    const jobsWithParents = await db
+      .select({
+        id: jobs.id,
+        parentId: jobs.parentId,
+        title: jobs.title,
+        startDate: jobs.startDate,
+        numChildren: jobs.numChildren,
+        rate: jobs.rate,
+        hoursPerWeek: jobs.hoursPerWeek,
+        description: jobs.description,
+        location: jobs.location,
+        suburb: jobs.suburb,
+        status: jobs.status,
+        createdAt: jobs.createdAt,
+        parentProfile: {
+          firstName: users.firstName,
+          lastName: users.lastName,
+          profilePhoto: users.profileImageUrl,
+          suburb: jobs.suburb // Use suburb from job posting
+        }
+      })
+      .from(jobs)
+      .leftJoin(users, eq(jobs.parentId, users.id))
+      .orderBy(jobs.createdAt);
+    
+    return jobsWithParents;
   }
 
   async getJobsByParent(parentId: string): Promise<Job[]> {
