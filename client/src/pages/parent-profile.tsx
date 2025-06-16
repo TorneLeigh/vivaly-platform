@@ -65,6 +65,9 @@ export default function ParentProfile() {
       user.lastName, 
       user.email,
       (user as any).phone,
+      (user as any).suburb,
+      (user as any).homeAddress,
+      (user as any).introVideo,
       // Add other profile fields as they're completed
     ];
     const filled = fields.filter(f => f && f.toString().trim());
@@ -376,20 +379,126 @@ export default function ParentProfile() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
-                <User className="h-5 w-5" />
-                <span>Basic Information</span>
+                {(() => {
+                  const activeItem = sidebarItems.find(item => item.id === activeSection);
+                  const Icon = activeItem?.icon || User;
+                  return (
+                    <>
+                      <Icon className="h-5 w-5" />
+                      <span>{activeItem?.label || "Basic Information"}</span>
+                    </>
+                  );
+                })()}
               </CardTitle>
             </CardHeader>
             <CardContent>
               {activeSection === "basic-info" && renderBasicInfo()}
-              {activeSection !== "basic-info" && (
+              {activeSection === "photos" && renderPhotos()}
+              {activeSection === "family-children" && renderFamilyChildren()}
+              {activeSection === "children-details" && renderChildrenDetails()}
+              {activeSection === "health-medical" && (
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold mb-4">Health & Medical Information</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label>Allergies</Label>
+                      <Input placeholder="None" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Medical Conditions</Label>
+                      <Input placeholder="None" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Medications</Label>
+                      <Input placeholder="None" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Emergency Contact</Label>
+                      <Input placeholder="Dr. Smith - (555) 123-4567" />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {activeSection === "elderly-care" && (
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold mb-4">Elderly Care Requirements</h3>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Care Type Needed</Label>
+                      <Input placeholder="Companionship, Light housekeeping" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Special Requirements</Label>
+                      <Input placeholder="Mobility assistance, medication reminders" />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {activeSection === "pet-care" && (
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold mb-4">Pet Care</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label>Pet Types</Label>
+                      <Input placeholder="1 Dog, 2 Cats" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Care Requirements</Label>
+                      <Input placeholder="Feeding, walking, basic care" />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {activeSection === "essential-requirements" && (
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold mb-4">Essential Requirements</h3>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Experience Required</Label>
+                      <Input placeholder="2+ years with children" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Qualifications</Label>
+                      <Input placeholder="First Aid, CPR certified" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Background Check</Label>
+                      <Input placeholder="Required" />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {activeSection === "position-details" && (
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold mb-4">Position Details</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label>Start Date</Label>
+                      <Input type="date" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Hours per Week</Label>
+                      <Input placeholder="40" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Schedule</Label>
+                      <Input placeholder="Monday-Friday, 8am-5pm" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Rate</Label>
+                      <Input placeholder="$25/hour" />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {["responsibilities", "caregiver-preferences", "household-rules", "safety-emergency", "personal-touch"].includes(activeSection) && (
                 <div className="text-center py-12">
                   <div className="text-gray-400 mb-4">
                     <FileText className="h-12 w-12 mx-auto" />
                   </div>
                   <h3 className="text-lg font-medium text-gray-900 mb-2">Section Coming Soon</h3>
                   <p className="text-gray-500">
-                    This section is under development. Please complete the Basic Information section first.
+                    This section is under development. Complete the other sections first.
                   </p>
                 </div>
               )}
