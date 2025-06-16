@@ -3,6 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Menu, X } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import RoleToggle from "@/components/RoleToggle";
+import logoImage from "@assets/Screenshot 2025-06-16 at 15.57.36_1750053474312.png";
 
 export default function NewHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -64,6 +65,17 @@ export default function NewHeader() {
           </div>
         )}
         
+        {/* Mobile Role Toggle */}
+        {roles && roles.length > 1 && (
+          <div className="py-2 border-b border-gray-100 mb-2">
+            <RoleToggle 
+              roles={roles}
+              activeRole={activeRole || 'parent'}
+              onSwitch={switchRole}
+            />
+          </div>
+        )}
+        
         <button
           onClick={handleLogout}
           className="block py-2 text-left w-full text-gray-700 hover:text-red-600"
@@ -78,8 +90,15 @@ export default function NewHeader() {
     <header className="w-full bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="text-xl font-bold text-black hover:text-gray-800 transition-colors">
-          VIVALY
+        <Link href="/" className="flex items-center space-x-2">
+          <img 
+            src={logoImage} 
+            alt="VIVALY" 
+            className="h-8 w-8 object-contain"
+          />
+          <span className="text-xl font-bold text-black hover:text-gray-800 transition-colors">
+            VIVALY
+          </span>
         </Link>
 
         {/* Right side (desktop + mobile avatar) */}

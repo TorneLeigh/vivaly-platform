@@ -188,6 +188,9 @@ export const nannies = pgTable("nannies", {
   suburb: text("suburb").notNull(),
   introVideo: text("intro_video"), // URL to intro video
   profilePhoto: text("profile_photo"), // URL to profile photo
+  yearsOfExperience: integer("years_of_experience").default(0),
+  reviewCount: integer("review_count").default(0),
+  averageRating: decimal("average_rating", { precision: 3, scale: 2 }).default("0.00"),
   // Document verification fields
   hasPhotoId: boolean("has_photo_id").default(false),
   hasWwcc: boolean("has_wwcc").default(false),
@@ -214,7 +217,6 @@ export const nannies = pgTable("nannies", {
   hasSafetyAssessment: boolean("has_safety_assessment").default(false),
   weeklyRate: decimal("weekly_rate", { precision: 10, scale: 2 }),
   monthlyRate: decimal("monthly_rate", { precision: 10, scale: 2 }),
-  reviewCount: integer("review_count").default(0),
 });
 
 export const bookings = pgTable("bookings", {
