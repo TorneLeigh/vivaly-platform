@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
@@ -16,6 +17,8 @@ interface JobFormData {
   numChildren: number;
   rate: string;
   hoursPerWeek: string;
+  positionType: string;
+  availabilityNeeded: string;
   description: string;
 }
 
@@ -26,6 +29,8 @@ export default function PostJob() {
     numChildren: 1,
     rate: '',
     hoursPerWeek: '',
+    positionType: '',
+    availabilityNeeded: '',
     description: ''
   });
 
@@ -70,7 +75,7 @@ export default function PostJob() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.title || !formData.startDate || !formData.rate || !formData.hoursPerWeek || !formData.description) {
+    if (!formData.title || !formData.startDate || !formData.rate || !formData.hoursPerWeek || !formData.positionType || !formData.availabilityNeeded || !formData.description) {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
@@ -197,6 +202,44 @@ export default function PostJob() {
                   className="w-full"
                   required
                 />
+              </div>
+
+              {/* Position Type */}
+              <div className="space-y-2">
+                <Label htmlFor="positionType" className="text-sm font-medium flex items-center gap-2">
+                  <Briefcase className="w-4 h-4 text-gray-600" />
+                  Position Type *
+                </Label>
+                <Select value={formData.positionType} onValueChange={(value) => handleInputChange('positionType', value)}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select position type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="recurring-help">Recurring help</SelectItem>
+                    <SelectItem value="short-term">Short term</SelectItem>
+                    <SelectItem value="last-minute-notice">Last minute notice</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Availability Needed */}
+              <div className="space-y-2">
+                <Label htmlFor="availabilityNeeded" className="text-sm font-medium flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-gray-600" />
+                  Availability Needed *
+                </Label>
+                <Input
+                  id="availabilityNeeded"
+                  type="text"
+                  placeholder="e.g. Monday-Friday 9am-5pm, Weekend evenings, Emergency coverage"
+                  value={formData.availabilityNeeded}
+                  onChange={(e) => handleInputChange('availabilityNeeded', e.target.value)}
+                  className="w-full"
+                  required
+                />
+                <div className="text-xs text-gray-500">
+                  Specify when you need care (days, times, frequency)
+                </div>
               </div>
 
               {/* Description */}

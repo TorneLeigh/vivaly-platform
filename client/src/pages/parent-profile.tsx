@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
@@ -546,7 +547,16 @@ export default function ParentProfile() {
                     </div>
                     <div className="space-y-2">
                       <Label>Position Type</Label>
-                      <Input placeholder="Regular schedule / Flexible short notice help" />
+                      <Select>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select position type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="recurring-help">Recurring help</SelectItem>
+                          <SelectItem value="short-term">Short term</SelectItem>
+                          <SelectItem value="last-minute-notice">Last minute notice</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                     <div className="space-y-2">
                       <Label>Availability Needed</Label>
