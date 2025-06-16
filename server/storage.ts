@@ -86,7 +86,7 @@ export class DatabaseStorage implements IStorage {
     
     const [user] = await db
       .insert(users)
-      .values(cleanUserData)
+      .values([cleanUserData])
       .returning();
     return user;
   }
@@ -135,8 +135,7 @@ export class DatabaseStorage implements IStorage {
     const [updatedUser] = await db
       .update(users)
       .set({ 
-        roles: roles,
-        updatedAt: new Date()
+        roles: roles
       })
       .where(eq(users.id, userId))
       .returning();
@@ -219,10 +218,7 @@ export class DatabaseStorage implements IStorage {
   async updateJob(jobId: string, updates: Partial<Job>): Promise<Job> {
     const [updatedJob] = await db
       .update(jobs)
-      .set({
-        ...updates,
-        updatedAt: new Date()
-      })
+      .set(updates)
       .where(eq(jobs.id, jobId))
       .returning();
     return updatedJob;
