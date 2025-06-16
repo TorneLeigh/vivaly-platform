@@ -210,7 +210,7 @@ export default function FindCare() {
                 <Users className="h-12 w-12 mx-auto" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                No childcare centers found
+                No caregivers found
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
                 Try adjusting your search criteria or location

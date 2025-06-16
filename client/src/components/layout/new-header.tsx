@@ -62,7 +62,7 @@ export default function NewHeader() {
     <header className="w-full bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="text-xl font-bold text-black">
+        <Link href="/" className="text-xl font-bold text-black hover:text-gray-800 transition-colors">
           VIVALY
         </Link>
 
