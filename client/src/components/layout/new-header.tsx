@@ -2,10 +2,11 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import RoleToggle from "@/components/RoleToggle";
 
 export default function NewHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { isAuthenticated, user, activeRole, logout } = useAuth();
+  const { isAuthenticated, user, activeRole, roles, switchRole, logout } = useAuth();
   const [, navigate] = useLocation();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -48,6 +49,18 @@ export default function NewHeader() {
         <Link href="/messages" className="block py-2 text-gray-700 hover:text-black">
           Messages
         </Link>
+        
+        {/* Mobile Role Toggle */}
+        {roles && roles.length > 1 && (
+          <div className="py-2">
+            <RoleToggle 
+              roles={roles}
+              activeRole={activeRole || 'parent'}
+              onSwitch={switchRole}
+            />
+          </div>
+        )}
+        
         <button
           onClick={handleLogout}
           className="block py-2 text-left w-full text-gray-700 hover:text-red-600"
@@ -101,6 +114,16 @@ export default function NewHeader() {
 
                 <Link href="/profile" className="text-gray-700 hover:text-black font-medium transition-colors">Profile</Link>
                 <Link href="/messages" className="text-gray-700 hover:text-black font-medium transition-colors">Messages</Link>
+                
+                {/* Role Toggle */}
+                {roles && roles.length > 1 && (
+                  <RoleToggle 
+                    roles={roles}
+                    activeRole={activeRole || 'parent'}
+                    onSwitch={switchRole}
+                  />
+                )}
+                
                 <button
                   onClick={handleLogout}
                   className="text-gray-700 hover:text-red-600 font-medium transition-colors"
