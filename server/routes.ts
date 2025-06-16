@@ -822,7 +822,7 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
 
   // Get messages between users
   app.get("/api/getMessages", requireAuth, async (req, res) => {
-    const userId = req.session?.user?.id;
+    const userId = req.session.userId;
     const otherUserId = req.query.otherUserId as string;
 
     if (!otherUserId) {
@@ -830,7 +830,7 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
     }
 
     try {
-      const messages = await storage.getMessagesBetweenUsers(userId!, otherUserId);
+      const messages = await storage.getMessagesBetweenUsers(userId as string, otherUserId);
       res.json(messages);
     } catch (error) {
       console.error("Get messages error:", error);
@@ -840,7 +840,7 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
 
   // Send message
   app.post("/api/sendMessage", requireAuth, async (req, res) => {
-    const senderId = req.session?.user?.id;
+    const senderId = req.session.userId;
     const { receiverId, text } = req.body;
 
     if (!receiverId || !text) {
@@ -849,7 +849,7 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
 
     try {
       const message = await storage.sendMessage({
-        senderId: senderId!,
+        senderId: senderId as string,
         receiverId,
         text,
         timestamp: new Date()
@@ -863,10 +863,10 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
 
   // Get conversations list
   app.get("/api/conversations", requireAuth, async (req, res) => {
-    const userId = req.session?.user?.id;
+    const userId = req.session.userId;
 
     try {
-      const conversations = await storage.getConversations(userId!);
+      const conversations = await storage.getConversations(userId as string);
       res.json(conversations);
     } catch (error) {
       console.error("Get conversations error:", error);

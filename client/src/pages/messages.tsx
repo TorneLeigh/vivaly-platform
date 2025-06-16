@@ -60,10 +60,16 @@ export default function Messages() {
   // Send message mutation
   const sendMessageMutation = useMutation({
     mutationFn: async (messageData: { receiverId: string; text: string }) => {
-      return apiRequest('/api/sendMessage', {
+      const response = await fetch('/api/sendMessage', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
         body: JSON.stringify(messageData)
       });
+      if (!response.ok) throw new Error('Failed to send message');
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/getMessages', selectedConversation] });
@@ -81,9 +87,10 @@ export default function Messages() {
 
   const handleSendMessage = () => {
     if (newMessage.trim() && selectedConversation) {
-      // In real implementation, this would send to API
-      console.log('Sending message:', newMessage);
-      setNewMessage("");
+      sendMessageMutation.mutate({
+        receiverId: selectedConversation,
+        text: newMessage.trim()
+      });
     }
   };
 
@@ -225,25 +232,24 @@ export default function Messages() {
 
                 {/* Messages */}
                 <CardContent className="flex-1 p-4 max-h-[400px] overflow-y-auto">
-                  <div className="space-y-4">
-                    {messages.map((message) => (
+                  <div className="space-y-2">
+                    {messages.map((msg: any) => (
                       <div
-                        key={message.id}
-                        className={`flex ${message.senderId === 'current-user' ? 'justify-end' : 'justify-start'}`}
+                        key={msg.id}
+                        className={`my-2 p-2 max-w-[70%] rounded-md ${
+                          msg.senderId === user?.id
+                            ? "bg-black text-white self-end ml-auto"
+                            : "bg-gray-100 text-black self-start mr-auto"
+                        }`}
                       >
-                        <div
-                          className={`max-w-[70%] rounded-lg px-4 py-2 ${
-                            message.senderId === 'current-user'
-                              ? 'bg-black text-white ml-4'
-                              : 'bg-gray-100 text-gray-900 mr-4'
-                          }`}
-                        >
-                          <p className="text-sm">{message.content}</p>
-                          <p className={`text-xs mt-1 ${
-                            message.senderId === 'current-user' ? 'text-gray-300' : 'text-gray-500'
-                          }`}>
-                            {formatTime(message.timestamp)}
-                          </p>
+                        {msg.content || msg.text}
+                        <div className="text-xs text-gray-500 mt-1">
+                          {new Date(msg.createdAt || msg.timestamp).toLocaleDateString("en-AU", {
+                            day: "2-digit",
+                            month: "short",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
                         </div>
                       </div>
                     ))}
