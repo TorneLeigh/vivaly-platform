@@ -43,6 +43,9 @@ export default function NewHeader() {
             Post Job
           </Link>
         )}
+        <Link href="/dashboard" className="block py-2 text-gray-700 hover:text-black">
+          Dashboard
+        </Link>
         <Link href="/profile" className="block py-2 text-gray-700 hover:text-black">
           Profile
         </Link>
@@ -112,6 +115,7 @@ export default function NewHeader() {
                   <Link href="/post-job" className="text-gray-700 hover:text-black font-medium transition-colors">Post Job</Link>
                 )}
 
+                <Link href="/dashboard" className="text-gray-700 hover:text-black font-medium transition-colors">Dashboard</Link>
                 <Link href="/profile" className="text-gray-700 hover:text-black font-medium transition-colors">Profile</Link>
                 <Link href="/messages" className="text-gray-700 hover:text-black font-medium transition-colors">Messages</Link>
                 
