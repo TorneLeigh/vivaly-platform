@@ -4,12 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import RoleToggle from '@/components/RoleToggle';
 import ReferralPopup from '@/components/ReferralPopup';
+import Calendar from '@/components/Calendar';
 import { useLocation } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { 
   Briefcase, 
-  Calendar, 
+  Calendar as CalendarIcon, 
   MessageSquare, 
   User, 
   Star,
@@ -65,7 +66,7 @@ export default function CaregiverDashboard() {
     {
       title: "My Schedule",
       description: "Manage your bookings and availability",
-      icon: Calendar,
+      icon: CalendarIcon,
       action: () => setLocation('/schedule'),
       color: "bg-blue-50 hover:bg-blue-100 border-blue-200"
     },
@@ -271,24 +272,36 @@ export default function CaregiverDashboard() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Calendar className="w-5 h-5" />
+                <CalendarIcon className="w-5 h-5" />
                 Upcoming Bookings
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <div className="text-center py-8 text-gray-500">
-                  <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                  <p>No upcoming bookings</p>
-                  <Button 
-                    variant="outline" 
-                    className="mt-3"
-                    onClick={() => setLocation('/browse-jobs')}
-                  >
-                    Find Jobs
-                  </Button>
-                </div>
-              </div>
+              <Calendar 
+                bookings={[
+                  {
+                    id: '1',
+                    title: 'Smith Family',
+                    date: new Date(2025, 5, 18),
+                    startTime: '9:00 AM',
+                    endTime: '5:00 PM',
+                    clientName: 'Sarah Smith',
+                    location: 'Sydney CBD',
+                    status: 'confirmed'
+                  },
+                  {
+                    id: '2',
+                    title: 'Johnson Family',
+                    date: new Date(2025, 5, 20),
+                    startTime: '2:00 PM',
+                    endTime: '6:00 PM',
+                    clientName: 'Mike Johnson',
+                    location: 'Bondi',
+                    status: 'pending'
+                  }
+                ]}
+                onDateSelect={(date) => console.log('Selected date:', date)}
+              />
             </CardContent>
           </Card>
         </div>
