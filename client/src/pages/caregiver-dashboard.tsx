@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import RoleToggle from '@/components/RoleToggle';
 import { useLocation } from 'wouter';
+import { useQuery } from '@tanstack/react-query';
+import { apiRequest } from '@/lib/queryClient';
 import { 
   Briefcase, 
   Calendar, 
@@ -20,6 +22,13 @@ import {
 export default function CaregiverDashboard() {
   const { user, isAuthenticated, activeRole, roles, switchRole } = useAuth();
   const [, setLocation] = useLocation();
+
+  // Fetch caregiver's applications
+  const { data: applications = [], isLoading: applicationsLoading } = useQuery({
+    queryKey: ['/api/applications/my'],
+    queryFn: () => apiRequest('GET', '/api/applications/my'),
+    enabled: isAuthenticated && activeRole === 'caregiver'
+  });
 
   if (!isAuthenticated) {
     setLocation('/auth');
@@ -75,29 +84,32 @@ export default function CaregiverDashboard() {
     }
   ];
 
+  const pendingApplications = applications.filter((app: any) => app.status === 'pending').length;
+  const acceptedApplications = applications.filter((app: any) => app.status === 'accepted').length;
+
   const stats = [
     {
-      title: "Active Applications",
-      value: "3",
+      title: "Active Applications", 
+      value: pendingApplications.toString(),
       icon: Briefcase,
       color: "text-blue-600"
     },
     {
-      title: "This Week's Earnings",
-      value: "$420",
-      icon: DollarSign,
+      title: "Accepted Applications",
+      value: acceptedApplications.toString(),
+      icon: CheckCircle,
       color: "text-green-600"
     },
     {
-      title: "Rating",
-      value: "4.8",
+      title: "Total Applications",
+      value: applications.length.toString(),
       icon: Star,
       color: "text-yellow-600"
     },
     {
-      title: "Jobs Completed",
-      value: "24",
-      icon: CheckCircle,
+      title: "Profile Status",
+      value: "Active",
+      icon: User,
       color: "text-purple-600"
     }
   ];
@@ -196,18 +208,61 @@ export default function CaregiverDashboard() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="text-center py-8 text-gray-500">
-                  <Briefcase className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                  <p>No recent applications</p>
+                {applicationsLoading ? (
+                  <div className="flex justify-center py-8">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+                  </div>
+                ) : applications.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">
+                    <Briefcase className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                    <p>No recent applications</p>
+                    <Button 
+                      variant="outline" 
+                      className="mt-3"
+                      onClick={() => setLocation('/browse-jobs')}
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Browse Jobs
+                    </Button>
+                  </div>
+                ) : (
+                  applications.slice(0, 3).map((application: any) => (
+                    <div key={application.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                          <Briefcase className="w-5 h-5 text-blue-600" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-900">Job Application</p>
+                          <p className="text-sm text-gray-600">
+                            Applied {new Date(application.appliedAt).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                      <Badge 
+                        variant={application.status === 'accepted' ? 'default' : 'secondary'}
+                        className={
+                          application.status === 'accepted' ? 'bg-green-100 text-green-800' :
+                          application.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                          'bg-yellow-100 text-yellow-800'
+                        }
+                      >
+                        {application.status === 'pending' ? 'Pending' :
+                         application.status === 'accepted' ? 'Accepted' :
+                         'Not Selected'}
+                      </Badge>
+                    </div>
+                  ))
+                )}
+                {applications.length > 3 && (
                   <Button 
                     variant="outline" 
-                    className="mt-3"
-                    onClick={() => setLocation('/browse-jobs')}
+                    className="w-full mt-4"
+                    onClick={() => setLocation('/caregiver-profile')}
                   >
-                    <Plus className="w-4 h-4 mr-2" />
-                    Browse Jobs
+                    View All Applications
                   </Button>
-                </div>
+                )}
               </div>
             </CardContent>
           </Card>
