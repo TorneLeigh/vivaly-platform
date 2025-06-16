@@ -4,6 +4,7 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { 
   User, 
@@ -42,6 +43,20 @@ export default function ParentProfile() {
   const queryClient = useQueryClient();
   const { user } = useAuth();
   const [, setLocation] = useLocation();
+
+  // Calculate profile completion percentage
+  const calculateProfileCompletion = () => {
+    if (!user) return 0;
+    let completedFields = 0;
+    const totalFields = 4;
+    
+    if (user.firstName) completedFields++;
+    if (user.lastName) completedFields++;
+    if (user.email) completedFields++;
+    if ((user as any).phone) completedFields++;
+    
+    return Math.round((completedFields / totalFields) * 100);
+  };
 
   // Fetch user's active job posts
   const { data: myJobs = [], isLoading: jobsLoading } = useQuery({
@@ -106,7 +121,7 @@ export default function ParentProfile() {
               <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
                 <User className="h-8 w-8 text-gray-500" />
               </div>
-              <div>
+              <div className="flex-1">
                 <CardTitle className="text-2xl">
                   {user.firstName} {user.lastName}
                 </CardTitle>
@@ -114,6 +129,13 @@ export default function ParentProfile() {
                   <Mail className="h-4 w-4" />
                   {user.email}
                 </CardDescription>
+                <div className="mt-3">
+                  <div className="flex items-center justify-between text-sm text-gray-600 mb-1">
+                    <span>Profile Completion</span>
+                    <span>{calculateProfileCompletion()}%</span>
+                  </div>
+                  <Progress value={calculateProfileCompletion()} className="w-full" />
+                </div>
               </div>
             </div>
           </CardHeader>
@@ -126,10 +148,10 @@ export default function ParentProfile() {
                   <Mail className="h-4 w-4" />
                   <span>{user.email}</span>
                 </div>
-                {user.phone && (
+                {(user as any).phone && (
                   <div className="flex items-center gap-2 text-gray-600">
                     <Phone className="h-4 w-4" />
-                    <span>{user.phone}</span>
+                    <span>{(user as any).phone}</span>
                   </div>
                 )}
               </div>
