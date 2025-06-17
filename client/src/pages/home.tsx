@@ -196,7 +196,7 @@ export default function Home() {
             <div className="bg-white rounded-lg shadow-sm border p-3">
               <div className="flex items-center justify-between">
                 <div className="text-sm text-gray-700">
-                  Current role: <span className="font-medium capitalize">{user.activeRole || 'parent'}</span>
+                  Current role: <span className="font-medium capitalize">{user.roles && user.roles.length > 0 ? user.roles[0] : 'parent'}</span>
                 </div>
                 
                 <div className="flex gap-2">
