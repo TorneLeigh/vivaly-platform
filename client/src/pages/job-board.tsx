@@ -132,41 +132,42 @@ export default function JobBoard() {
   const { data: jobs = [], isLoading: jobsLoading, refetch: refetchJobs } = useQuery({
     queryKey: ['/api/jobs'],
     queryFn: async () => {
-      const response = await fetch('/api/getJobs');
+      const response = await fetch('/api/jobs', { credentials: 'include' });
       if (!response.ok) {
         throw new Error('Failed to fetch jobs');
       }
       const data = await response.json();
       return Array.isArray(data) ? data : [];
-    }
+    },
+    enabled: !!user
   });
 
   // Fetch applications for current user
   const { data: applications = [] } = useQuery({
-    queryKey: ['/api/applications'],
+    queryKey: ['/api/applications/my'],
     queryFn: async () => {
-      const response = await fetch('/api/getApplications');
+      const response = await fetch('/api/applications/my', { credentials: 'include' });
       if (!response.ok) {
         return [];
       }
       const data = await response.json();
       return Array.isArray(data) ? data : [];
-    }
+    },
+    enabled: !!user
   });
 
   // Post new job mutation
   const postJobMutation = useMutation({
     mutationFn: async (jobData: any) => {
-      const response = await fetch('/api/postJob', {
+      const response = await fetch('/api/jobs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...jobData,
-          parentId: 'parent123', // This would come from auth context
-        }),
+        credentials: 'include',
+        body: JSON.stringify(jobData),
       });
+      if (!response.ok) throw new Error('Failed to post job');
       return response.json();
     },
     onSuccess: (data) => {
