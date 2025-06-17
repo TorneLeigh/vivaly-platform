@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import RoleToggle from '@/components/RoleToggle';
 import ReferralPopup from '@/components/ReferralPopup';
+import { ReferralBanner } from '@/components/ReferralBanner';
 import { useLocation } from 'wouter';
 import { 
   Users, 
@@ -55,7 +56,7 @@ export default function ParentDashboard() {
       title: "My Bookings",
       description: "View and manage your upcoming appointments",
       icon: Calendar,
-      action: () => setLocation('/bookings'),
+      action: () => setLocation('/parent/bookings'),
       color: "bg-white hover:bg-gray-50 border-gray-200"
     },
     {
@@ -77,6 +78,9 @@ export default function ParentDashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
+        {/* Referral Banner */}
+        <ReferralBanner />
+
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>

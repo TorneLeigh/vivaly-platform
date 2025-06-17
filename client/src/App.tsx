@@ -252,18 +252,22 @@ function Router() {
           
           {/* Booking pages */}
           <Route path="/parent/bookings">
-            <ProtectedRoute>
-              <RoleRoute allowedRoles={["parent"]}>
-                <ParentBookings />
-              </RoleRoute>
-            </ProtectedRoute>
+            {() => (
+              <ProtectedRoute>
+                <RoleRoute allowedRoles={["parent"]}>
+                  <ParentBookings />
+                </RoleRoute>
+              </ProtectedRoute>
+            )}
           </Route>
           <Route path="/caregiver/bookings">
-            <ProtectedRoute>
-              <RoleRoute allowedRoles={["caregiver"]}>
-                <CaregiverBookings />
-              </RoleRoute>
-            </ProtectedRoute>
+            {() => (
+              <ProtectedRoute>
+                <RoleRoute allowedRoles={["caregiver"]}>
+                  <CaregiverBookings />
+                </RoleRoute>
+              </ProtectedRoute>
+            )}
           </Route>
           
           {/* Role-based authentication demo */}

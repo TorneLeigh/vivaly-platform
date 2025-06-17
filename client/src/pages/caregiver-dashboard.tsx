@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import RoleToggle from '@/components/RoleToggle';
 import ReferralPopup from '@/components/ReferralPopup';
+import { ReferralBanner } from '@/components/ReferralBanner';
 import Calendar from '@/components/Calendar';
 import { useLocation } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
@@ -67,8 +68,8 @@ export default function CaregiverDashboard() {
       title: "My Schedule",
       description: "Manage your bookings and availability",
       icon: CalendarIcon,
-      action: () => setLocation('/schedule'),
-      color: "bg-blue-50 hover:bg-blue-100 border-blue-200"
+      action: () => setLocation('/caregiver/bookings'),
+      color: "bg-white hover:bg-gray-50 border-gray-200"
     },
     {
       title: "Messages",
