@@ -66,12 +66,12 @@ export default function JobBoard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [locationFilter, setLocationFilter] = useState('');
 
-  // Check user authentication and role
+  // Check user authentication and role (optional for browsing)
   const { data: user, isLoading: userLoading } = useQuery<User>({
     queryKey: ["/api/auth/user"],
     queryFn: async () => {
       const response = await fetch('/api/auth/user', { credentials: 'include' });
-      if (!response.ok) throw new Error('Not authenticated');
+      if (!response.ok) return null; // Allow browsing without authentication
       return response.json();
     }
   });
@@ -84,30 +84,6 @@ export default function JobBoard() {
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading...</p>
         </div>
-      </div>
-    );
-  }
-
-  // Redirect to login if not authenticated
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Card className="w-full max-w-md">
-          <CardContent className="text-center py-12">
-            <Shield className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              Authentication Required
-            </h3>
-            <p className="text-gray-500 mb-6">
-              Please log in to access the job board
-            </p>
-            <Link href="/auth">
-              <Button className="bg-purple-600 hover:bg-purple-700">
-                Log In
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
       </div>
     );
   }

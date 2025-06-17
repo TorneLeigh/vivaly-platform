@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import RoleToggle from '@/components/RoleToggle';
 
-import { ReferralBanner } from '@/components/ReferralBanner';
+
 import Calendar from '@/components/Calendar';
 import { useLocation } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
@@ -120,8 +120,7 @@ export default function CaregiverDashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
-        {/* Referral Banner */}
-        <ReferralBanner />
+
 
         {/* Header */}
         <div className="flex justify-between items-center mb-8">

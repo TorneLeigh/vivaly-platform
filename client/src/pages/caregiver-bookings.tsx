@@ -3,7 +3,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ReferralBanner } from "@/components/ReferralBanner";
+
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 
@@ -58,7 +58,7 @@ export default function CaregiverBookings() {
           <p className="text-gray-600">Manage your childcare appointments</p>
         </div>
 
-        <ReferralBanner />
+
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Calendar */}
