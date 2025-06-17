@@ -925,6 +925,26 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
     }
   });
 
+  // Test email endpoint for verification
+  app.post("/api/test-email", async (req, res) => {
+    try {
+      await sendEmail(
+        "info@tornevelk.com",
+        "VIVALY Email System Test",
+        `<h3>Email System Test</h3>
+        <p>This is a test email to verify the VIVALY notification system is working properly.</p>
+        <p><strong>Time:</strong> ${new Date().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' })}</p>
+        <p><strong>System:</strong> Email notifications are operational</p>
+        <hr>
+        <p><small>VIVALY Platform - Australia's trusted childcare marketplace</small></p>`
+      );
+      res.json({ message: "Test email sent successfully" });
+    } catch (error) {
+      console.error("Test email failed:", error);
+      res.status(500).json({ message: "Failed to send test email" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
