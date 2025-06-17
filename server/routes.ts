@@ -103,6 +103,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
           : [...existingRoles, requestedRole];
         const updatedUser = await storage.updateUserRoles(existingUser.id, updatedRoles);
         
+        // Send admin notification for role addition
+        if (!existingRoles.includes(requestedRole)) {
+          try {
+            const adminEmail = process.env.ADMIN_ALERT_EMAIL || 'info@tornevelk.com';
+            await sendEmail(
+              adminEmail,
+              `User Added ${requestedRole} Role on VIVALY`,
+              `<h3>Existing User Added New Role</h3>
+              <p><strong>Name:</strong> ${existingUser.firstName} ${existingUser.lastName}</p>
+              <p><strong>Email:</strong> ${existingUser.email}</p>
+              <p><strong>Added Role:</strong> ${requestedRole}</p>
+              <p><strong>Previous Roles:</strong> ${existingRoles.join(', ')}</p>
+              <p><strong>Current Roles:</strong> ${updatedRoles.join(', ')}</p>
+              <p><strong>Date:</strong> ${new Date().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' })}</p>
+              <p><strong>User ID:</strong> ${existingUser.id}</p>
+              <hr>
+              <p><small>Login to VIVALY admin to manage this user</small></p>`
+            );
+          } catch (emailError) {
+            console.warn("Failed to send admin role addition notification:", emailError);
+          }
+        }
+        
         // Set session for the user
         req.session.userId = existingUser.id;
         req.session.activeRole = requestedRole;
@@ -148,18 +171,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       req.session.userId = user.id;
       req.session.activeRole = userRoles[0]; // Set default active role
 
-      // Send admin notification email for new caregiver signup
+      // Send admin notification email for new user signup
       try {
         const adminEmail = process.env.ADMIN_ALERT_EMAIL || 'info@tornevelk.com';
+        const userType = userData.isNanny ? 'Caregiver' : 'Parent';
         await sendEmail(
           adminEmail,
-          'New Caregiver Signup on VIVALY',
-          `<h3>New Caregiver Registration</h3>
+          `New ${userType} Signup on VIVALY`,
+          `<h3>New ${userType} Registration</h3>
           <p><strong>Name:</strong> ${user.firstName} ${user.lastName}</p>
           <p><strong>Email:</strong> ${user.email}</p>
           <p><strong>Phone:</strong> ${user.phone || 'Not provided'}</p>
-          <p><strong>Registration Date:</strong> ${new Date().toLocaleString()}</p>
-          <p><strong>User ID:</strong> ${user.id}</p>`
+          <p><strong>User Type:</strong> ${userType}</p>
+          <p><strong>Registration Date:</strong> ${new Date().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' })}</p>
+          <p><strong>User ID:</strong> ${user.id}</p>
+          <hr>
+          <p><small>Login to VIVALY admin to manage this user</small></p>`
         );
       } catch (emailError) {
         console.warn("Failed to send admin notification email:", emailError);
