@@ -62,7 +62,7 @@ export default function CaregiverDashboard() {
       description: "Find new opportunities near you",
       icon: Briefcase,
       action: () => setLocation('/browse-jobs'),
-      color: "bg-green-50 hover:bg-green-100 border-green-200"
+      color: "bg-white hover:bg-gray-50 border-gray-200"
     },
     {
       title: "My Schedule",
@@ -76,14 +76,14 @@ export default function CaregiverDashboard() {
       description: "Chat with families",
       icon: MessageSquare,
       action: () => setLocation('/messages'),
-      color: "bg-purple-50 hover:bg-purple-100 border-purple-200"
+      color: "bg-white hover:bg-gray-50 border-gray-200"
     },
     {
       title: "Profile",
       description: "Update your caregiver profile",
       icon: User,
       action: () => setLocation('/caregiver-profile'),
-      color: "bg-orange-50 hover:bg-orange-100 border-orange-200"
+      color: "bg-white hover:bg-gray-50 border-gray-200"
     }
   ];
 
@@ -120,6 +120,9 @@ export default function CaregiverDashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
+        {/* Referral Banner */}
+        <ReferralBanner />
+
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
@@ -131,7 +134,7 @@ export default function CaregiverDashboard() {
             </p>
           </div>
           <div className="flex items-center gap-4">
-            <Badge variant="outline" className="text-green-600 border-green-200">
+            <Badge variant="outline" className="text-gray-700 border-gray-300">
               Caregiver Dashboard
             </Badge>
             <RoleToggle 
