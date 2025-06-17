@@ -269,6 +269,10 @@ function Router() {
               </ProtectedRoute>
             )}
           </Route>
+
+          {/* Unify parent & caregiver job browsing */}
+          <Route path="/browse-jobs" component={JobBoard} />
+          <Route path="/job-board" component={JobBoard} />
           
           {/* Role-based authentication demo */}
           <Route path="/role-auth-demo" component={RoleAuthDemo} />

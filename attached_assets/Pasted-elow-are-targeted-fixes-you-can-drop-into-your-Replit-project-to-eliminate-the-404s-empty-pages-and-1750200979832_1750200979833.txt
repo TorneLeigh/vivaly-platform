@@ -1,0 +1,160 @@
+elow are targeted fixes you can drop into your Replit project to eliminate the 404s, empty pages and missing toggles. They cover:
+
+Registering both /browse-jobs and /job-board so caregivers & parents land on the same JobBoard component
+
+Fixing your <RoleToggle> TypeScript interface so it renders without errors
+
+Ensuring your mobile header actually renders the new links and toggle
+
+Correcting your bookings fetch calls to use the right API routes with credentials
+
+1. App Routing: support both browse-jobs + job-board
+File: client/src/App.tsx
+
+diff
+Copy
+Edit
+ import ParentBookings from "@/pages/parent-bookings";
+ import CaregiverBookings from "@/pages/caregiver-bookings";
++import JobBoard from "@/pages/job-board";  // ← your existing JobBoard
+
+ function App() {
+   return (
+     <Routes>
+       {/* …existing routes… */}
+-      <Route path="/parent/bookings" element={<ParentBookings />} />
+-      <Route path="/caregiver/bookings" element={<CaregiverBookings />} />
++      <Route path="/parent/bookings" element={<ParentBookings />} />
++      <Route path="/caregiver/bookings" element={<CaregiverBookings />} />
++
++      {/* unify parent & caregiver job browsing */}
++      <Route path="/browse-jobs" element={<JobBoard />} />
++      <Route path="/job-board"  element={<JobBoard />} />
+     </Routes>
+   );
+ }
+Now visiting /browse-jobs or /job-board will render the same component and won’t 404.
+
+2. Fix <RoleToggle> Props
+File: client/src/components/RoleToggle.tsx
+
+tsx
+Copy
+Edit
+// before, you probably had props untyped or mismatched
+// Add this interface at top:
+interface RoleToggleProps {
+  activeRole: "parent" | "caregiver";
+  switchRole: (role: "parent" | "caregiver") => void;
+}
+
+export function RoleToggle({ activeRole, switchRole }: RoleToggleProps) {
+  return (
+    <div className="flex gap-2">
+      <button
+        className={activeRole === "parent" ? "bg-gray-800 text-white" : "bg-gray-100"}
+        onClick={() => switchRole("parent")}
+      >
+        Parent
+      </button>
+      <button
+        className={activeRole === "caregiver" ? "bg-gray-800 text-white" : "bg-gray-100"}
+        onClick={() => switchRole("caregiver")}
+      >
+        Caregiver
+      </button>
+    </div>
+  );
+}
+3. Mobile & Desktop Header Links
+File: client/src/components/layout/new-header.tsx
+
+Locate your nav section and add these two buttons after Dashboard:
+
+diff
+Copy
+Edit
+ import { useLocation } from "wouter";
+ import { useAuth } from "@/hooks/use-auth";
++import RoleToggle from "@/components/RoleToggle";
+
+ export function NewHeader() {
+   const { user, activeRole, switchRole, logout } = useAuth();
+   const [, setLocation] = useLocation();
+   return (
+     <header>…{/* your existing markup */}…</header>
+     <nav className="flex items-center space-x-4">
+       {/* existing links */}
+       <button onClick={() => setLocation("/dashboard")}>Dashboard</button>
++      <button onClick={() => setLocation(`/${activeRole}/bookings`)}>My Bookings</button>
++      <button onClick={() => setLocation("/browse-jobs")}>Job Board</button>
+       <button onClick={() => setLocation("/profile")}>Profile</button>
++
++      {/* Role Toggle */}
++      <RoleToggle activeRole={activeRole} switchRole={switchRole} />
++
+       <button onClick={logout}>Log Out</button>
+     </nav>
+   );
+ }
+Make sure you do the same inside your mobile menu dropdown markup.
+
+4. Ensure fetch Calls Include Credentials
+In both Booking pages (and your JobBoard/fetch calls), add { credentials: "include" } to your fetch() so your session cookie is sent:
+
+tsx
+Copy
+Edit
+// Example inside parent-bookings.tsx useEffect
+useEffect(() => {
+  fetch("/api/parent/bookings", { credentials: "include" })
+    .then(r => r.json())
+    .then(setBookings);
+}, []);
+Do the same for:
+
+/api/caregiver/bookings
+
+/api/jobs
+
+/api/jobs/my
+
+/api/applications/my
+
+Any /api/... call that needs your session
+
+Redeploy & Verify
+Run → Replit rebuild
+
+Log in as Parent → click Job Board or Browse Jobs → should show listings
+
+Switch role to Caregiver → click Job Board → should also show same JobBoard
+
+Click My Bookings → calendar + bookings appear
+
+On mobile, open menu → you should see the same My Bookings, Job Board and toggle
+
+That will resolve:
+
+Blank job-board pages
+
+Missing mobile links
+
+404 on bookings
+
+TS errors in RoleToggle
+
+Let me know if you need any further tweaks!
+
+
+
+
+
+
+
+
+
+
+Tools
+
+

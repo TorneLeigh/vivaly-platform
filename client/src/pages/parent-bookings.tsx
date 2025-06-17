@@ -24,6 +24,11 @@ export default function ParentBookings() {
 
   const { data: bookings = [], isLoading } = useQuery({
     queryKey: ['/api/parent/bookings'],
+    queryFn: async () => {
+      const response = await fetch('/api/parent/bookings', { credentials: 'include' });
+      if (!response.ok) throw new Error('Failed to fetch bookings');
+      return response.json();
+    },
     enabled: !!user
   });
 

@@ -69,6 +69,11 @@ export default function JobBoard() {
   // Check user authentication and role
   const { data: user, isLoading: userLoading } = useQuery<User>({
     queryKey: ["/api/auth/user"],
+    queryFn: async () => {
+      const response = await fetch('/api/auth/user', { credentials: 'include' });
+      if (!response.ok) throw new Error('Not authenticated');
+      return response.json();
+    }
   });
 
   // Show loading state while checking authentication

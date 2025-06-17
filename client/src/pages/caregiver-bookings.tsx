@@ -24,6 +24,11 @@ export default function CaregiverBookings() {
 
   const { data: bookings = [], isLoading } = useQuery({
     queryKey: ['/api/caregiver/bookings'],
+    queryFn: async () => {
+      const response = await fetch('/api/caregiver/bookings', { credentials: 'include' });
+      if (!response.ok) throw new Error('Failed to fetch bookings');
+      return response.json();
+    },
     enabled: !!user
   });
 
