@@ -37,8 +37,8 @@ export default function NewHeader() {
         <Link href="/dashboard" className="block py-2 text-gray-700 hover:text-black">
           Dashboard
         </Link>
-        <Link href={`/${activeRole}/bookings`} className="block py-2 text-gray-700 hover:text-black">
-          My Bookings
+        <Link href={activeRole === 'caregiver' ? '/caregiver/schedule' : `/${activeRole}/bookings`} className="block py-2 text-gray-700 hover:text-black">
+          My {activeRole === 'caregiver' ? 'Schedule' : 'Bookings'}
         </Link>
         <Link href="/browse-jobs" className="block py-2 text-gray-700 hover:text-black">
           Job Board
@@ -117,7 +117,7 @@ export default function NewHeader() {
             {isAuthenticated && user ? (
               <>
                 <Link href="/dashboard" className="text-gray-700 hover:text-black font-medium transition-colors">Dashboard</Link>
-                <Link href={`/${activeRole}/bookings`} className="text-gray-700 hover:text-black font-medium transition-colors">My Bookings</Link>
+                <Link href={activeRole === 'caregiver' ? '/caregiver/schedule' : `/${activeRole}/bookings`} className="text-gray-700 hover:text-black font-medium transition-colors">My {activeRole === 'caregiver' ? 'Schedule' : 'Bookings'}</Link>
                 <Link href="/browse-jobs" className="text-gray-700 hover:text-black font-medium transition-colors">Job Board</Link>
                 
                 {activeRole === 'parent' && (

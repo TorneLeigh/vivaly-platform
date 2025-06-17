@@ -98,6 +98,7 @@ import ParentDashboard from "@/pages/parent-dashboard";
 import CaregiverDashboard from "@/pages/caregiver-dashboard";
 import ParentBookings from "@/pages/parent-bookings";
 import CaregiverBookings from "@/pages/caregiver-bookings";
+import CaregiverSchedule from "@/pages/caregiver-schedule";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import RoleRoute from "@/components/RoleRoute";
 
@@ -265,6 +266,15 @@ function Router() {
               <ProtectedRoute>
                 <RoleRoute allowedRoles={["caregiver"]}>
                   <CaregiverBookings />
+                </RoleRoute>
+              </ProtectedRoute>
+            )}
+          </Route>
+          <Route path="/caregiver/schedule">
+            {() => (
+              <ProtectedRoute>
+                <RoleRoute allowedRoles={["caregiver"]}>
+                  <CaregiverSchedule />
                 </RoleRoute>
               </ProtectedRoute>
             )}
