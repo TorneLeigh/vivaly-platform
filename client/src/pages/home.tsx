@@ -347,76 +347,67 @@ export default function Home() {
       </section>
 
       {/* Caregivers Available Today */}
-      <section className="py-8 bg-gray-50">
+      <section className="py-4 bg-gray-50">
         <div className="container max-w-6xl mx-auto px-4">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+          <div className="text-center mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
               Caregivers Available Today
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-sm text-gray-600">
               Connect with verified caregivers ready to help your family right now
             </p>
           </div>
 
           {/* Featured Caregivers Grid */}
-          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-3 mb-4">
             {isLoading ? (
               Array.from({ length: 4 }).map((_, index) => (
-                <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden">
-                  <div className="h-32 bg-gray-200 animate-pulse"></div>
-                  <div className="p-3">
-                    <div className="h-3 bg-gray-200 rounded animate-pulse mb-2"></div>
-                    <div className="h-2 bg-gray-200 rounded animate-pulse mb-2"></div>
-                    <div className="h-6 bg-gray-200 rounded animate-pulse"></div>
+                <div key={index} className="bg-white rounded-lg shadow-sm overflow-hidden">
+                  <div className="h-24 bg-gray-200 animate-pulse"></div>
+                  <div className="p-2">
+                    <div className="h-3 bg-gray-200 rounded animate-pulse mb-1"></div>
+                    <div className="h-2 bg-gray-200 rounded animate-pulse mb-1"></div>
+                    <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
                   </div>
                 </div>
               ))
             ) : featuredNannies && Array.isArray(featuredNannies) && featuredNannies.length > 0 ? (
               featuredNannies.map((nanny: any, index: number) => (
-                <div key={nanny.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-                  <div className="relative h-32">
+                <div key={nanny.id} className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-all duration-300">
+                  <div className="relative h-24">
                     <img 
                       src={caregiverImages[index % caregiverImages.length]} 
                       alt="Caregiver Profile"
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute top-2 right-2">
-                      <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                    <div className="absolute top-1 right-1">
+                      <span className="bg-green-500 text-white px-1.5 py-0.5 rounded-full text-xs font-medium">
                         Available
                       </span>
                     </div>
                   </div>
-                  <div className="p-3">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-sm font-bold text-gray-900">
+                  <div className="p-2">
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="text-xs font-bold text-gray-900">
                         {nanny.user?.firstName} {nanny.user?.lastName}
                       </h3>
                       <div className="flex items-center">
-                        <Star className="h-3 w-3 text-yellow-400 fill-current" />
-                        <span className="text-xs font-medium text-gray-700 ml-1">
+                        <Star className="h-2.5 w-2.5 text-yellow-400 fill-current" />
+                        <span className="text-xs font-medium text-gray-700 ml-0.5">
                           {nanny.averageRating || "4.9"}
                         </span>
                       </div>
                     </div>
-                    <div className="mb-2">
-                      <div className="flex items-center justify-between text-xs text-gray-600 mb-1">
-                        <span>{nanny.yearsOfExperience || nanny.experience || 3} years exp.</span>
-                        <span>{nanny.reviewCount || 24} reviews</span>
-                      </div>
-                      <p className="text-xs text-gray-600 line-clamp-2">
-                        {nanny.bio ? nanny.bio.split('|')[0].trim() : "Experienced caregiver"}
-                      </p>
-                    </div>
-                    <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center justify-between mb-1">
                       <span className="text-xs text-gray-500">
                         📍 {sydneyLocations[index % sydneyLocations.length]}
                       </span>
-                      <span className="text-sm font-bold text-black">
+                      <span className="text-xs font-bold text-black">
                         ${nanny.hourlyRate || "38"}/hr
                       </span>
                     </div>
                     <Link href={`/nanny/${nanny.id}`}>
-                      <Button className="w-full bg-coral hover:bg-coral/90 text-white text-xs py-2">
+                      <Button className="w-full bg-coral hover:bg-coral/90 text-white text-xs py-1">
                         View Profile
                       </Button>
                     </Link>
@@ -424,9 +415,9 @@ export default function Home() {
                 </div>
               ))
             ) : (
-              <div className="col-span-full text-center py-12">
-                <p className="text-gray-500 text-lg">No caregivers available at the moment</p>
-                <p className="text-gray-400 text-sm mt-2">Check back soon for new caregivers</p>
+              <div className="col-span-full text-center py-6">
+                <p className="text-gray-500 text-sm">No caregivers available at the moment</p>
+                <p className="text-gray-400 text-xs mt-1">Check back soon for new caregivers</p>
               </div>
             )}
           </div>
@@ -434,9 +425,9 @@ export default function Home() {
           {/* See All Caregivers Button */}
           <div className="text-center">
             <Link href="/find-care">
-              <Button className="bg-black hover:bg-gray-800 text-white px-8 py-3 text-lg">
+              <Button className="bg-black hover:bg-gray-800 text-white px-6 py-2 text-sm">
                 See All Available Caregivers
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
           </div>
