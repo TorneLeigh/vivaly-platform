@@ -347,10 +347,10 @@ export default function Home() {
       </section>
 
       {/* Caregivers Available Today */}
-      <section className="py-4 bg-gray-50">
+      <section className="pt-2 pb-4 bg-gray-50">
         <div className="container max-w-6xl mx-auto px-4">
           <div className="text-center mb-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
               Caregivers Available Today
             </h2>
             <p className="text-sm text-gray-600">
