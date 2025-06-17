@@ -624,7 +624,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/jobs', requireAuth, async (req, res) => {
+  // Get all jobs - public endpoint for browsing
+  app.get('/api/jobs', async (req, res) => {
     try {
       const jobs = await storage.getJobs();
       res.json(jobs);
