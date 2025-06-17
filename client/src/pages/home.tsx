@@ -282,142 +282,97 @@ export default function Home() {
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               {/* PRE & POST NATAL */}
-              <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 flex-shrink-0 w-80 h-96 flex flex-col">
-                <div className="relative h-56">
+              <div className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex-shrink-0 w-80">
+                <div className="relative h-64">
                   <img 
                     src={pregnancyImage} 
                     alt="Pre & Post Natal"
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h3 className="text-xl font-bold flex items-center">
-                      <Baby className="mr-2" size={20} />
-                      Pre & Post Natal
-                    </h3>
-                  </div>
                 </div>
-                <div className="p-4 flex-1 flex flex-col">
-                  <p className="text-gray-600 text-sm mb-4 flex-1">
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-black mb-2">
+                    Pre & Post Natal
+                  </h3>
+                  <p className="text-gray-600 text-sm">
                     Specialized support for new and expecting mothers, including doulas, lactation consultants, and postpartum recovery assistance.
                   </p>
-                  <Link href="/child-care-services">
-                    <Button className="w-full bg-black hover:bg-gray-800 text-white">
-                      Book Now
-                    </Button>
-                  </Link>
                 </div>
               </div>
 
               {/* INFANT CARE */}
-              <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 flex-shrink-0 w-80 h-96 flex flex-col">
-                <div className="relative h-56">
+              <div className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex-shrink-0 w-80">
+                <div className="relative h-64">
                   <img 
                     src={overnightCareImage} 
                     alt="Infant Care"
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h3 className="text-xl font-bold flex items-center">
-                      <Baby className="mr-2" size={20} />
-                      Infant Care
-                    </h3>
-                  </div>
                 </div>
-                <div className="p-4 flex-1 flex flex-col">
-                  <p className="text-gray-600 text-sm mb-4 flex-1">
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-black mb-2">
+                    Infant Care
+                  </h3>
+                  <p className="text-gray-600 text-sm">
                     Specialized care for babies 0-12 months with trained caregivers experienced in infant development and safety.
                   </p>
-                  <Link href="/child-care-services">
-                    <Button className="w-full bg-black hover:bg-gray-800 text-white">
-                      Book Now
-                    </Button>
-                  </Link>
                 </div>
               </div>
 
               {/* 1-ON-1 CARE */}
-              <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 flex-shrink-0 w-80 h-96 flex flex-col">
-                <div className="relative h-56">
+              <div className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex-shrink-0 w-80">
+                <div className="relative h-64">
                   <img 
                     src={groupCareImage} 
                     alt="1-on-1 Care"
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h3 className="text-xl font-bold flex items-center">
-                      <Users className="mr-2" size={20} />
-                      1-on-1 Care
-                    </h3>
-                  </div>
                 </div>
-                <div className="p-4 flex-1 flex flex-col">
-                  <p className="text-gray-600 text-sm mb-4 flex-1">
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-black mb-2">
+                    1-on-1 Care
+                  </h3>
+                  <p className="text-gray-600 text-sm">
                     Personalized one-on-one childcare with dedicated attention tailored to your child's specific needs and development.
                   </p>
-                  <Link href="/child-care-services">
-                    <Button className="w-full bg-black hover:bg-gray-800 text-white">
-                      Book Now
-                    </Button>
-                  </Link>
                 </div>
               </div>
 
               {/* DROP AND DASH */}
-              <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 flex-shrink-0 w-80 h-96 flex flex-col">
-                <div className="relative h-56">
+              <div className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex-shrink-0 w-80">
+                <div className="relative h-64">
                   <img 
                     src={doulaImage} 
                     alt="Drop and Dash"
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h3 className="text-xl font-bold flex items-center">
-                      <Clock className="mr-2" size={20} />
-                      Drop and Dash
-                    </h3>
-                  </div>
                 </div>
-                <div className="p-4 flex-1 flex flex-col">
-                  <p className="text-gray-600 text-sm mb-4 flex-1">
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-black mb-2">
+                    Drop and Dash
+                  </h3>
+                  <p className="text-gray-600 text-sm">
                     Quick drop-off childcare service for busy parents who need immediate, reliable care for short periods.
                   </p>
-                  <Link href="/child-care-services">
-                    <Button className="w-full bg-black hover:bg-gray-800 text-white">
-                      Quick Book
-                    </Button>
-                  </Link>
                 </div>
               </div>
 
               {/* 2-3 HOUR GROUP CARE */}
-              <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 flex-shrink-0 w-80 h-96 flex flex-col">
-                <div className="relative h-56">
+              <div className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex-shrink-0 w-80">
+                <div className="relative h-64">
                   <img 
                     src={breastfeedingImage} 
                     alt="2-3 Hour Group Care"
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h3 className="text-xl font-bold flex items-center">
-                      <Users className="mr-2" size={20} />
-                      2-3 Hour Group Care
-                    </h3>
-                  </div>
                 </div>
-                <div className="p-4 flex-1 flex flex-col">
-                  <p className="text-gray-600 text-sm mb-4 flex-1">
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-black mb-2">
+                    2-3 Hour Group Care
+                  </h3>
+                  <p className="text-gray-600 text-sm">
                     Short-term group childcare sessions perfect for errands, appointments, or social interactions with other children.
                   </p>
-                  <Link href="/child-care-services">
-                    <Button className="w-full bg-black hover:bg-gray-800 text-white">
-                      Book Now
-                    </Button>
-                  </Link>
                 </div>
               </div>
             </div>
