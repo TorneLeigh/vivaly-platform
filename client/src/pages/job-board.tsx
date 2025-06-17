@@ -67,17 +67,18 @@ export default function JobBoard() {
   const [locationFilter, setLocationFilter] = useState('');
 
   // Check user authentication and role (optional for browsing)
-  const { data: user, isLoading: userLoading } = useQuery<User>({
+  const { data: user, isLoading: userLoading, error } = useQuery<User>({
     queryKey: ["/api/auth/user"],
     queryFn: async () => {
       const response = await fetch('/api/auth/user', { credentials: 'include' });
       if (!response.ok) return null; // Allow browsing without authentication
       return response.json();
-    }
+    },
+    retry: false
   });
 
-  // Show loading state while checking authentication
-  if (userLoading) {
+  // Don't show loading for unauthenticated users
+  if (userLoading && !error) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -302,7 +303,7 @@ export default function JobBoard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as any)} className="w-full">
-          <TabsList className={`grid w-full ${isParent ? 'grid-cols-2' : 'grid-cols-3'} mb-8`}>
+          <TabsList className={`grid w-full ${user && isParent ? 'grid-cols-2' : 'grid-cols-3'} mb-8`}>
             <TabsTrigger value="browse" className="flex items-center gap-2">
               <Search className="h-4 w-4" />
               Browse Jobs
