@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import RoleToggle from '@/components/RoleToggle';
-import ReferralPopup from '@/components/ReferralPopup';
+
 import { ReferralBanner } from '@/components/ReferralBanner';
 import Calendar from '@/components/Calendar';
 import { useLocation } from 'wouter';
@@ -61,7 +61,7 @@ export default function CaregiverDashboard() {
       title: "Browse Jobs",
       description: "Find new opportunities near you",
       icon: Briefcase,
-      action: () => setLocation('/job-board'),
+      action: () => setLocation('/browse-jobs'),
       color: "bg-white hover:bg-gray-50 border-gray-200"
     },
     {
@@ -336,13 +336,7 @@ export default function CaregiverDashboard() {
         </Card>
       </div>
       
-      {/* Referral Popup */}
-      {user && (
-        <ReferralPopup 
-          userRole="caregiver" 
-          userName={user.firstName || 'User'} 
-        />
-      )}
+
     </div>
   );
 }

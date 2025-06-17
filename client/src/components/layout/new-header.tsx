@@ -35,7 +35,7 @@ export default function NewHeader() {
     return (
       <>
         {activeRole === "caregiver" && (
-          <Link href="/job-board" className="block py-2 text-gray-700 hover:text-black">
+          <Link href="/browse-jobs" className="block py-2 text-gray-700 hover:text-black">
             Job Board
           </Link>
         )}
@@ -56,23 +56,8 @@ export default function NewHeader() {
         
         {/* Mobile Role Toggle */}
         {roles && roles.length > 1 && (
-          <div className="py-2">
-            <RoleToggle 
-              roles={roles}
-              activeRole={activeRole || 'parent'}
-              onSwitch={switchRole}
-            />
-          </div>
-        )}
-        
-        {/* Mobile Role Toggle */}
-        {roles && roles.length > 1 && (
           <div className="py-2 border-b border-gray-100 mb-2">
-            <RoleToggle 
-              roles={roles}
-              activeRole={activeRole || 'parent'}
-              onSwitch={switchRole}
-            />
+            <RoleToggle />
           </div>
         )}
         
