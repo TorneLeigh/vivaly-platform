@@ -7,7 +7,7 @@ import AirbnbSearch from "@/components/airbnb-search-new";
 import FloatingActionButton from "@/components/floating-action-button";
 import ServiceCarousel from "@/components/service-carousel";
 import AIRecommendations from "@/components/ai-recommendations";
-import { RoleToggle } from "@/components/role-toggle";
+
 import { FeeWaiverBanner } from "@/components/FeeWaiverBanner";
 
 import { 
@@ -52,7 +52,7 @@ import postnatalImage from "@assets/c18480e234907faffa31784936ac8816_17492670006
 import overnightCareImage from "@assets/02a899c095b5a44d96492e700bf8fd0c_1749275818681.jpg";
 import breastfeedingImage from "@assets/c18480e234907faffa31784936ac8816_1749267000694.jpg";
 import birthingImage from "@assets/f087158c54b76ecf0250c6866d218c92_1749267022177.jpg";
-import groupCareImage from "@assets/ad23d9f10c69e3bfc73ffe82a1bac618_1749267219539.jpg";
+import groupCareImage from "@assets/62ef39ef76f7405a227796a6b8ad607d_1750199252634.jpg";
 import doulaImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749359311276.jpg";
 
 // Individual women's portrait photos - individual faces only
@@ -189,57 +189,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Authenticated User Dashboard Section */}
+      {/* Quick Access for Logged In Users - Desktop Only */}
       {user && (
-        <section className="py-8 bg-blue-50 border-t border-blue-100">
+        <section className="hidden md:block py-3 bg-blue-50 border-t border-blue-100">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-white rounded-lg shadow-sm border p-6">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    Welcome back, {user.firstName}!
-                  </h3>
-                  <p className="text-gray-600">
-                    Current role: <span className="font-medium capitalize">{user.activeRole}</span>
-                  </p>
+            <div className="bg-white rounded-lg shadow-sm border p-3">
+              <div className="flex items-center justify-between">
+                <div className="text-sm text-gray-700">
+                  Current role: <span className="font-medium capitalize">{user.activeRole || 'parent'}</span>
                 </div>
                 
-                <div className="flex flex-col sm:flex-row gap-3">
-                  {user.roles && user.roles.length > 1 && (
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm text-gray-700 font-medium">Switch role:</span>
-                      <RoleToggle 
-                        roles={user.roles}
-                        activeRole={user.activeRole}
-                        onSwitch={async (role) => {
-                          try {
-                            await fetch('/api/auth/switch-role', {
-                              method: 'POST',
-                              headers: { 'Content-Type': 'application/json' },
-                              credentials: 'include',
-                              body: JSON.stringify({ role })
-                            });
-                            window.location.reload();
-                          } catch (error) {
-                            console.error('Role switch failed:', error);
-                          }
-                        }}
-                      />
-                    </div>
-                  )}
-                  
-                  <div className="flex gap-2">
-                    <Link href="/dashboard">
-                      <Button className="bg-black text-white hover:bg-gray-800">
-                        Go to Dashboard
-                      </Button>
-                    </Link>
-                    <Link href="/profile">
-                      <Button variant="outline">
-                        View Profile
-                      </Button>
-                    </Link>
-                  </div>
+                <div className="flex gap-2">
+                  <Link href="/dashboard">
+                    <Button size="sm" className="bg-black text-white hover:bg-gray-800">
+                      Dashboard
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -278,99 +243,99 @@ export default function Home() {
             {/* Scrollable Container */}
             <div 
               ref={scrollContainerRef}
-              className="flex gap-6 overflow-x-auto scrollbar-hide pb-4"
+              className="flex gap-4 overflow-x-auto scrollbar-hide pb-4"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               {/* PRE & POST NATAL */}
-              <div className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex-shrink-0 w-80">
-                <div className="relative h-64">
+              <div className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex-shrink-0 w-64 md:w-72">
+                <div className="relative h-48">
                   <img 
                     src={pregnancyImage} 
                     alt="Pre & Post Natal"
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-black mb-2">
+                <div className="p-3">
+                  <h3 className="text-base font-semibold text-black mb-1">
                     Pre & Post Natal
                   </h3>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-600 text-xs line-clamp-3">
                     Specialized support for new and expecting mothers, including doulas, lactation consultants, and postpartum recovery assistance.
                   </p>
                 </div>
               </div>
 
               {/* INFANT CARE */}
-              <div className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex-shrink-0 w-80">
-                <div className="relative h-64">
+              <div className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex-shrink-0 w-64 md:w-72">
+                <div className="relative h-48">
                   <img 
                     src={overnightCareImage} 
                     alt="Infant Care"
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-black mb-2">
+                <div className="p-3">
+                  <h3 className="text-base font-semibold text-black mb-1">
                     Infant Care
                   </h3>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-600 text-xs line-clamp-3">
                     Specialized care for babies 0-12 months with trained caregivers experienced in infant development and safety.
                   </p>
                 </div>
               </div>
 
               {/* 1-ON-1 CARE */}
-              <div className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex-shrink-0 w-80">
-                <div className="relative h-64">
+              <div className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex-shrink-0 w-64 md:w-72">
+                <div className="relative h-48">
                   <img 
                     src={groupCareImage} 
                     alt="1-on-1 Care"
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-black mb-2">
+                <div className="p-3">
+                  <h3 className="text-base font-semibold text-black mb-1">
                     1-on-1 Care
                   </h3>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-600 text-xs line-clamp-3">
                     Personalized one-on-one childcare with dedicated attention tailored to your child's specific needs and development.
                   </p>
                 </div>
               </div>
 
               {/* DROP AND DASH */}
-              <div className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex-shrink-0 w-80">
-                <div className="relative h-64">
+              <div className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex-shrink-0 w-64 md:w-72">
+                <div className="relative h-48">
                   <img 
                     src={doulaImage} 
                     alt="Drop and Dash"
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-black mb-2">
+                <div className="p-3">
+                  <h3 className="text-base font-semibold text-black mb-1">
                     Drop and Dash
                   </h3>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-600 text-xs line-clamp-3">
                     Quick drop-off childcare service for busy parents who need immediate, reliable care for short periods.
                   </p>
                 </div>
               </div>
 
               {/* 2-3 HOUR GROUP CARE */}
-              <div className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex-shrink-0 w-80">
-                <div className="relative h-64">
+              <div className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex-shrink-0 w-64 md:w-72">
+                <div className="relative h-48">
                   <img 
-                    src={breastfeedingImage} 
+                    src={groupCareImage} 
                     alt="2-3 Hour Group Care"
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-black mb-2">
+                <div className="p-3">
+                  <h3 className="text-base font-semibold text-black mb-1">
                     2-3 Hour Group Care
                   </h3>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-600 text-xs line-clamp-3">
                     Short-term group childcare sessions perfect for errands, appointments, or social interactions with other children.
                   </p>
                 </div>
