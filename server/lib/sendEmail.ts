@@ -6,12 +6,13 @@ export async function sendEmail(to: string, subject: string, html: string) {
     try {
       const resend = new Resend(process.env.RESEND_API_KEY);
       const response = await resend.emails.send({
-        from: 'VIVALY <no-reply@vivaly.com>',
+        from: 'VIVALY <onboarding@resend.dev>',
         to,
         subject,
         html,
       });
-      console.log(`Email sent via Resend to: ${to}`);
+      console.log(`Email sent via Resend to: ${to} - Subject: ${subject}`);
+      console.log('Resend response:', response);
       return response;
     } catch (err) {
       console.error("Resend failed, trying fallback:", err);
