@@ -61,7 +61,7 @@ export default function CaregiverDashboard() {
       title: "Browse Jobs",
       description: "Find new opportunities near you",
       icon: Briefcase,
-      action: () => setLocation('/browse-jobs'),
+      action: () => setLocation('/job-board'),
       color: "bg-white hover:bg-gray-50 border-gray-200"
     },
     {

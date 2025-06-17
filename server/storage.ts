@@ -4,6 +4,7 @@ import {
   jobs,
   applications,
   bookings,
+  nannies,
   type User,
   type InsertUser,
   type Message,
@@ -14,7 +15,7 @@ import {
   type InsertApplication,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, or, and } from "drizzle-orm";
+import { eq, or, and, desc } from "drizzle-orm";
 
 // Interface for storage operations
 export interface IStorage {
@@ -339,9 +340,50 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getCaregiverBookings(caregiverId: string): Promise<any[]> {
-    // For now, return empty array until we have actual booking data
-    // The booking system will show empty state with calendar interface
-    return [];
+    try {
+      // First get the nanny record for this user
+      const nanny = await this.db
+        .select()
+        .from(nannies)
+        .where(eq(nannies.userId, caregiverId))
+        .limit(1);
+
+      if (!nanny.length) {
+        return [];
+      }
+
+      // Get bookings for this caregiver with parent information
+      const caregiverBookings = await this.db
+        .select({
+          id: bookings.id,
+          nannyId: bookings.nannyId,
+          parentId: bookings.parentId,
+          serviceType: bookings.serviceType,
+          date: bookings.date,
+          startTime: bookings.startTime,
+          endTime: bookings.endTime,
+          totalAmount: bookings.totalAmount,
+          status: bookings.status,
+          notes: bookings.notes,
+          createdAt: bookings.createdAt,
+          bookingType: bookings.bookingType,
+          childAge: bookings.childAge,
+          isRecurring: bookings.isRecurring,
+          parentName: users.firstName,
+          parentLastName: users.lastName,
+          parentEmail: users.email,
+          parentPhone: users.phone
+        })
+        .from(bookings)
+        .leftJoin(users, eq(bookings.parentId, users.id))
+        .where(eq(bookings.nannyId, nanny[0].id))
+        .orderBy(desc(bookings.date));
+
+      return caregiverBookings;
+    } catch (error) {
+      console.error("Error fetching caregiver bookings:", error);
+      return [];
+    }
   }
 }
 
