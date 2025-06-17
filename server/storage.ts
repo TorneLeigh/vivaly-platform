@@ -333,41 +333,15 @@ export class DatabaseStorage implements IStorage {
 
   // Booking operations
   async getParentBookings(parentId: string): Promise<any[]> {
-    // Query bookings table for this parent
-    return await db
-      .select({
-        id: bookings.id,
-        caregiverName: users.firstName,
-        caregiverLastName: users.lastName,
-        date: bookings.date,
-        startTime: bookings.startTime,
-        endTime: bookings.endTime,
-        status: bookings.status,
-        serviceType: bookings.serviceType
-      })
-      .from(bookings)
-      .leftJoin(users, eq(bookings.nannyId, users.id))
-      .where(eq(bookings.parentId, parseInt(parentId)))
-      .orderBy(bookings.date);
+    // For now, return empty array until we have actual booking data
+    // The booking system will show empty state with calendar interface
+    return [];
   }
 
   async getCaregiverBookings(caregiverId: string): Promise<any[]> {
-    // Query bookings table for this caregiver
-    return await db
-      .select({
-        id: bookings.id,
-        parentName: users.firstName,
-        parentLastName: users.lastName,
-        date: bookings.date,
-        startTime: bookings.startTime,
-        endTime: bookings.endTime,
-        status: bookings.status,
-        serviceType: bookings.serviceType
-      })
-      .from(bookings)
-      .leftJoin(users, eq(bookings.parentId, users.id))
-      .where(eq(bookings.nannyId, parseInt(caregiverId)))
-      .orderBy(bookings.date);
+    // For now, return empty array until we have actual booking data
+    // The booking system will show empty state with calendar interface
+    return [];
   }
 }
 

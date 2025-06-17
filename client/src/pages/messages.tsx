@@ -94,7 +94,8 @@ export default function Messages() {
     }
   };
 
-  const formatTime = (date: Date) => {
+  const formatTime = (timestamp: string | Date) => {
+    const date = new Date(timestamp);
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const messageDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
