@@ -89,8 +89,8 @@ export default function JobBoard() {
   }
 
   // Show different views based on user role
-  const isCaregiver = user.isNanny;
-  const isParent = !user.isNanny;
+  const isCaregiver = user?.isNanny || false;
+  const isParent = user ? !user.isNanny : false;
   
   // Job posting form state
   const [jobForm, setJobForm] = useState({
@@ -104,18 +104,17 @@ export default function JobBoard() {
     suburb: ''
   });
 
-  // Fetch all jobs
+  // Fetch all jobs (public endpoint, no authentication required)
   const { data: jobs = [], isLoading: jobsLoading, refetch: refetchJobs } = useQuery({
     queryKey: ['/api/jobs'],
     queryFn: async () => {
-      const response = await fetch('/api/jobs', { credentials: 'include' });
+      const response = await fetch('/api/jobs');
       if (!response.ok) {
         throw new Error('Failed to fetch jobs');
       }
       const data = await response.json();
       return Array.isArray(data) ? data : [];
-    },
-    enabled: !!user
+    }
   });
 
   // Fetch applications for current user
@@ -243,7 +242,7 @@ export default function JobBoard() {
         title: "Job Deleted",
         description: "Your job posting has been removed successfully.",
       });
-      queryClient.invalidateQueries({ queryKey: ['/api/getJobs'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/jobs'] });
     },
     onError: (error: any) => {
       toast({
