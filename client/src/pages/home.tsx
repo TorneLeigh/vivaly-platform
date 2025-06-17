@@ -53,7 +53,8 @@ import overnightCareImage from "@assets/02a899c095b5a44d96492e700bf8fd0c_1749275
 import breastfeedingImage from "@assets/c18480e234907faffa31784936ac8816_1749267000694.jpg";
 import birthingImage from "@assets/f087158c54b76ecf0250c6866d218c92_1749267022177.jpg";
 import groupCareImage from "@assets/62ef39ef76f7405a227796a6b8ad607d_1750199252634.jpg";
-import doulaImage from "@assets/72a1a9c0773aeb45b624a5e05e355eb0_1749359311276.jpg";
+import oneOnOneCareImage from "@assets/b311470ecb8ff04ca3b4a03ea5ad8f71_1750199604239.jpg";
+import dropAndDashImage from "@assets/da9a8502c75f58f7f36a01b9e533d46d_1750199648538.jpg";
 
 // Individual women's portrait photos - individual faces only
 import caregiverPortrait1 from "@assets/2df543a46e343b349dce96a9b74e7bf3.jpg";
@@ -288,7 +289,7 @@ export default function Home() {
               <div className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex-shrink-0 w-64 md:w-72">
                 <div className="relative h-48">
                   <img 
-                    src={groupCareImage} 
+                    src={oneOnOneCareImage} 
                     alt="1-on-1 Care"
                     className="w-full h-full object-cover"
                   />
@@ -307,7 +308,7 @@ export default function Home() {
               <div className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex-shrink-0 w-64 md:w-72">
                 <div className="relative h-48">
                   <img 
-                    src={doulaImage} 
+                    src={dropAndDashImage} 
                     alt="Drop and Dash"
                     className="w-full h-full object-cover"
                   />
