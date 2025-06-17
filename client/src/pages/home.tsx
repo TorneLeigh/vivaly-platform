@@ -9,7 +9,7 @@ import ServiceCarousel from "@/components/service-carousel";
 import AIRecommendations from "@/components/ai-recommendations";
 import { RoleToggle } from "@/components/role-toggle";
 import { FeeWaiverBanner } from "@/components/FeeWaiverBanner";
-import { ReferralBanner } from "@/components/ReferralBanner";
+
 import { 
   User, 
   Users, 
@@ -712,9 +712,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Referral Banner */}
-      <ReferralBanner />
 
     </div>
   );
