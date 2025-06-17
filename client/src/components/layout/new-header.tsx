@@ -116,15 +116,14 @@ export default function NewHeader() {
           <nav className="hidden md:flex space-x-6 items-center">
             {isAuthenticated && user ? (
               <>
-                {activeRole === 'caregiver' && (
-                  <Link href="/job-board" className="text-gray-700 hover:text-black font-medium transition-colors">Job Board</Link>
-                )}
-
+                <Link href="/dashboard" className="text-gray-700 hover:text-black font-medium transition-colors">Dashboard</Link>
+                <Link href={`/${activeRole}/bookings`} className="text-gray-700 hover:text-black font-medium transition-colors">My Bookings</Link>
+                <Link href="/browse-jobs" className="text-gray-700 hover:text-black font-medium transition-colors">Job Board</Link>
+                
                 {activeRole === 'parent' && (
                   <Link href="/post-job" className="text-gray-700 hover:text-black font-medium transition-colors">Post Job</Link>
                 )}
 
-                <Link href="/dashboard" className="text-gray-700 hover:text-black font-medium transition-colors">Dashboard</Link>
                 <Link href="/profile" className="text-gray-700 hover:text-black font-medium transition-colors">Profile</Link>
                 <Link href="/messages" className="text-gray-700 hover:text-black font-medium transition-colors">Messages</Link>
                 
