@@ -226,7 +226,7 @@ export default function CaregiverDashboard() {
                     <Button 
                       variant="outline" 
                       className="mt-3"
-                      onClick={() => setLocation('/browse-jobs')}
+                      onClick={() => setLocation('/job-board')}
                     >
                       <Plus className="w-4 h-4 mr-2" />
                       Browse Jobs
