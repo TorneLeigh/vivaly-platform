@@ -58,9 +58,10 @@ export default function NewHeader() {
         {/* Mobile Role Toggle */}
         {roles && roles.length > 1 && (
           <div className="py-2 border-b border-gray-100 mb-2">
+            <p className="text-xs text-gray-500 mb-2">Switch Role:</p>
             <RoleToggle 
               roles={roles} 
-              activeRole={activeRole} 
+              activeRole={activeRole || 'parent'} 
               onSwitch={switchRole} 
             />
           </div>
@@ -118,7 +119,7 @@ export default function NewHeader() {
               <>
                 <Link href="/dashboard" className="text-gray-700 hover:text-black font-medium transition-colors">Dashboard</Link>
                 <Link href={activeRole === 'caregiver' ? '/caregiver/schedule' : `/${activeRole}/bookings`} className="text-gray-700 hover:text-black font-medium transition-colors">My {activeRole === 'caregiver' ? 'Schedule' : 'Bookings'}</Link>
-                <Link href="/browse-jobs" className="text-gray-700 hover:text-black font-medium transition-colors">Job Board</Link>
+                <Link href="/job-board" className="text-gray-700 hover:text-black font-medium transition-colors">Job Board</Link>
                 
                 {activeRole === 'parent' && (
                   <Link href="/post-job" className="text-gray-700 hover:text-black font-medium transition-colors">Post Job</Link>
