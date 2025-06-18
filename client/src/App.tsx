@@ -99,6 +99,7 @@ import CaregiverDashboard from "@/pages/caregiver-dashboard";
 import ParentBookings from "@/pages/parent-bookings";
 import CaregiverBookings from "@/pages/caregiver-bookings";
 import CaregiverSchedule from "@/pages/caregiver-schedule";
+import JobDetails from "@/pages/job-details";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import RoleRoute from "@/components/RoleRoute";
 
@@ -185,6 +186,7 @@ function Router() {
           <Route path="/post-job" component={PostJob} />
           <Route path="/edit-job/:id" component={EditJob} />
           <Route path="/browse-jobs" component={BrowseJobs} />
+          <Route path="/job-details/:id" component={JobDetails} />
           <Route path="/basic-profile" component={PersonalityProfile} />
           <Route path="/account-settings" component={AccountSettings} />
           <Route path="/verification" component={ProviderVerification} />

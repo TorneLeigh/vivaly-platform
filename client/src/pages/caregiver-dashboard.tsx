@@ -237,7 +237,7 @@ export default function CaregiverDashboard() {
                     <div 
                       key={application.id} 
                       className="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
-                      onClick={() => window.open(`/job-details/${application.jobId}`, '_blank')}
+                      onClick={() => setLocation(`/job-details/${application.jobId}`)}
                     >
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">

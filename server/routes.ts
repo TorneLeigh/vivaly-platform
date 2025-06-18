@@ -726,6 +726,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get single job by ID
+  app.get('/api/jobs/:jobId', async (req, res) => {
+    try {
+      const { jobId } = req.params;
+      
+      const job = await storage.getJob(jobId);
+      if (!job) {
+        return res.status(404).json({ message: "Job not found" });
+      }
+
+      // Get parent profile for the job
+      const parentProfile = await storage.getUserProfile(job.parentId);
+      
+      res.json({
+        ...job,
+        parentProfile: parentProfile ? {
+          firstName: parentProfile.firstName,
+          lastName: parentProfile.lastName,
+          profilePhoto: parentProfile.profilePhoto,
+          suburb: parentProfile.suburb
+        } : null
+      });
+    } catch (error) {
+      console.error("Get job error:", error);
+      res.status(500).json({ message: "Failed to fetch job" });
+    }
+  });
+
   // Delete job endpoint
   app.delete('/api/jobs/:jobId', requireAuth, async (req, res) => {
     try {
