@@ -62,12 +62,12 @@ export default function CaregiverDashboard() {
       title: "Browse Jobs",
       description: "Find new opportunities near you",
       icon: Briefcase,
-      action: () => setLocation('/browse-jobs'),
+      action: () => setLocation('/job-board'),
       color: "bg-white hover:bg-gray-50 border-gray-200"
     },
     {
-      title: "My Schedule",
-      description: "Manage your bookings and availability",
+      title: "My Bookings",
+      description: "View your confirmed bookings",
       icon: CalendarIcon,
       action: () => setLocation('/caregiver/bookings'),
       color: "bg-white hover:bg-gray-50 border-gray-200"
@@ -83,7 +83,7 @@ export default function CaregiverDashboard() {
       title: "Profile",
       description: "Update your caregiver profile",
       icon: User,
-      action: () => setLocation('/caregiver-profile'),
+      action: () => setLocation('/profile'),
       color: "bg-white hover:bg-gray-50 border-gray-200"
     }
   ];
@@ -234,7 +234,11 @@ export default function CaregiverDashboard() {
                   </div>
                 ) : (
                   applications.slice(0, 3).map((application: any) => (
-                    <div key={application.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div 
+                      key={application.id} 
+                      className="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
+                      onClick={() => window.open(`/job-details/${application.jobId}`, '_blank')}
+                    >
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                           <Briefcase className="w-5 h-5 text-blue-600" />
@@ -243,6 +247,9 @@ export default function CaregiverDashboard() {
                           <p className="font-medium text-gray-900">Job Application</p>
                           <p className="text-sm text-gray-600">
                             Applied {new Date(application.appliedAt).toLocaleDateString()}
+                          </p>
+                          <p className="text-xs text-blue-600 hover:underline">
+                            Click to view job details
                           </p>
                         </div>
                       </div>
