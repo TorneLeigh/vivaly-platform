@@ -37,7 +37,7 @@ export default function NewHeader() {
         <Link href="/dashboard" className="block py-2 text-gray-700 hover:text-black">
           Dashboard
         </Link>
-        <Link href={`/${activeRole}/bookings`} className="block py-2 text-gray-700 hover:text-black">
+        <Link href={activeRole === 'caregiver' ? '/caregiver-bookings' : '/parent/bookings'} className="block py-2 text-gray-700 hover:text-black">
           My Bookings
         </Link>
         <Link href="/job-board" className="block py-2 text-gray-700 hover:text-black">
