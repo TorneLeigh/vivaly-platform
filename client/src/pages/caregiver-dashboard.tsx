@@ -153,11 +153,24 @@ export default function CaregiverDashboard() {
               <AlertCircle className="w-6 h-6 text-orange-600" />
               <div className="flex-1">
                 <h3 className="font-semibold text-orange-900">
-                  Complete Your Profile
+                  Showcase your experience and connect with families
                 </h3>
                 <p className="text-orange-700 mt-1">
-                  Complete your caregiver profile to get more job opportunities
+                  Profile Completion
                 </p>
+                <div className="mt-2">
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 bg-orange-200 rounded-full h-2">
+                      <div 
+                        className="bg-orange-600 h-2 rounded-full transition-all duration-300"
+                        style={{ width: `${calculateProfileCompletion(user)}%` }}
+                      ></div>
+                    </div>
+                    <span className="text-sm font-medium text-orange-900">
+                      {calculateProfileCompletion(user)}%
+                    </span>
+                  </div>
+                </div>
               </div>
               <Button 
                 variant="outline" 

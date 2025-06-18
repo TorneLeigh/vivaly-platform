@@ -43,6 +43,12 @@ interface Job {
   timestamp?: string;
   createdAt?: string;
   status?: string;
+  parentProfile?: {
+    firstName: string;
+    lastName: string;
+    profilePhoto?: string;
+    suburb?: string;
+  };
 }
 
 interface Application {
@@ -381,21 +387,41 @@ export default function JobBoard() {
                 {filteredJobs.map((job: Job) => (
                   <Card key={job.id} className="hover:shadow-lg transition-shadow h-fit">
                     <CardContent className="p-6">
-                      <div className="flex justify-between items-start mb-3">
-                        <Badge variant="secondary" className="text-xs">
-                          Active
-                        </Badge>
+                      {/* Parent Profile Section */}
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+                          {job.parentProfile?.profilePhoto ? (
+                            <img 
+                              src={job.parentProfile.profilePhoto} 
+                              alt={`${job.parentProfile.firstName}'s profile`}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold text-lg">
+                              {job.parentProfile?.firstName?.charAt(0) || 'P'}
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-900 truncate">
+                            {job.parentProfile?.firstName} {job.parentProfile?.lastName}
+                          </p>
+                          <div className="flex items-center gap-1 text-xs text-gray-500">
+                            <MapPin className="h-3 w-3 flex-shrink-0" />
+                            <span className="truncate">{job.location || 'Sydney, NSW'}</span>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <Badge variant="outline" className="text-xs">
+                            {(applications || []).filter((app: any) => app.jobId === job.id).length} applied
+                          </Badge>
+                        </div>
                       </div>
                       
                       <div className="mb-4">
                         <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
                           {job.title || `Care for ${job.numChildren} child${job.numChildren > 1 ? 'ren' : ''}`}
                         </h3>
-                        
-                        <div className="flex items-center gap-1 text-sm text-gray-600 mb-3">
-                          <MapPin className="h-4 w-4 flex-shrink-0" />
-                          <span className="truncate">{job.location || 'Sydney, NSW'}</span>
-                        </div>
                         
                         <div className="grid grid-cols-1 gap-2 text-sm text-gray-600 mb-3">
                           <div className="flex items-center gap-1">
@@ -454,9 +480,9 @@ export default function JobBoard() {
                           <Button 
                             onClick={() => handleApplyToJob(job.id)}
                             disabled={applyToJobMutation.isPending}
-                            className="w-full bg-purple-600 hover:bg-purple-700 text-sm"
+                            className="w-full bg-black hover:bg-gray-800 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 text-sm transition-colors"
                           >
-                            {applyToJobMutation.isPending ? 'Applying...' : 'I\'m Interested'}
+                            {applyToJobMutation.isPending ? 'Applying...' : 'I\'M INTERESTED'}
                           </Button>
                         )}
                       </div>
