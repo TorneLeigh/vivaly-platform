@@ -118,7 +118,7 @@ export default function NewHeader() {
             {isAuthenticated && user ? (
               <>
                 <Link href="/dashboard" className="text-gray-700 hover:text-black font-medium transition-colors">Dashboard</Link>
-                <Link href={`/${activeRole}/bookings`} className="text-gray-700 hover:text-black font-medium transition-colors">My Bookings</Link>
+                <Link href={activeRole === 'caregiver' ? '/caregiver-bookings' : '/parent/bookings'} className="text-gray-700 hover:text-black font-medium transition-colors">My Bookings</Link>
                 <Link href="/job-board" className="text-gray-700 hover:text-black font-medium transition-colors">Job Board</Link>
                 
                 {activeRole === 'parent' && (

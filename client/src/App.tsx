@@ -248,6 +248,7 @@ function Router() {
           {/* Role-based dashboards */}
           <Route path="/parent-dashboard" component={ParentDashboard} />
           <Route path="/caregiver-dashboard" component={CaregiverDashboard} />
+          <Route path="/caregiver-bookings" component={CaregiverBookings} />
           
           {/* Booking pages */}
           <Route path="/parent/bookings">

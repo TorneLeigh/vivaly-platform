@@ -69,7 +69,7 @@ export default function CaregiverDashboard() {
       title: "My Bookings",
       description: "View your confirmed bookings",
       icon: CalendarIcon,
-      action: () => setLocation('/caregiver/bookings'),
+      action: () => setLocation('/caregiver-bookings'),
       color: "bg-white hover:bg-gray-50 border-gray-200"
     },
     {
