@@ -1,0 +1,63 @@
+1. Complete the Missing Features
+Caregiver “My Bookings” Page
+
+👉 Create a dedicated /caregiver/bookings React page (not redirecting to profile).
+
+Use the calendar component and the /api/caregiver/bookings endpoint you already wired up.
+
+“Recent Applications” → Job Details Link
+
+In your Caregiver Dashboard’s “Recent Applications” list, change the “View job details” button to link to
+
+tsx
+Copy
+Edit
+<Link href={`/job/${app.jobId}`}>
+  View job details
+</Link>
+Make sure you have a route for /job/:jobId pointing at your JobDetails component.
+
+Remove Any Stray Referral Pop-ups
+
+Audit any <Modal> or <ReferralBanner> calls in the caregiver pages—only show the inline banner at the top of Profile/Dashboard.
+
+Once those pieces are in place, every button should land on a real page (no more 404s or round-trips back to “Profile”).
+
+2. Run a Full End-to-End Smoke Test
+A. Parent Flow
+Signup/Login as a Parent.
+
+Complete Profile (photo, suburb, WWCC, etc.) → confirm banner appears.
+
+Post a Job → you should be redirected to the Job Board.
+
+Visit My Jobs (“Active Job Posts” on your profile) → see your listing + “Applicants: 0.”
+
+B. Caregiver Flow
+Switch Role (or signup) as a Caregiver.
+
+Complete Profile (intro video, experience, WWCC) → confirm banner appears.
+
+Browse Job Board → see the job you just posted.
+
+Apply → application shows in Recent Applications, and the “View job details” link now works.
+
+C. Messaging & Booking
+Parent opens Messages → two-way chat shows both sides, with “View Profile” buttons.
+
+Parent accepts an application → triggers a booking record.
+
+Caregiver goes to My Bookings → calendar highlights that date and shows the appointment.
+
+Parent goes to My Bookings → sees the same confirmed booking on their calendar.
+
+Next Steps
+Build in the two missing pages (caregiver bookings + job details linking) as above.
+
+Run through the smoke test yourself or with a colleague.
+
+Fix any remaining 404s or data gaps you encounter in those flows.
+
+Once everything clicks end-to-end, you’re ready to invite real users!
+
+If you’d like, I can send you the exact React/TS code snippets for the caregiver bookings page and the application-to-details links. Just let me know!

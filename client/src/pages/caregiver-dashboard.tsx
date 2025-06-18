@@ -236,8 +236,7 @@ export default function CaregiverDashboard() {
                   applications.slice(0, 3).map((application: any) => (
                     <div 
                       key={application.id} 
-                      className="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
-                      onClick={() => setLocation(`/job-details/${application.jobId}`)}
+                      className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
                     >
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
@@ -248,23 +247,29 @@ export default function CaregiverDashboard() {
                           <p className="text-sm text-gray-600">
                             Applied {new Date(application.appliedAt).toLocaleDateString()}
                           </p>
-                          <p className="text-xs text-blue-600 hover:underline">
-                            Click to view job details
-                          </p>
                         </div>
                       </div>
-                      <Badge 
-                        variant={application.status === 'accepted' ? 'default' : 'secondary'}
-                        className={
-                          application.status === 'accepted' ? 'bg-green-100 text-green-800' :
-                          application.status === 'rejected' ? 'bg-red-100 text-red-800' :
-                          'bg-yellow-100 text-yellow-800'
-                        }
-                      >
-                        {application.status === 'pending' ? 'Pending' :
-                         application.status === 'accepted' ? 'Accepted' :
-                         'Not Selected'}
-                      </Badge>
+                      <div className="flex items-center gap-2">
+                        <Badge 
+                          variant={application.status === 'accepted' ? 'default' : 'secondary'}
+                          className={
+                            application.status === 'accepted' ? 'bg-green-100 text-green-800' :
+                            application.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                            'bg-yellow-100 text-yellow-800'
+                          }
+                        >
+                          {application.status === 'pending' ? 'Pending' :
+                           application.status === 'accepted' ? 'Accepted' :
+                           'Not Selected'}
+                        </Badge>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => setLocation(`/job/${application.jobId}`)}
+                        >
+                          View job details
+                        </Button>
+                      </div>
                     </div>
                   ))
                 )}
