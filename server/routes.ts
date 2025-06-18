@@ -845,6 +845,75 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
     }
   });
 
+  // Get caregiver bookings with enhanced data
+  app.get('/api/caregiver/bookings', requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Authentication required" });
+      }
+
+      const bookings = await storage.getUserBookings(userId);
+      
+      // Enhance bookings with job and parent details
+      const enhancedBookings = await Promise.all(
+        bookings.map(async (booking) => {
+          const job = await storage.getJob(booking.jobId);
+          const parent = await storage.getUser(booking.parentId);
+          
+          return {
+            ...booking,
+            job: job ? {
+              title: job.title,
+              location: job.location,
+              description: job.description,
+              childrenAges: job.childrenAges || []
+            } : null,
+            parent: parent ? {
+              firstName: parent.firstName,
+              lastName: parent.lastName,
+              phone: parent.phone,
+              email: parent.email
+            } : null
+          };
+        })
+      );
+
+      res.json(enhancedBookings);
+    } catch (error) {
+      console.error("Get caregiver bookings error:", error);
+      res.status(500).json({ message: "Failed to fetch bookings" });
+    }
+  });
+
+  // Update booking status
+  app.patch('/api/bookings/:bookingId/status', requireAuth, async (req, res) => {
+    try {
+      const { bookingId } = req.params;
+      const { status } = req.body;
+      const userId = req.session.userId;
+
+      if (!userId) {
+        return res.status(401).json({ message: "Authentication required" });
+      }
+
+      if (!status || !['confirmed', 'cancelled', 'completed'].includes(status)) {
+        return res.status(400).json({ message: "Invalid status" });
+      }
+
+      const booking = await storage.updateBookingStatus(bookingId, status);
+      
+      if (!booking) {
+        return res.status(404).json({ message: "Booking not found" });
+      }
+
+      res.json(booking);
+    } catch (error) {
+      console.error("Update booking status error:", error);
+      res.status(500).json({ message: "Failed to update booking status" });
+    }
+  });
+
   // Get caregiver's applications
   app.get("/api/applications/my", async (req, res) => {
     try {
