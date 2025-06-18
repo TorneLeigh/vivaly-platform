@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import RoleToggle from '@/components/RoleToggle';
 import { ReferralBanner } from '@/components/ReferralBanner';
-
+import { calculateProfileCompletion } from '@/utils/profileCompletion';
 
 import Calendar from '@/components/Calendar';
 import { useLocation } from 'wouter';

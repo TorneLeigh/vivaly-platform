@@ -45,6 +45,8 @@ export interface IStorage {
   // Booking operations
   getParentBookings(parentId: string): Promise<any[]>;
   getCaregiverBookings(caregiverId: string): Promise<any[]>;
+  getUserBookings(userId: string): Promise<any[]>;
+  updateBookingStatus(bookingId: string, status: string): Promise<any>;
   
   // Job operations
   createJob(job: InsertJob): Promise<Job>;
@@ -347,37 +349,46 @@ export class DatabaseStorage implements IStorage {
 
   async getCaregiverBookings(caregiverId: string): Promise<any[]> {
     try {
-      // For now, return sample booking data until database schema is complete
-      // This allows the caregiver schedule page to function properly
-      const sampleBookings = [
-        {
-          id: 1,
-          parentName: "Sarah",
-          parentLastName: "Johnson",
-          date: new Date().toISOString(),
-          startTime: "09:00",
-          endTime: "17:00",
-          status: "confirmed",
-          serviceType: "Full Day Care",
-          notes: "Pick up from school at 3pm"
-        },
-        {
-          id: 2,
-          parentName: "Michael",
-          parentLastName: "Chen",
-          date: new Date(Date.now() + 86400000).toISOString(), // Tomorrow
-          startTime: "14:00",
-          endTime: "18:00",
-          status: "pending",
-          serviceType: "After School Care",
-          notes: "Two children, ages 6 and 8"
-        }
-      ];
+      const userBookings = await db
+        .select()
+        .from(bookings)
+        .where(eq(bookings.caregiverId, caregiverId))
+        .orderBy(desc(bookings.createdAt));
       
-      return sampleBookings;
+      return userBookings;
     } catch (error) {
       console.error("Error fetching caregiver bookings:", error);
       return [];
+    }
+  }
+
+  async getUserBookings(userId: string): Promise<any[]> {
+    try {
+      const userBookings = await db
+        .select()
+        .from(bookings)
+        .where(eq(bookings.caregiverId, userId))
+        .orderBy(desc(bookings.createdAt));
+      
+      return userBookings;
+    } catch (error) {
+      console.error("Error fetching user bookings:", error);
+      return [];
+    }
+  }
+
+  async updateBookingStatus(bookingId: string, status: string): Promise<any> {
+    try {
+      const [updatedBooking] = await db
+        .update(bookings)
+        .set({ status, updatedAt: new Date() })
+        .where(eq(bookings.id, bookingId))
+        .returning();
+      
+      return updatedBooking;
+    } catch (error) {
+      console.error("Error updating booking status:", error);
+      return null;
     }
   }
 }
