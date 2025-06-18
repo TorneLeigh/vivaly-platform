@@ -40,7 +40,7 @@ export default function NewHeader() {
         <Link href={activeRole === 'caregiver' ? '/caregiver/schedule' : `/${activeRole}/bookings`} className="block py-2 text-gray-700 hover:text-black">
           My {activeRole === 'caregiver' ? 'Schedule' : 'Bookings'}
         </Link>
-        <Link href="/browse-jobs" className="block py-2 text-gray-700 hover:text-black">
+        <Link href="/job-board" className="block py-2 text-gray-700 hover:text-black">
           Job Board
         </Link>
         {activeRole === "parent" && (

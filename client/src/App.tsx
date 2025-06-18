@@ -180,11 +180,7 @@ function Router() {
           <Route path="/caregiver-profile" component={CaregiverProfile} />
 
           {/* Role-based job functionality */}
-          <Route path="/job-board">
-            <ProtectedRoute>
-              <RoleRoute parent={PostJob} caregiver={BrowseJobs} fallback={JobBoard} />
-            </ProtectedRoute>
-          </Route>
+          <Route path="/job-board" component={JobBoard} />
 
           <Route path="/post-job" component={PostJob} />
           <Route path="/edit-job/:id" component={EditJob} />
