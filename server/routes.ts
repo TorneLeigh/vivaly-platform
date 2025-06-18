@@ -737,15 +737,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Get parent profile for the job
-      const parentProfile = await storage.getUserProfile(job.parentId);
+      const parentProfile = await storage.getUser(job.parentId);
       
       res.json({
         ...job,
         parentProfile: parentProfile ? {
           firstName: parentProfile.firstName,
           lastName: parentProfile.lastName,
-          profilePhoto: parentProfile.profilePhoto,
-          suburb: parentProfile.suburb
+          profilePhoto: parentProfile.profileImageUrl,
+          suburb: null
         } : null
       });
     } catch (error) {
