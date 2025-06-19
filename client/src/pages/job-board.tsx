@@ -96,8 +96,8 @@ export default function JobBoard() {
   }
 
   // Show different views based on user role
-  const isCaregiver = user?.isNanny || false;
-  const isParent = user ? !user.isNanny : false;
+  const isCaregiver = user?.activeRole === 'caregiver' || user?.roles?.includes('caregiver') || false;
+  const isParent = user?.activeRole === 'parent' || user?.roles?.includes('parent') || false;
   
   // Job posting form state
   const [jobForm, setJobForm] = useState({
