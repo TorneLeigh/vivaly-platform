@@ -22,6 +22,21 @@ export default function NewHeader() {
 
   const renderParentDropdownLinks = () => (
     <>
+      {/* Role Toggle at top */}
+      {roles && roles.length > 1 && (
+        <div className="py-3 px-4 border-b border-gray-100">
+          <p className="text-sm font-medium text-orange-600 mb-2">Switch Role:</p>
+          <RoleToggle 
+            roles={roles} 
+            activeRole={activeRole || 'parent'} 
+            onSwitch={(role) => {
+              switchRole(role);
+              closeMenu();
+            }} 
+          />
+        </div>
+      )}
+      
       <Link href="/parent-bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
         <Calendar className="h-4 w-4 mr-3" />
         My Bookings
@@ -35,10 +50,21 @@ export default function NewHeader() {
         Messages
       </Link>
       
-      {/* Role Toggle */}
+      <button
+        onClick={handleLogout}
+        className="flex items-center py-3 px-4 text-left w-full text-gray-700 hover:bg-gray-50 hover:text-red-600 border-t border-gray-100"
+      >
+        Log Out
+      </button>
+    </>
+  );
+
+  const renderCaregiverDropdownLinks = () => (
+    <>
+      {/* Role Toggle at top */}
       {roles && roles.length > 1 && (
-        <div className="py-3 px-4 border-t border-gray-100">
-          <p className="text-xs text-gray-500 mb-2">Switch Role:</p>
+        <div className="py-3 px-4 border-b border-gray-100">
+          <p className="text-sm font-medium text-orange-600 mb-2">Switch Role:</p>
           <RoleToggle 
             roles={roles} 
             activeRole={activeRole || 'parent'} 
@@ -50,17 +76,6 @@ export default function NewHeader() {
         </div>
       )}
       
-      <button
-        onClick={handleLogout}
-        className="flex items-center py-3 px-4 text-left w-full text-gray-700 hover:bg-gray-50 hover:text-red-600"
-      >
-        Log Out
-      </button>
-    </>
-  );
-
-  const renderCaregiverDropdownLinks = () => (
-    <>
       <Link href="/caregiver-bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
         <Calendar className="h-4 w-4 mr-3" />
         My Bookings
@@ -74,24 +89,9 @@ export default function NewHeader() {
         Messages
       </Link>
       
-      {/* Role Toggle */}
-      {roles && roles.length > 1 && (
-        <div className="py-3 px-4 border-t border-gray-100">
-          <p className="text-xs text-gray-500 mb-2">Switch Role:</p>
-          <RoleToggle 
-            roles={roles} 
-            activeRole={activeRole || 'parent'} 
-            onSwitch={(role) => {
-              switchRole(role);
-              closeMenu();
-            }} 
-          />
-        </div>
-      )}
-      
       <button
         onClick={handleLogout}
-        className="flex items-center py-3 px-4 text-left w-full text-gray-700 hover:bg-gray-50 hover:text-red-600"
+        className="flex items-center py-3 px-4 text-left w-full text-gray-700 hover:bg-gray-50 hover:text-red-600 border-t border-gray-100"
       >
         Log Out
       </button>
