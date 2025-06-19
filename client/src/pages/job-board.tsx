@@ -379,41 +379,48 @@ export default function JobBoard() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredJobs.map((job: Job) => (
-                  <Card key={job.id} className="hover:shadow-lg transition-shadow h-fit">
-                    <CardContent className="p-6">
-                      {/* Large Profile Image at Top */}
-                      <div className="flex flex-col items-center text-center mb-6">
-                        <div className="w-40 h-40 rounded-full overflow-hidden bg-gray-200 mb-4 shadow-lg">
-                          {job.parentProfile?.profilePhoto ? (
-                            <img 
-                              src={job.parentProfile.profilePhoto} 
-                              alt={`${job.parentProfile.firstName}'s profile`}
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold text-5xl">
-                              {job.parentProfile?.firstName?.charAt(0) || 'P'}
-                            </div>
-                          )}
+                  <Card key={job.id} className="hover:shadow-lg transition-shadow h-fit overflow-hidden">
+                    {/* Large Hero Image at Top */}
+                    <div className="relative h-64 bg-gray-200">
+                      {job.parentProfile?.profilePhoto ? (
+                        <img 
+                          src={job.parentProfile.profilePhoto} 
+                          alt={`${job.parentProfile.firstName}'s profile`}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold text-6xl">
+                          {job.parentProfile?.firstName?.charAt(0) || 'P'}
                         </div>
-                        <div className="mb-3">
-                          <h2 className="text-xl font-semibold text-gray-900 mb-1">
-                            {job.parentProfile?.firstName} {job.parentProfile?.lastName}
-                          </h2>
-                          <div className="flex items-center justify-center gap-1 text-sm text-gray-500">
-                            <MapPin className="h-4 w-4 flex-shrink-0" />
-                            <span>{job.location || 'Sydney, NSW'}</span>
-                          </div>
-                        </div>
-                        <Badge variant="outline" className="text-sm">
+                      )}
+                      {/* Application count overlay */}
+                      <div className="absolute top-4 right-4">
+                        <Badge variant="secondary" className="bg-white/90 text-gray-900">
                           {(applications || []).filter((app: any) => app.jobId === job.id).length} applied
                         </Badge>
                       </div>
-                      
+                    </div>
+                    
+                    <CardContent className="p-6">
+                      {/* Job title */}
                       <div className="mb-4">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+                        <h2 className="text-xl font-bold text-gray-900 mb-2">
                           {job.title || `Care for ${job.numChildren} child${job.numChildren > 1 ? 'ren' : ''}`}
-                        </h3>
+                        </h2>
+                        <div className="flex items-center gap-2 text-sm text-gray-600 mb-3">
+                          <span className="font-medium">
+                            {job.parentProfile?.firstName} {job.parentProfile?.lastName}
+                          </span>
+                          <span>•</span>
+                          <div className="flex items-center gap-1">
+                            <MapPin className="h-3 w-3" />
+                            <span>{job.location || 'Sydney, NSW'}</span>
+                          </div>
+                        </div>
+                        
+                        <p className="text-gray-700 text-sm mb-4 line-clamp-2">
+                          {job.description}
+                        </p>
                         
                         <div className="grid grid-cols-1 gap-2 text-sm text-gray-600 mb-3">
                           <div className="flex items-center gap-1">
@@ -430,10 +437,6 @@ export default function JobBoard() {
                           </div>
                         </div>
                       </div>
-                      
-                      <p className="text-gray-700 text-sm mb-4 line-clamp-3">
-                        {job.description}
-                      </p>
                       
                       <div className="space-y-3">
                         <div className="text-xs text-gray-500">
