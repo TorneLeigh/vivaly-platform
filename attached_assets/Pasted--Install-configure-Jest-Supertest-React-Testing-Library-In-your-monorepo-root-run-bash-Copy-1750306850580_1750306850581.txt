@@ -1,0 +1,172 @@
+. Install & configure Jest + Supertest + React-Testing-Library
+In your monorepo root run:
+
+bash
+Copy
+Edit
+npm install --save-dev jest ts-jest @types/jest supertest @types/supertest @testing-library/react @testing-library/jest-dom @testing-library/user-event
+Create a jest.config.js:
+
+js
+Copy
+Edit
+// jest.config.js
+module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  roots: [
+    '<rootDir>/server',    // for API tests
+    '<rootDir>/client'     // for React tests
+  ],
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest'
+  },
+  moduleFileExtensions: ['ts','tsx','js','jsx','json','node'],
+  setupFilesAfterEnv: [
+    '<rootDir>/client/jest.setup.ts'
+  ]
+}
+And in client/jest.setup.ts:
+
+ts
+Copy
+Edit
+import '@testing-library/jest-dom';
+Add these scripts to your package.json:
+
+json
+Copy
+Edit
+{
+  "scripts": {
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch"
+  }
+}
+2. API Integration Tests (server/tests/auth.test.ts)
+Let’s verify your Express auth endpoints:
+
+ts
+Copy
+Edit
+// server/__tests__/auth.test.ts
+import request from 'supertest';
+import { registerRoutes } from '../routes';
+import express from 'express';
+import session from 'express-session';
+import connectPgSimple from 'connect-pg-simple';
+
+describe('Auth & Registration Flows', () => {
+  let app: express.Express;
+
+  beforeAll(async () => {
+    app = express();
+    app.use(express.json());
+    // stub session
+    const PgStore = connectPgSimple(session);
+    app.use(session({
+      secret: 'test',
+      store: new PgStore({ /* use a test DB or a memory store stub */ }),
+      resave: false,
+      saveUninitialized: false,
+    }));
+    await registerRoutes(app);
+  });
+
+  it('should 400 on missing fields during registration', async () => {
+    const res = await request(app)
+      .post('/api/register')
+      .send({ email: 'x@example.com' });
+    expect(res.status).toBe(400);
+    expect(res.body.message).toBe('Invalid input');
+  });
+
+  it('should register + login then return user roles', async () => {
+    const user = {
+      firstName: 'Test',
+      lastName:  'User',
+      email:     'test1@x.com',
+      phone:     '0400 000 000',
+      password:  'Password1!',
+      isNanny:   false,
+      suburb:    'Sydney'
+    };
+    const reg = await request(app).post('/api/register').send(user);
+    expect(reg.status).toBe(200);
+    expect(reg.body.email).toBe(user.email);
+
+    const login = await request(app)
+      .post('/api/auth/login')
+      .send({ email: user.email, password: user.password });
+    expect(login.status).toBe(200);
+    expect(login.body.roles).toContain('parent');
+  });
+});
+Run: npm test -- server/__tests__/auth.test.ts
+
+3. React Component Smoke-Test (client/src/tests/Home.test.tsx)
+Check that your Home page renders without error:
+
+tsx
+Copy
+Edit
+// client/src/__tests__/Home.test.tsx
+import { render, screen } from '@testing-library/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ThemeProvider } from '@/components/theme-provider'
+import Home from '@/pages/home'
+
+const qc = new QueryClient()
+function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <QueryClientProvider client={qc}>
+      <ThemeProvider defaultTheme="light" storageKey="vivaly-ui-theme">
+        {children}
+      </ThemeProvider>
+    </QueryClientProvider>
+  )
+}
+
+test('renders hero section on home page', () => {
+  render(<Home />, { wrapper: Providers })
+  expect(screen.getByText(/Connect with trusted caregivers/i)).toBeInTheDocument()
+})
+Run: npm test -- client/src/__tests__/Home.test.tsx
+
+4. Job-Posting Flow Test (client/src/tests/PostJob.test.tsx)
+Simulate filling the parent “Post a Job” form:
+
+tsx
+Copy
+Edit
+// client/src/__tests__/PostJob.test.tsx
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ThemeProvider } from '@/components/theme-provider'
+import PostJob from '@/pages/post-job'
+
+const qc = new QueryClient()
+const wrapper = ({ children }: any) => (
+  <QueryClientProvider client={qc}>
+    <ThemeProvider defaultTheme="light" storageKey="vivaly-ui-theme">
+      {children}
+    </ThemeProvider>
+  </QueryClientProvider>
+)
+
+test('can fill & submit post-job form', async () => {
+  render(<PostJob />, { wrapper })
+  fireEvent.change(screen.getByLabelText(/Job Heading/i), { target: { value: 'Test Role' } })
+  fireEvent.change(screen.getByLabelText(/Start Date/i), { target: { value: '2025-07-01' } })
+  fireEvent.change(screen.getByLabelText(/Number of Children/i), { target: { value: '2' } })
+  fireEvent.change(screen.getByLabelText(/Hourly Rate/i), { target: { value: '30' } })
+  fireEvent.change(screen.getByLabelText(/Hours per Week/i), { target: { value: '10' } })
+  fireEvent.change(screen.getByLabelText(/Job Description/i), { target: { value: 'Testing' } })
+  fireEvent.click(screen.getByText(/Create Job/i))
+
+  await waitFor(() => {
+    expect(screen.getByText(/Job posted!/i)).toBeInTheDocument()
+  })
+})
+Run: npm test -- client/src/__tests__/PostJob.test.tsx
+
