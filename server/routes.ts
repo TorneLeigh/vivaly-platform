@@ -8,7 +8,7 @@ import { z } from "zod";
 import { insertUserSchema, insertJobSchema, insertApplicationSchema, type InsertUser } from "@shared/schema";
 import { requireAuth, requireRole } from "./auth-middleware";
 import { sendPasswordResetEmail } from "./email-service";
-import { sendEmail } from "./lib/sendEmail";
+import { sendEmail, notifyOwner } from "./lib/sendEmail";
 import { sendUserRegistrationNotification, sendDocumentSubmissionNotification, sendTestEmails, sendJobPostingNotification, sendJobApplicationNotification, sendMessageNotification, sendBookingNotification } from "./email-notifications";
 import multer from "multer";
 import path from "path";
@@ -281,18 +281,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
       req.session.userId = user.id;
       req.session.activeRole = userRoles[0]; // Set default active role
 
-      // Send admin notification email for new user signup
+      // Send owner notification for new user signup
       try {
-        const role = userData.isNanny ? 'caregiver' : 'parent';
-        await sendUserRegistrationNotification({
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          role: role,
-          registrationDate: new Date()
-        });
+        const roleType = userData.isNanny ? 'Caregiver' : 'Parent';
+        await notifyOwner(
+          `🆕 New ${roleType} Signup: ${user.firstName} ${user.lastName}`,
+          `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+            <h3>New ${roleType} Registration</h3>
+            <p><strong>Name:</strong> ${user.firstName} ${user.lastName}</p>
+            <p><strong>Email:</strong> ${user.email}</p>
+            <p><strong>Phone:</strong> ${user.phone || 'Not provided'}</p>
+            <p><strong>Role:</strong> ${roleType}</p>
+            <p><strong>Suburb:</strong> ${user.suburb || 'Not provided'}</p>
+            <p><strong>Registration Time:</strong> ${new Date().toLocaleString('en-AU', { 
+              timeZone: 'Australia/Sydney',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })}</p>
+          </div>`
+        );
       } catch (emailError) {
-        console.warn("Failed to send admin notification email:", emailError);
+        console.warn("Failed to send owner notification:", emailError);
       }
 
       // Ensure session persistence
@@ -665,6 +677,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
         content
       });
 
+      // Notify owner of new message
+      try {
+        const sender = await storage.getUserById(senderId ?? '');
+        const receiver = await storage.getUserById(receiverId);
+        await notifyOwner(
+          `💬 New Message: ${sender?.firstName} → ${receiver?.firstName}`,
+          `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+            <h3>New Platform Message</h3>
+            <p><strong>From:</strong> ${sender?.firstName} ${sender?.lastName} (${sender?.email})</p>
+            <p><strong>To:</strong> ${receiver?.firstName} ${receiver?.lastName} (${receiver?.email})</p>
+            <p><strong>Sent:</strong> ${new Date().toLocaleString('en-AU', { 
+              timeZone: 'Australia/Sydney',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })}</p>
+            <hr>
+            <p><strong>Message Preview:</strong></p>
+            <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; font-style: italic;">
+              "${content.substring(0, 150)}${content.length > 150 ? '...' : ''}"
+            </div>
+          </div>`
+        );
+      } catch (emailError) {
+        console.warn("Failed to send owner notification:", emailError);
+      }
+
       res.json(message);
     } catch (error) {
       console.error("Send message error:", error);
@@ -714,22 +755,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
         suburb: suburb || null
       });
 
-      // Send job posting notification
+      // Notify owner of new job posting
       try {
         const parent = await storage.getUserById(parentId ?? '');
-        if (parent) {
-          await sendJobPostingNotification({
-            parentName: `${parent.firstName ?? ''} ${parent.lastName ?? ''}`,
-            parentEmail: parent.email ?? '',
-            jobTitle: title,
-            location: location || suburb || 'Location not specified',
-            rate: rate,
-            description: description,
-            postingDate: new Date()
-          });
-        }
+        await notifyOwner(
+          `📢 New Job Posted: ${title}`,
+          `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+            <h3>New Job Posting</h3>
+            <p><strong>Job ID:</strong> ${jobId}</p>
+            <p><strong>Parent:</strong> ${parent?.firstName || ''} ${parent?.lastName || ''}</p>
+            <p><strong>Email:</strong> ${parent?.email || ''}</p>
+            <p><strong>Title:</strong> ${title}</p>
+            <p><strong>Rate:</strong> $${rate}/hr</p>
+            <p><strong>Hours/Week:</strong> ${hoursPerWeek}</p>
+            <p><strong>Children:</strong> ${numChildren}</p>
+            <p><strong>Location:</strong> ${location || suburb || 'Not specified'}</p>
+            <p><strong>Description:</strong> ${description}</p>
+            <p><strong>Posted:</strong> ${new Date().toLocaleString('en-AU', { 
+              timeZone: 'Australia/Sydney',
+              year: 'numeric',
+              month: 'long', 
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })}</p>
+          </div>`
+        );
       } catch (emailError) {
-        console.warn("Failed to send job posting notification:", emailError);
+        console.warn("Failed to send owner notification:", emailError);
       }
 
       res.json({ success: true, message: "Job posted!", job });
@@ -837,6 +890,40 @@ I'd love to discuss this opportunity further through the platform messaging syst
         content: profileMessage,
         timestamp: new Date()
       });
+
+      // Notify owner of new job application
+      try {
+        const parent = await storage.getUserById(job.parentId);
+        await notifyOwner(
+          `✉️ New Application: ${caregiver?.firstName} applied to ${job.title}`,
+          `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+            <h3>New Job Application</h3>
+            <p><strong>Application ID:</strong> ${application.id}</p>
+            <p><strong>Job:</strong> ${job.title}</p>
+            <p><strong>Parent:</strong> ${parent?.firstName} ${parent?.lastName}</p>
+            <p><strong>Parent Email:</strong> ${parent?.email}</p>
+            <p><strong>Caregiver:</strong> ${caregiver?.firstName} ${caregiver?.lastName}</p>
+            <p><strong>Caregiver Email:</strong> ${caregiver?.email}</p>
+            <p><strong>Rate:</strong> $${caregiverProfile?.hourlyRate || 'Not specified'}/hr</p>
+            <p><strong>Location:</strong> ${caregiverProfile?.suburb || 'Not specified'}</p>
+            <p><strong>Applied:</strong> ${new Date().toLocaleString('en-AU', { 
+              timeZone: 'Australia/Sydney',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })}</p>
+            <hr>
+            <p><strong>Automated message sent to parent:</strong></p>
+            <div style="background: #f5f5f5; padding: 10px; border-radius: 5px; font-size: 14px;">
+              ${profileMessage.substring(0, 200)}...
+            </div>
+          </div>`
+        );
+      } catch (emailError) {
+        console.warn("Failed to send owner notification:", emailError);
+      }
 
       res.json({ message: "Profile sent to family!", application });
     } catch (error) {

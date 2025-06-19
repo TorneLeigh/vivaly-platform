@@ -1,6 +1,9 @@
 import { Resend } from 'resend';
 import sgMail from '@sendgrid/mail';
 
+// Owner email for notifications
+const OWNER_EMAIL = process.env.OWNER_EMAIL;
+
 export async function sendEmail(to: string, subject: string, html: string) {
   // Try SendGrid first if API key is available (Twilio SendGrid)
   if (process.env.SENDGRID_API_KEY) {
@@ -44,4 +47,15 @@ export async function sendEmail(to: string, subject: string, html: string) {
   console.log("Subject:", subject);
   console.log("Content:", html);
   return { success: false, message: "No email service configured" };
+}
+
+// Convenience function to notify owner
+export async function notifyOwner(subject: string, html: string) {
+  if (!OWNER_EMAIL) return;
+  try {
+    await sendEmail(OWNER_EMAIL, subject, html);
+    console.log(`Owner notification sent: ${subject}`);
+  } catch (err) {
+    console.error("Failed to notify owner:", err);
+  }
 }
