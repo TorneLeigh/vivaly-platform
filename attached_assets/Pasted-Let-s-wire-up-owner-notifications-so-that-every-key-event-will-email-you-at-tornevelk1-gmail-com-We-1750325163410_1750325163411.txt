@@ -1,0 +1,112 @@
+Let’s wire up owner notifications so that every key event will email you at tornevelk1@gmail.com. We’ll:
+
+Expose an env-var for your “owner” address
+
+Inject it into your mailer helper
+
+Hook it up in each route: signup, job-post, application, booking, etc.
+
+1) Set your OWNER_EMAIL in Replit
+In the Replit sidebar go to Secrets (🔒)
+
+Add a key
+
+ini
+Copy
+Edit
+OWNER_EMAIL = tornevelk1@gmail.com
+2) Make it available in your mail helper
+File: server/lib/sendEmail.ts
+
+ts
+Copy
+Edit
+// At the top, after imports
+const OWNER_EMAIL = process.env.OWNER_EMAIL;
+
+// After your sendEmail function, add a convenience notifier:
+export async function notifyOwner(subject: string, html: string) {
+  if (!OWNER_EMAIL) return;
+  try {
+    await sendEmail(OWNER_EMAIL, subject, html);
+    console.log(`Owner notification sent: ${subject}`);
+  } catch (err) {
+    console.error("Failed to notify owner:", err);
+  }
+}
+3) Fire off notifications in your routes
+Edit server/routes.ts and, wherever you want an owner‐alert, import and call notifyOwner(...).
+
+A) New User Signup
+Find your registration handler (app.post('/api/register', ...)) and add right after you send the welcome email:
+
+diff
+Copy
+Edit
+   // ...after on-success sendEmail to owner for new signup
+   try {
+-    await sendEmail(
+-      OWNER_EMAIL, /* you had info@… before */
+-      `New ${roleType} Signup on VIVALY`,
+-      `<h3>New ${roleType} Registration</h3>…`
+-    );
++    await notifyOwner(
++      `🆕 New ${roleType} Signup: ${user.firstName} ${user.lastName}`,
++      `<p><strong>Name:</strong> ${user.firstName} ${user.lastName}</p>
++       <p><strong>Email:</strong> ${user.email}</p>
++       <p><strong>Role:</strong> ${roleType}</p>
++       <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>`
++    );
+   } catch (emailError) {
+     console.error("Failed to send signup notification email:", emailError);
+   }
+B) New Job Posted (Parent only)
+In your POST /api/jobs handler:
+
+diff
+Copy
+Edit
+   const job = await storage.createJob(jobData);
++  // Notify owner
++  await notifyOwner(
++    `📢 New Job Posted: ${job.title}`,
++    `<p><strong>Job ID:</strong> ${job.id}</p>
++     <p><strong>Parent ID:</strong> ${job.parentId}</p>
++     <p><strong>Title:</strong> ${job.title}</p>
++     <p><strong>Rate:</strong> $${job.hourlyRate}/hr</p>`
++  );
+   res.json(job);
+C) New Application (Caregiver only)
+In POST /api/jobs/:jobId/apply:
+
+diff
+Copy
+Edit
+   const application = await storage.createApplication(applicationData);
++  // Notify owner
++  await notifyOwner(
++    `✉️ New Application: Job ${jobId}`,
++    `<p><strong>Application ID:</strong> ${application.id}</p>
++     <p><strong>Caregiver:</strong> ${application.caregiverId}</p>
++     <p><strong>Message:</strong> ${application.message}</p>`
++  );
+   res.json(application);
+D) Booking Created
+If you have a route like POST /api/bookings, do the same:
+
+ts
+Copy
+Edit
+app.post("/api/bookings", requireAuth, async (req, res) => {
+  const booking = await storage.createBooking(req.body);
+  // Notify owner
+  await notifyOwner(
+    `✅ New Booking: ${booking.id}`,
+    `<p><strong>Booking ID:</strong> ${booking.id}</p>
+     <p><strong>Job:</strong> ${booking.jobId}</p>
+     <p><strong>Parent:</strong> ${booking.parentId}</p>
+     <p><strong>Caregiver:</strong> ${booking.caregiverId}</p>`
+  );
+  res.json(booking);
+});
+(If you don’t yet have a bookings endpoint, you can add one exactly like this.)

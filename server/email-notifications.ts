@@ -23,6 +23,40 @@ interface DocumentSubmissionData {
   documentUrl?: string;
 }
 
+interface JobPostingData {
+  parentName: string;
+  parentEmail: string;
+  jobTitle: string;
+  location: string;
+  rate: string;
+  description: string;
+  postingDate: Date;
+}
+
+interface JobApplicationData {
+  caregiverName: string;
+  caregiverEmail: string;
+  parentName: string;
+  jobTitle: string;
+  applicationDate: Date;
+}
+
+interface MessageData {
+  senderName: string;
+  senderEmail: string;
+  recipientName: string;
+  messagePreview: string;
+  sentDate: Date;
+}
+
+interface BookingData {
+  parentName: string;
+  caregiverName: string;
+  jobTitle: string;
+  bookingDate: Date;
+  status: string;
+}
+
 export async function sendUserRegistrationNotification(userData: UserRegistrationData) {
   const subject = `New ${userData.role} Registration - ${userData.firstName} ${userData.lastName}`;
   
@@ -136,6 +170,207 @@ export async function sendDocumentSubmissionNotification(docData: DocumentSubmis
   }
 }
 
+export async function sendJobPostingNotification(jobData: JobPostingData) {
+  const subject = `New Job Posted - ${jobData.jobTitle}`;
+  
+  const htmlContent = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2 style="color: #059669;">New Job Posting</h2>
+      
+      <div style="background-color: #f0fdf4; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #059669;">
+        <h3 style="margin-top: 0; color: #065f46;">Job Details</h3>
+        <p><strong>Title:</strong> ${jobData.jobTitle}</p>
+        <p><strong>Posted by:</strong> ${jobData.parentName}</p>
+        <p><strong>Email:</strong> ${jobData.parentEmail}</p>
+        <p><strong>Location:</strong> ${jobData.location}</p>
+        <p><strong>Rate:</strong> ${jobData.rate}</p>
+        <p><strong>Posted:</strong> ${jobData.postingDate.toLocaleDateString('en-AU', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          timeZone: 'Australia/Sydney'
+        })}</p>
+      </div>
+      
+      <div style="background-color: #fafafa; padding: 15px; border-radius: 8px;">
+        <h4 style="margin-top: 0; color: #374151;">Description:</h4>
+        <p style="color: #4b5563;">${jobData.description}</p>
+      </div>
+      
+      <p style="margin-top: 20px; color: #6b7280; font-size: 14px;">
+        New job opportunity posted on Vivaly platform.
+      </p>
+    </div>
+  `;
+
+  const msg = {
+    to: OWNER_EMAIL,
+    from: FROM_EMAIL,
+    subject,
+    html: htmlContent,
+  };
+
+  try {
+    await sgMail.send(msg);
+    console.log(`Job posting notification sent for ${jobData.jobTitle}`);
+  } catch (error: any) {
+    console.error('Failed to send job posting notification:', error);
+    throw error;
+  }
+}
+
+export async function sendJobApplicationNotification(appData: JobApplicationData) {
+  const subject = `New Job Application - ${appData.caregiverName} applied to ${appData.jobTitle}`;
+  
+  const htmlContent = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2 style="color: #7c3aed;">New Job Application</h2>
+      
+      <div style="background-color: #faf5ff; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #7c3aed;">
+        <h3 style="margin-top: 0; color: #581c87;">Application Details</h3>
+        <p><strong>Caregiver:</strong> ${appData.caregiverName}</p>
+        <p><strong>Email:</strong> ${appData.caregiverEmail}</p>
+        <p><strong>Applied to:</strong> ${appData.jobTitle}</p>
+        <p><strong>Parent:</strong> ${appData.parentName}</p>
+        <p><strong>Application Date:</strong> ${appData.applicationDate.toLocaleDateString('en-AU', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          timeZone: 'Australia/Sydney'
+        })}</p>
+      </div>
+      
+      <div style="background-color: #eff6ff; padding: 15px; border-radius: 8px; border-left: 4px solid #2563eb;">
+        <p style="margin: 0; color: #1e40af;">
+          <strong>Platform Activity:</strong> A caregiver has applied for a job posting. Both parties can now communicate through the platform messaging system.
+        </p>
+      </div>
+      
+      <p style="margin-top: 20px; color: #6b7280; font-size: 14px;">
+        Job application submitted on Vivaly platform.
+      </p>
+    </div>
+  `;
+
+  const msg = {
+    to: OWNER_EMAIL,
+    from: FROM_EMAIL,
+    subject,
+    html: htmlContent,
+  };
+
+  try {
+    await sgMail.send(msg);
+    console.log(`Job application notification sent for ${appData.caregiverName}`);
+  } catch (error: any) {
+    console.error('Failed to send job application notification:', error);
+    throw error;
+  }
+}
+
+export async function sendMessageNotification(msgData: MessageData) {
+  const subject = `New Message: ${msgData.senderName} → ${msgData.recipientName}`;
+  
+  const htmlContent = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2 style="color: #0891b2;">New Platform Message</h2>
+      
+      <div style="background-color: #f0f9ff; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #0891b2;">
+        <h3 style="margin-top: 0; color: #0c4a6e;">Message Details</h3>
+        <p><strong>From:</strong> ${msgData.senderName} (${msgData.senderEmail})</p>
+        <p><strong>To:</strong> ${msgData.recipientName}</p>
+        <p><strong>Sent:</strong> ${msgData.sentDate.toLocaleDateString('en-AU', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          timeZone: 'Australia/Sydney'
+        })}</p>
+      </div>
+      
+      <div style="background-color: #fafafa; padding: 15px; border-radius: 8px;">
+        <h4 style="margin-top: 0; color: #374151;">Message Preview:</h4>
+        <p style="color: #4b5563; font-style: italic;">"${msgData.messagePreview}"</p>
+      </div>
+      
+      <p style="margin-top: 20px; color: #6b7280; font-size: 14px;">
+        Message sent through Vivaly platform messaging system.
+      </p>
+    </div>
+  `;
+
+  const msg = {
+    to: OWNER_EMAIL,
+    from: FROM_EMAIL,
+    subject,
+    html: htmlContent,
+  };
+
+  try {
+    await sgMail.send(msg);
+    console.log(`Message notification sent for ${msgData.senderName} → ${msgData.recipientName}`);
+  } catch (error: any) {
+    console.error('Failed to send message notification:', error);
+    throw error;
+  }
+}
+
+export async function sendBookingNotification(bookingData: BookingData) {
+  const subject = `Booking Update - ${bookingData.parentName} & ${bookingData.caregiverName}`;
+  
+  const htmlContent = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2 style="color: #ea580c;">Booking Activity</h2>
+      
+      <div style="background-color: #fff7ed; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ea580c;">
+        <h3 style="margin-top: 0; color: #9a3412;">Booking Details</h3>
+        <p><strong>Parent:</strong> ${bookingData.parentName}</p>
+        <p><strong>Caregiver:</strong> ${bookingData.caregiverName}</p>
+        <p><strong>Job:</strong> ${bookingData.jobTitle}</p>
+        <p><strong>Status:</strong> ${bookingData.status}</p>
+        <p><strong>Date:</strong> ${bookingData.bookingDate.toLocaleDateString('en-AU', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          timeZone: 'Australia/Sydney'
+        })}</p>
+      </div>
+      
+      <div style="background-color: #fef3c7; padding: 15px; border-radius: 8px; border-left: 4px solid #f59e0b;">
+        <p style="margin: 0; color: #92400e;">
+          <strong>Revenue Opportunity:</strong> Booking activity indicates potential platform transaction and commission revenue.
+        </p>
+      </div>
+      
+      <p style="margin-top: 20px; color: #6b7280; font-size: 14px;">
+        Booking activity on Vivaly platform.
+      </p>
+    </div>
+  `;
+
+  const msg = {
+    to: OWNER_EMAIL,
+    from: FROM_EMAIL,
+    subject,
+    html: htmlContent,
+  };
+
+  try {
+    await sgMail.send(msg);
+    console.log(`Booking notification sent for ${bookingData.parentName} & ${bookingData.caregiverName}`);
+  } catch (error: any) {
+    console.error('Failed to send booking notification:', error);
+    throw error;
+  }
+}
+
 export async function sendTestEmails() {
   console.log('Sending test emails...');
   
@@ -188,7 +423,28 @@ export async function sendTestEmails() {
     await sendDocumentSubmissionNotification(testWWCCData);
     console.log('✅ WWCC submission test email sent');
     
-    return { success: true, message: 'All test emails sent successfully' };
+    // Test additional platform activities
+    await sendJobPostingNotification({
+      parentName: 'Sarah Johnson',
+      parentEmail: 'sarah.johnson@example.com',
+      jobTitle: 'Weekend Babysitter Needed in Sydney',
+      location: 'Bondi, NSW',
+      rate: '$25/hour',
+      description: 'Looking for experienced babysitter for 2 children...',
+      postingDate: new Date()
+    });
+    console.log('✅ Job posting test email sent');
+    
+    await sendJobApplicationNotification({
+      caregiverName: 'Emma Thompson',
+      caregiverEmail: 'emma.thompson@example.com',
+      parentName: 'Sarah Johnson',
+      jobTitle: 'Weekend Babysitter Needed in Sydney',
+      applicationDate: new Date()
+    });
+    console.log('✅ Job application test email sent');
+    
+    return { success: true, message: 'All platform activity test emails sent successfully' };
   } catch (error) {
     console.error('Failed to send test emails:', error);
     throw error;

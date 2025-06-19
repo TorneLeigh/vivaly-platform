@@ -9,7 +9,7 @@ import { insertUserSchema, insertJobSchema, insertApplicationSchema, type Insert
 import { requireAuth, requireRole } from "./auth-middleware";
 import { sendPasswordResetEmail } from "./email-service";
 import { sendEmail } from "./lib/sendEmail";
-import { sendUserRegistrationNotification, sendDocumentSubmissionNotification, sendTestEmails } from "./email-notifications";
+import { sendUserRegistrationNotification, sendDocumentSubmissionNotification, sendTestEmails, sendJobPostingNotification, sendJobApplicationNotification, sendMessageNotification, sendBookingNotification } from "./email-notifications";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -713,6 +713,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         location: location || null,
         suburb: suburb || null
       });
+
+      // Send job posting notification
+      try {
+        const parent = await storage.getUserById(parentId ?? '');
+        if (parent) {
+          await sendJobPostingNotification({
+            parentName: `${parent.firstName ?? ''} ${parent.lastName ?? ''}`,
+            parentEmail: parent.email ?? '',
+            jobTitle: title,
+            location: location || suburb || 'Location not specified',
+            rate: rate,
+            description: description,
+            postingDate: new Date()
+          });
+        }
+      } catch (emailError) {
+        console.warn("Failed to send job posting notification:", emailError);
+      }
 
       res.json({ success: true, message: "Job posted!", job });
     } catch (error) {
