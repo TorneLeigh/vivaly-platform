@@ -174,6 +174,12 @@ export default function NannyProfile() {
                         Verified
                       </Badge>
                     )}
+                    {nanny.hasPoliceCheck && (
+                      <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                        <Shield className="w-3 h-3 mr-1" />
+                        Police Clearance
+                      </Badge>
+                    )}
                     <Badge variant="secondary">
                       <Clock className="w-3 h-3 mr-1" />
                       {nanny.experience}+ years exp

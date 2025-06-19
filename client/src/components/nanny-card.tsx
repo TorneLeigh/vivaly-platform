@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Star, MapPin, Clock } from "lucide-react";
+import { Star, MapPin, Clock, Shield } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import type { Nanny, User } from "@shared/schema";
 
@@ -17,9 +17,9 @@ export default function NannyCard({ nanny }: NannyCardProps) {
         {/* Profile Image */}
         <div className="relative mb-2">
           <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden sm:rounded-xl">
-            {nanny.user.profileImage ? (
+            {nanny.user.profileImageUrl ? (
               <img 
-                src={`/attached_assets/${nanny.user.profileImage}`}
+                src={`/attached_assets/${nanny.user.profileImageUrl}`}
                 alt={`${nanny.user.firstName} ${nanny.user.lastName}`}
                 className="w-full h-full object-cover"
               />
@@ -27,7 +27,7 @@ export default function NannyCard({ nanny }: NannyCardProps) {
               <div className="h-full flex items-center justify-center">
                 <div className="w-8 h-8 sm:w-12 sm:h-12 bg-white border border-gray-200 rounded-full flex items-center justify-center">
                   <span className="text-sm sm:text-lg font-semibold text-gray-700">
-                    {nanny.user.firstName[0]}{nanny.user.lastName[0]}
+                    {nanny.user.firstName?.[0]}{nanny.user.lastName?.[0]}
                   </span>
                 </div>
               </div>
@@ -37,6 +37,11 @@ export default function NannyCard({ nanny }: NannyCardProps) {
             {nanny.isVerified && (
               <div className="bg-white rounded-full p-0.5 shadow-sm">
                 <Star className="w-3 h-3 sm:w-4 sm:h-4 text-green-600 fill-current" />
+              </div>
+            )}
+            {nanny.hasPoliceCheck && (
+              <div className="bg-blue-600 rounded-full p-0.5 shadow-sm">
+                <Shield className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
               </div>
             )}
           </div>
