@@ -223,18 +223,26 @@ export class DatabaseStorage implements IStorage {
         suburb: jobs.suburb,
         status: jobs.status,
         createdAt: jobs.createdAt,
-        parentProfile: {
-          firstName: users.firstName,
-          lastName: users.lastName,
-          profilePhoto: users.profileImageUrl,
-          suburb: jobs.suburb
-        }
+        // Parent info as separate columns
+        parentFirstName: users.firstName,
+        parentLastName: users.lastName,
+        parentProfileImageUrl: users.profileImageUrl,
+        parentSuburb: jobs.suburb
       })
       .from(jobs)
       .leftJoin(users, eq(jobs.parentId, users.id))
       .orderBy(jobs.createdAt);
     
-    return jobsWithParents;
+    // Transform the flat structure to include nested parentProfile
+    return jobsWithParents.map(job => ({
+      ...job,
+      parentProfile: {
+        firstName: job.parentFirstName,
+        lastName: job.parentLastName,
+        profilePhoto: job.parentProfileImageUrl,
+        suburb: job.parentSuburb
+      }
+    }));
   }
 
   async getJobsByParent(parentId: string): Promise<Job[]> {

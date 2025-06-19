@@ -132,6 +132,9 @@ export default function NewHeader() {
                 <Link href="/search-caregivers" className="text-gray-700 hover:text-black font-medium transition-colors">
                   Find Caregivers
                 </Link>
+                <Link href="/job-board" className="text-gray-700 hover:text-black font-medium transition-colors">
+                  Job Board
+                </Link>
                 <Link href="/parent-bookings" className="text-gray-700 hover:text-black font-medium transition-colors">
                   My Bookings
                 </Link>
@@ -174,6 +177,19 @@ export default function NewHeader() {
               </Link>
               <Button asChild>
                 <Link href="/signup">Sign Up</Link>
+              </Button>
+            </div>
+          )}
+
+          {/* Log Out button for authenticated users */}
+          {isAuthenticated && (
+            <div className="hidden md:flex items-center">
+              <Button 
+                variant="outline" 
+                onClick={handleLogout}
+                className="text-gray-700 hover:text-red-600 border-gray-300"
+              >
+                Log Out
               </Button>
             </div>
           )}
