@@ -403,7 +403,7 @@ export default function Home() {
 
           {/* See All Caregivers Button */}
           <div className="text-center">
-            <Link href="/find-care">
+            <Link href="/search-caregivers">
               <Button className="bg-black hover:bg-gray-800 text-white px-6 py-2 text-sm">
                 See All Available Caregivers
                 <ArrowRight className="ml-2 h-4 w-4" />

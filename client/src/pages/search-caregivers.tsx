@@ -33,8 +33,6 @@ export default function SearchCaregivers() {
 
   const filteredCaregivers = caregivers.filter((caregiver: Nanny) => {
     const matchesSearch = !searchQuery || 
-      caregiver.firstName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      caregiver.lastName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       caregiver.bio?.toLowerCase().includes(searchQuery.toLowerCase());
     
     const matchesLocation = !location || 
@@ -170,21 +168,21 @@ export default function SearchCaregivers() {
                   {/* Profile Photo */}
                   <div className="flex items-center mb-4">
                     <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-200 mr-4">
-                      {caregiver.profileImageUrl ? (
+                      {caregiver.profilePhoto ? (
                         <img 
-                          src={caregiver.profileImageUrl}
-                          alt={`${caregiver.firstName}'s profile`}
+                          src={caregiver.profilePhoto}
+                          alt="Caregiver profile"
                           className="w-full h-full object-cover"
                         />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold text-xl">
-                          {caregiver.firstName?.charAt(0) || 'C'}
+                          C
                         </div>
                       )}
                     </div>
                     <div className="flex-1">
                       <h3 className="text-lg font-semibold text-gray-900">
-                        {caregiver.firstName} {caregiver.lastName}
+                        Caregiver #{caregiver.id}
                       </h3>
                       <div className="flex items-center text-sm text-gray-500">
                         <MapPin className="h-3 w-3 mr-1" />
