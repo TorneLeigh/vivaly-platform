@@ -100,6 +100,7 @@ import ParentBookings from "@/pages/parent-bookings";
 import CaregiverBookings from "@/pages/caregiver-bookings";
 import CaregiverSchedule from "@/pages/caregiver-schedule";
 import JobDetails from "@/pages/job-details";
+import SearchCaregivers from "@/pages/search-caregivers";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import RoleRoute from "@/components/RoleRoute";
 
@@ -131,6 +132,7 @@ function Router() {
           <Route path="/caregiver/:id" component={CaregiverProfile} />
           <Route path="/booking/:id" component={BookingFlow} />
           <Route path="/search" component={SearchResults} />
+          <Route path="/search-caregivers" component={SearchCaregivers} />
           <Route path="/services" component={Services} />
           <Route path="/become-nanny" component={BecomeNanny} />
           <Route path="/become-caregiver" component={BecomeCaregiver} />

@@ -190,28 +190,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Quick Access for Logged In Users - Desktop Only */}
-      {user && (
-        <section className="hidden md:block py-3 bg-blue-50 border-t border-blue-100">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-white rounded-lg shadow-sm border p-3">
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-700">
-                  Current role: <span className="font-medium capitalize">{user.roles && user.roles.length > 0 ? user.roles[0] : 'parent'}</span>
-                </div>
-                
-                <div className="flex gap-2">
-                  <Link href="/dashboard">
-                    <Button size="sm" className="bg-black text-white hover:bg-gray-800">
-                      Dashboard
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
+
 
       {/* Main Service Categories - Horizontal Scroll */}
       <section className="py-6 bg-gray-50">

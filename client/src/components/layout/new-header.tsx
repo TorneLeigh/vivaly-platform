@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User, Calendar, Briefcase, MessageSquare, Settings } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import RoleToggle from "@/components/RoleToggle";
+import { Button } from "@/components/ui/button";
 import logoImage from "@assets/Screenshot 2025-06-16 at 15.57.36_1750053474312.png";
 
 export default function NewHeader() {
@@ -18,64 +19,100 @@ export default function NewHeader() {
     navigate("/");
   };
 
-  const renderNavLinks = () => {
-    if (!isAuthenticated || !user) {
-      return (
-        <>
-          <Link href="/working-auth" className="block py-2 text-gray-700 hover:text-black">
-            Log In
-          </Link>
-          <Link href="/signup" className="block py-2 text-gray-700 hover:text-black">
-            Sign Up
-          </Link>
-        </>
-      );
-    }
+  const renderParentNavLinks = () => (
+    <>
+      <Link href="/search-caregivers" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black">
+        <User className="h-4 w-4 mr-3" />
+        Find Caregivers
+      </Link>
+      <Link href="/parent-bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black">
+        <Calendar className="h-4 w-4 mr-3" />
+        My Bookings
+      </Link>
+      <Link href="/post-job" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black">
+        <Briefcase className="h-4 w-4 mr-3" />
+        Post Job
+      </Link>
+      <Link href="/profile" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black">
+        <User className="h-4 w-4 mr-3" />
+        Profile
+      </Link>
+      <Link href="/messages" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black">
+        <MessageSquare className="h-4 w-4 mr-3" />
+        Messages
+      </Link>
+      
+      {/* Role Toggle */}
+      {roles && roles.length > 1 && (
+        <div className="py-3 px-4 border-t border-gray-100">
+          <p className="text-xs text-gray-500 mb-2">Switch Role:</p>
+          <RoleToggle 
+            roles={roles} 
+            activeRole={activeRole || 'parent'} 
+            onSwitch={switchRole} 
+          />
+        </div>
+      )}
+      
+      <button
+        onClick={handleLogout}
+        className="flex items-center py-3 px-4 text-left w-full text-gray-700 hover:bg-gray-50 hover:text-red-600"
+      >
+        Log Out
+      </button>
+    </>
+  );
 
-    return (
-      <>
-        <Link href="/dashboard" className="block py-2 text-gray-700 hover:text-black">
-          Dashboard
-        </Link>
-        <Link href={activeRole === 'caregiver' ? '/caregiver-bookings' : '/parent/bookings'} className="block py-2 text-gray-700 hover:text-black">
-          My Bookings
-        </Link>
-        <Link href="/job-board" className="block py-2 text-gray-700 hover:text-black">
-          Job Board
-        </Link>
-        {activeRole === "parent" && (
-          <Link href="/post-job" className="block py-2 text-gray-700 hover:text-black">
-            Post Job
-          </Link>
-        )}
-        <Link href="/profile" className="block py-2 text-gray-700 hover:text-black">
-          Profile
-        </Link>
-        <Link href="/messages" className="block py-2 text-gray-700 hover:text-black">
-          Messages
-        </Link>
-        
-        {/* Mobile Role Toggle */}
-        {roles && roles.length > 1 && (
-          <div className="py-2 border-b border-gray-100 mb-2">
-            <p className="text-xs text-gray-500 mb-2">Switch Role:</p>
-            <RoleToggle 
-              roles={roles} 
-              activeRole={activeRole || 'parent'} 
-              onSwitch={switchRole} 
-            />
-          </div>
-        )}
-        
-        <button
-          onClick={handleLogout}
-          className="block py-2 text-left w-full text-gray-700 hover:text-red-600"
-        >
-          Log Out
-        </button>
-      </>
-    );
-  };
+  const renderCaregiverNavLinks = () => (
+    <>
+      <Link href="/job-board" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black">
+        <Briefcase className="h-4 w-4 mr-3" />
+        Job Board
+      </Link>
+      <Link href="/caregiver-bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black">
+        <Calendar className="h-4 w-4 mr-3" />
+        My Bookings
+      </Link>
+      <Link href="/profile" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black">
+        <User className="h-4 w-4 mr-3" />
+        Profile
+      </Link>
+      <Link href="/messages" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black">
+        <MessageSquare className="h-4 w-4 mr-3" />
+        Messages
+      </Link>
+      
+      {/* Role Toggle */}
+      {roles && roles.length > 1 && (
+        <div className="py-3 px-4 border-t border-gray-100">
+          <p className="text-xs text-gray-500 mb-2">Switch Role:</p>
+          <RoleToggle 
+            roles={roles} 
+            activeRole={activeRole || 'parent'} 
+            onSwitch={switchRole} 
+          />
+        </div>
+      )}
+      
+      <button
+        onClick={handleLogout}
+        className="flex items-center py-3 px-4 text-left w-full text-gray-700 hover:bg-gray-50 hover:text-red-600"
+      >
+        Log Out
+      </button>
+    </>
+  );
+
+  const renderUnauthenticatedNavLinks = () => (
+    <>
+      <Link href="/working-auth" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black">
+        Log In
+      </Link>
+      <Link href="/signup" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black">
+        Sign Up
+      </Link>
+    </>
+  );
 
   return (
     <header className="w-full bg-white shadow-md sticky top-0 z-50">
