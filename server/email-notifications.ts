@@ -3,7 +3,7 @@ import sgMail from '@sendgrid/mail';
 // Initialize SendGrid
 sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 
-const OWNER_EMAIL = 'info@tornevelk.com';
+const OWNER_EMAIL = 'tornevelk1@gmail.com';
 const FROM_EMAIL = 'info@tornevelk.com'; // Use verified sender
 
 interface UserRegistrationData {

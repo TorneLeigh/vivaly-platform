@@ -1168,7 +1168,7 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
       sgMail.setApiKey(process.env.SENDGRID_API_KEY);
       
       const msg = {
-        to: 'info@tornevelk.com',
+        to: 'tornevelk1@gmail.com',
         from: 'info@tornevelk.com',
         subject: 'SendGrid Test',
         text: 'This is a test email to verify SendGrid configuration.',
