@@ -1,169 +1,481 @@
-import { useEffect, useState } from "react";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Calendar, Clock, MapPin, DollarSign, User, Phone, MessageCircle, CheckCircle, XCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import { useToast } from "@/hooks/use-toast";
 
-import { useAuth } from "@/hooks/useAuth";
-import { useQuery } from "@tanstack/react-query";
-
-type Booking = {
+interface Booking {
   id: string;
-  caregiverName: string;
-  caregiverLastName: string;
-  date: string;   // ISO date string
-  startTime: string;   // e.g. "09:00"
-  endTime: string;     // e.g. "13:00"
-  status: string; // e.g. "Confirmed"
-  serviceType: string;
-};
+  jobId: string;
+  parentId: string;
+  caregiverId: string;
+  startTime: string;
+  endTime: string;
+  hourlyRate: string;
+  totalAmount: string;
+  status: string;
+  notes: string | null;
+  createdAt: string;
+  updatedAt: string;
+  job?: {
+    title: string;
+    location: string;
+    description: string;
+    childrenAges: string[];
+  };
+  caregiver?: {
+    firstName: string;
+    lastName: string;
+    phone: string;
+    email: string;
+  };
+}
 
-export default function ParentBookings() {
-  const { user } = useAuth();
-  const [date, setDate] = useState(new Date());
+function ParentBookings() {
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [viewMode, setViewMode] = useState<'calendar' | 'list'>('calendar');
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
 
-  const { data: bookings = [], isLoading } = useQuery({
+  // Fetch parent bookings
+  const { data: bookings = [], isLoading } = useQuery<Booking[]>({
     queryKey: ['/api/parent/bookings'],
     queryFn: async () => {
-      const response = await fetch('/api/parent/bookings', { credentials: 'include' });
-      if (!response.ok) throw new Error('Failed to fetch bookings');
-      return response.json();
+      const res = await fetch('/api/parent/bookings');
+      if (!res.ok) throw new Error('Failed to fetch bookings');
+      return res.json();
     },
-    enabled: !!user
   });
 
-  const todays = bookings.filter((b: Booking) => 
-    new Date(b.date).toDateString() === date.toDateString()
-  );
-
   const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'confirmed': return 'bg-green-100 text-green-800';
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
-      case 'cancelled': return 'bg-red-100 text-red-800';
-      case 'completed': return 'bg-blue-100 text-blue-800';
-      default: return 'bg-gray-100 text-gray-800';
+    switch (status) {
+      case 'confirmed':
+        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
+      case 'cancelled':
+        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+      case 'completed':
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
+      default:
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
     }
   };
 
-  const formatTime = (startTime: string, endTime: string) => {
-    return `${startTime} – ${endTime}`;
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-AU', {
+      weekday: 'long',
+      year: 'numeric', 
+      month: 'long',
+      day: 'numeric'
+    });
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Your Bookings</h1>
-          <p className="text-gray-600">Manage your childcare appointments</p>
+  const formatTime = (dateString: string) => {
+    return new Date(dateString).toLocaleTimeString('en-AU', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  const getBookingsForSelectedDate = () => {
+    if (!selectedDate) return [];
+    
+    const selectedDateStr = selectedDate.toISOString().split('T')[0];
+    
+    return bookings.filter(booking => {
+      const bookingDate = new Date(booking.startTime).toISOString().split('T')[0];
+      return bookingDate === selectedDateStr;
+    });
+  };
+
+  const hasBookingsOnDate = (date: Date) => {
+    const dateStr = date.toISOString().split('T')[0];
+    return bookings.some(booking => {
+      const bookingDate = new Date(booking.startTime).toISOString().split('T')[0];
+      return bookingDate === dateStr;
+    });
+  };
+
+  const getUpcomingBookings = () => {
+    const now = new Date();
+    return bookings
+      .filter(booking => new Date(booking.startTime) > now)
+      .sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime())
+      .slice(0, 5);
+  };
+
+  const getPastBookings = () => {
+    const now = new Date();
+    return bookings
+      .filter(booking => new Date(booking.endTime) < now)
+      .sort((a, b) => new Date(b.endTime).getTime() - new Date(a.endTime).getTime())
+      .slice(0, 5);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex items-center justify-center min-h-64">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black dark:border-white mx-auto"></div>
+            <p className="mt-4 text-muted-foreground">Loading your bookings...</p>
+          </div>
         </div>
+      </div>
+    );
+  }
 
+  return (
+    <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-black dark:text-white mb-2">
+          My Bookings
+        </h1>
+        <p className="text-muted-foreground">
+          Manage your childcare bookings and view payment history
+        </p>
+      </div>
 
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Calendar */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Select a Date</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="calendar-container">
-                <Calendar 
-                  onChange={(value) => setDate(value as Date)} 
-                  value={date}
-                  className="react-calendar"
-                />
+      {/* Stats Summary */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <Calendar className="h-8 w-8 text-blue-600" />
+              <div className="ml-4">
+                <p className="text-sm font-medium text-muted-foreground">Total Bookings</p>
+                <p className="text-2xl font-bold">{bookings.length}</p>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <Clock className="h-8 w-8 text-green-600" />
+              <div className="ml-4">
+                <p className="text-sm font-medium text-muted-foreground">Upcoming</p>
+                <p className="text-2xl font-bold">{getUpcomingBookings().length}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <CheckCircle className="h-8 w-8 text-yellow-600" />
+              <div className="ml-4">
+                <p className="text-sm font-medium text-muted-foreground">Pending</p>
+                <p className="text-2xl font-bold">
+                  {bookings.filter(b => b.status === 'pending').length}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <DollarSign className="h-8 w-8 text-purple-600" />
+              <div className="ml-4">
+                <p className="text-sm font-medium text-muted-foreground">Total Paid</p>
+                <p className="text-2xl font-bold">
+                  ${bookings
+                    .filter(b => b.status === 'completed')
+                    .reduce((sum, b) => sum + parseFloat(b.totalAmount || '0'), 0)
+                    .toFixed(2)}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
-          {/* Bookings for Selected Date */}
+      {/* View Mode Toggle */}
+      <div className="mb-6">
+        <div className="flex space-x-2">
+          <Button
+            variant={viewMode === 'calendar' ? 'default' : 'outline'}
+            onClick={() => setViewMode('calendar')}
+            className="flex items-center space-x-2"
+          >
+            <Calendar className="w-4 h-4" />
+            <span>Calendar View</span>
+          </Button>
+          <Button
+            variant={viewMode === 'list' ? 'default' : 'outline'}
+            onClick={() => setViewMode('list')}
+            className="flex items-center space-x-2"
+          >
+            <Clock className="w-4 h-4" />
+            <span>List View</span>
+          </Button>
+        </div>
+      </div>
+
+      {viewMode === 'calendar' ? (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Calendar */}
+          <div className="lg:col-span-1">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Calendar className="w-5 h-5" />
+                  <span>Calendar</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CalendarComponent
+                  mode="single"
+                  selected={selectedDate}
+                  onSelect={setSelectedDate}
+                  className="rounded-md border"
+                  modifiers={{
+                    hasBooking: (date) => hasBookingsOnDate(date)
+                  }}
+                  modifiersStyles={{
+                    hasBooking: {
+                      backgroundColor: '#000',
+                      color: '#fff',
+                      borderRadius: '50%'
+                    }
+                  }}
+                />
+                <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-900 rounded-md">
+                  <p className="text-sm text-muted-foreground mb-2">Legend:</p>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-black dark:bg-white rounded-full"></div>
+                    <span className="text-sm">Days with bookings</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Selected Date Bookings */}
+          <div className="lg:col-span-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>
+                  {selectedDate ? `Bookings for ${formatDate(selectedDate.toISOString())}` : 'Select a date'}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {selectedDate ? (
+                  <div className="space-y-4">
+                    {getBookingsForSelectedDate().length === 0 ? (
+                      <div className="text-center py-8">
+                        <Calendar className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                        <p className="text-muted-foreground">No bookings for this date</p>
+                      </div>
+                    ) : (
+                      getBookingsForSelectedDate().map((booking) => (
+                        <ParentBookingCard 
+                          key={booking.id} 
+                          booking={booking} 
+                        />
+                      ))
+                    )}
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <Calendar className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                    <p className="text-muted-foreground">Select a date from the calendar to view bookings</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      ) : (
+        /* List View */
+        <div className="space-y-8">
+          {/* Upcoming Bookings */}
           <Card>
             <CardHeader>
-              <CardTitle>
-                Bookings on {date.toLocaleDateString('en-AU', { 
-                  weekday: 'long', 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}
+              <CardTitle className="flex items-center space-x-2">
+                <Clock className="w-5 h-5" />
+                <span>Upcoming Bookings</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {isLoading ? (
-                <p className="text-gray-600">Loading bookings...</p>
-              ) : todays.length === 0 ? (
+              {getUpcomingBookings().length === 0 ? (
                 <div className="text-center py-8">
-                  <div className="text-gray-400 mb-2">📅</div>
-                  <p className="text-gray-600">No bookings on this date.</p>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Select a different date or create a new booking.
-                  </p>
+                  <Clock className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                  <p className="text-muted-foreground">No upcoming bookings</p>
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {todays.map((b: Booking) => (
-                    <div key={b.id} className="border border-gray-200 p-4 rounded-lg bg-white">
-                      <div className="flex justify-between items-start mb-2">
-                        <div>
-                          <h3 className="font-semibold text-gray-900">
-                            {b.caregiverName} {b.caregiverLastName}
-                          </h3>
-                          <p className="text-sm text-gray-600">{b.serviceType}</p>
-                        </div>
-                        <Badge className={getStatusColor(b.status)}>
-                          {b.status}
-                        </Badge>
-                      </div>
-                      <div className="flex items-center gap-4 text-sm text-gray-600">
-                        <div className="flex items-center gap-1">
-                          <span>🕐</span>
-                          <span>{formatTime(b.startTime, b.endTime)}</span>
-                        </div>
-                      </div>
-                    </div>
+                  {getUpcomingBookings().map((booking) => (
+                    <ParentBookingCard 
+                      key={booking.id} 
+                      booking={booking} 
+                    />
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Past Bookings */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <CheckCircle className="w-5 h-5" />
+                <span>Recent Past Bookings</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {getPastBookings().length === 0 ? (
+                <div className="text-center py-8">
+                  <CheckCircle className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                  <p className="text-muted-foreground">No past bookings</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {getPastBookings().map((booking) => (
+                    <ParentBookingCard 
+                      key={booking.id} 
+                      booking={booking} 
+                      isPast={true}
+                    />
                   ))}
                 </div>
               )}
             </CardContent>
           </Card>
         </div>
+      )}
+    </div>
+  );
+}
 
-        {/* Summary Section */}
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle>Booking Summary</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="text-center p-4 bg-green-50 rounded-lg">
-                <div className="text-2xl font-bold text-green-600">
-                  {bookings.filter((b: Booking) => b.status.toLowerCase() === 'confirmed').length}
-                </div>
-                <div className="text-sm text-green-600">Confirmed</div>
-              </div>
-              <div className="text-center p-4 bg-yellow-50 rounded-lg">
-                <div className="text-2xl font-bold text-yellow-600">
-                  {bookings.filter((b: Booking) => b.status.toLowerCase() === 'pending').length}
-                </div>
-                <div className="text-sm text-yellow-600">Pending</div>
-              </div>
-              <div className="text-center p-4 bg-blue-50 rounded-lg">
-                <div className="text-2xl font-bold text-blue-600">
-                  {bookings.filter((b: Booking) => b.status.toLowerCase() === 'completed').length}
-                </div>
-                <div className="text-sm text-blue-600">Completed</div>
-              </div>
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-gray-600">
-                  {bookings.length}
-                </div>
-                <div className="text-sm text-gray-600">Total</div>
-              </div>
+// Parent Booking Card Component
+function ParentBookingCard({ 
+  booking, 
+  isPast = false 
+}: { 
+  booking: Booking; 
+  isPast?: boolean;
+}) {
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'confirmed':
+        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
+      case 'cancelled':
+        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+      case 'completed':
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
+      default:
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
+    }
+  };
+
+  const formatTime = (dateString: string) => {
+    return new Date(dateString).toLocaleTimeString('en-AU', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  return (
+    <div className="border rounded-lg p-6 space-y-4">
+      <div className="flex justify-between items-start">
+        <div>
+          <h3 className="font-semibold text-lg">{booking.job?.title || 'Childcare Service'}</h3>
+          <div className="flex items-center space-x-2 text-sm text-muted-foreground mt-1">
+            <Clock className="w-4 h-4" />
+            <span>
+              {formatTime(booking.startTime)} - {formatTime(booking.endTime)}
+            </span>
+          </div>
+        </div>
+        <Badge className={getStatusColor(booking.status)}>
+          {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+        </Badge>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-2">
+          {booking.job?.location && (
+            <div className="flex items-center space-x-2 text-sm">
+              <MapPin className="w-4 h-4 text-muted-foreground" />
+              <span>{booking.job.location}</span>
             </div>
-          </CardContent>
-        </Card>
+          )}
+          {booking.caregiver && (
+            <div className="flex items-center space-x-2 text-sm">
+              <User className="w-4 h-4 text-muted-foreground" />
+              <span>{booking.caregiver.firstName} {booking.caregiver.lastName}</span>
+            </div>
+          )}
+        </div>
+        <div className="space-y-2">
+          <div className="flex items-center space-x-2 text-sm">
+            <DollarSign className="w-4 h-4 text-muted-foreground" />
+            <span>${booking.hourlyRate}/hour (Total: ${booking.totalAmount})</span>
+          </div>
+          {booking.caregiver?.phone && booking.status === 'confirmed' && (
+            <div className="flex items-center space-x-2 text-sm">
+              <Phone className="w-4 h-4 text-muted-foreground" />
+              <span>{booking.caregiver.phone}</span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {booking.job?.description && (
+        <div className="p-3 bg-gray-50 dark:bg-gray-900 rounded-md">
+          <p className="text-sm"><strong>Service Details:</strong> {booking.job.description}</p>
+        </div>
+      )}
+
+      {booking.notes && (
+        <div className="p-3 bg-gray-50 dark:bg-gray-900 rounded-md">
+          <p className="text-sm"><strong>Notes:</strong> {booking.notes}</p>
+        </div>
+      )}
+
+      {booking.job?.childrenAges && booking.job.childrenAges.length > 0 && (
+        <div>
+          <p className="text-sm font-medium mb-2">Children Ages:</p>
+          <div className="flex flex-wrap gap-2">
+            {booking.job.childrenAges.map((age, index) => (
+              <Badge key={index} variant="outline">
+                {age} years old
+              </Badge>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="flex flex-wrap gap-2 pt-2">
+        <Button size="sm" variant="outline">
+          <MessageCircle className="w-4 h-4 mr-1" />
+          Message Caregiver
+        </Button>
+        
+        {booking.status === 'completed' && (
+          <Button size="sm" variant="outline">
+            <CheckCircle className="w-4 h-4 mr-1" />
+            Leave Review
+          </Button>
+        )}
+        
+        {booking.status === 'confirmed' && !isPast && (
+          <Button size="sm" variant="outline">
+            Payment Details
+          </Button>
+        )}
       </div>
     </div>
   );
 }
+
+export default ParentBookings;

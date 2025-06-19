@@ -3,10 +3,8 @@ import { User } from '@shared/schema';
 export function calculateProfileCompletion(user: User | null): number {
   if (!user) return 0;
 
-  // Only count meaningful profile fields that users actually fill out
+  // Only count meaningful profile fields that users actually fill out (excluding auto-generated data)
   const fields = [
-    user.firstName,
-    user.lastName,
     user.phone,
     user.profileImageUrl,
   ];
@@ -18,6 +16,6 @@ export function calculateProfileCompletion(user: User | null): number {
     return field !== null && field !== undefined;
   }).length;
 
-  // Don't count email and roles as they're automatically set during registration
+  // Don't count firstName, lastName, email and roles as they're automatically set during registration
   return Math.round((completedFields / fields.length) * 100);
 }

@@ -96,8 +96,8 @@ export default function JobBoard() {
   }
 
   // Show different views based on user role
-  const isCaregiver = user?.activeRole === 'caregiver' || user?.roles?.includes('caregiver') || false;
-  const isParent = user?.activeRole === 'parent' || user?.roles?.includes('parent') || false;
+  const isCaregiver = user?.isNanny || false;
+  const isParent = user && !user.isNanny;
   
   // Job posting form state
   const [jobForm, setJobForm] = useState({
@@ -383,7 +383,7 @@ export default function JobBoard() {
                     <CardContent className="p-6">
                       {/* Parent Profile Section */}
                       <div className="flex items-center gap-3 mb-4">
-                        <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+                        <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
                           {job.parentProfile?.profilePhoto ? (
                             <img 
                               src={job.parentProfile.profilePhoto} 
@@ -391,7 +391,7 @@ export default function JobBoard() {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold text-lg">
+                            <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold text-xl">
                               {job.parentProfile?.firstName?.charAt(0) || 'P'}
                             </div>
                           )}
@@ -470,13 +470,21 @@ export default function JobBoard() {
                               </Button>
                             </div>
                           </div>
-                        ) : (
+                        ) : !isParent ? (
                           <Button 
                             onClick={() => handleApplyToJob(job.id)}
                             disabled={applyToJobMutation.isPending}
                             className="w-full bg-black hover:bg-gray-800 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 text-sm transition-colors"
                           >
                             {applyToJobMutation.isPending ? 'Applying...' : 'I\'M INTERESTED'}
+                          </Button>
+                        ) : (
+                          <Button 
+                            onClick={() => setLocation(`/job-details/${job.id}`)}
+                            variant="outline"
+                            className="w-full text-sm"
+                          >
+                            View Details
                           </Button>
                         )}
                       </div>
