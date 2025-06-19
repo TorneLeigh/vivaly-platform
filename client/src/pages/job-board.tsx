@@ -381,9 +381,9 @@ export default function JobBoard() {
                 {filteredJobs.map((job: Job) => (
                   <Card key={job.id} className="hover:shadow-lg transition-shadow h-fit">
                     <CardContent className="p-6">
-                      {/* Parent Profile Section */}
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-20 h-20 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+                      {/* Large Profile Image at Top */}
+                      <div className="flex flex-col items-center text-center mb-6">
+                        <div className="w-40 h-40 rounded-full overflow-hidden bg-gray-200 mb-4 shadow-lg">
                           {job.parentProfile?.profilePhoto ? (
                             <img 
                               src={job.parentProfile.profilePhoto} 
@@ -391,25 +391,23 @@ export default function JobBoard() {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold text-2xl">
+                            <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold text-5xl">
                               {job.parentProfile?.firstName?.charAt(0) || 'P'}
                             </div>
                           )}
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-gray-900 truncate">
+                        <div className="mb-3">
+                          <h2 className="text-xl font-semibold text-gray-900 mb-1">
                             {job.parentProfile?.firstName} {job.parentProfile?.lastName}
-                          </p>
-                          <div className="flex items-center gap-1 text-xs text-gray-500">
-                            <MapPin className="h-3 w-3 flex-shrink-0" />
-                            <span className="truncate">{job.location || 'Sydney, NSW'}</span>
+                          </h2>
+                          <div className="flex items-center justify-center gap-1 text-sm text-gray-500">
+                            <MapPin className="h-4 w-4 flex-shrink-0" />
+                            <span>{job.location || 'Sydney, NSW'}</span>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <Badge variant="outline" className="text-xs">
-                            {(applications || []).filter((app: any) => app.jobId === job.id).length} applied
-                          </Badge>
-                        </div>
+                        <Badge variant="outline" className="text-sm">
+                          {(applications || []).filter((app: any) => app.jobId === job.id).length} applied
+                        </Badge>
                       </div>
                       
                       <div className="mb-4">
