@@ -147,26 +147,26 @@ export default function CaregiverDashboard() {
         </div>
 
         {/* Profile Completion Alert */}
-        <Card className="mb-8 border-orange-200 bg-orange-50">
+        <Card className="mb-8" style={{ backgroundColor: 'hsl(var(--coral-pink))', borderColor: 'hsl(var(--coral-pink))' }}>
           <CardContent className="p-6">
             <div className="flex items-center gap-4">
-              <AlertCircle className="w-6 h-6 text-orange-600" />
+              <AlertCircle className="w-6 h-6 text-white" />
               <div className="flex-1">
-                <h3 className="font-semibold text-orange-900">
+                <h3 className="font-semibold text-white">
                   Showcase your experience and connect with families
                 </h3>
-                <p className="text-orange-700 mt-1">
+                <p className="text-white/90 mt-1">
                   Profile Completion
                 </p>
                 <div className="mt-2">
                   <div className="flex items-center gap-2">
-                    <div className="flex-1 bg-orange-200 rounded-full h-2">
+                    <div className="flex-1 bg-white/20 rounded-full h-2">
                       <div 
-                        className="bg-orange-600 h-2 rounded-full transition-all duration-300"
+                        className="bg-white h-2 rounded-full transition-all duration-300"
                         style={{ width: `${calculateProfileCompletion(user)}%` }}
                       ></div>
                     </div>
-                    <span className="text-sm font-medium text-orange-900">
+                    <span className="text-sm font-medium text-white">
                       {calculateProfileCompletion(user)}%
                     </span>
                   </div>
@@ -174,7 +174,7 @@ export default function CaregiverDashboard() {
               </div>
               <Button 
                 variant="outline" 
-                className="border-orange-300 text-orange-700 hover:bg-orange-100"
+                className="border-white text-white hover:bg-white hover:text-black bg-transparent"
                 onClick={() => setLocation('/caregiver-registration')}
               >
                 Complete Profile
@@ -278,6 +278,12 @@ export default function CaregiverDashboard() {
                         <Button 
                           variant="outline" 
                           size="sm"
+                          style={{ 
+                            borderColor: 'hsl(var(--warm-orange))', 
+                            color: 'hsl(var(--warm-orange))',
+                            backgroundColor: 'transparent'
+                          }}
+                          className="hover:bg-orange-50"
                           onClick={() => setLocation(`/job/${application.jobId}`)}
                         >
                           View job details

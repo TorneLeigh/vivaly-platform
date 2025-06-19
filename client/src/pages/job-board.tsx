@@ -383,7 +383,7 @@ export default function JobBoard() {
                     <CardContent className="p-6">
                       {/* Parent Profile Section */}
                       <div className="flex items-center gap-3 mb-4">
-                        <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+                        <div className="w-20 h-20 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
                           {job.parentProfile?.profilePhoto ? (
                             <img 
                               src={job.parentProfile.profilePhoto} 
@@ -391,7 +391,7 @@ export default function JobBoard() {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold text-xl">
+                            <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold text-2xl">
                               {job.parentProfile?.firstName?.charAt(0) || 'P'}
                             </div>
                           )}

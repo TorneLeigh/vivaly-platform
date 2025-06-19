@@ -44,6 +44,8 @@
   --warm-gray: 0 0% 30%; /* Warm Gray */
   --light-gray: 0 0% 97%; /* Very Light Gray */
   --coral: 0 0% 0%; /* Black instead of coral */
+  --coral-pink: 344 100% 69%; /* #FF5F7E */
+  --warm-orange: 29 100% 64%; /* #FFA24D */
 }
 
 /* Calendar styling */
