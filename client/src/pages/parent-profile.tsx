@@ -76,18 +76,29 @@ export default function ParentProfile() {
 
   const calculateCompletion = () => {
     if (!user) return 0;
-    const fields = [
-      user.firstName,
-      user.lastName, 
-      user.email,
-      (user as any).phone,
-      (user as any).suburb,
-      (user as any).homeAddress,
-      (user as any).introVideo,
-      // Add other profile fields as they're completed
+    
+    // Only count profile-specific fields, not basic registration data
+    const profileFields = [
+      (user as any).profileImageUrl, // Profile photo
+      (user as any).suburb, // Location
+      (user as any).homeAddress, // Full address
+      (user as any).introVideo, // Intro video
+      (user as any).bio, // About me
+      (user as any).familySize, // Family information
+      (user as any).numberOfChildren, // Children count
+      (user as any).childrenAges, // Children details
+      (user as any).caregiverPreferences, // Preferences
+      (user as any).householdRules, // Rules
     ];
-    const filled = fields.filter(f => f && f.toString().trim());
-    return Math.round((filled.length / fields.length) * 100);
+    
+    const filled = profileFields.filter(field => {
+      if (Array.isArray(field)) {
+        return field.length > 0;
+      }
+      return field && field.toString().trim() !== '';
+    });
+    
+    return Math.round((filled.length / profileFields.length) * 100);
   };
 
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
