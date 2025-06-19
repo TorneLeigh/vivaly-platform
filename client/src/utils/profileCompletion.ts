@@ -1,21 +1,21 @@
 import { User } from '@shared/schema';
 
-export function calculateProfileCompletion(user: User | null): number {
+export function calculateProfileCompletion(user: any): number {
   if (!user) return 0;
 
-  // Only count meaningful profile fields that users actually fill out (excluding auto-generated data)
-  const fields = [
-    user.phone,
-    user.profileImageUrl,
-  ];
+  // Check if user has the expected properties
+  const hasPhone = user.phone && typeof user.phone === 'string' && user.phone.trim().length > 0;
+  const hasProfileImage = user.profileImageUrl && typeof user.profileImageUrl === 'string' && user.profileImageUrl.trim().length > 0;
 
-  const completedFields = fields.filter(field => {
-    if (typeof field === 'string') {
-      return field && field.trim().length > 0;
-    }
-    return field !== null && field !== undefined;
-  }).length;
+  // Count completed optional fields only
+  let completedFields = 0;
+  if (hasPhone) completedFields++;
+  if (hasProfileImage) completedFields++;
 
-  // Don't count firstName, lastName, email and roles as they're automatically set during registration
-  return Math.round((completedFields / fields.length) * 100);
+  const totalOptionalFields = 2; // phone and profileImageUrl
+
+  // Return 0% if no optional fields are completed
+  if (completedFields === 0) return 0;
+
+  return Math.round((completedFields / totalOptionalFields) * 100);
 }
