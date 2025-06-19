@@ -760,7 +760,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         caregiverProfile: null
       });
 
-      // Automatically send a message to the parent with caregiver's profile
+      // Automatically send a message to the parent with caregiver's profile (contact info filtered)
       const profileMessage = `Hi! I'm interested in your childcare position "${job.title}". Here's my profile:
 
 👋 About Me: ${caregiver.firstName} ${caregiver.lastName}
@@ -774,7 +774,7 @@ ${caregiverProfile?.hasPoliceCheck ? '🛡️ Police check completed' : ''}
 
 ${caregiverProfile?.bio || 'Looking forward to caring for your family!'}
 
-I'd love to discuss this opportunity further. Please let me know if you have any questions!`;
+I'd love to discuss this opportunity further through the platform messaging system. Contact details will be shared once a booking is confirmed and paid for security.`;
 
       // Send the automated message
       await storage.sendMessage({

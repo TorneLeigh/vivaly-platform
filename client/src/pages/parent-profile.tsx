@@ -248,25 +248,11 @@ export default function ParentProfile() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            value={user.email || ""}
-            placeholder="tornevelk1@gmail.com"
-            readOnly
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="phone">Phone Number</Label>
-          <Input
-            id="phone"
-            value={(user as any).phone || ""}
-            placeholder="0431553386"
-            readOnly
-          />
-        </div>
+      {/* Email and phone are private - only shown after booking confirmation */}
+      <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+        <p className="text-sm text-blue-800">
+          <strong>Privacy Protected:</strong> Contact details are kept private and only shared with confirmed, paid bookings for security.
+        </p>
       </div>
 
       <div className="space-y-2">

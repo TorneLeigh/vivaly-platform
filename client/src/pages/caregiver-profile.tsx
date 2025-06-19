@@ -50,8 +50,7 @@ const caregiverProfileSchema = z.object({
   // Basic Information
   firstName: z.string().min(2, "First name must be at least 2 characters"),
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
+  // email and phone are private - only shown after booking confirmation
   address: z.string().min(5, "Address must be at least 5 characters"),
   suburb: z.string().min(2, "Suburb must be at least 2 characters"),
   dateOfBirth: z.string().optional(),
