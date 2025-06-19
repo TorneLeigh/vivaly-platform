@@ -309,7 +309,7 @@ export default function JobBoard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as any)} className="w-full">
-          <TabsList className={`grid w-full ${user && isParent ? 'grid-cols-2' : 'grid-cols-3'} mb-8`}>
+          <TabsList className={`grid w-full ${isParent ? 'grid-cols-2' : isCaregiver ? 'grid-cols-2' : 'grid-cols-1'} mb-8`}>
             <TabsTrigger value="browse" className="flex items-center gap-2">
               <Search className="h-4 w-4" />
               Browse Jobs
@@ -321,16 +321,10 @@ export default function JobBoard() {
               </TabsTrigger>
             )}
             {isCaregiver && (
-              <>
-                <TabsTrigger value="post" className="flex items-center gap-2">
-                  <Plus className="h-4 w-4" />
-                  Post Job
-                </TabsTrigger>
-                <TabsTrigger value="applications" className="flex items-center gap-2">
-                  <Send className="h-4 w-4" />
-                  My Applications
-                </TabsTrigger>
-              </>
+              <TabsTrigger value="applications" className="flex items-center gap-2">
+                <Send className="h-4 w-4" />
+                My Applications
+              </TabsTrigger>
             )}
           </TabsList>
 
