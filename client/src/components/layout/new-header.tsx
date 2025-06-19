@@ -20,19 +20,11 @@ export default function NewHeader() {
     closeMenu();
   };
 
-  const renderParentNavLinks = () => (
+  const renderParentDropdownLinks = () => (
     <>
-      <Link href="/search-caregivers" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
-        <User className="h-4 w-4 mr-3" />
-        Find Caregivers
-      </Link>
       <Link href="/parent-bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
         <Calendar className="h-4 w-4 mr-3" />
         My Bookings
-      </Link>
-      <Link href="/post-job" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
-        <Briefcase className="h-4 w-4 mr-3" />
-        Post Job
       </Link>
       <Link href="/profile" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
         <User className="h-4 w-4 mr-3" />
@@ -67,12 +59,8 @@ export default function NewHeader() {
     </>
   );
 
-  const renderCaregiverNavLinks = () => (
+  const renderCaregiverDropdownLinks = () => (
     <>
-      <Link href="/job-board" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
-        <Briefcase className="h-4 w-4 mr-3" />
-        Job Board
-      </Link>
       <Link href="/caregiver-bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
         <Calendar className="h-4 w-4 mr-3" />
         My Bookings
@@ -136,24 +124,23 @@ export default function NewHeader() {
           </span>
         </Link>
 
-        {/* Desktop Navigation for Parents */}
-        {isAuthenticated && activeRole === 'parent' && (
+        {/* Desktop Navigation */}
+        {isAuthenticated && (
           <nav className="hidden md:flex items-center space-x-6">
-            <Link href="/search-caregivers" className="text-gray-700 hover:text-black font-medium transition-colors">
-              Find Caregivers
-            </Link>
-            <Link href="/parent-bookings" className="text-gray-700 hover:text-black font-medium transition-colors">
-              My Bookings
-            </Link>
-            <Link href="/post-job" className="text-gray-700 hover:text-black font-medium transition-colors">
-              Post Job
-            </Link>
-            <Link href="/profile" className="text-gray-700 hover:text-black font-medium transition-colors">
-              Profile
-            </Link>
-            <Link href="/messages" className="text-gray-700 hover:text-black font-medium transition-colors">
-              Messages
-            </Link>
+            {activeRole === 'parent' ? (
+              <>
+                <Link href="/search-caregivers" className="text-gray-700 hover:text-black font-medium transition-colors">
+                  Find Caregivers
+                </Link>
+                <Link href="/post-job" className="text-gray-700 hover:text-black font-medium transition-colors">
+                  Post Job
+                </Link>
+              </>
+            ) : (
+              <Link href="/job-board" className="text-gray-700 hover:text-black font-medium transition-colors">
+                Job Board
+              </Link>
+            )}
           </nav>
         )}
 
@@ -196,11 +183,11 @@ export default function NewHeader() {
               </div>
             ) : activeRole === 'parent' ? (
               <div className="py-2">
-                {renderParentNavLinks()}
+                {renderParentDropdownLinks()}
               </div>
             ) : (
               <div className="py-2">
-                {renderCaregiverNavLinks()}
+                {renderCaregiverDropdownLinks()}
               </div>
             )}
           </div>
