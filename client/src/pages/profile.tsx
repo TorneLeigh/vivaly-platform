@@ -95,9 +95,9 @@ export default function Profile() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="personal">As a Parent</TabsTrigger>
-            <TabsTrigger value="caregiver">As a Caregiver</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-1 md:grid-cols-2 h-auto">
+            <TabsTrigger value="personal" className="py-3">As a Parent</TabsTrigger>
+            <TabsTrigger value="caregiver" className="py-3">As a Caregiver</TabsTrigger>
           </TabsList>
 
           <TabsContent value="personal" className="space-y-6">

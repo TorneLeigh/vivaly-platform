@@ -85,12 +85,45 @@ export default function Messages() {
 
   const selectedConv = conversations.find(c => c.id === selectedConversation);
 
+  // Function to detect and filter phone numbers and emails
+  const filterBannedContent = (text: string) => {
+    // Phone number patterns (various formats)
+    const phoneRegex = /(\+?1[-.\s]?)?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})|(\d{10})|(\d{3}[-.\s]\d{3}[-.\s]\d{4})|(\(\d{3}\)\s?\d{3}[-.\s]\d{4})/g;
+    
+    // Email pattern
+    const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+    
+    let filteredText = text;
+    let hasBannedContent = false;
+    
+    // Replace phone numbers
+    if (phoneRegex.test(text)) {
+      filteredText = filteredText.replace(phoneRegex, '[PHONE NUMBER BLOCKED]');
+      hasBannedContent = true;
+    }
+    
+    // Replace emails
+    if (emailRegex.test(text)) {
+      filteredText = filteredText.replace(emailRegex, '[EMAIL ADDRESS BLOCKED]');
+      hasBannedContent = true;
+    }
+    
+    return { filteredText, hasBannedContent };
+  };
+
   const handleSendMessage = () => {
     if (newMessage.trim() && selectedConversation) {
+      const { filteredText, hasBannedContent } = filterBannedContent(newMessage.trim());
+      
       sendMessageMutation.mutate({
         receiverId: selectedConversation,
-        text: newMessage.trim()
+        text: filteredText
       });
+      
+      if (hasBannedContent) {
+        // Show notification that content was blocked
+        console.log('Personal contact information was automatically blocked for privacy and security');
+      }
     }
   };
 

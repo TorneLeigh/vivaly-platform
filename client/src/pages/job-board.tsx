@@ -435,6 +435,27 @@ export default function JobBoard() {
                             <Clock className="h-4 w-4 flex-shrink-0" />
                             <span>{job.hoursPerWeek} hours/week</span>
                           </div>
+                          <div className="flex items-center gap-1">
+                            <MapPin className="h-4 w-4 flex-shrink-0" />
+                            <span>At parent's house - {job.suburb || job.location}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Users className="h-4 w-4 flex-shrink-0" />
+                            <span>{job.numChildren} child{job.numChildren > 1 ? 'ren' : ''} to care for</span>
+                          </div>
+                        </div>
+                        
+                        {/* Requirements badges */}
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          <Badge variant="outline" className="text-xs">
+                            Car required
+                          </Badge>
+                          <Badge variant="outline" className="text-xs">
+                            Background check
+                          </Badge>
+                          <Badge variant="outline" className="text-xs">
+                            References needed
+                          </Badge>
                         </div>
                       </div>
                       
@@ -477,7 +498,7 @@ export default function JobBoard() {
                             disabled={applyToJobMutation.isPending}
                             className="w-full bg-black hover:bg-gray-800 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 text-sm transition-colors"
                           >
-                            {applyToJobMutation.isPending ? 'Applying...' : 'I\'M INTERESTED'}
+                            {applyToJobMutation.isPending ? 'Sending...' : 'Contact Family'}
                           </Button>
                         ) : (
                           <Button 

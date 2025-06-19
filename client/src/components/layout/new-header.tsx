@@ -37,9 +37,13 @@ export default function NewHeader() {
         </div>
       )}
       
-      <Link href="/search-caregivers" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
+      <Link href="/search-caregivers" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black font-semibold" onClick={closeMenu}>
         <User className="h-4 w-4 mr-3" />
-        Find Caregivers
+        FIND CAREGIVERS
+      </Link>
+      <Link href="/post-job" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black font-semibold" onClick={closeMenu}>
+        <Briefcase className="h-4 w-4 mr-3" />
+        POST A JOB
       </Link>
       <Link href="/job-board" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
         <Briefcase className="h-4 w-4 mr-3" />
@@ -48,10 +52,6 @@ export default function NewHeader() {
       <Link href="/parent-bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
         <Calendar className="h-4 w-4 mr-3" />
         My Bookings
-      </Link>
-      <Link href="/post-job" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
-        <Briefcase className="h-4 w-4 mr-3" />
-        Post Job
       </Link>
       <Link href="/profile" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
         <User className="h-4 w-4 mr-3" />

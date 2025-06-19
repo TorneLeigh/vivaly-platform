@@ -283,7 +283,7 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
                   </div>
                   <div className="flex-1">
                     <div className="text-sm font-semibold text-gray-900">
-                      {filters.location || "Where to?"}
+                      {filters.location || "Where"}
                     </div>
                     <div className="text-xs text-gray-500">
                       {selectedDate ? format(selectedDate, "MMM d") : "Any week"} • {getCareForDisplay()}
