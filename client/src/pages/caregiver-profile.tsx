@@ -179,8 +179,7 @@ export default function CaregiverProfile() {
     defaultValues: {
       firstName: "",
       lastName: "",
-      email: "",
-      phone: "",
+      // Contact info removed for privacy
       address: "",
       suburb: "",
       dateOfBirth: "",
@@ -492,33 +491,11 @@ export default function CaregiverProfile() {
                         />
                       </div>
                       
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <FormField
-                          control={form.control}
-                          name="email"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Email</FormLabel>
-                              <FormControl>
-                                <Input {...field} type="email" disabled={!isEditing} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="phone"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Phone</FormLabel>
-                              <FormControl>
-                                <Input {...field} disabled={!isEditing} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                      {/* Contact information privacy protection */}
+                      <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <p className="text-sm text-blue-800">
+                          <strong>Privacy Protected:</strong> Your contact details are kept private and only shared with confirmed, paid bookings for security.
+                        </p>
                       </div>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

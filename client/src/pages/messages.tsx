@@ -122,7 +122,11 @@ export default function Messages() {
       
       if (hasBannedContent) {
         // Show notification that content was blocked
-        console.log('Personal contact information was automatically blocked for privacy and security');
+        toast({
+          title: "Message Filtered",
+          description: "Personal contact information was automatically blocked for privacy and security. Contact details are shared only after confirmed bookings.",
+          variant: "default",
+        });
       }
     }
   };
