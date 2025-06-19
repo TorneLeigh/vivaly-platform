@@ -147,7 +147,7 @@ export default function CaregiverDashboard() {
         </div>
 
         {/* Profile Completion Alert */}
-        <Card className="mb-8" style={{ backgroundColor: 'hsl(var(--coral-pink))', borderColor: 'hsl(var(--coral-pink))' }}>
+        <Card className="mb-8" style={{ backgroundColor: 'hsl(var(--warm-orange))', borderColor: 'hsl(var(--warm-orange))' }}>
           <CardContent className="p-6">
             <div className="flex items-center gap-4">
               <AlertCircle className="w-6 h-6 text-white" />
