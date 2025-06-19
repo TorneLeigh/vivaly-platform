@@ -1243,64 +1243,138 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
     }
   });
 
-  // Test owner notifications - comprehensive test endpoint
-  app.post("/api/test-notifications", async (req, res) => {
+  // Send comprehensive trial notifications to show all alert types
+  app.post("/api/send-trial-notifications", async (req, res) => {
     try {
-      await notifyOwner(
-        "🧪 Platform Notification Test - All Systems Active",
-        `<div style="font-family: Arial, sans-serif; max-width: 600px;">
-          <h2>Vivaly Platform Notification System Test</h2>
-          <p><strong>Test Date:</strong> ${new Date().toLocaleString('en-AU', { 
-            timeZone: 'Australia/Sydney',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          })}</p>
-          
-          <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
-            <h3>✅ Notification Types Active:</h3>
-            <ul>
-              <li>🆕 User Registrations (Parents & Caregivers)</li>
-              <li>📢 Job Postings</li>
-              <li>✉️ Job Applications</li>
-              <li>💬 Platform Messages</li>
-              <li>📅 Booking Creation & Status Updates</li>
-              <li>📋 Document Submissions (Police Check, WWCC)</li>
-            </ul>
-          </div>
-          
-          <div style="background: #f0fdf4; padding: 15px; border-radius: 8px; margin: 20px 0;">
-            <h3>🎯 Business Intelligence:</h3>
-            <p>You now receive real-time alerts for all revenue opportunities, user activity, and platform growth metrics. This ensures complete oversight of your childcare marketplace.</p>
-          </div>
-          
-          <div style="background: #fffbeb; padding: 15px; border-radius: 8px; margin: 20px 0;">
-            <h3>📊 What You'll Monitor:</h3>
-            <ul>
-              <li><strong>User Growth:</strong> New parent and caregiver registrations</li>
-              <li><strong>Job Market:</strong> New job postings and application activity</li>
-              <li><strong>Platform Engagement:</strong> Message volume and user interactions</li>
-              <li><strong>Revenue Streams:</strong> Booking confirmations and transactions</li>
-              <li><strong>Compliance:</strong> Document verification submissions</li>
-            </ul>
-          </div>
-          
-          <p><em>This test confirms your owner notification system is fully operational across all platform activities.</em></p>
-        </div>`
-      );
+      const currentTime = new Date().toLocaleString('en-AU', { 
+        timeZone: 'Australia/Sydney',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      // Send multiple trial notifications showing each type
+      const notifications = [
+        {
+          subject: "🆕 New Parent Signup: Sarah Johnson",
+          html: `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+            <h3>New Parent Registration</h3>
+            <p><strong>Name:</strong> Sarah Johnson</p>
+            <p><strong>Email:</strong> sarah.j@example.com</p>
+            <p><strong>Phone:</strong> 0412 345 678</p>
+            <p><strong>Role:</strong> Parent</p>
+            <p><strong>Suburb:</strong> Bondi Junction</p>
+            <p><strong>Registration Time:</strong> ${currentTime}</p>
+            <hr>
+            <p><em>TRIAL EMAIL: This shows what you'll receive when parents register</em></p>
+          </div>`
+        },
+        {
+          subject: "🆕 New Caregiver Signup: Emma Wilson",
+          html: `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+            <h3>New Caregiver Registration</h3>
+            <p><strong>Name:</strong> Emma Wilson</p>
+            <p><strong>Email:</strong> emma.w@example.com</p>
+            <p><strong>Phone:</strong> 0423 456 789</p>
+            <p><strong>Role:</strong> Caregiver</p>
+            <p><strong>Suburb:</strong> Paddington</p>
+            <p><strong>Registration Time:</strong> ${currentTime}</p>
+            <hr>
+            <p><em>TRIAL EMAIL: This shows what you'll receive when caregivers register</em></p>
+          </div>`
+        },
+        {
+          subject: "📢 New Job Posted: After School Care Needed",
+          html: `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+            <h3>New Job Posting</h3>
+            <p><strong>Job ID:</strong> job_trial_123</p>
+            <p><strong>Parent:</strong> Sarah Johnson</p>
+            <p><strong>Email:</strong> sarah.j@example.com</p>
+            <p><strong>Title:</strong> After School Care Needed</p>
+            <p><strong>Rate:</strong> $35/hr</p>
+            <p><strong>Hours/Week:</strong> 15</p>
+            <p><strong>Children:</strong> 2</p>
+            <p><strong>Location:</strong> Bondi Junction</p>
+            <p><strong>Description:</strong> Looking for reliable after school care for two children aged 6 and 8.</p>
+            <p><strong>Posted:</strong> ${currentTime}</p>
+            <hr>
+            <p><em>TRIAL EMAIL: This shows what you'll receive when jobs are posted</em></p>
+          </div>`
+        },
+        {
+          subject: "✉️ New Application: Emma applied to After School Care Needed",
+          html: `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+            <h3>New Job Application</h3>
+            <p><strong>Application ID:</strong> app_trial_456</p>
+            <p><strong>Job:</strong> After School Care Needed</p>
+            <p><strong>Parent:</strong> Sarah Johnson</p>
+            <p><strong>Parent Email:</strong> sarah.j@example.com</p>
+            <p><strong>Caregiver:</strong> Emma Wilson</p>
+            <p><strong>Caregiver Email:</strong> emma.w@example.com</p>
+            <p><strong>Rate:</strong> $35/hr</p>
+            <p><strong>Location:</strong> Paddington</p>
+            <p><strong>Applied:</strong> ${currentTime}</p>
+            <hr>
+            <p><strong>Automated message sent to parent:</strong></p>
+            <div style="background: #f5f5f5; padding: 10px; border-radius: 5px; font-size: 14px;">
+              Hi! I'm interested in your childcare position "After School Care Needed". Here's my profile: 👋 About Me: Emma Wilson 📍 Location: Paddington...
+            </div>
+            <hr>
+            <p><em>TRIAL EMAIL: This shows what you'll receive when caregivers apply to jobs</em></p>
+          </div>`
+        },
+        {
+          subject: "💬 New Message: Emma → Sarah",
+          html: `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+            <h3>New Platform Message</h3>
+            <p><strong>From:</strong> Emma Wilson (emma.w@example.com)</p>
+            <p><strong>To:</strong> Sarah Johnson (sarah.j@example.com)</p>
+            <p><strong>Sent:</strong> ${currentTime}</p>
+            <hr>
+            <p><strong>Message Preview:</strong></p>
+            <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; font-style: italic;">
+              "Hi Sarah! Thank you for considering my application. I'd love to discuss the after school care position. I have 5 years of experience..."
+            </div>
+            <hr>
+            <p><em>TRIAL EMAIL: This shows what you'll receive when users send messages</em></p>
+          </div>`
+        },
+        {
+          subject: "📅 Booking CONFIRMED: Sarah & Emma",
+          html: `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+            <h3>Booking Status Update</h3>
+            <p><strong>Booking ID:</strong> booking_trial_789</p>
+            <p><strong>New Status:</strong> CONFIRMED</p>
+            <p><strong>Job:</strong> After School Care Needed</p>
+            <p><strong>Parent:</strong> Sarah Johnson (sarah.j@example.com)</p>
+            <p><strong>Caregiver:</strong> Emma Wilson (emma.w@example.com)</p>
+            <p><strong>Updated:</strong> ${currentTime}</p>
+            <p style="color: green;"><strong>Revenue Opportunity:</strong> Confirmed booking may generate commission revenue.</p>
+            <hr>
+            <p><em>TRIAL EMAIL: This shows what you'll receive when bookings are confirmed</em></p>
+          </div>`
+        }
+      ];
+
+      // Send all trial notifications
+      for (const notification of notifications) {
+        await notifyOwner(notification.subject, notification.html);
+        // Small delay between emails
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
       
       res.json({ 
         success: true, 
-        message: "Owner notification test sent successfully! Check your email at " + process.env.OWNER_EMAIL
+        message: `Trial notifications sent! Check your email at ${process.env.OWNER_EMAIL} - you should receive ${notifications.length} sample emails showing all notification types.`
       });
-    } catch (error) {
-      console.error("Test notification error:", error);
+    } catch (error: any) {
+      console.error("Trial notification error:", error);
       res.status(500).json({ 
         success: false, 
-        message: "Failed to send test notification",
-        error: error.message
+        message: "Failed to send trial notifications",
+        error: error.message || "Unknown error"
       });
     }
   });
