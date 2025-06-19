@@ -4,7 +4,7 @@ import sgMail from '@sendgrid/mail';
 sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 
 const OWNER_EMAIL = 'tornevelk1@gmail.com';
-const FROM_EMAIL = 'info@tornevelk.com'; // Use verified sender
+const FROM_EMAIL = 'tornevelk1@gmail.com';
 
 interface UserRegistrationData {
   firstName: string;

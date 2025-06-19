@@ -1169,7 +1169,7 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
       
       const msg = {
         to: 'tornevelk1@gmail.com',
-        from: 'info@tornevelk.com',
+        from: 'tornevelk1@gmail.com',
         subject: 'SendGrid Test',
         text: 'This is a test email to verify SendGrid configuration.',
         html: '<p>This is a test email to verify SendGrid configuration.</p>',
