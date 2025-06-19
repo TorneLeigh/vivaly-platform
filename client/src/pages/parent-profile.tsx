@@ -90,6 +90,71 @@ export default function ParentProfile() {
     return Math.round((filled.length / fields.length) * 100);
   };
 
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      toast({
+        title: "Invalid file type",
+        description: "Please upload a JPG, PNG, GIF, or WebP image",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: "File too large",
+        description: "Image must be under 5MB",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setPhotoUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("photo", file);
+
+      const response = await fetch("/api/upload-profile-photo", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to upload photo");
+      }
+
+      const data = await response.json();
+      toast({
+        title: "Success",
+        description: data.message || "Photo uploaded successfully!",
+      });
+
+      // Refresh photos and user data
+      refetchPhotos();
+      
+      // Reset file input
+      if (e.target) {
+        e.target.value = '';
+      }
+    } catch (error) {
+      console.error("Photo upload error:", error);
+      toast({
+        title: "Upload failed",
+        description: error instanceof Error ? error.message : "Failed to upload photo",
+        variant: "destructive",
+      });
+    } finally {
+      setPhotoUploading(false);
+    }
+  };
+
   const handleVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -240,12 +305,54 @@ export default function ParentProfile() {
         <h3 className="text-lg font-semibold mb-4">Profile Photos</h3>
         <p className="text-gray-600 mb-4">Add photos to help caregivers get to know your family</p>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-            <div className="text-center">
-              <Camera className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-              <p className="text-sm text-gray-500">Add Photo</p>
+          {/* Display existing photos */}
+          {photos.map((photo: any, index: number) => (
+            <div key={photo.id || index} className="aspect-square rounded-lg overflow-hidden relative">
+              <img 
+                src={photo.url} 
+                alt={`Profile photo ${index + 1}`}
+                className="w-full h-full object-cover"
+              />
+              {photo.isMain && (
+                <div className="absolute top-2 left-2">
+                  <Badge variant="default" className="bg-blue-600 text-white text-xs">
+                    Main Photo
+                  </Badge>
+                </div>
+              )}
             </div>
+          ))}
+          
+          {/* Add Photo Button */}
+          <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300 hover:border-gray-400 cursor-pointer transition-colors">
+            <label htmlFor="photo-upload" className="cursor-pointer w-full h-full flex items-center justify-center">
+              <div className="text-center">
+                <Camera className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                <p className="text-sm text-gray-500">
+                  {photoUploading ? "Uploading..." : "Add Photo"}
+                </p>
+              </div>
+            </label>
+            <input
+              id="photo-upload"
+              type="file"
+              accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+              onChange={handlePhotoUpload}
+              disabled={photoUploading}
+              className="hidden"
+            />
           </div>
+        </div>
+        
+        {/* Upload Guidelines */}
+        <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+          <h4 className="text-sm font-medium text-blue-900 mb-2">Photo Guidelines</h4>
+          <ul className="text-xs text-blue-700 space-y-1">
+            <li>• Upload clear, well-lit photos of your family</li>
+            <li>• Maximum file size: 5MB</li>
+            <li>• Supported formats: JPG, PNG, GIF, WebP</li>
+            <li>• First photo uploaded becomes your main profile photo</li>
+          </ul>
         </div>
       </div>
     </div>
