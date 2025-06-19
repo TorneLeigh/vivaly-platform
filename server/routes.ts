@@ -1144,9 +1144,48 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
     try {
       const result = await sendTestEmails();
       res.json(result);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Test notifications failed:", error);
-      res.status(500).json({ message: "Failed to send test notifications", error: error.message });
+      console.error("SendGrid API key status:", process.env.SENDGRID_API_KEY ? "Present" : "Missing");
+      
+      // Log detailed SendGrid error
+      if (error.response?.body) {
+        console.error("SendGrid error body:", JSON.stringify(error.response.body, null, 2));
+      }
+      
+      res.status(500).json({ 
+        message: "Failed to send test notifications", 
+        error: error.message,
+        details: error.response?.body || "No additional details"
+      });
+    }
+  });
+
+  // Simple test endpoint to verify SendGrid configuration
+  app.post("/api/test-sendgrid", async (req, res) => {
+    try {
+      const sgMail = require('@sendgrid/mail');
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+      
+      const msg = {
+        to: 'info@tornevelk.com',
+        from: 'info@tornevelk.com',
+        subject: 'SendGrid Test',
+        text: 'This is a test email to verify SendGrid configuration.',
+        html: '<p>This is a test email to verify SendGrid configuration.</p>',
+      };
+
+      await sgMail.send(msg);
+      res.json({ message: "SendGrid test email sent successfully" });
+    } catch (error: any) {
+      console.error("SendGrid test failed:", error);
+      console.error("Error details:", error.response?.body);
+      
+      res.status(500).json({ 
+        message: "SendGrid test failed", 
+        error: error.message,
+        details: error.response?.body || "No additional details"
+      });
     }
   });
 

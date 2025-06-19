@@ -4,7 +4,7 @@ import sgMail from '@sendgrid/mail';
 sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 
 const OWNER_EMAIL = 'info@tornevelk.com';
-const FROM_EMAIL = 'noreply@vivaly.app';
+const FROM_EMAIL = 'info@tornevelk.com'; // Use verified sender
 
 interface UserRegistrationData {
   firstName: string;
@@ -67,8 +67,9 @@ export async function sendUserRegistrationNotification(userData: UserRegistratio
   try {
     await sgMail.send(msg);
     console.log(`Registration notification sent for ${userData.firstName} ${userData.lastName}`);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Failed to send registration notification:', error);
+    console.error('SendGrid error details:', error.response?.body);
     throw error;
   }
 }
