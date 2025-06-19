@@ -35,6 +35,10 @@ export interface IStorage {
   // Role management operations
   updateUserRoles(userId: string, roles: string[]): Promise<User>;
   
+  // Profile photo operations
+  updateUserProfilePhoto(userId: string, photoUrl: string): Promise<User>;
+  getUserById(userId: string): Promise<User | undefined>;
+  
   // Message operations
   getMessages(userId: string): Promise<Message[]>;
   createMessage(message: InsertMessage): Promise<Message>;
@@ -154,6 +158,20 @@ export class DatabaseStorage implements IStorage {
       .set({ 
         roles: roles
       })
+      .where(eq(users.id, userId))
+      .returning();
+    return updatedUser;
+  }
+
+  async getUserById(userId: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, userId));
+    return user;
+  }
+
+  async updateUserProfilePhoto(userId: string, photoUrl: string): Promise<User> {
+    const [updatedUser] = await db
+      .update(users)
+      .set({ profileImageUrl: photoUrl })
       .where(eq(users.id, userId))
       .returning();
     return updatedUser;

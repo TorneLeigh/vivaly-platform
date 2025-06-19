@@ -42,11 +42,20 @@ export default function ParentProfile() {
   const [, setLocation] = useLocation();
   const [activeSection, setActiveSection] = useState("basic-info");
   const [videoUploading, setVideoUploading] = useState(false);
+  const [photoUploading, setPhotoUploading] = useState(false);
+  const [profilePhotos, setProfilePhotos] = useState<Array<{id: string, url: string, isMain?: boolean}>>([]);
 
   // Fetch user's jobs
   const { data: jobs = [] } = useQuery({
     queryKey: ['/api/jobs/my'],
     queryFn: () => apiRequest('GET', '/api/jobs/my'),
+    enabled: !!user
+  });
+
+  // Fetch user's profile photos
+  const { data: photos = [], refetch: refetchPhotos } = useQuery({
+    queryKey: ['/api/profile-photos'],
+    queryFn: () => apiRequest('GET', '/api/profile-photos'),
     enabled: !!user
   });
 

@@ -46,6 +46,73 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Photo upload endpoint for profile photos
+  app.post("/api/upload-profile-photo", requireAuth, upload.single("photo"), async (req, res) => {
+    try {
+      const file = req.file;
+      if (!file) return res.status(400).json({ message: "No photo uploaded" });
+
+      // Validate file type
+      const allowedTypes = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+      const ext = path.extname(file.originalname).toLowerCase();
+      if (!allowedTypes.includes(ext)) {
+        fs.unlinkSync(file.path); // Clean up the uploaded file
+        return res.status(400).json({ message: "Invalid file type. Only JPG, PNG, GIF, and WebP files are allowed." });
+      }
+
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        fs.unlinkSync(file.path);
+        return res.status(400).json({ message: "File too large. Maximum size is 5MB." });
+      }
+
+      const newFilename = `${randomUUID()}${ext}`;
+      const newPath = path.join("uploads", newFilename);
+      fs.renameSync(file.path, newPath);
+
+      const photoUrl = `/uploads/${newFilename}`;
+
+      // Update user's profile photo in database
+      const userId = req.session.userId;
+      const user = await storage.getUserById(userId);
+      if (user) {
+        await storage.updateUserProfilePhoto(userId, photoUrl);
+      }
+
+      return res.json({ url: photoUrl, message: "Photo uploaded successfully" });
+    } catch (error) {
+      console.error("Photo upload error:", error);
+      res.status(500).json({ message: "Failed to upload photo" });
+    }
+  });
+
+  // Get user profile photos
+  app.get("/api/profile-photos", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId;
+      const user = await storage.getUserById(userId);
+      
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Return user's profile photos (including main profile photo and any additional photos)
+      const photos = [];
+      if (user.profileImageUrl) {
+        photos.push({
+          id: 'main',
+          url: user.profileImageUrl,
+          isMain: true
+        });
+      }
+
+      return res.json(photos);
+    } catch (error) {
+      console.error("Get profile photos error:", error);
+      res.status(500).json({ message: "Failed to get profile photos" });
+    }
+  });
+
   // Auth routes
   app.post('/api/register', async (req, res) => {
     try {
