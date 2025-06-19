@@ -30,7 +30,7 @@ export default function RoleToggle({ roles, activeRole, onSwitch, disabled = fal
           disabled={disabled || role === activeRole}
           className={`rounded-md px-3 py-1 text-sm transition-all ${
             role === activeRole 
-              ? 'bg-black text-white shadow-sm' 
+              ? 'bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] text-white shadow-sm' 
               : 'text-gray-700 hover:text-black hover:bg-gray-100'
           }`}
         >

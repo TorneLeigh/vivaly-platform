@@ -370,7 +370,7 @@ export class DatabaseStorage implements IStorage {
       const userBookings = await db
         .select()
         .from(bookings)
-        .where(eq(bookings.caregiverId, caregiverId))
+        .where(eq(bookings.nannyId, parseInt(caregiverId)))
         .orderBy(desc(bookings.createdAt));
       
       return userBookings;
@@ -385,7 +385,7 @@ export class DatabaseStorage implements IStorage {
       const userBookings = await db
         .select()
         .from(bookings)
-        .where(eq(bookings.caregiverId, userId))
+        .where(eq(bookings.nannyId, parseInt(userId)))
         .orderBy(desc(bookings.createdAt));
       
       return userBookings;
@@ -399,8 +399,8 @@ export class DatabaseStorage implements IStorage {
     try {
       const [updatedBooking] = await db
         .update(bookings)
-        .set({ status, updatedAt: new Date() })
-        .where(eq(bookings.id, bookingId))
+        .set({ status })
+        .where(eq(bookings.id, parseInt(bookingId)))
         .returning();
       
       return updatedBooking;

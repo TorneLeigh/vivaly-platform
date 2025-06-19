@@ -132,14 +132,34 @@ export default function NewHeader() {
                 <Link href="/search-caregivers" className="text-gray-700 hover:text-black font-medium transition-colors">
                   Find Caregivers
                 </Link>
+                <Link href="/parent-bookings" className="text-gray-700 hover:text-black font-medium transition-colors">
+                  My Bookings
+                </Link>
                 <Link href="/post-job" className="text-gray-700 hover:text-black font-medium transition-colors">
                   Post Job
                 </Link>
+                <Link href="/profile" className="text-gray-700 hover:text-black font-medium transition-colors">
+                  Profile
+                </Link>
+                <Link href="/messages" className="text-gray-700 hover:text-black font-medium transition-colors">
+                  Messages
+                </Link>
               </>
             ) : (
-              <Link href="/job-board" className="text-gray-700 hover:text-black font-medium transition-colors">
-                Job Board
-              </Link>
+              <>
+                <Link href="/job-board" className="text-gray-700 hover:text-black font-medium transition-colors">
+                  Job Board
+                </Link>
+                <Link href="/caregiver-bookings" className="text-gray-700 hover:text-black font-medium transition-colors">
+                  My Bookings
+                </Link>
+                <Link href="/profile" className="text-gray-700 hover:text-black font-medium transition-colors">
+                  Profile
+                </Link>
+                <Link href="/messages" className="text-gray-700 hover:text-black font-medium transition-colors">
+                  Messages
+                </Link>
+              </>
             )}
           </nav>
         )}
