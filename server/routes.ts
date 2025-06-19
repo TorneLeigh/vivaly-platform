@@ -9,6 +9,7 @@ import { insertUserSchema, insertJobSchema, insertApplicationSchema, type Insert
 import { requireAuth, requireRole } from "./auth-middleware";
 import { sendPasswordResetEmail } from "./email-service";
 import { sendEmail } from "./lib/sendEmail";
+import { sendUserRegistrationNotification, sendDocumentSubmissionNotification, sendTestEmails } from "./email-notifications";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -43,6 +44,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Video upload error:", error);
       res.status(500).json({ message: "Failed to upload video" });
+    }
+  });
+
+  // Document upload endpoint for police check and WWCC
+  app.post("/api/upload-document", requireAuth, upload.single("document"), async (req, res) => {
+    try {
+      const file = req.file;
+      const { documentType } = req.body;
+      
+      if (!file) return res.status(400).json({ message: "No document uploaded" });
+      if (!documentType || !['police_check', 'wwcc'].includes(documentType)) {
+        return res.status(400).json({ message: "Invalid document type" });
+      }
+
+      const userId = req.session.userId;
+      const user = await storage.getUserById(userId);
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      const ext = path.extname(file.originalname);
+      const newPath = path.join("uploads", `${file.filename}${ext}`);
+      fs.renameSync(file.path, newPath);
+
+      const documentUrl = `/uploads/${file.filename}${ext}`;
+
+      // Send admin notification for document submission
+      try {
+        await sendDocumentSubmissionNotification({
+          firstName: user.firstName ?? '',
+          lastName: user.lastName ?? '',
+          email: user.email ?? '',
+          documentType: documentType as 'police_check' | 'wwcc',
+          submissionDate: new Date(),
+          documentUrl: `${req.protocol}://${req.get('host')}${documentUrl}`
+        });
+      } catch (emailError) {
+        console.warn("Failed to send document submission notification:", emailError);
+      }
+
+      return res.json({ url: documentUrl });
+    } catch (error) {
+      console.error("Document upload error:", error);
+      res.status(500).json({ message: "Failed to upload document" });
     }
   });
 
@@ -240,21 +283,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Send admin notification email for new user signup
       try {
-        const adminEmail = process.env.ADMIN_ALERT_EMAIL || 'info@tornevelk.com';
-        const userType = userData.isNanny ? 'Caregiver' : 'Parent';
-        await sendEmail(
-          adminEmail,
-          `New ${userType} Signup on VIVALY`,
-          `<h3>New ${userType} Registration</h3>
-          <p><strong>Name:</strong> ${user.firstName} ${user.lastName}</p>
-          <p><strong>Email:</strong> ${user.email}</p>
-          <p><strong>Phone:</strong> ${user.phone || 'Not provided'}</p>
-          <p><strong>User Type:</strong> ${userType}</p>
-          <p><strong>Registration Date:</strong> ${new Date().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' })}</p>
-          <p><strong>User ID:</strong> ${user.id}</p>
-          <hr>
-          <p><small>Login to VIVALY admin to manage this user</small></p>`
-        );
+        const role = userData.isNanny ? 'caregiver' : 'parent';
+        await sendUserRegistrationNotification({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          role: role,
+          registrationDate: new Date()
+        });
       } catch (emailError) {
         console.warn("Failed to send admin notification email:", emailError);
       }
@@ -1103,23 +1139,14 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
     }
   });
 
-  // Test email endpoint for verification
-  app.post("/api/test-email", async (req, res) => {
+  // Test all email notifications endpoint
+  app.post("/api/test-notifications", async (req, res) => {
     try {
-      await sendEmail(
-        "info@tornevelk.com",
-        "VIVALY Email System Test",
-        `<h3>Email System Test</h3>
-        <p>This is a test email to verify the VIVALY notification system is working properly.</p>
-        <p><strong>Time:</strong> ${new Date().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' })}</p>
-        <p><strong>System:</strong> Email notifications are operational</p>
-        <hr>
-        <p><small>VIVALY Platform - Australia's trusted childcare marketplace</small></p>`
-      );
-      res.json({ message: "Test email sent successfully" });
+      const result = await sendTestEmails();
+      res.json(result);
     } catch (error) {
-      console.error("Test email failed:", error);
-      res.status(500).json({ message: "Failed to send test email" });
+      console.error("Test notifications failed:", error);
+      res.status(500).json({ message: "Failed to send test notifications", error: error.message });
     }
   });
 
