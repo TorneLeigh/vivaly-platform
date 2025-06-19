@@ -141,7 +141,7 @@ function ParentBookings() {
       </div>
 
       {/* Stats Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center">
@@ -172,22 +172,6 @@ function ParentBookings() {
                 <p className="text-sm font-medium text-muted-foreground">Pending</p>
                 <p className="text-2xl font-bold">
                   {bookings.filter(b => b.status === 'pending').length}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center">
-              <DollarSign className="h-8 w-8 text-purple-600" />
-              <div className="ml-4">
-                <p className="text-sm font-medium text-muted-foreground">Total Paid</p>
-                <p className="text-2xl font-bold">
-                  ${bookings
-                    .filter(b => b.status === 'completed')
-                    .reduce((sum, b) => sum + parseFloat(b.totalAmount || '0'), 0)
-                    .toFixed(2)}
                 </p>
               </div>
             </div>
