@@ -389,7 +389,7 @@ export default function JobBoard() {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold text-6xl">
+                        <div className="w-full h-full bg-gradient-to-br from-[#FF5F7E] to-[#FFA24D] flex items-center justify-center text-white font-semibold text-6xl">
                           {job.parentProfile?.firstName?.charAt(0) || 'P'}
                         </div>
                       )}

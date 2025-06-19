@@ -163,7 +163,7 @@ export default function FamilyDayCareEnrollPage() {
             <Card className="sticky top-6">
               <CardHeader>
                 <CardTitle className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold text-lg">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#FF5F7E] to-[#FFA24D] rounded-full flex items-center justify-center text-white font-semibold text-lg">
                     {provider?.user.firstName[0]}{provider?.user.lastName[0]}
                   </div>
                   <div>

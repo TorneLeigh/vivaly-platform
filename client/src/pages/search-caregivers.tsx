@@ -175,7 +175,7 @@ export default function SearchCaregivers() {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold text-xl">
+                        <div className="w-full h-full bg-gradient-to-br from-[#FF5F7E] to-[#FFA24D] flex items-center justify-center text-white font-semibold text-xl">
                           C
                         </div>
                       )}
