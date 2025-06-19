@@ -37,9 +37,21 @@ export default function NewHeader() {
         </div>
       )}
       
+      <Link href="/search-caregivers" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
+        <User className="h-4 w-4 mr-3" />
+        Find Caregivers
+      </Link>
+      <Link href="/job-board" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
+        <Briefcase className="h-4 w-4 mr-3" />
+        Job Board
+      </Link>
       <Link href="/parent-bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
         <Calendar className="h-4 w-4 mr-3" />
         My Bookings
+      </Link>
+      <Link href="/post-job" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
+        <Briefcase className="h-4 w-4 mr-3" />
+        Post Job
       </Link>
       <Link href="/profile" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
         <User className="h-4 w-4 mr-3" />
@@ -76,6 +88,10 @@ export default function NewHeader() {
         </div>
       )}
       
+      <Link href="/job-board" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
+        <Briefcase className="h-4 w-4 mr-3" />
+        Job Board
+      </Link>
       <Link href="/caregiver-bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
         <Calendar className="h-4 w-4 mr-3" />
         My Bookings
