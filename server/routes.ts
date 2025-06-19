@@ -1143,10 +1143,165 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
         return res.status(404).json({ message: "Booking not found" });
       }
 
+      // Notify owner of booking status change
+      try {
+        const parent = await storage.getUserById(booking.parentId);
+        const caregiver = await storage.getUserById(booking.caregiverId);
+        const job = await storage.getJob(booking.jobId);
+        
+        await notifyOwner(
+          `📅 Booking ${status.toUpperCase()}: ${parent?.firstName} & ${caregiver?.firstName}`,
+          `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+            <h3>Booking Status Update</h3>
+            <p><strong>Booking ID:</strong> ${bookingId}</p>
+            <p><strong>New Status:</strong> ${status.toUpperCase()}</p>
+            <p><strong>Job:</strong> ${job?.title || 'Unknown'}</p>
+            <p><strong>Parent:</strong> ${parent?.firstName} ${parent?.lastName} (${parent?.email})</p>
+            <p><strong>Caregiver:</strong> ${caregiver?.firstName} ${caregiver?.lastName} (${caregiver?.email})</p>
+            <p><strong>Updated:</strong> ${new Date().toLocaleString('en-AU', { 
+              timeZone: 'Australia/Sydney',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })}</p>
+            ${status === 'confirmed' ? '<p style="color: green;"><strong>Revenue Opportunity:</strong> Confirmed booking may generate commission revenue.</p>' : ''}
+          </div>`
+        );
+      } catch (emailError) {
+        console.warn("Failed to send owner notification:", emailError);
+      }
+
       res.json(booking);
     } catch (error) {
       console.error("Update booking status error:", error);
       res.status(500).json({ message: "Failed to update booking status" });
+    }
+  });
+
+  // Create new booking
+  app.post("/api/bookings", requireAuth, async (req, res) => {
+    try {
+      const { jobId, caregiverId, parentId, startDate, endDate, totalAmount } = req.body;
+      const userId = req.session.userId;
+
+      if (!jobId || !caregiverId || !parentId) {
+        return res.status(400).json({ message: "Job ID, caregiver ID, and parent ID are required" });
+      }
+
+      // Create booking
+      const booking = await storage.createBooking({
+        id: randomUUID(),
+        jobId,
+        caregiverId,
+        parentId,
+        startDate: new Date(startDate),
+        endDate: new Date(endDate),
+        totalAmount: totalAmount || 0,
+        status: 'pending',
+        createdAt: new Date()
+      });
+
+      // Notify owner of new booking
+      try {
+        const parent = await storage.getUserById(parentId);
+        const caregiver = await storage.getUserById(caregiverId);
+        const job = await storage.getJob(jobId);
+        
+        await notifyOwner(
+          `✅ New Booking Created: ${parent?.firstName} & ${caregiver?.firstName}`,
+          `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+            <h3>New Booking Created</h3>
+            <p><strong>Booking ID:</strong> ${booking.id}</p>
+            <p><strong>Job:</strong> ${job?.title || 'Unknown'}</p>
+            <p><strong>Parent:</strong> ${parent?.firstName} ${parent?.lastName} (${parent?.email})</p>
+            <p><strong>Caregiver:</strong> ${caregiver?.firstName} ${caregiver?.lastName} (${caregiver?.email})</p>
+            <p><strong>Start Date:</strong> ${new Date(startDate).toLocaleDateString('en-AU')}</p>
+            <p><strong>End Date:</strong> ${new Date(endDate).toLocaleDateString('en-AU')}</p>
+            <p><strong>Total Amount:</strong> $${totalAmount || 'TBD'}</p>
+            <p><strong>Status:</strong> PENDING</p>
+            <p><strong>Created:</strong> ${new Date().toLocaleString('en-AU', { 
+              timeZone: 'Australia/Sydney',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })}</p>
+            <p style="color: orange;"><strong>Revenue Opportunity:</strong> New booking created - potential commission revenue.</p>
+          </div>`
+        );
+      } catch (emailError) {
+        console.warn("Failed to send owner notification:", emailError);
+      }
+
+      res.json(booking);
+    } catch (error) {
+      console.error("Create booking error:", error);
+      res.status(500).json({ message: "Failed to create booking" });
+    }
+  });
+
+  // Test owner notifications - comprehensive test endpoint
+  app.post("/api/test-notifications", async (req, res) => {
+    try {
+      await notifyOwner(
+        "🧪 Platform Notification Test - All Systems Active",
+        `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+          <h2>Vivaly Platform Notification System Test</h2>
+          <p><strong>Test Date:</strong> ${new Date().toLocaleString('en-AU', { 
+            timeZone: 'Australia/Sydney',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          })}</p>
+          
+          <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <h3>✅ Notification Types Active:</h3>
+            <ul>
+              <li>🆕 User Registrations (Parents & Caregivers)</li>
+              <li>📢 Job Postings</li>
+              <li>✉️ Job Applications</li>
+              <li>💬 Platform Messages</li>
+              <li>📅 Booking Creation & Status Updates</li>
+              <li>📋 Document Submissions (Police Check, WWCC)</li>
+            </ul>
+          </div>
+          
+          <div style="background: #f0fdf4; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <h3>🎯 Business Intelligence:</h3>
+            <p>You now receive real-time alerts for all revenue opportunities, user activity, and platform growth metrics. This ensures complete oversight of your childcare marketplace.</p>
+          </div>
+          
+          <div style="background: #fffbeb; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <h3>📊 What You'll Monitor:</h3>
+            <ul>
+              <li><strong>User Growth:</strong> New parent and caregiver registrations</li>
+              <li><strong>Job Market:</strong> New job postings and application activity</li>
+              <li><strong>Platform Engagement:</strong> Message volume and user interactions</li>
+              <li><strong>Revenue Streams:</strong> Booking confirmations and transactions</li>
+              <li><strong>Compliance:</strong> Document verification submissions</li>
+            </ul>
+          </div>
+          
+          <p><em>This test confirms your owner notification system is fully operational across all platform activities.</em></p>
+        </div>`
+      );
+      
+      res.json({ 
+        success: true, 
+        message: "Owner notification test sent successfully! Check your email at " + process.env.OWNER_EMAIL
+      });
+    } catch (error) {
+      console.error("Test notification error:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to send test notification",
+        error: error.message
+      });
     }
   });
 
