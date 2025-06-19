@@ -414,7 +414,21 @@ export class DatabaseStorage implements IStorage {
       return updatedBooking;
     } catch (error) {
       console.error("Error updating booking status:", error);
-      return null;
+      throw error;
+    }
+  }
+
+  async getCaregiverProfile(userId: string): Promise<any> {
+    try {
+      const [caregiverProfile] = await db
+        .select()
+        .from(users)
+        .where(eq(users.id, userId));
+      
+      return caregiverProfile || {};
+    } catch (error) {
+      console.error("Error fetching caregiver profile:", error);
+      return {};
     }
   }
 }

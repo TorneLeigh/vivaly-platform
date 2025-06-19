@@ -742,7 +742,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/jobs/:jobId/apply', requireRole('caregiver'), async (req, res) => {
     try {
       const { jobId } = req.params;
-      const { caregiverProfile } = req.body;
       const caregiverId = req.session.userId;
 
       const job = await storage.getJob(jobId);
@@ -750,16 +749,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Job not found" });
       }
 
+      // Get caregiver's profile information
+      const caregiver = await storage.getUserById(caregiverId);
+      const caregiverProfile = await storage.getCaregiverProfile(caregiverId);
+
+      // Create the application
       const application = await storage.createApplication({
         jobId,
         caregiverId,
-        caregiverProfile: caregiverProfile || null
+        caregiverProfile: null
       });
 
-      res.json({ message: "Application submitted!", application });
+      // Automatically send a message to the parent with caregiver's profile
+      const profileMessage = `Hi! I'm interested in your childcare position "${job.title}". Here's my profile:
+
+👋 About Me: ${caregiver.firstName} ${caregiver.lastName}
+📍 Location: ${caregiverProfile?.suburb || 'Sydney, NSW'}
+💰 Rate: $${caregiverProfile?.hourlyRate || '35'}/hour
+⭐ Rating: ${caregiverProfile?.rating || 'New'} (${caregiverProfile?.reviewCount || 0} reviews)
+${caregiverProfile?.isVerified ? '✅ Verified profile' : ''}
+${caregiverProfile?.hasPoliceCheck ? '🛡️ Police check completed' : ''}
+
+📝 Experience: ${caregiverProfile?.experience || 'Passionate about childcare'}
+
+${caregiverProfile?.bio || 'Looking forward to caring for your family!'}
+
+I'd love to discuss this opportunity further. Please let me know if you have any questions!`;
+
+      // Send the automated message
+      await storage.sendMessage({
+        senderId: caregiverId,
+        receiverId: job.parentId,
+        content: profileMessage,
+        timestamp: new Date()
+      });
+
+      res.json({ message: "Profile sent to family!", application });
     } catch (error) {
       console.error("Apply to job error:", error);
-      res.status(500).json({ message: "Failed to apply to job" });
+      res.status(500).json({ message: "Failed to contact family" });
     }
   });
 
