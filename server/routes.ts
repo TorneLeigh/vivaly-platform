@@ -1243,6 +1243,47 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
     }
   });
 
+  // Simple email test endpoint
+  app.post("/api/test-email", async (req, res) => {
+    try {
+      const testEmail = await sendEmail(
+        'tornevelk1@gmail.com',
+        'VIVALY Test Email - Please Check Your Inbox',
+        `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+          <h2>Email Delivery Test</h2>
+          <p><strong>Test Time:</strong> ${new Date().toLocaleString('en-AU', { 
+            timeZone: 'Australia/Sydney',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          })}</p>
+          <p>If you receive this email, your notification system is working correctly.</p>
+          <p><strong>Next steps:</strong></p>
+          <ul>
+            <li>Check your spam/junk folder if this email isn't in your inbox</li>
+            <li>Add tornevelk1@gmail.com to your safe senders list</li>
+            <li>Mark this email as "Not Spam" if it's in junk</li>
+          </ul>
+          <p>This confirms SendGrid is delivering emails to your address.</p>
+        </div>`
+      );
+      
+      res.json({ 
+        success: true, 
+        message: "Test email sent! Check your inbox and spam folder at tornevelk1@gmail.com",
+        details: testEmail
+      });
+    } catch (error: any) {
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to send test email",
+        error: error.message
+      });
+    }
+  });
+
   // Send comprehensive trial notifications to show all alert types
   app.post("/api/send-trial-notifications", async (req, res) => {
     try {
