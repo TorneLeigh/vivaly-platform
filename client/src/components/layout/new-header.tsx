@@ -165,20 +165,8 @@ export default function NewHeader() {
                 </Link>
               </>
             ) : (
-              <>
-                <Link href="/job-board" className="text-gray-700 hover:text-black font-medium transition-colors">
-                  Job Board
-                </Link>
-                <Link href="/caregiver-bookings" className="text-gray-700 hover:text-black font-medium transition-colors">
-                  My Bookings
-                </Link>
-                <Link href="/profile" className="text-gray-700 hover:text-black font-medium transition-colors">
-                  Profile
-                </Link>
-                <Link href="/messages" className="text-gray-700 hover:text-black font-medium transition-colors">
-                  Messages
-                </Link>
-              </>
+              // Caregiver navigation items are only in dropdown menu
+              <></>
             )}
           </nav>
         )}
