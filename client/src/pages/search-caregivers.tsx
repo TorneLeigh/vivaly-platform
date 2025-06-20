@@ -210,6 +210,11 @@ export default function SearchCaregivers() {
                     </div>
                   )}
 
+                  {/* Professional Liability Coverage */}
+                  <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded-md inline-block mb-3">
+                    🛡️ Covered by VIVALY Professional Liability
+                  </span>
+
                   {/* Bio */}
                   <p className="text-gray-700 text-sm mb-4 line-clamp-3">
                     {caregiver.bio || "Experienced caregiver passionate about child development and safety. Creating nurturing environments where children can learn, play, and grow."}
