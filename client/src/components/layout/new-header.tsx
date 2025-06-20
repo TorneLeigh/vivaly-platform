@@ -49,7 +49,7 @@ export default function NewHeader() {
         <Briefcase className="h-4 w-4 mr-3" />
         Job Board
       </Link>
-      <Link href="/parent-bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
+      <Link href="/parent/bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
         <Calendar className="h-4 w-4 mr-3" />
         My Bookings
       </Link>
