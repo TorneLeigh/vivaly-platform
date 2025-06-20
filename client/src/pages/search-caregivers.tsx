@@ -68,12 +68,21 @@ export default function SearchCaregivers() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">
             Find Your Perfect Caregiver
           </h1>
           <p className="text-lg text-gray-600">
             Connect with trusted, verified caregivers in your area
+          </p>
+        </div>
+
+        {/* Safety Notice */}
+        <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md mb-6">
+          <strong>🔒 Stay Protected with VIVALY</strong>
+          <p className="mt-1 text-sm">
+            To help keep our community safe and ensure we can provide support if needed, <b>VIVALY is only able to assist with issues when all communication has taken place through the VIVALY chat.</b><br />
+            Please avoid sharing personal contact details or moving conversations off-platform until a booking is confirmed.
           </p>
         </div>
 

@@ -154,7 +154,7 @@ export default function Messages() {
 
         {/* Safety Notice */}
         <div className="mb-6">
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 md:p-5">
+          <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md mb-4">
             <div className="flex items-start gap-3">
               <div className="flex-shrink-0 mt-0.5">
                 <div className="w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center">
@@ -164,13 +164,10 @@ export default function Messages() {
                 </div>
               </div>
               <div className="flex-1">
-                <h3 className="text-sm font-semibold text-blue-900 mb-2">
-                  🔒 Stay Protected with VIVALY
-                </h3>
-                <p className="text-sm text-blue-800 leading-relaxed">
-                  To help keep our community safe and ensure we can provide support if needed, VIVALY is only able to assist with issues when all communication has taken place through the VIVALY chat.
-                  <br />
-                  <span className="font-medium">We strongly recommend not sharing personal contact details or moving conversations off-platform until a booking is confirmed.</span>
+                <strong>🔒 Stay Protected with VIVALY</strong>
+                <p className="mt-1 text-sm">
+                  To help keep our community safe and ensure we can provide support if needed, <b>VIVALY is only able to assist with issues when all communication has taken place through the VIVALY chat.</b><br />
+                  Please avoid sharing personal contact details or moving conversations off-platform until a booking is confirmed.
                 </p>
               </div>
             </div>
