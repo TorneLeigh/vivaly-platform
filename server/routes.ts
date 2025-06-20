@@ -846,6 +846,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Update parent profile
+  app.put('/api/parent/profile', requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId;
+      const profileData = req.body;
+      
+      // Update user basic info if provided
+      if (profileData.homeAddress || profileData.suburb || profileData.bio) {
+        await storage.updateUser(userId, {
+          homeAddress: profileData.homeAddress,
+          suburb: profileData.suburb,
+          bio: profileData.bio
+        });
+      }
+      
+      // Create or update parent profile
+      await storage.upsertParentProfile({
+        userId,
+        ...profileData
+      });
+
+      res.json({ success: true, message: "Profile updated successfully" });
+    } catch (error) {
+      console.error("Update parent profile error:", error);
+      res.status(500).json({ message: "Failed to update profile" });
+    }
+  });
+
   app.post('/api/jobs/:jobId/apply', requireRole('caregiver'), async (req, res) => {
     try {
       const { jobId } = req.params;

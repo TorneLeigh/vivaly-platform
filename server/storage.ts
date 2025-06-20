@@ -177,6 +177,21 @@ export class DatabaseStorage implements IStorage {
     return updatedUser;
   }
 
+  async updateUser(userId: string, userData: Partial<User>): Promise<User> {
+    const [updatedUser] = await db
+      .update(users)
+      .set(userData)
+      .where(eq(users.id, userId))
+      .returning();
+    return updatedUser;
+  }
+
+  async upsertParentProfile(profileData: any): Promise<any> {
+    // For now, we'll store parent profile data in user table extensions
+    // In future, this could use a dedicated parent_profiles table
+    return await this.updateUser(profileData.userId, profileData);
+  }
+
   // Message operations
   async getMessages(userId: string): Promise<Message[]> {
     return await db

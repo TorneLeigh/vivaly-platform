@@ -50,45 +50,45 @@ export default function ParentProfile() {
   // Form state for each section
   const [formData, setFormData] = useState({
     // Basic Info
-    homeAddress: user?.homeAddress || '',
-    suburb: user?.suburb || '',
-    bio: user?.bio || '',
+    homeAddress: '',
+    suburb: '',
+    bio: '',
     
     // Family & Children
-    numberOfChildren: user?.numberOfChildren || 1,
-    languagesSpoken: user?.languagesSpoken || '',
-    pets: user?.pets || '',
+    numberOfChildren: 1,
+    languagesSpoken: '',
+    pets: '',
     
     // Children Details
-    children: user?.children || [{ name: '', age: '', grade: '' }],
+    children: [{ name: '', age: '', grade: '' }],
     
     // Health & Medical
-    allergies: user?.allergies || '',
-    medications: user?.medications || '',
-    emergencyContact: user?.emergencyContact || '',
+    allergies: '',
+    medications: '',
+    emergencyContact: '',
     
     // Essential Requirements
-    essentialRequirements: user?.essentialRequirements || [],
+    essentialRequirements: [],
     
     // Position Details
-    positionType: user?.positionType || '',
-    schedule: user?.schedule || '',
-    startDate: user?.startDate || '',
+    positionType: '',
+    schedule: '',
+    startDate: '',
     
     // Responsibilities
-    responsibilities: user?.responsibilities || [],
+    responsibilities: [],
     
     // Caregiver Preferences
-    caregiverPreferences: user?.caregiverPreferences || '',
+    caregiverPreferences: '',
     
     // Household Rules
-    householdRules: user?.householdRules || '',
+    householdRules: '',
     
     // Safety & Emergency
-    emergencyProcedures: user?.emergencyProcedures || '',
+    emergencyProcedures: '',
     
     // Personal Touch
-    personalMessage: user?.personalMessage || ''
+    personalMessage: ''
   });
 
   // Fetch user's jobs
@@ -120,32 +120,18 @@ export default function ParentProfile() {
     { id: "personal-touch", label: "Personal Touch", icon: MessageCircle }
   ];
 
-  // Update form data when user data changes
+  // Load saved form data from localStorage on mount
   useEffect(() => {
-    if (user) {
-      setFormData({
-        homeAddress: user.homeAddress || '',
-        suburb: user.suburb || '',
-        bio: user.bio || '',
-        numberOfChildren: user.numberOfChildren || 1,
-        languagesSpoken: user.languagesSpoken || '',
-        pets: user.pets || '',
-        children: user.children || [{ name: '', age: '', grade: '' }],
-        allergies: user.allergies || '',
-        medications: user.medications || '',
-        emergencyContact: user.emergencyContact || '',
-        essentialRequirements: user.essentialRequirements || [],
-        positionType: user.positionType || '',
-        schedule: user.schedule || '',
-        startDate: user.startDate || '',
-        responsibilities: user.responsibilities || [],
-        caregiverPreferences: user.caregiverPreferences || '',
-        householdRules: user.householdRules || '',
-        emergencyProcedures: user.emergencyProcedures || '',
-        personalMessage: user.personalMessage || ''
-      });
+    const savedData = localStorage.getItem('parentProfileData');
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData);
+        setFormData(prev => ({ ...prev, ...parsedData }));
+      } catch (error) {
+        console.error('Error loading saved data:', error);
+      }
     }
-  }, [user]);
+  }, []);
 
   const updateFormData = (field: string, value: any) => {
     setFormData(prev => ({
