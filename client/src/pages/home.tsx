@@ -156,7 +156,7 @@ export default function Home() {
           {/* Trust Indicators */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto text-center">
             <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-all duration-300 text-2xl transform group-hover:scale-110 group-hover:-translate-y-1 group-hover:rotate-2">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-orange-200 to-orange-300 rounded-full flex items-center justify-center group-hover:from-orange-300 group-hover:to-orange-400 transition-all duration-300 text-2xl transform group-hover:scale-110 group-hover:-translate-y-1 group-hover:rotate-2">
                 🪪
               </div>
               <h4 className="text-lg font-semibold text-gray-900 mb-2">Identity Verified</h4>
@@ -164,7 +164,7 @@ export default function Home() {
             </div>
             
             <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-all duration-300 text-2xl transform group-hover:scale-110 group-hover:-translate-y-1 group-hover:rotate-2">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-orange-200 to-orange-300 rounded-full flex items-center justify-center group-hover:from-orange-300 group-hover:to-orange-400 transition-all duration-300 text-2xl transform group-hover:scale-110 group-hover:-translate-y-1 group-hover:rotate-2">
                 🧒
               </div>
               <h4 className="text-lg font-semibold text-gray-900 mb-2">WWCC Verified</h4>
@@ -172,7 +172,7 @@ export default function Home() {
             </div>
             
             <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-all duration-300 text-2xl transform group-hover:scale-110 group-hover:-translate-y-1 group-hover:rotate-2">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-orange-200 to-orange-300 rounded-full flex items-center justify-center group-hover:from-orange-300 group-hover:to-orange-400 transition-all duration-300 text-2xl transform group-hover:scale-110 group-hover:-translate-y-1 group-hover:rotate-2">
                 💼
               </div>
               <h4 className="text-lg font-semibold text-gray-900 mb-2">References Provided by Caregivers</h4>
@@ -180,7 +180,7 @@ export default function Home() {
             </div>
 
             <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-all duration-300 text-2xl transform group-hover:scale-110 group-hover:-translate-y-1 group-hover:rotate-2">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-orange-200 to-orange-300 rounded-full flex items-center justify-center group-hover:from-orange-300 group-hover:to-orange-400 transition-all duration-300 text-2xl transform group-hover:scale-110 group-hover:-translate-y-1 group-hover:rotate-2">
                 🙋‍♀️
               </div>
               <h4 className="text-lg font-semibold text-gray-900 mb-2">Optional Police Checks</h4>
