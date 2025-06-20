@@ -134,10 +134,11 @@ export default function ParentProfile() {
   }, []);
 
   const updateFormData = (field: string, value: any) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
+    setFormData(prev => {
+      const newData = { ...prev, [field]: value };
+      localStorage.setItem('parentProfileData', JSON.stringify(newData));
+      return newData;
+    });
   };
 
   const saveProfile = async () => {
@@ -502,25 +503,78 @@ export default function ParentProfile() {
       <div>
         <h3 className="text-lg font-semibold mb-4">Children Details</h3>
         <div className="space-y-4">
-          <div className="p-4 border rounded-lg">
-            <h4 className="font-medium mb-3">Child 1</h4>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <Label>Name</Label>
-                <Input placeholder="Emma" />
-              </div>
-              <div className="space-y-2">
-                <Label>Age</Label>
-                <Input placeholder="5" />
-              </div>
-              <div className="space-y-2">
-                <Label>Grade</Label>
-                <Input placeholder="Kindergarten" />
+          {formData.children.map((child, index) => (
+            <div key={index} className="p-4 border rounded-lg">
+              <h4 className="font-medium mb-3">Child {index + 1}</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-2">
+                  <Label>Name</Label>
+                  <Input
+                    placeholder="Emma"
+                    value={child.name}
+                    onChange={(e) => {
+                      const newChildren = [...formData.children];
+                      newChildren[index] = { ...child, name: e.target.value };
+                      updateFormData('children', newChildren);
+                    }}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Age</Label>
+                  <Input
+                    placeholder="5"
+                    value={child.age}
+                    onChange={(e) => {
+                      const newChildren = [...formData.children];
+                      newChildren[index] = { ...child, age: e.target.value };
+                      updateFormData('children', newChildren);
+                    }}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Grade</Label>
+                  <Input
+                    placeholder="Kindergarten"
+                    value={child.grade}
+                    onChange={(e) => {
+                      const newChildren = [...formData.children];
+                      newChildren[index] = { ...child, grade: e.target.value };
+                      updateFormData('children', newChildren);
+                    }}
+                  />
+                </div>
               </div>
             </div>
+          ))}
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => {
+                const newChildren = [...formData.children, { name: '', age: '', grade: '' }];
+                updateFormData('children', newChildren);
+              }}
+            >
+              Add Another Child
+            </Button>
+            {formData.children.length > 1 && (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  const newChildren = formData.children.slice(0, -1);
+                  updateFormData('children', newChildren);
+                }}
+              >
+                Remove Last Child
+              </Button>
+            )}
           </div>
-          <Button variant="outline">Add Another Child</Button>
         </div>
+      </div>
+      
+      <div className="flex justify-end mt-6">
+        <Button onClick={saveProfile} disabled={saving}>
+          {saving ? "Saving..." : "Save Changes"}
+        </Button>
       </div>
     </div>
   );

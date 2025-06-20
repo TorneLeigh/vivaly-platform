@@ -26,6 +26,28 @@ export const users = pgTable("users", {
   allowCaregiverMessages: boolean("allow_caregiver_messages").default(false),
   resetToken: varchar("reset_token"),
   resetTokenExpires: timestamp("reset_token_expires"),
+  
+  // Parent profile fields
+  homeAddress: text("home_address"),
+  suburb: text("suburb"),
+  bio: text("bio"),
+  numberOfChildren: integer("number_of_children"),
+  languagesSpoken: text("languages_spoken"),
+  pets: text("pets"),
+  children: json("children").$type<Array<{name: string, age: string, grade: string}>>().default([]),
+  allergies: text("allergies"),
+  medications: text("medications"),
+  emergencyContact: text("emergency_contact"),
+  essentialRequirements: json("essential_requirements").$type<string[]>().default([]),
+  positionType: text("position_type"),
+  schedule: text("schedule"),
+  startDate: text("start_date"),
+  responsibilities: json("responsibilities").$type<string[]>().default([]),
+  caregiverPreferences: text("caregiver_preferences"),
+  householdRules: text("household_rules"),
+  emergencyProcedures: text("emergency_procedures"),
+  personalMessage: text("personal_message"),
+  
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
