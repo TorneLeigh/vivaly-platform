@@ -190,7 +190,7 @@ export default function JobDetails() {
               View More Jobs
             </Button>
           </Link>
-          <Link href="/messages">
+          <Link href={`/messages?parentId=${job.parentId}&jobId=${job.id}&jobTitle=${encodeURIComponent(job.title || 'Childcare Position')}`}>
             <Button className="flex-1">
               Contact Family
             </Button>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -44,6 +45,51 @@ export default function ParentProfile() {
   const [videoUploading, setVideoUploading] = useState(false);
   const [photoUploading, setPhotoUploading] = useState(false);
   const [profilePhotos, setProfilePhotos] = useState<Array<{id: string, url: string, isMain?: boolean}>>([]);
+  const [saving, setSaving] = useState(false);
+
+  // Form state for each section
+  const [formData, setFormData] = useState({
+    // Basic Info
+    homeAddress: user?.homeAddress || '',
+    suburb: user?.suburb || '',
+    bio: user?.bio || '',
+    
+    // Family & Children
+    numberOfChildren: user?.numberOfChildren || 1,
+    languagesSpoken: user?.languagesSpoken || '',
+    pets: user?.pets || '',
+    
+    // Children Details
+    children: user?.children || [{ name: '', age: '', grade: '' }],
+    
+    // Health & Medical
+    allergies: user?.allergies || '',
+    medications: user?.medications || '',
+    emergencyContact: user?.emergencyContact || '',
+    
+    // Essential Requirements
+    essentialRequirements: user?.essentialRequirements || [],
+    
+    // Position Details
+    positionType: user?.positionType || '',
+    schedule: user?.schedule || '',
+    startDate: user?.startDate || '',
+    
+    // Responsibilities
+    responsibilities: user?.responsibilities || [],
+    
+    // Caregiver Preferences
+    caregiverPreferences: user?.caregiverPreferences || '',
+    
+    // Household Rules
+    householdRules: user?.householdRules || '',
+    
+    // Safety & Emergency
+    emergencyProcedures: user?.emergencyProcedures || '',
+    
+    // Personal Touch
+    personalMessage: user?.personalMessage || ''
+  });
 
   // Fetch user's jobs
   const { data: jobs = [] } = useQuery({
@@ -74,21 +120,73 @@ export default function ParentProfile() {
     { id: "personal-touch", label: "Personal Touch", icon: MessageCircle }
   ];
 
+  // Update form data when user data changes
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        homeAddress: user.homeAddress || '',
+        suburb: user.suburb || '',
+        bio: user.bio || '',
+        numberOfChildren: user.numberOfChildren || 1,
+        languagesSpoken: user.languagesSpoken || '',
+        pets: user.pets || '',
+        children: user.children || [{ name: '', age: '', grade: '' }],
+        allergies: user.allergies || '',
+        medications: user.medications || '',
+        emergencyContact: user.emergencyContact || '',
+        essentialRequirements: user.essentialRequirements || [],
+        positionType: user.positionType || '',
+        schedule: user.schedule || '',
+        startDate: user.startDate || '',
+        responsibilities: user.responsibilities || [],
+        caregiverPreferences: user.caregiverPreferences || '',
+        householdRules: user.householdRules || '',
+        emergencyProcedures: user.emergencyProcedures || '',
+        personalMessage: user.personalMessage || ''
+      });
+    }
+  }, [user]);
+
+  const updateFormData = (field: string, value: any) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const saveProfile = async () => {
+    setSaving(true);
+    try {
+      const response = await apiRequest('PUT', '/api/parent/profile', formData);
+      toast({
+        title: "Success",
+        description: "Profile updated successfully!"
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to save profile. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const calculateCompletion = () => {
-    if (!user) return 0;
+    if (!formData) return 0;
     
-    // Only count profile-specific fields, not basic registration data
     const profileFields = [
-      (user as any).profileImageUrl, // Profile photo
-      (user as any).suburb, // Location
-      (user as any).homeAddress, // Full address
-      (user as any).introVideo, // Intro video
-      (user as any).bio, // About me
-      (user as any).familySize, // Family information
-      (user as any).numberOfChildren, // Children count
-      (user as any).childrenAges, // Children details
-      (user as any).caregiverPreferences, // Preferences
-      (user as any).householdRules, // Rules
+      formData.homeAddress,
+      formData.suburb,
+      formData.bio,
+      formData.numberOfChildren,
+      formData.languagesSpoken,
+      formData.pets,
+      formData.children?.length > 0 && formData.children[0]?.name,
+      formData.caregiverPreferences,
+      formData.householdRules,
+      formData.personalMessage
     ];
     
     const filled = profileFields.filter(field => {
@@ -260,7 +358,8 @@ export default function ParentProfile() {
         <Input
           id="homeAddress"
           placeholder="123 Main Street, Sydney NSW 2000"
-          readOnly
+          value={formData.homeAddress}
+          onChange={(e) => updateFormData('homeAddress', e.target.value)}
         />
       </div>
 
@@ -269,8 +368,26 @@ export default function ParentProfile() {
         <Input
           id="suburb"
           placeholder="Bondi Beach"
-          readOnly
+          value={formData.suburb}
+          onChange={(e) => updateFormData('suburb', e.target.value)}
         />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="bio">About Me</Label>
+        <Textarea
+          id="bio"
+          placeholder="Tell caregivers about your family..."
+          value={formData.bio}
+          onChange={(e) => updateFormData('bio', e.target.value)}
+          rows={4}
+        />
+      </div>
+
+      <div className="flex justify-end mt-6">
+        <Button onClick={saveProfile} disabled={saving}>
+          {saving ? "Saving..." : "Save Changes"}
+        </Button>
       </div>
 
       {/* Intro Video Section */}
@@ -362,20 +479,33 @@ export default function ParentProfile() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <Label>Number of Children</Label>
-            <Input placeholder="2" />
-          </div>
-          <div className="space-y-2">
-            <Label>Family Type</Label>
-            <Input placeholder="Nuclear family" />
+            <Input 
+              placeholder="2" 
+              value={formData.numberOfChildren}
+              onChange={(e) => updateFormData('numberOfChildren', parseInt(e.target.value) || 1)}
+            />
           </div>
           <div className="space-y-2">
             <Label>Languages Spoken</Label>
-            <Input placeholder="English, Spanish" />
+            <Input 
+              placeholder="English, Spanish" 
+              value={formData.languagesSpoken}
+              onChange={(e) => updateFormData('languagesSpoken', e.target.value)}
+            />
           </div>
           <div className="space-y-2">
             <Label>Pets</Label>
-            <Input placeholder="1 dog, 2 cats" />
+            <Input 
+              placeholder="1 dog, 2 cats" 
+              value={formData.pets}
+              onChange={(e) => updateFormData('pets', e.target.value)}
+            />
           </div>
+        </div>
+        <div className="flex justify-end mt-6">
+          <Button onClick={saveProfile} disabled={saving}>
+            {saving ? "Saving..." : "Save Changes"}
+          </Button>
         </div>
       </div>
     </div>
