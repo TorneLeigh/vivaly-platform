@@ -55,23 +55,23 @@ export default function HowItWorks() {
   const safetyFeatures = [
     {
       icon: <Shield className="h-6 w-6" />,
-      title: "Background Checks",
-      description: "All carers undergo comprehensive police checks and Working with Children Check verification"
+      title: "Identity Verified",
+      description: "Your family's safety is our mission. Choose confidently with clear visibility of each caregiver's credentials and documents."
     },
     {
       icon: <CheckCircle className="h-6 w-6" />,
-      title: "Identity Verification",
-      description: "Photo ID verification and address confirmation for all registered carers"
+      title: "WWCC Verified",
+      description: "All caregivers working with children upload a valid WWCC clearance, which we cross-check for validity."
     },
     {
       icon: <Star className="h-6 w-6" />,
-      title: "Reviews & Ratings",
-      description: "Transparent review system from verified families who have used their services"
+      title: "References Provided by Caregivers",
+      description: "Caregivers submit references from previous families or employers, which you can view and follow up on directly."
     },
     {
       icon: <Phone className="h-6 w-6" />,
-      title: "24/7 Support",
-      description: "Round-the-clock customer support and emergency assistance when needed"
+      title: "Optional Police Checks",
+      description: "Some caregivers choose to upload a National Police Clearance — look for the badge on their profile if available."
     }
   ];
 
