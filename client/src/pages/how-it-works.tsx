@@ -189,7 +189,7 @@ export default function HowItWorks() {
             {safetyFeatures.map((feature, index) => (
               <Card key={index} className="text-center hover:shadow-lg transition-shadow">
                 <CardHeader>
-                  <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mx-auto mb-4 text-blue-600">
+                  <div className="w-12 h-12 bg-orange-200 dark:bg-orange-800 rounded-lg flex items-center justify-center mx-auto mb-4 text-orange-700 dark:text-orange-300">
                     {feature.icon}
                   </div>
                   <CardTitle className="text-lg">{feature.title}</CardTitle>
