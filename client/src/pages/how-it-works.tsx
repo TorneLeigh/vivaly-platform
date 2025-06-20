@@ -172,10 +172,10 @@ export default function HowItWorks() {
       </div>
 
       {/* Safety & Security */}
-      <div className="bg-white dark:bg-gray-800 py-16">
+      <div className="bg-gradient-to-br from-orange-100 via-orange-50 to-yellow-50 dark:bg-gray-800 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <Shield className="h-12 w-12 mx-auto mb-4 text-blue-600" />
+            <Shield className="h-12 w-12 mx-auto mb-4 text-orange-600" />
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
               Safety & Security First
             </h2>
