@@ -147,9 +147,34 @@ export default function Messages() {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="mb-8">
+        <div className="mb-6">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Messages</h1>
           <p className="text-gray-600">Connect with families and caregivers</p>
+        </div>
+
+        {/* Safety Notice */}
+        <div className="mb-6">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 md:p-5">
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0 mt-0.5">
+                <div className="w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center">
+                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-sm font-semibold text-blue-900 mb-2">
+                  🔒 Stay Protected with VIVALY
+                </h3>
+                <p className="text-sm text-blue-800 leading-relaxed">
+                  To help keep our community safe and ensure we can provide support if needed, VIVALY is only able to assist with issues when all communication has taken place through the VIVALY chat.
+                  <br />
+                  <span className="font-medium">We strongly recommend not sharing personal contact details or moving conversations off-platform until a booking is confirmed.</span>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[600px]">
