@@ -203,6 +203,13 @@ export default function SearchCaregivers() {
                     </Button>
                   </div>
 
+                  {/* Verification Badge */}
+                  {caregiver.isVerified && (
+                    <div className="text-sm text-green-700 bg-green-100 px-2 py-1 rounded-md inline-block mb-3">
+                      ✔️ Verified Caregiver — ID, WWCC, and Intro Video Confirmed
+                    </div>
+                  )}
+
                   {/* Bio */}
                   <p className="text-gray-700 text-sm mb-4 line-clamp-3">
                     {caregiver.bio || "Experienced caregiver passionate about child development and safety. Creating nurturing environments where children can learn, play, and grow."}
@@ -238,6 +245,11 @@ export default function SearchCaregivers() {
                       </div>
                       <p className="text-xs text-gray-500">Per Hour</p>
                     </div>
+                  </div>
+
+                  {/* Platform Commitment Notice */}
+                  <div className="bg-blue-50 border border-blue-200 text-blue-800 p-3 rounded-md text-sm mb-4">
+                    VIVALY is committed to community safety. When care is booked through our platform, you're backed by our support team and dispute mediation process.
                   </div>
 
                   {/* Actions */}
