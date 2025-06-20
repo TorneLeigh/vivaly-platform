@@ -154,37 +154,36 @@ export default function Home() {
           </div>
 
           {/* Trust Indicators */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto text-center">
-            <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-orange-200 to-orange-300 rounded-full flex items-center justify-center group-hover:from-orange-300 group-hover:to-orange-400 transition-all duration-300 text-2xl transform group-hover:scale-110 group-hover:-translate-y-1 group-hover:rotate-2">
-                🪪
-              </div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-2">Identity Verified</h4>
-              <p className="text-gray-600 text-sm">Your family's safety is our mission. Choose confidently with clear visibility of each caregiver's credentials and documents.</p>
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <h3 className="text-3xl font-bold text-gray-900 mb-4">Identity Verified</h3>
+              <p className="text-gray-600 max-w-2xl mx-auto text-lg">Your family's safety is our mission. Choose confidently with clear visibility of each caregiver's credentials and documents.</p>
             </div>
             
-            <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-orange-200 to-orange-300 rounded-full flex items-center justify-center group-hover:from-orange-300 group-hover:to-orange-400 transition-all duration-300 text-2xl transform group-hover:scale-110 group-hover:-translate-y-1 group-hover:rotate-2">
-                🧒
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 text-center group hover:-translate-y-2">
+                <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl flex items-center justify-center text-5xl group-hover:scale-105 transition-transform duration-300 shadow-sm">
+                  🧒
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 mb-4">WWCC Verified</h4>
+                <p className="text-gray-600 leading-relaxed">All caregivers working with children upload a valid WWCC clearance, which we cross-check for validity.</p>
               </div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-2">WWCC Verified</h4>
-              <p className="text-gray-600 text-sm">All caregivers working with children upload a valid WWCC clearance, which we cross-check for validity.</p>
-            </div>
-            
-            <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-orange-200 to-orange-300 rounded-full flex items-center justify-center group-hover:from-orange-300 group-hover:to-orange-400 transition-all duration-300 text-2xl transform group-hover:scale-110 group-hover:-translate-y-1 group-hover:rotate-2">
-                💼
+              
+              <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 text-center group hover:-translate-y-2">
+                <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-green-50 to-green-100 rounded-3xl flex items-center justify-center text-5xl group-hover:scale-105 transition-transform duration-300 shadow-sm">
+                  💼
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 mb-4">References Provided by Caregivers</h4>
+                <p className="text-gray-600 leading-relaxed">Caregivers submit references from previous families or employers, which you can view and follow up on directly.</p>
               </div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-2">References Provided by Caregivers</h4>
-              <p className="text-gray-600 text-sm">Caregivers submit references from previous families or employers, which you can view and follow up on directly.</p>
-            </div>
-
-            <div className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-orange-200 to-orange-300 rounded-full flex items-center justify-center group-hover:from-orange-300 group-hover:to-orange-400 transition-all duration-300 text-2xl transform group-hover:scale-110 group-hover:-translate-y-1 group-hover:rotate-2">
-                🙋‍♀️
+              
+              <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 text-center group hover:-translate-y-2">
+                <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-3xl flex items-center justify-center text-5xl group-hover:scale-105 transition-transform duration-300 shadow-sm">
+                  🙋‍♀️
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 mb-4">Optional Police Checks</h4>
+                <p className="text-gray-600 leading-relaxed">Some caregivers choose to upload a National Police Clearance — look for the badge on their profile if available.</p>
               </div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-2">Optional Police Checks</h4>
-              <p className="text-gray-600 text-sm">Some caregivers choose to upload a National Police Clearance — look for the badge on their profile if available.</p>
             </div>
           </div>
         </div>
