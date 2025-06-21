@@ -108,6 +108,11 @@ export default function ParentProfile() {
     enabled: !!user
   });
 
+  const fetchProfilePhotos = () => {
+    refetchPhotos();
+    setProfilePhotos(photos);
+  };
+
   const sidebarItems = [
     { id: "basic-info", label: "Basic Info", icon: User, active: true },
     { id: "photos", label: "Photos", icon: Camera },
@@ -774,8 +779,8 @@ export default function ParentProfile() {
                 <p className="text-gray-600 mb-6">Add multiple photos to help caregivers get to know your family</p>
                 
                 <MultiPhotoUpload 
-                  photos={profilePhotos}
-                  onPhotosChange={fetchProfilePhotos}
+                  photos={photos}
+                  onPhotosChange={refetchPhotos}
                   maxPhotos={10}
                 />
               </div>
