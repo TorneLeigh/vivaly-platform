@@ -9,6 +9,9 @@ import logoImage from "@assets/Screenshot 2025-06-16 at 15.57.36_1750053474312.p
 export default function NewHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { isAuthenticated, user, activeRole, roles, switchRole, logout } = useAuth();
+  
+  // Debug logging for mobile testing
+  console.log("Header render - isAuthenticated:", isAuthenticated, "user:", user, "roles:", roles, "activeRole:", activeRole);
   const [, navigate] = useLocation();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -144,29 +147,23 @@ export default function NewHeader() {
           </span>
         </Link>
 
-        {/* Desktop Role Toggle */}
-        {isAuthenticated && roles && roles.length > 1 && (
-          <nav className="hidden md:flex items-center space-x-6">
-            <div className="flex flex-col items-center space-y-2">
-              <span className="text-sm font-medium text-orange-600">Switch Role:</span>
-              <RoleToggle 
-                roles={roles} 
-                activeRole={activeRole || 'parent'} 
-                onSwitch={switchRole}
-              />
-            </div>
-          </nav>
-        )}
-
-        {/* Mobile Current Role Display */}
+        {/* Center Navigation - Role Toggle (visible on all devices) */}
         {isAuthenticated && (
-          <div className="md:hidden flex items-center space-x-2">
-            <span className="text-sm text-gray-600">
-              {user?.firstName || user?.email}
-            </span>
-            <span className="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full font-medium">
-              {activeRole === 'parent' ? 'Parent' : 'Caregiver'}
-            </span>
+          <div className="flex items-center justify-center flex-1">
+            {roles && roles.length > 1 ? (
+              <div className="flex flex-col items-center space-y-1">
+                <span className="text-xs font-medium text-orange-600 hidden md:block">Switch Role</span>
+                <RoleToggle 
+                  roles={roles} 
+                  activeRole={activeRole || 'parent'} 
+                  onSwitch={switchRole}
+                />
+              </div>
+            ) : (
+              <span className="text-sm bg-orange-100 text-orange-800 px-3 py-1 rounded-full font-medium">
+                {activeRole === 'parent' ? 'Parent' : 'Caregiver'}
+              </span>
+            )}
           </div>
         )}
 
@@ -224,18 +221,20 @@ export default function NewHeader() {
                     </div>
                   </div>
 
-                  {/* Mobile Role Toggle */}
+                  {/* Mobile Menu Role Toggle */}
                   {roles && roles.length > 1 && (
                     <div className="mt-3 pt-3 border-t border-gray-200">
-                      <p className="text-sm font-medium text-orange-600 mb-2">Switch Role:</p>
-                      <RoleToggle 
-                        roles={roles} 
-                        activeRole={activeRole || 'parent'} 
-                        onSwitch={(role) => {
-                          switchRole(role);
-                          closeMenu();
-                        }} 
-                      />
+                      <p className="text-sm font-medium text-orange-600 mb-3">Switch Role:</p>
+                      <div className="flex justify-center">
+                        <RoleToggle 
+                          roles={roles} 
+                          activeRole={activeRole || 'parent'} 
+                          onSwitch={(role) => {
+                            switchRole(role);
+                            closeMenu();
+                          }} 
+                        />
+                      </div>
                     </div>
                   )}
                 </div>
