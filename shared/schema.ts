@@ -19,6 +19,7 @@ export const users = pgTable("users", {
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   profileImageUrl: varchar("profile_image_url"),
+  photos: text("photos"), // JSON string of photo objects
   phone: text("phone"),
   password: text("password"), // For backwards compatibility with existing accounts
   roles: json("roles").$type<string[]>().default(["parent"]), // Available roles for the user

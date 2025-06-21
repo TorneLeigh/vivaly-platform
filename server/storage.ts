@@ -181,6 +181,67 @@ export class DatabaseStorage implements IStorage {
     return updatedUser;
   }
 
+  // Photo operations
+  async addUserPhotos(userId: string, photos: any[]): Promise<void> {
+    const user = await this.getUserById(userId);
+    if (!user) return;
+
+    const existingPhotos = user.photos ? JSON.parse(user.photos) : [];
+    const updatedPhotos = [...existingPhotos, ...photos];
+
+    await db
+      .update(users)
+      .set({ photos: JSON.stringify(updatedPhotos) })
+      .where(eq(users.id, userId));
+  }
+
+  async getUserPhotos(userId: string): Promise<any[]> {
+    const user = await this.getUserById(userId);
+    if (!user || !user.photos) return [];
+    
+    try {
+      return JSON.parse(user.photos);
+    } catch {
+      return [];
+    }
+  }
+
+  async deleteUserPhoto(userId: string, photoId: string): Promise<void> {
+    const user = await this.getUserById(userId);
+    if (!user) return;
+
+    const existingPhotos = user.photos ? JSON.parse(user.photos) : [];
+    const filteredPhotos = existingPhotos.filter((photo: any) => photo.id !== photoId);
+
+    await db
+      .update(users)
+      .set({ photos: JSON.stringify(filteredPhotos) })
+      .where(eq(users.id, userId));
+  }
+
+  async setMainPhoto(userId: string, photoId: string): Promise<void> {
+    const user = await this.getUserById(userId);
+    if (!user) return;
+
+    const existingPhotos = user.photos ? JSON.parse(user.photos) : [];
+    const updatedPhotos = existingPhotos.map((photo: any) => ({
+      ...photo,
+      isMain: photo.id === photoId
+    }));
+
+    // Update main profile image URL
+    const mainPhoto = updatedPhotos.find((photo: any) => photo.id === photoId);
+    if (mainPhoto) {
+      await db
+        .update(users)
+        .set({ 
+          photos: JSON.stringify(updatedPhotos),
+          profileImageUrl: mainPhoto.url
+        })
+        .where(eq(users.id, userId));
+    }
+  }
+
   async updateUser(userId: string, userData: Partial<User>): Promise<User> {
     const [updatedUser] = await db
       .update(users)

@@ -33,8 +33,10 @@ import {
   Calendar,
   DollarSign,
   Clock,
-  MapPin
+  MapPin,
+  Trash2
 } from "lucide-react";
+import { MultiPhotoUpload } from "@/components/MultiPhotoUpload";
 import { Badge } from "@/components/ui/badge";
 
 export default function ParentProfile() {
@@ -764,7 +766,22 @@ export default function ParentProfile() {
             </CardHeader>
             <CardContent>
               {activeSection === "basic-info" && renderBasicInfo()}
-              {activeSection === "photos" && renderPhotos()}
+              {activeSection === "photos" && (
+          <div className="bg-white shadow rounded-lg p-6">
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Profile Photos</h3>
+                <p className="text-gray-600 mb-6">Add multiple photos to help caregivers get to know your family</p>
+                
+                <MultiPhotoUpload 
+                  photos={profilePhotos}
+                  onPhotosChange={fetchProfilePhotos}
+                  maxPhotos={10}
+                />
+              </div>
+            </div>
+          </div>
+        )}
               {activeSection === "family-children" && renderFamilyChildren()}
               {activeSection === "children-details" && renderChildrenDetails()}
               {activeSection === "health-medical" && (
