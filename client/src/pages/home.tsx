@@ -183,7 +183,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Your New Mum Backup Crew
+              Your Mum Backup Crew
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Whether you need sleep, a fitness class, a shower, or just a moment to breathe — we've got your back. Book reliable, verified care for your mini-mes
