@@ -13,6 +13,118 @@ import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { CaregiverProfileDisplay } from "@/components/CaregiverProfileDisplay";
 
+// Contact Family Modal Component
+interface ContactFamilyModalProps {
+  user: any;
+  jobData: {
+    jobId: string;
+    parentId: string;
+    jobTitle: string;
+  };
+  onClose: () => void;
+  onSend: (message: string) => void;
+  isLoading: boolean;
+}
+
+function ContactFamilyModal({ user, jobData, onClose, onSend, isLoading }: ContactFamilyModalProps) {
+  const [coverLetter, setCoverLetter] = useState("");
+  
+  // Pre-fill cover letter template
+  useEffect(() => {
+    const template = `Hi! I'm very interested in your ${jobData.jobTitle} position.
+
+I'm ${user.firstName} ${user.lastName}, and I believe I would be a great fit for your family. Here's why:
+
+• [Your key qualifications and experience]
+• [What makes you special as a caregiver]
+• [Why you're interested in this particular position]
+
+I'd love to discuss this opportunity further and answer any questions you might have about my background and approach to childcare.
+
+Looking forward to hearing from you!
+
+Best regards,
+${user.firstName}`;
+    
+    setCoverLetter(template);
+  }, [user, jobData]);
+
+  const handleSend = () => {
+    if (coverLetter.trim()) {
+      onSend(coverLetter.trim());
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg max-w-6xl w-full h-[90vh] flex overflow-hidden">
+        {/* Profile Preview */}
+        <div className="w-1/2 border-r bg-gray-50 overflow-y-auto">
+          <div className="p-6">
+            <h3 className="text-lg font-semibold mb-4">Your Profile Preview</h3>
+            <div className="bg-white rounded-lg p-4 shadow-sm">
+              <CaregiverProfileDisplay userId={user.id} />
+            </div>
+          </div>
+        </div>
+        
+        {/* Cover Letter */}
+        <div className="w-1/2 flex flex-col">
+          <div className="p-6 border-b">
+            <div className="flex justify-between items-center">
+              <div>
+                <h2 className="text-xl font-semibold">Apply for Position</h2>
+                <p className="text-gray-600">{jobData.jobTitle}</p>
+              </div>
+              <Button variant="outline" onClick={onClose}>
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+          
+          <div className="flex-1 p-6">
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Cover Letter
+                </label>
+                <Textarea
+                  value={coverLetter}
+                  onChange={(e) => setCoverLetter(e.target.value)}
+                  placeholder="Write your cover letter..."
+                  className="h-64 resize-none"
+                />
+              </div>
+              
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <p className="text-sm text-blue-800">
+                  <strong>Your complete profile will be sent along with this message.</strong> 
+                  This includes your experience, qualifications, photos, and all other profile information.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="p-6 border-t bg-gray-50">
+            <div className="flex gap-3">
+              <Button variant="outline" onClick={onClose} className="flex-1">
+                Cancel
+              </Button>
+              <Button 
+                onClick={handleSend}
+                disabled={!coverLetter.trim() || isLoading}
+                className="flex-1 bg-orange-500 hover:bg-orange-600"
+              >
+                {isLoading ? "Sending..." : "Send Application"}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface Message {
   id: string;
   senderId: string;
@@ -104,6 +216,36 @@ export default function Messages() {
     }
   });
 
+  // Send job application mutation
+  const sendInterestMutation = useMutation({
+    mutationFn: async ({ message, jobId, parentId }: { message: string; jobId: string; parentId: string }) => {
+      const response = await apiRequest('POST', '/api/send-interest', {
+        message,
+        jobId,
+        parentId
+      });
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Application Sent",
+        description: "Your job application has been sent successfully!",
+      });
+      setShowContactModal(false);
+      setContactJobData(null);
+      window.history.replaceState({}, '', '/messages');
+      queryClient.invalidateQueries({ queryKey: ['/api/conversations'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/applications/my'] });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to send application. Please try again.",
+        variant: "destructive",
+      });
+    }
+  });
+
   const filteredConversations = conversations.filter(conv =>
     conv.participantName.toLowerCase().includes(searchTerm.toLowerCase()) ||
     conv.lastMessage.toLowerCase().includes(searchTerm.toLowerCase())
@@ -171,26 +313,24 @@ export default function Messages() {
   };
 
   // If contact family modal is active, show it as full screen
-  if (showContactModal && contactJobData) {
-    return (
-      <ContactFamilyModal 
-        user={user}
-        jobData={contactJobData}
-        onClose={() => {
-          setShowContactModal(false);
-          setContactJobData(null);
-          window.history.replaceState({}, '', '/messages');
-        }}
-        onSend={(message: string) => {
-          sendInterestMutation.mutate({
-            message,
-            jobId: contactJobData.jobId,
-            parentId: contactJobData.parentId
-          });
-        }}
-        isLoading={sendInterestMutation.isPending}
-      />
-    );
+  if (showContactModal && contactJobData && user) {
+    return <ContactFamilyModal 
+      user={user}
+      jobData={contactJobData}
+      onClose={() => {
+        setShowContactModal(false);
+        setContactJobData(null);
+        window.history.replaceState({}, '', '/messages');
+      }}
+      onSend={(message: string) => {
+        sendInterestMutation.mutate({
+          message,
+          jobId: contactJobData.jobId,
+          parentId: contactJobData.parentId
+        });
+      }}
+      isLoading={sendInterestMutation.isPending}
+    />;
   }
 
   return (
@@ -403,189 +543,6 @@ export default function Messages() {
               </CardContent>
             )}
           </Card>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Contact Family Modal Component
-interface ContactFamilyModalProps {
-  user: any;
-  jobData: {
-    jobId: string;
-    parentId: string;
-    jobTitle: string;
-  };
-  onClose: () => void;
-  onSend: (message: string) => void;
-  isLoading: boolean;
-}
-
-function ContactFamilyModal({ user, jobData, onClose, onSend, isLoading }: ContactFamilyModalProps) {
-  const [message, setMessage] = useState(`Dear Family,
-
-I'm very excited about this childcare opportunity! I have experience caring for children and I'm passionate about providing quality care in a safe, nurturing environment.
-
-What makes me particularly suited for your family is my dedication to creating positive, engaging experiences for children while supporting their development and well-being. I believe in open communication with parents and maintaining a professional, reliable service.
-
-I would love to discuss how I can support your family's needs and answer any questions you may have about my experience and approach to childcare.
-
-Thank you for considering my application!
-
-Best regards,
-${user?.firstName || 'Your caregiver'}`);
-  const [showProfile, setShowProfile] = useState(true);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (message.length < 200) {
-      return;
-    }
-    onSend(message);
-  };
-
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Contact Family</h1>
-            <p className="text-gray-600 mt-1">Job: {jobData.jobTitle}</p>
-          </div>
-          <div className="flex items-center space-x-3">
-            <Button
-              variant="outline"
-              onClick={() => setShowProfile(!showProfile)}
-            >
-              <User className="h-4 w-4 mr-2" />
-              {showProfile ? 'Hide' : 'Show'} Profile
-            </Button>
-            <Button variant="outline" onClick={onClose}>
-              <X className="h-4 w-4 mr-2" />
-              Back to Messages
-            </Button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Profile Section */}
-          {showProfile && (
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Your Profile Preview</h2>
-              <p className="text-sm text-gray-600 mb-6">
-                This is how your profile will appear to the family when you send your interest message.
-              </p>
-              <div className="max-h-[600px] overflow-y-auto">
-                <CaregiverProfileDisplay user={user} />
-              </div>
-            </div>
-          )}
-
-          {/* Message Composition Section */}
-          <div className={`${showProfile ? '' : 'lg:col-span-2 max-w-2xl mx-auto'}`}>
-            <Card>
-              <CardHeader>
-                <CardTitle>Write Your Cover Letter</CardTitle>
-                <p className="text-sm text-gray-600 mt-2">
-                  This will be sent along with your complete professional profile as a job application package.
-                </p>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                      Why are you the perfect caregiver for this family?
-                    </label>
-                    <p className="text-sm text-gray-500 mb-4">
-                      Share your enthusiasm, relevant experience, and what makes you special. 
-                      This is your chance to make a great first impression.
-                      <span className="font-medium"> Minimum 200 characters required.</span>
-                    </p>
-                    <Textarea
-                      id="message"
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      rows={12}
-                      className="resize-none"
-                      required
-                    />
-                    <div className="flex justify-between items-center mt-3">
-                      <span className={`text-sm ${message.length >= 200 ? 'text-green-600 font-medium' : 'text-gray-500'}`}>
-                        {message.length >= 200 ? '✓' : '○'} {message.length}/200 characters minimum
-                      </span>
-                      <span className="text-sm text-gray-500">
-                        {message.length} characters total
-                      </span>
-                    </div>
-                  </div>
-
-                    {/* What will be sent */}
-                    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-5">
-                      <h4 className="text-sm font-semibold text-blue-900 mb-3 flex items-center">
-                        <Mail className="h-4 w-4 mr-2" />
-                        Complete Application Package
-                      </h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-blue-800">
-                        <div className="flex items-center">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                          Your personal interest message
-                        </div>
-                        <div className="flex items-center">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                          Complete professional profile
-                        </div>
-                        <div className="flex items-center">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                          Experience & certifications
-                        </div>
-                        <div className="flex items-center">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                          Availability & hourly rate
-                        </div>
-                        <div className="flex items-center">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                          Background check status
-                        </div>
-                        <div className="flex items-center">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                          Contact information
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-4 pt-4">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={onClose}
-                        className="flex-1"
-                      >
-                        Save as Draft & Return
-                      </Button>
-                      <Button
-                        type="submit"
-                        disabled={message.length < 200 || isLoading}
-                        className="flex-1 bg-orange-500 hover:bg-orange-600"
-                      >
-                        {isLoading ? (
-                          <>
-                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                            Sending...
-                          </>
-                        ) : (
-                          <>
-                            <Send className="h-4 w-4 mr-2" />
-                            Send Application
-                          </>
-                        )}
-                      </Button>
-                    </div>
-                  </form>
-                </CardContent>
-            </Card>
-          </div>
         </div>
       </div>
     </div>
