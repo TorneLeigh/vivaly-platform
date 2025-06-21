@@ -72,6 +72,9 @@ export default function ParentProfile() {
     
     // Essential Requirements
     essentialRequirements: [],
+    experienceRequired: '',
+    qualifications: '',
+    backgroundCheck: '',
     
     // Position Details
     positionType: '',
@@ -161,6 +164,27 @@ export default function ParentProfile() {
       toast({
         title: "Error",
         description: "Failed to save profile. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const saveSectionData = async (sectionKey: string, sectionData: any) => {
+    setSaving(true);
+    try {
+      const updatedData = { ...formData, ...sectionData };
+      await apiRequest('PUT', '/api/parent/profile', updatedData);
+      updateFormData(sectionKey, sectionData);
+      toast({
+        title: "Success",
+        description: "Section saved successfully!",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to save section",
         variant: "destructive"
       });
     } finally {
@@ -795,20 +819,41 @@ export default function ParentProfile() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label>Allergies</Label>
-                      <Input placeholder="None" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Medical Conditions</Label>
-                      <Input placeholder="None" />
+                      <Input 
+                        value={formData.allergies}
+                        onChange={(e) => updateFormData('allergies', e.target.value)}
+                        placeholder="None" 
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>Medications</Label>
-                      <Input placeholder="None" />
+                      <Input 
+                        value={formData.medications}
+                        onChange={(e) => updateFormData('medications', e.target.value)}
+                        placeholder="None" 
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>Emergency Contact</Label>
-                      <Input placeholder="Dr. Smith - (555) 123-4567" />
+                      <Input 
+                        value={formData.emergencyContact}
+                        onChange={(e) => updateFormData('emergencyContact', e.target.value)}
+                        placeholder="Dr. Smith - (555) 123-4567" 
+                      />
                     </div>
+                  </div>
+                  <div className="pt-4 border-t">
+                    <Button 
+                      onClick={() => saveSectionData('healthMedical', {
+                        allergies: formData.allergies,
+                        medications: formData.medications,
+                        emergencyContact: formData.emergencyContact
+                      })}
+                      disabled={saving}
+                      className="bg-coral hover:bg-coral/90"
+                    >
+                      {saving ? "Saving..." : "Save Health & Medical Information"}
+                    </Button>
                   </div>
                 </div>
               )}
@@ -818,16 +863,41 @@ export default function ParentProfile() {
                   <div className="space-y-4">
                     <div className="space-y-2">
                       <Label>Experience Required</Label>
-                      <Input placeholder="2+ years with children" />
+                      <Input 
+                        value={formData.experienceRequired || ''}
+                        onChange={(e) => updateFormData('experienceRequired', e.target.value)}
+                        placeholder="2+ years with children" 
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>Qualifications</Label>
-                      <Input placeholder="First Aid, CPR certified" />
+                      <Input 
+                        value={formData.qualifications || ''}
+                        onChange={(e) => updateFormData('qualifications', e.target.value)}
+                        placeholder="First Aid, CPR certified" 
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>Background Check</Label>
-                      <Input placeholder="Required" />
+                      <Input 
+                        value={formData.backgroundCheck || ''}
+                        onChange={(e) => updateFormData('backgroundCheck', e.target.value)}
+                        placeholder="Required" 
+                      />
                     </div>
+                  </div>
+                  <div className="pt-4 border-t">
+                    <Button 
+                      onClick={() => saveSectionData('essentialRequirements', {
+                        experienceRequired: formData.experienceRequired,
+                        qualifications: formData.qualifications,
+                        backgroundCheck: formData.backgroundCheck
+                      })}
+                      disabled={saving}
+                      className="bg-coral hover:bg-coral/90"
+                    >
+                      {saving ? "Saving..." : "Save Essential Requirements"}
+                    </Button>
                   </div>
                 </div>
               )}

@@ -241,6 +241,34 @@ export default function CaregiverRegistration() {
     }
   };
 
+  const saveSectionData = async (sectionData: any) => {
+    try {
+      const response = await fetch("/api/caregiver/save-section", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: 'include',
+        body: JSON.stringify(sectionData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save section");
+      }
+
+      toast({
+        title: "Success",
+        description: "Section saved successfully!",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Save Failed",
+        description: error.message || "Please try again",
+        variant: "destructive",
+      });
+    }
+  };
+
   const toggleService = (service: string) => {
     const currentServices = form.getValues("services");
     if (currentServices.includes(service)) {
