@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import { MessageSquare, Send, Search, Phone, Video, MoreVertical, X, User } from "lucide-react";
+import { MessageSquare, Send, Search, Phone, Video, MoreVertical, X, User, Mail } from "lucide-react";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { CaregiverProfileDisplay } from "@/components/CaregiverProfileDisplay";
@@ -169,6 +169,29 @@ export default function Messages() {
       return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
     }
   };
+
+  // If contact family modal is active, show it as full screen
+  if (showContactModal && contactJobData) {
+    return (
+      <ContactFamilyModal 
+        user={user}
+        jobData={contactJobData}
+        onClose={() => {
+          setShowContactModal(false);
+          setContactJobData(null);
+          window.history.replaceState({}, '', '/messages');
+        }}
+        onSend={(message: string) => {
+          sendInterestMutation.mutate({
+            message,
+            jobId: contactJobData.jobId,
+            parentId: contactJobData.parentId
+          });
+        }}
+        isLoading={sendInterestMutation.isPending}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -412,98 +435,152 @@ function ContactFamilyModal({ user, jobData, onClose, onSend, isLoading }: Conta
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-xl font-semibold text-gray-900">Contact Family</h2>
-            <p className="text-sm text-gray-600">Job: {jobData.jobTitle}</p>
+            <h1 className="text-3xl font-bold text-gray-900">Contact Family</h1>
+            <p className="text-gray-600 mt-1">Job: {jobData.jobTitle}</p>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
             <Button
               variant="outline"
-              size="sm"
               onClick={() => setShowProfile(!showProfile)}
             >
               <User className="h-4 w-4 mr-2" />
               {showProfile ? 'Hide' : 'Show'} Profile
             </Button>
-            <Button variant="ghost" size="sm" onClick={onClose}>
-              <X className="h-4 w-4" />
+            <Button variant="outline" onClick={onClose}>
+              <X className="h-4 w-4 mr-2" />
+              Back to Messages
             </Button>
           </div>
         </div>
 
-        <div className="flex">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Profile Section */}
           {showProfile && (
-            <div className="w-1/2 p-6 border-r border-gray-200 bg-gray-50">
-              <h3 className="text-lg font-medium mb-4">Your Profile Preview</h3>
-              <div className="max-h-[500px] overflow-y-auto">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">Your Profile Preview</h2>
+              <p className="text-sm text-gray-600 mb-6">
+                This is how your profile will appear to the family when you send your interest message.
+              </p>
+              <div className="max-h-[600px] overflow-y-auto">
                 <CaregiverProfileDisplay user={user} />
               </div>
             </div>
           )}
 
-          {/* Message Section */}
-          <div className={`${showProfile ? 'w-1/2' : 'w-full'} p-6`}>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  Your Interest Message
-                </label>
-                <p className="text-xs text-gray-500 mb-3">
-                  Tell the family why you're interested in this position and highlight your relevant experience. 
-                  Minimum 200 characters required.
-                </p>
-                <Textarea
-                  id="message"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Hi! I'm very interested in this childcare position. I have experience with..."
-                  rows={8}
-                  className="resize-none"
-                  required
-                />
-                <div className="flex justify-between items-center mt-2">
-                  <span className={`text-xs ${message.length >= 200 ? 'text-green-600' : 'text-gray-500'}`}>
-                    {message.length}/200 characters minimum
-                  </span>
-                  <span className="text-xs text-gray-500">
-                    {message.length} characters
-                  </span>
-                </div>
-              </div>
+          {/* Message Composition Section */}
+          <div className={`${showProfile ? '' : 'lg:col-span-2 max-w-2xl mx-auto'}`}>
+            <Card>
+              <CardHeader>
+                <CardTitle>Send Your Interest Message</CardTitle>
+                <CardContent className="p-0">
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                      <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                        Why are you interested in this position?
+                      </label>
+                      <p className="text-sm text-gray-500 mb-4">
+                        Share your enthusiasm for the role and highlight your relevant experience. 
+                        Tell the family what makes you the perfect caregiver for their children.
+                        <span className="font-medium"> Minimum 200 characters required.</span>
+                      </p>
+                      <Textarea
+                        id="message"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        placeholder="Dear Family,
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h4 className="text-sm font-medium text-blue-900 mb-2">What will be sent:</h4>
-                <ul className="text-xs text-blue-800 space-y-1">
-                  <li>• Your interest message</li>
-                  <li>• Your complete profile with experience and certifications</li>
-                  <li>• Your contact information and availability</li>
-                  <li>• Your hourly rate and services offered</li>
-                </ul>
-              </div>
+I'm very excited about this childcare opportunity! I have [X years] of experience caring for children aged [age range] and I specialize in [your specialties]. 
 
-              <div className="flex gap-3 pt-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={onClose}
-                  className="flex-1"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  disabled={message.length < 200 || isLoading}
-                  className="flex-1 bg-coral hover:bg-coral/90"
-                >
-                  {isLoading ? "Sending..." : "Send Interest & Profile"}
-                </Button>
-              </div>
-            </form>
+What makes me particularly suited for your family is [specific reasons]. I believe in [your childcare philosophy] and I'm committed to providing a safe, nurturing environment where your children can thrive.
+
+I would love to discuss how I can support your family's needs. Thank you for considering my application!
+
+Best regards,
+[Your name]"
+                        rows={12}
+                        className="resize-none"
+                        required
+                      />
+                      <div className="flex justify-between items-center mt-3">
+                        <span className={`text-sm ${message.length >= 200 ? 'text-green-600 font-medium' : 'text-gray-500'}`}>
+                          {message.length >= 200 ? '✓' : '○'} {message.length}/200 characters minimum
+                        </span>
+                        <span className="text-sm text-gray-500">
+                          {message.length} characters total
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* What will be sent */}
+                    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-5">
+                      <h4 className="text-sm font-semibold text-blue-900 mb-3 flex items-center">
+                        <Mail className="h-4 w-4 mr-2" />
+                        Complete Application Package
+                      </h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-blue-800">
+                        <div className="flex items-center">
+                          <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                          Your personal interest message
+                        </div>
+                        <div className="flex items-center">
+                          <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                          Complete professional profile
+                        </div>
+                        <div className="flex items-center">
+                          <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                          Experience & certifications
+                        </div>
+                        <div className="flex items-center">
+                          <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                          Availability & hourly rate
+                        </div>
+                        <div className="flex items-center">
+                          <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                          Background check status
+                        </div>
+                        <div className="flex items-center">
+                          <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                          Contact information
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4 pt-4">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onClose}
+                        className="flex-1"
+                      >
+                        Save as Draft & Return
+                      </Button>
+                      <Button
+                        type="submit"
+                        disabled={message.length < 200 || isLoading}
+                        className="flex-1 bg-coral hover:bg-coral/90"
+                      >
+                        {isLoading ? (
+                          <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                            Sending...
+                          </>
+                        ) : (
+                          <>
+                            <Send className="h-4 w-4 mr-2" />
+                            Send Application
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </form>
+                </CardContent>
+              </CardHeader>
+            </Card>
           </div>
         </div>
       </div>
