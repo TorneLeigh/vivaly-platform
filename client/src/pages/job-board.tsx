@@ -494,11 +494,10 @@ export default function JobBoard() {
                           </div>
                         ) : !isParent ? (
                           <Button 
-                            onClick={() => handleApplyToJob(job.id)}
-                            disabled={applyToJobMutation.isPending}
+                            onClick={() => setLocation(`/messages?contactFamily=true&jobId=${job.id}&parentId=${job.parentId}&jobTitle=${encodeURIComponent(job.title || 'Childcare Position')}`)}
                             className="w-full bg-black hover:bg-gray-800 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 text-sm transition-colors"
                           >
-                            {applyToJobMutation.isPending ? 'Sending...' : 'Contact Family'}
+                            Contact Family
                           </Button>
                         ) : (
                           <Button 
