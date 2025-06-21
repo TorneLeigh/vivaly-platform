@@ -643,6 +643,17 @@ export default function CaregiverProfile() {
                           )}
                         />
                       </div>
+                      <div className="flex justify-end pt-4 border-t">
+                        <Button
+                          type="button"
+                          onClick={() => handleSectionSave('basic')}
+                          disabled={sectionSaveMutation.isPending}
+                          className="bg-orange-500 hover:bg-orange-600"
+                        >
+                          <Save className="h-4 w-4 mr-2" />
+                          {sectionSaveMutation.isPending ? "Saving..." : "Save Basic Info"}
+                        </Button>
+                      </div>
                     </CardContent>
                   </Card>
                 )}
@@ -1023,6 +1034,18 @@ export default function CaregiverProfile() {
                             )}
                           />
                         </div>
+                      </div>
+                      
+                      <div className="flex justify-end pt-4 border-t">
+                        <Button
+                          type="button"
+                          onClick={() => handleSectionSave('experience')}
+                          disabled={sectionSaveMutation.isPending}
+                          className="bg-orange-500 hover:bg-orange-600"
+                        >
+                          <Save className="h-4 w-4 mr-2" />
+                          {sectionSaveMutation.isPending ? "Saving..." : "Save Experience"}
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
@@ -1465,6 +1488,18 @@ export default function CaregiverProfile() {
                           />
                         </div>
                       </div>
+                      
+                      <div className="flex justify-end pt-4 border-t">
+                        <Button
+                          type="button"
+                          onClick={() => handleSectionSave('skills')}
+                          disabled={sectionSaveMutation.isPending}
+                          className="bg-orange-500 hover:bg-orange-600"
+                        >
+                          <Save className="h-4 w-4 mr-2" />
+                          {sectionSaveMutation.isPending ? "Saving..." : "Save Skills"}
+                        </Button>
+                      </div>
                     </CardContent>
                   </Card>
                 )}
@@ -1624,6 +1659,18 @@ export default function CaregiverProfile() {
                           />
                         </div>
                       </div>
+                      
+                      <div className="flex justify-end pt-4 border-t">
+                        <Button
+                          type="button"
+                          onClick={() => handleSectionSave('availability')}
+                          disabled={sectionSaveMutation.isPending}
+                          className="bg-orange-500 hover:bg-orange-600"
+                        >
+                          <Save className="h-4 w-4 mr-2" />
+                          {sectionSaveMutation.isPending ? "Saving..." : "Save Availability"}
+                        </Button>
+                      </div>
                     </CardContent>
                   </Card>
                 )}
@@ -1701,6 +1748,18 @@ export default function CaregiverProfile() {
                           />
                         </>
                       )}
+                      
+                      <div className="flex justify-end pt-4 border-t">
+                        <Button
+                          type="button"
+                          onClick={() => handleSectionSave('references')}
+                          disabled={sectionSaveMutation.isPending}
+                          className="bg-orange-500 hover:bg-orange-600"
+                        >
+                          <Save className="h-4 w-4 mr-2" />
+                          {sectionSaveMutation.isPending ? "Saving..." : "Save References"}
+                        </Button>
+                      </div>
                     </CardContent>
                   </Card>
                 )}
