@@ -1155,6 +1155,85 @@ I'd love to discuss this opportunity further through the platform messaging syst
     }
   });
 
+  // Send interest/apply for job
+  app.post('/api/send-interest', requireAuth, async (req, res) => {
+    try {
+      const { jobId, parentId, message } = req.body;
+      const caregiverId = req.session.userId;
+
+      if (!jobId || !parentId || !message) {
+        return res.status(400).json({ message: 'Missing required fields' });
+      }
+
+      // Create job application
+      const applicationId = nanoid();
+      await storage.createApplication({
+        id: applicationId,
+        caregiverId,
+        jobId,
+        message,
+        status: 'pending',
+        appliedAt: new Date().toISOString()
+      });
+
+      // Create automated message to parent with application
+      const caregiver = await storage.getUser(caregiverId);
+      if (caregiver) {
+        const messageId = nanoid();
+        await storage.createMessage({
+          id: messageId,
+          senderId: caregiverId,
+          receiverId: parentId,
+          content: message,
+          createdAt: new Date().toISOString()
+        });
+      }
+
+      // Send email notification to owner
+      await sendOwnerNotification({
+        type: 'job_application',
+        details: {
+          caregiverId,
+          jobId,
+          parentId,
+          message: message.substring(0, 100) + '...'
+        }
+      });
+
+      res.json({ success: true, applicationId });
+    } catch (error) {
+      console.error('Error sending interest:', error);
+      res.status(500).json({ message: 'Failed to send interest' });
+    }
+  });
+
+  // Save caregiver profile section
+  app.post('/api/caregiver-profile/section/:section', requireAuth, async (req, res) => {
+    try {
+      const { section } = req.params;
+      const data = req.body;
+      const userId = req.session.userId;
+
+      // Update specific section of caregiver profile
+      await storage.updateCaregiverProfileSection(userId, section, data);
+
+      // Send email notification to owner
+      await sendOwnerNotification({
+        type: 'profile_section_update',
+        details: {
+          userId,
+          section,
+          userEmail: data.email || 'Not provided'
+        }
+      });
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error saving profile section:', error);
+      res.status(500).json({ message: 'Failed to save profile section' });
+    }
+  });
+
   // Additional job board routes
   app.get('/api/getJobs', async (req, res) => {
     try {

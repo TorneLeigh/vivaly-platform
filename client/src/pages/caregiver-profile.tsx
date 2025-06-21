@@ -293,6 +293,32 @@ export default function CaregiverProfile() {
     enabled: !!user
   });
 
+  // Section-specific save mutation
+  const sectionSaveMutation = useMutation({
+    mutationFn: async (section: string) => {
+      const data = form.getValues();
+      const response = await apiRequest("POST", `/api/caregiver-profile/section/${section}`, data);
+      return response.json();
+    },
+    onSuccess: (_, section) => {
+      toast({
+        title: "Section Saved",
+        description: `Your ${section} information has been saved successfully.`,
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to save section. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleSectionSave = (section: string) => {
+    sectionSaveMutation.mutate(section);
+  };
+
   const onSubmit = (data: CaregiverProfileForm) => {
     updateProfileMutation.mutate(data);
   };
@@ -930,6 +956,18 @@ export default function CaregiverProfile() {
                             )}
                           />
                         </div>
+                      </div>
+                      
+                      <div className="flex justify-end pt-4 border-t">
+                        <Button
+                          type="button"
+                          onClick={() => handleSectionSave('qualifications')}
+                          disabled={sectionSaveMutation.isPending}
+                          className="bg-orange-500 hover:bg-orange-600"
+                        >
+                          <Save className="h-4 w-4 mr-2" />
+                          {sectionSaveMutation.isPending ? "Saving..." : "Save Qualifications"}
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
@@ -1857,6 +1895,18 @@ export default function CaregiverProfile() {
                           </FormItem>
                         )}
                       />
+                      
+                      <div className="flex justify-end pt-4 border-t">
+                        <Button
+                          type="button"
+                          onClick={() => handleSectionSave('emergency')}
+                          disabled={sectionSaveMutation.isPending}
+                          className="bg-orange-500 hover:bg-orange-600"
+                        >
+                          <Save className="h-4 w-4 mr-2" />
+                          {sectionSaveMutation.isPending ? "Saving..." : "Save Emergency Contact"}
+                        </Button>
+                      </div>
                     </CardContent>
                   </Card>
                 )}
@@ -2084,6 +2134,18 @@ export default function CaregiverProfile() {
                           </FormItem>
                         )}
                       />
+                      
+                      <div className="flex justify-end pt-4 border-t">
+                        <Button
+                          type="button"
+                          onClick={() => handleSectionSave('personal')}
+                          disabled={sectionSaveMutation.isPending}
+                          className="bg-orange-500 hover:bg-orange-600"
+                        >
+                          <Save className="h-4 w-4 mr-2" />
+                          {sectionSaveMutation.isPending ? "Saving..." : "Save Personal Touch"}
+                        </Button>
+                      </div>
                     </CardContent>
                   </Card>
                 )}
