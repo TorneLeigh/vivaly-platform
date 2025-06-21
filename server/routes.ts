@@ -1542,6 +1542,51 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
     }
   });
 
+  // Help email route
+  app.post("/api/help/send-email", async (req, res) => {
+    try {
+      const { name, email, subject, message } = req.body;
+
+      if (!name || !email || !subject || !message) {
+        return res.status(400).json({ message: "All fields are required" });
+      }
+
+      // Send email to owner
+      await sendEmail({
+        to: process.env.OWNER_EMAIL!,
+        subject: `VIVALY Help Request: ${subject}`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #333;">New Help Request from VIVALY</h2>
+            
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h3 style="margin-top: 0; color: #FF6B35;">Contact Information</h3>
+              <p><strong>Name:</strong> ${name}</p>
+              <p><strong>Email:</strong> ${email}</p>
+              <p><strong>Subject:</strong> ${subject}</p>
+            </div>
+            
+            <div style="background: white; padding: 20px; border-left: 4px solid #FF6B35;">
+              <h3 style="margin-top: 0; color: #333;">Message</h3>
+              <p style="line-height: 1.6; color: #666;">${message.replace(/\n/g, '<br>')}</p>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 20px; background: #f0f8ff; border-radius: 8px;">
+              <p style="margin: 0; font-size: 14px; color: #666;">
+                This message was sent through the VIVALY help system. Please respond directly to ${email}.
+              </p>
+            </div>
+          </div>
+        `
+      });
+
+      res.json({ message: "Help request sent successfully" });
+    } catch (error) {
+      console.error("Help email error:", error);
+      res.status(500).json({ message: "Failed to send help request" });
+    }
+  });
+
   // Test all email notifications endpoint
   app.post("/api/test-notifications", async (req, res) => {
     try {

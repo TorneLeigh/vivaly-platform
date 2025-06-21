@@ -1,8 +1,12 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 import { 
   MessageCircle, 
   Phone, 
@@ -14,7 +18,8 @@ import {
   CreditCard,
   Users,
   Clock,
-  ChevronRight
+  ChevronRight,
+  Send
 } from "lucide-react";
 
 const faqData = [
@@ -75,6 +80,48 @@ const faqData = [
 ];
 
 export default function Help() {
+  const [showEmailForm, setShowEmailForm] = useState(false);
+  const [emailForm, setEmailForm] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: ""
+  });
+  const { toast } = useToast();
+
+  const sendEmailMutation = useMutation({
+    mutationFn: async (data: typeof emailForm) => {
+      return await apiRequest("POST", "/api/help/send-email", data);
+    },
+    onSuccess: () => {
+      toast({
+        title: "Message Sent Successfully!",
+        description: "We'll get back to you within 24 hours.",
+      });
+      setEmailForm({ name: "", email: "", subject: "", message: "" });
+      setShowEmailForm(false);
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Failed to Send Message",
+        description: error.message || "Please try again later.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!emailForm.name || !emailForm.email || !emailForm.subject || !emailForm.message) {
+      toast({
+        title: "Please fill in all fields",
+        variant: "destructive",
+      });
+      return;
+    }
+    sendEmailMutation.mutate(emailForm);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -86,20 +133,82 @@ export default function Help() {
           </p>
         </div>
 
-        {/* Search */}
-        <div className="mb-12">
-          <div className="max-w-2xl mx-auto relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-            <Input 
-              placeholder="Search for help topics..." 
-              className="pl-12 h-14 text-lg bg-white border-gray-300 shadow-sm"
-            />
+        {/* Email Form Modal */}
+        {showEmailForm && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg max-w-md w-full p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-semibold">Contact Support</h3>
+                <button
+                  onClick={() => setShowEmailForm(false)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  ×
+                </button>
+              </div>
+              
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <Input
+                  placeholder="Your Name"
+                  value={emailForm.name}
+                  onChange={(e) => setEmailForm({ ...emailForm, name: e.target.value })}
+                  required
+                />
+                <Input
+                  type="email"
+                  placeholder="Your Email"
+                  value={emailForm.email}
+                  onChange={(e) => setEmailForm({ ...emailForm, email: e.target.value })}
+                  required
+                />
+                <Input
+                  placeholder="Subject"
+                  value={emailForm.subject}
+                  onChange={(e) => setEmailForm({ ...emailForm, subject: e.target.value })}
+                  required
+                />
+                <Textarea
+                  placeholder="How can we help you?"
+                  value={emailForm.message}
+                  onChange={(e) => setEmailForm({ ...emailForm, message: e.target.value })}
+                  rows={4}
+                  required
+                />
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setShowEmailForm(false)}
+                    className="flex-1"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={sendEmailMutation.isPending}
+                    className="flex-1 bg-coral hover:bg-coral/90"
+                  >
+                    {sendEmailMutation.isPending ? (
+                      "Sending..."
+                    ) : (
+                      <>
+                        <Send className="h-4 w-4 mr-2" />
+                        Send Message
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-1 gap-6 mb-12 max-w-md mx-auto">
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+          <Card 
+            className="hover:shadow-lg transition-shadow cursor-pointer"
+            onClick={() => setShowEmailForm(true)}
+          >
             <CardContent className="p-6 text-center">
               <Mail className="h-12 w-12 text-coral mx-auto mb-4" />
               <h3 className="font-semibold text-lg mb-2">Email Support</h3>

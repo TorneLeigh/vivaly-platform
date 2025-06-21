@@ -104,6 +104,10 @@ export default function NewHeader() {
         <MessageSquare className="h-4 w-4 mr-3" />
         Messages
       </Link>
+      <Link href="/help" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
+        <Settings className="h-4 w-4 mr-3" />
+        Help
+      </Link>
       
       <button
         onClick={handleLogout}
