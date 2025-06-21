@@ -89,21 +89,71 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Photo upload endpoint for profile photos
+  // Multiple photos upload endpoint
+  app.post("/api/upload-profile-photos", requireAuth, upload.array("photos", 10), async (req, res) => {
+    try {
+      const files = req.files as Express.Multer.File[];
+      if (!files || files.length === 0) {
+        return res.status(400).json({ message: "No photos uploaded" });
+      }
+
+      const allowedTypes = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+      const uploadedPhotos = [];
+
+      for (const file of files) {
+        // Validate file type
+        const ext = path.extname(file.originalname).toLowerCase();
+        if (!allowedTypes.includes(ext)) {
+          fs.unlinkSync(file.path);
+          continue; // Skip invalid files
+        }
+
+        // Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+          fs.unlinkSync(file.path);
+          continue; // Skip large files
+        }
+
+        const newFilename = `${randomUUID()}${ext}`;
+        const newPath = path.join("uploads", newFilename);
+        fs.renameSync(file.path, newPath);
+
+        const photoUrl = `/uploads/${newFilename}`;
+        uploadedPhotos.push({
+          id: randomUUID(),
+          url: photoUrl,
+          originalName: file.originalname
+        });
+      }
+
+      // Store photos in user's profile
+      const userId = req.session.userId;
+      await storage.addUserPhotos(userId, uploadedPhotos);
+
+      return res.json({ 
+        photos: uploadedPhotos, 
+        message: `${uploadedPhotos.length} photo(s) uploaded successfully`,
+        skipped: files.length - uploadedPhotos.length
+      });
+    } catch (error) {
+      console.error("Photos upload error:", error);
+      res.status(500).json({ message: "Failed to upload photos" });
+    }
+  });
+
+  // Single photo upload endpoint (for backward compatibility)
   app.post("/api/upload-profile-photo", requireAuth, upload.single("photo"), async (req, res) => {
     try {
       const file = req.file;
       if (!file) return res.status(400).json({ message: "No photo uploaded" });
 
-      // Validate file type
       const allowedTypes = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
       const ext = path.extname(file.originalname).toLowerCase();
       if (!allowedTypes.includes(ext)) {
-        fs.unlinkSync(file.path); // Clean up the uploaded file
+        fs.unlinkSync(file.path);
         return res.status(400).json({ message: "Invalid file type. Only JPG, PNG, GIF, and WebP files are allowed." });
       }
 
-      // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         fs.unlinkSync(file.path);
         return res.status(400).json({ message: "File too large. Maximum size is 5MB." });
@@ -115,12 +165,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const photoUrl = `/uploads/${newFilename}`;
 
-      // Update user's profile photo in database
+      // If this is the first photo, set as profile image
       const userId = req.session.userId;
       const user = await storage.getUserById(userId);
-      if (user) {
+      if (user && !user.profileImageUrl) {
         await storage.updateUserProfilePhoto(userId, photoUrl);
       }
+
+      // Add to user's photo collection
+      await storage.addUserPhotos(userId, [{
+        id: randomUUID(),
+        url: photoUrl,
+        originalName: file.originalname,
+        isMain: !user.profileImageUrl // First photo becomes main
+      }]);
 
       return res.json({ url: photoUrl, message: "Photo uploaded successfully" });
     } catch (error) {
@@ -133,26 +191,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/profile-photos", requireAuth, async (req, res) => {
     try {
       const userId = req.session.userId;
-      const user = await storage.getUserById(userId);
-      
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-
-      // Return user's profile photos (including main profile photo and any additional photos)
-      const photos = [];
-      if (user.profileImageUrl) {
-        photos.push({
-          id: 'main',
-          url: user.profileImageUrl,
-          isMain: true
-        });
-      }
-
-      return res.json(photos);
+      const photos = await storage.getUserPhotos(userId);
+      return res.json(photos || []);
     } catch (error) {
       console.error("Get profile photos error:", error);
       res.status(500).json({ message: "Failed to get profile photos" });
+    }
+  });
+
+  // Delete a photo
+  app.delete("/api/profile-photos/:photoId", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId;
+      const photoId = req.params.photoId;
+      
+      await storage.deleteUserPhoto(userId, photoId);
+      
+      return res.json({ message: "Photo deleted successfully" });
+    } catch (error) {
+      console.error("Delete photo error:", error);
+      res.status(500).json({ message: "Failed to delete photo" });
+    }
+  });
+
+  // Set main photo
+  app.put("/api/profile-photos/:photoId/main", requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId;
+      const photoId = req.params.photoId;
+      
+      await storage.setMainPhoto(userId, photoId);
+      
+      return res.json({ message: "Main photo updated successfully" });
+    } catch (error) {
+      console.error("Set main photo error:", error);
+      res.status(500).json({ message: "Failed to set main photo" });
     }
   });
 

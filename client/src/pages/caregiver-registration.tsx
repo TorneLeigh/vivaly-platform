@@ -412,7 +412,7 @@ export default function CaregiverRegistration() {
               </div>
 
               <div>
-                <Label htmlFor="profileImage">Profile Photo</Label>
+                <Label htmlFor="profileImage">Profile Photos</Label>
                 <div className="mt-2 flex items-center gap-4">
                   <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center">
                     {profileImage ? (
@@ -429,11 +429,12 @@ export default function CaregiverRegistration() {
                     type="file"
                     accept="image/*"
                     onChange={handleImageUpload}
+                    multiple
                     className="flex-1"
                   />
                 </div>
                 <p className="text-sm text-gray-600 mt-1">
-                  Upload a professional photo (recommended)
+                  Upload multiple professional photos to showcase yourself (recommended)
                 </p>
               </div>
             </CardContent>

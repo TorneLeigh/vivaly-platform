@@ -38,6 +38,10 @@ export interface IStorage {
   // Profile photo operations
   updateUserProfilePhoto(userId: string, photoUrl: string): Promise<User>;
   getUserById(userId: string): Promise<User | undefined>;
+  addUserPhotos(userId: string, photos: any[]): Promise<void>;
+  getUserPhotos(userId: string): Promise<any[]>;
+  deleteUserPhoto(userId: string, photoId: string): Promise<void>;
+  setMainPhoto(userId: string, photoId: string): Promise<void>;
   
   // Message operations
   getMessages(userId: string): Promise<Message[]>;
