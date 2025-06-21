@@ -144,9 +144,9 @@ export default function NewHeader() {
           </span>
         </Link>
 
-        {/* Navigation - Role Toggle (visible on both desktop and mobile) */}
+        {/* Desktop Role Toggle */}
         {isAuthenticated && roles && roles.length > 1 && (
-          <nav className="flex items-center space-x-6">
+          <nav className="hidden md:flex items-center space-x-6">
             <div className="flex flex-col items-center space-y-2">
               <span className="text-sm font-medium text-orange-600">Switch Role:</span>
               <RoleToggle 
@@ -156,6 +156,18 @@ export default function NewHeader() {
               />
             </div>
           </nav>
+        )}
+
+        {/* Mobile Current Role Display */}
+        {isAuthenticated && (
+          <div className="md:hidden flex items-center space-x-2">
+            <span className="text-sm text-gray-600">
+              {user?.firstName || user?.email}
+            </span>
+            <span className="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full font-medium">
+              {activeRole === 'parent' ? 'Parent' : 'Caregiver'}
+            </span>
+          </div>
         )}
 
         {/* Right side */}
@@ -197,38 +209,75 @@ export default function NewHeader() {
               </div>
             ) : (
               <div className="py-2">
-                {/* Conditional menu items based on role */}
-                {activeRole === 'parent' ? (
-                  <>
-                    <Link href="/search-caregivers" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black font-semibold" onClick={closeMenu}>
-                      <User className="h-4 w-4 mr-3" />
-                      FIND CAREGIVERS
-                    </Link>
-                    <Link href="/post-job" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black font-semibold" onClick={closeMenu}>
-                      <Briefcase className="h-4 w-4 mr-3" />
-                      POST A JOB
-                    </Link>
-                    <Link href="/job-board" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
-                      <Briefcase className="h-4 w-4 mr-3" />
-                      Job Board
-                    </Link>
-                    <Link href="/parent/bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
-                      <Calendar className="h-4 w-4 mr-3" />
-                      My Bookings
-                    </Link>
-                  </>
-                ) : (
-                  <>
-                    <Link href="/job-board" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
-                      <Briefcase className="h-4 w-4 mr-3" />
-                      Job Board
-                    </Link>
-                    <Link href="/caregiver-bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
-                      <Calendar className="h-4 w-4 mr-3" />
-                      My Bookings
-                    </Link>
-                  </>
-                )}
+                {/* User Info Header with Role Toggle */}
+                <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">
+                        {user?.firstName || user?.email}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Currently viewing as: <span className="font-medium text-orange-600">
+                          {activeRole === 'parent' ? 'Parent' : 'Caregiver'}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Mobile Role Toggle */}
+                  {roles && roles.length > 1 && (
+                    <div className="mt-3 pt-3 border-t border-gray-200">
+                      <p className="text-sm font-medium text-orange-600 mb-2">Switch Role:</p>
+                      <RoleToggle 
+                        roles={roles} 
+                        activeRole={activeRole || 'parent'} 
+                        onSwitch={(role) => {
+                          switchRole(role);
+                          closeMenu();
+                        }} 
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Role-specific navigation */}
+                <div className="border-b border-gray-100">
+                  {activeRole === 'parent' ? (
+                    <>
+                      <Link href="/search-caregivers" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black font-semibold border-l-4 border-orange-500" onClick={closeMenu}>
+                        <User className="h-4 w-4 mr-3" />
+                        FIND CAREGIVERS
+                      </Link>
+                      <Link href="/post-job" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black font-semibold border-l-4 border-orange-500" onClick={closeMenu}>
+                        <Briefcase className="h-4 w-4 mr-3" />
+                        POST A JOB
+                      </Link>
+                      <Link href="/job-board" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
+                        <Briefcase className="h-4 w-4 mr-3" />
+                        Job Board
+                      </Link>
+                      <Link href="/parent-bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
+                        <Calendar className="h-4 w-4 mr-3" />
+                        My Bookings
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link href="/job-board" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black font-semibold border-l-4 border-orange-500" onClick={closeMenu}>
+                        <Briefcase className="h-4 w-4 mr-3" />
+                        JOB BOARD
+                      </Link>
+                      <Link href="/caregiver-profile" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black font-semibold border-l-4 border-orange-500" onClick={closeMenu}>
+                        <User className="h-4 w-4 mr-3" />
+                        MY PROFILE
+                      </Link>
+                      <Link href="/caregiver-bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
+                        <Calendar className="h-4 w-4 mr-3" />
+                        My Bookings
+                      </Link>
+                    </>
+                  )}
+                </div>
                 
                 {/* Common menu items for both roles */}
                 <Link href="/profile" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
