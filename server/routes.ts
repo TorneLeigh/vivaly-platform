@@ -947,6 +947,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Save caregiver section data
+  app.post('/api/caregiver/save-section', requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId;
+      const { section, data } = req.body;
+      
+      // Update user data based on section
+      const updateData: any = {};
+      
+      if (section === 'personal') {
+        updateData.firstName = data.firstName;
+        updateData.lastName = data.lastName;
+        updateData.email = data.email;
+        updateData.phone = data.phone;
+      } else if (section === 'experience') {
+        updateData.bio = data.bio;
+        updateData.experience = data.experience;
+        updateData.ageGroups = JSON.stringify(data.ageGroups);
+      } else if (section === 'services') {
+        updateData.services = JSON.stringify(data.services);
+        updateData.hourlyRate = data.hourlyRate;
+        updateData.location = data.location;
+      }
+      
+      await storage.updateUser(userId, updateData);
+      
+      res.json({ success: true, message: "Section saved successfully" });
+    } catch (error) {
+      console.error("Save caregiver section error:", error);
+      res.status(500).json({ message: "Failed to save section" });
+    }
+  });
+
   app.post('/api/jobs/:jobId/apply', requireRole('caregiver'), async (req, res) => {
     try {
       const { jobId } = req.params;
