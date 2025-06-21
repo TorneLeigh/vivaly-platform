@@ -423,7 +423,18 @@ interface ContactFamilyModalProps {
 }
 
 function ContactFamilyModal({ user, jobData, onClose, onSend, isLoading }: ContactFamilyModalProps) {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(`Dear Family,
+
+I'm very excited about this childcare opportunity! I have experience caring for children and I'm passionate about providing quality care in a safe, nurturing environment.
+
+What makes me particularly suited for your family is my dedication to creating positive, engaging experiences for children while supporting their development and well-being. I believe in open communication with parents and maintaining a professional, reliable service.
+
+I would love to discuss how I can support your family's needs and answer any questions you may have about my experience and approach to childcare.
+
+Thank you for considering my application!
+
+Best regards,
+${user?.firstName || 'Your caregiver'}`);
   const [showProfile, setShowProfile] = useState(true);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -476,45 +487,39 @@ function ContactFamilyModal({ user, jobData, onClose, onSend, isLoading }: Conta
           <div className={`${showProfile ? '' : 'lg:col-span-2 max-w-2xl mx-auto'}`}>
             <Card>
               <CardHeader>
-                <CardTitle>Send Your Interest Message</CardTitle>
-                <CardContent className="p-0">
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                      <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                        Why are you interested in this position?
-                      </label>
-                      <p className="text-sm text-gray-500 mb-4">
-                        Share your enthusiasm for the role and highlight your relevant experience. 
-                        Tell the family what makes you the perfect caregiver for their children.
-                        <span className="font-medium"> Minimum 200 characters required.</span>
-                      </p>
-                      <Textarea
-                        id="message"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        placeholder="Dear Family,
-
-I'm very excited about this childcare opportunity! I have [X years] of experience caring for children aged [age range] and I specialize in [your specialties]. 
-
-What makes me particularly suited for your family is [specific reasons]. I believe in [your childcare philosophy] and I'm committed to providing a safe, nurturing environment where your children can thrive.
-
-I would love to discuss how I can support your family's needs. Thank you for considering my application!
-
-Best regards,
-[Your name]"
-                        rows={12}
-                        className="resize-none"
-                        required
-                      />
-                      <div className="flex justify-between items-center mt-3">
-                        <span className={`text-sm ${message.length >= 200 ? 'text-green-600 font-medium' : 'text-gray-500'}`}>
-                          {message.length >= 200 ? '✓' : '○'} {message.length}/200 characters minimum
-                        </span>
-                        <span className="text-sm text-gray-500">
-                          {message.length} characters total
-                        </span>
-                      </div>
+                <CardTitle>Write Your Cover Letter</CardTitle>
+                <p className="text-sm text-gray-600 mt-2">
+                  This will be sent along with your complete professional profile as a job application package.
+                </p>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                      Why are you the perfect caregiver for this family?
+                    </label>
+                    <p className="text-sm text-gray-500 mb-4">
+                      Share your enthusiasm, relevant experience, and what makes you special. 
+                      This is your chance to make a great first impression.
+                      <span className="font-medium"> Minimum 200 characters required.</span>
+                    </p>
+                    <Textarea
+                      id="message"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      rows={12}
+                      className="resize-none"
+                      required
+                    />
+                    <div className="flex justify-between items-center mt-3">
+                      <span className={`text-sm ${message.length >= 200 ? 'text-green-600 font-medium' : 'text-gray-500'}`}>
+                        {message.length >= 200 ? '✓' : '○'} {message.length}/200 characters minimum
+                      </span>
+                      <span className="text-sm text-gray-500">
+                        {message.length} characters total
+                      </span>
                     </div>
+                  </div>
 
                     {/* What will be sent */}
                     <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-5">
@@ -562,7 +567,7 @@ Best regards,
                       <Button
                         type="submit"
                         disabled={message.length < 200 || isLoading}
-                        className="flex-1 bg-coral hover:bg-coral/90"
+                        className="flex-1 bg-orange-500 hover:bg-orange-600"
                       >
                         {isLoading ? (
                           <>
@@ -579,7 +584,6 @@ Best regards,
                     </div>
                   </form>
                 </CardContent>
-              </CardHeader>
             </Card>
           </div>
         </div>
