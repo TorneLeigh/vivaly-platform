@@ -144,9 +144,9 @@ export default function NewHeader() {
           </span>
         </Link>
 
-        {/* Desktop Navigation - Role Toggle */}
+        {/* Navigation - Role Toggle (visible on both desktop and mobile) */}
         {isAuthenticated && roles && roles.length > 1 && (
-          <nav className="hidden md:flex items-center space-x-6">
+          <nav className="flex items-center space-x-6">
             <div className="flex flex-col items-center space-y-2">
               <span className="text-sm font-medium text-orange-600">Switch Role:</span>
               <RoleToggle 
@@ -197,21 +197,6 @@ export default function NewHeader() {
               </div>
             ) : (
               <div className="py-2">
-                {/* Mobile Role Toggle */}
-                {roles && roles.length > 1 && (
-                  <div className="py-3 px-4 border-b border-gray-100">
-                    <p className="text-sm font-medium text-orange-600 mb-2">Switch Role:</p>
-                    <RoleToggle 
-                      roles={roles} 
-                      activeRole={activeRole || 'parent'} 
-                      onSwitch={(role) => {
-                        switchRole(role);
-                        closeMenu();
-                      }} 
-                    />
-                  </div>
-                )}
-                
                 {/* Conditional menu items based on role */}
                 {activeRole === 'parent' ? (
                   <>
