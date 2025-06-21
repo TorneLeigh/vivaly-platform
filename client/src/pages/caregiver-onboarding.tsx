@@ -365,9 +365,12 @@ export default function CaregiverOnboarding() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Services You Offer</FormLabel>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  <FormDescription>
+                    Select all services you provide. This determines which search results you'll appear in.
+                  </FormDescription>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     {SERVICE_TYPES.map((service) => (
-                      <div key={service} className="flex items-center space-x-2">
+                      <div key={service} className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50 transition-colors">
                         <Checkbox
                           id={service}
                           checked={field.value?.includes(service)}
@@ -379,7 +382,7 @@ export default function CaregiverOnboarding() {
                             }
                           }}
                         />
-                        <Label htmlFor={service} className="text-sm">
+                        <Label htmlFor={service} className="text-sm cursor-pointer flex-1 leading-5">
                           {service}
                         </Label>
                       </div>

@@ -51,15 +51,13 @@ const AUSTRALIAN_LOCATIONS = [
 const SERVICE_TYPES = [
   "Babysitting",
   "Childcare",
-  "Nanny Services", 
-  "Drop-in care",
-  "Overnight newborn support",
-  "Newborn support",
-  "Birth education",
-  "Breastfeeding support",
-  "Pregnancy assistance",
+  "Drop and dash",
   "1-2 hours group care",
-  "Drop and dash"
+  "Overnight care",
+  "Newborn support",
+  "School pickup/dropoff",
+  "Holiday care",
+  "Weekend care"
 ];
 
 interface CareOption {
@@ -386,9 +384,9 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
                         <div className="w-2 h-2 bg-gray-500 rounded"></div>
                       </div>
                       <div className="flex-1">
-                        <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">SERVICE</div>
+                        <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">WHAT TYPE OF CARE</div>
                         <div className="text-base font-medium text-gray-900 mt-0.5">
-                          {filters.serviceType || "Any service"}
+                          {filters.serviceType || "Select service type"}
                         </div>
                       </div>
                     </div>
@@ -398,7 +396,7 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
                   <div className="pt-4">
                     <Button
                       onClick={handleSearch}
-                      className="w-full h-12 rounded-xl text-white font-semibold"
+                      className="w-full h-12 rounded-xl text-white font-semibold touch-manipulation"
                       style={{ backgroundColor: '#FFBD59' }}
                     >
                       <Search className="h-5 w-5 mr-2" />
@@ -505,20 +503,20 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
                         <Button
                           variant="outline"
                           size="sm"
-                          className="h-8 w-8 rounded-full p-0 border-gray-300 hover:border-coral disabled:opacity-30"
+                          className="h-10 w-10 rounded-full p-0 border-gray-300 hover:border-coral disabled:opacity-30 touch-manipulation"
                           onClick={() => updateCareOption(option.type, false)}
                           disabled={option.count === 0}
                         >
-                          <Minus className="h-3 w-3" />
+                          <Minus className="h-4 w-4" />
                         </Button>
                         <span className="text-sm font-medium w-8 text-center">{option.count}</span>
                         <Button
                           variant="outline"
                           size="sm"
-                          className="h-8 w-8 rounded-full p-0 border-gray-300 hover:border-coral"
+                          className="h-10 w-10 rounded-full p-0 border-gray-300 hover:border-coral touch-manipulation"
                           onClick={() => updateCareOption(option.type, true)}
                         >
-                          <Plus className="h-3 w-3" />
+                          <Plus className="h-4 w-4" />
                         </Button>
                       </div>
                     </div>

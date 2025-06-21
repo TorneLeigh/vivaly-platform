@@ -550,17 +550,15 @@ export type InsertChildcareEnrollment = z.infer<typeof insertChildcareEnrollment
 
 // Service types
 export const SERVICE_TYPES = [
-  "1-on-1 care",
-  "1-2 hours group care",
+  "Babysitting",
   "Childcare",
   "Drop and dash",
-  "Midwife services",
-  "Doula services",
-  "Breastfeeding support",
-  "Birth education",
+  "1-2 hours group care",
+  "Overnight care",
   "Newborn support",
-  "Pregnancy assistance",
-  "Postnatal care"
+  "School pickup/dropoff",
+  "Holiday care",
+  "Weekend care"
 ] as const;
 
 // Certificate types
