@@ -80,21 +80,46 @@ export default function ParentProfile() {
     positionType: '',
     schedule: '',
     startDate: '',
+    hoursPerWeek: '',
+    rate: '',
     
     // Responsibilities
     responsibilities: [],
+    childcareDuties: '',
+    householdTasks: '',
+    educationalSupport: '',
+    transportation: '',
     
     // Caregiver Preferences
     caregiverPreferences: '',
+    languagesRequired: '',
+    carRequired: '',
+    swimmingAbility: '',
+    agePreference: '',
+    genderPreference: '',
+    smokingPolicy: '',
     
     // Household Rules
     householdRules: '',
+    screenTimeRules: '',
+    mealGuidelines: '',
+    disciplineApproach: '',
+    bedtimeRoutine: '',
+    visitorsPolicy: '',
     
     // Safety & Emergency
     emergencyProcedures: '',
+    emergencyContact1: '',
+    emergencyContact2: '',
+    doctorContact: '',
+    hospitalContact: '',
+    policeFireContact: '',
+    poisonControlContact: '',
     
     // Personal Touch
-    personalMessage: ''
+    personalMessage: '',
+    funFamilyFacts: '',
+    familyValues: ''
   });
 
   // Fetch user's jobs
@@ -947,20 +972,50 @@ export default function ParentProfile() {
                   <div className="space-y-4">
                     <div className="space-y-2">
                       <Label>Childcare Duties</Label>
-                      <Input placeholder="Pick up from school, prepare meals, bedtime routine" />
+                      <Input 
+                        placeholder="Pick up from school, prepare meals, bedtime routine" 
+                        value={formData.childcareDuties || ''}
+                        onChange={(e) => updateFormData('childcareDuties', e.target.value)}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>Household Tasks</Label>
-                      <Input placeholder="Light housekeeping, children's laundry, meal prep" />
+                      <Input 
+                        placeholder="Light housekeeping, children's laundry, meal prep" 
+                        value={formData.householdTasks || ''}
+                        onChange={(e) => updateFormData('householdTasks', e.target.value)}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>Educational Support</Label>
-                      <Input placeholder="Homework help, reading practice, educational activities" />
+                      <Input 
+                        placeholder="Homework help, reading practice, educational activities" 
+                        value={formData.educationalSupport || ''}
+                        onChange={(e) => updateFormData('educationalSupport', e.target.value)}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>Transportation</Label>
-                      <Input placeholder="School pickup, activities, appointments" />
+                      <Input 
+                        placeholder="School pickup, activities, appointments" 
+                        value={formData.transportation || ''}
+                        onChange={(e) => updateFormData('transportation', e.target.value)}
+                      />
                     </div>
+                  </div>
+                  <div className="pt-4 border-t">
+                    <Button 
+                      onClick={() => saveSectionData('responsibilities', {
+                        childcareDuties: formData.childcareDuties,
+                        householdTasks: formData.householdTasks,
+                        educationalSupport: formData.educationalSupport,
+                        transportation: formData.transportation
+                      })}
+                      disabled={saving}
+                      className="bg-coral hover:bg-coral/90"
+                    >
+                      {saving ? "Saving..." : "Save Responsibilities"}
+                    </Button>
                   </div>
                 </div>
               )}
@@ -970,28 +1025,68 @@ export default function ParentProfile() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label>Languages Required</Label>
-                      <Input placeholder="English, Spanish" />
+                      <Input 
+                        placeholder="English, Spanish" 
+                        value={formData.languagesRequired || ''}
+                        onChange={(e) => updateFormData('languagesRequired', e.target.value)}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>Car Required</Label>
-                      <Input placeholder="Yes, own reliable vehicle" />
+                      <Input 
+                        placeholder="Yes, own reliable vehicle" 
+                        value={formData.carRequired || ''}
+                        onChange={(e) => updateFormData('carRequired', e.target.value)}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>Swimming Ability</Label>
-                      <Input placeholder="Must be confident swimmer" />
+                      <Input 
+                        placeholder="Must be confident swimmer" 
+                        value={formData.swimmingAbility || ''}
+                        onChange={(e) => updateFormData('swimmingAbility', e.target.value)}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>Age Preference</Label>
-                      <Input placeholder="25-45 years old" />
+                      <Input 
+                        placeholder="25-45 years old" 
+                        value={formData.agePreference || ''}
+                        onChange={(e) => updateFormData('agePreference', e.target.value)}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>Gender Preference</Label>
-                      <Input placeholder="No preference" />
+                      <Input 
+                        placeholder="No preference" 
+                        value={formData.genderPreference || ''}
+                        onChange={(e) => updateFormData('genderPreference', e.target.value)}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>Smoking Policy</Label>
-                      <Input placeholder="Non-smoker only" />
+                      <Input 
+                        placeholder="Non-smoker only" 
+                        value={formData.smokingPolicy || ''}
+                        onChange={(e) => updateFormData('smokingPolicy', e.target.value)}
+                      />
                     </div>
+                  </div>
+                  <div className="pt-4 border-t">
+                    <Button 
+                      onClick={() => saveSectionData('caregiverPreferences', {
+                        languagesRequired: formData.languagesRequired,
+                        carRequired: formData.carRequired,
+                        swimmingAbility: formData.swimmingAbility,
+                        agePreference: formData.agePreference,
+                        genderPreference: formData.genderPreference,
+                        smokingPolicy: formData.smokingPolicy
+                      })}
+                      disabled={saving}
+                      className="bg-coral hover:bg-coral/90"
+                    >
+                      {saving ? "Saving..." : "Save Caregiver Preferences"}
+                    </Button>
                   </div>
                 </div>
               )}
@@ -1001,24 +1096,59 @@ export default function ParentProfile() {
                   <div className="space-y-4">
                     <div className="space-y-2">
                       <Label>Screen Time Rules</Label>
-                      <Input placeholder="1 hour on weekdays, 2 hours weekends" />
+                      <Input 
+                        placeholder="1 hour on weekdays, 2 hours weekends" 
+                        value={formData.screenTimeRules || ''}
+                        onChange={(e) => updateFormData('screenTimeRules', e.target.value)}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>Meal Guidelines</Label>
-                      <Input placeholder="Healthy snacks only, no sugary drinks" />
+                      <Input 
+                        placeholder="Healthy snacks only, no sugary drinks" 
+                        value={formData.mealGuidelines || ''}
+                        onChange={(e) => updateFormData('mealGuidelines', e.target.value)}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>Discipline Approach</Label>
-                      <Input placeholder="Positive reinforcement, time-outs if needed" />
+                      <Input 
+                        placeholder="Positive reinforcement, time-outs if needed" 
+                        value={formData.disciplineApproach || ''}
+                        onChange={(e) => updateFormData('disciplineApproach', e.target.value)}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>Bedtime Routine</Label>
-                      <Input placeholder="Bath, story, lights out by 8pm" />
+                      <Input 
+                        placeholder="Bath, story, lights out by 8pm" 
+                        value={formData.bedtimeRoutine || ''}
+                        onChange={(e) => updateFormData('bedtimeRoutine', e.target.value)}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>Visitors Policy</Label>
-                      <Input placeholder="No visitors without prior approval" />
+                      <Input 
+                        placeholder="No visitors without prior approval" 
+                        value={formData.visitorsPolicy || ''}
+                        onChange={(e) => updateFormData('visitorsPolicy', e.target.value)}
+                      />
                     </div>
+                  </div>
+                  <div className="pt-4 border-t">
+                    <Button 
+                      onClick={() => saveSectionData('householdRules', {
+                        screenTimeRules: formData.screenTimeRules,
+                        mealGuidelines: formData.mealGuidelines,
+                        disciplineApproach: formData.disciplineApproach,
+                        bedtimeRoutine: formData.bedtimeRoutine,
+                        visitorsPolicy: formData.visitorsPolicy
+                      })}
+                      disabled={saving}
+                      className="bg-coral hover:bg-coral/90"
+                    >
+                      {saving ? "Saving..." : "Save Household Rules"}
+                    </Button>
                   </div>
                 </div>
               )}
