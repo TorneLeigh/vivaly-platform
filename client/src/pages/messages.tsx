@@ -8,9 +8,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import { MessageSquare, Send, Search, Phone, Video, MoreVertical } from "lucide-react";
+import { MessageSquare, Send, Search, Phone, Video, MoreVertical, X, User } from "lucide-react";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+import { CaregiverProfileDisplay } from "@/components/CaregiverProfileDisplay";
 
 interface Message {
   id: string;
@@ -39,13 +40,35 @@ export default function Messages() {
   const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
   const [newMessage, setNewMessage] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [contactJobData, setContactJobData] = useState<any>(null);
+  const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [location] = useLocation();
 
   // Fetch conversations
   const { data: conversations = [], isLoading: conversationsLoading } = useQuery({
     queryKey: ['/api/conversations'],
     enabled: !!user
   });
+
+  // Check URL parameters for contact family request
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const isContactFamily = urlParams.get('contactFamily');
+    const jobId = urlParams.get('jobId');
+    const parentId = urlParams.get('parentId');
+    const jobTitle = urlParams.get('jobTitle');
+
+    if (isContactFamily === 'true' && jobId && parentId && user?.isNanny) {
+      setContactJobData({
+        jobId,
+        parentId,
+        jobTitle: decodeURIComponent(jobTitle || 'Childcare Position')
+      });
+      setShowContactModal(true);
+    }
+  }, [user]);
 
   // Fetch messages for selected conversation
   const { data: messages = [], isLoading: messagesLoading } = useQuery({
@@ -357,6 +380,131 @@ export default function Messages() {
               </CardContent>
             )}
           </Card>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Contact Family Modal Component
+interface ContactFamilyModalProps {
+  user: any;
+  jobData: {
+    jobId: string;
+    parentId: string;
+    jobTitle: string;
+  };
+  onClose: () => void;
+  onSend: (message: string) => void;
+  isLoading: boolean;
+}
+
+function ContactFamilyModal({ user, jobData, onClose, onSend, isLoading }: ContactFamilyModalProps) {
+  const [message, setMessage] = useState("");
+  const [showProfile, setShowProfile] = useState(true);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (message.length < 200) {
+      return;
+    }
+    onSend(message);
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900">Contact Family</h2>
+            <p className="text-sm text-gray-600">Job: {jobData.jobTitle}</p>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowProfile(!showProfile)}
+            >
+              <User className="h-4 w-4 mr-2" />
+              {showProfile ? 'Hide' : 'Show'} Profile
+            </Button>
+            <Button variant="ghost" size="sm" onClick={onClose}>
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+
+        <div className="flex">
+          {/* Profile Section */}
+          {showProfile && (
+            <div className="w-1/2 p-6 border-r border-gray-200 bg-gray-50">
+              <h3 className="text-lg font-medium mb-4">Your Profile Preview</h3>
+              <div className="max-h-[500px] overflow-y-auto">
+                <CaregiverProfileDisplay user={user} />
+              </div>
+            </div>
+          )}
+
+          {/* Message Section */}
+          <div className={`${showProfile ? 'w-1/2' : 'w-full'} p-6`}>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                  Your Interest Message
+                </label>
+                <p className="text-xs text-gray-500 mb-3">
+                  Tell the family why you're interested in this position and highlight your relevant experience. 
+                  Minimum 200 characters required.
+                </p>
+                <Textarea
+                  id="message"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Hi! I'm very interested in this childcare position. I have experience with..."
+                  rows={8}
+                  className="resize-none"
+                  required
+                />
+                <div className="flex justify-between items-center mt-2">
+                  <span className={`text-xs ${message.length >= 200 ? 'text-green-600' : 'text-gray-500'}`}>
+                    {message.length}/200 characters minimum
+                  </span>
+                  <span className="text-xs text-gray-500">
+                    {message.length} characters
+                  </span>
+                </div>
+              </div>
+
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h4 className="text-sm font-medium text-blue-900 mb-2">What will be sent:</h4>
+                <ul className="text-xs text-blue-800 space-y-1">
+                  <li>• Your interest message</li>
+                  <li>• Your complete profile with experience and certifications</li>
+                  <li>• Your contact information and availability</li>
+                  <li>• Your hourly rate and services offered</li>
+                </ul>
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={onClose}
+                  className="flex-1"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={message.length < 200 || isLoading}
+                  className="flex-1 bg-coral hover:bg-coral/90"
+                >
+                  {isLoading ? "Sending..." : "Send Interest & Profile"}
+                </Button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
