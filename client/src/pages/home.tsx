@@ -155,28 +155,28 @@ export default function Home() {
 
           {/* Trust Indicators */}
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-3 gap-4 md:gap-8">
-              <div className="bg-white rounded-3xl p-4 md:p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 text-center group hover:-translate-y-2">
-                <div className="w-12 h-12 md:w-24 md:h-24 mx-auto mb-3 md:mb-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-3xl flex items-center justify-center text-2xl md:text-5xl group-hover:scale-105 transition-transform duration-300 shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 text-center group hover:-translate-y-2">
+                <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-3xl flex items-center justify-center text-5xl group-hover:scale-105 transition-transform duration-300 shadow-sm">
                   🛡️
                 </div>
-                <h4 className="text-sm md:text-xl font-bold text-gray-900 mb-2 md:mb-4">Identity Verified</h4>
-                <p className="text-xs md:text-base text-gray-600 leading-relaxed">Your family's safety is our mission. Choose confidently with clear visibility of each caregiver's credentials and documents.</p>
+                <h4 className="text-xl font-bold text-gray-900 mb-4">Identity Verified</h4>
+                <p className="text-gray-600 leading-relaxed">Your family's safety is our mission. Choose confidently with clear visibility of each caregiver's credentials and documents.</p>
               </div>
-              <div className="bg-white rounded-3xl p-4 md:p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 text-center group hover:-translate-y-2">
-                <div className="w-12 h-12 md:w-24 md:h-24 mx-auto mb-3 md:mb-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl flex items-center justify-center text-2xl md:text-5xl group-hover:scale-105 transition-transform duration-300 shadow-sm">
+              <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 text-center group hover:-translate-y-2">
+                <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl flex items-center justify-center text-5xl group-hover:scale-105 transition-transform duration-300 shadow-sm">
                   🧒
                 </div>
-                <h4 className="text-sm md:text-xl font-bold text-gray-900 mb-2 md:mb-4">WWCC Verified</h4>
-                <p className="text-xs md:text-base text-gray-600 leading-relaxed">All caregivers working with children upload a valid WWCC clearance, which we cross-check for validity.</p>
+                <h4 className="text-xl font-bold text-gray-900 mb-4">WWCC Verified</h4>
+                <p className="text-gray-600 leading-relaxed">All caregivers working with children upload a valid WWCC clearance, which we cross-check for validity.</p>
               </div>
               
-              <div className="bg-white rounded-3xl p-4 md:p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 text-center group hover:-translate-y-2">
-                <div className="w-12 h-12 md:w-24 md:h-24 mx-auto mb-3 md:mb-6 bg-gradient-to-br from-green-50 to-green-100 rounded-3xl flex items-center justify-center text-2xl md:text-5xl group-hover:scale-105 transition-transform duration-300 shadow-sm">
+              <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 text-center group hover:-translate-y-2">
+                <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-green-50 to-green-100 rounded-3xl flex items-center justify-center text-5xl group-hover:scale-105 transition-transform duration-300 shadow-sm">
                   💼
                 </div>
-                <h4 className="text-sm md:text-xl font-bold text-gray-900 mb-2 md:mb-4">References Provided by Caregivers</h4>
-                <p className="text-xs md:text-base text-gray-600 leading-relaxed">Caregivers submit references from previous families or employers, which you can view and follow up on directly.</p>
+                <h4 className="text-xl font-bold text-gray-900 mb-4">References Provided by Caregivers</h4>
+                <p className="text-gray-600 leading-relaxed">Caregivers submit references from previous families or employers, which you can view and follow up on directly.</p>
               </div>
             </div>
           </div>
