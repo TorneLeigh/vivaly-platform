@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Calendar } from "@/components/ui/calendar";
@@ -26,6 +26,61 @@ interface AirbnbSearchProps {
 }
 
 const AUSTRALIAN_LOCATIONS = [
+  // Sydney Specific Areas
+  "Bondi Beach, NSW",
+  "Bondi Junction, NSW", 
+  "Coogee, NSW",
+  "Bronte, NSW",
+  "Tamarama, NSW",
+  "Double Bay, NSW",
+  "Rose Bay, NSW",
+  "Vaucluse, NSW",
+  "Woollahra, NSW",
+  "Paddington, NSW",
+  "Surry Hills, NSW",
+  "Darlinghurst, NSW",
+  "Potts Point, NSW",
+  "Kings Cross, NSW",
+  "Newtown, NSW",
+  "Glebe, NSW",
+  "Leichhardt, NSW",
+  "Balmain, NSW",
+  "Rozelle, NSW",
+  "Manly, NSW",
+  "Neutral Bay, NSW",
+  "North Sydney, NSW",
+  "Mosman, NSW",
+  "Lane Cove, NSW",
+  "Chatswood, NSW",
+  "St Leonards, NSW",
+  "Crows Nest, NSW",
+  "McMahons Point, NSW",
+  "Milsons Point, NSW",
+  "Kirribilli, NSW",
+  "Redfern, NSW",
+  "Alexandria, NSW",
+  "Erskineville, NSW",
+  "Marrickville, NSW",
+  "Dulwich Hill, NSW",
+  "Lewisham, NSW",
+  "Summer Hill, NSW",
+  "Ashfield, NSW",
+  "Randwick, NSW",
+  "Kensington, NSW",
+  "Maroubra, NSW",
+  "Mascot, NSW",
+  "Zetland, NSW",
+  "Rosebery, NSW",
+  "Chippendale, NSW",
+  "Ultimo, NSW",
+  "Pyrmont, NSW",
+  "Balmain East, NSW",
+  "Birchgrove, NSW",
+  "Annandale, NSW",
+  "Stanmore, NSW",
+  "Enmore, NSW",
+  "Camperdown, NSW",
+  // Major Cities
   "Sydney, NSW",
   "Melbourne, VIC", 
   "Brisbane, QLD",
@@ -33,19 +88,7 @@ const AUSTRALIAN_LOCATIONS = [
   "Adelaide, SA",
   "Gold Coast, QLD",
   "Newcastle, NSW",
-  "Canberra, ACT",
-  "Sunshine Coast, QLD",
-  "Wollongong, NSW",
-  "Geelong, VIC",
-  "Townsville, QLD",
-  "Cairns, QLD",
-  "Darwin, NT",
-  "Toowoomba, QLD",
-  "Ballarat, VIC",
-  "Bendigo, VIC",
-  "Albury-Wodonga, NSW/VIC",
-  "Launceston, TAS",
-  "Mackay, QLD"
+  "Canberra, ACT"
 ];
 
 const SERVICE_TYPES = [
@@ -79,7 +122,7 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
   ]);
 
   const [filters, setFilters] = useState<SearchFilters>({
-    location: "",
+    location: "Bondi Beach, NSW",
     date: "",
     careFor: "",
     serviceType: ""
@@ -117,6 +160,13 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
     setLocationQuery(location);
     setActiveField(null);
   };
+
+  // Set default location query on component mount
+  React.useEffect(() => {
+    if (!locationQuery && filters.location) {
+      setLocationQuery(filters.location);
+    }
+  }, []);
 
   const handleDateSelect = (date: Date | undefined) => {
     setSelectedDate(date);
@@ -434,8 +484,8 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
                     className="mb-4 border-gray-300 focus:border-coral focus:ring-coral"
                   />
                 </div>
-                <div className="space-y-1">
-                  {filteredLocations.slice(0, 8).map((location) => (
+                <div className="space-y-1 max-h-64 overflow-y-auto">
+                  {filteredLocations.slice(0, 15).map((location) => (
                     <div
                       key={location}
                       className="flex items-center space-x-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors"
