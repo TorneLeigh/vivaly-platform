@@ -34,6 +34,7 @@ import SMSTest from "@/pages/sms-test";
 import EmailTest from "@/pages/email-test";
 import EmailPreview from "@/pages/email-preview";
 import AuthTest from "@/pages/auth-test";
+import LoginTest from "@/pages/login-test";
 import BookingConfirmation from "@/pages/booking-confirmation";
 import Terms from "@/pages/terms";
 import Privacy from "@/pages/privacy";
@@ -162,6 +163,7 @@ function Router() {
           <Route path="/signin" component={WorkingAuth} />
           <Route path="/sign-in" component={WorkingAuth} />
           <Route path="/auth-test" component={AuthTest} />
+          <Route path="/login-test" component={LoginTest} />
           {/* Role-based dashboard */}
           <Route path="/dashboard">
             <ProtectedRoute>

@@ -13,7 +13,7 @@ export default function NewHeader() {
   // Debug logging for mobile testing
   console.log("Header render - isAuthenticated:", isAuthenticated, "user:", user, "roles:", roles, "roles.length:", roles?.length, "activeRole:", activeRole);
   
-  // Force show toggle for testing if user has multiple roles
+  // Show toggle for users with multiple roles
   const shouldShowToggle = isAuthenticated && roles && roles.length > 1;
   console.log("shouldShowToggle:", shouldShowToggle);
   const [, navigate] = useLocation();
