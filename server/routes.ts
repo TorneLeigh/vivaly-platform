@@ -490,9 +490,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: `User does not have role: ${role}` });
       }
 
-      // Store user ID and active role in session
+      // Store user ID and active role in session and database
       req.session.userId = user.id;
       req.session.activeRole = role;
+      await storage.updateUserActiveRole(user.id, role);
 
       // Ensure session persistence
       await new Promise<void>((resolve, reject) => {
@@ -578,8 +579,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: `User does not have role: ${role}` });
       }
 
-      // Update active role in session
+      // Update active role in session and database
       req.session.activeRole = role;
+      await storage.updateUserActiveRole(userId, role);
 
       // Ensure session persistence
       await new Promise<void>((resolve, reject) => {

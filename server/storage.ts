@@ -34,6 +34,7 @@ export interface IStorage {
   
   // Role management operations
   updateUserRoles(userId: string, roles: string[]): Promise<User>;
+  updateUserActiveRole(userId: string, activeRole: string): Promise<User>;
   
   // Profile photo operations
   updateUserProfilePhoto(userId: string, photoUrl: string): Promise<User>;
