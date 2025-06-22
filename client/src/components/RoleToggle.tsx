@@ -8,13 +8,15 @@ interface RoleToggleProps {
 }
 
 export default function RoleToggle({ roles, activeRole, onSwitch, disabled = false }: RoleToggleProps) {
-  console.log("RoleToggle render - roles:", roles, "activeRole:", activeRole);
+  console.log("RoleToggle render - roles:", roles, "roles.length:", roles?.length, "activeRole:", activeRole);
   
-  // For testing purposes, always show the toggle if user is authenticated
-  // In production, this should check roles.length > 1
+  // Show toggle if user has roles
   if (!roles || roles.length === 0) {
+    console.log("RoleToggle: No roles, returning null");
     return null;
   }
+  
+  console.log("RoleToggle: Rendering toggle with", roles.length, "roles");
 
   return (
     <div className="flex rounded-lg border border-gray-300 p-0.5 bg-white shadow-sm">

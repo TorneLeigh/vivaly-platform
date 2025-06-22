@@ -11,7 +11,11 @@ export default function NewHeader() {
   const { isAuthenticated, user, activeRole, roles, switchRole, logout } = useAuth();
   
   // Debug logging for mobile testing
-  console.log("Header render - isAuthenticated:", isAuthenticated, "user:", user, "roles:", roles, "activeRole:", activeRole);
+  console.log("Header render - isAuthenticated:", isAuthenticated, "user:", user, "roles:", roles, "roles.length:", roles?.length, "activeRole:", activeRole);
+  
+  // Force show toggle for testing if user has multiple roles
+  const shouldShowToggle = isAuthenticated && roles && roles.length > 1;
+  console.log("shouldShowToggle:", shouldShowToggle);
   const [, navigate] = useLocation();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -152,7 +156,7 @@ export default function NewHeader() {
           <div className="flex items-center justify-center flex-1 mx-2">
             <div className="flex flex-col items-center space-y-1">
               <span className="text-xs font-medium text-orange-600 hidden md:block">Role</span>
-              {roles && roles.length > 1 ? (
+              {shouldShowToggle ? (
                 <RoleToggle 
                   roles={roles} 
                   activeRole={activeRole || roles[0] || 'parent'} 

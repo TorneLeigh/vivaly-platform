@@ -459,9 +459,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { email, password, role } = req.body;
 
-      if (!email || !password || !role) {
-        return res.status(400).json({ message: "Email, password, and role are required" });
+      if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required" });
       }
+
+      // Default role if not specified
+      const loginRole = role || 'parent';
 
       // Normalize email input
       const normalizedEmail = email.toLowerCase().trim();
@@ -486,14 +489,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userRoles = user.roles || ["parent"];
       
       // Check if user has the requested role
-      if (!userRoles.includes(role)) {
-        return res.status(403).json({ message: `User does not have role: ${role}` });
+      if (!userRoles.includes(loginRole)) {
+        return res.status(403).json({ message: `User does not have role: ${loginRole}` });
       }
 
       // Store user ID and active role in session and database
       req.session.userId = user.id;
-      req.session.activeRole = role;
-      await storage.updateUserActiveRole(user.id, role);
+      req.session.activeRole = loginRole;
+      await storage.updateUserActiveRole(user.id, loginRole);
 
       // Ensure session persistence
       await new Promise<void>((resolve, reject) => {
@@ -504,7 +507,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       // Audit log successful login
-      console.info(`User ${user.id} (${user.email}) logged in with role: ${role}`);
+      console.info(`User ${user.id} (${user.email}) logged in with role: ${loginRole}`);
 
       res.json({
         id: user.id,
@@ -512,7 +515,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         firstName: user.firstName,
         lastName: user.lastName,
         roles: userRoles,
-        activeRole: role,
+        activeRole: loginRole,
         isNanny: user.isNanny
       });
     } catch (error) {
