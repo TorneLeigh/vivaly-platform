@@ -17,9 +17,9 @@ export default function NewHeader() {
   const shouldShowToggle = isAuthenticated && roles && roles.length > 1;
   console.log("shouldShowToggle:", shouldShowToggle);
   
-  // For testing - also log if user is authenticated but doesn't show toggle
-  if (isAuthenticated && (!roles || roles.length <= 1)) {
-    console.log("User authenticated but no toggle - roles:", roles);
+  // Force show role toggle when authenticated (for mobile parity)
+  if (isAuthenticated) {
+    console.log("User is authenticated - forcing role toggle display for mobile parity");
   }
   const [, navigate] = useLocation();
 
@@ -156,23 +156,17 @@ export default function NewHeader() {
           </span>
         </Link>
 
-        {/* Center Navigation - Role Toggle (visible on ALL devices when authenticated) */}
+        {/* Center Navigation - Role Toggle (IDENTICAL on mobile and desktop) */}
         {isAuthenticated && (
           <div className="flex items-center justify-center flex-1 mx-2">
             <div className="flex flex-col items-center space-y-1">
               <span className="text-xs font-medium text-orange-600 hidden md:block">Role</span>
-              {/* Always show role toggle for authenticated users with multiple roles */}
-              {shouldShowToggle ? (
-                <RoleToggle 
-                  roles={roles} 
-                  activeRole={activeRole || roles[0] || 'parent'} 
-                  onSwitch={switchRole}
-                />
-              ) : isAuthenticated ? (
-                <span className="text-xs bg-orange-100 text-orange-800 px-3 py-1 rounded-full font-medium">
-                  {activeRole === 'parent' ? 'Parent' : 'Caregiver'}
-                </span>
-              ) : null}
+              {/* Show role toggle for ALL authenticated users */}
+              <RoleToggle 
+                roles={roles || ['parent']} 
+                activeRole={activeRole || 'parent'} 
+                onSwitch={switchRole}
+              />
             </div>
           </div>
         )}
