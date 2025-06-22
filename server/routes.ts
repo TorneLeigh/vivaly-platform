@@ -535,7 +535,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       // `requireAuth` has already loaded the user onto req.user
       const user = (req as any).user;
-      const activeRole = req.session.activeRole || user.roles?.[0] || 'parent';
+      const activeRole = req.session.activeRole || user.activeRole || user.roles?.[0] || 'parent';
+      
+      console.log('User auth check - user:', user.email, 'roles:', user.roles, 'activeRole:', activeRole);
       
       res.json({
         id: user.id,

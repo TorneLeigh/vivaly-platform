@@ -147,23 +147,23 @@ export default function NewHeader() {
           </span>
         </Link>
 
-        {/* Center Navigation - Role Toggle (visible on all devices) */}
+        {/* Center Navigation - Role Toggle (always visible when authenticated) */}
         {isAuthenticated && (
           <div className="flex items-center justify-center flex-1 mx-2">
-            {roles && roles.length > 1 ? (
-              <div className="flex flex-col items-center space-y-1">
-                <span className="text-xs font-medium text-orange-600 hidden md:block">Switch Role</span>
+            <div className="flex flex-col items-center space-y-1">
+              <span className="text-xs font-medium text-orange-600 hidden md:block">Role</span>
+              {roles && roles.length > 1 ? (
                 <RoleToggle 
                   roles={roles} 
-                  activeRole={activeRole || 'parent'} 
+                  activeRole={activeRole || roles[0] || 'parent'} 
                   onSwitch={switchRole}
                 />
-              </div>
-            ) : (
-              <span className="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full font-medium">
-                {activeRole === 'parent' ? 'Parent' : 'Caregiver'}
-              </span>
-            )}
+              ) : (
+                <span className="text-xs bg-orange-100 text-orange-800 px-3 py-1 rounded-full font-medium">
+                  {activeRole === 'parent' ? 'Parent' : 'Caregiver'}
+                </span>
+              )}
+            </div>
           </div>
         )}
 
