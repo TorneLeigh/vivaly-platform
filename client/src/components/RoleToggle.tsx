@@ -15,7 +15,7 @@ export default function RoleToggle({ roles, activeRole, onSwitch, disabled = fal
   }
 
   return (
-    <div className="flex rounded-lg border border-gray-300 p-1 bg-white shadow-sm">
+    <div className="flex rounded-lg border border-gray-300 p-0.5 bg-white shadow-sm">
       {roles.map((role) => (
         <Button
           key={role}
@@ -28,7 +28,7 @@ export default function RoleToggle({ roles, activeRole, onSwitch, disabled = fal
             onSwitch(role);
           }}
           disabled={disabled || role === activeRole}
-          className={`rounded-md px-4 py-2 text-sm font-medium transition-all min-w-[80px] ${
+          className={`rounded-md px-3 py-1.5 text-xs font-medium transition-all min-w-[70px] ${
             role === activeRole 
               ? 'bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] text-white shadow-sm' 
               : 'text-gray-700 hover:text-black hover:bg-gray-100'

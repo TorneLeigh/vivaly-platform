@@ -134,22 +134,22 @@ export default function NewHeader() {
 
   return (
     <header className="w-full bg-white shadow-md sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="max-w-4xl mx-auto px-3 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2" onClick={closeMenu}>
           <img 
             src={logoImage} 
             alt="VIVALY" 
-            className="h-8 w-8 object-contain"
+            className="h-7 w-7 object-contain"
           />
-          <span className="text-xl font-bold text-black hover:text-gray-800 transition-colors">
+          <span className="text-lg font-bold text-black hover:text-gray-800 transition-colors">
             VIVALY
           </span>
         </Link>
 
         {/* Center Navigation - Role Toggle (visible on all devices) */}
         {isAuthenticated && (
-          <div className="flex items-center justify-center flex-1">
+          <div className="flex items-center justify-center flex-1 mx-2">
             {roles && roles.length > 1 ? (
               <div className="flex flex-col items-center space-y-1">
                 <span className="text-xs font-medium text-orange-600 hidden md:block">Switch Role</span>
@@ -160,7 +160,7 @@ export default function NewHeader() {
                 />
               </div>
             ) : (
-              <span className="text-sm bg-orange-100 text-orange-800 px-3 py-1 rounded-full font-medium">
+              <span className="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full font-medium">
                 {activeRole === 'parent' ? 'Parent' : 'Caregiver'}
               </span>
             )}
@@ -168,14 +168,14 @@ export default function NewHeader() {
         )}
 
         {/* Right side */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2">
           {/* Auth buttons for unauthenticated users */}
           {!isAuthenticated && (
-            <div className="hidden md:flex items-center space-x-4">
-              <Link href="/working-auth" className="text-gray-700 hover:text-black font-medium transition-colors">
+            <div className="hidden md:flex items-center space-x-2">
+              <Link href="/working-auth" className="text-sm text-gray-700 hover:text-black font-medium transition-colors">
                 Log In
               </Link>
-              <Button asChild>
+              <Button size="sm" asChild>
                 <Link href="/signup">Sign Up</Link>
               </Button>
             </div>
@@ -184,13 +184,13 @@ export default function NewHeader() {
           {/* Hamburger Menu Button */}
           <button
             onClick={toggleMenu}
-            className="p-2 rounded-md hover:bg-gray-100 transition-colors"
+            className="p-1.5 rounded-md hover:bg-gray-100 transition-colors"
             aria-label="Toggle menu"
           >
             {menuOpen ? (
-              <X className="h-6 w-6 text-gray-700" />
+              <X className="h-5 w-5 text-gray-700" />
             ) : (
-              <Menu className="h-6 w-6 text-gray-700" />
+              <Menu className="h-5 w-5 text-gray-700" />
             )}
           </button>
         </div>
@@ -199,7 +199,7 @@ export default function NewHeader() {
       {/* Mobile/Dropdown Menu */}
       {menuOpen && (
         <div className="absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-200 z-40">
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-4xl mx-auto">
             {!isAuthenticated ? (
               <div className="py-2">
                 {renderUnauthenticatedNavLinks()}
