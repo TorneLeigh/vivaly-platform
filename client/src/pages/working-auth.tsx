@@ -46,6 +46,9 @@ export default function WorkingAuth() {
   const handleLogin = async (data: LoginForm) => {
     setIsLoading(true);
     try {
+      // Default to parent role if not specified
+      const loginData = { ...data, role: data.role || 'parent' };
+      
       const response = await fetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
