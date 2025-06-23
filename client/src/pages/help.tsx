@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
+import { useAuth } from "@/hooks/useAuth";
 import { 
   MessageCircle, 
   Phone, 
@@ -19,10 +20,11 @@ import {
   Users,
   Clock,
   ChevronRight,
-  Send
+  Send,
+  Briefcase
 } from "lucide-react";
 
-const faqData = [
+const parentFaqData = [
   {
     category: "Getting Started",
     icon: <Users className="h-5 w-5" />,
@@ -79,15 +81,77 @@ const faqData = [
   }
 ];
 
+const caregiverFaqData = [
+  {
+    category: "Getting Started as a Caregiver",
+    icon: <Briefcase className="h-5 w-5" />,
+    questions: [
+      {
+        q: "How do I become a caregiver on VIVALY?",
+        a: "Create your caregiver account, complete your profile with qualifications and experience, upload required documents for verification, and start applying to jobs."
+      },
+      {
+        q: "What documents do I need to provide?",
+        a: "You'll need a Working with Children Check (WWCC), valid ID, First Aid certification (preferred), and professional references."
+      },
+      {
+        q: "How long does the verification process take?",
+        a: "Verification typically takes 3-5 business days once all required documents are submitted and reviewed by our team."
+      }
+    ]
+  },
+  {
+    category: "Finding Jobs & Applications",
+    icon: <Search className="h-5 w-5" />,
+    questions: [
+      {
+        q: "How do I find and apply for jobs?",
+        a: "Browse the Job Board, filter by location and preferences, then click 'Apply' on jobs that interest you. Your profile will be sent automatically to the family."
+      },
+      {
+        q: "How many jobs can I apply for?",
+        a: "There's no limit to job applications. Apply to as many positions as you're interested in and available for."
+      },
+      {
+        q: "How do I track my applications?",
+        a: "View all your applications in 'My Applications' section of your profile or Job Board. You'll see status updates and can message families directly."
+      }
+    ]
+  },
+  {
+    category: "Payments & Bookings",
+    icon: <CreditCard className="h-5 w-5" />,
+    questions: [
+      {
+        q: "How do I set my rates?",
+        a: "Set your hourly rate in your caregiver profile. You can update this anytime. Rates are clearly displayed to families when they view your profile."
+      },
+      {
+        q: "When and how do I get paid?",
+        a: "Payment is processed through our secure platform after each completed booking. Funds are typically available within 2-3 business days."
+      },
+      {
+        q: "Can I negotiate rates with families?",
+        a: "Yes, you can discuss specific arrangements with families through our messaging system before confirming bookings."
+      }
+    ]
+  }
+];
+
 export default function Help() {
   const [showEmailForm, setShowEmailForm] = useState(false);
+  const { toast } = useToast();
+  const { user, activeRole } = useAuth();
+  
+  const isCaregiver = activeRole === 'caregiver';
+  const faqData = isCaregiver ? caregiverFaqData : parentFaqData;
+  
   const [emailForm, setEmailForm] = useState({
     name: "",
     email: "",
     subject: "",
     message: ""
   });
-  const { toast } = useToast();
 
   const sendEmailMutation = useMutation({
     mutationFn: async (data: typeof emailForm) => {
@@ -221,7 +285,9 @@ export default function Help() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* FAQ Section */}
           <div className="lg:col-span-2">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              Frequently Asked Questions {isCaregiver ? '- For Caregivers' : '- For Parents'}
+            </h2>
             
             <div className="space-y-6">
               {faqData.map((category, categoryIndex) => (
