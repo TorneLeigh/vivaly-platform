@@ -84,12 +84,23 @@ export default function SearchCaregivers() {
         </div>
 
         {/* Safety Notice */}
-        <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md mb-6">
-          <strong>🔒 Stay Protected with VIVALY</strong>
-          <p className="mt-1 text-sm">
-            To help keep our community safe and ensure we can provide support if needed, <b>VIVALY is only able to assist with issues when all communication has taken place through the VIVALY chat.</b><br />
-            Please avoid sharing personal contact details or moving conversations off-platform until a booking is confirmed.
-          </p>
+        <div className="bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] border-l-4 border-[#FF5F7E] text-white p-4 rounded-md mb-6">
+          <div className="flex items-start gap-3">
+            <div className="flex-shrink-0 mt-0.5">
+              <div className="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center">
+                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                </svg>
+              </div>
+            </div>
+            <div className="flex-1">
+              <strong>🔒 Stay Protected with VIVALY</strong>
+              <p className="mt-1 text-sm">
+                To help keep our community safe and ensure we can provide support if needed, <b>VIVALY is only able to assist with issues when all communication has taken place through the VIVALY chat.</b><br />
+                Please avoid sharing personal contact details or moving conversations off-platform until a booking is confirmed.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Search Filters */}
