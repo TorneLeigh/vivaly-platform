@@ -48,6 +48,14 @@ export interface IStorage {
   getMessages(userId: string): Promise<Message[]>;
   createMessage(message: InsertMessage): Promise<Message>;
   getMessagesBetweenUsers(userId1: string, userId2: string): Promise<Message[]>;
+  
+  // Booking operations
+  createBooking(booking: any): Promise<any>;
+  getBooking(id: string): Promise<any>;
+  updateBooking(id: string, booking: any): Promise<any>;
+  getAllBookings(): Promise<any[]>;
+  getBookingsByParent(parentId: string): Promise<any[]>;
+  getBookingsByCaregiver(caregiverId: string): Promise<any[]>;
   sendMessage(message: { senderId: string; receiverId: string; text: string; timestamp: Date }): Promise<Message>;
   getConversations(userId: string): Promise<any[]>;
   
@@ -491,6 +499,150 @@ export class DatabaseStorage implements IStorage {
     try {
       const userBookings = await db
         .select()
+        .from(bookings)
+        .where(or(
+          eq(bookings.parentId, userId),
+          eq(bookings.nannyId, parseInt(userId))
+        ))
+        .orderBy(desc(bookings.createdAt));
+      
+      return userBookings;
+    } catch (error) {
+      console.error("Error fetching user bookings:", error);
+      return [];
+    }
+  }
+
+  async updateBookingStatus(bookingId: string, status: string): Promise<any> {
+    try {
+      const [updatedBooking] = await db
+        .update(bookings)
+        .set({ status })
+        .where(eq(bookings.id, bookingId))
+        .returning();
+      
+      return updatedBooking;
+    } catch (error) {
+      console.error("Error updating booking status:", error);
+      throw error;
+    }
+  }
+
+  // Enhanced booking operations for Stripe integration
+  async createBooking(booking: any): Promise<any> {
+    try {
+      // Store booking data in a JSON field or extend the bookings table
+      const bookingData = {
+        id: booking.id,
+        parentId: booking.parentId,
+        nannyId: parseInt(booking.caregiverId),
+        serviceType: booking.serviceType || 'childcare',
+        date: booking.startDate,
+        startTime: booking.startTime || '09:00',
+        endTime: booking.endTime || '17:00',
+        totalAmount: booking.totalAmount.toString(),
+        status: booking.status,
+        notes: booking.notes || '',
+        paymentStatus: booking.paymentStatus || 'unpaid',
+        stripeSessionId: booking.stripeSessionId || null,
+        stripePaymentIntentId: booking.stripePaymentIntentId || null,
+        serviceFee: booking.serviceFee || 0,
+        caregiverAmount: booking.caregiverAmount || 0,
+        personalDetailsVisible: booking.personalDetailsVisible || false
+      };
+
+      const [newBooking] = await db
+        .insert(bookings)
+        .values(bookingData)
+        .returning();
+      
+      return { ...newBooking, ...booking };
+    } catch (error) {
+      console.error("Error creating booking:", error);
+      throw error;
+    }
+  }
+
+  async getBooking(id: string): Promise<any> {
+    try {
+      const [booking] = await db
+        .select()
+        .from(bookings)
+        .where(eq(bookings.id, id))
+        .limit(1);
+      
+      return booking;
+    } catch (error) {
+      console.error("Error getting booking:", error);
+      return null;
+    }
+  }
+
+  async updateBooking(id: string, booking: any): Promise<any> {
+    try {
+      const [updatedBooking] = await db
+        .update(bookings)
+        .set({
+          status: booking.status,
+          paymentStatus: booking.paymentStatus,
+          stripeSessionId: booking.stripeSessionId,
+          stripePaymentIntentId: booking.stripePaymentIntentId,
+          personalDetailsVisible: booking.personalDetailsVisible,
+          notes: booking.notes
+        })
+        .where(eq(bookings.id, id))
+        .returning();
+      
+      return updatedBooking;
+    } catch (error) {
+      console.error("Error updating booking:", error);
+      throw error;
+    }
+  }
+
+  async getAllBookings(): Promise<any[]> {
+    try {
+      const allBookings = await db
+        .select()
+        .from(bookings)
+        .orderBy(desc(bookings.createdAt));
+      
+      return allBookings;
+    } catch (error) {
+      console.error("Error getting all bookings:", error);
+      return [];
+    }
+  }
+
+  async getBookingsByParent(parentId: string): Promise<any[]> {
+    try {
+      const parentBookings = await db
+        .select()
+        .from(bookings)
+        .where(eq(bookings.parentId, parentId))
+        .orderBy(desc(bookings.createdAt));
+      
+      return parentBookings;
+    } catch (error) {
+      console.error("Error getting parent bookings:", error);
+      return [];
+    }
+  }
+
+  async getBookingsByCaregiver(caregiverId: string): Promise<any[]> {
+    try {
+      const caregiverBookings = await db
+        .select()
+        .from(bookings)
+        .where(eq(bookings.nannyId, parseInt(caregiverId)))
+        .orderBy(desc(bookings.createdAt));
+      
+      return caregiverBookings;
+    } catch (error) {
+      console.error("Error getting caregiver bookings:", error);
+      return [];
+    }
+  }
         .from(bookings)
         .where(eq(bookings.nannyId, parseInt(userId)))
         .orderBy(desc(bookings.createdAt));

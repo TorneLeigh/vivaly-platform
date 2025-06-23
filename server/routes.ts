@@ -10,6 +10,7 @@ import { requireAuth, requireRole } from "./auth-middleware";
 import { sendPasswordResetEmail } from "./email-service";
 import { sendEmail, notifyOwner } from "./lib/sendEmail";
 import { sendUserRegistrationNotification, sendDocumentSubmissionNotification, sendTestEmails, sendJobPostingNotification, sendJobApplicationNotification, sendMessageNotification, sendBookingNotification } from "./email-notifications";
+import { registerStripeRoutes } from "./stripe-integration";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -2239,6 +2240,9 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
       res.status(500).json({ message: "Failed to fetch bookings" });
     }
   });
+
+  // Register Stripe payment routes
+  registerStripeRoutes(app);
 
   const httpServer = createServer(app);
   return httpServer;
