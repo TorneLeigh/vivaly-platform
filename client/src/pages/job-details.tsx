@@ -1,8 +1,12 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams, Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
+import CaregiverApplicationModal from "@/components/caregiver-application-modal";
 import { 
   MapPin, 
   Clock, 
@@ -10,7 +14,8 @@ import {
   Users, 
   Calendar,
   ArrowLeft,
-  User
+  User,
+  Briefcase
 } from "lucide-react";
 
 interface Job {
@@ -37,6 +42,9 @@ interface Job {
 export default function JobDetails() {
   const params = useParams();
   const jobId = params.id;
+  const { user, activeRole } = useAuth();
+  const { toast } = useToast();
+  const [showApplicationModal, setShowApplicationModal] = useState(false);
 
   const { data: job, isLoading, error } = useQuery<Job>({
     queryKey: [`/api/jobs/${jobId}`],
@@ -49,6 +57,29 @@ export default function JobDetails() {
     },
     enabled: !!jobId
   });
+
+  // Fetch caregiver profile for current user
+  const { data: caregiverProfile } = useQuery({
+    queryKey: ['/api/caregiver/profile', user?.id],
+    queryFn: async () => {
+      const res = await fetch(`/api/caregiver/profile/${user?.id}`);
+      if (!res.ok) throw new Error('Failed to fetch caregiver profile');
+      return res.json();
+    },
+    enabled: !!user?.id && activeRole === 'caregiver'
+  });
+
+  const handleApply = () => {
+    if (!caregiverProfile) {
+      toast({
+        title: "Profile Required",
+        description: "Please complete your caregiver profile before applying to jobs.",
+        variant: "destructive",
+      });
+      return;
+    }
+    setShowApplicationModal(true);
+  };
 
   if (isLoading) {
     return (
@@ -190,11 +221,18 @@ export default function JobDetails() {
               View More Jobs
             </Button>
           </Link>
-          <Link href={`/messages?parentId=${job.parentId}&jobId=${job.id}&jobTitle=${encodeURIComponent(job.title || 'Childcare Position')}`}>
-            <Button className="flex-1">
-              Contact Family
+          {activeRole === 'caregiver' ? (
+            <Button onClick={handleApply} className="flex-1">
+              <Briefcase className="w-4 h-4 mr-2" />
+              Apply for Job
             </Button>
-          </Link>
+          ) : (
+            <Link href={`/messages?parentId=${job.parentId}&jobId=${job.id}&jobTitle=${encodeURIComponent(job.title || 'Childcare Position')}`}>
+              <Button className="flex-1">
+                Contact Family
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
 

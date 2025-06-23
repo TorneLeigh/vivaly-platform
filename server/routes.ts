@@ -1828,6 +1828,109 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
     }
   });
 
+  // Job applications endpoint
+  app.post("/api/job-applications", requireAuth, async (req, res) => {
+    try {
+      const { jobId, message, proposedRate, availability } = req.body;
+      const userId = req.session.userId;
+
+      if (!jobId || !message) {
+        return res.status(400).json({ message: "Job ID and message are required" });
+      }
+
+      // Create job application
+      const application = await storage.createJobApplication({
+        id: randomUUID(),
+        jobId,
+        caregiverId: userId!,
+        message,
+        proposedRate: proposedRate || null,
+        availability: availability || null,
+        status: 'pending',
+        appliedAt: new Date()
+      });
+
+      // Get job and caregiver details for notifications
+      const job = await storage.getJob(jobId);
+      const caregiver = await storage.getUserById(userId!);
+      const parent = job ? await storage.getUserById(job.parentId) : null;
+
+      // Send email notification to owner
+      try {
+        await notifyOwner(
+          `✉️ New Job Application: ${caregiver?.firstName} applied to ${job?.title}`,
+          `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+            <h3>New Job Application</h3>
+            <p><strong>Application ID:</strong> ${application.id}</p>
+            <p><strong>Job:</strong> ${job?.title || 'Unknown'}</p>
+            <p><strong>Parent:</strong> ${parent?.firstName} ${parent?.lastName} (${parent?.email})</p>
+            <p><strong>Caregiver:</strong> ${caregiver?.firstName} ${caregiver?.lastName} (${caregiver?.email})</p>
+            <p><strong>Rate:</strong> $${job?.hourlyRate || proposedRate || 'TBD'}/hr</p>
+            <p><strong>Location:</strong> ${job?.location || 'Not specified'}</p>
+            <p><strong>Applied:</strong> ${new Date().toLocaleString('en-AU', { 
+              timeZone: 'Australia/Sydney',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })}</p>
+            <hr>
+            <p><strong>Application Message Preview:</strong></p>
+            <div style="background: #f5f5f5; padding: 10px; border-radius: 5px; font-size: 14px;">
+              ${message.substring(0, 200)}${message.length > 200 ? '...' : ''}
+            </div>
+            <hr>
+            <p style="color: green;"><strong>Revenue Opportunity:</strong> New application submitted - potential commission if hired.</p>
+          </div>`
+        );
+      } catch (emailError) {
+        console.warn("Failed to send owner notification:", emailError);
+      }
+
+      res.json({ success: true, application });
+    } catch (error) {
+      console.error("Create job application error:", error);
+      res.status(500).json({ message: "Failed to create job application" });
+    }
+  });
+
+  // Get caregiver profile endpoint
+  app.get("/api/caregiver/profile/:userId", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      
+      // Get user details
+      const user = await storage.getUserById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Get nanny profile if exists
+      const nanny = await db.select().from(nannies).where(eq(nannies.userId, parseInt(userId))).limit(1);
+      const nannyProfile = nanny[0];
+
+      res.json({
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        bio: nannyProfile?.bio || '',
+        experience: nannyProfile?.experience || 0,
+        location: nannyProfile?.location || '',
+        hourlyRate: nannyProfile?.hourlyRate || '25',
+        services: nannyProfile?.services || [],
+        certificates: nannyProfile?.certificates || [],
+        yearsOfExperience: nannyProfile?.yearsOfExperience || 0,
+        averageRating: nannyProfile?.averageRating || '5.0',
+        profilePhoto: user.profileImageUrl
+      });
+    } catch (error) {
+      console.error("Get caregiver profile error:", error);
+      res.status(500).json({ message: "Failed to fetch caregiver profile" });
+    }
+  });
+
   // Send message endpoint (no auth required for testing)
   app.post("/api/sendMessage", async (req, res) => {
     try {
