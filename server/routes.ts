@@ -987,6 +987,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Save basic caregiver profile info
+  app.post('/api/caregiver-profile', requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId;
+      const { bio, experience, hourlyRate, location, suburb } = req.body;
+      
+      // Check if user already has a nanny profile
+      const existingNanny = await storage.getNannyByUserId(userId);
+      
+      if (existingNanny) {
+        // Update existing nanny profile
+        await storage.updateNanny(existingNanny.id, {
+          bio,
+          experience: parseInt(experience) || 0,
+          hourlyRate: hourlyRate?.toString(),
+          location,
+          suburb
+        });
+      } else {
+        // Create new nanny profile
+        await storage.createNanny({
+          userId: parseInt(userId),
+          bio,
+          experience: parseInt(experience) || 0,
+          hourlyRate: hourlyRate?.toString(),
+          location,
+          suburb,
+          services: [],
+          certificates: [],
+          availability: {},
+          isVerified: false,
+          rating: "0.00",
+          reviewCount: 0
+        });
+      }
+      
+      res.json({ success: true, message: "Profile saved successfully" });
+    } catch (error) {
+      console.error("Save caregiver profile error:", error);
+      res.status(500).json({ message: "Failed to save profile" });
+    }
+  });
+
   app.post('/api/jobs/:jobId/apply', requireRole('caregiver'), async (req, res) => {
     try {
       const { jobId } = req.params;

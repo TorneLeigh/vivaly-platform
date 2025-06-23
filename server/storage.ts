@@ -73,6 +73,9 @@ export interface IStorage {
   // Caregiver operations
   getFeaturedNannies(): Promise<any[]>;
   getNannies(): Promise<any[]>;
+  getNannyByUserId(userId: string): Promise<any>;
+  createNanny(nannyData: any): Promise<any>;
+  updateNanny(nannyId: number, nannyData: any): Promise<any>;
   getCaregiverProfile(userId: string): Promise<any>;
 }
 
@@ -567,6 +570,40 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error("Get nannies error:", error);
       return [];
+    }
+  }
+
+  async getNannyByUserId(userId: string): Promise<any> {
+    try {
+      const [nanny] = await db.select().from(nannies).where(eq(nannies.userId, parseInt(userId)));
+      return nanny;
+    } catch (error) {
+      console.error("Get nanny by user ID error:", error);
+      return null;
+    }
+  }
+
+  async createNanny(nannyData: any): Promise<any> {
+    try {
+      const [nanny] = await db.insert(nannies).values(nannyData).returning();
+      return nanny;
+    } catch (error) {
+      console.error("Create nanny error:", error);
+      throw error;
+    }
+  }
+
+  async updateNanny(nannyId: number, nannyData: any): Promise<any> {
+    try {
+      const [nanny] = await db
+        .update(nannies)
+        .set(nannyData)
+        .where(eq(nannies.id, nannyId))
+        .returning();
+      return nanny;
+    } catch (error) {
+      console.error("Update nanny error:", error);
+      throw error;
     }
   }
 }
