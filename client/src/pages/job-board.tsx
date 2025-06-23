@@ -96,8 +96,8 @@ export default function JobBoard() {
   }
 
   // Show different views based on user role
-  const isCaregiver = user?.isNanny || false;
-  const isParent = user && !user.isNanny;
+  const isCaregiver = user?.isNanny === true;
+  const isParent = user && user.isNanny === false;
   
   // Job posting form state
   const [jobForm, setJobForm] = useState({
@@ -309,7 +309,7 @@ export default function JobBoard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as any)} className="w-full">
-          <TabsList className={`grid w-full ${isParent ? 'grid-cols-2' : isCaregiver ? 'grid-cols-2' : 'grid-cols-1'} mb-8`}>
+          <TabsList className={`grid w-full ${isParent ? 'grid-cols-2' : 'grid-cols-1'} mb-8`}>
             <TabsTrigger value="browse" className="flex items-center gap-2">
               <Search className="h-4 w-4" />
               Browse Jobs
@@ -516,9 +516,10 @@ export default function JobBoard() {
             )}
           </TabsContent>
 
-          {/* Post Job Tab */}
-          <TabsContent value="post">
-            <Card>
+          {/* Post Job Tab - Only for Parents */}
+          {isParent && (
+            <TabsContent value="post">
+              <Card>
               <CardHeader>
                 <CardTitle>Post a New Job</CardTitle>
                 <CardDescription>
@@ -639,6 +640,7 @@ export default function JobBoard() {
               </CardContent>
             </Card>
           </TabsContent>
+          )}
 
           {/* Applications Tab */}
           <TabsContent value="applications">
