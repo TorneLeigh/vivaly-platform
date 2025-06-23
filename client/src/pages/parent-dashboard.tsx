@@ -2,10 +2,14 @@ import { useAuth } from '@/hooks/useAuth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import RoleToggle from '@/components/RoleToggle';
 import ReferralPopup from '@/components/ReferralPopup';
 import { ReferralBanner } from '@/components/ReferralBanner';
 import { useLocation } from 'wouter';
+import { useQuery } from '@tanstack/react-query';
+import { apiRequest } from '@/lib/queryClient';
 import { 
   Users, 
   Calendar, 
@@ -14,8 +18,207 @@ import {
   Heart,
   Clock,
   MapPin,
-  Star
+  Star,
+  CheckCircle,
+  DollarSign,
+  Phone,
+  Plus
 } from 'lucide-react';
+
+// Booking interface
+interface Booking {
+  id: string;
+  startTime: string;
+  endTime: string;
+  status: 'upcoming' | 'ongoing' | 'completed' | 'cancelled';
+  totalAmount: number;
+  caregiver: {
+    firstName: string;
+    lastName: string;
+    profileImageUrl?: string;
+  };
+  job: {
+    title: string;
+    location: string;
+  };
+}
+
+// My Bookings Component
+function MyBookingsSection() {
+  const [, setLocation] = useLocation();
+  
+  // Fetch bookings
+  const { data: bookings = [], isLoading } = useQuery<Booking[]>({
+    queryKey: ['/api/parent/bookings'],
+    queryFn: async () => {
+      const response = await fetch('/api/parent/bookings', {
+        credentials: 'include'
+      });
+      if (!response.ok) throw new Error('Failed to fetch bookings');
+      return response.json();
+    },
+  });
+
+  const upcomingBookings = bookings.filter(b => b.status === 'upcoming');
+  const recentBookings = bookings.filter(b => ['completed', 'ongoing'].includes(b.status)).slice(0, 3);
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-AU', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
+
+  const formatTime = (dateString: string) => {
+    return new Date(dateString).toLocaleTimeString('en-AU', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'upcoming':
+        return <Badge className="bg-blue-100 text-blue-700">Upcoming</Badge>;
+      case 'ongoing':
+        return <Badge className="bg-green-100 text-green-700">Ongoing</Badge>;
+      case 'completed':
+        return <Badge className="bg-gray-100 text-gray-700">Completed</Badge>;
+      default:
+        return <Badge variant="outline">{status}</Badge>;
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>My Bookings</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="animate-pulse space-y-4">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="h-20 bg-gray-200 rounded-lg"></div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calendar className="w-5 h-5" />
+            My Bookings
+          </CardTitle>
+          <Button variant="outline" size="sm" onClick={() => setLocation('/my-bookings')}>
+            View all
+          </Button>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <Tabs defaultValue="upcoming" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="upcoming">Upcoming ({upcomingBookings.length})</TabsTrigger>
+            <TabsTrigger value="recent">Recent ({recentBookings.length})</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="upcoming" className="space-y-4 mt-4">
+            {upcomingBookings.length === 0 ? (
+              <div className="text-center py-8 text-gray-500">
+                <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                <p className="text-gray-600">No upcoming bookings</p>
+                <Button 
+                  variant="outline" 
+                  className="mt-3"
+                  onClick={() => setLocation('/search')}
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Book a Caregiver
+                </Button>
+              </div>
+            ) : (
+              upcomingBookings.map((booking) => (
+                <div key={booking.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-12 w-12">
+                      <AvatarImage src={booking.caregiver.profileImageUrl} />
+                      <AvatarFallback>
+                        {booking.caregiver.firstName[0]}{booking.caregiver.lastName[0]}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <h4 className="font-medium">{booking.caregiver.firstName} {booking.caregiver.lastName}</h4>
+                      <p className="text-sm text-gray-600">{booking.job.title}</p>
+                      <div className="flex items-center gap-4 text-xs text-gray-500">
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          {formatDate(booking.startTime)}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {formatTime(booking.startTime)}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <MapPin className="w-3 h-3" />
+                          {booking.job.location}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    {getStatusBadge(booking.status)}
+                    <p className="text-sm font-medium mt-1">${booking.totalAmount}</p>
+                  </div>
+                </div>
+              ))
+            )}
+          </TabsContent>
+          
+          <TabsContent value="recent" className="space-y-4 mt-4">
+            {recentBookings.length === 0 ? (
+              <div className="text-center py-8 text-gray-500">
+                <CheckCircle className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                <p className="text-gray-600">No recent bookings</p>
+              </div>
+            ) : (
+              recentBookings.map((booking) => (
+                <div key={booking.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-12 w-12">
+                      <AvatarImage src={booking.caregiver.profileImageUrl} />
+                      <AvatarFallback>
+                        {booking.caregiver.firstName[0]}{booking.caregiver.lastName[0]}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <h4 className="font-medium">{booking.caregiver.firstName} {booking.caregiver.lastName}</h4>
+                      <p className="text-sm text-gray-600">{booking.job.title}</p>
+                      <div className="flex items-center gap-4 text-xs text-gray-500">
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          {formatDate(booking.startTime)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    {getStatusBadge(booking.status)}
+                    <p className="text-sm font-medium mt-1">${booking.totalAmount}</p>
+                  </div>
+                </div>
+              ))
+            )}
+          </TabsContent>
+        </Tabs>
+      </CardContent>
+    </Card>
+  );
+}
 
 export default function ParentDashboard() {
   const { user, isAuthenticated, activeRole, roles, switchRole } = useAuth();
@@ -120,28 +323,29 @@ export default function ParentDashboard() {
           ))}
         </div>
 
-        {/* Recent Activity */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* My Bookings Section - Airbnb Style */}
+        <MyBookingsSection />
+
+        {/* Additional Dashboard Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Clock className="w-5 h-5" />
-                Recent Bookings
+                <MessageSquare className="w-5 h-5" />
+                Recent Messages
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <div className="text-center py-8 text-gray-500">
-                  <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                  <p>No recent bookings</p>
-                  <Button 
-                    variant="outline" 
-                    className="mt-3"
-                    onClick={() => setLocation('/search')}
-                  >
-                    Find a Caregiver
-                  </Button>
-                </div>
+              <div className="text-center py-8 text-gray-500">
+                <MessageSquare className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                <p>No recent messages</p>
+                <Button 
+                  variant="outline" 
+                  className="mt-3"
+                  onClick={() => setLocation('/messages')}
+                >
+                  View Messages
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -149,6 +353,25 @@ export default function ParentDashboard() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
+                <Heart className="w-5 h-5" />
+                Favorite Caregivers
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center py-8 text-gray-500">
+                <Heart className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                <p>No favorites yet</p>
+                <Button 
+                  variant="outline" 
+                  className="mt-3"
+                  onClick={() => setLocation('/search-caregivers')}
+                >
+                  Find Caregivers
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
                 <Heart className="w-5 h-5" />
                 Favorite Caregivers
               </CardTitle>

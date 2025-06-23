@@ -124,7 +124,7 @@ const caregiverFaqData = [
     questions: [
       {
         q: "How do I set my rates?",
-        a: "Set your hourly rate in your caregiver profile. You can update this anytime. Rates are clearly displayed to families when they view your profile."
+        a: "Set your hourly rate in your caregiver profile. You can update this anytime. Rates are clearly displayed to families when they view your profile. VIVALY charges a 10% platform fee, so you receive 90% of your posted rate."
       },
       {
         q: "When and how do I get paid?",

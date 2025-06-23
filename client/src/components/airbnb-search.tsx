@@ -179,6 +179,16 @@ export default function AirbnbSearch({ onSearch, className }: AirbnbSearchProps)
   };
 
   const handleSearch = () => {
+    // Navigate to search caregivers page
+    const searchParams = new URLSearchParams();
+    if (filters.location) searchParams.set("location", filters.location);
+    if (filters.serviceType) searchParams.set("serviceType", filters.serviceType);
+    if (filters.date) searchParams.set("date", filters.date);
+    if (filters.careFor) searchParams.set("careFor", filters.careFor);
+    
+    const searchUrl = `/search-caregivers${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
+    window.location.href = searchUrl;
+    
     onSearch(filters);
     setIsExpanded(false);
     setActiveField(null);

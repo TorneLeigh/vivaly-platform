@@ -53,8 +53,8 @@ export default function SearchFilters({ onSearch, className = "" }: SearchFilter
     if (endTime) searchParams.set("endTime", endTime);
     if (numberOfPeople) searchParams.set("numberOfPeople", numberOfPeople);
     
-    // Navigate to search results page with parameters
-    const searchUrl = `/search${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
+    // Navigate to search caregivers page with parameters
+    const searchUrl = `/search-caregivers${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
     setNavigationLocation(searchUrl);
     
     // Also call the onSearch callback for compatibility
