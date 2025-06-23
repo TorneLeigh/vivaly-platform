@@ -118,91 +118,96 @@ export default function ParentDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header Section */}
+      {/* Header Section - Mobile Optimized */}
       <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 truncate">
                 Welcome back, {user?.firstName || 'Parent'}
               </h1>
-              <p className="text-gray-600 mt-1">
+              <p className="text-sm sm:text-base text-gray-600 mt-1">
                 Manage your bookings and find quality childcare
               </p>
             </div>
             <Button 
               onClick={() => setLocation('/search-caregivers')}
-              className="bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] hover:opacity-90 text-white"
+              className="bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] hover:opacity-90 text-white w-full sm:w-auto flex-shrink-0"
+              size="sm"
             >
               <Search className="h-4 w-4 mr-2" />
-              Find Caregivers
+              <span className="hidden sm:inline">Find Caregivers</span>
+              <span className="sm:hidden">Find Care</span>
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-6">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+      {/* Main Content - Mobile Optimized */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 sm:space-y-6">
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="overview" className="flex items-center gap-2">
-              <Home className="h-4 w-4" />
-              Overview
+            <TabsTrigger value="overview" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+              <Home className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Overview</span>
+              <span className="sm:hidden">Home</span>
             </TabsTrigger>
-            <TabsTrigger value="upcoming" className="flex items-center gap-2">
-              <CalendarDays className="h-4 w-4" />
-              Upcoming ({allUpcoming.length})
+            <TabsTrigger value="upcoming" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+              <CalendarDays className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Upcoming ({allUpcoming.length})</span>
+              <span className="sm:hidden">Next ({allUpcoming.length})</span>
             </TabsTrigger>
-            <TabsTrigger value="past" className="flex items-center gap-2">
-              <CheckCircle className="h-4 w-4" />
-              Past ({allCompleted.length})
+            <TabsTrigger value="past" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+              <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Past ({allCompleted.length})</span>
+              <span className="sm:hidden">Done ({allCompleted.length})</span>
             </TabsTrigger>
           </TabsList>
 
-          {/* Overview Tab */}
-          <TabsContent value="overview" className="space-y-6">
-            {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {/* Overview Tab - Mobile Optimized */}
+          <TabsContent value="overview" className="space-y-4 sm:space-y-6">
+            {/* Stats Cards - Mobile Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
               <Card>
-                <CardContent className="p-6">
+                <CardContent className="p-3 sm:p-6">
                   <div className="flex items-center">
-                    <Calendar className="h-8 w-8 text-blue-600" />
-                    <div className="ml-4">
-                      <p className="text-2xl font-bold">{allUpcoming.length}</p>
-                      <p className="text-sm text-gray-600">Upcoming</p>
+                    <Calendar className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600 flex-shrink-0" />
+                    <div className="ml-2 sm:ml-4 min-w-0">
+                      <p className="text-lg sm:text-2xl font-bold">{allUpcoming.length}</p>
+                      <p className="text-xs sm:text-sm text-gray-600 truncate">Upcoming</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
               <Card>
-                <CardContent className="p-6">
+                <CardContent className="p-3 sm:p-6">
                   <div className="flex items-center">
-                    <CheckCircle className="h-8 w-8 text-green-600" />
-                    <div className="ml-4">
-                      <p className="text-2xl font-bold">{allCompleted.length}</p>
-                      <p className="text-sm text-gray-600">Completed</p>
+                    <CheckCircle className="h-6 w-6 sm:h-8 sm:w-8 text-green-600 flex-shrink-0" />
+                    <div className="ml-2 sm:ml-4 min-w-0">
+                      <p className="text-lg sm:text-2xl font-bold">{allCompleted.length}</p>
+                      <p className="text-xs sm:text-sm text-gray-600 truncate">Completed</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
               <Card>
-                <CardContent className="p-6">
+                <CardContent className="p-3 sm:p-6">
                   <div className="flex items-center">
-                    <Briefcase className="h-8 w-8 text-purple-600" />
-                    <div className="ml-4">
-                      <p className="text-2xl font-bold">{jobs.length}</p>
-                      <p className="text-sm text-gray-600">Active Jobs</p>
+                    <Briefcase className="h-6 w-6 sm:h-8 sm:w-8 text-purple-600 flex-shrink-0" />
+                    <div className="ml-2 sm:ml-4 min-w-0">
+                      <p className="text-lg sm:text-2xl font-bold">{jobs.length}</p>
+                      <p className="text-xs sm:text-sm text-gray-600 truncate">Active Jobs</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
               <Card>
-                <CardContent className="p-6">
+                <CardContent className="p-3 sm:p-6">
                   <div className="flex items-center">
-                    <Heart className="h-8 w-8 text-red-600" />
-                    <div className="ml-4">
-                      <p className="text-2xl font-bold">4.9</p>
-                      <p className="text-sm text-gray-600">Avg Rating</p>
+                    <Heart className="h-6 w-6 sm:h-8 sm:w-8 text-red-600 flex-shrink-0" />
+                    <div className="ml-2 sm:ml-4 min-w-0">
+                      <p className="text-lg sm:text-2xl font-bold">4.9</p>
+                      <p className="text-xs sm:text-sm text-gray-600 truncate">Avg Rating</p>
                     </div>
                   </div>
                 </CardContent>
@@ -265,8 +270,8 @@ export default function ParentDashboard() {
               </Card>
             </div>
 
-            {/* Recent Activity */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Recent Activity - Mobile Responsive */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               {/* Upcoming Bookings Preview */}
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
@@ -380,16 +385,18 @@ export default function ParentDashboard() {
             </div>
           </TabsContent>
 
-          {/* Upcoming Bookings Tab */}
-          <TabsContent value="upcoming" className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold">Upcoming Bookings</h2>
+          {/* Upcoming Bookings Tab - Mobile Optimized */}
+          <TabsContent value="upcoming" className="space-y-4 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <h2 className="text-lg sm:text-xl font-semibold">Upcoming Bookings</h2>
               <Button 
                 onClick={() => setLocation('/search-caregivers')}
-                className="bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] hover:opacity-90 text-white"
+                className="bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] hover:opacity-90 text-white w-full sm:w-auto"
+                size="sm"
               >
                 <Plus className="h-4 w-4 mr-2" />
-                Book Caregiver
+                <span className="hidden sm:inline">Book Caregiver</span>
+                <span className="sm:hidden">Book Care</span>
               </Button>
             </div>
 
@@ -409,22 +416,22 @@ export default function ParentDashboard() {
                 </CardContent>
               </Card>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {allUpcoming.map((booking) => (
                   <Card key={booking.id} className="hover:shadow-lg transition-shadow">
-                    <CardContent className="p-6">
-                      <div className="flex items-start space-x-4">
-                        <Avatar className="h-12 w-12">
+                    <CardContent className="p-4 sm:p-6">
+                      <div className="flex items-start space-x-3 sm:space-x-4">
+                        <Avatar className="h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0">
                           <AvatarImage src={booking.caregiver.profileImageUrl} />
-                          <AvatarFallback className="bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] text-white">
+                          <AvatarFallback className="bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] text-white text-sm sm:text-base">
                             {booking.caregiver.firstName.charAt(0)}
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-semibold text-lg">
+                          <h3 className="font-semibold text-base sm:text-lg truncate">
                             {booking.caregiver.firstName} {booking.caregiver.lastName}
                           </h3>
-                          <p className="text-gray-600 text-sm mb-2">{booking.job.title}</p>
+                          <p className="text-gray-600 text-sm mb-2 truncate">{booking.job.title}</p>
                           
                           <div className="space-y-2 text-sm text-gray-600">
                             <div className="flex items-center">
@@ -447,14 +454,14 @@ export default function ParentDashboard() {
 
                           <div className="flex items-center justify-between mt-4">
                             {getStatusBadge(booking.status)}
-                            <div className="flex space-x-2">
+                            <div className="flex space-x-1 sm:space-x-2">
                               {booking.caregiver.phone && (
-                                <Button size="sm" variant="outline">
-                                  <Phone className="h-4 w-4" />
+                                <Button size="sm" variant="outline" className="p-2">
+                                  <Phone className="h-3 w-3 sm:h-4 sm:w-4" />
                                 </Button>
                               )}
-                              <Button size="sm" variant="outline" onClick={() => setLocation('/messages')}>
-                                <MessageSquare className="h-4 w-4" />
+                              <Button size="sm" variant="outline" onClick={() => setLocation('/messages')} className="p-2">
+                                <MessageSquare className="h-3 w-3 sm:h-4 sm:w-4" />
                               </Button>
                             </div>
                           </div>
@@ -467,11 +474,11 @@ export default function ParentDashboard() {
             )}
           </TabsContent>
 
-          {/* Past Bookings Tab */}
-          <TabsContent value="past" className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold">Booking History</h2>
-              <Button variant="outline">
+          {/* Past Bookings Tab - Mobile Optimized */}
+          <TabsContent value="past" className="space-y-4 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <h2 className="text-lg sm:text-xl font-semibold">Booking History</h2>
+              <Button variant="outline" size="sm" className="w-full sm:w-auto">
                 <Filter className="h-4 w-4 mr-2" />
                 Filter
               </Button>
@@ -490,34 +497,36 @@ export default function ParentDashboard() {
                 </CardContent>
               </Card>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {allCompleted.map((booking) => (
                   <Card key={booking.id}>
-                    <CardContent className="p-6">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-4">
-                          <Avatar className="h-12 w-12">
+                    <CardContent className="p-4 sm:p-6">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex items-center space-x-3 sm:space-x-4 min-w-0 flex-1">
+                          <Avatar className="h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0">
                             <AvatarImage src={booking.caregiver.profileImageUrl} />
-                            <AvatarFallback className="bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] text-white">
+                            <AvatarFallback className="bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] text-white text-sm sm:text-base">
                               {booking.caregiver.firstName.charAt(0)}
                             </AvatarFallback>
                           </Avatar>
-                          <div>
-                            <h3 className="font-semibold">
+                          <div className="min-w-0 flex-1">
+                            <h3 className="font-semibold text-sm sm:text-base truncate">
                               {booking.caregiver.firstName} {booking.caregiver.lastName}
                             </h3>
-                            <p className="text-gray-600 text-sm">{booking.job.title}</p>
-                            <p className="text-gray-500 text-sm">
+                            <p className="text-gray-600 text-xs sm:text-sm truncate">{booking.job.title}</p>
+                            <p className="text-gray-500 text-xs sm:text-sm">
                               {formatDate(booking.startTime)} • {formatTime(booking.startTime)} - {formatTime(booking.endTime)}
                             </p>
                           </div>
                         </div>
-                        <div className="text-right">
-                          {getStatusBadge(booking.status)}
-                          <p className="text-lg font-semibold mt-1">${booking.totalAmount}</p>
-                          <Button size="sm" variant="outline" className="mt-2">
-                            <Star className="h-4 w-4 mr-1" />
-                            Rate
+                        <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 sm:gap-1">
+                          <div className="flex items-center gap-2 sm:flex-col sm:items-end sm:gap-1">
+                            {getStatusBadge(booking.status)}
+                            <p className="text-base sm:text-lg font-semibold">${booking.totalAmount}</p>
+                          </div>
+                          <Button size="sm" variant="outline" className="flex-shrink-0">
+                            <Star className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                            <span className="text-xs sm:text-sm">Rate</span>
                           </Button>
                         </div>
                       </div>

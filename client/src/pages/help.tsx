@@ -313,9 +313,9 @@ export default function Help() {
             </div>
           </div>
 
-          {/* Contact Form */}
+          {/* Contact Form - Mobile Friendly */}
           <div className="lg:col-span-1">
-            <Card className="sticky top-8">
+            <Card className="lg:sticky lg:top-8">
               <CardHeader>
                 <CardTitle>Contact Support</CardTitle>
                 <p className="text-sm text-gray-600">Can't find what you're looking for? Send us a message.</p>
