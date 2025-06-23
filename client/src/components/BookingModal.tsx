@@ -272,9 +272,9 @@ export default function BookingModal({ isOpen, onClose, caregiver, jobId }: Book
               <ol className="text-sm text-blue-800 space-y-1">
                 <li>1. Send booking request to caregiver</li>
                 <li>2. Caregiver accepts or declines</li>
-                <li>3. If accepted, you'll be prompted to pay</li>
-                <li>4. Payment is held securely until job completion</li>
-                <li>5. Caregiver receives payment after job is done</li>
+                <li>3. If accepted, you'll be prompted to pay via Stripe</li>
+                <li>4. Payment is held securely in escrow until job completion</li>
+                <li>5. Caregiver receives payment automatically 24h after job is done</li>
               </ol>
             </div>
           </div>
