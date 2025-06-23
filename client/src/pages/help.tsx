@@ -341,13 +341,7 @@ export default function Help() {
                   Send Message
                 </Button>
                 
-                <div className="text-center pt-4 border-t">
-                  <p className="text-xs text-gray-500 mb-2">Support Hours</p>
-                  <div className="flex items-center justify-center gap-1 text-sm text-gray-600">
-                    <Clock className="h-4 w-4" />
-                    Mon-Fri 8AM-8PM AEST
-                  </div>
-                </div>
+
               </CardContent>
             </Card>
 

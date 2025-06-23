@@ -12,6 +12,7 @@ import { MessageSquare, Send, Search, Phone, Video, MoreVertical, X, User, Mail 
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { CaregiverProfileDisplay } from "@/components/CaregiverProfileDisplay";
+import { ProfileCard } from "@/components/ProfileCard";
 
 // Contact Family Modal Component
 interface ContactFamilyModalProps {
@@ -148,19 +149,30 @@ interface Conversation {
 }
 
 export default function Messages() {
-  const { user } = useAuth();
+  const { user, activeRole, roles } = useAuth();
   const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
   const [newMessage, setNewMessage] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [showContactModal, setShowContactModal] = useState(false);
   const [contactJobData, setContactJobData] = useState<any>(null);
+  const [messageRole, setMessageRole] = useState<'parent' | 'caregiver'>(activeRole || 'parent');
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [location] = useLocation();
+  
+  // Check if user has multiple roles
+  const hasMultipleRoles = roles && roles.length > 1;
 
-  // Fetch conversations
+  // Fetch conversations for current message role
   const { data: conversations = [], isLoading: conversationsLoading } = useQuery({
-    queryKey: ['/api/conversations'],
+    queryKey: ['/api/conversations', messageRole],
+    queryFn: async () => {
+      const response = await fetch(`/api/conversations?role=${messageRole}`, {
+        credentials: 'include'
+      });
+      if (!response.ok) throw new Error('Failed to fetch conversations');
+      return response.json();
+    },
     enabled: !!user
   });
 
@@ -337,8 +349,38 @@ export default function Messages() {
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Messages</h1>
-          <p className="text-gray-600">Connect with families and caregivers</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Messages</h1>
+              <p className="text-gray-600">Connect with families and caregivers</p>
+            </div>
+            
+            {/* Role toggle for messages if user has multiple roles */}
+            {hasMultipleRoles && (
+              <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+                <button
+                  onClick={() => setMessageRole('parent')}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    messageRole === 'parent' 
+                      ? 'bg-white text-gray-900 shadow-sm' 
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Parent Messages
+                </button>
+                <button
+                  onClick={() => setMessageRole('caregiver')}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    messageRole === 'caregiver' 
+                      ? 'bg-white text-gray-900 shadow-sm' 
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Caregiver Messages
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Safety Notice */}
