@@ -76,6 +76,7 @@ export interface IStorage {
   getNannyByUserId(userId: string): Promise<any>;
   createNanny(nannyData: any): Promise<any>;
   updateNanny(nannyId: number, nannyData: any): Promise<any>;
+  updateCaregiverProfileSection(userId: string, section: string, data: any): Promise<void>;
   getCaregiverProfile(userId: string): Promise<any>;
 }
 
@@ -629,6 +630,95 @@ export class DatabaseStorage implements IStorage {
       return nanny;
     } catch (error) {
       console.error("Update nanny error:", error);
+      throw error;
+    }
+  }
+
+  async updateCaregiverProfileSection(userId: string, section: string, data: any): Promise<void> {
+    try {
+      // Get or create nanny profile
+      let nannyProfile = await this.getNannyByUserId(userId);
+      
+      if (!nannyProfile) {
+        // Create new nanny profile with defaults
+        nannyProfile = await this.createNanny({
+          userId: parseInt(userId),
+          bio: "",
+          experience: 0,
+          hourlyRate: "0",
+          location: "",
+          suburb: "",
+          services: [],
+          certificates: [],
+          availability: {},
+          isVerified: false,
+          hasPoliceCheck: false,
+          rating: "0",
+          reviewCount: 0
+        });
+      }
+
+      // Update nanny profile based on section
+      const updateData: any = {};
+      
+      switch (section) {
+        case 'basic':
+          if (data.bio !== undefined) updateData.bio = data.bio;
+          if (data.experience !== undefined) updateData.experience = parseInt(data.experience) || 0;
+          if (data.hourlyRate !== undefined) updateData.hourlyRate = data.hourlyRate?.toString();
+          if (data.location !== undefined) updateData.location = data.location;
+          if (data.suburb !== undefined) updateData.suburb = data.suburb;
+          break;
+          
+        case 'certifications':
+          if (data.hasFirstAid !== undefined) updateData.hasFirstAid = data.hasFirstAid;
+          if (data.hasWwcc !== undefined) updateData.hasWwcc = data.hasWwcc;
+          if (data.hasPoliceCheck !== undefined) updateData.hasPoliceCheck = data.hasPoliceCheck;
+          if (data.hasReferences !== undefined) updateData.hasReferences = data.hasReferences;
+          if (data.certifications !== undefined) updateData.certificates = data.certifications;
+          break;
+          
+        case 'services':
+          if (data.servicesOffered !== undefined) updateData.services = data.servicesOffered;
+          break;
+          
+        case 'availability':
+          if (data.availableDays !== undefined || data.preferredStartTime !== undefined) {
+            updateData.availability = {
+              days: data.availableDays || [],
+              startTime: data.preferredStartTime || "",
+              endTime: data.preferredEndTime || "",
+              minimumHours: data.minimumHours || "",
+              maximumHours: data.maximumHours || ""
+            };
+          }
+          break;
+          
+        case 'personal':
+          if (data.personalityDescription !== undefined) updateData.personalityDescription = data.personalityDescription;
+          if (data.approach !== undefined) updateData.approach = data.approach;
+          if (data.specialInstructions !== undefined) updateData.specialInstructions = data.specialInstructions;
+          break;
+      }
+
+      // Update the nanny profile if there are changes
+      if (Object.keys(updateData).length > 0) {
+        await this.updateNanny(nannyProfile.id, updateData);
+      }
+      
+      // Also update user basic info if needed
+      if (section === 'basic') {
+        const userUpdateData: any = {};
+        if (data.firstName !== undefined) userUpdateData.firstName = data.firstName;
+        if (data.lastName !== undefined) userUpdateData.lastName = data.lastName;
+        if (data.phone !== undefined) userUpdateData.phone = data.phone;
+        
+        if (Object.keys(userUpdateData).length > 0) {
+          await this.updateUser(userId, userUpdateData);
+        }
+      }
+    } catch (error) {
+      console.error("Update caregiver profile section error:", error);
       throw error;
     }
   }

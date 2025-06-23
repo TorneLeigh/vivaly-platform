@@ -1326,14 +1326,20 @@ Torne`;
       await storage.updateCaregiverProfileSection(userId, section, data);
 
       // Send email notification to owner
-      await sendOwnerNotification({
-        type: 'profile_section_update',
-        details: {
-          userId,
-          section,
-          userEmail: data.email || 'Not provided'
-        }
-      });
+      try {
+        const user = await storage.getUserById(userId);
+        await sendOwnerNotification({
+          type: 'profile_section_update',
+          details: {
+            userId,
+            section,
+            userEmail: user?.email || 'Not provided',
+            userName: `${user?.firstName || ''} ${user?.lastName || ''}`.trim()
+          }
+        });
+      } catch (emailError) {
+        console.warn("Failed to send owner notification:", emailError);
+      }
 
       res.json({ success: true });
     } catch (error) {
