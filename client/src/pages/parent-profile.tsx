@@ -48,6 +48,7 @@ export default function ParentProfile() {
   const [activeSection, setActiveSection] = useState("basic-info");
   const [videoUploading, setVideoUploading] = useState(false);
   const [photoUploading, setPhotoUploading] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
   const [profilePhotos, setProfilePhotos] = useState<Array<{id: string, url: string, isMain?: boolean}>>([]);
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   const [saving, setSaving] = useState(false);

@@ -171,6 +171,7 @@ export default function CaregiverProfile() {
   const [activeSection, setActiveSection] = useState("basic");
   const [isEditing, setIsEditing] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -417,7 +418,10 @@ export default function CaregiverProfile() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="outline">
+              <Button 
+                variant="outline"
+                onClick={() => setShowPreview(true)}
+              >
                 <Eye className="h-4 w-4 mr-2" />
                 View Profile
               </Button>

@@ -34,7 +34,6 @@ export default function Footer() {
               <li><Link href="/safety-center" className="hover:text-coral transition-colors">Safety Center</Link></li>
               <li><Link href="/terms-of-service" className="hover:text-coral transition-colors">Terms of Service</Link></li>
               <li><Link href="/privacy-policy" className="hover:text-coral transition-colors">Privacy Policy</Link></li>
-              <li><Link href="/accessibility" className="hover:text-coral transition-colors">Accessibility</Link></li>
             </ul>
           </div>
         </div>
