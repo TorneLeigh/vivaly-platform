@@ -1324,8 +1324,53 @@ Torne`;
 
       console.log(`Saving section: ${section} for user: ${userId}`, data);
 
-      // Update specific section of caregiver profile
-      await storage.updateCaregiverProfileSection(userId, section, data);
+      // Simplified profile saving - update nanny profile directly
+      let nannyProfile = await storage.getNannyByUserId(userId);
+      
+      if (!nannyProfile) {
+        // Create new nanny profile
+        nannyProfile = await storage.createNanny({
+          userId: parseInt(userId),
+          bio: data.bio || "",
+          experience: parseInt(data.experience) || 0,
+          hourlyRate: data.hourlyRate?.toString() || "0",
+          location: data.location || "",
+          suburb: data.suburb || "",
+          services: [],
+          certificates: [],
+          availability: {},
+          isVerified: false,
+          hasPoliceCheck: false,
+          rating: "0",
+          reviewCount: 0
+        });
+      } else {
+        // Update existing profile
+        const updateData: any = {};
+        
+        if (data.bio !== undefined) updateData.bio = data.bio;
+        if (data.experience !== undefined) updateData.experience = parseInt(data.experience) || 0;
+        if (data.hourlyRate !== undefined) updateData.hourlyRate = data.hourlyRate?.toString();
+        if (data.location !== undefined) updateData.location = data.location;
+        if (data.suburb !== undefined) updateData.suburb = data.suburb;
+        if (data.hasFirstAid !== undefined) updateData.hasFirstAid = data.hasFirstAid;
+        if (data.hasWwcc !== undefined) updateData.hasWwcc = data.hasWwcc;
+        if (data.hasPoliceCheck !== undefined) updateData.hasPoliceCheck = data.hasPoliceCheck;
+        
+        if (Object.keys(updateData).length > 0) {
+          await storage.updateNanny(nannyProfile.id, updateData);
+        }
+      }
+
+      // Update user basic info
+      const userUpdateData: any = {};
+      if (data.firstName !== undefined) userUpdateData.firstName = data.firstName;
+      if (data.lastName !== undefined) userUpdateData.lastName = data.lastName;
+      if (data.phone !== undefined) userUpdateData.phone = data.phone;
+      
+      if (Object.keys(userUpdateData).length > 0) {
+        await storage.updateUser(userId, userUpdateData);
+      }
 
       res.json({ success: true, message: `${section} section saved successfully` });
     } catch (error) {
