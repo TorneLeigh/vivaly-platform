@@ -1,13 +1,12 @@
-// server/cron-jobs.js
+// server/cron-jobs.ts
 // Automatic payment release system (Airbnb-style)
 
-const cron = require('node-cron');
-const fetch = require('node-fetch');
+import * as cron from 'node-cron';
 
 // Run every hour to check for payments to release
 const AUTO_RELEASE_CRON = '0 * * * *'; // Every hour
 
-function startPaymentReleaseCron() {
+export function startPaymentReleaseCron() {
   console.log('Starting automatic payment release cron job...');
   
   cron.schedule(AUTO_RELEASE_CRON, async () => {
@@ -40,5 +39,3 @@ function startPaymentReleaseCron() {
   
   console.log('✅ Payment release cron job started - will run every hour');
 }
-
-module.exports = { startPaymentReleaseCron };

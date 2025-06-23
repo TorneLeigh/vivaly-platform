@@ -6,8 +6,7 @@ import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import * as Sentry from "@sentry/node";
 import { registerRoutes } from "./routes";
-// Import cron jobs for automatic payment release
-const { startPaymentReleaseCron } = require('./cron-jobs');
+import { startPaymentReleaseCron } from "./cron-jobs";
 import { setupVite, serveStatic, log } from "./vite";
 import "./types";
 
