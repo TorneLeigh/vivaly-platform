@@ -1266,25 +1266,27 @@ Torne`;
   // Send interest/apply for job
   app.post('/api/send-interest', requireAuth, async (req, res) => {
     try {
-      const { jobId, parentId, message } = req.body;
+      const { jobId, parentId, message, messageType } = req.body;
       const caregiverId = req.session.userId;
 
       if (!jobId || !parentId || !message) {
         return res.status(400).json({ message: 'Missing required fields' });
       }
 
-      // Create job application
-      const applicationId = nanoid();
-      await storage.createApplication({
-        id: applicationId,
-        caregiverId,
-        jobId,
-        message,
-        status: 'pending',
-        appliedAt: new Date().toISOString()
-      });
+      // Only create application record for the first message (profile card)
+      if (!messageType || messageType === 'profile_card') {
+        const applicationId = nanoid();
+        await storage.createApplication({
+          id: applicationId,
+          caregiverId,
+          jobId,
+          message,
+          status: 'pending',
+          appliedAt: new Date().toISOString()
+        });
+      }
 
-      // Create automated message to parent with application
+      // Create message to parent
       const caregiver = await storage.getUser(caregiverId);
       if (caregiver) {
         const messageId = nanoid();
@@ -1297,18 +1299,21 @@ Torne`;
         });
       }
 
-      // Send email notification to owner
-      await sendOwnerNotification({
-        type: 'job_application',
-        details: {
-          caregiverId,
-          jobId,
-          parentId,
-          message: message.substring(0, 100) + '...'
-        }
-      });
+      // Send email notification to owner only for new applications
+      if (!messageType || messageType === 'profile_card') {
+        await sendOwnerNotification({
+          type: 'job_application',
+          details: {
+            caregiverId,
+            jobId,
+            parentId,
+            caregiverName: caregiver?.firstName + ' ' + caregiver?.lastName,
+            message: 'New caregiver application received'
+          }
+        });
+      }
 
-      res.json({ success: true, applicationId });
+      res.json({ success: true });
     } catch (error) {
       console.error('Error sending interest:', error);
       res.status(500).json({ message: 'Failed to send interest' });

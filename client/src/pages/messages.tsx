@@ -517,7 +517,96 @@ export default function Messages() {
 
                 {/* Messages */}
                 <CardContent className="flex-1 p-4 max-h-[400px] overflow-y-auto">
-                  <div className="flex flex-col space-y-2">
+                  <div className="flex flex-col space-y-4">
+                    {filteredMessages.map((message: any) => {
+                      // Check if this is a profile card message
+                      let profileData = null;
+                      try {
+                        if (message.content.includes('CAREGIVER PROFILE CARD') || message.content.includes('👤')) {
+                          // Parse profile data from structured message
+                          const lines = message.content.split('\n');
+                          const nameLine = lines.find(l => l.includes('👤'));
+                          const locationLine = lines.find(l => l.includes('📍'));
+                          const ratingLine = lines.find(l => l.includes('⭐'));
+                          const rateLine = lines.find(l => l.includes('💰'));
+                          const servicesLine = lines.find(l => l.includes('🎯 SPECIALTIES:'));
+                          const certsLine = lines.find(l => l.includes('🏆 CERTIFICATIONS:'));
+                          const bioLine = lines.find(l => l.includes('📝 ABOUT:'));
+                          
+                          if (nameLine) {
+                            const name = nameLine.replace('👤', '').trim();
+                            const [firstName, ...lastNameParts] = name.split(' ');
+                            profileData = {
+                              firstName: firstName || 'Unknown',
+                              lastName: lastNameParts.join(' ') || 'User',
+                              location: locationLine?.replace('📍', '').trim() || 'Location not specified',
+                              rating: ratingLine?.match(/(\d+\.?\d*)/)?.[1] || '5.0',
+                              experience: parseInt(ratingLine?.match(/\((\d+) years/)?.[1] || '0'),
+                              hourlyRate: rateLine?.match(/\$(\d+)/)?.[1] || '35',
+                              services: servicesLine?.replace('🎯 SPECIALTIES:', '').split('•').map(s => s.trim()).filter(Boolean) || [],
+                              certificates: certsLine?.replace('🏆 CERTIFICATIONS:', '').split('•').map(s => s.trim()).filter(Boolean) || [],
+                              bio: bioLine?.replace('📝 ABOUT:', '').trim() || 'Experienced caregiver'
+                            };
+                          }
+                        }
+                      } catch (e) {
+                        // If parsing fails, treat as regular message
+                        profileData = null;
+                      }
+
+                      return (
+                        <div
+                          key={message.id}
+                          className={`flex gap-3 ${
+                            message.senderId === user?.id ? 'justify-end' : 'justify-start'
+                          }`}
+                        >
+                          {message.senderId !== user?.id && !profileData && (
+                            <Avatar className="w-8 h-8">
+                              <AvatarImage src={selectedConv.avatar} />
+                              <AvatarFallback>
+                                {selectedConv.participantName.split(' ').map(n => n[0]).join('').toUpperCase()}
+                              </AvatarFallback>
+                            </Avatar>
+                          )}
+                          
+                          {profileData ? (
+                            // Render profile card
+                            <div className="flex flex-col gap-2">
+                              <ProfileCard profileData={profileData} />
+                              <p className="text-xs text-gray-500 text-center">
+                                {formatTime(new Date(message.createdAt))}
+                              </p>
+                            </div>
+                          ) : (
+                            // Render regular message
+                            <div
+                              className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                                message.senderId === user?.id
+                                  ? 'bg-blue-600 text-white'
+                                  : 'bg-gray-100 text-gray-900'
+                              }`}
+                            >
+                              <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                              <p className={`text-xs mt-1 ${
+                                message.senderId === user?.id ? 'text-blue-100' : 'text-gray-500'
+                              }`}>
+                                {formatTime(new Date(message.createdAt))}
+                              </p>
+                            </div>
+                          )}
+                          
+                          {message.senderId === user?.id && (
+                            <Avatar className="w-8 h-8">
+                              <AvatarImage src={user?.profileImageUrl} />
+                              <AvatarFallback>
+                                {user?.firstName?.[0]}{user?.lastName?.[0]}
+                              </AvatarFallback>
+                            </Avatar>
+                          )}
+                        </div>
+                      );
+                    })}
                     {messages.map((msg: any) => (
                       <div
                         key={msg.id}
