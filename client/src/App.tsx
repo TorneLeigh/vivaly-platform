@@ -46,6 +46,7 @@ import CancellationPolicy from "@/pages/cancellation-policy";
 import CookiePolicy from "@/pages/cookie-policy";
 import Accessibility from "@/pages/accessibility";
 import QuickStart from "@/pages/quick-start";
+import ParentBookings from "@/pages/parent-bookings";
 import CaregiverOnboarding from "@/pages/caregiver-onboarding";
 import NannyDashboard from "@/pages/nanny-dashboard";
 import CreateExperience from "@/pages/create-experience";
@@ -98,7 +99,6 @@ import EditJob from "@/pages/edit-job";
 import BrowseJobs from "@/pages/browse-jobs";
 import ParentDashboard from "@/pages/parent-dashboard";
 import CaregiverDashboard from "@/pages/caregiver-dashboard";
-import ParentBookings from "@/pages/parent-bookings";
 import CaregiverBookings from "@/pages/caregiver-bookings";
 import CaregiverSchedule from "@/pages/caregiver-schedule";
 import JobDetails from "@/pages/job-details";
@@ -231,6 +231,10 @@ function Router() {
           <Route path="/help" component={Help} />
           <Route path="/emergency-information" component={EmergencyInformation} />
           <Route path="/quick-start" component={QuickStart} />
+          
+          {/* Parent specific routes */}
+          <Route path="/parent/bookings" component={ParentBookings} />
+          <Route path="/my-bookings" component={ParentBookings} />
 
           {/* Provider-only routes */}
           <Route path="/provider-dashboard" component={ProviderDashboard} />

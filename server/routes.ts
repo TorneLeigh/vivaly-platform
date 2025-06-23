@@ -2027,6 +2027,54 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
     }
   });
 
+  // Get parent bookings endpoint
+  app.get('/api/parent/bookings', requireAuth, async (req, res) => {
+    try {
+      const userId = req.session.userId;
+      
+      // Get all bookings for this parent with caregiver info
+      const parentBookings = await db
+        .select({
+          id: bookings.id,
+          nannyId: bookings.nannyId,
+          parentId: bookings.parentId,
+          serviceType: bookings.serviceType,
+          date: bookings.date,
+          startTime: bookings.startTime,
+          endTime: bookings.endTime,
+          totalAmount: bookings.totalAmount,
+          status: bookings.status,
+          notes: bookings.notes,
+          createdAt: bookings.createdAt,
+          // Include caregiver info
+          caregiverFirstName: users.firstName,
+          caregiverLastName: users.lastName,
+          caregiverEmail: users.email,
+          caregiverPhoto: users.profileImageUrl
+        })
+        .from(bookings)
+        .leftJoin(users, eq(bookings.nannyId, users.id))
+        .where(eq(bookings.parentId, userId!))
+        .orderBy(desc(bookings.date));
+
+      // Transform the data to include nested caregiver info
+      const transformedBookings = parentBookings.map(booking => ({
+        ...booking,
+        caregiver: {
+          firstName: booking.caregiverFirstName,
+          lastName: booking.caregiverLastName,
+          email: booking.caregiverEmail,
+          profilePhoto: booking.caregiverPhoto
+        }
+      }));
+
+      res.json(transformedBookings);
+    } catch (error) {
+      console.error("Get parent bookings error:", error);
+      res.status(500).json({ message: "Failed to fetch bookings" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
