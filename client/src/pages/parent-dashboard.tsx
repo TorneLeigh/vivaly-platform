@@ -116,317 +116,419 @@ export default function ParentDashboard() {
     return calculateProfileCompletion(user);
   };
 
-  if (isLoading) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>My Bookings</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="animate-pulse space-y-4">
-            {[1, 2, 3].map(i => (
-              <div key={i} className="h-20 bg-gray-200 rounded-lg"></div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
-            <Calendar className="w-5 h-5" />
-            My Bookings
-          </CardTitle>
-          <Button variant="outline" size="sm" onClick={() => setLocation('/my-bookings')}>
-            View all
-          </Button>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header Section */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">
+                Welcome back, {user?.firstName || 'Parent'}
+              </h1>
+              <p className="text-gray-600 mt-1">
+                Manage your bookings and find quality childcare
+              </p>
+            </div>
+            <Button 
+              onClick={() => setLocation('/search-caregivers')}
+              className="bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] hover:opacity-90 text-white"
+            >
+              <Search className="h-4 w-4 mr-2" />
+              Find Caregivers
+            </Button>
+          </div>
         </div>
-      </CardHeader>
-      <CardContent>
-        <Tabs defaultValue="upcoming" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="upcoming">Upcoming ({upcomingBookings.length})</TabsTrigger>
-            <TabsTrigger value="recent">Recent ({recentBookings.length})</TabsTrigger>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-6 py-6">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="overview" className="flex items-center gap-2">
+              <Home className="h-4 w-4" />
+              Overview
+            </TabsTrigger>
+            <TabsTrigger value="upcoming" className="flex items-center gap-2">
+              <CalendarDays className="h-4 w-4" />
+              Upcoming ({allUpcoming.length})
+            </TabsTrigger>
+            <TabsTrigger value="past" className="flex items-center gap-2">
+              <CheckCircle className="h-4 w-4" />
+              Past ({allCompleted.length})
+            </TabsTrigger>
           </TabsList>
-          
-          <TabsContent value="upcoming" className="space-y-4 mt-4">
-            {upcomingBookings.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
-                <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                <p className="text-gray-600">No upcoming bookings</p>
-                <Button 
-                  variant="outline" 
-                  className="mt-3"
-                  onClick={() => setLocation('/search')}
-                >
-                  <Plus className="w-4 h-4 mr-2" />
-                  Book a Caregiver
-                </Button>
-              </div>
-            ) : (
-              upcomingBookings.map((booking) => (
-                <div key={booking.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <Avatar className="h-12 w-12">
-                      <AvatarImage src={booking.caregiver.profileImageUrl} />
-                      <AvatarFallback>
-                        {booking.caregiver.firstName[0]}{booking.caregiver.lastName[0]}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h4 className="font-medium">{booking.caregiver.firstName} {booking.caregiver.lastName}</h4>
-                      <p className="text-sm text-gray-600">{booking.job.title}</p>
-                      <div className="flex items-center gap-4 text-xs text-gray-500">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="w-3 h-3" />
-                          {formatDate(booking.startTime)}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Clock className="w-3 h-3" />
-                          {formatTime(booking.startTime)}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <MapPin className="w-3 h-3" />
-                          {booking.job.location}
-                        </span>
-                      </div>
+
+          {/* Overview Tab */}
+          <TabsContent value="overview" className="space-y-6">
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center">
+                    <Calendar className="h-8 w-8 text-blue-600" />
+                    <div className="ml-4">
+                      <p className="text-2xl font-bold">{allUpcoming.length}</p>
+                      <p className="text-sm text-gray-600">Upcoming</p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    {getStatusBadge(booking.status)}
-                    <p className="text-sm font-medium mt-1">${booking.totalAmount}</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center">
+                    <CheckCircle className="h-8 w-8 text-green-600" />
+                    <div className="ml-4">
+                      <p className="text-2xl font-bold">{allCompleted.length}</p>
+                      <p className="text-sm text-gray-600">Completed</p>
+                    </div>
                   </div>
-                </div>
-              ))
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center">
+                    <Briefcase className="h-8 w-8 text-purple-600" />
+                    <div className="ml-4">
+                      <p className="text-2xl font-bold">{jobs.length}</p>
+                      <p className="text-sm text-gray-600">Active Jobs</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center">
+                    <Heart className="h-8 w-8 text-red-600" />
+                    <div className="ml-4">
+                      <p className="text-2xl font-bold">4.9</p>
+                      <p className="text-sm text-gray-600">Avg Rating</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Profile Completion */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Profile Completion</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <Progress value={calculateCompletion()} className="w-full" />
+                    <p className="text-sm text-gray-500">{calculateCompletion()}% complete</p>
+                    <p className="text-sm text-gray-600">Complete your profile to attract the best caregivers</p>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setLocation('/parent-profile')}
+                    >
+                      Update Profile
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Quick Actions */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Quick Actions</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Button 
+                    className="w-full justify-start"
+                    variant="outline"
+                    onClick={() => setLocation('/search-caregivers')}
+                  >
+                    <Search className="h-4 w-4 mr-2" />
+                    Find Caregivers
+                  </Button>
+                  <Button 
+                    className="w-full justify-start"
+                    variant="outline"
+                    onClick={() => setLocation('/post-job')}
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Post a Job
+                  </Button>
+                  <Button 
+                    className="w-full justify-start"
+                    variant="outline"
+                    onClick={() => setLocation('/messages')}
+                  >
+                    <MessageSquare className="h-4 w-4 mr-2" />
+                    Messages
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Recent Activity */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Upcoming Bookings Preview */}
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <CardTitle className="text-lg">Next Bookings</CardTitle>
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    onClick={() => setActiveTab('upcoming')}
+                  >
+                    View All
+                  </Button>
+                </CardHeader>
+                <CardContent>
+                  {bookingsLoading ? (
+                    <div className="space-y-3">
+                      {[1, 2, 3].map(i => (
+                        <div key={i} className="animate-pulse bg-gray-200 h-16 rounded"></div>
+                      ))}
+                    </div>
+                  ) : upcomingBookings.length === 0 ? (
+                    <div className="text-center py-8">
+                      <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                      <p className="text-gray-500">No upcoming bookings</p>
+                      <Button 
+                        size="sm" 
+                        className="mt-2"
+                        onClick={() => setLocation('/search-caregivers')}
+                      >
+                        Book a Caregiver
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {upcomingBookings.map((booking) => (
+                        <div key={booking.id} className="flex items-center space-x-4 p-4 border rounded-lg">
+                          <Avatar>
+                            <AvatarImage src={booking.caregiver.profileImageUrl} />
+                            <AvatarFallback>
+                              {booking.caregiver.firstName.charAt(0)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-sm">
+                              {booking.caregiver.firstName} {booking.caregiver.lastName}
+                            </p>
+                            <p className="text-gray-500 text-xs">
+                              {formatDate(booking.startTime)} at {formatTime(booking.startTime)}
+                            </p>
+                            <p className="text-gray-400 text-xs truncate">
+                              {booking.job.location}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            {getStatusBadge(booking.status)}
+                            <p className="text-sm font-medium mt-1">
+                              ${booking.totalAmount}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Recent Bookings Preview */}
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <CardTitle className="text-lg">Recent Activity</CardTitle>
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    onClick={() => setActiveTab('past')}
+                  >
+                    View All
+                  </Button>
+                </CardHeader>
+                <CardContent>
+                  {recentBookings.length === 0 ? (
+                    <div className="text-center py-8">
+                      <CheckCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                      <p className="text-gray-500">No recent activity</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {recentBookings.map((booking) => (
+                        <div key={booking.id} className="flex items-center space-x-4 p-4 border rounded-lg">
+                          <Avatar>
+                            <AvatarImage src={booking.caregiver.profileImageUrl} />
+                            <AvatarFallback>
+                              {booking.caregiver.firstName.charAt(0)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-sm">
+                              {booking.caregiver.firstName} {booking.caregiver.lastName}
+                            </p>
+                            <p className="text-gray-500 text-xs">
+                              {formatDate(booking.startTime)}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            {getStatusBadge(booking.status)}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Upcoming Bookings Tab */}
+          <TabsContent value="upcoming" className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold">Upcoming Bookings</h2>
+              <Button 
+                onClick={() => setLocation('/search-caregivers')}
+                className="bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] hover:opacity-90 text-white"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Book Caregiver
+              </Button>
+            </div>
+
+            {allUpcoming.length === 0 ? (
+              <Card>
+                <CardContent className="text-center py-12">
+                  <Calendar className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                    No upcoming bookings
+                  </h3>
+                  <p className="text-gray-500 mb-6">
+                    Book a caregiver to get started with quality childcare
+                  </p>
+                  <Button onClick={() => setLocation('/search-caregivers')}>
+                    Find Caregivers
+                  </Button>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {allUpcoming.map((booking) => (
+                  <Card key={booking.id} className="hover:shadow-lg transition-shadow">
+                    <CardContent className="p-6">
+                      <div className="flex items-start space-x-4">
+                        <Avatar className="h-12 w-12">
+                          <AvatarImage src={booking.caregiver.profileImageUrl} />
+                          <AvatarFallback className="bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] text-white">
+                            {booking.caregiver.firstName.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-semibold text-lg">
+                            {booking.caregiver.firstName} {booking.caregiver.lastName}
+                          </h3>
+                          <p className="text-gray-600 text-sm mb-2">{booking.job.title}</p>
+                          
+                          <div className="space-y-2 text-sm text-gray-600">
+                            <div className="flex items-center">
+                              <Calendar className="h-4 w-4 mr-2" />
+                              {formatDate(booking.startTime)}
+                            </div>
+                            <div className="flex items-center">
+                              <Clock className="h-4 w-4 mr-2" />
+                              {formatTime(booking.startTime)} - {formatTime(booking.endTime)}
+                            </div>
+                            <div className="flex items-center">
+                              <MapPin className="h-4 w-4 mr-2" />
+                              {booking.job.location}
+                            </div>
+                            <div className="flex items-center">
+                              <DollarSign className="h-4 w-4 mr-2" />
+                              ${booking.totalAmount}
+                            </div>
+                          </div>
+
+                          <div className="flex items-center justify-between mt-4">
+                            {getStatusBadge(booking.status)}
+                            <div className="flex space-x-2">
+                              {booking.caregiver.phone && (
+                                <Button size="sm" variant="outline">
+                                  <Phone className="h-4 w-4" />
+                                </Button>
+                              )}
+                              <Button size="sm" variant="outline" onClick={() => setLocation('/messages')}>
+                                <MessageSquare className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             )}
           </TabsContent>
-          
-          <TabsContent value="recent" className="space-y-4 mt-4">
-            {recentBookings.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
-                <CheckCircle className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                <p className="text-gray-600">No recent bookings</p>
-              </div>
+
+          {/* Past Bookings Tab */}
+          <TabsContent value="past" className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold">Booking History</h2>
+              <Button variant="outline">
+                <Filter className="h-4 w-4 mr-2" />
+                Filter
+              </Button>
+            </div>
+
+            {allCompleted.length === 0 ? (
+              <Card>
+                <CardContent className="text-center py-12">
+                  <CheckCircle className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                    No booking history yet
+                  </h3>
+                  <p className="text-gray-500">
+                    Your completed bookings will appear here
+                  </p>
+                </CardContent>
+              </Card>
             ) : (
-              recentBookings.map((booking) => (
-                <div key={booking.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <Avatar className="h-12 w-12">
-                      <AvatarImage src={booking.caregiver.profileImageUrl} />
-                      <AvatarFallback>
-                        {booking.caregiver.firstName[0]}{booking.caregiver.lastName[0]}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h4 className="font-medium">{booking.caregiver.firstName} {booking.caregiver.lastName}</h4>
-                      <p className="text-sm text-gray-600">{booking.job.title}</p>
-                      <div className="flex items-center gap-4 text-xs text-gray-500">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="w-3 h-3" />
-                          {formatDate(booking.startTime)}
-                        </span>
+              <div className="space-y-4">
+                {allCompleted.map((booking) => (
+                  <Card key={booking.id}>
+                    <CardContent className="p-6">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-4">
+                          <Avatar className="h-12 w-12">
+                            <AvatarImage src={booking.caregiver.profileImageUrl} />
+                            <AvatarFallback className="bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] text-white">
+                              {booking.caregiver.firstName.charAt(0)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <h3 className="font-semibold">
+                              {booking.caregiver.firstName} {booking.caregiver.lastName}
+                            </h3>
+                            <p className="text-gray-600 text-sm">{booking.job.title}</p>
+                            <p className="text-gray-500 text-sm">
+                              {formatDate(booking.startTime)} • {formatTime(booking.startTime)} - {formatTime(booking.endTime)}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          {getStatusBadge(booking.status)}
+                          <p className="text-lg font-semibold mt-1">${booking.totalAmount}</p>
+                          <Button size="sm" variant="outline" className="mt-2">
+                            <Star className="h-4 w-4 mr-1" />
+                            Rate
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    {getStatusBadge(booking.status)}
-                    <p className="text-sm font-medium mt-1">${booking.totalAmount}</p>
-                  </div>
-                </div>
-              ))
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             )}
           </TabsContent>
         </Tabs>
-      </CardContent>
-    </Card>
-  );
-}
-  const [, setLocation] = useLocation();
-
-  if (!isAuthenticated) {
-    setLocation('/auth');
-    return null;
-  }
-
-  if (activeRole !== 'parent') {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <Card className="max-w-md mx-auto">
-          <CardContent className="text-center py-8">
-            <h2 className="text-xl font-semibold mb-4">Access Restricted</h2>
-            <p className="text-gray-600 mb-4">This page is only available for parents.</p>
-            <RoleToggle 
-              roles={roles || []}
-              activeRole={activeRole || 'parent'}
-              onSwitch={switchRole}
-            />
-          </CardContent>
-        </Card>
       </div>
-    );
-  }
-
-  const quickActions = [
-    {
-      title: "Find Caregivers",
-      description: "Browse and book trusted childcare providers",
-      icon: Search,
-      action: () => setLocation('/search'),
-      color: "bg-white hover:bg-gray-50 border-gray-200"
-    },
-    {
-      title: "My Bookings",
-      description: "View and manage your upcoming appointments",
-      icon: Calendar,
-      action: () => setLocation('/parent/bookings'),
-      color: "bg-white hover:bg-gray-50 border-gray-200"
-    },
-    {
-      title: "Messages",
-      description: "Chat with your caregivers",
-      icon: MessageSquare,
-      action: () => setLocation('/messages'),
-      color: "bg-white hover:bg-gray-50 border-gray-200"
-    },
-    {
-      title: "Post a Job",
-      description: "Create a job posting for caregivers",
-      icon: Users,
-      action: () => setLocation('/post-job'),
-      color: "bg-white hover:bg-gray-50 border-gray-200"
-    }
-  ];
-
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
-        {/* Referral Banner */}
-        <ReferralBanner />
-
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              Welcome back, {user?.firstName}!
-            </h1>
-            <p className="text-gray-600 mt-2">
-              Find trusted care for your family
-            </p>
-          </div>
-          <div className="flex items-center gap-4">
-            <Badge variant="outline" className="text-gray-700 border-gray-300">
-              Parent Dashboard
-            </Badge>
-            <RoleToggle 
-              roles={roles || []}
-              activeRole={activeRole || 'parent'}
-              onSwitch={switchRole}
-            />
-          </div>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {quickActions.map((action, index) => (
-            <Card 
-              key={index} 
-              className={`cursor-pointer transition-all duration-200 ${action.color}`}
-              onClick={action.action}
-            >
-              <CardContent className="p-6 text-center">
-                <action.icon className="w-8 h-8 mx-auto mb-3 text-gray-700" />
-                <h3 className="font-semibold text-gray-900 mb-2">{action.title}</h3>
-                <p className="text-sm text-gray-600">{action.description}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* My Bookings Section - Airbnb Style */}
-        <MyBookingsSection />
-
-        {/* Additional Dashboard Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <MessageSquare className="w-5 h-5" />
-                Recent Messages
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-8 text-gray-500">
-                <MessageSquare className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                <p>No recent messages</p>
-                <Button 
-                  variant="outline" 
-                  className="mt-3"
-                  onClick={() => setLocation('/messages')}
-                >
-                  View Messages
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Heart className="w-5 h-5" />
-                Favorite Caregivers
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-8 text-gray-500">
-                <Heart className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                <p>No favorites yet</p>
-                <Button 
-                  variant="outline" 
-                  className="mt-3"
-                  onClick={() => setLocation('/search-caregivers')}
-                >
-                  Find Caregivers
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Getting Started */}
-        <Card className="mt-8 bg-gray-50 border-gray-200">
-          <CardContent className="p-8">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  Complete Your Profile
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  Add your family details to get better caregiver matches
-                </p>
-                <Button 
-                  onClick={() => setLocation('/parent-profile')}
-                  className="bg-black hover:bg-gray-800 text-white"
-                >
-                  Complete Profile
-                </Button>
-              </div>
-              <Users className="w-16 h-16 text-gray-400 opacity-50" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-      
-      {/* Referral Popup */}
-      {user && (
-        <ReferralPopup 
-          userRole="parent" 
-          userName={user.firstName || 'User'} 
-        />
-      )}
     </div>
   );
 }
