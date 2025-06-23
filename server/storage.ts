@@ -643,16 +643,6 @@ export class DatabaseStorage implements IStorage {
       return [];
     }
   }
-        .from(bookings)
-        .where(eq(bookings.nannyId, parseInt(userId)))
-        .orderBy(desc(bookings.createdAt));
-      
-      return userBookings;
-    } catch (error) {
-      console.error("Error fetching user bookings:", error);
-      return [];
-    }
-  }
 
   async updateBookingStatus(bookingId: string, status: string): Promise<any> {
     try {

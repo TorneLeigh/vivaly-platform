@@ -244,17 +244,29 @@ export const nannies = pgTable("nannies", {
 });
 
 export const bookings = pgTable("bookings", {
-  id: serial("id").primaryKey(),
+  id: varchar("id").primaryKey(),
   nannyId: integer("nanny_id").notNull(),
-  parentId: integer("parent_id").notNull(),
+  parentId: varchar("parent_id").notNull(),
   serviceType: text("service_type").notNull(),
-  date: timestamp("date").notNull(),
+  date: text("date").notNull(),
   startTime: text("start_time").notNull(),
   endTime: text("end_time").notNull(),
-  totalAmount: decimal("total_amount", { precision: 10, scale: 2 }),
+  totalAmount: text("total_amount").notNull(),
   status: text("status").default("pending"), // pending, confirmed, completed, cancelled
   notes: text("notes"),
+  
+  // Enhanced Stripe payment fields
+  paymentStatus: text("payment_status").default("unpaid"),
+  stripeSessionId: text("stripe_session_id"),
+  stripePaymentIntentId: text("stripe_payment_intent_id"),
+  serviceFee: decimal("service_fee", { precision: 10, scale: 2 }).default("0"),
+  caregiverAmount: decimal("caregiver_amount", { precision: 10, scale: 2 }).default("0"),
+  personalDetailsVisible: boolean("personal_details_visible").default(false),
+  completedAt: timestamp("completed_at"),
+  
   createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+  
   // Family Day Care specific fields
   bookingType: text("booking_type").default("hourly"), // hourly, weekly, monthly
   startDate: timestamp("start_date"),
