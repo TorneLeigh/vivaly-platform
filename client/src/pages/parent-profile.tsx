@@ -6,6 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
@@ -1215,6 +1217,158 @@ export default function ParentProfile() {
           </Card>
         </div>
       </div>
+      
+      {/* Profile Preview Modal */}
+      <Dialog open={showProfilePreview} onOpenChange={setShowProfilePreview}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Eye className="h-5 w-5" />
+              Profile Preview
+            </DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-6">
+            {/* Profile Header */}
+            <div className="flex items-center gap-4 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg">
+              <Avatar className="h-20 w-20">
+                <AvatarImage src={user?.profileImageUrl || undefined} />
+                <AvatarFallback className="bg-blue-100 text-blue-600 text-2xl">
+                  {user?.firstName?.[0]}{user?.lastName?.[0]}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex-1">
+                <h2 className="text-2xl font-bold text-gray-900">
+                  {user?.firstName} {user?.lastName}
+                </h2>
+                <div className="flex items-center text-gray-600 mt-1">
+                  <MapPin className="h-4 w-4 mr-1" />
+                  <span>{formData.suburb || "Location not specified"}</span>
+                </div>
+                <div className="flex items-center gap-4 mt-2">
+                  <Badge variant="secondary" className="bg-green-100 text-green-700">
+                    <Shield className="h-3 w-3 mr-1" />
+                    Verified Parent
+                  </Badge>
+                  {formData.numberOfChildren && (
+                    <Badge variant="outline">
+                      <Users className="h-3 w-3 mr-1" />
+                      {formData.numberOfChildren} children
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Family Bio */}
+            {formData.bio && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Heart className="h-5 w-5" />
+                    About Our Family
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-700 leading-relaxed">{formData.bio}</p>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Children Information */}
+            {formData.children && formData.children.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Baby className="h-5 w-5" />
+                    Our Children
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {formData.children.map((child: any, index: number) => (
+                      <div key={index} className="p-4 bg-gray-50 rounded-lg">
+                        <h4 className="font-semibold">{child.name || `Child ${index + 1}`}</h4>
+                        {child.age && <p className="text-sm text-gray-600">Age: {child.age}</p>}
+                        {child.interests && <p className="text-sm text-gray-600">Interests: {child.interests}</p>}
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Care Requirements */}
+            {(formData.caregiverPreferences || formData.householdRules) && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <UserCheck className="h-5 w-5" />
+                    Care Requirements
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {formData.caregiverPreferences && (
+                    <div>
+                      <h4 className="font-medium mb-2">What we're looking for:</h4>
+                      <p className="text-gray-700">{formData.caregiverPreferences}</p>
+                    </div>
+                  )}
+                  {formData.householdRules && (
+                    <div>
+                      <h4 className="font-medium mb-2">Household guidelines:</h4>
+                      <p className="text-gray-700">{formData.householdRules}</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Additional Information */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {formData.languagesSpoken && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-sm">Languages Spoken</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-700">{formData.languagesSpoken}</p>
+                  </CardContent>
+                </Card>
+              )}
+              
+              {formData.pets && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-sm flex items-center gap-2">
+                      <PawPrint className="h-4 w-4" />
+                      Pets
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-700">{formData.pets}</p>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+
+            {/* Personal Message */}
+            {formData.personalMessage && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <MessageCircle className="h-5 w-5" />
+                    Message to Caregivers
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-700 italic">"{formData.personalMessage}"</p>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
       
       {/* Referral Popup */}
       {user && (
