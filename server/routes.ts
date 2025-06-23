@@ -1829,7 +1829,7 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
     }
   });
 
-  // Send message endpoint
+  // Send message endpoint (no auth required for testing)
   app.post("/api/sendMessage", async (req, res) => {
     try {
       const { senderId, receiverId, content } = req.body;
