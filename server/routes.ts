@@ -1710,6 +1710,28 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
     }
   });
 
+  // Get all nannies (for search) - must come before /featured route
+  app.get("/api/nannies", async (req, res) => {
+    try {
+      const nannies = await storage.getNannies();
+      res.json(nannies);
+    } catch (error) {
+      console.error("Get nannies error:", error);
+      res.status(500).json({ message: "Failed to fetch nannies" });
+    }
+  });
+
+  // Get featured nannies
+  app.get("/api/nannies/featured", async (req, res) => {
+    try {
+      const nannies = await storage.getFeaturedNannies();
+      res.json(nannies);
+    } catch (error) {
+      console.error("Get featured nannies error:", error);
+      res.status(500).json({ message: "Failed to fetch featured nannies" });
+    }
+  });
+
   // Parent's bookings
   app.get("/api/parent/bookings", requireAuth, async (req, res) => {
     const parentId = req.session.userId;
