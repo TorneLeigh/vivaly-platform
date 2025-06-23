@@ -1829,6 +1829,135 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
     }
   });
 
+  // Send message endpoint
+  app.post("/api/sendMessage", async (req, res) => {
+    try {
+      const { senderId, receiverId, content } = req.body;
+
+      if (!senderId || !receiverId || !content) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Missing required fields: senderId, receiverId, content" 
+        });
+      }
+
+      // Insert message into database
+      const [message] = await db
+        .insert(messages)
+        .values({
+          senderId,
+          receiverId,
+          content,
+          isBlocked: false
+        })
+        .returning();
+
+      // Get sender and receiver details for email notification
+      const [sender] = await db.select().from(users).where(eq(users.id, senderId));
+      const [receiver] = await db.select().from(users).where(eq(users.id, receiverId));
+
+      // Send email notification to owner (tornevelk1@gmail.com)
+      if (process.env.SENDGRID_API_KEY && process.env.OWNER_EMAIL) {
+        const sgMail = require('@sendgrid/mail');
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+        const emailMsg = {
+          to: process.env.OWNER_EMAIL,
+          from: process.env.OWNER_EMAIL,
+          subject: `💬 New Message: ${sender?.firstName || 'User'} → ${receiver?.firstName || 'User'}`,
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2 style="color: #ff6b35;">New Message on Vivaly Platform</h2>
+              
+              <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <p><strong>From:</strong> ${sender?.firstName} ${sender?.lastName} (${sender?.email})</p>
+                <p><strong>To:</strong> ${receiver?.firstName} ${receiver?.lastName} (${receiver?.email})</p>
+                <p><strong>Sent:</strong> ${new Date().toLocaleString('en-AU', { 
+                  timeZone: 'Australia/Sydney',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}</p>
+              </div>
+
+              <div style="background: #ffffff; border: 1px solid #ddd; padding: 20px; border-radius: 8px;">
+                <h3>Message:</h3>
+                <p style="line-height: 1.6;">${content}</p>
+              </div>
+
+              <div style="margin-top: 20px; padding: 15px; background: #e8f4fd; border-radius: 8px;">
+                <p style="margin: 0; font-size: 14px; color: #666;">
+                  <strong>Platform Activity Alert:</strong> This notification helps you monitor all communication on the Vivaly platform.
+                </p>
+              </div>
+            </div>
+          `
+        };
+
+        try {
+          await sgMail.send(emailMsg);
+          console.log(`Email notification sent for new message from ${sender?.email} to ${receiver?.email}`);
+        } catch (emailError) {
+          console.error('Failed to send email notification:', emailError);
+        }
+      }
+
+      res.json({ 
+        success: true, 
+        message: "Message sent successfully",
+        data: message
+      });
+
+    } catch (error: any) {
+      console.error('Error sending message:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to send message",
+        error: error.message
+      });
+    }
+  });
+
+  // Get messages for a conversation
+  app.get("/api/getMessages", async (req, res) => {
+    try {
+      const { senderId, receiverId } = req.query;
+
+      if (!senderId || !receiverId) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Missing senderId or receiverId" 
+        });
+      }
+
+      const conversationMessages = await db
+        .select()
+        .from(messages)
+        .where(
+          or(
+            and(eq(messages.senderId, senderId as string), eq(messages.receiverId, receiverId as string)),
+            and(eq(messages.senderId, receiverId as string), eq(messages.receiverId, senderId as string))
+          )
+        )
+        .orderBy(messages.createdAt);
+
+      res.json({ 
+        success: true, 
+        messages: conversationMessages
+      });
+
+    } catch (error: any) {
+      console.error('Error fetching messages:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to fetch messages",
+        error: error.message
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
