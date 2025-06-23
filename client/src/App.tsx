@@ -296,6 +296,9 @@ function Router() {
           {/* Role-based authentication demo */}
           <Route path="/role-auth-demo" component={RoleAuthDemo} />
           
+          {/* Additional booking routes */}
+          <Route path="/my-bookings" component={ParentBookings} />
+          
           <Route component={NotFound} />
         </Switch>
       </main>
