@@ -28,7 +28,13 @@ export default function SearchCaregivers() {
   // Fetch caregivers
   const { data: caregivers = [], isLoading } = useQuery({
     queryKey: ['/api/nannies'],
-    queryFn: () => fetch('/api/nannies').then(res => res.json())
+    queryFn: async () => {
+      const response = await fetch('/api/nannies');
+      if (!response.ok) {
+        throw new Error('Failed to fetch caregivers');
+      }
+      return response.json();
+    }
   });
 
   const filteredCaregivers = caregivers.filter((caregiver: Nanny) => {

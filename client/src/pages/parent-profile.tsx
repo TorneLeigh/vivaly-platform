@@ -739,7 +739,7 @@ export default function ParentProfile() {
                             </div>
                             <div className="flex items-center gap-2">
                               <DollarSign className="h-4 w-4" />
-                              <span>${job.rate}/hour</span>
+                              <span>{job.rate}/hour</span>
                             </div>
                             <div className="flex items-center gap-2">
                               <Clock className="h-4 w-4" />

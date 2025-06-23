@@ -429,7 +429,7 @@ export default function JobBoard() {
                           </div>
                           <div className="flex items-center gap-1">
                             <DollarSign className="h-4 w-4 flex-shrink-0" />
-                            <span>${job.rate}/hour</span>
+                            <span>{job.rate}/hour</span>
                           </div>
                           <div className="flex items-center gap-1">
                             <Clock className="h-4 w-4 flex-shrink-0" />

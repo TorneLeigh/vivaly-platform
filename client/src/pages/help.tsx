@@ -269,14 +269,7 @@ export default function Help() {
                   />
                 </div>
                 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
-                  <div className="flex gap-2">
-                    <Badge variant="outline" className="cursor-pointer hover:bg-green-50">Low</Badge>
-                    <Badge variant="outline" className="cursor-pointer hover:bg-yellow-50">Medium</Badge>
-                    <Badge variant="outline" className="cursor-pointer hover:bg-red-50">High</Badge>
-                  </div>
-                </div>
+
                 
                 <Button className="w-full bg-black hover:bg-gray-800 text-white">
                   Send Message
