@@ -128,7 +128,7 @@ const caregiverFaqData = [
       },
       {
         q: "When and how do I get paid?",
-        a: "Payment is processed through our secure platform after each completed booking. Funds are typically available within 2-3 business days."
+        a: "Payments are automatically released 24 hours after job completion through our secure escrow system. You receive 90% of the booking amount (10% platform fee). Funds are transferred to your bank account within 2-3 business days after release."
       },
       {
         q: "Can I negotiate rates with families?",

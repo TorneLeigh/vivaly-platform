@@ -49,6 +49,7 @@ export default function ParentProfile() {
   const [profilePhotos, setProfilePhotos] = useState<Array<{id: string, url: string, isMain?: boolean}>>([]);
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   const [saving, setSaving] = useState(false);
+  const [showProfilePreview, setShowProfilePreview] = useState(false);
 
   // Form state for each section
   const [formData, setFormData] = useState({
@@ -646,7 +647,7 @@ export default function ParentProfile() {
             <p className="text-gray-600 mt-1">Complete your profile to find the perfect caregiver</p>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="outline">
+            <Button variant="outline" onClick={() => setShowProfilePreview(true)}>
               <Eye className="h-4 w-4 mr-2" />
               View Profile
             </Button>

@@ -43,7 +43,8 @@ import {
   Briefcase,
   Calendar,
   DollarSign,
-  Plus
+  Plus,
+  Eye
 } from "lucide-react";
 
 const caregiverProfileSchema = z.object({
@@ -416,6 +417,10 @@ export default function CaregiverProfile() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
+              <Button variant="outline">
+                <Eye className="h-4 w-4 mr-2" />
+                View Profile
+              </Button>
               {isEditing ? (
                 <>
                   <Button 
