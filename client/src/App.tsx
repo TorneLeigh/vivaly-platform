@@ -47,6 +47,7 @@ import CookiePolicy from "@/pages/cookie-policy";
 import Accessibility from "@/pages/accessibility";
 import QuickStart from "@/pages/quick-start";
 import ParentBookings from "@/pages/parent-bookings";
+import Bookings from "@/pages/bookings";
 import CaregiverOnboarding from "@/pages/caregiver-onboarding";
 import NannyDashboard from "@/pages/nanny-dashboard";
 import CreateExperience from "@/pages/create-experience";
@@ -236,6 +237,7 @@ function Router() {
           <Route path="/parent/bookings" component={ParentBookings} />
           <Route path="/parent-bookings" component={ParentBookings} />
           <Route path="/my-bookings" component={ParentBookings} />
+          <Route path="/bookings" component={Bookings} />
 
           {/* Provider-only routes */}
           <Route path="/provider-dashboard" component={ProviderDashboard} />

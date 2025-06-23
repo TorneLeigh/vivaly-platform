@@ -13,6 +13,7 @@ import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { CaregiverProfileDisplay } from "@/components/CaregiverProfileDisplay";
 import { ProfileCard } from "@/components/ProfileCard";
+import BookingModal from "@/components/BookingModal";
 
 // Contact Family Modal Component
 interface ContactFamilyModalProps {
@@ -156,6 +157,8 @@ export default function Messages() {
   const [showContactModal, setShowContactModal] = useState(false);
   const [contactJobData, setContactJobData] = useState<any>(null);
   const [messageRole, setMessageRole] = useState<'parent' | 'caregiver'>(activeRole || 'parent');
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [selectedCaregiver, setSelectedCaregiver] = useState<any>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [location] = useLocation();
@@ -571,9 +574,29 @@ export default function Messages() {
                           )}
                           
                           {profileData ? (
-                            // Render profile card
+                            // Render profile card with booking button for parents
                             <div className="flex flex-col gap-2">
                               <ProfileCard profileData={profileData} />
+                              {activeRole === 'parent' && (
+                                <Button
+                                  size="sm"
+                                  onClick={() => {
+                                    setSelectedCaregiver({
+                                      id: message.senderId,
+                                      firstName: profileData.firstName,
+                                      lastName: profileData.lastName,
+                                      location: profileData.location,
+                                      hourlyRate: profileData.hourlyRate,
+                                      rating: profileData.rating,
+                                      bio: profileData.bio
+                                    });
+                                    setShowBookingModal(true);
+                                  }}
+                                  className="bg-green-600 hover:bg-green-700"
+                                >
+                                  Book This Caregiver
+                                </Button>
+                              )}
                               <p className="text-xs text-gray-500 text-center">
                                 {formatTime(new Date(message.createdAt))}
                               </p>
@@ -675,6 +698,18 @@ export default function Messages() {
             )}
           </Card>
         </div>
+
+        {/* Booking Modal */}
+        {showBookingModal && selectedCaregiver && (
+          <BookingModal
+            isOpen={showBookingModal}
+            onClose={() => {
+              setShowBookingModal(false);
+              setSelectedCaregiver(null);
+            }}
+            caregiver={selectedCaregiver}
+          />
+        )}
       </div>
     </div>
   );
