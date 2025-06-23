@@ -1,15 +1,14 @@
+import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import RoleToggle from '@/components/RoleToggle';
-import ReferralPopup from '@/components/ReferralPopup';
-import { ReferralBanner } from '@/components/ReferralBanner';
+import { Progress } from '@/components/ui/progress';
 import { useLocation } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
-import { apiRequest } from '@/lib/queryClient';
+import { calculateProfileCompletion } from '@/utils/profileCompletion';
 import { 
   Users, 
   Calendar, 
@@ -22,7 +21,11 @@ import {
   CheckCircle,
   DollarSign,
   Phone,
-  Plus
+  Plus,
+  Briefcase,
+  Home,
+  CalendarDays,
+  Filter
 } from 'lucide-react';
 
 // Booking interface
@@ -30,25 +33,28 @@ interface Booking {
   id: string;
   startTime: string;
   endTime: string;
-  status: 'upcoming' | 'ongoing' | 'completed' | 'cancelled';
+  status: 'upcoming' | 'ongoing' | 'completed' | 'cancelled' | 'pending';
   totalAmount: number;
   caregiver: {
     firstName: string;
     lastName: string;
     profileImageUrl?: string;
+    phone?: string;
   };
   job: {
     title: string;
     location: string;
+    description?: string;
   };
 }
 
-// My Bookings Component
-function MyBookingsSection() {
+export default function ParentDashboard() {
+  const { user } = useAuth();
   const [, setLocation] = useLocation();
-  
+  const [activeTab, setActiveTab] = useState('overview');
+
   // Fetch bookings
-  const { data: bookings = [], isLoading } = useQuery<Booking[]>({
+  const { data: bookings = [], isLoading: bookingsLoading } = useQuery<Booking[]>({
     queryKey: ['/api/parent/bookings'],
     queryFn: async () => {
       const response = await fetch('/api/parent/bookings', {
@@ -59,8 +65,22 @@ function MyBookingsSection() {
     },
   });
 
-  const upcomingBookings = bookings.filter(b => b.status === 'upcoming');
+  // Fetch jobs
+  const { data: jobs = [], isLoading: jobsLoading } = useQuery({
+    queryKey: ['/api/jobs', 'parent'],
+    queryFn: async () => {
+      const response = await fetch('/api/jobs?filter=parent', {
+        credentials: 'include'
+      });
+      if (!response.ok) throw new Error('Failed to fetch jobs');
+      return response.json();
+    },
+  });
+
+  const upcomingBookings = bookings.filter(b => b.status === 'upcoming').slice(0, 3);
   const recentBookings = bookings.filter(b => ['completed', 'ongoing'].includes(b.status)).slice(0, 3);
+  const allUpcoming = bookings.filter(b => b.status === 'upcoming');
+  const allCompleted = bookings.filter(b => b.status === 'completed');
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-AU', {
@@ -85,9 +105,15 @@ function MyBookingsSection() {
         return <Badge className="bg-green-100 text-green-700">Ongoing</Badge>;
       case 'completed':
         return <Badge className="bg-gray-100 text-gray-700">Completed</Badge>;
+      case 'pending':
+        return <Badge className="bg-yellow-100 text-yellow-700">Pending</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
+  };
+
+  const calculateCompletion = () => {
+    return calculateProfileCompletion(user);
   };
 
   if (isLoading) {
@@ -219,9 +245,6 @@ function MyBookingsSection() {
     </Card>
   );
 }
-
-export default function ParentDashboard() {
-  const { user, isAuthenticated, activeRole, roles, switchRole } = useAuth();
   const [, setLocation] = useLocation();
 
   if (!isAuthenticated) {

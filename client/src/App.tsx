@@ -237,7 +237,7 @@ function Router() {
           <Route path="/parent/bookings" component={ParentBookings} />
           <Route path="/parent-bookings" component={ParentBookings} />
           <Route path="/my-bookings" component={ParentBookings} />
-          <Route path="/bookings" component={Bookings} />
+          <Route path="/bookings" component={ParentDashboard} />
 
           {/* Provider-only routes */}
           <Route path="/provider-dashboard" component={ProviderDashboard} />

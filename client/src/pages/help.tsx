@@ -338,6 +338,7 @@ export default function Help() {
 
                 
                 <Button className="w-full bg-black hover:bg-gray-800 text-white">
+                  <Send className="h-4 w-4 mr-2" />
                   Send Message
                 </Button>
                 
