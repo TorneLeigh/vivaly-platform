@@ -225,22 +225,7 @@ export default function NewHeader() {
                     </div>
                   </div>
 
-                  {/* Mobile Menu Role Toggle */}
-                  {roles && roles.length > 1 && (
-                    <div className="mt-3 pt-3 border-t border-gray-200">
-                      <p className="text-sm font-medium text-orange-600 mb-3">Switch Role:</p>
-                      <div className="flex justify-center">
-                        <RoleToggle 
-                          roles={roles} 
-                          activeRole={activeRole || 'parent'} 
-                          onSwitch={(role) => {
-                            switchRole(role);
-                            closeMenu();
-                          }} 
-                        />
-                      </div>
-                    </div>
-                  )}
+
                 </div>
 
                 {/* Role-specific navigation */}

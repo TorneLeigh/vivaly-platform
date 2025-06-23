@@ -139,7 +139,7 @@ export default function Home() {
       <section className="bg-white pb-8 pt-20">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 pt-8">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6 max-w-2xl mx-auto">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6 max-w-4xl mx-auto px-4">
               Finding care, faster than your baby can lose a sock.
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">

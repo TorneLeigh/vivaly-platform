@@ -595,9 +595,35 @@ export class DatabaseStorage implements IStorage {
 
   async updateNanny(nannyId: number, nannyData: any): Promise<any> {
     try {
+      // Filter out undefined values and prepare data for database
+      const filteredData: any = {};
+      
+      Object.keys(nannyData).forEach(key => {
+        if (nannyData[key] !== undefined) {
+          // Handle specific field mappings
+          if (key === 'hourlyRate') {
+            filteredData.hourly_rate = nannyData[key];
+          } else if (key === 'hasFirstAid') {
+            filteredData.has_first_aid = nannyData[key];
+          } else if (key === 'hasWwcc') {
+            filteredData.has_wwcc = nannyData[key];
+          } else if (key === 'hasPoliceCheck') {
+            filteredData.has_police_check = nannyData[key];
+          } else if (key === 'hasReferences') {
+            filteredData.has_references = nannyData[key];
+          } else if (key === 'reviewCount') {
+            filteredData.review_count = nannyData[key];
+          } else if (key === 'isVerified') {
+            filteredData.is_verified = nannyData[key];
+          } else {
+            filteredData[key] = nannyData[key];
+          }
+        }
+      });
+
       const [nanny] = await db
         .update(nannies)
-        .set(nannyData)
+        .set(filteredData)
         .where(eq(nannies.id, nannyId))
         .returning();
       return nanny;
