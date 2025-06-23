@@ -1855,51 +1855,19 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
       const [sender] = await db.select().from(users).where(eq(users.id, senderId));
       const [receiver] = await db.select().from(users).where(eq(users.id, receiverId));
 
-      // Send email notification to owner (tornevelk1@gmail.com)
-      if (process.env.SENDGRID_API_KEY && process.env.OWNER_EMAIL) {
-        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-        const emailMsg = {
-          to: process.env.OWNER_EMAIL,
-          from: process.env.OWNER_EMAIL,
-          subject: `💬 New Message: ${sender?.firstName || 'User'} → ${receiver?.firstName || 'User'}`,
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #ff6b35;">New Message on Vivaly Platform</h2>
-              
-              <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <p><strong>From:</strong> ${sender?.firstName} ${sender?.lastName} (${sender?.email})</p>
-                <p><strong>To:</strong> ${receiver?.firstName} ${receiver?.lastName} (${receiver?.email})</p>
-                <p><strong>Sent:</strong> ${new Date().toLocaleString('en-AU', { 
-                  timeZone: 'Australia/Sydney',
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}</p>
-              </div>
-
-              <div style="background: #ffffff; border: 1px solid #ddd; padding: 20px; border-radius: 8px;">
-                <h3>Message:</h3>
-                <p style="line-height: 1.6;">${content}</p>
-              </div>
-
-              <div style="margin-top: 20px; padding: 15px; background: #e8f4fd; border-radius: 8px;">
-                <p style="margin: 0; font-size: 14px; color: #666;">
-                  <strong>Platform Activity Alert:</strong> This notification helps you monitor all communication on the Vivaly platform.
-                </p>
-              </div>
-            </div>
-          `
-        };
-
-        try {
-          await sgMail.send(emailMsg);
-          console.log(`Email notification sent for new message from ${sender?.email} to ${receiver?.email}`);
-        } catch (emailError) {
-          console.error('Failed to send email notification:', emailError);
-        }
+      // Send email notification using existing email service
+      try {
+        await sendMessageNotification({
+          from: sender?.firstName + ' ' + sender?.lastName || 'User',
+          fromEmail: sender?.email || '',
+          to: receiver?.firstName + ' ' + receiver?.lastName || 'User', 
+          toEmail: receiver?.email || '',
+          message: content,
+          timestamp: new Date()
+        });
+        console.log(`Email notification sent for new message from ${sender?.email} to ${receiver?.email}`);
+      } catch (emailError) {
+        console.error('Failed to send email notification:', emailError);
       }
 
       res.json({ 
