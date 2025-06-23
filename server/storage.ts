@@ -521,6 +521,49 @@ export class DatabaseStorage implements IStorage {
       return {};
     }
   }
+
+  async getFeaturedNannies(): Promise<any[]> {
+    try {
+      const result = await db.execute(`
+        SELECT 
+          n.id, n.user_id as "userId", n.bio, n.experience, n.hourly_rate as "hourlyRate", 
+          n.location, n.suburb, n.rating, n.review_count as "reviewCount", 
+          n.services, n.certificates, n.is_verified as "isVerified",
+          u.first_name as "firstName", u.last_name as "lastName", 
+          u.email, u.profile_image_url as "profileImageUrl"
+        FROM nannies n 
+        LEFT JOIN users u ON n.user_id::text = u.id 
+        WHERE n.is_verified = true 
+        ORDER BY n.rating DESC 
+        LIMIT 6
+      `);
+      return result.rows || [];
+    } catch (error) {
+      console.error("Get featured nannies error:", error);
+      return [];
+    }
+  }
+
+  async getNannies(): Promise<any[]> {
+    try {
+      const result = await db.execute(`
+        SELECT 
+          n.id, n.user_id as "userId", n.bio, n.experience, n.hourly_rate as "hourlyRate", 
+          n.location, n.suburb, n.rating, n.review_count as "reviewCount", 
+          n.services, n.certificates, n.is_verified as "isVerified",
+          u.first_name as "firstName", u.last_name as "lastName", 
+          u.email, u.profile_image_url as "profileImageUrl"
+        FROM nannies n 
+        LEFT JOIN users u ON n.user_id::text = u.id 
+        WHERE n.is_verified = true 
+        ORDER BY n.rating DESC
+      `);
+      return result.rows || [];
+    } catch (error) {
+      console.error("Get nannies error:", error);
+      return [];
+    }
+  }
 }
 
 export const storage = new DatabaseStorage();
