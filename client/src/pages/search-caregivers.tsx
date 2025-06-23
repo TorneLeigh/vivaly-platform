@@ -27,8 +27,8 @@ export default function SearchCaregivers() {
 
   // Fetch caregivers
   const { data: caregivers = [], isLoading } = useQuery({
-    queryKey: ['/api/nannies/featured'],
-    queryFn: () => fetch('/api/nannies/featured').then(res => res.json())
+    queryKey: ['/api/nannies'],
+    queryFn: () => fetch('/api/nannies').then(res => res.json())
   });
 
   const filteredCaregivers = caregivers.filter((caregiver: Nanny) => {
@@ -177,25 +177,25 @@ export default function SearchCaregivers() {
                   {/* Profile Photo */}
                   <div className="flex items-center mb-4">
                     <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-200 mr-4">
-                      {caregiver.profilePhoto ? (
+                      {caregiver.profileImageUrl ? (
                         <img 
-                          src={caregiver.profilePhoto}
+                          src={caregiver.profileImageUrl}
                           alt="Caregiver profile"
                           className="w-full h-full object-cover"
                         />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-[#FF5F7E] to-[#FFA24D] flex items-center justify-center text-white font-semibold text-xl">
-                          C
+                          {caregiver.firstName?.[0]?.toUpperCase() || 'C'}
                         </div>
                       )}
                     </div>
                     <div className="flex-1">
                       <h3 className="text-lg font-semibold text-gray-900">
-                        Caregiver #{caregiver.id}
+                        {caregiver.firstName} {caregiver.lastName}
                       </h3>
                       <div className="flex items-center text-sm text-gray-500">
                         <MapPin className="h-3 w-3 mr-1" />
-                        {caregiver.suburb || sydneyLocations[index % sydneyLocations.length]}
+                        {caregiver.suburb || caregiver.location}
                       </div>
                     </div>
                     <Button variant="ghost" size="sm" className="text-gray-400 hover:text-red-500">
@@ -232,21 +232,21 @@ export default function SearchCaregivers() {
                     <div>
                       <div className="flex items-center justify-center text-yellow-500 mb-1">
                         <Star className="h-4 w-4" />
-                        <span className="ml-1 font-medium">4.9</span>
+                        <span className="ml-1 font-medium">{caregiver.rating || '4.9'}</span>
                       </div>
                       <p className="text-xs text-gray-500">Rating</p>
                     </div>
                     <div>
                       <div className="flex items-center justify-center text-gray-700 mb-1">
                         <Clock className="h-4 w-4" />
-                        <span className="ml-1 font-medium">5</span>
+                        <span className="ml-1 font-medium">{caregiver.experience || '5'}</span>
                       </div>
                       <p className="text-xs text-gray-500">Years Exp</p>
                     </div>
                     <div>
                       <div className="flex items-center justify-center text-green-600 mb-1">
                         <DollarSign className="h-4 w-4" />
-                        <span className="ml-1 font-medium">{caregiver.hourlyRate || 38}</span>
+                        <span className="ml-1 font-medium">{caregiver.hourlyRate || '38'}</span>
                       </div>
                       <p className="text-xs text-gray-500">Per Hour</p>
                     </div>
