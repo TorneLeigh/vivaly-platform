@@ -34,20 +34,6 @@ export default function NewHeader() {
 
   const renderParentDropdownLinks = () => (
     <>
-      {/* Role Toggle at top */}
-      {roles && roles.length > 1 && (
-        <div className="py-3 px-4 border-b border-gray-100">
-          <p className="text-sm font-medium text-orange-600 mb-2">Switch Role:</p>
-          <RoleToggle 
-            roles={roles} 
-            activeRole={activeRole || 'parent'} 
-            onSwitch={(role) => {
-              switchRole(role);
-              closeMenu();
-            }} 
-          />
-        </div>
-      )}
       
       <Link href="/search-caregivers" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black font-semibold" onClick={closeMenu}>
         <User className="h-4 w-4 mr-3" />
@@ -85,20 +71,6 @@ export default function NewHeader() {
 
   const renderCaregiverDropdownLinks = () => (
     <>
-      {/* Role Toggle at top */}
-      {roles && roles.length > 1 && (
-        <div className="py-3 px-4 border-b border-gray-100">
-          <p className="text-sm font-medium text-orange-600 mb-2">Switch Role:</p>
-          <RoleToggle 
-            roles={roles} 
-            activeRole={activeRole || 'parent'} 
-            onSwitch={(role) => {
-              switchRole(role);
-              closeMenu();
-            }} 
-          />
-        </div>
-      )}
       
       <Link href="/job-board" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
         <Briefcase className="h-4 w-4 mr-3" />
