@@ -197,6 +197,38 @@ export default function JobDetails() {
           </Link>
         </div>
       </div>
+
+      {/* Application Modal */}
+      {showApplicationModal && job && caregiverProfile && (
+        <CaregiverApplicationModal
+          isOpen={showApplicationModal}
+          onClose={() => setShowApplicationModal(false)}
+          job={{
+            id: job.id,
+            title: job.title,
+            parentId: job.parentId,
+            parentName: job.parentName || 'Parent',
+            location: job.location,
+            hourlyRate: job.hourlyRate,
+            description: job.description
+          }}
+          caregiverProfile={{
+            id: user?.id || '',
+            firstName: user?.firstName || '',
+            lastName: user?.lastName || '',
+            email: user?.email || '',
+            bio: caregiverProfile.bio || '',
+            experience: caregiverProfile.experience || '',
+            location: caregiverProfile.location || '',
+            hourlyRate: caregiverProfile.hourlyRate || '25',
+            services: caregiverProfile.services || [],
+            certificates: caregiverProfile.certificates || [],
+            yearsOfExperience: caregiverProfile.yearsOfExperience || 0,
+            averageRating: caregiverProfile.averageRating || '5.0',
+            profilePhoto: caregiverProfile.profilePhoto
+          }}
+        />
+      )}
     </div>
   );
 }
