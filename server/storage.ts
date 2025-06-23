@@ -622,6 +622,12 @@ export class DatabaseStorage implements IStorage {
         }
       });
 
+      if (Object.keys(filteredData).length === 0) {
+        // Get current nanny for return
+        const [currentNanny] = await db.select().from(nannies).where(eq(nannies.id, nannyId));
+        return currentNanny;
+      }
+
       const [nanny] = await db
         .update(nannies)
         .set(filteredData)

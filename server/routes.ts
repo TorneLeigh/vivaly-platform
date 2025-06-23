@@ -1322,26 +1322,12 @@ Torne`;
       const data = req.body;
       const userId = req.session.userId;
 
+      console.log(`Saving section: ${section} for user: ${userId}`, data);
+
       // Update specific section of caregiver profile
       await storage.updateCaregiverProfileSection(userId, section, data);
 
-      // Send email notification to owner
-      try {
-        const user = await storage.getUserById(userId);
-        await sendOwnerNotification({
-          type: 'profile_section_update',
-          details: {
-            userId,
-            section,
-            userEmail: user?.email || 'Not provided',
-            userName: `${user?.firstName || ''} ${user?.lastName || ''}`.trim()
-          }
-        });
-      } catch (emailError) {
-        console.warn("Failed to send owner notification:", emailError);
-      }
-
-      res.json({ success: true });
+      res.json({ success: true, message: `${section} section saved successfully` });
     } catch (error) {
       console.error('Error saving profile section:', error);
       res.status(500).json({ message: 'Failed to save profile section' });
