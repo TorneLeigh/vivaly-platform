@@ -6,7 +6,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
 import { useAuth } from "@/hooks/useAuth";
 import { 
   MessageCircle, 
@@ -321,28 +320,44 @@ export default function Help() {
                 <CardTitle>Contact Support</CardTitle>
                 <p className="text-sm text-gray-600">Can't find what you're looking for? Send us a message.</p>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
-                  <Input placeholder="What can we help you with?" />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
-                  <Textarea 
-                    placeholder="Describe your question or issue in detail..."
-                    className="min-h-[120px]"
-                  />
-                </div>
-                
+              <CardContent>
+                <form onSubmit={handleSubmitHelp} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+                    <Input 
+                      placeholder="What can we help you with?" 
+                      value={subject}
+                      onChange={(e) => setSubject(e.target.value)}
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                    <Textarea 
+                      placeholder="Describe your question or issue in detail..."
+                      className="min-h-[120px]"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      required
+                    />
+                  </div>
 
-                
-                <Button className="w-full bg-black hover:bg-gray-800 text-white">
-                  <Send className="h-4 w-4 mr-2" />
-                  Send Message
-                </Button>
-                
-
+                  {user && (
+                    <div className="text-sm text-gray-500">
+                      Submitting as: {user.firstName} {user.lastName} ({user.email})
+                    </div>
+                  )}
+                  
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-black hover:bg-gray-800 text-white"
+                    disabled={submitHelpMutation.isPending}
+                  >
+                    <Send className="h-4 w-4 mr-2" />
+                    {submitHelpMutation.isPending ? 'Sending...' : 'Send Message'}
+                  </Button>
+                </form>
               </CardContent>
             </Card>
 
