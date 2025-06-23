@@ -372,27 +372,6 @@ export default function ParentDashboard() {
             </CardContent>
           </Card>
         </div>
-                <Heart className="w-5 h-5" />
-                Favorite Caregivers
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="text-center py-8 text-gray-500">
-                  <Star className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                  <p>No favorites yet</p>
-                  <Button 
-                    variant="outline" 
-                    className="mt-3"
-                    onClick={() => setLocation('/search')}
-                  >
-                    Browse Caregivers
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
 
         {/* Getting Started */}
         <Card className="mt-8 bg-gray-50 border-gray-200">
