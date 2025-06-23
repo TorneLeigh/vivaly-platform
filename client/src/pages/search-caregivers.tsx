@@ -259,11 +259,13 @@ export default function SearchCaregivers() {
 
                   {/* Actions */}
                   <div className="space-y-2">
-                    <Link href={`/nanny/${caregiver.id}`} className="block">
-                      <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                        View Profile
-                      </Button>
-                    </Link>
+                    <Button 
+                      className="w-full bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-white"
+                      onClick={() => window.location.href = `/nanny/${caregiver.id}`}
+                    >
+                      <User className="mr-2 h-4 w-4" />
+                      VIEW PROFILE
+                    </Button>
                     <Button variant="outline" className="w-full">
                       <Calendar className="h-4 w-4 mr-2" />
                       Book Now

@@ -69,6 +69,11 @@ export interface IStorage {
   createApplication(application: InsertApplication): Promise<Application>;
   getApplicationsByJob(jobId: string): Promise<Application[]>;
   getApplicationsByCaregiver(caregiverId: string): Promise<Application[]>;
+  
+  // Caregiver operations
+  getFeaturedNannies(): Promise<any[]>;
+  getNannies(): Promise<any[]>;
+  getCaregiverProfile(userId: string): Promise<any>;
 }
 
 export class DatabaseStorage implements IStorage {
