@@ -414,7 +414,7 @@ export class DatabaseStorage implements IStorage {
       .values({
         senderId: messageData.senderId,
         receiverId: messageData.receiverId,
-        content: messageData.text,
+        content: messageData.text || "Application submitted",
         isBlocked: false
       })
       .returning();

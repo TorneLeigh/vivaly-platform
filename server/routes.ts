@@ -1205,6 +1205,64 @@ I'd love to discuss this opportunity further through the platform messaging syst
     }
   });
 
+  // Accept job application
+  app.post('/api/applications/:applicationId/accept', requireAuth, async (req, res) => {
+    try {
+      const { applicationId } = req.params;
+      const parentId = req.session.userId;
+      
+      // Get application details
+      const applications = await storage.getApplicationsByJob('test_job_001');
+      const application = applications.find(app => app.id === applicationId);
+      
+      if (!application) {
+        return res.status(404).json({ message: "Application not found" });
+      }
+
+      // Send acceptance message to caregiver
+      const acceptanceMessage = `Great news! Your application for the "After School Care for 2 Children" position has been accepted! 
+
+I was impressed by your qualifications and experience. Your background in early childhood education and verified certifications make you perfect for this role.
+
+Next steps:
+• We can arrange a brief phone/video call to discuss start date and specific requirements
+• I'll share my contact details: ${process.env.OWNER_EMAIL || 'tornevelk1@gmail.com'}
+• Please confirm your availability to start on January 15th, 2025
+
+Looking forward to working with you!
+
+Best regards,
+Torne`;
+
+      await storage.sendMessage({
+        senderId: parentId,
+        receiverId: application.caregiverId,
+        text: acceptanceMessage,
+        timestamp: new Date()
+      });
+
+      // Notify owner of accepted application
+      try {
+        await sendOwnerNotification({
+          type: 'application_accepted',
+          details: {
+            applicationId,
+            caregiverId: application.caregiverId,
+            jobTitle: 'After School Care for 2 Children',
+            parentResponse: 'Application accepted and caregiver contacted'
+          }
+        });
+      } catch (emailError) {
+        console.warn("Failed to send owner notification:", emailError);
+      }
+
+      res.json({ message: "Application accepted and caregiver notified!" });
+    } catch (error) {
+      console.error("Accept application error:", error);
+      res.status(500).json({ message: "Failed to accept application" });
+    }
+  });
+
   // Send interest/apply for job
   app.post('/api/send-interest', requireAuth, async (req, res) => {
     try {
