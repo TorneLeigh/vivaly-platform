@@ -1071,7 +1071,7 @@ I'd love to discuss this opportunity further through the platform messaging syst
       await storage.sendMessage({
         senderId: caregiverId,
         receiverId: job.parentId,
-        content: profileMessage,
+        text: profileMessage,
         timestamp: new Date()
       });
 
