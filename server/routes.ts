@@ -1804,8 +1804,7 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
   // Simple test endpoint to verify SendGrid configuration
   app.post("/api/test-sendgrid", async (req, res) => {
     try {
-      const sgMail = require('@sendgrid/mail');
-      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
       
       const msg = {
         to: 'tornevelk1@gmail.com',
@@ -1858,7 +1857,6 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
 
       // Send email notification to owner (tornevelk1@gmail.com)
       if (process.env.SENDGRID_API_KEY && process.env.OWNER_EMAIL) {
-        const sgMail = require('@sendgrid/mail');
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
         const emailMsg = {
