@@ -45,7 +45,7 @@ export default function BookingModal({ isOpen, onClose, caregiver, jobId }: Book
     Math.ceil((endDateObj.getTime() - startDateObj.getTime()) / (1000 * 60 * 60 * 24)) + 1 : 0;
   const totalHours = days * formData.hoursPerDay;
   const subtotal = totalHours * ratePerHour;
-  const serviceFee = Math.round(subtotal * 0.15);
+  const serviceFee = Math.round(subtotal * 0.10); // 10% service fee
   const totalAmount = subtotal + serviceFee;
 
   const createBookingMutation = useMutation({
@@ -231,7 +231,7 @@ export default function BookingModal({ isOpen, onClose, caregiver, jobId }: Book
                         <span>${subtotal}</span>
                       </div>
                       <div className="flex justify-between text-gray-600">
-                        <span>Service fee (15%)</span>
+                        <span>Service fee (10%)</span>
                         <span>${serviceFee}</span>
                       </div>
                       <div className="flex justify-between font-bold text-lg border-t pt-2">

@@ -1,0 +1,119 @@
+// server/stripe.js
+const express = require('express');
+const Stripe = require('stripe');
+const { v4: uuidv4 } = require('uuid');
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+const router = express.Router();
+
+const BOOKINGS_DB_KEY = 'Bookings'; // Replit DB key for storing bookings
+const PLATFORM_FEE_PERCENTAGE = 0.10; // 10%
+const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+
+// Util: Save booking
+async function saveBooking(db, booking) {
+  const bookings = (await db.get(BOOKINGS_DB_KEY)) || [];
+  bookings.push(booking);
+  await db.set(BOOKINGS_DB_KEY, bookings);
+}
+
+// Create a booking (parent initiates)
+router.post('/createBooking', async (req, res) => {
+  const { parentId, caregiverId, jobId, startDate, endDate, ratePerHour, hoursPerDay } = req.body;
+  const totalAmount = ratePerHour * hoursPerDay * daysBetween(startDate, endDate);
+
+  const booking = {
+    id: uuidv4(),
+    parentId,
+    caregiverId,
+    jobId,
+    startDate,
+    endDate,
+    ratePerHour,
+    hoursPerDay,
+    totalAmount,
+    status: 'pending',
+    paymentStatus: 'unpaid'
+  };
+
+  await saveBooking(req.db, booking);
+  res.json({ success: true, booking });
+});
+
+// Caregiver accepts the booking
+router.post('/acceptBooking', async (req, res) => {
+  const { bookingId } = req.body;
+  const bookings = (await req.db.get(BOOKINGS_DB_KEY)) || [];
+  const booking = bookings.find(b => b.id === bookingId);
+  if (!booking) return res.status(404).json({ error: 'Booking not found' });
+  booking.status = 'confirmed';
+  await req.db.set(BOOKINGS_DB_KEY, bookings);
+  res.json({ success: true });
+});
+
+// Create Stripe Checkout session (parent pays)
+router.post('/createCheckoutSession', async (req, res) => {
+  const { bookingId, parentEmail } = req.body;
+  const bookings = (await req.db.get(BOOKINGS_DB_KEY)) || [];
+  const booking = bookings.find(b => b.id === bookingId);
+  if (!booking) return res.status(404).json({ error: 'Booking not found' });
+
+  const platformFee = Math.round(booking.totalAmount * PLATFORM_FEE_PERCENTAGE * 100);
+  const amountInCents = booking.totalAmount * 100;
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    customer_email: parentEmail,
+    line_items: [
+      {
+        price_data: {
+          currency: 'aud',
+          product_data: {
+            name: 'Caregiver Booking',
+          },
+          unit_amount: amountInCents,
+        },
+        quantity: 1,
+      },
+    ],
+    mode: 'payment',
+    success_url: 'https://vivaly.com.au/success',
+    cancel_url: 'https://vivaly.com.au/cancel',
+    metadata: {
+      bookingId: bookingId,
+    },
+  });
+
+  // Update booking status
+  booking.paymentStatus = 'paid_unreleased';
+  await req.db.set(BOOKINGS_DB_KEY, bookings);
+
+  res.json({ url: session.url });
+});
+
+// Automatically release payments (run via cron or scheduler)
+router.post('/releasePayments', async (req, res) => {
+  const now = new Date();
+  const bookings = (await req.db.get(BOOKINGS_DB_KEY)) || [];
+  let updated = 0;
+
+  for (let booking of bookings) {
+    const end = new Date(booking.endDate);
+    const releaseTime = new Date(end.getTime() + ONE_DAY_MS);
+
+    if (booking.status === 'confirmed' && booking.paymentStatus === 'paid_unreleased' && now > releaseTime) {
+      // TODO: payout to caregiver using Stripe Connect
+      booking.paymentStatus = 'released';
+      updated++;
+    }
+  }
+
+  await req.db.set(BOOKINGS_DB_KEY, bookings);
+  res.json({ success: true, updated });
+});
+
+function daysBetween(startDate, endDate) {
+  const ms = new Date(endDate) - new Date(startDate);
+  return Math.ceil(ms / (1000 * 60 * 60 * 24));
+}
+
+module.exports = router;
