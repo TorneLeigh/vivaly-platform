@@ -4,13 +4,10 @@ import { randomUUID } from "crypto";
 import { storage } from "./storage";
 import { requireAuth } from "./auth-middleware";
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
-}
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+// Only initialize Stripe if secret key is available
+const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2023-10-16",
-});
+}) : null;
 
 const PLATFORM_FEE_PERCENTAGE = 0.10;
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
@@ -24,6 +21,9 @@ export function registerStripeRoutes(app: Express) {
   // Create booking with payment calculation
   app.post('/api/bookings/create', requireAuth, async (req, res) => {
     try {
+      if (!stripe) {
+        return res.status(503).json({ error: 'Payment processing temporarily unavailable' });
+      }
       const { parentId, caregiverId, jobId, startDate, endDate, ratePerHour, hoursPerDay, notes } = req.body;
       
       if (!parentId || !caregiverId || !startDate || !endDate || !ratePerHour || !hoursPerDay) {
@@ -177,11 +177,15 @@ export function registerStripeRoutes(app: Express) {
 
   // Stripe webhook for payment confirmation
   app.post('/api/webhooks/stripe', async (req, res) => {
+    if (!stripe || !process.env.STRIPE_WEBHOOK_SECRET) {
+      return res.status(503).json({ error: 'Webhook processing unavailable' });
+    }
+
     const sig = req.headers['stripe-signature'] as string;
     let event;
 
     try {
-      event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET!);
+      event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
     } catch (err: any) {
       console.error('Webhook signature verification failed:', err.message);
       return res.status(400).send(`Webhook Error: ${err.message}`);
