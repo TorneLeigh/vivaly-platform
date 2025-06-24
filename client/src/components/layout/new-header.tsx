@@ -213,7 +213,7 @@ export default function NewHeader() {
                       </Link>
                       <Link href="/bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
                         <Calendar className="h-4 w-4 mr-3" />
-                        My Bookings
+                        JOB BOARD
                       </Link>
                     </>
                   ) : (
@@ -228,7 +228,7 @@ export default function NewHeader() {
                       </Link>
                       <Link href="/bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
                         <Calendar className="h-4 w-4 mr-3" />
-                        My Bookings
+                        JOB BOARD
                       </Link>
                     </>
                   )}
