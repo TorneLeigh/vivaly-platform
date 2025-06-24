@@ -222,6 +222,10 @@ export default function NewHeader() {
                         <Briefcase className="h-4 w-4 mr-3" />
                         Job Board
                       </Link>
+                      <Link href="/safety-verification" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black font-semibold border-l-4 border-orange-500" onClick={closeMenu}>
+                        <Shield className="h-4 w-4 mr-3" />
+                        Safety Verification
+                      </Link>
                     </>
                   )}
                 </div>

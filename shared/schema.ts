@@ -225,6 +225,20 @@ export const nannies = pgTable("nannies", {
   verificationDate: timestamp("verification_date"),
   backgroundCheckId: text("background_check_id"),
   backgroundCheckStatus: text("background_check_status").default("pending"),
+  
+  // Enhanced safety verification fields
+  wwccNumber: varchar("wwcc_number"),
+  wwccExpiryDate: timestamp("wwcc_expiry_date"),
+  wwccState: varchar("wwcc_state"),
+  wwccVerificationStatus: varchar("wwcc_verification_status").default("pending"),
+  wwccLastChecked: timestamp("wwcc_last_checked"),
+  policeCheckExpiryDate: timestamp("police_check_expiry_date"),
+  policeCheckDocumentUrl: varchar("police_check_document_url"),
+  identityVerificationStatus: varchar("identity_verification_status").default("pending"),
+  passportNumber: varchar("passport_number"),
+  driverLicenseNumber: varchar("driver_license_number"),
+  identityDocumentUrl: varchar("identity_document_url"),
+  identityDocumentType: varchar("identity_document_type"),
   services: json("services").$type<string[]>().default([]),
   certificates: json("certificates").$type<string[]>().default([]),
   availability: json("availability").$type<Record<string, boolean>>().default({}),
@@ -294,6 +308,31 @@ export const familyDayCareEnrollments = pgTable("family_day_care_enrollments", {
   specialRequirements: text("special_requirements"),
   emergencyContact: json("emergency_contact").$type<{name: string, phone: string, relationship: string}>(),
   createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Safety verification tracking table
+export const verificationChecks = pgTable("verification_checks", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull(),
+  checkType: varchar("check_type").notNull(), // wwcc, police_check, identity
+  status: varchar("status").default("pending"), // pending, verified, rejected, expired
+  documentUrl: varchar("document_url"),
+  verificationData: json("verification_data").$type<{
+    wwccNumber?: string;
+    expiryDate?: string;
+    state?: string;
+    documentNumber?: string;
+    issueDate?: string;
+    verifiedAt?: string;
+    verifierNotes?: string;
+  }>(),
+  submittedAt: timestamp("submitted_at").defaultNow(),
+  verifiedAt: timestamp("verified_at"),
+  expiresAt: timestamp("expires_at"),
+  verifierEmail: varchar("verifier_email"),
+  rejectionReason: text("rejection_reason"),
+  autoVerified: boolean("auto_verified").default(false),
+  manualReviewRequired: boolean("manual_review_required").default(false),
 });
 
 export const reviews = pgTable("reviews", {

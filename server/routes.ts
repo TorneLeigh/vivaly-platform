@@ -2244,6 +2244,84 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
   // Register Stripe payment routes
   registerStripeRoutes(app);
 
+  // Safety verification endpoints
+  app.post("/api/verify/wwcc", requireAuth, async (req, res) => {
+    try {
+      // For now, simulate verification until we have real government APIs
+      const result = {
+        success: true,
+        status: 'pending',
+        message: 'WWCC verification submitted for manual review',
+        requiresManualReview: true
+      };
+
+      res.json(result);
+    } catch (error) {
+      console.error("WWCC verification error:", error);
+      res.status(500).json({ error: "WWCC verification failed" });
+    }
+  });
+
+  app.post("/api/verify/police-check", requireAuth, upload.single('document'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "Police clearance document is required" });
+      }
+
+      const result = {
+        success: true,
+        status: 'pending',
+        message: 'Police clearance submitted for manual review',
+        requiresManualReview: true
+      };
+
+      res.json(result);
+    } catch (error) {
+      console.error("Police check verification error:", error);
+      res.status(500).json({ error: "Police check verification failed" });
+    }
+  });
+
+  app.post("/api/verify/identity", requireAuth, upload.single('document'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "Identity document is required" });
+      }
+
+      const result = {
+        success: true,
+        status: 'pending',
+        message: 'Identity document submitted for manual review',
+        requiresManualReview: true
+      };
+
+      res.json(result);
+    } catch (error) {
+      console.error("Identity verification error:", error);
+      res.status(500).json({ error: "Identity verification failed" });
+    }
+  });
+
+  app.get("/api/verification/status", requireAuth, async (req, res) => {
+    try {
+      // Return mock verification status for now
+      const status = {
+        user: { id: req.session.userId },
+        checks: [],
+        isFullyVerified: false,
+        summary: {
+          wwcc: 'pending',
+          policeCheck: 'pending',
+          identity: 'pending'
+        }
+      };
+      res.json(status);
+    } catch (error) {
+      console.error("Error getting verification status:", error);
+      res.status(500).json({ error: "Failed to get verification status" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
