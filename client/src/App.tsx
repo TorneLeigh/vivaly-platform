@@ -7,6 +7,7 @@ import { useAuth, AuthProvider } from "@/hooks/useAuth";
 import NewHeader from "@/components/layout/new-header";
 import Footer from "@/components/layout/footer";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
+import { lazy, Suspense } from "react";
 import Home from "@/pages/home";
 import NannyProfile from "@/pages/nanny-profile";
 import CaregiverProfile from "@/pages/caregiver-profile";
@@ -36,7 +37,7 @@ import EmailTest from "@/pages/email-test";
 import EmailPreview from "@/pages/email-preview";
 import AuthTest from "@/pages/auth-test";
 import LoginTest from "@/pages/login-test";
-import TestPayment from "@/pages/test-payment";
+// import TestPayment from "@/pages/test-payment"; // Commented out to prevent Stripe loading on homepage
 import PaymentDemo from "@/pages/payment-demo";
 
 import BookingConfirmation from "@/pages/booking-confirmation";
@@ -118,6 +119,7 @@ function Router() {
     <div className="min-h-screen flex flex-col">
       <NewHeader />
       <main className="flex-1">
+        <Suspense fallback={<div className="flex items-center justify-center h-64"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>}>
         <Switch>
           {/* Role-based home route */}
           <Route path="/">
@@ -205,7 +207,7 @@ function Router() {
           <Route path="/gift-card-checkout" component={GiftCardCheckout} />
           <Route path="/checkout" component={Checkout} />
           <Route path="/payment-checkout" component={PaymentCheckout} />
-          <Route path="/test-payment" component={TestPayment} />
+          <Route path="/test-payment" component={lazy(() => import("@/pages/test-payment"))} />
           <Route path="/payment-demo" component={PaymentDemo} />
           <Route path="/trial" component={TrialSignup} />
           <Route path="/trial-signup" component={TrialSignup} />
@@ -310,6 +312,7 @@ function Router() {
           
           <Route component={NotFound} />
         </Switch>
+        </Suspense>
       </main>
       <Footer />
       <PWAInstallPrompt />
