@@ -124,10 +124,10 @@ export default function ParentDashboard() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="min-w-0 flex-1">
               <h1 className="text-xl sm:text-2xl font-bold text-gray-900 truncate">
-                Welcome back, {user?.firstName || 'Parent'}
+                MY DASHBOARD
               </h1>
               <p className="text-sm sm:text-base text-gray-600 mt-1">
-                Dashboard - Manage your bookings and find quality childcare
+                Manage your bookings and find quality childcare
               </p>
             </div>
             <Button 
