@@ -215,16 +215,8 @@ export default function NewHeader() {
                   ) : (
                     <>
                       <Link href="/caregiver-dashboard" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black font-semibold border-l-4 border-orange-500" onClick={closeMenu}>
-                        <Briefcase className="h-4 w-4 mr-3" />
+                        <User className="h-4 w-4 mr-3" />
                         My Dashboard
-                      </Link>
-                      <Link href="/job-board" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black font-semibold border-l-4 border-orange-500" onClick={closeMenu}>
-                        <Briefcase className="h-4 w-4 mr-3" />
-                        Job Board
-                      </Link>
-                      <Link href="/caregiver-bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
-                        <Calendar className="h-4 w-4 mr-3" />
-                        My Bookings
                       </Link>
                     </>
                   )}

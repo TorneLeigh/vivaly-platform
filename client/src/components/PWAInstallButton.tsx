@@ -66,17 +66,33 @@ export default function PWAInstallButton() {
   // Show install button for Android/other browsers
   if (deferredPrompt) {
     return (
-      <Button
-        onClick={handleInstallClick}
-        variant="outline"
-        size="sm"
-        className="mb-4 w-full sm:w-auto"
-      >
-        <Download className="w-4 h-4 mr-2" />
-        Install VIVALY App
-      </Button>
+      <div className="w-full flex justify-center mb-6">
+        <Button
+          onClick={handleInstallClick}
+          size="lg"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3"
+        >
+          <Download className="w-5 h-5 mr-2" />
+          Install VIVALY App
+        </Button>
+      </div>
     );
   }
 
-  return null;
+  // Show generic install message for browsers that support PWA but don't have the prompt
+  return (
+    <div className="w-full flex justify-center mb-6">
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-md">
+        <div className="flex items-center space-x-3">
+          <Smartphone className="w-5 h-5 text-blue-600" />
+          <div>
+            <h3 className="text-sm font-medium text-blue-900">Install VIVALY App</h3>
+            <p className="text-xs text-blue-700 mt-1">
+              Use your browser's menu to "Add to Home Screen" or "Install App"
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

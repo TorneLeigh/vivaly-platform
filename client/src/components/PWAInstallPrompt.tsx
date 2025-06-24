@@ -43,7 +43,7 @@ export default function PWAInstallPrompt() {
   if (!showInstallPrompt) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4 mx-auto max-w-sm">
+    <div className="fixed bottom-4 left-4 right-4 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl p-4 mx-auto max-w-sm">
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <h3 className="text-sm font-medium text-gray-900 dark:text-white">
@@ -65,7 +65,7 @@ export default function PWAInstallPrompt() {
         <Button
           onClick={handleInstallClick}
           size="sm"
-          className="flex-1"
+          className="flex-1 bg-blue-600 hover:bg-blue-700"
         >
           <Download className="w-4 h-4 mr-2" />
           Install
