@@ -229,37 +229,77 @@ export function registerStripeRoutes(app: Express) {
     }
   });
 
-  // Admin route to release payments (24 hours after job completion)
-  app.post('/api/admin/release-payments', async (req, res) => {
+  // Admin route to automatically release payments (24 hours after job completion)
+  app.post('/api/admin/auto-release-payments', async (req, res) => {
     try {
+      if (!stripe) {
+        return res.status(503).json({ error: 'Payment processing temporarily unavailable' });
+      }
+
       const now = new Date();
       const bookings = await storage.getAllBookings();
       let updated = 0;
+      let errors = 0;
 
       for (const booking of bookings) {
         const endDate = new Date(booking.endDate);
         const releaseTime = new Date(endDate.getTime() + ONE_DAY_MS);
 
         if (
-          booking.status === 'confirmed' && 
+          booking.status === 'completed' && 
           booking.paymentStatus === 'paid_unreleased' && 
           now > releaseTime
         ) {
-          booking.paymentStatus = 'released';
-          booking.personalDetailsVisible = true;
-          booking.updatedAt = new Date().toISOString();
-          
-          await storage.updateBooking(booking.id, booking);
-          updated++;
-          
-          console.log(`Released payment for booking ${booking.id}`);
+          try {
+            // Get caregiver's Connect account
+            const caregiver = await storage.getUser(booking.caregiverId);
+            if (!caregiver?.stripeConnectAccountId) {
+              console.error(`Caregiver ${booking.caregiverId} has no Connect account for booking ${booking.id}`);
+              errors++;
+              continue;
+            }
+
+            // Calculate transfer amount (subtract platform fee)
+            const transferAmount = Math.round(booking.caregiverAmount * 100); // Convert to cents
+
+            // Create transfer to caregiver
+            const transfer = await stripe.transfers.create({
+              amount: transferAmount,
+              currency: 'aud',
+              destination: caregiver.stripeConnectAccountId,
+              metadata: {
+                bookingId: booking.id,
+                caregiverId: booking.caregiverId.toString(),
+                autoRelease: 'true'
+              }
+            });
+
+            // Update booking status
+            booking.paymentStatus = 'released';
+            booking.transferId = transfer.id;
+            booking.personalDetailsVisible = true;
+            booking.updatedAt = new Date().toISOString();
+            
+            await storage.updateBooking(booking.id, booking);
+            updated++;
+            
+            console.log(`Auto-released payment for booking ${booking.id}, transfer: ${transfer.id}`);
+          } catch (error) {
+            console.error(`Failed to auto-release payment for booking ${booking.id}:`, error);
+            errors++;
+          }
         }
       }
 
-      res.json({ success: true, updated, message: `Released ${updated} payments` });
+      res.json({ 
+        success: true, 
+        updated, 
+        errors,
+        message: `Auto-released ${updated} payments. ${errors} errors.` 
+      });
     } catch (error) {
-      console.error('Release payments error:', error);
-      res.status(500).json({ error: 'Failed to release payments' });
+      console.error('Auto-release payments error:', error);
+      res.status(500).json({ error: 'Failed to auto-release payments' });
     }
   });
 
