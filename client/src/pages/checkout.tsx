@@ -7,10 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { isUnauthorizedError } from '@/lib/authUtils';
 
-// Make sure to call `loadStripe` outside of a component's render to avoid
-// recreating the `Stripe` object on every render.
+// Initialize Stripe with proper error handling
 const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
-const stripePromise = stripePublicKey ? loadStripe(stripePublicKey) : null;
+let stripePromise: Promise<any> | null = null;
+if (stripePublicKey) {
+  stripePromise = loadStripe(stripePublicKey).catch(error => {
+    console.error('Failed to load Stripe:', error);
+    return null;
+  });
+}
 
 const CheckoutForm = ({ amount, bookingId }: { amount: number, bookingId: number }) => {
   const stripe = useStripe();

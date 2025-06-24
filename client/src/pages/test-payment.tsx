@@ -23,8 +23,17 @@ import {
   User
 } from "lucide-react";
 
+// Initialize Stripe with proper error handling
 const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
-const stripePromise = stripePublicKey ? loadStripe(stripePublicKey) : null;
+console.log('Stripe public key available:', !!stripePublicKey);
+
+let stripePromise: Promise<any> | null = null;
+if (stripePublicKey) {
+  stripePromise = loadStripe(stripePublicKey).catch(error => {
+    console.error('Failed to load Stripe:', error);
+    return null;
+  });
+}
 
 interface TestPaymentFormProps {
   amount: number;

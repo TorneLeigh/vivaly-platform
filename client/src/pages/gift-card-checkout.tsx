@@ -9,9 +9,15 @@ import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/utils";
 import { ArrowLeft, Gift, Mail } from "lucide-react";
 
-// Only load Stripe if the public key is available
+// Initialize Stripe with proper error handling
 const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
-const stripePromise = stripePublicKey ? loadStripe(stripePublicKey) : null;
+let stripePromise: Promise<any> | null = null;
+if (stripePublicKey) {
+  stripePromise = loadStripe(stripePublicKey).catch(error => {
+    console.error('Failed to load Stripe:', error);
+    return null;
+  });
+}
 
 interface GiftCardCheckoutProps {
   amount: number;

@@ -39,6 +39,7 @@ import AuthTest from "@/pages/auth-test";
 import LoginTest from "@/pages/login-test";
 // import TestPayment from "@/pages/test-payment"; // Commented out to prevent Stripe loading on homepage
 import PaymentDemo from "@/pages/payment-demo";
+import PaymentTestSimple from "@/pages/payment-test-simple";
 
 import BookingConfirmation from "@/pages/booking-confirmation";
 import Terms from "@/pages/terms";
@@ -209,6 +210,7 @@ function Router() {
           <Route path="/payment-checkout" component={PaymentCheckout} />
           <Route path="/test-payment" component={lazy(() => import("@/pages/test-payment"))} />
           <Route path="/payment-demo" component={PaymentDemo} />
+          <Route path="/payment-test-simple" component={PaymentTestSimple} />
           <Route path="/trial" component={TrialSignup} />
           <Route path="/trial-signup" component={TrialSignup} />
           <Route path="/trial-success" component={TrialSuccess} />
