@@ -13,14 +13,9 @@ export default function NewHeader() {
   // Debug logging for mobile testing
   console.log("Header render - isAuthenticated:", isAuthenticated, "user:", user, "roles:", roles, "roles.length:", roles?.length, "activeRole:", activeRole);
   
-  // Show toggle for users with multiple roles
-  const shouldShowToggle = isAuthenticated && roles && roles.length > 1;
-  console.log("shouldShowToggle:", shouldShowToggle);
-  
-  // Force show role toggle when authenticated (for mobile parity)
-  if (isAuthenticated) {
-    console.log("User is authenticated - forcing role toggle display for mobile parity");
-  }
+  // Show toggle for authenticated users (mobile parity with desktop)
+  const shouldShowToggle = isAuthenticated && user && (roles?.length >= 1);
+  console.log("shouldShowToggle:", shouldShowToggle, "roles?.length:", roles?.length);
   const [, navigate] = useLocation();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
