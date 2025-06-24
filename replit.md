@@ -35,6 +35,13 @@ VIVALY is a comprehensive childcare marketplace platform connecting Australian f
 - **Role-Based Authorization**: Middleware enforcing role-specific access controls
 - **Security Features**: Rate limiting on auth endpoints, secure cookie configuration
 
+### Safety Verification System
+- **WWCC Integration**: Direct verification with state government APIs for Working with Children Checks
+- **Police Clearance Processing**: OCR-based document validation and authenticity checking
+- **Identity Verification**: Passport and driver's license processing with automated validation
+- **Manual Review Workflow**: Admin dashboard for complex cases requiring human verification
+- **Compliance Tracking**: Real-time monitoring of verification status and expiry dates
+
 ### User Management
 - **Profile System**: Comprehensive profiles for both parents and caregivers
 - **Verification Process**: Background checks, document uploads, identity verification

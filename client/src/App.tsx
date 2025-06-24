@@ -107,6 +107,7 @@ import JobDetails from "@/pages/job-details";
 import SearchCaregivers from "@/pages/search-caregivers";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import RoleRoute from "@/components/RoleRoute";
+import SafetyVerification from "@/components/safety-verification";
 
 function Router() {
   const { isAuthenticated, isLoading, activeRole } = useAuth();

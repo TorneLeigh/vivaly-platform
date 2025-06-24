@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, User, Calendar, Briefcase, MessageSquare, Settings } from "lucide-react";
+import { Menu, X, User, Calendar, Briefcase, MessageSquare, Settings, Shield } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import RoleToggle from "@/components/RoleToggle";
 import { Button } from "@/components/ui/button";
