@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -15,10 +15,26 @@ import {
 
 export default function PaymentDemo() {
   const [, navigate] = useLocation();
+  const [stripeReady, setStripeReady] = useState(false);
+  const [clientSecret, setClientSecret] = useState('');
+
+  useEffect(() => {
+    // Test Stripe configuration
+    const testStripe = async () => {
+      try {
+        const publicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
+        if (publicKey && publicKey.startsWith('pk_')) {
+          setStripeReady(true);
+        }
+      } catch (error) {
+        console.error('Stripe test failed:', error);
+      }
+    };
+    testStripe();
+  }, []);
 
   const handleOpenPayment = () => {
-    // Open test payment in new tab to avoid module loading conflicts
-    window.open('/test-payment', '_blank');
+    navigate('/test-payment');
   };
 
   return (
@@ -47,13 +63,17 @@ export default function PaymentDemo() {
                 Experience the complete payment flow for childcare bookings on the VIVALY platform.
               </p>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <div className="flex items-center space-x-2 text-blue-800 mb-2">
-                  <Shield className="h-5 w-5" />
-                  <span className="font-medium">Secure Stripe Integration</span>
+              <div className={`border rounded-lg p-4 ${stripeReady ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}`}>
+                <div className="flex items-center space-x-2 mb-2">
+                  <Shield className={`h-5 w-5 ${stripeReady ? 'text-green-600' : 'text-yellow-600'}`} />
+                  <span className={`font-medium ${stripeReady ? 'text-green-800' : 'text-yellow-800'}`}>
+                    Stripe Integration {stripeReady ? 'Ready' : 'Checking...'}
+                  </span>
                 </div>
-                <p className="text-blue-700 text-sm">
-                  Fully integrated with Stripe payment processing using live test API keys.
+                <p className={`text-sm ${stripeReady ? 'text-green-700' : 'text-yellow-700'}`}>
+                  {stripeReady 
+                    ? 'Payment processing configured and ready for testing.'
+                    : 'Verifying payment configuration...'}
                 </p>
               </div>
 
@@ -134,15 +154,15 @@ export default function PaymentDemo() {
                 onClick={handleOpenPayment}
                 className="w-full bg-[#FF5F7E] hover:bg-[#e54c6b] text-white h-12"
                 size="lg"
+                disabled={!stripeReady}
               >
                 <div className="flex items-center space-x-2">
                   <CreditCard className="h-5 w-5" />
-                  <span>Launch Payment Demo</span>
-                  <ExternalLink className="h-4 w-4" />
+                  <span>{stripeReady ? 'Launch Payment Demo' : 'Preparing Payment System...'}</span>
                 </div>
               </Button>
               <p className="text-center text-xs text-gray-500 mt-2">
-                Opens in new tab to demonstrate full payment flow
+                {stripeReady ? 'Test the complete payment flow' : 'Please wait while we verify configuration'}
               </p>
             </CardContent>
           </Card>

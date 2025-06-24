@@ -1,12 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { loadStripe } from "@stripe/stripe-js";
-import {
-  Elements,
-  PaymentElement,
-  useStripe,
-  useElements
-} from "@stripe/react-stripe-js";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -23,26 +16,21 @@ import {
   User
 } from "lucide-react";
 
-// Initialize Stripe with proper error handling
-const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
-console.log('Stripe public key available:', !!stripePublicKey);
-
-let stripePromise: Promise<any> | null = null;
-if (stripePublicKey) {
-  stripePromise = loadStripe(stripePublicKey).catch(error => {
-    console.error('Failed to load Stripe:', error);
-    return null;
-  });
-}
+// Dynamic Stripe components
+let Elements: any = null;
+let PaymentElement: any = null;
+let useStripe: any = null;
+let useElements: any = null;
+let loadStripe: any = null;
 
 interface TestPaymentFormProps {
   amount: number;
   onSuccess: () => void;
+  stripe: any;
+  elements: any;
 }
 
-function TestPaymentForm({ amount, onSuccess }: TestPaymentFormProps) {
-  const stripe = useStripe();
-  const elements = useElements();
+function TestPaymentForm({ amount, onSuccess, stripe, elements }: TestPaymentFormProps) {
   const { toast } = useToast();
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -149,12 +137,46 @@ export default function TestPayment() {
   const [, navigate] = useLocation();
   const [paymentCompleted, setPaymentCompleted] = useState(false);
   const [clientSecret, setClientSecret] = useState<string>("");
+  const [stripeLoaded, setStripeLoaded] = useState(false);
+  const [stripePromise, setStripePromise] = useState<any>(null);
   const { toast } = useToast();
 
   const testAmount = 75; // $75 test payment
 
+  useEffect(() => {
+    const loadStripeComponents = async () => {
+      try {
+        // Dynamic imports to avoid loading on homepage
+        const stripeJs = await import('@stripe/stripe-js');
+        const stripeReact = await import('@stripe/react-stripe-js');
+        
+        loadStripe = stripeJs.loadStripe;
+        Elements = stripeReact.Elements;
+        PaymentElement = stripeReact.PaymentElement;
+        useStripe = stripeReact.useStripe;
+        useElements = stripeReact.useElements;
+
+        const publicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
+        if (publicKey) {
+          const stripe = await loadStripe(publicKey);
+          setStripePromise(stripe);
+          setStripeLoaded(true);
+        }
+      } catch (error) {
+        console.error('Failed to load Stripe:', error);
+        toast({
+          title: "Payment System Error",
+          description: "Failed to load payment components",
+          variant: "destructive",
+        });
+      }
+    };
+
+    loadStripeComponents();
+  }, [toast]);
+
   // Check if Stripe is available
-  if (!stripePromise) {
+  if (!stripeLoaded || !stripePromise) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="w-full max-w-md">
@@ -162,8 +184,9 @@ export default function TestPayment() {
             <CardTitle className="text-center text-red-600">Payment System Unavailable</CardTitle>
           </CardHeader>
           <CardContent className="text-center">
+            <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4" />
             <p className="text-gray-600 mb-4">
-              Payment processing is temporarily unavailable. Please contact support.
+              Loading payment system...
             </p>
             <Button onClick={() => navigate("/")} variant="outline">
               Return Home
@@ -291,25 +314,27 @@ export default function TestPayment() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <Elements 
-                stripe={stripePromise} 
-                options={{
-                  mode: 'payment',
-                  amount: testAmount * 100,
-                  currency: 'aud',
-                  appearance: {
-                    theme: 'stripe',
-                    variables: {
-                      colorPrimary: '#FF5F7E',
+              {Elements && (
+                <Elements 
+                  stripe={stripePromise} 
+                  options={{
+                    mode: 'payment',
+                    amount: testAmount * 100,
+                    currency: 'aud',
+                    appearance: {
+                      theme: 'stripe',
+                      variables: {
+                        colorPrimary: '#FF5F7E',
+                      },
                     },
-                  },
-                }}
-              >
-                <TestPaymentForm 
-                  amount={testAmount}
-                  onSuccess={() => setPaymentCompleted(true)}
-                />
-              </Elements>
+                  }}
+                >
+                  <TestPaymentFormWrapper 
+                    amount={testAmount}
+                    onSuccess={() => setPaymentCompleted(true)}
+                  />
+                </Elements>
+              )}
             </CardContent>
           </Card>
 
@@ -331,5 +356,20 @@ export default function TestPayment() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Wrapper component that uses Stripe hooks
+function TestPaymentFormWrapper({ amount, onSuccess }: { amount: number; onSuccess: () => void }) {
+  const stripe = useStripe();
+  const elements = useElements();
+  
+  return (
+    <TestPaymentForm 
+      amount={amount}
+      onSuccess={onSuccess}
+      stripe={stripe}
+      elements={elements}
+    />
   );
 }

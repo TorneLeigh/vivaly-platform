@@ -37,8 +37,6 @@ import EmailTest from "@/pages/email-test";
 import EmailPreview from "@/pages/email-preview";
 import AuthTest from "@/pages/auth-test";
 import LoginTest from "@/pages/login-test";
-// import TestPayment from "@/pages/test-payment"; // Commented out to prevent Stripe loading on homepage
-import PaymentDemo from "@/pages/payment-demo";
 import PaymentTestSimple from "@/pages/payment-test-simple";
 
 import BookingConfirmation from "@/pages/booking-confirmation";
@@ -208,8 +206,22 @@ function Router() {
           <Route path="/gift-card-checkout" component={GiftCardCheckout} />
           <Route path="/checkout" component={Checkout} />
           <Route path="/payment-checkout" component={PaymentCheckout} />
-          <Route path="/test-payment" component={lazy(() => import("@/pages/test-payment"))} />
-          <Route path="/payment-demo" component={PaymentDemo} />
+          <Route path="/test-payment">
+            <Suspense fallback={<div className="flex items-center justify-center h-64"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>}>
+              {(() => {
+                const TestPayment = lazy(() => import("@/pages/test-payment"));
+                return <TestPayment />;
+              })()}
+            </Suspense>
+          </Route>
+          <Route path="/payment-demo">
+            <Suspense fallback={<div className="flex items-center justify-center h-64"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>}>
+              {(() => {
+                const PaymentDemoLazy = lazy(() => import("@/pages/payment-demo"));
+                return <PaymentDemoLazy />;
+              })()}
+            </Suspense>
+          </Route>
           <Route path="/payment-test-simple" component={PaymentTestSimple} />
           <Route path="/trial" component={TrialSignup} />
           <Route path="/trial-signup" component={TrialSignup} />

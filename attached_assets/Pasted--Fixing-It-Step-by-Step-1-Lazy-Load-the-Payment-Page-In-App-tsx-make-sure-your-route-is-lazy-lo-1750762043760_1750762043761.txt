@@ -1,0 +1,83 @@
+✅ Fixing It Step-by-Step
+1. ✅ Lazy Load the Payment Page
+In App.tsx, make sure your route is lazy-loaded:
+
+tsx
+Copy
+Edit
+import { lazy, Suspense } from 'react';
+
+// Lazy import for Stripe-related page
+const PaymentDemo = lazy(() => import('./pages/payment-demo'));
+
+...
+
+<Route path="/payment-demo" element={
+  <Suspense fallback={<div>Loading...</div>}>
+    <PaymentDemo />
+  </Suspense>
+} />
+2. ✅ Move Stripe Imports into the Component File Only
+In payment-demo.tsx, ensure you load Stripe only inside the component, like this:
+
+tsx
+Copy
+Edit
+import React, { useEffect, useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import CheckoutForm from '../components/CheckoutForm';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+
+const PaymentDemo = () => {
+  const [clientSecret, setClientSecret] = useState('');
+
+  useEffect(() => {
+    fetch('/api/stripe/create-payment-intent', {
+      method: 'POST',
+    })
+      .then(res => res.json())
+      .then(data => setClientSecret(data.clientSecret));
+  }, []);
+
+  if (!clientSecret) return <p>Loading payment...</p>;
+
+  return (
+    <Elements stripe={stripePromise} options={{ clientSecret }}>
+      <CheckoutForm />
+    </Elements>
+  );
+};
+
+export default PaymentDemo;
+✅ Do not import loadStripe or Elements in App.tsx or shared layout components.
+
+3. ✅ Set Environment Variable in .env
+env
+Copy
+Edit
+VITE_STRIPE_PUBLISHABLE_KEY=pk_test_...
+If you're using process.env instead of import.meta.env, it may not work with Vite.
+
+4. ✅ Confirm Your Route in the Browser
+Visit:
+👉 https://vivaly.com.au/payment-demo
+
+Not working? Make sure App.tsx has:
+
+tsx
+Copy
+Edit
+<Route path="/payment-demo" element={...} />
+✅ Bonus: Stripe Test Card for Testing
+Use this card:
+
+yaml
+Copy
+Edit
+4242 4242 4242 4242
+Expiry: any future date
+CVC: any 3 digits
+ZIP: any 5 digits
+Would you like me to send you the exact payment-demo.tsx and updated App.tsx code ready to paste in Replit?
