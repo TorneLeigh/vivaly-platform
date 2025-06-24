@@ -683,7 +683,7 @@ export default function CaregiverProfile() {
                           type="button"
                           onClick={() => handleSectionSave('basic')}
                           disabled={sectionSaveMutation.isPending}
-                          className="bg-orange-500 hover:bg-orange-600"
+                          className="bg-[#FF5F7E] hover:bg-[#FF4A6B] text-white"
                         >
                           <Save className="h-4 w-4 mr-2" />
                           {sectionSaveMutation.isPending ? "Saving..." : "Save Basic Info"}
@@ -2149,7 +2149,7 @@ export default function CaregiverProfile() {
                           type="button"
                           onClick={() => handleSectionSave('personal')}
                           disabled={sectionSaveMutation.isPending}
-                          className="bg-orange-500 hover:bg-orange-600"
+                          className="bg-[#FF5F7E] hover:bg-[#FF4A6B] text-white"
                         >
                           <Save className="h-4 w-4 mr-2" />
                           {sectionSaveMutation.isPending ? "Saving..." : "Save Personal Touch"}
