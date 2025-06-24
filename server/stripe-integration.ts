@@ -311,4 +311,39 @@ export function registerStripeRoutes(app: Express) {
       res.status(500).json({ error: 'Failed to complete booking' });
     }
   });
+
+  // Create Payment Intent endpoint for test payments
+  app.post("/api/create-payment-intent", requireAuth, async (req, res) => {
+    try {
+      if (!stripe) {
+        return res.status(503).json({ error: 'Payment processing temporarily unavailable' });
+      }
+
+      const { amount, bookingId } = req.body;
+
+      if (!amount || amount < 50) { // Minimum 50 cents
+        return res.status(400).json({ error: 'Invalid amount' });
+      }
+
+      // Create a PaymentIntent with the order amount and currency
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(amount), // Amount in cents
+        currency: 'aud',
+        metadata: {
+          bookingId: bookingId || 'test-booking',
+          userId: req.user.id.toString(),
+        },
+        automatic_payment_methods: {
+          enabled: true,
+        },
+      });
+
+      res.json({
+        clientSecret: paymentIntent.client_secret,
+      });
+    } catch (error: any) {
+      console.error('Create payment intent error:', error);
+      res.status(500).json({ error: error.message || 'Failed to create payment intent' });
+    }
+  });
 }
