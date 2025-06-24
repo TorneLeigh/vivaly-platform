@@ -127,7 +127,7 @@ export default function ParentDashboard() {
                 Welcome back, {user?.firstName || 'Parent'}
               </h1>
               <p className="text-sm sm:text-base text-gray-600 mt-1">
-                Manage your bookings and find quality childcare
+                Dashboard - Manage your bookings and find quality childcare
               </p>
             </div>
             <Button 

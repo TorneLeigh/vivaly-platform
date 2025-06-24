@@ -66,7 +66,7 @@ export default function CaregiverDashboard() {
       color: "bg-white hover:bg-gray-50 border-gray-200"
     },
     {
-      title: "My Bookings",
+      title: "Dashboard",
       description: "View your confirmed bookings",
       icon: CalendarIcon,
       action: () => setLocation('/caregiver-bookings'),
@@ -136,7 +136,7 @@ export default function CaregiverDashboard() {
           </div>
           <div className="flex items-center gap-4">
             <Badge variant="outline" className="text-gray-700 border-gray-300">
-              Caregiver Dashboard
+              Dashboard
             </Badge>
             <RoleToggle 
               roles={roles || []}
