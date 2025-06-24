@@ -26,15 +26,20 @@ export default function SearchCaregivers() {
   const [priceRange, setPriceRange] = useState("");
 
   // Fetch caregivers
-  const { data: caregivers = [], isLoading } = useQuery({
+  const { data: caregivers = [], isLoading, error } = useQuery({
     queryKey: ['/api/nannies'],
     queryFn: async () => {
       const response = await fetch('/api/nannies');
       if (!response.ok) {
+        console.error('Failed to fetch caregivers:', response.status, response.statusText);
         throw new Error('Failed to fetch caregivers');
       }
-      return response.json();
-    }
+      const data = await response.json();
+      console.log('Fetched caregivers:', data);
+      return data;
+    },
+    retry: 3,
+    staleTime: 1000 * 60 * 5 // 5 minutes
   });
 
   const filteredCaregivers = caregivers.filter((caregiver: Nanny) => {
@@ -185,6 +190,10 @@ export default function SearchCaregivers() {
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
             <p className="text-gray-600">Finding caregivers...</p>
+          </div>
+        ) : filteredCaregivers.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600">No caregivers found. Try adjusting your search criteria.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">

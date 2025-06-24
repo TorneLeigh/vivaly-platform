@@ -66,7 +66,7 @@ export default function CaregiverDashboard() {
       color: "bg-white hover:bg-gray-50 border-gray-200"
     },
     {
-      title: "Dashboard",
+      title: "My Bookings",
       description: "View your confirmed bookings",
       icon: CalendarIcon,
       action: () => setLocation('/caregiver-bookings'),
@@ -99,7 +99,7 @@ export default function CaregiverDashboard() {
       color: "text-blue-600"
     },
     {
-      title: "Accepted Applications",
+      title: "Upcoming Jobs",
       value: acceptedApplications.toString(),
       icon: CheckCircle,
       color: "text-green-600"
