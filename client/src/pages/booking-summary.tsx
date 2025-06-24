@@ -53,38 +53,69 @@ export default function BookingSummary() {
     // Get booking data from URL params or state
     const urlParams = new URLSearchParams(window.location.search);
     const caregiverId = urlParams.get('caregiver_id');
+    const jobId = urlParams.get('job_id');
     
-    // Mock data for demo - in real app, fetch from API
-    setBookingData({
-      caregiver: {
-        id: caregiverId || 'sarah-johnson',
-        name: 'Sarah Johnson',
-        rating: 4.9,
-        reviewCount: 127,
-        verificationBadges: ['WWCC', 'Police Check', 'First Aid'],
-        bio: 'Experienced childcare professional with 8+ years caring for children of all ages. Certified in First Aid and passionate about early childhood development.'
-      },
-      booking: {
-        startDate: '2024-12-28',
-        endDate: '2024-12-28',
-        startTime: '9:00 AM',
-        endTime: '5:00 PM',
-        hoursPerDay: 8,
-        location: 'Bondi Beach, NSW',
-        specialRequests: 'Light meal preparation, outdoor activities'
-      },
-      pricing: {
-        ratePerHour: 25,
-        subtotal: 200,
-        platformFee: 20,
-        gst: 22,
-        total: 242
+    // Fetch or use demo data
+    const fetchBookingData = async () => {
+      try {
+        if (caregiverId && jobId) {
+          // In production, fetch from API
+          const response = await fetch(`/api/bookings/preview?caregiver=${caregiverId}&job=${jobId}`);
+          if (response.ok) {
+            const data = await response.json();
+            setBookingData(data);
+            setLoading(false);
+            return;
+          }
+        }
+        
+        // Demo data with realistic pricing
+        setBookingData({
+          caregiver: {
+            id: caregiverId || 'sarah-johnson',
+            name: 'Sarah Johnson',
+            avatar: '/api/placeholder/64/64',
+            rating: 4.9,
+            reviewCount: 127,
+            verificationBadges: ['WWCC', 'Police Check', 'First Aid'],
+            bio: 'Experienced childcare professional with 8+ years caring for children of all ages. Certified in First Aid and passionate about early childhood development.'
+          },
+          booking: {
+            startDate: '2024-12-28',
+            endDate: '2024-12-28',
+            startTime: '9:00 AM',
+            endTime: '5:00 PM',
+            hoursPerDay: 8,
+            location: '123 Beach Road, Bondi Beach NSW 2026',
+            specialRequests: 'Light meal preparation, outdoor activities, children love the beach'
+          },
+          pricing: {
+            ratePerHour: 25,
+            subtotal: 200,
+            platformFee: 20,
+            gst: 22,
+            total: 242
+          }
+        });
+        setLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch booking data:', error);
+        setLoading(false);
       }
-    });
-    setLoading(false);
+    };
+
+    fetchBookingData();
   }, []);
 
   const handleProceedToPayment = () => {
+    // Store booking data for payment processing
+    if (bookingData) {
+      localStorage.setItem('pendingBooking', JSON.stringify({
+        ...bookingData,
+        bookingId: 'VIV-' + Math.random().toString(36).substr(2, 9).toUpperCase(),
+        timestamp: new Date().toISOString()
+      }));
+    }
     navigate('/payment-demo');
   };
 

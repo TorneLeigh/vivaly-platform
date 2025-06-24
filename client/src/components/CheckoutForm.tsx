@@ -21,10 +21,19 @@ const CheckoutForm = () => {
     setIsProcessing(true);
     setMessage('');
 
+    // Get booking details for return URL
+    const pendingBooking = localStorage.getItem('pendingBooking');
+    let bookingId = 'demo-booking-123';
+    
+    if (pendingBooking) {
+      const booking = JSON.parse(pendingBooking);
+      bookingId = booking.bookingId;
+    }
+
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${window.location.origin}/payment-success?booking_id=demo-booking-123`,
+        return_url: `${window.location.origin}/payment-success?booking_id=${bookingId}&payment_intent={PAYMENT_INTENT_ID}`,
       },
     });
 
@@ -46,9 +55,27 @@ const CheckoutForm = () => {
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="bg-gray-50 rounded-lg p-4">
-            <h3 className="font-medium text-gray-900 mb-2">Test Payment</h3>
-            <p className="text-2xl font-bold text-[#FF5F7E]">$75.00 AUD</p>
-            <p className="text-sm text-gray-600">Childcare booking fee</p>
+            <h3 className="font-medium text-gray-900 mb-2">Payment Summary</h3>
+            {(() => {
+              const pendingBooking = localStorage.getItem('pendingBooking');
+              if (pendingBooking) {
+                const booking = JSON.parse(pendingBooking);
+                return (
+                  <>
+                    <p className="text-2xl font-bold text-[#FF5F7E]">${booking.pricing.total.toFixed(2)} AUD</p>
+                    <p className="text-sm text-gray-600">
+                      {booking.booking.hoursPerDay}h with {booking.caregiver.name}
+                    </p>
+                  </>
+                );
+              }
+              return (
+                <>
+                  <p className="text-2xl font-bold text-[#FF5F7E]">$75.00 AUD</p>
+                  <p className="text-sm text-gray-600">Childcare booking fee</p>
+                </>
+              );
+            })()}
           </div>
 
           <PaymentElement 
@@ -85,7 +112,14 @@ const CheckoutForm = () => {
             ) : (
               <div className="flex items-center gap-2">
                 <CreditCard className="h-4 w-4" />
-                Pay $75.00 AUD
+                {(() => {
+                  const pendingBooking = localStorage.getItem('pendingBooking');
+                  if (pendingBooking) {
+                    const booking = JSON.parse(pendingBooking);
+                    return `Pay $${booking.pricing.total.toFixed(2)} AUD`;
+                  }
+                  return 'Pay $75.00 AUD';
+                })()}
               </div>
             )}
           </Button>

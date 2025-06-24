@@ -17,13 +17,28 @@ const PaymentDemo = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Fetch clientSecret from backend
-    const createPaymentIntent = async () => {
+    // Get booking details and create payment intent
+    const initializePayment = async () => {
       try {
+        // Get booking data from localStorage (set in booking-summary)
+        const pendingBooking = localStorage.getItem('pendingBooking');
+        let bookingAmount = 7500; // Default $75
+        let bookingId = 'demo-booking';
+        
+        if (pendingBooking) {
+          const booking = JSON.parse(pendingBooking);
+          bookingAmount = Math.round(booking.pricing.total * 100); // Convert to cents
+          bookingId = booking.bookingId;
+        }
+
         const response = await fetch('/api/create-payment-intent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ amount: 7500, bookingId: 'demo-booking' }) // $75 in cents
+          body: JSON.stringify({ 
+            amount: bookingAmount, 
+            bookingId: bookingId,
+            currency: 'aud'
+          })
         });
         
         if (!response.ok) {
@@ -40,7 +55,7 @@ const PaymentDemo = () => {
       }
     };
 
-    createPaymentIntent();
+    initializePayment();
   }, []);
 
   if (loading) {
