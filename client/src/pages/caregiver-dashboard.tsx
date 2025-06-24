@@ -131,7 +131,7 @@ export default function CaregiverDashboard() {
               MY DASHBOARD
             </h1>
             <p className="text-gray-600 mt-2">
-              Manage your caregiver profile and bookings
+              Manage your job applications and connect with families
             </p>
           </div>
           <div className="flex items-center gap-4">

@@ -7,6 +7,7 @@ import AirbnbSearch from "@/components/airbnb-search-new";
 import FloatingActionButton from "@/components/floating-action-button";
 import ServiceCarousel from "@/components/service-carousel";
 import AIRecommendations from "@/components/ai-recommendations";
+import PWAInstallButton from "@/components/PWAInstallButton";
 
 import { FeeWaiverBanner } from "@/components/FeeWaiverBanner";
 
@@ -139,6 +140,7 @@ export default function Home() {
       <section className="bg-white pb-8 pt-20">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 pt-8">
+            <PWAInstallButton />
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6 max-w-4xl mx-auto px-4">
               Finding care, faster than your baby can lose a sock.
             </h1>

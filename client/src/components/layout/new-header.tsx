@@ -199,36 +199,36 @@ export default function NewHeader() {
                 <div className="border-b border-gray-100">
                   {activeRole === 'parent' ? (
                     <>
+                      <Link href="/parent-dashboard" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black font-semibold border-l-4 border-orange-500" onClick={closeMenu}>
+                        <User className="h-4 w-4 mr-3" />
+                        My Dashboard
+                      </Link>
                       <Link href="/search-caregivers" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black font-semibold border-l-4 border-orange-500" onClick={closeMenu}>
                         <User className="h-4 w-4 mr-3" />
-                        FIND CAREGIVERS
+                        Find Caregivers
                       </Link>
                       <Link href="/post-job" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black font-semibold border-l-4 border-orange-500" onClick={closeMenu}>
                         <Briefcase className="h-4 w-4 mr-3" />
-                        POST A JOB
-                      </Link>
-                      <Link href="/job-board" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
-                        <Briefcase className="h-4 w-4 mr-3" />
-                        Job Board
+                        Post a Job
                       </Link>
                       <Link href="/bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
                         <Calendar className="h-4 w-4 mr-3" />
-                        JOB BOARD
+                        My Bookings
                       </Link>
                     </>
                   ) : (
                     <>
+                      <Link href="/caregiver-dashboard" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black font-semibold border-l-4 border-orange-500" onClick={closeMenu}>
+                        <Briefcase className="h-4 w-4 mr-3" />
+                        My Dashboard
+                      </Link>
                       <Link href="/job-board" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black font-semibold border-l-4 border-orange-500" onClick={closeMenu}>
                         <Briefcase className="h-4 w-4 mr-3" />
-                        JOB BOARD
+                        Browse Jobs
                       </Link>
-                      <Link href="/caregiver-profile" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black font-semibold border-l-4 border-orange-500" onClick={closeMenu}>
-                        <User className="h-4 w-4 mr-3" />
-                        MY PROFILE
-                      </Link>
-                      <Link href="/bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
+                      <Link href="/caregiver-bookings" className="flex items-center py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-black" onClick={closeMenu}>
                         <Calendar className="h-4 w-4 mr-3" />
-                        JOB BOARD
+                        My Bookings
                       </Link>
                     </>
                   )}
