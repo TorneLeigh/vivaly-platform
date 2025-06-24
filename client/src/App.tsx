@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth, AuthProvider } from "@/hooks/useAuth";
 import NewHeader from "@/components/layout/new-header";
 import Footer from "@/components/layout/footer";
+import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 import Home from "@/pages/home";
 import NannyProfile from "@/pages/nanny-profile";
 import CaregiverProfile from "@/pages/caregiver-profile";
@@ -306,6 +307,7 @@ function Router() {
         </Switch>
       </main>
       <Footer />
+      <PWAInstallPrompt />
     </div>
   );
 }

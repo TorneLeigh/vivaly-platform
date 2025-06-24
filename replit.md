@@ -120,6 +120,7 @@ VIVALY is a comprehensive childcare marketplace platform connecting Australian f
 
 ## Changelog
 - June 24, 2025. Initial setup
+- June 24, 2025. Implemented Progressive Web App (PWA) functionality for mobile app experience
 
 ## User Preferences
 
