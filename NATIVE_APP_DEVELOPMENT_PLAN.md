@@ -11,11 +11,13 @@ Converting VIVALY PWA to native iOS and Android apps for App Store and Google Pl
 
 ## Phase 1: Capacitor Setup ✅
 - [x] Install Capacitor dependencies
-- [x] Configure project structure
+- [x] Configure project structure  
 - [x] Initialize iOS platform
 - [x] Initialize Android platform
 - [x] Create native utilities and camera integration
 - [x] Set up app icons and splash screens
+- [x] Create build scripts for app stores
+- [x] Generate deployment checklist
 
 ## Phase 2: Native Features Integration
 ### Core Features
