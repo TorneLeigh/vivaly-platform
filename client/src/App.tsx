@@ -36,6 +36,8 @@ import EmailTest from "@/pages/email-test";
 import EmailPreview from "@/pages/email-preview";
 import AuthTest from "@/pages/auth-test";
 import LoginTest from "@/pages/login-test";
+import TestPayment from "@/pages/test-payment";
+import PaymentDemo from "@/pages/payment-demo";
 
 import BookingConfirmation from "@/pages/booking-confirmation";
 import Terms from "@/pages/terms";
@@ -203,6 +205,8 @@ function Router() {
           <Route path="/gift-card-checkout" component={GiftCardCheckout} />
           <Route path="/checkout" component={Checkout} />
           <Route path="/payment-checkout" component={PaymentCheckout} />
+          <Route path="/test-payment" component={TestPayment} />
+          <Route path="/payment-demo" component={PaymentDemo} />
           <Route path="/trial" component={TrialSignup} />
           <Route path="/trial-signup" component={TrialSignup} />
           <Route path="/trial-success" component={TrialSuccess} />

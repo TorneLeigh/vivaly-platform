@@ -53,6 +53,10 @@ function TestPaymentForm({ amount, onSuccess }: TestPaymentFormProps) {
         bookingId: "test-booking-123"
       });
       
+      if (!response.ok) {
+        throw new Error('Failed to create payment intent');
+      }
+      
       const { clientSecret } = await response.json();
 
       const { error } = await stripe.confirmPayment({
