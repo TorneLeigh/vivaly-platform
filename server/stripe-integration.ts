@@ -346,4 +346,153 @@ export function registerStripeRoutes(app: Express) {
       res.status(500).json({ error: error.message || 'Failed to create payment intent' });
     }
   });
+
+  // Stripe Connect routes for caregiver payouts
+  app.post('/api/stripe/connect/create-account', requireAuth, async (req, res) => {
+    try {
+      if (!stripe) {
+        return res.status(503).json({ error: 'Payment processing temporarily unavailable' });
+      }
+
+      const { firstName, lastName, email, dateOfBirth, address, bankAccount } = req.body;
+
+      // Create Stripe Connect Express account
+      const account = await stripe.accounts.create({
+        type: 'express',
+        country: 'AU',
+        email: email,
+        capabilities: {
+          card_payments: { requested: true },
+          transfers: { requested: true },
+        },
+        individual: {
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+          dob: {
+            day: parseInt(dateOfBirth.split('-')[2]),
+            month: parseInt(dateOfBirth.split('-')[1]),
+            year: parseInt(dateOfBirth.split('-')[0])
+          },
+          address: {
+            line1: address.line1,
+            city: address.city,
+            state: address.state,
+            postal_code: address.postcode,
+            country: 'AU'
+          }
+        },
+        external_account: {
+          object: 'bank_account',
+          country: 'AU',
+          currency: 'aud',
+          account_holder_name: bankAccount.accountHolderName,
+          routing_number: bankAccount.bsb.replace('-', ''),
+          account_number: bankAccount.accountNumber
+        }
+      });
+
+      // Create account link for onboarding
+      const accountLink = await stripe.accountLinks.create({
+        account: account.id,
+        refresh_url: `${req.headers.origin}/caregiver-connect?refresh=${account.id}`,
+        return_url: `${req.headers.origin}/caregiver-connect?success=${account.id}`,
+        type: 'account_onboarding',
+      });
+
+      // Store account ID with user
+      await storage.updateUser(req.user.id, {
+        stripeConnectAccountId: account.id
+      });
+
+      res.json({ 
+        accountId: account.id,
+        accountLink: accountLink.url 
+      });
+    } catch (error: any) {
+      console.error('Create Connect account error:', error);
+      res.status(500).json({ error: error.message || 'Failed to create Connect account' });
+    }
+  });
+
+  // Check Connect account status
+  app.get('/api/stripe/connect/status', requireAuth, async (req, res) => {
+    try {
+      if (!stripe) {
+        return res.status(503).json({ error: 'Payment processing temporarily unavailable' });
+      }
+
+      const user = await storage.getUser(req.user.id);
+      if (!user?.stripeConnectAccountId) {
+        return res.json({ status: 'not_connected' });
+      }
+
+      const account = await stripe.accounts.retrieve(user.stripeConnectAccountId);
+      
+      res.json({
+        status: account.charges_enabled ? 'connected' : 'pending',
+        accountId: account.id,
+        requirements: account.requirements
+      });
+    } catch (error: any) {
+      console.error('Check Connect status error:', error);
+      res.status(500).json({ error: error.message || 'Failed to check Connect status' });
+    }
+  });
+
+  // Transfer payment to caregiver (called after 24h hold)
+  app.post('/api/stripe/transfer-to-caregiver', requireAuth, async (req, res) => {
+    try {
+      if (!stripe) {
+        return res.status(503).json({ error: 'Payment processing temporarily unavailable' });
+      }
+
+      const { bookingId } = req.body;
+      const booking = await storage.getBooking(bookingId);
+      
+      if (!booking) {
+        return res.status(404).json({ error: 'Booking not found' });
+      }
+
+      if (booking.paymentStatus !== 'paid_unreleased') {
+        return res.status(400).json({ error: 'Payment not eligible for release' });
+      }
+
+      // Get caregiver's Connect account
+      const caregiver = await storage.getUser(booking.caregiverId);
+      if (!caregiver?.stripeConnectAccountId) {
+        return res.status(400).json({ error: 'Caregiver payout account not configured' });
+      }
+
+      // Calculate transfer amount (subtract platform fee)
+      const transferAmount = Math.round(booking.caregiverAmount * 100); // Convert to cents
+
+      // Create transfer to caregiver
+      const transfer = await stripe.transfers.create({
+        amount: transferAmount,
+        currency: 'aud',
+        destination: caregiver.stripeConnectAccountId,
+        metadata: {
+          bookingId: bookingId,
+          caregiverId: booking.caregiverId.toString()
+        }
+      });
+
+      // Update booking status
+      booking.paymentStatus = 'released';
+      booking.transferId = transfer.id;
+      booking.updatedAt = new Date().toISOString();
+      
+      await storage.updateBooking(bookingId, booking);
+
+      res.json({ 
+        success: true, 
+        transferId: transfer.id,
+        amount: transferAmount / 100 
+      });
+    } catch (error: any) {
+      console.error('Transfer to caregiver error:', error);
+      res.status(500).json({ error: error.message || 'Failed to transfer payment' });
+    }
+  });
 }
