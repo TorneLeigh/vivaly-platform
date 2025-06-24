@@ -39,6 +39,10 @@ import AuthTest from "@/pages/auth-test";
 import LoginTest from "@/pages/login-test";
 import PaymentTestSimple from "@/pages/payment-test-simple";
 
+// Lazy-load Stripe pages to prevent loading conflicts
+const TestPaymentLazy = lazy(() => import("@/pages/test-payment"));
+const PaymentDemoLazy = lazy(() => import("@/pages/payment-demo"));
+
 import BookingConfirmation from "@/pages/booking-confirmation";
 import Terms from "@/pages/terms";
 import Privacy from "@/pages/privacy";
@@ -208,18 +212,12 @@ function Router() {
           <Route path="/payment-checkout" component={PaymentCheckout} />
           <Route path="/test-payment">
             <Suspense fallback={<div className="flex items-center justify-center h-64"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>}>
-              {(() => {
-                const TestPayment = lazy(() => import("@/pages/test-payment"));
-                return <TestPayment />;
-              })()}
+              <TestPaymentLazy />
             </Suspense>
           </Route>
           <Route path="/payment-demo">
             <Suspense fallback={<div className="flex items-center justify-center h-64"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>}>
-              {(() => {
-                const PaymentDemoLazy = lazy(() => import("@/pages/payment-demo"));
-                return <PaymentDemoLazy />;
-              })()}
+              <PaymentDemoLazy />
             </Suspense>
           </Route>
           <Route path="/payment-test-simple" component={PaymentTestSimple} />

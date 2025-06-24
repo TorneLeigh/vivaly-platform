@@ -1,41 +1,90 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import CheckoutForm from '../components/CheckoutForm';
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { useLocation } from "wouter";
-import { 
-  ArrowLeft, 
-  Shield, 
-  Calendar,
-  DollarSign,
-  CreditCard,
-  User,
-  ExternalLink
-} from "lucide-react";
+import { ArrowLeft, Shield, DollarSign } from "lucide-react";
 
-export default function PaymentDemo() {
+// Load Stripe only in this component
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+
+const PaymentDemo = () => {
   const [, navigate] = useLocation();
-  const [stripeReady, setStripeReady] = useState(false);
   const [clientSecret, setClientSecret] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    // Test Stripe configuration
-    const testStripe = async () => {
+    // Fetch clientSecret from backend
+    const createPaymentIntent = async () => {
       try {
-        const publicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
-        if (publicKey && publicKey.startsWith('pk_')) {
-          setStripeReady(true);
+        const response = await fetch('/api/create-payment-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: 7500, bookingId: 'demo-booking' }) // $75 in cents
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to create payment intent');
         }
-      } catch (error) {
-        console.error('Stripe test failed:', error);
+        
+        const data = await response.json();
+        setClientSecret(data.clientSecret);
+        setLoading(false);
+      } catch (err: any) {
+        console.error('Payment intent creation failed:', err);
+        setError(err.message);
+        setLoading(false);
       }
     };
-    testStripe();
+
+    createPaymentIntent();
   }, []);
 
-  const handleOpenPayment = () => {
-    navigate('/test-payment');
-  };
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardContent className="pt-6 text-center">
+            <div className="animate-spin w-8 h-8 border-4 border-[#FF5F7E] border-t-transparent rounded-full mx-auto mb-4" />
+            <p className="text-gray-600">Preparing payment demo...</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-center text-red-600">Payment Setup Error</CardTitle>
+          </CardHeader>
+          <CardContent className="text-center space-y-4">
+            <p className="text-gray-600">{error}</p>
+            <Button onClick={() => navigate("/")} variant="outline">
+              Return Home
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (!clientSecret) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Card>
+          <CardContent className="pt-6 text-center">
+            <p className="text-gray-600">Initializing payment...</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -49,125 +98,36 @@ export default function PaymentDemo() {
           Back to Home
         </Button>
 
-        <div className="grid gap-6">
-          {/* Demo Information */}
+        <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
+              <CardTitle className="flex items-center gap-2">
                 <DollarSign className="h-5 w-5 text-[#FF5F7E]" />
-                <span>VIVALY Payment System Demo</span>
+                VIVALY Payment Demo
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <p className="text-gray-600">
-                Experience the complete payment flow for childcare bookings on the VIVALY platform.
-              </p>
-
-              <div className={`border rounded-lg p-4 ${stripeReady ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}`}>
-                <div className="flex items-center space-x-2 mb-2">
-                  <Shield className={`h-5 w-5 ${stripeReady ? 'text-green-600' : 'text-yellow-600'}`} />
-                  <span className={`font-medium ${stripeReady ? 'text-green-800' : 'text-yellow-800'}`}>
-                    Stripe Integration {stripeReady ? 'Ready' : 'Checking...'}
-                  </span>
+            <CardContent>
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <Shield className="h-5 w-5 text-green-600" />
+                  <span className="font-medium text-green-800">Stripe Integration Active</span>
                 </div>
-                <p className={`text-sm ${stripeReady ? 'text-green-700' : 'text-yellow-700'}`}>
-                  {stripeReady 
-                    ? 'Payment processing configured and ready for testing.'
-                    : 'Verifying payment configuration...'}
+                <p className="text-sm text-green-700">
+                  Payment processing is live and ready for testing with your configured API keys.
                 </p>
               </div>
-
-              <div className="space-y-2">
-                <h4 className="font-medium">Demo Features:</h4>
-                <ul className="text-sm text-gray-600 space-y-1">
-                  <li>• Professional booking summary with caregiver verification</li>
-                  <li>• Detailed cost breakdown including platform fees and GST</li>
-                  <li>• Live Stripe payment form with test card support</li>
-                  <li>• Payment protection messaging (24-hour hold system)</li>
-                  <li>• Success confirmation flow</li>
-                </ul>
+              
+              <div className="flex justify-center">
+                <Elements stripe={stripePromise} options={{ clientSecret }}>
+                  <CheckoutForm />
+                </Elements>
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Sample Booking Preview */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Calendar className="h-5 w-5 text-[#FF5F7E]" />
-                <span>Sample Booking</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-[#FF5F7E] rounded-full flex items-center justify-center">
-                  <User className="h-6 w-6 text-white" />
-                </div>
-                <div>
-                  <p className="font-medium">Sarah Johnson</p>
-                  <p className="text-sm text-gray-600">Experienced Caregiver</p>
-                  <Badge variant="secondary" className="mt-1">
-                    <Shield className="h-3 w-3 mr-1" />
-                    Verified
-                  </Badge>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <p className="text-gray-600">Date</p>
-                  <p className="font-medium">Dec 28, 2024</p>
-                </div>
-                <div>
-                  <p className="text-gray-600">Duration</p>
-                  <p className="font-medium">8 hours</p>
-                </div>
-                <div>
-                  <p className="text-gray-600">Rate</p>
-                  <p className="font-medium">$25/hour</p>
-                </div>
-                <div>
-                  <p className="text-gray-600">Total</p>
-                  <p className="font-medium text-[#FF5F7E]">$75 AUD</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Test Instructions */}
-          <Card className="border-green-200 bg-green-50">
-            <CardHeader>
-              <CardTitle className="text-green-800">Test Payment Instructions</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm text-green-800 space-y-2">
-              <p><strong>Test Card:</strong> 4242 4242 4242 4242</p>
-              <p><strong>Expiry:</strong> Any future date (e.g., 12/25)</p>
-              <p><strong>CVC:</strong> Any 3 digits (e.g., 123)</p>
-              <p><strong>ZIP:</strong> Any 5 digits (e.g., 12345)</p>
-            </CardContent>
-          </Card>
-
-          {/* Launch Demo Button */}
-          <Card>
-            <CardContent className="pt-6">
-              <Button 
-                onClick={handleOpenPayment}
-                className="w-full bg-[#FF5F7E] hover:bg-[#e54c6b] text-white h-12"
-                size="lg"
-                disabled={!stripeReady}
-              >
-                <div className="flex items-center space-x-2">
-                  <CreditCard className="h-5 w-5" />
-                  <span>{stripeReady ? 'Launch Payment Demo' : 'Preparing Payment System...'}</span>
-                </div>
-              </Button>
-              <p className="text-center text-xs text-gray-500 mt-2">
-                {stripeReady ? 'Test the complete payment flow' : 'Please wait while we verify configuration'}
-              </p>
             </CardContent>
           </Card>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default PaymentDemo;
