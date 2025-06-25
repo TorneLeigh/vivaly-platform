@@ -5,8 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Users, MapPin, Calendar, DollarSign, Clock, User } from "lucide-react";
+import { ArrowLeft, Users, MapPin, Calendar, DollarSign, Clock, User, MessageCircle } from "lucide-react";
+import NannyShareMessaging from "@/components/nanny-share-messaging";
+import SuggestedNannies from "@/components/suggested-nannies";
+import NannySharePayment from "@/components/nanny-share-payment";
 
 interface NannyShare {
   id: string;
@@ -159,7 +163,19 @@ export default function NannyShareDetailsPage() {
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Share Header */}
+          
+          {/* Tabs for different sections */}
+          {isUserParticipant && (
+            <Tabs defaultValue="details" className="w-full">
+              <TabsList className="grid w-full grid-cols-4">
+                <TabsTrigger value="details">Details</TabsTrigger>
+                <TabsTrigger value="messages">Messages</TabsTrigger>
+                <TabsTrigger value="nannies">Nannies</TabsTrigger>
+                <TabsTrigger value="payment">Payment</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="details" className="space-y-6 mt-6">
+                {/* Share Header */}
           <Card>
             <CardHeader>
               <div className="flex justify-between items-start">
@@ -233,6 +249,113 @@ export default function NannyShareDetailsPage() {
                 <p className="text-gray-700 leading-relaxed">{share.requirements}</p>
               </CardContent>
             </Card>
+          )}
+              </TabsContent>
+              
+              <TabsContent value="messages" className="mt-6">
+                <NannyShareMessaging 
+                  shareId={share.id} 
+                  currentUserId={user?.id || ""} 
+                />
+              </TabsContent>
+              
+              <TabsContent value="nannies" className="mt-6">
+                <SuggestedNannies 
+                  shareId={share.id} 
+                  currentUserId={user?.id || ""} 
+                  isCreator={isCreator}
+                />
+              </TabsContent>
+              
+              <TabsContent value="payment" className="mt-6">
+                <NannySharePayment 
+                  shareId={share.id} 
+                  share={share}
+                  currentUserId={user?.id || ""} 
+                />
+              </TabsContent>
+            </Tabs>
+          )}
+          
+          {/* Show details only for non-participants */}
+          {!isUserParticipant && (
+            <>
+              {/* Share Header */}
+              <Card>
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <CardTitle className="text-2xl mb-2">{share.title}</CardTitle>
+                      <div className="flex items-center gap-3 text-gray-600">
+                        <Avatar className="w-8 h-8">
+                          <AvatarImage src={share.creatorProfile?.profileImageUrl} />
+                          <AvatarFallback>
+                            {share.creatorProfile?.firstName?.[0] || 'U'}
+                          </AvatarFallback>
+                        </Avatar>
+                        <span className="font-medium">
+                          {share.creatorProfile?.firstName} {share.creatorProfile?.lastName}
+                        </span>
+                        <span className="text-sm text-gray-500">• Creator</span>
+                      </div>
+                    </div>
+                    <Badge className={getStatusColor(share.status)} variant="secondary">
+                      {share.status}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="flex items-center gap-3">
+                      <MapPin className="w-5 h-5 text-gray-400" />
+                      <span>{share.suburb}, {share.location}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Calendar className="w-5 h-5 text-gray-400" />
+                      <span>{share.schedule}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <DollarSign className="w-5 h-5 text-gray-400" />
+                      <span>${share.rate}/hr (split between families)</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Users className="w-5 h-5 text-gray-400" />
+                      <span>{share.participants.length}/{share.maxFamilies} families</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-3">
+                    <Clock className="w-5 h-5 text-gray-400" />
+                    <span>
+                      Starts {new Date(share.startDate).toLocaleDateString()}
+                      {share.endDate && ` - Ends ${new Date(share.endDate).toLocaleDateString()}`}
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Children Details */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Children Details</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-700 leading-relaxed">{share.childrenDetails}</p>
+                </CardContent>
+              </Card>
+
+              {/* Requirements */}
+              {share.requirements && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Requirements</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-700 leading-relaxed">{share.requirements}</p>
+                  </CardContent>
+                </Card>
+              )}
+            </>
           )}
         </div>
 

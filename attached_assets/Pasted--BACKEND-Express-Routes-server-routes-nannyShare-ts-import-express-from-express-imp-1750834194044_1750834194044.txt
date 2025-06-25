@@ -1,0 +1,96 @@
+// === BACKEND: Express Routes (server/routes/nannyShare.ts) ===
+
+import express from 'express';
+import { v4 as uuidv4 } from 'uuid';
+import db from '../db';
+import { sendMessage } from '../lib/sendMessage';
+
+const router = express.Router();
+
+// Create a new nanny share
+router.post('/nannyShare/create', async (req, res) => {
+  const { parentId, location, rate, maxChildren, notes } = req.body;
+  const shareId = uuidv4();
+  const newShare = {
+    id: shareId,
+    parents: [{ id: parentId, children: 1 }],
+    location,
+    rate,
+    maxChildren,
+    status: 'open',
+    nanny: null,
+    messages: [],
+    notes,
+  };
+  await db.set(`nannyShare:${shareId}`, newShare);
+  res.json({ success: true, shareId });
+});
+
+// Join a nanny share
+router.post('/nannyShare/join', async (req, res) => {
+  const { shareId, parentId, numChildren } = req.body;
+  const share = await db.get(`nannyShare:${shareId}`);
+  if (!share || share.status !== 'open') return res.status(400).json({ error: 'Invalid share' });
+  const totalChildren = share.parents.reduce((acc, p) => acc + p.children, 0) + numChildren;
+  if (share.parents.length >= 3 || totalChildren > 4) return res.status(400).json({ error: 'Share is full' });
+  share.parents.push({ id: parentId, children: numChildren });
+  await db.set(`nannyShare:${shareId}`, share);
+  res.json({ success: true });
+});
+
+// Suggest a nanny
+router.post('/nannyShare/suggestNanny', async (req, res) => {
+  const { shareId, nannyId } = req.body;
+  const share = await db.get(`nannyShare:${shareId}`);
+  if (!share) return res.status(404).json({ error: 'Share not found' });
+  share.suggestedNanny = nannyId;
+  await db.set(`nannyShare:${shareId}`, share);
+  res.json({ success: true });
+});
+
+// Assign a nanny to the share (must be from completed caregivers)
+router.post('/nannyShare/assignNanny', async (req, res) => {
+  const { shareId, nannyId } = req.body;
+  const share = await db.get(`nannyShare:${shareId}`);
+  const nanny = await db.get(`user:${nannyId}`);
+  if (!share || !nanny || nanny.role !== 'caregiver' || nanny.profileComplete !== 100) {
+    return res.status(400).json({ error: 'Invalid nanny' });
+  }
+  share.nanny = nannyId;
+  share.status = 'confirmed';
+  await db.set(`nannyShare:${shareId}`, share);
+  res.json({ success: true });
+});
+
+// In-share messaging
+router.post('/nannyShare/message', async (req, res) => {
+  const { shareId, senderId, content } = req.body;
+  const share = await db.get(`nannyShare:${shareId}`);
+  if (!share) return res.status(404).json({ error: 'Share not found' });
+  share.messages.push({ senderId, content, timestamp: Date.now() });
+  await db.set(`nannyShare:${shareId}`, share);
+  res.json({ success: true });
+});
+
+// Mark share as complete
+router.post('/nannyShare/complete', async (req, res) => {
+  const { shareId } = req.body;
+  const share = await db.get(`nannyShare:${shareId}`);
+  if (!share) return res.status(404).json({ error: 'Share not found' });
+  share.status = 'completed';
+  await db.set(`nannyShare:${shareId}`, share);
+  res.json({ success: true });
+});
+
+export default router;
+
+
+// === TO USE THIS ===
+// 1. Mount this router in your main routes.ts file:
+//    import nannyShareRoutes from './routes/nannyShare';
+//    app.use('/api', nannyShareRoutes);
+
+// 2. Add endpoints to the frontend:
+//    /api/nannyShare/create, join, assignNanny, suggestNanny, message, complete
+
+// 3. Let me know when ready for frontend components or Stripe escrow logic.
