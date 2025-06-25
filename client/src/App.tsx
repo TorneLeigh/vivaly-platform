@@ -326,6 +326,7 @@ function Router() {
           <Route path="/nanny-dashboard" component={NannyDashboard} />
           <Route path="/create-experience" component={CreateExperience} />
           <Route path="/caregiver-onboarding" component={CaregiverOnboarding} />
+          <Route path="/find-care" component={FindCare} />
 
           {/* Authenticated user routes */}
           <Route path="/messages">
