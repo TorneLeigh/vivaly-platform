@@ -1,0 +1,105 @@
+// NannyShare API (Express-based, Replit-ready)
+const express = require('express');
+const { v4: uuidv4 } = require('uuid');
+const db = require('@replit/database');
+const nannyShareRouter = express.Router();
+const shareDB = new db();
+
+// Create a new nanny share
+nannyShareRouter.post('/createShare', async (req, res) => {
+  const {
+    parentId,
+    location,
+    sharedRate,
+    childCount,
+    preferredDays,
+    preferredHours,
+    suggestedNannyId,
+  } = req.body;
+
+  if (childCount > 4) return res.status(400).json({ error: 'Max 4 children per share' });
+
+  const shareId = uuidv4();
+  const share = {
+    id: shareId,
+    parents: [parentId],
+    location,
+    sharedRate,
+    childCount,
+    preferredDays,
+    preferredHours,
+    suggestedNannyId: suggestedNannyId || null,
+    nannyId: null,
+    createdAt: Date.now(),
+    messages: [],
+    status: 'open',
+  };
+
+  await shareDB.set(`share-${shareId}`, share);
+  res.json({ success: true, share });
+});
+
+// Join a share
+nannyShareRouter.post('/joinShare', async (req, res) => {
+  const { shareId, parentId, childrenToAdd } = req.body;
+  const share = await shareDB.get(`share-${shareId}`);
+  if (!share) return res.status(404).json({ error: 'Share not found' });
+
+  if (share.parents.includes(parentId)) {
+    return res.status(400).json({ error: 'Already joined' });
+  }
+
+  if (share.parents.length >= 3 || share.childCount + childrenToAdd > 4) {
+    return res.status(400).json({ error: 'Share full' });
+  }
+
+  share.parents.push(parentId);
+  share.childCount += childrenToAdd;
+  await shareDB.set(`share-${shareId}`, share);
+
+  res.json({ success: true, share });
+});
+
+// Suggest a nanny
+nannyShareRouter.post('/suggestNanny', async (req, res) => {
+  const { shareId, nannyId } = req.body;
+  const share = await shareDB.get(`share-${shareId}`);
+  if (!share) return res.status(404).json({ error: 'Share not found' });
+
+  share.suggestedNannyId = nannyId;
+  await shareDB.set(`share-${shareId}`, share);
+  res.json({ success: true });
+});
+
+// Assign a nanny from approved pool
+nannyShareRouter.post('/assignNanny', async (req, res) => {
+  const { shareId, nannyId } = req.body;
+  const share = await shareDB.get(`share-${shareId}`);
+  if (!share) return res.status(404).json({ error: 'Share not found' });
+
+  share.nannyId = nannyId;
+  share.status = 'matched';
+  await shareDB.set(`share-${shareId}`, share);
+  res.json({ success: true });
+});
+
+// Real-time messaging inside a nanny share (basic)
+nannyShareRouter.post('/sendMessage', async (req, res) => {
+  const { shareId, senderId, text } = req.body;
+  const share = await shareDB.get(`share-${shareId}`);
+  if (!share) return res.status(404).json({ error: 'Share not found' });
+
+  const message = {
+    id: uuidv4(),
+    senderId,
+    text,
+    sentAt: Date.now(),
+  };
+
+  share.messages.push(message);
+  await shareDB.set(`share-${shareId}`, share);
+  res.json({ success: true, message });
+});
+
+// Export router
+module.exports = nannyShareRouter;

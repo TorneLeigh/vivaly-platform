@@ -117,6 +117,9 @@ import CaregiverBookings from "@/pages/caregiver-bookings";
 import CaregiverSchedule from "@/pages/caregiver-schedule";
 import JobDetails from "@/pages/job-details";
 import SearchCaregivers from "@/pages/search-caregivers";
+import NannySharingPage from "@/pages/nanny-sharing";
+import CreateNannyShare from "@/pages/create-nanny-share";
+import NannyShareDetails from "@/pages/nanny-share-details";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import RoleRoute from "@/components/RoleRoute";
 import SafetyVerification from "@/components/safety-verification";
@@ -209,6 +212,9 @@ function Router() {
           <Route path="/edit-job/:id" component={EditJob} />
           <Route path="/browse-jobs" component={BrowseJobs} />
           <Route path="/job-details/:id" component={JobDetails} />
+          <Route path="/nanny-sharing" component={NannySharingPage} />
+          <Route path="/create-nanny-share" component={CreateNannyShare} />
+          <Route path="/nanny-share/:id" component={NannyShareDetails} />
           <Route path="/basic-profile" component={PersonalityProfile} />
           <Route path="/account-settings" component={AccountSettings} />
           <Route path="/verification" component={ProviderVerification} />
