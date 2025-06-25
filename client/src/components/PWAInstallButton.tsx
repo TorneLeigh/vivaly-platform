@@ -49,14 +49,21 @@ export default function PWAInstallButton() {
   // Show different UI for iOS vs Android
   if (isIOS) {
     return (
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-        <div className="flex items-start space-x-3">
-          <Smartphone className="w-5 h-5 text-blue-600 mt-0.5" />
-          <div>
-            <h3 className="text-sm font-medium text-blue-900">Install VIVALY App</h3>
-            <p className="text-xs text-blue-700 mt-1">
-              Tap the share button <span className="inline-block">↗</span> then "Add to Home Screen" to install
+      <div className="bg-gradient-to-r from-[#FF5F7E]/10 to-[#FFA24D]/10 border border-[#FF5F7E]/20 rounded-xl p-6 mb-6 shadow-sm">
+        <div className="flex items-center space-x-4">
+          <div className="w-12 h-12 bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] rounded-full flex items-center justify-center shadow-lg">
+            <Smartphone className="w-6 h-6 text-white" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold text-gray-900 mb-1">Get the VIVALY App</h3>
+            <p className="text-sm text-gray-600 mb-3">
+              Install our app for the best experience with faster booking and notifications
             </p>
+            <div className="flex items-center text-xs text-[#FF5F7E] font-medium">
+              <span className="mr-2">📱 Tap Share</span>
+              <span className="mr-2">→</span>
+              <span>"Add to Home Screen"</span>
+            </div>
           </div>
         </div>
       </div>
@@ -66,30 +73,42 @@ export default function PWAInstallButton() {
   // Show install button for Android/other browsers
   if (deferredPrompt) {
     return (
-      <div className="w-full flex justify-center mb-6">
-        <Button
-          onClick={handleInstallClick}
-          size="lg"
-          className="bg-[#FF5F7E] hover:bg-[#FF4A6B] text-white px-8 py-3"
-        >
-          <Download className="w-5 h-5 mr-2" />
-          Install VIVALY App
-        </Button>
+      <div className="bg-gradient-to-r from-[#FF5F7E]/10 to-[#FFA24D]/10 border border-[#FF5F7E]/20 rounded-xl p-6 mb-6 shadow-sm">
+        <div className="flex items-center space-x-4">
+          <div className="w-12 h-12 bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] rounded-full flex items-center justify-center shadow-lg">
+            <Download className="w-6 h-6 text-white" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold text-gray-900 mb-1">Get the VIVALY App</h3>
+            <p className="text-sm text-gray-600 mb-4">
+              Install our app for faster booking, push notifications, and offline access
+            </p>
+            <Button
+              onClick={handleInstallClick}
+              className="bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] hover:from-[#e54c6b] hover:to-[#e8941f] text-white px-6 py-2 rounded-lg font-medium shadow-md"
+            >
+              Install Now
+            </Button>
+          </div>
+        </div>
       </div>
     );
   }
 
   // Show generic install message for browsers that support PWA but don't have the prompt
   return (
-    <div className="w-full flex justify-center mb-6">
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-md">
-        <div className="flex items-center space-x-3">
-          <Smartphone className="w-5 h-5 text-blue-600" />
-          <div>
-            <h3 className="text-sm font-medium text-blue-900">Install VIVALY App</h3>
-            <p className="text-xs text-blue-700 mt-1">
-              Use your browser's menu to "Add to Home Screen" or "Install App"
-            </p>
+    <div className="bg-gradient-to-r from-[#FF5F7E]/10 to-[#FFA24D]/10 border border-[#FF5F7E]/20 rounded-xl p-6 mb-6 shadow-sm max-w-md mx-auto">
+      <div className="flex items-center space-x-4">
+        <div className="w-12 h-12 bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] rounded-full flex items-center justify-center shadow-lg">
+          <Smartphone className="w-6 h-6 text-white" />
+        </div>
+        <div className="flex-1">
+          <h3 className="text-lg font-semibold text-gray-900 mb-1">Get the VIVALY App</h3>
+          <p className="text-sm text-gray-600 mb-2">
+            For the best experience, install our app
+          </p>
+          <div className="text-xs text-[#FF5F7E] font-medium">
+            Browser Menu → "Install App" or "Add to Home Screen"
           </div>
         </div>
       </div>

@@ -126,8 +126,7 @@ export default function NewHeader() {
         {/* Center Navigation - Role Toggle (ALWAYS visible when authenticated) */}
         {isAuthenticated && (
           <div className="flex items-center justify-center flex-1 mx-2">
-            <div className="flex flex-col items-center space-y-1">
-              <span className="text-xs font-medium text-orange-600 hidden md:block">Role</span>
+            <div className="flex items-center">
               {/* Show role toggle for ALL authenticated users with both options */}
               <RoleToggle 
                 roles={['parent', 'caregiver']} 
