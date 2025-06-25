@@ -96,6 +96,9 @@ export default function HeaderOLD_DISABLED() {
               <Link href="/find-care" className="text-sm font-medium text-gray-700 hover:text-coral transition-colors">
                 Day Care
               </Link>
+              <Link href="/nanny-sharing" className="text-sm font-medium text-gray-700 hover:text-coral transition-colors">
+                Nanny Sharing
+              </Link>
               <Link href="/services" className="text-sm font-medium text-gray-700 hover:text-coral transition-colors">
                 Services
               </Link>
@@ -221,6 +224,9 @@ export default function HeaderOLD_DISABLED() {
                     <div className="p-6 space-y-4">
                       <Link href="/find-care" className="block text-lg font-medium text-gray-900 hover:text-coral py-3" onClick={() => setMobileMenuOpen(false)}>
                         Day Care Services
+                      </Link>
+                      <Link href="/nanny-sharing" className="block text-lg font-medium text-gray-900 hover:text-coral py-3" onClick={() => setMobileMenuOpen(false)}>
+                        Nanny Sharing
                       </Link>
                       <Link href="/services" className="block text-lg font-medium text-gray-900 hover:text-coral py-3" onClick={() => setMobileMenuOpen(false)}>
                         All Services

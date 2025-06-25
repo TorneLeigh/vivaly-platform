@@ -1,0 +1,96 @@
+// BACKEND: server/routes/nannyShareRoutes.js
+
+const express = require('express');
+const router = express.Router();
+const { db } = require('../lib/db');
+const { sendMessage } = require('../lib/sendMessage');
+
+// Create a new nanny share
+router.post('/createNannyShare', async (req, res) => {
+  const { parentId, location, days, times, pricePerFamily, childrenCount, notes } = req.body;
+  if (!parentId || !location || !pricePerFamily) return res.status(400).json({ error: 'Missing fields' });
+
+  const nannyShareId = `share_${Date.now()}`;
+  await db.set(nannyShareId, {
+    id: nannyShareId,
+    parentIds: [parentId],
+    childrenTotal: childrenCount,
+    location,
+    days,
+    times,
+    pricePerFamily,
+    notes,
+    applicants: [],
+    suggestedNannies: [],
+    nannyId: null,
+    messages: [],
+    status: 'open'
+  });
+  res.json({ success: true, id: nannyShareId });
+});
+
+// Join an existing nanny share
+router.post('/joinNannyShare', async (req, res) => {
+  const { shareId, parentId, childrenCount } = req.body;
+  const share = await db.get(shareId);
+  if (!share) return res.status(404).json({ error: 'Not found' });
+
+  if (share.parentIds.includes(parentId)) return res.status(400).json({ error: 'Already joined' });
+  if (share.parentIds.length >= 3 || share.childrenTotal + childrenCount > 4) {
+    return res.status(400).json({ error: 'Limit reached' });
+  }
+
+  share.parentIds.push(parentId);
+  share.childrenTotal += childrenCount;
+  await db.set(shareId, share);
+  res.json({ success: true });
+});
+
+// Suggest a nanny to the group
+router.post('/suggestNanny', async (req, res) => {
+  const { shareId, nannyId } = req.body;
+  const share = await db.get(shareId);
+  if (!share) return res.status(404).json({ error: 'Not found' });
+
+  share.suggestedNannies.push(nannyId);
+  await db.set(shareId, share);
+  res.json({ success: true });
+});
+
+// Select a nanny
+router.post('/selectNanny', async (req, res) => {
+  const { shareId, nannyId } = req.body;
+  const share = await db.get(shareId);
+  if (!share) return res.status(404).json({ error: 'Not found' });
+
+  share.nannyId = nannyId;
+  share.status = 'confirmed';
+  await db.set(shareId, share);
+  res.json({ success: true });
+});
+
+// Send a message in nanny share
+router.post('/messageInShare', async (req, res) => {
+  const { shareId, senderId, content } = req.body;
+  const share = await db.get(shareId);
+  if (!share) return res.status(404).json({ error: 'Not found' });
+
+  share.messages.push({ senderId, content, time: Date.now() });
+  await db.set(shareId, share);
+  res.json({ success: true });
+});
+
+// Get nanny shares
+router.get('/getNannyShares', async (req, res) => {
+  const all = await db.list();
+  const shares = [];
+  for (const key of all) {
+    if (key.startsWith('share_')) {
+      const share = await db.get(key);
+      shares.push(share);
+    }
+  }
+  res.json(shares);
+});
+
+module.exports = router;

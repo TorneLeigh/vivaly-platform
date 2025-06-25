@@ -6,6 +6,7 @@ import {
   X, 
   Search, 
   User, 
+  Users,
   Heart, 
   Calendar,
   MessageCircle,
@@ -21,6 +22,7 @@ export default function EnhancedNavigation() {
 
   const navigationItems = [
     { label: "Find Care", href: "/search", icon: Search },
+    { label: "Nanny Sharing", href: "/nanny-sharing", icon: Users },
     { label: "Become a Caregiver", href: "/caregiver-onboarding", icon: User },
     { label: "How it Works", href: "/how-it-works", icon: null },
     { label: "Safety", href: "/safety", icon: null }

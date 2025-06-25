@@ -1,0 +1,111 @@
+Great — I’ve noted all your requirements.
+
+I’ll now prepare the full Replit-ready code for the complete Nanny Sharing feature, including:
+
+Backend routes
+
+Frontend components
+
+Replit-compatible database storage
+
+Stripe-based escrow logic
+
+Messaging system within a nanny share
+
+Automated nanny suggestions
+
+Filters (location, availability)
+
+Limits (3 parents, 4 children)
+
+You’ll get all code in copy-paste blocks with clear file names and usage.
+
+Coming up next… Sit tight while I generate the complete backend first, then the frontend.
+
+Nanny Share System
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+// BACKEND: server/routes/nannyShareRoutes.js
+
+const express = require('express');
+const router = express.Router();
+const { db } = require('../lib/db');
+const { sendMessage } = require('../lib/sendMessage');
+
+// Create a new nanny share
+router.post('/createNannyShare', async (req, res) => {
+  const { parentId, location, days, times, pricePerFamily, childrenCount, notes } = req.body;
+  if (!parentId || !location || !pricePerFamily) return res.status(400).json({ error: 'Missing fields' });
+
+  const nannyShareId = `share_${Date.now()}`;
+  await db.set(nannyShareId, {
+    id: nannyShareId,
+    parentIds: [parentId],
+    childrenTotal: childrenCount,
+    location,
+    days,
+    times,
+    pricePerFamily,
+    notes,
+    applicants: [],
+    suggestedNannies: [],
+    nannyId: null,
+    messages: [],
+    status: 'open'
+  });
+  res.json({ success: true, id: nannyShareId });
+});
+
+// Join an existing nanny share
+router.post('/joinNannyShare', async (req, res) => {
+  const { shareId, parentId, childrenCount } = req.body;
+  const share = await db.get(shareId);
+  if (!share) return res.status(404).json({ error: 'Not found' });
+✅ Backend routes created.
+
+Next, I’ll generate:
+
+Replit DB integration setup
+
+Frontend UI: share creation, join, suggest nanny, chat
+
+Stripe escrow logic for shared payments
+
+All code will be copy-paste ready.
+
+Do you want parents to split payments equally or allow different contributions (e.g. 60/40)?
