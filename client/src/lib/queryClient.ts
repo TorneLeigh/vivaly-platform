@@ -2,13 +2,33 @@ import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
-    const text = (await res.text()) || res.statusText;
-    throw new Error(`${res.status}: ${text}`);
+    let errorMessage: string;
+    const contentType = res.headers.get("content-type");
+    
+    try {
+      if (contentType && contentType.includes("application/json")) {
+        const errorData = await res.json();
+        errorMessage = errorData.message || errorData.error || `HTTP ${res.status}`;
+      } else {
+        const text = await res.text();
+        errorMessage = text || res.statusText || `HTTP ${res.status}`;
+      }
+    } catch (parseError) {
+      errorMessage = `HTTP ${res.status}: ${res.statusText}`;
+    }
+    
+    throw new Error(errorMessage);
   }
 }
 
 const getBaseURL = () => {
-  return import.meta.env.VITE_API_URL || '';
+  // For production builds, detect if we're on Vercel and use relative URLs
+  if (import.meta.env.PROD && typeof window !== 'undefined') {
+    // If VITE_API_URL is set, use it; otherwise use relative URLs for same-origin deployment
+    return import.meta.env.VITE_API_URL || '';
+  }
+  // For development, use the configured API URL or default to localhost
+  return import.meta.env.VITE_API_URL || 'http://localhost:5000';
 };
 
 export async function apiRequest(
@@ -19,15 +39,24 @@ export async function apiRequest(
   const baseURL = getBaseURL();
   const fullUrl = url.startsWith('http') ? url : `${baseURL}${url}`;
   
-  const res = await fetch(fullUrl, {
-    method,
-    headers: data ? { "Content-Type": "application/json" } : {},
-    body: data ? JSON.stringify(data) : undefined,
-    credentials: "include",
-  });
+  console.log(`API Request: ${method} ${fullUrl}`, data ? { body: data } : '');
+  
+  try {
+    const res = await fetch(fullUrl, {
+      method,
+      headers: data ? { "Content-Type": "application/json" } : {},
+      body: data ? JSON.stringify(data) : undefined,
+      credentials: "include",
+    });
 
-  await throwIfResNotOk(res);
-  return await res.json();
+    console.log(`API Response: ${res.status} ${res.statusText}`);
+    
+    await throwIfResNotOk(res);
+    return await res.json();
+  } catch (error) {
+    console.error(`API Error for ${method} ${fullUrl}:`, error);
+    throw error;
+  }
 }
 
 type UnauthorizedBehavior = "returnNull" | "throw";

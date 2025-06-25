@@ -14,8 +14,12 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 
 
 const loginSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  email: z.string()
+    .email("Please enter a valid email address")
+    .transform(val => val.toLowerCase().trim()),
+  password: z.string()
+    .min(6, "Password must be at least 6 characters")
+    .regex(/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]+$/, "Password contains invalid characters"),
 });
 
 const signupSchema = z.object({
@@ -55,9 +59,11 @@ export default function Login() {
 
   const loginMutation = useMutation({
     mutationFn: async (data: LoginFormData) => {
+      console.log("Login attempt:", { email: data.email, hasPassword: !!data.password });
       return await apiRequest("POST", "/api/login", data);
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      console.log("Login successful:", response);
       toast({
         title: "Welcome back!",
         description: "You have been logged in successfully.",
@@ -66,9 +72,10 @@ export default function Login() {
       navigate("/");
     },
     onError: (error: Error) => {
+      console.error("Login error:", error);
       toast({
         title: "Login failed",
-        description: error.message,
+        description: error.message || "An unexpected error occurred",
         variant: "destructive",
       });
     },
