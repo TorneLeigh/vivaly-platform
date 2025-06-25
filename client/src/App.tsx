@@ -3,8 +3,9 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { useAuth, AuthProvider } from "@/hooks/useAuth";
-import NewHeader from "@/components/layout/new-header";
+import { AuthProvider } from "@/hooks/useAuth";
+import SafeHeader from "@/components/layout/SafeHeader";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import Footer from "@/components/layout/footer";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 import { lazy, Suspense } from "react";
@@ -125,28 +126,16 @@ import RoleRoute from "@/components/RoleRoute";
 import SafetyVerification from "@/components/safety-verification";
 
 function Router() {
-  const { isAuthenticated, isLoading, activeRole } = useAuth();
-
   return (
     <div className="min-h-screen flex flex-col">
-      <NewHeader />
+      <ErrorBoundary>
+        <SafeHeader />
+      </ErrorBoundary>
       <main className="flex-1">
         <Suspense fallback={<div className="flex items-center justify-center h-64"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>}>
         <Switch>
           {/* Role-based home route */}
-          <Route path="/">
-            {() => {
-              if (isLoading) {
-                return (
-                  <div className="flex items-center justify-center h-64">
-                    <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
-                  </div>
-                );
-              }
-              
-              return <Home />;
-            }}
-          </Route>
+          <Route path="/" component={Home} />
 
           {/* Public routes */}
           <Route path="/nanny/:id" component={NannyProfile} />
@@ -388,7 +377,9 @@ function Router() {
         </Switch>
         </Suspense>
       </main>
-      <Footer />
+      <ErrorBoundary>
+        <Footer />
+      </ErrorBoundary>
       <PWAInstallPrompt />
     </div>
   );
