@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import RoleToggle from '@/components/RoleToggle';
 import { ReferralBanner } from '@/components/ReferralBanner';
 import { calculateProfileCompletion } from '@/utils/profileCompletion';
-import PayoutStatusCard from '@/components/PayoutStatusCard';
+import CaregiverPayoutSetup from '@/components/CaregiverPayoutSetup';
 
 import Calendar from '@/components/Calendar';
 import { useLocation } from 'wouter';
@@ -184,9 +184,12 @@ export default function CaregiverDashboard() {
           </CardContent>
         </Card>
 
-        {/* Payout Status Card */}
+        {/* Payout Setup Card */}
         <div className="mb-8">
-          <PayoutStatusCard />
+          <CaregiverPayoutSetup 
+            userId={user?.id || ''} 
+            email={user?.email || ''} 
+          />
         </div>
 
         {/* Stats */}
