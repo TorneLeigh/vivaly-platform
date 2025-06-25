@@ -65,17 +65,25 @@ export default function ParentDashboard() {
     },
   });
 
-  // Fetch jobs
-  const { data: jobs = [], isLoading: jobsLoading } = useQuery({
-    queryKey: ['/api/jobs', 'parent'],
+  // Fetch jobs for the current parent user
+  const { data: allJobs = [], isLoading: jobsLoading } = useQuery({
+    queryKey: ['/api/jobs/my'],
     queryFn: async () => {
-      const response = await fetch('/api/jobs?filter=parent', {
+      const response = await fetch('/api/jobs/my', {
         credentials: 'include'
       });
-      if (!response.ok) throw new Error('Failed to fetch jobs');
+      if (!response.ok) {
+        if (response.status === 401) return [];
+        throw new Error('Failed to fetch jobs');
+      }
       return response.json();
     },
   });
+
+  // Filter for active jobs only
+  const activeJobs = allJobs.filter((job: any) => 
+    job.status === 'active' || !job.status // Consider jobs without status as active
+  );
 
   const upcomingBookings = bookings.filter(b => b.status === 'upcoming').slice(0, 3);
   const recentBookings = bookings.filter(b => ['completed', 'ongoing'].includes(b.status)).slice(0, 3);
@@ -195,7 +203,7 @@ export default function ParentDashboard() {
                   <div className="flex items-center">
                     <Briefcase className="h-6 w-6 sm:h-8 sm:w-8 text-purple-600 flex-shrink-0" />
                     <div className="ml-2 sm:ml-4 min-w-0">
-                      <p className="text-lg sm:text-2xl font-bold">{jobs.length}</p>
+                      <p className="text-lg sm:text-2xl font-bold">{activeJobs.length}</p>
                       <p className="text-xs sm:text-sm text-gray-600 truncate">Active Jobs</p>
                     </div>
                   </div>
