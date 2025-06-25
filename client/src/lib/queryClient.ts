@@ -7,12 +7,19 @@ async function throwIfResNotOk(res: Response) {
   }
 }
 
+const getBaseURL = () => {
+  return import.meta.env.VITE_API_URL || '';
+};
+
 export async function apiRequest(
   method: string,
   url: string,
   data?: unknown | undefined,
 ): Promise<any> {
-  const res = await fetch(url, {
+  const baseURL = getBaseURL();
+  const fullUrl = url.startsWith('http') ? url : `${baseURL}${url}`;
+  
+  const res = await fetch(fullUrl, {
     method,
     headers: data ? { "Content-Type": "application/json" } : {},
     body: data ? JSON.stringify(data) : undefined,
@@ -40,7 +47,11 @@ export const getQueryFn: <T>(options: {
       headers['Expires'] = '0';
     }
     
-    const res = await fetch(queryKey[0] as string, {
+    const url = queryKey[0] as string;
+    const baseURL = getBaseURL();
+    const fullUrl = url.startsWith('http') ? url : `${baseURL}${url}`;
+    
+    const res = await fetch(fullUrl, {
       credentials: "include",
       headers,
     });
