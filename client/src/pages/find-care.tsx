@@ -7,27 +7,23 @@ import { Badge } from "@/components/ui/badge";
 import { Star, MapPin, Users, Clock, Calendar, Heart, Search } from "lucide-react";
 import { Link } from "wouter";
 
-interface ChildcareProvider {
+interface Caregiver {
   id: number;
-  centerName: string;
-  description: string;
-  suburb: string;
-  hourlyRate: string;
-  dailyRate: string;
-  weeklyRate: string;
-  totalCapacity: number;
-  currentEnrollments: number;
-  ageGroups: string[];
-  operatingDays: string[];
-  startTime: string;
-  endTime: string;
-  rating?: string;
-  reviewCount?: number;
-  images?: string[];
+  userId: number;
+  bio: string;
+  experience: number;
+  hourlyRate: number;
+  weeklyAvailability: string[];
+  specializations: string[];
+  location: string;
   user: {
     firstName: string;
     lastName: string;
     profileImage?: string;
+  };
+  verification?: {
+    backgroundCheck: boolean;
+    wwccVerified: boolean;
   };
 }
 
@@ -37,16 +33,20 @@ export default function FindCare() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSuburb, setSelectedSuburb] = useState("");
 
-  // Fetch childcare providers
-  const { data: childcareProviders = [], isLoading: loadingChildcare } = useQuery({
-    queryKey: ["/api/childcare-providers/search", { suburb: selectedSuburb }],
+  // Fetch caregivers using existing nannies endpoint
+  const { data: caregivers = [], isLoading: loadingChildcare, error } = useQuery({
+    queryKey: ["/api/nannies/featured"],
+    retry: 1,
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
 
 
-  const filteredChildcare = (childcareProviders as ChildcareProvider[]).filter((provider: ChildcareProvider) =>
-    provider.centerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    provider.suburb.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredCaregivers = (caregivers as Caregiver[]).filter((caregiver: Caregiver) =>
+    caregiver.user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    caregiver.user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    caregiver.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (selectedSuburb === "" || caregiver.location.toLowerCase().includes(selectedSuburb.toLowerCase()))
   );
 
 
@@ -60,10 +60,10 @@ export default function FindCare() {
         <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Find Quality Care in Sydney
+              Find Trusted Caregivers
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Discover licensed childcare centers with Australian compliance standards
+              Connect with verified nannies, babysitters and childcare professionals
             </p>
           </div>
 
@@ -102,10 +102,10 @@ export default function FindCare() {
         <section className="mb-12">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Certified Care
+              Available Caregivers
             </h2>
             <Badge variant="outline" className="text-sm">
-              {filteredChildcare.length} available
+              {filteredCaregivers.length} available
             </Badge>
           </div>
 
@@ -124,6 +124,20 @@ export default function FindCare() {
                   </CardContent>
                 </Card>
               ))}
+            </div>
+          ) : error ? (
+            <div className="text-center py-12">
+              <p className="text-gray-500 dark:text-gray-400">Unable to load caregivers. Please try again.</p>
+              <Button onClick={() => window.location.reload()} className="mt-4">
+                Retry
+              </Button>
+            </div>
+          ) : filteredCaregivers.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-500 dark:text-gray-400">No caregivers found matching your search.</p>
+              <Button onClick={() => {setSearchTerm(""); setSelectedSuburb("");}} className="mt-4">
+                Clear Filters
+              </Button>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
