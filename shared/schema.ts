@@ -341,6 +341,16 @@ export const nannyShareApplications = pgTable("nanny_share_applications", {
   appliedAt: timestamp("applied_at").defaultNow(),
 });
 
+// Nanny Share Messages - in-share messaging between participants
+export const nannyShareMessages = pgTable("nanny_share_messages", {
+  id: serial("id").primaryKey(),
+  shareId: varchar("share_id").notNull(),
+  senderId: varchar("sender_id").notNull(),
+  message: text("message").notNull(),
+  messageType: text("message_type").default("text"), // text, system, notification
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Safety verification tracking table
 export const verificationChecks = pgTable("verification_checks", {
   id: serial("id").primaryKey(),
@@ -609,6 +619,11 @@ export const insertNannyShareApplicationSchema = createInsertSchema(nannyShareAp
   appliedAt: true,
 });
 
+export const insertNannyShareMessageSchema = createInsertSchema(nannyShareMessages).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -648,6 +663,9 @@ export type InsertNannyShare = z.infer<typeof insertNannyShareSchema>;
 
 export type NannyShareApplication = typeof nannyShareApplications.$inferSelect;
 export type InsertNannyShareApplication = z.infer<typeof insertNannyShareApplicationSchema>;
+
+export type NannyShareMessage = typeof nannyShareMessages.$inferSelect;
+export type InsertNannyShareMessage = z.infer<typeof insertNannyShareMessageSchema>;
 
 // Service types
 export const SERVICE_TYPES = [

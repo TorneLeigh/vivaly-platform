@@ -7,6 +7,7 @@ import {
   nannies,
   nannyShares,
   nannyShareApplications,
+  nannyShareMessages,
   type User,
   type InsertUser,
   type Message,
@@ -19,6 +20,8 @@ import {
   type InsertNannyShare,
   type NannyShareApplication,
   type InsertNannyShareApplication,
+  type NannyShareMessage,
+  type InsertNannyShareMessage,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, or, and, desc } from "drizzle-orm";
@@ -103,6 +106,11 @@ export interface IStorage {
   getNannySharesByParent(parentId: string): Promise<NannyShare[]>;
   createNannyShareApplication(application: InsertNannyShareApplication): Promise<NannyShareApplication>;
   getNannyShareApplications(shareId: string): Promise<NannyShareApplication[]>;
+  
+  // Nanny Share messaging
+  createNannyShareMessage(message: InsertNannyShareMessage): Promise<NannyShareMessage>;
+  getNannyShareMessages(shareId: string): Promise<NannyShareMessage[]>;
+  getSuggestedNannies(location: string, rate: number): Promise<any[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -1014,6 +1022,81 @@ export class DatabaseStorage implements IStorage {
       .from(nannyShareApplications)
       .where(eq(nannyShareApplications.shareId, shareId))
       .orderBy(nannyShareApplications.appliedAt);
+  }
+
+  // Nanny Share messaging operations
+  async createNannyShareMessage(messageData: InsertNannyShareMessage): Promise<NannyShareMessage> {
+    const [message] = await db
+      .insert(nannyShareMessages)
+      .values(messageData)
+      .returning();
+    return message;
+  }
+
+  async getNannyShareMessages(shareId: string): Promise<NannyShareMessage[]> {
+    const messages = await db
+      .select({
+        id: nannyShareMessages.id,
+        shareId: nannyShareMessages.shareId,
+        senderId: nannyShareMessages.senderId,
+        message: nannyShareMessages.message,
+        messageType: nannyShareMessages.messageType,
+        createdAt: nannyShareMessages.createdAt,
+        // Sender info
+        senderFirstName: users.firstName,
+        senderLastName: users.lastName,
+        senderProfileImageUrl: users.profileImageUrl,
+      })
+      .from(nannyShareMessages)
+      .leftJoin(users, eq(nannyShareMessages.senderId, users.id))
+      .where(eq(nannyShareMessages.shareId, shareId))
+      .orderBy(nannyShareMessages.createdAt);
+
+    return messages.map(message => ({
+      ...message,
+      senderProfile: {
+        firstName: message.senderFirstName,
+        lastName: message.senderLastName,
+        profileImageUrl: message.senderProfileImageUrl,
+      }
+    }));
+  }
+
+  async getSuggestedNannies(location: string, rate: number): Promise<any[]> {
+    try {
+      // Get nannies near location with rate range
+      const suggestedNannies = await db
+        .select({
+          id: nannies.id,
+          userId: nannies.userId,
+          bio: nannies.bio,
+          hourlyRate: nannies.hourlyRate,
+          location: nannies.location,
+          suburb: nannies.suburb,
+          rating: nannies.rating,
+          reviewCount: nannies.reviewCount,
+          isVerified: nannies.isVerified,
+          // User info
+          firstName: users.firstName,
+          lastName: users.lastName,
+          profileImageUrl: users.profileImageUrl,
+        })
+        .from(nannies)
+        .leftJoin(users, eq(nannies.userId, users.id))
+        .where(
+          and(
+            eq(nannies.isVerified, true),
+            // Location and rate filters would go here
+          )
+        )
+        .orderBy(desc(nannies.rating))
+        .limit(10);
+
+      return suggestedNannies;
+    } catch (error) {
+      console.error("Get suggested nannies error:", error);
+      return [];
+    }
   }
 }
 

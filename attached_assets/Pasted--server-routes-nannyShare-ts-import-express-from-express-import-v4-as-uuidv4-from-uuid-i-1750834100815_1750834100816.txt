@@ -1,0 +1,96 @@
+// server/routes/nannyShare.ts
+import express from 'express';
+import { v4 as uuidv4 } from 'uuid';
+import db from '../db'; // Replit DB wrapper
+import stripe from '../lib/stripe';
+
+const router = express.Router();
+
+// Create a new nanny share request
+router.post('/createNannyShare', async (req, res) => {
+  const {
+    parentId,
+    childrenCount,
+    location,
+    proposedRate,
+    preferredSchedule,
+  } = req.body;
+
+  const id = uuidv4();
+  await db.set(`nannyShare:${id}`, {
+    id,
+    parents: [parentId],
+    children: childrenCount,
+    location,
+    proposedRate,
+    preferredSchedule,
+    messages: [],
+    status: 'pending',
+    createdAt: Date.now(),
+    nannyId: null,
+  });
+  res.json({ success: true, shareId: id });
+});
+
+// Join existing nanny share
+router.post('/joinNannyShare', async (req, res) => {
+  const { shareId, parentId, childrenCount } = req.body;
+  const share = await db.get(`nannyShare:${shareId}`);
+  if (!share) return res.status(404).json({ error: 'Not found' });
+
+  if (share.parents.length >= 3 || share.children + childrenCount > 4) {
+    return res.status(400).json({ error: 'Share is full' });
+  }
+
+  share.parents.push(parentId);
+  share.children += childrenCount;
+  await db.set(`nannyShare:${shareId}`, share);
+  res.json({ success: true });
+});
+
+// Suggest a nanny manually
+router.post('/suggestNanny', async (req, res) => {
+  const { shareId, nannyId } = req.body;
+  const share = await db.get(`nannyShare:${shareId}`);
+  if (!share) return res.status(404).json({ error: 'Share not found' });
+  share.nannyId = nannyId;
+  await db.set(`nannyShare:${shareId}`, share);
+  res.json({ success: true });
+});
+
+// Post chat message to group
+router.post('/nannyShareMessage', async (req, res) => {
+  const { shareId, senderId, content } = req.body;
+  const share = await db.get(`nannyShare:${shareId}`);
+  if (!share) return res.status(404).json({ error: 'Not found' });
+
+  share.messages.push({ senderId, content, timestamp: Date.now() });
+  await db.set(`nannyShare:${shareId}`, share);
+  res.json({ success: true });
+});
+
+// Stripe payment flow (escrow)
+router.post('/startNannyPayment', async (req, res) => {
+  const { shareId, amount, parentId, successUrl, cancelUrl } = req.body;
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: [
+      {
+        price_data: {
+          currency: 'aud',
+          product_data: { name: 'Nanny Share Payment' },
+          unit_amount: amount * 100,
+        },
+        quantity: 1,
+      },
+    ],
+    mode: 'payment',
+    success_url: successUrl,
+    cancel_url: cancelUrl,
+    metadata: { shareId, parentId },
+  });
+
+  res.json({ id: session.id });
+});
+
+export default router;

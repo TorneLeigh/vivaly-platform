@@ -5,7 +5,7 @@ import { storage } from "./storage";
 import bcrypt from "bcryptjs";
 import { randomUUID } from "crypto";
 import { z } from "zod";
-import { insertUserSchema, insertJobSchema, insertApplicationSchema, insertNannyShareSchema, insertNannyShareApplicationSchema, type InsertUser } from "@shared/schema";
+import { insertUserSchema, insertJobSchema, insertApplicationSchema, insertNannyShareSchema, insertNannyShareApplicationSchema, insertNannyShareMessageSchema, type InsertUser } from "@shared/schema";
 import { requireAuth, requireRole } from "./auth-middleware";
 import { sendPasswordResetEmail } from "./email-service";
 import { sendEmail, notifyOwner } from "./lib/sendEmail";
@@ -2395,10 +2395,86 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
       const { nannyId } = req.body;
       
       const updatedShare = await storage.assignNannyToShare(id, nannyId);
+      
+      // Send system message about nanny assignment
+      await storage.createNannyShareMessage({
+        shareId: id,
+        senderId: req.session.userId as string,
+        message: `A nanny has been assigned to this share.`,
+        messageType: "system"
+      });
+      
       res.json(updatedShare);
     } catch (error) {
       console.error("Assign nanny error:", error);
       res.status(500).json({ message: "Failed to assign nanny to share" });
+    }
+  });
+
+  // Get suggested nannies for a share
+  app.get("/api/nanny-shares/:id/suggested-nannies", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const share = await storage.getNannyShare(id);
+      
+      if (!share) {
+        return res.status(404).json({ message: "Nanny share not found" });
+      }
+      
+      const suggestedNannies = await storage.getSuggestedNannies(share.location, parseFloat(share.rate));
+      res.json(suggestedNannies);
+    } catch (error) {
+      console.error("Get suggested nannies error:", error);
+      res.status(500).json({ message: "Failed to get suggested nannies" });
+    }
+  });
+
+  // Nanny Share messaging endpoints
+  
+  // Send message to nanny share
+  app.post("/api/nanny-shares/:id/messages", requireAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { message } = req.body;
+      const senderId = req.session.userId as string;
+      
+      // Verify user is participant in the share
+      const share = await storage.getNannyShare(id);
+      if (!share || !share.participants.includes(senderId)) {
+        return res.status(403).json({ message: "You are not a participant in this share" });
+      }
+      
+      const shareMessage = await storage.createNannyShareMessage({
+        shareId: id,
+        senderId,
+        message,
+        messageType: "text"
+      });
+      
+      res.json(shareMessage);
+    } catch (error) {
+      console.error("Send share message error:", error);
+      res.status(500).json({ message: "Failed to send message" });
+    }
+  });
+
+  // Get messages for nanny share
+  app.get("/api/nanny-shares/:id/messages", requireAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const userId = req.session.userId as string;
+      
+      // Verify user is participant in the share
+      const share = await storage.getNannyShare(id);
+      if (!share || !share.participants.includes(userId)) {
+        return res.status(403).json({ message: "You are not a participant in this share" });
+      }
+      
+      const messages = await storage.getNannyShareMessages(id);
+      res.json(messages);
+    } catch (error) {
+      console.error("Get share messages error:", error);
+      res.status(500).json({ message: "Failed to get messages" });
     }
   });
 
