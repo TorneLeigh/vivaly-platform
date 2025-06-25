@@ -48,6 +48,7 @@ interface SearchFilters {
 }
 import petSittingImage from "@assets/b3a7dde99de0043cc2a382fe7c16f0fc.jpg";
 import petSittingServiceImage from "@assets/969c7a3eeacf469a3a4c50a32a9b3d57.jpg";
+import nannySharingImage from "@assets/988a042ea7f506d78efe22b6305455a5_1750892014035.jpg";
 import pregnancyImage from "@assets/f116334957ff9c74101be0e0c41edcda_1749267005194.jpg";
 import postnatalImage from "@assets/c18480e234907faffa31784936ac8816_1749267000694.jpg";
 import overnightCareImage from "@assets/02a899c095b5a44d96492e700bf8fd0c_1749275818681.jpg";
@@ -315,6 +316,25 @@ export default function Home() {
                   </p>
                 </div>
               </div>
+
+              {/* NANNY SHARING */}
+              <Link href="/nanny-sharing" className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex-shrink-0 w-64 md:w-72 block">
+                <div className="relative h-48">
+                  <img 
+                    src={nannySharingImage} 
+                    alt="Nanny Sharing"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-3">
+                  <h3 className="text-base font-semibold text-black mb-1">
+                    Nanny Sharing
+                  </h3>
+                  <p className="text-gray-600 text-xs line-clamp-3">
+                    Share the cost of quality childcare with other families. Connect with local parents and find the perfect shared nanny arrangement.
+                  </p>
+                </div>
+              </Link>
             </div>
           </div>
         </div>
