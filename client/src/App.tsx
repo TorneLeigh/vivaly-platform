@@ -49,6 +49,7 @@ const CaregiverConnectLazy = lazy(() => import("@/pages/caregiver-connect"));
 const TestBookingFlowLazy = lazy(() => import("@/pages/test-booking-flow"));
 
 import BookingConfirmation from "@/pages/booking-confirmation";
+import BookingSummaryCard from "@/components/BookingSummaryCard";
 import Terms from "@/pages/terms";
 import Privacy from "@/pages/privacy";
 import TermsOfService from "@/pages/terms-of-service";
@@ -250,6 +251,30 @@ function Router() {
             <Suspense fallback={<div className="flex items-center justify-center h-64"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>}>
               <TestBookingFlowLazy />
             </Suspense>
+          </Route>
+          <Route path="/test-booking-summary">
+            <div className="min-h-screen bg-gray-50 py-8">
+              <BookingSummaryCard
+                caregiver={{
+                  name: 'Sarah Johnson',
+                  photoUrl: '/images/sample-caregiver.jpg',
+                  email: 'sarah@email.com',
+                  phone: '0412 345 678',
+                }}
+                parent={{
+                  name: 'Jane Smith',
+                  email: 'jane@email.com',
+                  phone: '0400 123 456',
+                }}
+                startDate="2025-07-01"
+                endDate="2025-07-03"
+                hoursPerDay={6}
+                ratePerHour={30}
+                status="confirmed"
+                paymentStatus="paid_unreleased"
+                personalDetailsVisible={true}
+              />
+            </div>
           </Route>
           <Route path="/trial" component={TrialSignup} />
           <Route path="/trial-signup" component={TrialSignup} />
