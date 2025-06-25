@@ -4,6 +4,7 @@ import connectPg from "connect-pg-simple";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
+import cors from "cors";
 import * as Sentry from "@sentry/node";
 import { registerRoutes } from "./routes";
 import { startPaymentReleaseCron } from "./cron-jobs";
@@ -14,6 +15,34 @@ const app = express();
 
 // Trust proxy for rate limiting in hosted environments
 app.set('trust proxy', 1);
+
+// CORS configuration - allow all origins in development, restricted in production
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? (origin: string | undefined, callback: (err: Error | null, allowed?: boolean) => void) => {
+        // Production: strict origin checking
+        if (!origin) return callback(null, true);
+        
+        const allowedOrigins = [
+          'https://vivaly.vercel.app',
+        ];
+        
+        if (allowedOrigins.includes(origin) || 
+            origin.includes('.vercel.app') || 
+            origin.includes('.replit.dev')) {
+          callback(null, true);
+        } else {
+          console.log('CORS blocked origin:', origin);
+          callback(new Error('Not allowed by CORS'), false);
+        }
+      }
+    : true, // Development: allow all origins
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+};
+
+app.use(cors(corsOptions));
 
 // Sentry initialization for error monitoring
 if (process.env.SENTRY_DSN) {
@@ -90,7 +119,8 @@ app.use(session({
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    sameSite: 'lax'
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    domain: process.env.NODE_ENV === 'production' ? undefined : undefined
   },
   rolling: true // Extend session on activity
 }));

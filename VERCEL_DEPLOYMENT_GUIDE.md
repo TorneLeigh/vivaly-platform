@@ -8,9 +8,19 @@ This error occurs because the frontend is trying to connect to localhost instead
 
 ### 1. Configure Your Backend URL
 
-**Option A: Separate Backend Deployment**
-If your backend is deployed separately (e.g., on Railway, Heroku, or another Vercel project):
+**IMPORTANT:** The backend now includes CORS configuration and enhanced error handling to fix the Vercel login issue.
 
+### 2. Set Environment Variables in Vercel
+
+**For Same-Origin Deployment (Recommended):**
+1. In your Vercel project dashboard, go to Settings → Environment Variables
+2. Add this environment variable:
+   ```
+   Name: VITE_API_URL
+   Value: (leave empty - this uses relative URLs)
+   ```
+
+**For Separate Backend Deployment:**
 1. In your Vercel project dashboard, go to Settings → Environment Variables
 2. Add this environment variable:
    ```
@@ -18,14 +28,12 @@ If your backend is deployed separately (e.g., on Railway, Heroku, or another Ver
    Value: https://your-backend-url.com
    ```
 
-**Option B: Same-Origin Deployment (Recommended)**
-If your frontend and backend are deployed together on the same Vercel project:
-
+**For Replit Backend:**
 1. In your Vercel project dashboard, go to Settings → Environment Variables
 2. Add this environment variable:
    ```
    Name: VITE_API_URL
-   Value: (leave empty - no value)
+   Value: https://your-replit-name.replit.dev
    ```
 
 ### 2. Update Your Backend Configuration
