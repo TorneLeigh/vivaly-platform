@@ -21,7 +21,7 @@ export default function EnhancedNavigation() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const navigationItems = [
-    { label: "Find Care", href: "/search", icon: Search },
+    { label: "Find Care", href: "/find-care", icon: Search },
     { label: "Nanny Sharing", href: "/nanny-sharing", icon: Users },
     { label: "Become a Caregiver", href: "/caregiver-onboarding", icon: User },
     { label: "How it Works", href: "/how-it-works", icon: null },

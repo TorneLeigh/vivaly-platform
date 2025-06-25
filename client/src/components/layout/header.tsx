@@ -94,7 +94,7 @@ export default function HeaderOLD_DISABLED() {
             {/* Navigation Links */}
             <nav className="flex items-center space-x-4">
               <Link href="/find-care" className="text-sm font-medium text-gray-700 hover:text-coral transition-colors">
-                Day Care
+                Find Care
               </Link>
               <Link href="/nanny-sharing" className="text-sm font-medium text-gray-700 hover:text-coral transition-colors">
                 Nanny Sharing
@@ -223,7 +223,7 @@ export default function HeaderOLD_DISABLED() {
                     {/* Navigation Links */}
                     <div className="p-6 space-y-4">
                       <Link href="/find-care" className="block text-lg font-medium text-gray-900 hover:text-coral py-3" onClick={() => setMobileMenuOpen(false)}>
-                        Day Care Services
+                        Find Care
                       </Link>
                       <Link href="/nanny-sharing" className="block text-lg font-medium text-gray-900 hover:text-coral py-3" onClick={() => setMobileMenuOpen(false)}>
                         Nanny Sharing

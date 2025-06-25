@@ -142,3 +142,4 @@ VIVALY is a comprehensive childcare marketplace platform connecting Australian f
 
 Preferred communication style: Simple, everyday language.
 App Store deployment: User will add App Store download links when ready (no browser install instructions needed).
+Navigation preferences: Use "Find Care" and "Nanny Sharing" labels consistently across all navigation menus for parent-facing features.
