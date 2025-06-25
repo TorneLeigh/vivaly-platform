@@ -42,12 +42,20 @@ export default function FindCare() {
 
 
 
-  const filteredCaregivers = (caregivers as Caregiver[]).filter((caregiver: Caregiver) =>
-    caregiver.user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    caregiver.user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    caregiver.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (selectedSuburb === "" || caregiver.location.toLowerCase().includes(selectedSuburb.toLowerCase()))
-  );
+  const filteredCaregivers = (caregivers as any[]).filter((caregiver: any) => {
+    if (!caregiver) return false;
+    
+    const firstName = caregiver.firstName || caregiver.user?.firstName || '';
+    const lastName = caregiver.lastName || caregiver.user?.lastName || '';
+    const location = caregiver.location || caregiver.suburb || '';
+    
+    return (
+      firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (selectedSuburb === "" || location.toLowerCase().includes(selectedSuburb.toLowerCase()))
+    );
+  });
 
 
 
@@ -141,96 +149,85 @@ export default function FindCare() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredChildcare.map((provider: ChildcareProvider) => (
-                <Card key={provider.id} className="hover:shadow-lg transition-shadow cursor-pointer group">
-                  <CardHeader className="pb-3">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <CardTitle className="text-lg group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                          {provider.centerName}
-                        </CardTitle>
-                        <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mt-1">
-                          <MapPin className="h-3 w-3 mr-1" />
-                          {provider.suburb}
+              {filteredCaregivers.map((caregiver: any) => {
+                const firstName = caregiver.firstName || caregiver.user?.firstName || 'Unknown';
+                const lastName = caregiver.lastName || caregiver.user?.lastName || '';
+                const location = caregiver.location || caregiver.suburb || 'Location not specified';
+                const bio = caregiver.bio || 'No description available';
+                const experience = caregiver.experience || 0;
+                const hourlyRate = caregiver.hourlyRate || caregiver.hourly_rate || 25;
+                const services = caregiver.services || caregiver.specializations || [];
+                
+                return (
+                  <Card key={caregiver.id} className="hover:shadow-lg transition-shadow cursor-pointer group">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <CardTitle className="text-lg group-hover:text-[#FF5F7E] transition-colors">
+                            {firstName} {lastName}
+                          </CardTitle>
+                          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mt-1">
+                            <MapPin className="h-3 w-3 mr-1" />
+                            {location}
+                          </div>
+                        </div>
+                        <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Heart className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </CardHeader>
+                    
+                    <CardContent className="space-y-4">
+                      <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                        {bio}
+                      </p>
+                      
+                      {services.length > 0 && (
+                        <div className="flex flex-wrap gap-1">
+                          {services.slice(0, 3).map((spec: string, i: number) => (
+                            <Badge key={i} variant="secondary" className="text-xs">
+                              {spec}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div className="flex items-center text-gray-600 dark:text-gray-400">
+                          <Users className="h-3 w-3 mr-1" />
+                          {experience}+ years exp
+                        </div>
+                        <div className="flex items-center text-gray-600 dark:text-gray-400">
+                          <Clock className="h-3 w-3 mr-1" />
+                          Available
                         </div>
                       </div>
-                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Heart className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </CardHeader>
-                  
-                  <CardContent className="space-y-4">
-                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
-                      {provider.description}
-                    </p>
 
-                    <div className="flex items-center gap-2 text-xs">
-                      {provider.ageGroups.map((age, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
-                          {age}
-                        </Badge>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center justify-between text-sm">
-                      <div className="flex items-center gap-1">
-                        <Users className="h-4 w-4 text-gray-400" />
-                        <span>{provider.totalCapacity - provider.currentEnrollments} spots available</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Clock className="h-4 w-4 text-gray-400" />
-                        <span>{provider.startTime} - {provider.endTime}</span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1">
-                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                        <span className="text-sm font-medium">
-                          {provider.rating || "New"} 
-                          {provider.reviewCount && ` (${provider.reviewCount})`}
-                        </span>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-lg font-bold text-gray-900 dark:text-white">
-                          ${provider.dailyRate}/day
+                      <div className="flex items-center justify-between pt-2 border-t">
+                        <div className="text-sm text-gray-600 dark:text-gray-400">
+                          From <span className="font-semibold text-gray-900 dark:text-white">${hourlyRate}/hour</span>
                         </div>
-                        <div className="text-xs text-gray-500">
-                          ${provider.hourlyRate}/hr
+                        <div className="flex items-center">
+                          <Star className="h-3 w-3 text-yellow-400 fill-current mr-1" />
+                          <span className="text-sm font-medium">{caregiver.rating || '4.8'}</span>
+                          <span className="text-xs text-gray-500 ml-1">({caregiver.reviewCount || caregiver.review_count || '12'})</span>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="flex gap-2 pt-2">
-                      <Button variant="outline" size="sm" className="flex-1">
-                        View Details
-                      </Button>
-                      <Link href={`/childcare-enroll/${provider.id}`}>
-                        <Button size="sm" className="flex-1">
-                          Apply Now
+                      <Link href={`/booking-summary?caregiver_id=${caregiver.id}`}>
+                        <Button className="w-full mt-4 bg-gradient-to-r from-[#FF5F7E] to-[#FFA24D] hover:from-[#e54c6b] hover:to-[#e8941f] text-white" size="sm">
+                          <Calendar className="h-3 w-3 mr-2" />
+                          Book Now
                         </Button>
                       </Link>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
           )}
 
-          {!loadingChildcare && filteredChildcare.length === 0 && (
-            <div className="text-center py-12">
-              <div className="text-gray-400 mb-4">
-                <Users className="h-12 w-12 mx-auto" />
-              </div>
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                No caregivers found
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Try adjusting your search criteria or location
-              </p>
-            </div>
-          )}
+
         </section>
 
 
