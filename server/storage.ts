@@ -887,6 +887,134 @@ export class DatabaseStorage implements IStorage {
       throw error;
     }
   }
+
+  // Nanny Share operations
+  async createNannyShare(nannyShareData: InsertNannyShare): Promise<NannyShare> {
+    const shareId = `share_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+    
+    const shareToInsert = {
+      ...nannyShareData,
+      id: shareId,
+      participants: [nannyShareData.creatorId], // Creator is automatically a participant
+    };
+
+    const [nannyShare] = await db
+      .insert(nannyShares)
+      .values(shareToInsert)
+      .returning();
+    return nannyShare;
+  }
+
+  async getNannyShares(): Promise<NannyShare[]> {
+    const shares = await db
+      .select({
+        id: nannyShares.id,
+        creatorId: nannyShares.creatorId,
+        title: nannyShares.title,
+        location: nannyShares.location,
+        suburb: nannyShares.suburb,
+        rate: nannyShares.rate,
+        schedule: nannyShares.schedule,
+        startDate: nannyShares.startDate,
+        endDate: nannyShares.endDate,
+        maxFamilies: nannyShares.maxFamilies,
+        childrenDetails: nannyShares.childrenDetails,
+        requirements: nannyShares.requirements,
+        nannyId: nannyShares.nannyId,
+        status: nannyShares.status,
+        participants: nannyShares.participants,
+        createdAt: nannyShares.createdAt,
+        updatedAt: nannyShares.updatedAt,
+        // Creator info
+        creatorFirstName: users.firstName,
+        creatorLastName: users.lastName,
+        creatorProfileImageUrl: users.profileImageUrl,
+      })
+      .from(nannyShares)
+      .leftJoin(users, eq(nannyShares.creatorId, users.id))
+      .orderBy(desc(nannyShares.createdAt));
+
+    return shares.map(share => ({
+      ...share,
+      creatorProfile: {
+        firstName: share.creatorFirstName,
+        lastName: share.creatorLastName,
+        profileImageUrl: share.creatorProfileImageUrl,
+      }
+    }));
+  }
+
+  async getNannyShare(shareId: string): Promise<NannyShare | undefined> {
+    const [share] = await db.select().from(nannyShares).where(eq(nannyShares.id, shareId));
+    return share;
+  }
+
+  async updateNannyShare(shareId: string, updates: Partial<NannyShare>): Promise<NannyShare> {
+    const [updatedShare] = await db
+      .update(nannyShares)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(nannyShares.id, shareId))
+      .returning();
+    return updatedShare;
+  }
+
+  async joinNannyShare(shareId: string, parentId: string): Promise<NannyShare> {
+    const share = await this.getNannyShare(shareId);
+    if (!share) throw new Error("Share not found");
+
+    const currentParticipants = Array.isArray(share.participants) ? share.participants : [];
+    
+    if (!currentParticipants.includes(parentId) && currentParticipants.length < (share.maxFamilies || 2)) {
+      const updatedParticipants = [...currentParticipants, parentId];
+      const status = updatedParticipants.length >= (share.maxFamilies || 2) ? "full" : "open";
+      
+      return await this.updateNannyShare(shareId, { 
+        participants: updatedParticipants,
+        status 
+      });
+    }
+    
+    return share;
+  }
+
+  async assignNannyToShare(shareId: string, nannyId: string): Promise<NannyShare> {
+    return await this.updateNannyShare(shareId, { 
+      nannyId, 
+      status: "active" 
+    });
+  }
+
+  async getNannySharesByParent(parentId: string): Promise<NannyShare[]> {
+    const shares = await db
+      .select()
+      .from(nannyShares)
+      .where(or(
+        eq(nannyShares.creatorId, parentId)
+      ))
+      .orderBy(desc(nannyShares.createdAt));
+    
+    // Filter shares where parent is a participant
+    return shares.filter(share => 
+      share.creatorId === parentId || 
+      (Array.isArray(share.participants) && share.participants.includes(parentId))
+    );
+  }
+
+  async createNannyShareApplication(applicationData: InsertNannyShareApplication): Promise<NannyShareApplication> {
+    const [application] = await db
+      .insert(nannyShareApplications)
+      .values(applicationData)
+      .returning();
+    return application;
+  }
+
+  async getNannyShareApplications(shareId: string): Promise<NannyShareApplication[]> {
+    return await db
+      .select()
+      .from(nannyShareApplications)
+      .where(eq(nannyShareApplications.shareId, shareId))
+      .orderBy(nannyShareApplications.appliedAt);
+  }
 }
 
 export const storage = new DatabaseStorage();

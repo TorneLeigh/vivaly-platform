@@ -5,7 +5,7 @@ import { storage } from "./storage";
 import bcrypt from "bcryptjs";
 import { randomUUID } from "crypto";
 import { z } from "zod";
-import { insertUserSchema, insertJobSchema, insertApplicationSchema, type InsertUser } from "@shared/schema";
+import { insertUserSchema, insertJobSchema, insertApplicationSchema, insertNannyShareSchema, insertNannyShareApplicationSchema, type InsertUser } from "@shared/schema";
 import { requireAuth, requireRole } from "./auth-middleware";
 import { sendPasswordResetEmail } from "./email-service";
 import { sendEmail, notifyOwner } from "./lib/sendEmail";
@@ -2319,6 +2319,86 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
     } catch (error) {
       console.error("Error getting verification status:", error);
       res.status(500).json({ error: "Failed to get verification status" });
+    }
+  });
+
+  // Nanny Share Routes
+  
+  // Create a new nanny share
+  app.post("/api/nanny-shares", requireAuth, requireRole("parent"), async (req, res) => {
+    try {
+      const validationResult = insertNannyShareSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          message: "Invalid nanny share data",
+          details: validationResult.error.errors,
+        });
+      }
+
+      const shareData = {
+        ...validationResult.data,
+        creatorId: req.session.userId as string,
+      };
+
+      const nannyShare = await storage.createNannyShare(shareData);
+      res.json(nannyShare);
+    } catch (error) {
+      console.error("Nanny share creation error:", error);
+      res.status(500).json({ message: "Failed to create nanny share" });
+    }
+  });
+
+  // Get all nanny shares
+  app.get("/api/nanny-shares", async (req, res) => {
+    try {
+      const nannyShares = await storage.getNannyShares();
+      res.json(nannyShares);
+    } catch (error) {
+      console.error("Get nanny shares error:", error);
+      res.status(500).json({ message: "Failed to get nanny shares" });
+    }
+  });
+
+  // Get specific nanny share
+  app.get("/api/nanny-shares/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const nannyShare = await storage.getNannyShare(id);
+      if (!nannyShare) {
+        return res.status(404).json({ message: "Nanny share not found" });
+      }
+      res.json(nannyShare);
+    } catch (error) {
+      console.error("Get nanny share error:", error);
+      res.status(500).json({ message: "Failed to get nanny share" });
+    }
+  });
+
+  // Join a nanny share
+  app.post("/api/nanny-shares/:id/join", requireAuth, requireRole("parent"), async (req, res) => {
+    try {
+      const { id } = req.params;
+      const parentId = req.session.userId as string;
+      
+      const updatedShare = await storage.joinNannyShare(id, parentId);
+      res.json(updatedShare);
+    } catch (error) {
+      console.error("Join nanny share error:", error);
+      res.status(500).json({ message: "Failed to join nanny share" });
+    }
+  });
+
+  // Assign nanny to share
+  app.post("/api/nanny-shares/:id/assign-nanny", requireAuth, requireRole("parent"), async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { nannyId } = req.body;
+      
+      const updatedShare = await storage.assignNannyToShare(id, nannyId);
+      res.json(updatedShare);
+    } catch (error) {
+      console.error("Assign nanny error:", error);
+      res.status(500).json({ message: "Failed to assign nanny to share" });
     }
   });
 
