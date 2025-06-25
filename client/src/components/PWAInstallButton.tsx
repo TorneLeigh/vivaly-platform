@@ -104,12 +104,9 @@ export default function PWAInstallButton() {
         </div>
         <div className="flex-1">
           <h3 className="text-lg font-semibold text-gray-900 mb-1">Get the VIVALY App</h3>
-          <p className="text-sm text-gray-600 mb-2">
+          <p className="text-sm text-gray-600">
             For the best experience, install our app
           </p>
-          <div className="text-xs text-[#FF5F7E] font-medium">
-            Browser Menu → "Install App" or "Add to Home Screen"
-          </div>
         </div>
       </div>
     </div>
