@@ -43,6 +43,7 @@ import PaymentTestSimple from "@/pages/payment-test-simple";
 const TestPaymentLazy = lazy(() => import("@/pages/test-payment"));
 const PaymentDemoLazy = lazy(() => import("@/pages/payment-demo"));
 const PaymentSuccessLazy = lazy(() => import("@/pages/payment-success"));
+const BookingConfirmationLazy = lazy(() => import("@/pages/booking-confirmation"));
 const BookingSummaryLazy = lazy(() => import("@/pages/booking-summary"));
 const CaregiverConnectLazy = lazy(() => import("@/pages/caregiver-connect"));
 const TestBookingFlowLazy = lazy(() => import("@/pages/test-booking-flow"));
@@ -228,6 +229,11 @@ function Router() {
           <Route path="/payment-success">
             <Suspense fallback={<div className="flex items-center justify-center h-64"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>}>
               <PaymentSuccessLazy />
+            </Suspense>
+          </Route>
+          <Route path="/booking-confirmation">
+            <Suspense fallback={<div className="flex items-center justify-center h-64"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>}>
+              <BookingConfirmationLazy />
             </Suspense>
           </Route>
           <Route path="/booking-summary">
