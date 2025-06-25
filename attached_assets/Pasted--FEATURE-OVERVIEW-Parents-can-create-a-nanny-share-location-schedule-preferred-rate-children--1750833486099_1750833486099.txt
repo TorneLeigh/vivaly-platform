@@ -1,0 +1,180 @@
+🔧 FEATURE OVERVIEW:
+Parents can create a nanny share (location, schedule, preferred rate, children details).
+
+Other parents can join existing nanny shares.
+
+Nanny can be assigned to a share manually by the initiating parent.
+
+Includes basic Express API and frontend pages for sharing and joining.
+
+Paid arrangement: rate is visible and negotiable between parents.
+
+🧠 Backend (Node.js + Express)
+1. Add to routes.ts:
+ts
+Copy
+Edit
+import express from "express";
+import { v4 as uuid } from "uuid";
+
+const nannyShares: any[] = []; // Replace with Replit DB in production
+
+const router = express.Router();
+
+// Create a nanny share
+router.post("/createNannyShare", (req, res) => {
+  const { parentId, location, rate, schedule, childrenDetails } = req.body;
+  const newShare = {
+    id: uuid(),
+    parentId,
+    location,
+    rate,
+    schedule,
+    childrenDetails,
+    joinedParents: [],
+    assignedNanny: null,
+  };
+  nannyShares.push(newShare);
+  res.json({ success: true, share: newShare });
+});
+
+// Get all nanny shares
+router.get("/nannyShares", (req, res) => {
+  res.json(nannyShares);
+});
+
+// Join a nanny share
+router.post("/joinNannyShare", (req, res) => {
+  const { shareId, parentId } = req.body;
+  const share = nannyShares.find(s => s.id === shareId);
+  if (!share) return res.status(404).json({ error: "Share not found" });
+  if (!share.joinedParents.includes(parentId)) {
+    share.joinedParents.push(parentId);
+  }
+  res.json({ success: true, share });
+});
+
+// Assign nanny
+router.post("/assignNannyToShare", (req, res) => {
+  const { shareId, nannyId } = req.body;
+  const share = nannyShares.find(s => s.id === shareId);
+  if (!share) return res.status(404).json({ error: "Share not found" });
+  share.assignedNanny = nannyId;
+  res.json({ success: true, share });
+});
+
+export default router;
+💻 Frontend (React - Example Pages)
+2. CreateNannyShare.tsx
+tsx
+Copy
+Edit
+import { useState } from "react";
+import axios from "axios";
+
+export default function CreateNannyShare() {
+  const [form, setForm] = useState({ location: "", rate: "", schedule: "", childrenDetails: "" });
+
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await axios.post("/createNannyShare", {
+      parentId: "PARENT123", // Replace with logged-in user's ID
+      ...form
+    });
+    alert("Nanny share created!");
+  };
+
+  return (
+    <div>
+      <h2>Create Nanny Share</h2>
+      <form onSubmit={handleSubmit}>
+        <input name="location" placeholder="Location" onChange={handleChange} />
+        <input name="rate" placeholder="Shared Rate (AUD/hr)" onChange={handleChange} />
+        <input name="schedule" placeholder="Schedule" onChange={handleChange} />
+        <textarea name="childrenDetails" placeholder="Children Info" onChange={handleChange} />
+        <button type="submit">Create</button>
+      </form>
+    </div>
+  );
+}
+3. BrowseNannyShares.tsx
+tsx
+Copy
+Edit
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+export default function BrowseNannyShares() {
+  const [shares, setShares] = useState([]);
+
+  useEffect(() => {
+    axios.get("/nannyShares").then(res => setShares(res.data));
+  }, []);
+
+  const joinShare = async (shareId) => {
+    await axios.post("/joinNannyShare", { shareId, parentId: "PARENT456" });
+    alert("Joined the share!");
+  };
+
+  return (
+    <div>
+      <h2>Available Nanny Shares</h2>
+      {shares.map((s) => (
+        <div key={s.id} style={{ border: "1px solid #ccc", marginBottom: 10, padding: 10 }}>
+          <p><b>Location:</b> {s.location}</p>
+          <p><b>Rate:</b> {s.rate} AUD/hr</p>
+          <p><b>Schedule:</b> {s.schedule}</p>
+          <p><b>Children:</b> {s.childrenDetails}</p>
+          <p><b>Joined Parents:</b> {s.joinedParents.length}</p>
+          <button onClick={() => joinShare(s.id)}>Join This Share</button>
+        </div>
+      ))}
+    </div>
+  );
+}
+4. AssignNanny.tsx (for the parent who started the share)
+tsx
+Copy
+Edit
+import { useState } from "react";
+import axios from "axios";
+
+export default function AssignNanny() {
+  const [shareId, setShareId] = useState("");
+  const [nannyId, setNannyId] = useState("");
+
+  const handleAssign = async () => {
+    await axios.post("/assignNannyToShare", { shareId, nannyId });
+    alert("Nanny assigned!");
+  };
+
+  return (
+    <div>
+      <h2>Assign Nanny to Share</h2>
+      <input placeholder="Share ID" onChange={(e) => setShareId(e.target.value)} />
+      <input placeholder="Nanny ID" onChange={(e) => setNannyId(e.target.value)} />
+      <button onClick={handleAssign}>Assign</button>
+    </div>
+  );
+}
+✅ Next Steps
+Add all these components to your client/src/pages/ directory in Replit or Vercel project.
+
+Add navigation links to your header (e.g., “Nanny Sharing”, “Create a Share”).
+
+Replace hardcoded IDs with logged-in user session data.
+
+Connect to Replit DB if needed (currently uses in-memory storage).
+
+Let me know if you want to add:
+
+Escrow payment between sharing parents
+
+Automated nanny selection from pool
+
+Location-based filtering
+
+Real-time messaging/chat within a share
+
