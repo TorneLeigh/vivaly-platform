@@ -5,6 +5,8 @@ import {
   applications,
   bookings,
   nannies,
+  nannyShares,
+  nannyShareApplications,
   type User,
   type InsertUser,
   type Message,
@@ -13,6 +15,10 @@ import {
   type InsertJob,
   type Application,
   type InsertApplication,
+  type NannyShare,
+  type InsertNannyShare,
+  type NannyShareApplication,
+  type InsertNannyShareApplication,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, or, and, desc } from "drizzle-orm";
@@ -86,6 +92,17 @@ export interface IStorage {
   updateNanny(nannyId: number, nannyData: any): Promise<any>;
   updateCaregiverProfileSection(userId: string, section: string, data: any): Promise<void>;
   getCaregiverProfile(userId: string): Promise<any>;
+  
+  // Nanny Share operations
+  createNannyShare(nannyShare: InsertNannyShare): Promise<NannyShare>;
+  getNannyShares(): Promise<NannyShare[]>;
+  getNannyShare(shareId: string): Promise<NannyShare | undefined>;
+  updateNannyShare(shareId: string, updates: Partial<NannyShare>): Promise<NannyShare>;
+  joinNannyShare(shareId: string, parentId: string): Promise<NannyShare>;
+  assignNannyToShare(shareId: string, nannyId: string): Promise<NannyShare>;
+  getNannySharesByParent(parentId: string): Promise<NannyShare[]>;
+  createNannyShareApplication(application: InsertNannyShareApplication): Promise<NannyShareApplication>;
+  getNannyShareApplications(shareId: string): Promise<NannyShareApplication[]>;
 }
 
 export class DatabaseStorage implements IStorage {

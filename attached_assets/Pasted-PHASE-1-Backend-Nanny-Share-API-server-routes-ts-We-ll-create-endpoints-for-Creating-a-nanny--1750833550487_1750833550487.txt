@@ -1,0 +1,187 @@
+PHASE 1 – Backend: Nanny Share API (server/routes.ts)
+We'll create endpoints for:
+
+Creating a nanny share
+
+Joining a nanny share
+
+Matching available nannies
+
+Handling escrow logic
+
+Messaging inside a share
+
+ts
+Copy
+Edit
+// Add to routes.ts or a new file like nannyShareRoutes.ts
+import express from "express";
+import db from "../db"; // assuming Replit DB or your DB interface
+import { sendMessageToShare } from "../lib/messaging"; // hypothetical utility
+
+const router = express.Router();
+
+// 1. Create nanny share
+router.post("/createNannyShare", async (req, res) => {
+  const { parentId, preferredLocation, preferredRate, schedule, notes } = req.body;
+  const shareId = `share_${Date.now()}`;
+  await db.set(shareId, {
+    type: "nanny_share",
+    creator: parentId,
+    location: preferredLocation,
+    rate: preferredRate,
+    schedule,
+    notes,
+    participants: [parentId],
+    messages: [],
+    status: "open",
+  });
+  res.send({ success: true, shareId });
+});
+
+// 2. Join nanny share
+router.post("/joinNannyShare", async (req, res) => {
+  const { parentId, shareId } = req.body;
+  const share = await db.get(shareId);
+  if (!share || share.status !== "open") return res.status(400).send({ error: "Share not available" });
+
+  share.participants.push(parentId);
+  await db.set(shareId, share);
+  res.send({ success: true });
+});
+
+// 3. Get available shares near location
+router.post("/getNearbyShares", async (req, res) => {
+  const { location } = req.body;
+  const all = await db.list();
+  const shares = [];
+
+  for (const key of all) {
+    const item = await db.get(key);
+    if (item?.type === "nanny_share" && item.status === "open" && item.location.includes(location)) {
+      shares.push({ id: key, ...item });
+    }
+  }
+
+  res.send(shares);
+});
+
+// 4. Post a message inside a nanny share
+router.post("/messageShare", async (req, res) => {
+  const { shareId, senderId, message } = req.body;
+  const share = await db.get(shareId);
+  if (!share) return res.status(404).send({ error: "Share not found" });
+
+  share.messages.push({ senderId, message, time: Date.now() });
+  await db.set(shareId, share);
+  res.send({ success: true });
+});
+
+export default router;
+💳 PHASE 2 – Escrow (Stripe Setup)
+In server/routes.ts (or payments.ts):
+
+ts
+Copy
+Edit
+import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+router.post("/createNannyShareEscrow", async (req, res) => {
+  const { amount, parentEmail, shareId } = req.body;
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: [{
+      price_data: {
+        currency: "aud",
+        product_data: { name: `Nanny Share Contribution for ${shareId}` },
+        unit_amount: amount * 100,
+      },
+      quantity: 1,
+    }],
+    mode: "payment",
+    success_url: `${process.env.FRONTEND_URL}/success`,
+    cancel_url: `${process.env.FRONTEND_URL}/cancel`,
+  });
+  res.send({ url: session.url });
+});
+🖥️ PHASE 3 – Frontend UI
+Basic UI components (React, Replit-ready):
+
+NannyShareCreate.tsx
+tsx
+Copy
+Edit
+export default function NannyShareCreate() {
+  const [location, setLocation] = useState("");
+  const [rate, setRate] = useState("");
+  const [schedule, setSchedule] = useState("");
+
+  const handleCreate = async () => {
+    const res = await fetch("/createNannyShare", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        parentId: user.id,
+        preferredLocation: location,
+        preferredRate: rate,
+        schedule,
+      }),
+    });
+    const data = await res.json();
+    alert("Created share: " + data.shareId);
+  };
+
+  return (
+    <div>
+      <h2>Create Nanny Share</h2>
+      <input placeholder="Location" value={location} onChange={e => setLocation(e.target.value)} />
+      <input placeholder="Rate" value={rate} onChange={e => setRate(e.target.value)} />
+      <input placeholder="Schedule" value={schedule} onChange={e => setSchedule(e.target.value)} />
+      <button onClick={handleCreate}>Create</button>
+    </div>
+  );
+}
+NearbyNannyShares.tsx
+tsx
+Copy
+Edit
+export default function NearbyNannyShares() {
+  const [location, setLocation] = useState("");
+  const [shares, setShares] = useState([]);
+
+  const fetchShares = async () => {
+    const res = await fetch("/getNearbyShares", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ location }),
+    });
+    const data = await res.json();
+    setShares(data);
+  };
+
+  return (
+    <div>
+      <h2>Browse Nanny Shares</h2>
+      <input placeholder="Enter suburb" value={location} onChange={e => setLocation(e.target.value)} />
+      <button onClick={fetchShares}>Search</button>
+      <ul>
+        {shares.map(s => (
+          <li key={s.id}>
+            <strong>{s.location}</strong> - ${s.rate}/day
+            <button onClick={() => joinShare(s.id)}>Join</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+💬 PHASE 4 – Real-Time Messaging (Lightweight)
+If you’re not using socket.io yet, start with basic polling. In the frontend chat area:
+
+ts
+Copy
+Edit
+setInterval(() => {
+  fetch(`/getMessagesForShare?shareId=${shareId}`).then(res => res.json()).then(setMessages);
+}, 3000);

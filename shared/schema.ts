@@ -310,6 +310,37 @@ export const familyDayCareEnrollments = pgTable("family_day_care_enrollments", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Nanny Share table for shared care arrangements
+export const nannyShares = pgTable("nanny_shares", {
+  id: varchar("id").primaryKey(),
+  creatorId: varchar("creator_id").notNull(), // parent who created the share
+  title: text("title").notNull(),
+  location: text("location").notNull(),
+  suburb: text("suburb").notNull(),
+  rate: decimal("rate", { precision: 10, scale: 2 }).notNull(), // hourly rate split between families
+  schedule: text("schedule").notNull(), // e.g., "Monday-Friday 8am-5pm"
+  startDate: text("start_date").notNull(),
+  endDate: text("end_date"),
+  maxFamilies: integer("max_families").default(2), // typically 2 families share
+  childrenDetails: text("children_details").notNull(),
+  requirements: text("requirements"), // special requirements or preferences
+  nannyId: varchar("nanny_id"), // assigned nanny if found
+  status: text("status").default("open"), // open, full, active, completed
+  participants: json("participants").$type<string[]>().default([]), // array of parent IDs who joined
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Nanny Share Applications - track interest in joining a share
+export const nannyShareApplications = pgTable("nanny_share_applications", {
+  id: serial("id").primaryKey(),
+  shareId: varchar("share_id").notNull(),
+  parentId: varchar("parent_id").notNull(),
+  message: text("message"), // optional message from parent
+  status: text("status").default("pending"), // pending, accepted, rejected
+  appliedAt: timestamp("applied_at").defaultNow(),
+});
+
 // Safety verification tracking table
 export const verificationChecks = pgTable("verification_checks", {
   id: serial("id").primaryKey(),
@@ -567,6 +598,17 @@ export const insertChildcareEnrollmentSchema = createInsertSchema(childcareEnrol
   createdAt: true,
 });
 
+export const insertNannyShareSchema = createInsertSchema(nannyShares).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertNannyShareApplicationSchema = createInsertSchema(nannyShareApplications).omit({
+  id: true,
+  appliedAt: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -600,6 +642,12 @@ export type InsertChildcareProvider = z.infer<typeof insertChildcareProviderSche
 
 export type ChildcareEnrollment = typeof childcareEnrollments.$inferSelect;
 export type InsertChildcareEnrollment = z.infer<typeof insertChildcareEnrollmentSchema>;
+
+export type NannyShare = typeof nannyShares.$inferSelect;
+export type InsertNannyShare = z.infer<typeof insertNannyShareSchema>;
+
+export type NannyShareApplication = typeof nannyShareApplications.$inferSelect;
+export type InsertNannyShareApplication = z.infer<typeof insertNannyShareApplicationSchema>;
 
 // Service types
 export const SERVICE_TYPES = [
