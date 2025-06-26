@@ -2487,10 +2487,7 @@ I'd love to discuss this opportunity with you. Please feel free to reach out!`;
     }
   });
 
-  // Fallback route to prevent HTML 404 pages - must be last
-  app.use('*', (req, res) => {
-    res.status(404).json({ message: 'API endpoint not found' });
-  });
+  // Note: No catch-all route here - let Vite middleware handle frontend routes
 
   const httpServer = createServer(app);
   return httpServer;
