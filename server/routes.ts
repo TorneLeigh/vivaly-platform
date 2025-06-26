@@ -469,8 +469,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { email, password, role } = req.body;
 
-      if (!email || !password) {
-        return res.status(400).json({ message: "Email and password are required" });
+      if (!email || !password || email.length < 3 || password.length < 3) {
+        return res.status(400).json({ message: "Email and password must be at least 3 characters" });
       }
 
       // Default role if not specified
