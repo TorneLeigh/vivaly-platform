@@ -16,36 +16,15 @@ const app = express();
 // Trust proxy for rate limiting in hosted environments
 app.set('trust proxy', 1);
 
-// CORS configuration - allow all origins in development, restricted in production
-const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? (origin: string | undefined, callback: (err: Error | null, allowed?: boolean) => void) => {
-        // Production: strict origin checking
-        if (!origin) return callback(null, true);
-        
-        const allowedOrigins = [
-          'https://vivaly.vercel.app',
-          'https://vivaly.com.au',
-          'https://www.vivaly.com.au',
-          'https://vivaly-platform-o2ut.vercel.app',
-        ];
-        
-        if (allowedOrigins.includes(origin) || 
-            origin.includes('.vercel.app') || 
-            origin.includes('.replit.dev')) {
-          callback(null, true);
-        } else {
-          console.log('CORS blocked origin:', origin);
-          callback(new Error('Not allowed by CORS'), false);
-        }
-      }
-    : true, // Development: allow all origins
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
-};
+// Updated CORS config
+const allowedOrigins = [
+  "https://vivaly.com.au",
+  "https://www.vivaly.com.au",
+  "https://vivaly-platform-o2ut.vercel.app",
+  "http://localhost:5173"
+];
 
-app.use(cors(corsOptions));
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 
 // Sentry initialization for error monitoring
 if (process.env.SENTRY_DSN) {
@@ -181,13 +160,12 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // Always use port 5000 for Replit workflow compatibility
-  const port = 5000;
+  // Correct port setup for Replit + Vercel
+  const PORT = Number(process.env.PORT) || 5000;
   server.listen({
-    port,
+    port: PORT,
     host: "0.0.0.0",
-    reusePort: true,
   }, () => {
-    log(`serving on port ${port}`);
+    log(`serving on port ${PORT}`);
   });
 })();
