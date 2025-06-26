@@ -181,8 +181,8 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // Use port 80 for public access, port 5000 for development
-  const port = process.env.REPLIT_DEPLOYMENT ? 80 : 5000;
+  // Always use port 5000 for Replit workflow compatibility
+  const port = 5000;
   server.listen({
     port,
     host: "0.0.0.0",

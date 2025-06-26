@@ -22,6 +22,11 @@ async function throwIfResNotOk(res: Response) {
 }
 
 const getBaseURL = () => {
+  // In Replit environment, always use relative URLs (same origin)
+  if (typeof window !== 'undefined' && window.location.hostname.includes('replit.dev')) {
+    return '';
+  }
+  
   // For production builds, detect if we're on Vercel and use relative URLs
   if (import.meta.env.PROD && typeof window !== 'undefined') {
     // If VITE_API_BASE_URL is set, use it; otherwise check domain for vivaly.com.au
