@@ -29,6 +29,12 @@ export const users = pgTable("users", {
   resetToken: varchar("reset_token"),
   resetTokenExpires: timestamp("reset_token_expires"),
   
+  // Safety verification fields
+  stripeConnectAccountId: varchar("stripe_connect_account_id"),
+  wwccVerificationStatus: varchar("wwcc_verification_status").default("pending"),
+  policeCheckStatus: varchar("police_check_status").default("pending"),
+  identityVerificationStatus: varchar("identity_verification_status").default("pending"),
+  
   // Parent profile fields
   homeAddress: text("home_address"),
   suburb: text("suburb"),
