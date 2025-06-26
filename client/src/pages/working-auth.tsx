@@ -51,7 +51,7 @@ export default function WorkingAuth() {
       const result = await apiRequest('POST', '/api/login', {
         email: data.email,
         password: data.password,
-        role: selectedRole
+        role: selectedRole === "parent" ? "parent" : "caregiver"
       });
       toast({
         title: "Success!",
@@ -285,7 +285,8 @@ export default function WorkingAuth() {
                 <Input 
                   type="email" 
                   {...loginRegister("email", { 
-                    required: "Email is required"
+                    required: "Email is required",
+                    validate: (value) => value.includes("@") || "Invalid email address"
                   })}
                   placeholder="Enter your email" 
                 />
