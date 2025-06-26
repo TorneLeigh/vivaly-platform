@@ -24,8 +24,18 @@ async function throwIfResNotOk(res: Response) {
 const getBaseURL = () => {
   // For production builds, detect if we're on Vercel and use relative URLs
   if (import.meta.env.PROD && typeof window !== 'undefined') {
-    // If VITE_API_BASE_URL is set, use it; otherwise use relative URLs for same-origin deployment
-    return import.meta.env.VITE_API_BASE_URL || '';
+    // If VITE_API_BASE_URL is set, use it; otherwise check domain for vivaly.com.au
+    if (import.meta.env.VITE_API_BASE_URL) {
+      return import.meta.env.VITE_API_BASE_URL;
+    }
+    
+    // If we're on vivaly.com.au, use the Replit backend
+    if (window.location.hostname === 'vivaly.com.au' || window.location.hostname.includes('vivaly')) {
+      return 'https://db0de57c-0227-4a6d-a48b-bd0f45c473a6-00-srrgnf845gfb.riker.replit.dev';
+    }
+    
+    // Otherwise use relative URLs for same-origin deployment
+    return '';
   }
   // For development, use the configured API URL or default to localhost
   return import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
