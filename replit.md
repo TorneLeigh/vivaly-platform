@@ -140,6 +140,7 @@ VIVALY is a comprehensive childcare marketplace platform connecting Australian f
 - June 26, 2025. Fixed frontend API configuration to use VITE_API_BASE_URL environment variable for production deployment connectivity, updated CORS settings to allow vivaly.com.au domain, standardized all user passwords to 'password123' for testing, and restored tornevelk1@gmail.com password to 'TorneLea1!' for production access
 - June 26, 2025. Resolved critical production connectivity issue: Updated frontend queryClient to auto-detect vivaly.com.au domain and route API requests to Replit backend (https://db0de57c-0227-4a6d-a48b-bd0f45c473a6-00-srrgnf845gfb.riker.replit.dev), verified both /api/register and /api/login endpoints are functioning correctly
 - June 26, 2025. Fixed port configuration and CORS settings for seamless frontend-backend connectivity: Server now properly runs on port 5000 with comprehensive CORS support for production domains, frontend configured for same-origin requests in development environment, and all API endpoints verified as fully operational
+- June 26, 2025. Resolved frontend serving issue by removing catch-all route that was intercepting non-API requests: Vite middleware now properly serves React application at root route while maintaining API functionality, complete connectivity between vivaly.com.au frontend and Replit backend established
 
 ## User Preferences
 
