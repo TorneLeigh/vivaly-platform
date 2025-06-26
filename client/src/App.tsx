@@ -4,7 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
-import SafeHeader from "@/components/layout/SafeHeader";
+import SimpleHeader from "@/components/layout/SimpleHeader";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import Footer from "@/components/layout/footer";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
@@ -128,9 +128,7 @@ import SafetyVerification from "@/components/safety-verification";
 function Router() {
   return (
     <div className="min-h-screen flex flex-col">
-      <ErrorBoundary>
-        <SafeHeader />
-      </ErrorBoundary>
+      <SimpleHeader />
       <main className="flex-1">
         <Suspense fallback={<div className="flex items-center justify-center h-64"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>}>
         <Switch>
@@ -377,9 +375,7 @@ function Router() {
         </Switch>
         </Suspense>
       </main>
-      <ErrorBoundary>
-        <Footer />
-      </ErrorBoundary>
+      <Footer />
       <PWAInstallPrompt />
     </div>
   );
@@ -387,14 +383,14 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <Toaster />
           <Router />
         </AuthProvider>
-      </TooltipProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 

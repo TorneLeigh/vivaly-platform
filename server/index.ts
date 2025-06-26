@@ -52,26 +52,18 @@ if (process.env.SENTRY_DSN) {
   });
 }
 
-// Security headers
+// Security headers with relaxed CSP for development
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://js.stripe.com", "https://replit.com", "https://*.replit.dev"],
-      imgSrc: ["'self'", "data:", "https:", "blob:"],
-      mediaSrc: ["'self'", "blob:"],
-      connectSrc: [
-        "'self'", 
-        "ws:", 
-        "wss:", 
-        "https://api.stripe.com",
-        "http://localhost:5000",
-        "https://*.replit.dev",
-        "https://*.vercel.app"
-      ],
-      fontSrc: ["'self'", "data:"],
-      frameSrc: ["'self'", "https://js.stripe.com", "https://hooks.stripe.com"],
+      defaultSrc: ["*", "'self'", "data:", "blob:"],
+      scriptSrc: ["*", "'unsafe-inline'", "'unsafe-eval'"],
+      styleSrc: ["*", "'unsafe-inline'"],
+      connectSrc: ["*"],
+      imgSrc: ["*", "data:", "blob:"],
+      mediaSrc: ["*", "blob:"],
+      fontSrc: ["*", "data:"],
+      frameSrc: ["*"],
     },
   },
 }));
