@@ -24,11 +24,11 @@ async function throwIfResNotOk(res: Response) {
 const getBaseURL = () => {
   // For production builds, detect if we're on Vercel and use relative URLs
   if (import.meta.env.PROD && typeof window !== 'undefined') {
-    // If VITE_API_URL is set, use it; otherwise use relative URLs for same-origin deployment
-    return import.meta.env.VITE_API_URL || '';
+    // If VITE_API_BASE_URL is set, use it; otherwise use relative URLs for same-origin deployment
+    return import.meta.env.VITE_API_BASE_URL || '';
   }
   // For development, use the configured API URL or default to localhost
-  return import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  return import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 };
 
 export async function apiRequest(
