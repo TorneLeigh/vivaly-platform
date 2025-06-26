@@ -29,6 +29,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const staticMiddleware = express.static("uploads");
   app.use("/uploads", staticMiddleware);
 
+  // API test endpoint for debugging
+  app.get("/api/test", (req, res) => {
+    res.json({ 
+      message: "API is working",
+      timestamp: new Date().toISOString(),
+      server: "VIVALY Backend"
+    });
+  });
+
   // Video upload endpoint
   app.post("/api/upload-intro-video", requireAuth, upload.single("video"), async (req, res) => {
     try {

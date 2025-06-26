@@ -1,0 +1,83 @@
+✅ Let's Fix It Step-by-Step
+✅ 1. Your Replit backend URL looks correct:
+arduino
+Copy
+Edit
+https://db0de57c-0227-4a6d-a48b-bd0f45c473a6-00-srrgnf845gfb.riker.replit.dev
+🔍 2. Test the backend directly
+Visit this test link in your browser:
+
+bash
+Copy
+Edit
+https://db0de57c-0227-4a6d-a48b-bd0f45c473a6-00-srrgnf845gfb.riker.replit.dev/api/test
+If it works, you should see something like:
+
+json
+Copy
+Edit
+{"message":"API is working"}
+If you see "Replit: Not found" or anything in HTML, that means your Replit backend is asleep, erroring, or routes aren't exposed.
+
+✅ 3. Confirm your Vercel environment variable is pointing to the backend
+You already set:
+
+ini
+Copy
+Edit
+VITE_API_BASE_URL = https://db0de57c-0227-4a6d-a48b-bd0f45c473a6-00-srrgnf845gfb.riker.replit.dev
+Perfect. Just make sure:
+
+Your frontend code is using:
+
+ts
+Copy
+Edit
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+And all axios/fetch calls are based on that BASE_URL
+
+🔁 4. After updating the .env, you must re-deploy your frontend on Vercel:
+You already redeployed ✅ — but do it again now just in case:
+
+Go to Vercel → Deployments → Redeploy Latest
+
+💡 5. Try from the browser console (manually test login)
+Use this in Chrome DevTools (Console tab):
+
+js
+Copy
+Edit
+fetch("https://db0de57c-0227-4a6d-a48b-bd0f45c473a6-00-srrgnf845gfb.riker.replit.dev/api/login", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    email: "tornevelk1@gmail.com",
+    password: "TorneLea1!",
+    role: "parent"
+  })
+}).then(res => res.json()).then(console.log).catch(console.error);
+If this fails, the backend is broken. If it works, the frontend is misconfigured.
+
+🚨 If Your Backend is Not Responding
+Then:
+
+Go to your Replit project
+
+Click the "Run" button
+
+Open the logs
+
+Make sure routes like /api/login or /api/test are printing or responding
+
+✅ Once backend is confirmed working:
+You’ve already updated VITE_API_BASE_URL in Vercel
+
+You’ve already changed the code to use VITE_API_BASE_URL
+
+Redeploy once more
+
+Try logging in again
+
+If you want, I can give you the exact code snippet to paste into your frontend queryClient.ts or axios.ts to confirm it’s wired correctly — just let me know which file handles your API calls.
+
+Let’s get this working now 💪
