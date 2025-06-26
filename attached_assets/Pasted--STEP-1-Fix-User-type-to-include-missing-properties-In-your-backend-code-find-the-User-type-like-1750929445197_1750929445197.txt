@@ -1,0 +1,107 @@
+✅ STEP 1: Fix User type to include missing properties
+In your backend code, find the User type (likely in types.ts, auth.ts, or lib/session.ts).
+
+Replace the interface with this:
+
+ts
+Copy
+Edit
+export interface User {
+  id: string;
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  profileImageUrl: string | null;
+  roles: string[] | null;
+  activeRole: string | null;
+  stripeConnectAccountId?: string; // ✅ Add this
+  wwccVerificationStatus?: string; // ✅ Add this
+  policeCheckStatus?: string;      // ✅ Add this
+  identityVerificationStatus?: string; // ✅ Add this
+  // ... add any other properties from your user object here
+}
+✅ STEP 2: Fix all req.user TypeScript errors
+Search your code for lines like:
+
+ts
+Copy
+Edit
+req.user.id
+Replace each of them with a safe check:
+
+ts
+Copy
+Edit
+if (!req.user) {
+  return res.status(401).json({ error: 'User not authenticated' });
+}
+
+const userId = req.user.id;
+Do this anywhere TypeScript says:
+'req.user' is possibly 'undefined'
+
+✅ STEP 3: Fix PORT issue in server/routes.ts
+Find the line that says:
+
+ts
+Copy
+Edit
+const port = process.env.PORT || 5000;
+Change it to:
+
+ts
+Copy
+Edit
+const port = Number(process.env.PORT) || 5000;
+This makes sure the port is a number, not a string — TypeScript needs this to be clear.
+
+✅ STEP 4: Fix Vite config (if using Vite in backend)
+In server/vite.ts (or similar file), find:
+
+ts
+Copy
+Edit
+allowedHosts: false
+Replace with:
+
+ts
+Copy
+Edit
+allowedHosts: true
+✅ OR remove the allowedHosts line altogether if not needed.
+
+✅ STEP 5: Fix typo for missing function
+One of your errors says:
+
+ts
+Copy
+Edit
+Property 'getBookingsByNanny' does not exist...
+Check where you’re using getBookingsByNanny.
+Either:
+
+Rename it to getBookingsByParent (if that’s the correct method), OR
+
+Add the correct function to your storage file.
+
+✅ STEP 6: Commit + Push to GitHub
+Once you've made the above fixes:
+
+In the Shell (Replit bottom left or your terminal), run:
+
+bash
+Copy
+Edit
+git add .
+git commit -m "Fix: Type errors for Railway deploy"
+git push origin main
+Then go to Railway > Deployments and it will rebuild.
+
+🤔 WHY VERCEL + RAILWAY?
+Platform	Purpose
+Vercel	Hosts your frontend (React/Vite). Fast global delivery.
+Railway	Hosts your backend API (Node.js + Express + Stripe). Handles backend routes like /api/login.
+Replit	Was used during development. Now being replaced by Railway (for production backend) and Vercel (for frontend).
+
+This is standard — Airbnb, Uber, etc. all use separate hosting for frontend/backend.
+
