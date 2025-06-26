@@ -25,6 +25,9 @@ const corsOptions = {
         
         const allowedOrigins = [
           'https://vivaly.vercel.app',
+          'https://vivaly.com.au',
+          'https://www.vivaly.com.au',
+          'https://vivaly-platform-o2ut.vercel.app',
         ];
         
         if (allowedOrigins.includes(origin) || 

@@ -137,6 +137,7 @@ VIVALY is a comprehensive childcare marketplace platform connecting Australian f
 - June 25, 2025. Created comprehensive BookingSummaryCard component with payment breakdowns, contact details protection, and booking status tracking integrated with Stripe Connect flow
 - June 25, 2025. Implemented comprehensive nanny sharing feature allowing parents to create shared care arrangements, split costs between families, browse available shares, and join existing arrangements with full database schema and frontend components
 - June 25, 2025. Enhanced nanny sharing with real-time messaging system for participant communication, nanny suggestion engine with verified caregiver recommendations, and integrated Stripe payment escrow system for secure cost sharing between families
+- June 26, 2025. Fixed frontend API configuration to use VITE_API_BASE_URL environment variable for production deployment connectivity, updated CORS settings to allow vivaly.com.au domain, standardized all user passwords to 'password123' for testing, and restored tornevelk1@gmail.com password to 'TorneLea1!' for production access
 
 ## User Preferences
 
