@@ -29,7 +29,7 @@ const getBaseURL = () => {
       return import.meta.env.VITE_API_BASE_URL;
     }
     
-    // If we're on vivaly.com.au, use the Replit backend
+    // If we're on vivaly.com.au, use the Replit backend (without port specification)
     if (window.location.hostname === 'vivaly.com.au' || window.location.hostname.includes('vivaly')) {
       return 'https://db0de57c-0227-4a6d-a48b-bd0f45c473a6-00-srrgnf845gfb.riker.replit.dev';
     }
