@@ -181,12 +181,9 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // Correct port setup for Replit + Vercel
+  // Correct port setup for Railway deployment
   const PORT = Number(process.env.PORT) || 5000;
-  server.listen({
-    port: PORT,
-    host: "0.0.0.0",
-  }, () => {
-    log(`serving on port ${PORT}`);
+  server.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is running on port ${PORT}`);
   });
 })();
