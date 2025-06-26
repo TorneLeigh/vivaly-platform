@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { queryClient } from "@/lib/queryClient";
+import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useLocation } from "wouter";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 
@@ -46,25 +46,13 @@ export default function WorkingAuth() {
   const handleLogin = async (data: LoginForm) => {
     setIsLoading(true);
     try {
-      // Default to parent role if not specified
-      const loginData = { ...data, role: data.role || 'parent' };
+      console.log('Login attempt with data:', { email: data.email, role: selectedRole });
       
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          ...data,
-          role: selectedRole
-        }),
+      const result = await apiRequest('POST', '/api/login', {
+        email: data.email,
+        password: data.password,
+        role: selectedRole
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Login failed');
-      }
-
-      const result = await response.json();
       toast({
         title: "Success!",
         description: "You have been logged in successfully.",
@@ -297,11 +285,7 @@ export default function WorkingAuth() {
                 <Input 
                   type="email" 
                   {...loginRegister("email", { 
-                    required: "Email is required",
-                    pattern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: "Please enter a valid email address"
-                    }
+                    required: "Email is required"
                   })}
                   placeholder="Enter your email" 
                 />
