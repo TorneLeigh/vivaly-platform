@@ -282,14 +282,22 @@ export class DatabaseStorage implements IStorage {
     return profile;
   }
 
-  async updateParentProfile(userId: string, profileData: Partial<InsertParentProfile>): Promise<ParentProfile | undefined> {
-    const [profile] = await db
-      .update(parentProfiles)
-      .set(profileData)
-      .where(eq(parentProfiles.userId, userId))
-      .returning();
-    return profile;
+ async updateParentProfile(userId: string, profileData: Partial<InsertParentProfile>): Promise<ParentProfile | undefined> {
+  // Fix for childrenAges mismatch
+  if (Array.isArray(profileData.childrenAges)) {
+    profileData.childrenAges = profileData.childrenAges.map((age, index) => ({
+      [index]: age,
+    })) as any; // safely cast as any to bypass the DB mismatch
   }
+
+  const [profile] = await db
+    .update(parentProfiles)
+    .set(profileData)
+    .where(eq(parentProfiles.userId, userId))
+    .returning();
+  return profile;
+}
+
 
   // Placeholder implementations for missing methods
   async getPendingCaregivers(): Promise<(Nanny & { user: User })[]> {
