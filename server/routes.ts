@@ -1,47 +1,49 @@
 import express from "express";
-import { requireAuth } from "./auth-middleware";
-import { storage } from "./storage";
-import { sendSignupNotification } from "./email-automation-service";
+import type { Request, Response } from "express";
+import type { IStorage } from "./storage";
+import { sendAdminNewUserAlert } from "./email-automation-service";
 
-const router = express.Router();
-
-// ✅ User registration route
-router.post("/api/register", async (req, res) => {
-  try {
-    const { fullName, email, password, role } = req.body;
-    if (!fullName || !email || !password || !role) {
-      return res.status(400).json({ error: "Missing required fields" });
+export default function registerRoutes(app: express.Express, storage: IStorage) {
+  app.post("/api/register", async (req: Request, res: Response) => {
+    try {
+      const user = await storage.createUser(req.body);
+      await sendAdminNewUserAlert(user.id);
+      res.json(user);
+    } catch (error) {
+      console.error("Register error:", error);
+      res.status(500).json({ error: "Failed to register user" });
     }
+  });
 
-    const existingUser = await storage.getUserByEmail(email);
-    if (existingUser) {
-      return res.status(409).json({ error: "User already exists" });
+  app.post("/api/login", async (req: Request, res: Response) => {
+    try {
+      const { email, password } = req.body;
+      const user = await storage.getUserByEmail(email);
+      if (!user || user.password !== password) {
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
+      req.session.user = user;
+      res.json(user);
+    } catch (error) {
+      console.error("Login error:", error);
+      res.status(500).json({ error: "Failed to login" });
     }
+  });
 
-    const newUser = await storage.createUser({ fullName, email, password, role });
-    await sendSignupNotification(newUser.id);
+  app.get("/api/user", async (req: Request, res: Response) => {
+    try {
+      const user = req.session.user;
+      if (!user) return res.status(401).json({ error: "Not logged in" });
+      res.json(user);
+    } catch (error) {
+      console.error("Get user error:", error);
+      res.status(500).json({ error: "Failed to get user" });
+    }
+  });
 
-    res.json({ success: true, user: newUser });
-  } catch (error) {
-    console.error("Registration error:", error);
-    res.status(500).json({ error: "Failed to register user" });
-  }
-});
-
-// ✅ Get authenticated user
-router.get("/api/auth/user", requireAuth, async (req, res) => {
-  try {
-    const user = await storage.getUser(req.user.id);
-    res.json(user);
-  } catch (error) {
-    console.error("Get user error:", error);
-    res.status(500).json({ error: "Failed to fetch user" });
-  }
-});
-
-// ✅ Other example authenticated route
-router.get("/api/protected", requireAuth, (req, res) => {
-  res.json({ message: "Access granted", userId: req.user.id });
-});
-
-export default router;
+  app.post("/api/logout", (req: Request, res: Response) => {
+    req.session.destroy(() => {
+      res.json({ success: true });
+    });
+  });
+}
