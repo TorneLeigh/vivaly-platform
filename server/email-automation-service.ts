@@ -1,31 +1,68 @@
+import { db } from "./db";
+import { users, bookings, parentProfiles, nannies } from "@shared/schema";
+import { eq } from "drizzle-orm";
 import { sendEmail } from "./email-service";
-import { storage } from "./storage";
 
-export async function sendSignupNotification(userId: string) {
-  try {
-    const user = await storage.getUser(userId);
-    if (!user) {
-      console.warn("Signup email: User not found:", userId);
-      return;
-    }
+export async function sendAdminNewUserAlert(userId: string) {
+  const [user] = await db.select().from(users).where(eq(users.id, userId));
+  if (!user) return;
 
-    const subject = `New ${user.role} signed up: ${user.fullName}`;
-    const html = `
-      <h3>New ${user.role === "parent" ? "Parent" : "Caregiver"} Registration</h3>
-      <p><strong>Name:</strong> ${user.fullName}</p>
-      <p><strong>Email:</strong> ${user.email}</p>
-      <p><strong>Role:</strong> ${user.role}</p>
-      <p><strong>Signup Date:</strong> ${new Date().toLocaleString()}</p>
-    `;
+  const name = `${user.firstName || ""} ${user.lastName || ""}`.trim() || user.email;
 
-    await sendEmail({
-      to: "info@tornevelk.com",
-      subject,
-      html,
-    });
+  await sendEmail({
+    to: "info@tornevelk.com",
+    subject: "New Vivaly User Signup",
+    html: `
+      <p>A new user has signed up on VIVALY:</p>
+      <ul>
+        <li><strong>Name:</strong> ${name}</li>
+        <li><strong>Email:</strong> ${user.email}</li>
+        <li><strong>Type:</strong> ${user.isNanny ? "Caregiver" : "Parent"}</li>
+      </ul>
+    `,
+  });
+}
 
-    console.log("Signup notification sent for user:", userId);
-  } catch (error) {
-    console.error("Failed to send signup notification:", error);
-  }
+export async function sendAdminWWCCAlert(nannyId: string) {
+  const [nanny] = await db.select().from(nannies).where(eq(nannies.userId, nannyId));
+  if (!nanny) return;
+
+  const [user] = await db.select().from(users).where(eq(users.id, nannyId));
+  if (!user) return;
+
+  const name = `${user.firstName || ""} ${user.lastName || ""}`.trim() || user.email;
+
+  await sendEmail({
+    to: "info@tornevelk.com",
+    subject: "WWCC Uploaded",
+    html: `
+      <p>A caregiver has uploaded their WWCC document:</p>
+      <ul>
+        <li><strong>Name:</strong> ${name}</li>
+        <li><strong>Email:</strong> ${user.email}</li>
+      </ul>
+    `,
+  });
+}
+
+export async function sendAdminIntroVideoAlert(nannyId: string) {
+  const [nanny] = await db.select().from(nannies).where(eq(nannies.userId, nannyId));
+  if (!nanny) return;
+
+  const [user] = await db.select().from(users).where(eq(users.id, nannyId));
+  if (!user) return;
+
+  const name = `${user.firstName || ""} ${user.lastName || ""}`.trim() || user.email;
+
+  await sendEmail({
+    to: "info@tornevelk.com",
+    subject: "Intro Video Uploaded",
+    html: `
+      <p>A caregiver has uploaded their intro video:</p>
+      <ul>
+        <li><strong>Name:</strong> ${name}</li>
+        <li><strong>Email:</strong> ${user.email}</li>
+      </ul>
+    `,
+  });
 }
