@@ -91,7 +91,7 @@ export async function handleWebhook(req: Request, res: Response) {
       totalAmount: Number(meta.totalAmount),
       serviceFee: Number(meta.serviceFee),
       stripeSessionId: session.id,
-      status: "confirmed",
+      status: "confirmed" as "confirmed",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
