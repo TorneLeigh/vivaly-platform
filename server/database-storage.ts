@@ -311,4 +311,4 @@ export class DatabaseStorage implements IStorage {
   async getTodayBookingsByCaregiver(userId: number): Promise<(Booking & { parent: User })[]> {
     return [];
   }
-}
+} 
