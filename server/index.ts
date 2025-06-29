@@ -1,35 +1,35 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import session from 'express-session';
-import cors from 'cors';
-import registerRoutes from './routes'; // ✅ Changed from named import
-import { serveStatic } from './vite';  // ✅ Added default export fallback
-import { log } from './vite';          // ✅ Added log function import
+import express from "express";
+import session from "express-session";
+import cors from "cors";
+import dotenv from "dotenv";
+import registerRoutes from "./routes";
+import { serveStatic } from "./vite";
 
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-app.use(cors({ origin: true, credentials: true }));
+// Middleware
+app.use(cors({ origin: "*", credentials: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || 'default-secret',
+    secret: process.env.SESSION_SECRET || "defaultsecret",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
+    cookie: { secure: false }, // set to true if using https
   })
 );
 
-// Register API routes
+// Routes
 registerRoutes(app);
 
-// Serve frontend (Vite)
+// Static Frontend
 serveStatic(app);
 
-// Optional logger
-log('Server is running...');
-
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  log(`Backend listening on port ${PORT}`);
+  console.log(`✅ Server is running on port ${PORT}`);
 });
