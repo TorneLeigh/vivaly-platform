@@ -2,34 +2,43 @@ import express from "express";
 import session from "express-session";
 import cors from "cors";
 import dotenv from "dotenv";
+import { json } from "body-parser";
 import registerRoutes from "./routes";
 import { serveStatic } from "./vite";
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-
-// Middleware
-app.use(cors({ origin: "*", credentials: true }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+const PORT = process.env.PORT || 5000;
 
 app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "defaultsecret",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }, // set to true if using https
+  cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    credentials: true,
   })
 );
 
-// Routes
+app.use(json());
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "vivaly_secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      sameSite: "lax",
+    },
+  })
+);
+
+// ✅ Register all your app routes
 registerRoutes(app);
 
-// Static Frontend
+// ✅ Serve the frontend from Vite
 serveStatic(app);
 
 app.listen(PORT, () => {
-  console.log(`✅ Server is running on port ${PORT}`);
+  console.log(`✅ VIVALY backend running on port ${PORT}`);
 });
